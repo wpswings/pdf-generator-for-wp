@@ -1,0 +1,469 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+
+
+/* Button used to open the contact form - fixed at the bottom of the page */
+
+:root {
+    --mdc-theme-primary: #2196f3;
+    --mdc-theme-secondary: #2196f3;
+}
+
+input[type=checkbox]:focus,
+input[type=date]:focus,
+input[type=datetime]:focus,
+input[type=email]:focus,
+input[type=month]:focus,
+input[type=number]:focus,
+input[type=password]:focus,
+input[type=radio]:focus,
+input[type=search]:focus,
+input[type=text]:focus,
+input[type=time]:focus,
+select:focus,
+textarea:focus,
+a:focus {
+    box-shadow: none!important;
+}
+
+.mwb-pgfw-on-boarding-form-submit {
+    text-align: center;
+}
+
+.mwb-pgfw-on-boarding-wrapper-control {
+    overflow: hidden;
+}
+
+
+/* Add styles to the form container */
+
+.mwb-pgfw-on-boarding-wrapper {
+    padding: 10px 0 0 15px;
+    background-color: white;
+}
+
+.mdc-dialog {
+    z-index: 999999999!important;
+}
+
+/* Set a style for the submit/login button */
+
+
+/*==========================================
+=            MWB POPUP FORM CSS            =
+==========================================*/
+
+* {
+    box-sizing: border-box;
+}
+
+.mwb-pgfw-keep-hidden {
+    display: none;
+}
+
+.mwb-pgfw-on-boarding-heading {
+    font-size: 24px;
+    margin: 0;
+    text-align: center;
+}
+
+.mwb-pgfw-on-boarding-desc {
+    color: #808080;
+    font-size: 16px;
+    margin: 0 auto;
+    max-width: 450px;
+    padding: 20px 0;
+    text-align: center;
+    width: 100%;
+}
+
+.mwb-pgfw-on-boarding-close-btn {
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 25%), 0 4px 12px rgb(0 0 0 / 22%);
+    content: "";
+    display: inline-block;
+    height: 30px;
+    position: absolute;
+    right: 35px;
+    text-align: center;
+    top: 30px;
+    z-index: 111;
+    width: 30px;
+}
+
+.mwb-pgfw-on-boarding-close-btn a {
+    display: block;
+    font-size: 20px;
+    line-height: 40px;
+    text-decoration: none;
+}
+
+.mwb-pgfw-close-icon {
+    color: #808080;
+}
+
+.mwb-pgfw-on-boarding-form .mwb-flex-col .mwb-form-field {
+    margin-right: 10px;
+}
+
+.mwb-pgfw-customer-data-form-single-field {
+    background: #ffffff;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 5px 5px;
+}
+
+.mwb-pgfw-on-boarding-form .mwb-form-group__label {
+    max-width: 100%;
+}
+
+.mwb-pgfw-on-boarding-form .mwb-form-group__control {
+    max-width: calc(100% - 20px);
+    padding: 0 15px;
+    margin-top: 10px;
+}
+
+.mwb-pgfw-on-boarding-label {
+    color: rgba(0, 0, 0, 0.7);
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0 0 15px 0;
+}
+
+.pgfw-on-boarding-field-label {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.pgfw-on-boarding-email-field {
+    padding: 5px !important;
+    width: 100%;
+    max-height: 44px !important;
+}
+
+.pgfw-on-boarding-text-field:hover,
+.pgfw-on-boarding-email-field:hover {
+    border-color: #000000;
+}
+
+.pgfw-on-boarding-text-field:focus,
+.pgfw-on-boarding-email-field:focus {
+    border-color: #2196f3!important;
+}
+
+.pgfw-on-boarding-text-field {
+    padding: 5px !important;
+    width: 100%;
+}
+
+.mwb-on-boarding-checkbox-wrapper {
+    margin: 0 0 10px 0;
+}
+
+.pgfw-on-boarding-checkbox-field {
+    margin: 0 15px 0 0;
+}
+
+.mwb-flex-col {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.mwb-pgfw-on-boarding-form .mwb-flex-col {
+    flex-direction: unset;
+    justify-content: space-between;
+}
+
+.pgfw-on-boarding-radio-field {
+    margin: 0 10px 0 0 !important;
+}
+
+.mwb-pgfw-on-boarding-radio-wrapper {
+    display: inline-block;
+    max-width: 24%;
+    width: 100%;
+}
+
+.pgfw-on-boarding-select-field {
+    min-height: 43px !important;
+    width: 100%;
+    max-width: inherit !important;
+}
+
+.mwb-pgfw-customer-data-form-single-field .select2-search-field {
+    width: 100%;
+}
+
+.mwb-pgfw-customer-data-form-single-field .select2-search-choice {
+    background: #ffffff !important;
+    box-shadow: none !important;
+}
+
+.mwb-pgfw-customer-data-form-single-field .select2-search-choice {
+    float: none !important;
+    padding: 10px !important;
+    text-align: left;
+}
+
+.mwb-pgfw-customer-data-form-single-field .select2-search-choice div {
+    margin-left: 20px;
+}
+
+.mwb-pgfw-customer-data-form-single-field .select2-selection__choice {
+    background: #ffffff !important;
+}
+
+.mwb-pgfw-customer-data-form-single-field .select2-search-choice-close {
+    left: 6px !important;
+    top: 11px !important;
+}
+
+input#s2id_autogen1 {
+    border: 1px solid #7e8993;
+    border-radius: 3px;
+    padding: 6px;
+    width: 100% !important;
+    color: #32373c !important;
+    font-family: inherit !important;
+    font-size: 15px;
+}
+
+.mwb-pgfw-customer-data-form-single-field .select2-choices {
+    border: none !important;
+}
+
+.mwb-pgfw-on-boarding-label:last-child {
+    color: #3389bf !important;
+    font-weight: 600;
+}
+
+.mwb-pgfw-on-boarding-form-btn__wrapper {
+    text-align: center;
+}
+
+.mwb-pgfw-on-boarding-no_thanks,
+.mwb-deactivation-no_thanks {
+    background-color: #ffff;
+    color: #6b7276 !important;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.mwb-pgfw-on-boarding-form-submit {
+    display: inline-block;
+    margin: 0 auto;
+    max-width: 150px !important;
+    width: 100%;
+}
+
+.mdc-button {
+    border-radius: 35px!important;
+    padding: 12px 24px!important;
+    height: 100%;
+}
+
+.mwb-pgfw-on-boarding-submit {
+    border: none;
+    color: white;
+    cursor: pointer;
+    opacity: 0.8;
+    padding: 16px 20px;
+    width: 100%;
+}
+
+.mwb-pgfw-on-boarding-submit {
+    border-radius: 3px;
+}
+
+.mwb-pgfw-on-boarding-form-verify {
+    margin: 0 20px 0 50px;
+    position: relative;
+}
+
+.mwb-pgfw-on-boarding-form-verify:after {
+    -moz-transition: transform 0.3s ease-out;
+    -ms-transition: transform 0.3s ease-out;
+    -o-transition: transform 0.3s ease-out;
+    -webkit-transition: transform 0.3s ease-out;
+    color: #ffffff;
+    content: "\279E";
+    display: inline-block;
+    display: inline-block;
+    font-size: 20px;
+    position: absolute;
+    right: 16px;
+    top: 10px;
+    transition: transform 0.3s ease-out;
+}
+
+.mwb-pgfw-on-boarding-form-verify:hover::after {
+    -moz-transform: translateX(4px);
+    -ms-transform: translateX(4px);
+    -o-transform: translateX(4px);
+    -webkit-transform: translateX(4px);
+    transform: translateX(4px);
+}
+
+.mwb-pgfw-on-boarding-form-no_thanks {
+    text-align: end;
+}
+
+.mwb-pgfw-on-boarding-wrapper-background.mwb-pgfw-onboard-popup-show {
+    display: block;
+}
+
+.mwb-pgfw-customer-data-form-single-field:nth-child(3) {
+    box-sizing: border-box;
+    display: inline-block;
+    max-width: 47%;
+    width: 100%;
+    border-color: #000000;
+}
+
+.mwb-pgfw-customer-data-form-single-field:nth-child(4) {
+    box-sizing: border-box;
+    display: inline-block;
+    max-width: 47%;
+    width: 100%;
+}
+
+.mwb-pgfw-on-boarding-form-btn__wrapper {
+    margin: 20px 0 0 0;
+}
+
+.mwb-pgfw-on-boarding-form-no_thanks {
+    display: inline-block;
+    float: right;
+    margin: 10px 0 0 0px;
+}
+
+.mwb-pgfw-customer-data-form-single-field .select2-search-choice {
+    padding: 10px !important;
+}
+
+.mwb-pgfw-customer-data-form-single-field .select2.select2-container.select2-container--default {
+    width: 100% !important;
+}
+
+.mwb-pgfw-customer-data-form-single-field .select2-search__field {
+    width: 100% !important;
+}
+
+.mwb-pgfw-customer-data-form-single-field .select2-search.select2-search--inline {
+    width: 100% !important;
+}
+
+.mwb-pgfw-hidden {
+    display: none !important;
+}
+
+
+/*=====  End of MWB POPUP FORM CSS  ======*/
+
+
+/*=====================================
+=            MEDIA QUERIES            =
+=====================================*/
+
+@media only screen and (max-width: 992px) {
+    .mwb-pgfw-customer-data-form-single-field:first-child {
+        width: 96%;
+    }
+    .mwb-pgfw-customer-data-form-single-field:nth-child(2) {
+        width: 96%;
+    }
+    input#s2id_autogen1 {
+        width: 100% !important;
+    }
+    input#s2id_autogen1 {
+        width: 100% !important;
+    }
+    .pgfw-on-boarding-email-field {
+        width: 99% !important;
+    }
+    input#s2id_autogen1 {
+        width: 100%;
+    }
+    .pgfw-on-boarding-text-field {
+        width: 98%;
+    }
+}
+
+@media only screen and (max-width: 796px) {
+    .mwb-pgfw-customer-data-form-single-field:nth-child(3) {
+        display: block;
+        max-width: 97%;
+        width: 100%;
+    }
+    .mwb-pgfw-customer-data-form-single-field:nth-child(4) {
+        display: block;
+        max-width: 97%;
+        width: 100%;
+    }
+    .pgfw-on-boarding-text-field {
+        width: 99%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .mwb-pgfw-on-boarding-radio-wrapper {
+        margin-bottom: 15px;
+        max-width: 100%;
+        width: 100%;
+    }
+    .pgfw-on-boarding-email-field {
+        width: 99% !important;
+    }
+}
+
+@media only screen and (max-width: 453px) {
+    .mwb-pgfw-on-boarding-form-verify {
+        display: block !important;
+        text-align: center !important;
+        margin: 0 20px 0 97px !important;
+    }
+    .mwb-pgfw-on-boarding-form-no_thanks {
+        float: none !important;
+    }
+}
+
+@media only screen and (max-width: 405px) {
+    .mwb-pgfw-on-boarding-form-submit {
+        max-width: 100% !important;
+        padding: 15px 10px;
+        width: 100%;
+        margin: 0 20px 0 0 !important;
+    }
+    .mwb-pgfw-on-boarding-form-verify:after {
+        right: 25px;
+        top: 32px;
+    }
+    .pgfw-on-boarding-email-field {
+        width: 96% !important;
+    }
+    .mwb-pgfw-customer-data-form-single-field:nth-child(2) {
+        width: 93%;
+    }
+    .mwb-pgfw-customer-data-form-single-field:nth-child(3) {
+        display: block;
+        max-width: 97%;
+        width: 100%;
+    }
+    .mwb-pgfw-customer-data-form-single-field:nth-child(4) {
+        display: block;
+        max-width: 94%;
+        width: 100%;
+    }
+    .mwb-pgfw-on-boarding-form-verify {
+        display: block !important;
+        text-align: center !important;
+        margin: 0 20px 0 0px !important;
+    }
+}
+
+
+/*=====  End of MEDIA QUERIES  ======*/
