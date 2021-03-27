@@ -85,7 +85,26 @@ class Pdf_Generator_For_WordPress_Public {
 	public function pgfw_show_download_icon_to_users() {
 		$id = get_the_ID();
 		global $wp;
-		$url_here = home_url( $wp->request )
+		$url_here            = home_url( $wp->request );
+		$display_setings_arr = get_option( 'mwb_pgfw_display_settings', array() );
+		$user_access_pdf     = array_key_exists( 'user_access', $display_setings_arr ) ? $display_setings_arr['user_access'] : '';
+		$guest_access_pdf    = array_key_exists( 'guest_access', $display_setings_arr ) ? $display_setings_arr['guest_access'] : '';
+		if ( ( 'yes' === $guest_access_pdf ) && ( 'yes' === $user_access_pdf ) ) {
+			$this->pgfw_download_pdf_button_show( $url_here, $id );
+		} elseif ( ( 'yes' === $guest_access_pdf ) && ! is_user_logged_in() ) {
+			$this->pgfw_download_pdf_button_show( $url_here, $id );
+		} elseif ( ( 'yes' === $user_access_pdf ) && is_user_logged_in() ) {
+			$this->pgfw_download_pdf_button_show( $url_here, $id );
+		}
+	}
+	/**
+	 * Show pdf download button.
+	 *
+	 * @param string $url_here url till this page.
+	 * @param int    $id id of the post.
+	 * @return void
+	 */
+	public function pgfw_download_pdf_button_show( $url_here, $id ) {
 		?>
 		<div style="text-align:center;">
 			<a href="<?php echo esc_html( $url_here ); ?>?action=genpdf&id=<?php echo esc_html( $id ); ?>"> <?php esc_html_e( 'Print PDF', 'pdf-generator-for-wordpress' ); ?> </a>

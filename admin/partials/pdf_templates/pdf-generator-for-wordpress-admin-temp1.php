@@ -24,12 +24,21 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string
  */
 function return_ob_html( $post_id ) {
-	$post          = get_post( $post_id );
-	$thumbnail_url = get_the_post_thumbnail_url( $post );
-	$html  = '<h3>' . $post->post_title . '</h3>';
+	$post                      = get_post( $post_id );
+	$thumbnail_url             = get_the_post_thumbnail_url( $post );
+	$pgfw_body_settings        = get_option( 'mwb_pgfw_body_settings', array() );
+	$pgfw_body_page_font_style = array_key_exists( 'body_page_font_style', $pgfw_body_settings ) ? $pgfw_body_settings['body_page_font_style'] : '';
+
+	$html  = '<style>
+			div#font-family{
+				font-family: ' . $pgfw_body_page_font_style . ';
+			}
+		</style>
+	<div id="font-family">';
+	$html .= '<h3>' . $post->post_title . '</h3>';
 	$html .= '<div>' . $post->post_content . '</div>';
 	$html .= '<br/><div><img src=' . $thumbnail_url . ' style="width:200px;height:200px;"></div>';
-	if ( 'product' == $post->post_type ) {
+	if ( 'product' === $post->post_type ) {
 		$prod_cat = get_the_terms( $post, 'product_cat' );
 		if ( is_array( $prod_cat ) ) {
 			$html .= '<h4>Product Categories</h4>';
@@ -49,5 +58,6 @@ function return_ob_html( $post_id ) {
 	if ( $price ) {
 		$html .= '<div><b>Price : </b>' . $price . '</div>';
 	}
+	$html .= '</div>';
 	return $html;
 }

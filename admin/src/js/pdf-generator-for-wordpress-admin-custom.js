@@ -104,14 +104,10 @@
             e.preventDefault();
             var self              = this;
             var user_access       = $('#pgfw_user_access').prop('checked');
-            var user_mail_access  = $('#pgfw_general_pdf_send_mail_user').prop('checked');
             var guest_access      = $('#pgfw_guest_access').prop('checked');
-            var guest_mail_access = $('#pgfw_general_pdf_send_mail_guest').prop('checked');
             var admin_display_settings_arr = {
                 'user_access'       : (user_access) ? 'yes' : 'no',
-                'user_mail_access'  : (user_mail_access) ? 'yes' : 'no',
                 'guest_access'      : (guest_access) ? 'yes' : 'no',
-                'guest_mail_access' : (guest_mail_access) ? 'yes' : 'no',
             };
             mwb_pgfw_create_ajax_request( self, admin_display_settings_arr, 'mwb_pgfw_display_settings' );
 

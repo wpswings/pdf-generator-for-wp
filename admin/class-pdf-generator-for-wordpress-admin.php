@@ -362,15 +362,13 @@ class Pdf_Generator_For_WordPress_Admin {
 	 * @return array
 	 */
 	public function pgfw_admin_display_settings_page( $pgfw_settings_display_fields_html_arr ) {
-		$pgfw_display_settings  = get_option( 'mwb_pgfw_display_settings', array() );
-		$pgfw_user_access       = array_key_exists( 'user_access', $pgfw_display_settings ) ? $pgfw_display_settings['user_access'] : '';
-		$pgfw_user_mail_access  = array_key_exists( 'user_mail_access', $pgfw_display_settings ) ? $pgfw_display_settings['user_mail_access'] : '';
-		$pgfw_guest_access      = array_key_exists( 'guest_access', $pgfw_display_settings ) ? $pgfw_display_settings['guest_access'] : '';
-		$pgfw_guest_mail_access = array_key_exists( 'guest_mail_access', $pgfw_display_settings ) ? $pgfw_display_settings['guest_mail_access'] : '';
+		$pgfw_display_settings = get_option( 'mwb_pgfw_display_settings', array() );
+		$pgfw_user_access      = array_key_exists( 'user_access', $pgfw_display_settings ) ? $pgfw_display_settings['user_access'] : '';
+		$pgfw_guest_access     = array_key_exists( 'guest_access', $pgfw_display_settings ) ? $pgfw_display_settings['guest_access'] : '';
 
 		$pgfw_settings_display_fields_html_arr = array(
 			array(
-				'title'       => __( 'User', 'pdf-generator-for-wordpress' ),
+				'title'       => __( 'Logged in Users', 'pdf-generator-for-wordpress' ),
 				'type'        => 'radio-switch',
 				'description' => __( 'Enable this to give access to logged in users to download pdf.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_user_access',
@@ -381,15 +379,6 @@ class Pdf_Generator_For_WordPress_Admin {
 					'yes' => __( 'YES', 'pdf-generator-for-wordpress' ),
 					'no'  => __( 'NO', 'pdf-generator-for-wordpress' ),
 				),
-			),
-			array(
-				'title'       => __( 'User access to send mail', 'pdf-generator-for-wordpress' ),
-				'type'        => 'checkbox',
-				'description' => __( 'This will provide option to send attachment as e-mail to logged in users.', 'pdf-generator-for-wordpress' ),
-				'id'          => 'pgfw_general_pdf_send_mail_user',
-				'value'       => $pgfw_user_mail_access,
-				'class'       => 'pgfw_general_pdf_send_mail_user',
-				'name'        => 'pgfw_general_pdf_send_mail_user',
 			),
 			array(
 				'title'       => __( 'Guest', 'pdf-generator-for-wordpress' ),
@@ -403,15 +392,6 @@ class Pdf_Generator_For_WordPress_Admin {
 					'yes' => __( 'YES', 'pdf-generator-for-wordpress' ),
 					'no'  => __( 'NO', 'pdf-generator-for-wordpress' ),
 				),
-			),
-			array(
-				'title'       => __( 'Guest access to send mail', 'pdf-generator-for-wordpress' ),
-				'type'        => 'checkbox',
-				'description' => __( 'This will provide option to send attachment as e-mail for guest users.', 'pdf-generator-for-wordpress' ),
-				'id'          => 'pgfw_general_pdf_send_mail_guest',
-				'value'       => $pgfw_guest_mail_access,
-				'class'       => 'pgfw_general_pdf_send_mail_guest',
-				'name'        => 'pgfw_general_pdf_send_mail_guest',
 			),
 			array(
 				'type'        => 'button',
@@ -503,9 +483,12 @@ class Pdf_Generator_For_WordPress_Admin {
 				'name'        => 'pgfw_header_font_style',
 				'placeholder' => __( 'font style', 'pdf-generator-for-wordpress' ),
 				'options'     => array(
-					''              => __( 'Select option', 'pdf-generator-for-wordpress' ),
-					'helvetica'     => __( 'Helvetica', 'pdf-generator-for-wordpress' ),
-					'timesnewroman' => __( 'timesnewroman', 'pdf-generator-for-wordpress' ),
+					''            => __( 'Select option', 'pdf-generator-for-wordpress' ),
+					'Helvetica'   => __( 'Helvetica', 'pdf-generator-for-wordpress' ),
+					'Courier'     => __( 'Courier', 'pdf-generator-for-wordpress' ),
+					'sans-serif'  => __( 'Sans Serif', 'pdf-generator-for-wordpress' ),
+					'DejaVu Sans' => __( 'DejaVu Sans', 'pdf-generator-for-wordpress' ),
+					'Times-Roman' => __( 'Times-Roman', 'pdf-generator-for-wordpress' ),
 				),
 			),
 			array(
@@ -607,9 +590,12 @@ class Pdf_Generator_For_WordPress_Admin {
 				'name'        => 'pgfw_footer_font_style',
 				'placeholder' => __( 'font style', 'pdf-generator-for-wordpress' ),
 				'options'     => array(
-					''              => __( 'Select option', 'pdf-generator-for-wordpress' ),
-					'helvetica'     => __( 'Helvetica', 'pdf-generator-for-wordpress' ),
-					'timesnewroman' => __( 'Timesnewroman', 'pdf-generator-for-wordpress' ),
+					''            => __( 'Select option', 'pdf-generator-for-wordpress' ),
+					'Helvetica'   => __( 'Helvetica', 'pdf-generator-for-wordpress' ),
+					'Courier'     => __( 'Courier', 'pdf-generator-for-wordpress' ),
+					'sans-serif'  => __( 'Sans Serif', 'pdf-generator-for-wordpress' ),
+					'DejaVu Sans' => __( 'DejaVu Sans', 'pdf-generator-for-wordpress' ),
+					'Times-Roman' => __( 'Times-Roman', 'pdf-generator-for-wordpress' ),
 				),
 			),
 			array(
@@ -673,9 +659,12 @@ class Pdf_Generator_For_WordPress_Admin {
 				'name'        => 'pgfw_body_title_font_style',
 				'placeholder' => __( 'title font_style', 'pdf-generator-for-wordpress' ),
 				'options'     => array(
-					''              => __( 'Select option', 'pdf-generator-for-wordpress' ),
-					'helvetica'     => __( 'Helvetica', 'pdf-generator-for-wordpress' ),
-					'timesnewroman' => __( 'Timesnewroman', 'pdf-generator-for-wordpress' ),
+					''            => __( 'Select option', 'pdf-generator-for-wordpress' ),
+					'Helvetica'   => __( 'Helvetica', 'pdf-generator-for-wordpress' ),
+					'Courier'     => __( 'Courier', 'pdf-generator-for-wordpress' ),
+					'sans-serif'  => __( 'Sans Serif', 'pdf-generator-for-wordpress' ),
+					'DejaVu Sans' => __( 'DejaVu Sans', 'pdf-generator-for-wordpress' ),
+					'Times-Roman' => __( 'Times-Roman', 'pdf-generator-for-wordpress' ),
 				),
 			),
 			array(
@@ -738,9 +727,12 @@ class Pdf_Generator_For_WordPress_Admin {
 				'name'        => 'pgfw_body_page_font_style',
 				'placeholder' => __( 'page font', 'pdf-generator-for-wordpress' ),
 				'options'     => array(
-					''              => __( 'Select option', 'pdf-generator-for-wordpress' ),
-					'helvetica'     => __( 'Helvetica', 'pdf-generator-for-wordpress' ),
-					'timesnewroman' => __( 'Timesnewroman', 'pdf-generator-for-wordpress' ),
+					''            => __( 'Select option', 'pdf-generator-for-wordpress' ),
+					'Helvetica'   => __( 'Helvetica', 'pdf-generator-for-wordpress' ),
+					'Courier'     => __( 'Courier', 'pdf-generator-for-wordpress' ),
+					'sans-serif'  => __( 'Sans Serif', 'pdf-generator-for-wordpress' ),
+					'DejaVu Sans' => __( 'DejaVu Sans', 'pdf-generator-for-wordpress' ),
+					'Times-Roman' => __( 'Times-Roman', 'pdf-generator-for-wordpress' ),
 				),
 			),
 			array(
