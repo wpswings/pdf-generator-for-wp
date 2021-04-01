@@ -2,3 +2,9 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+ .pgfw-badge{
+     background-color: blue;
+     color: white;
+     border-radius: 10px;
+     padding: 2px;
+ }

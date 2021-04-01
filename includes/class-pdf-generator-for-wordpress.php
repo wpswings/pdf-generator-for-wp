@@ -231,7 +231,17 @@ class Pdf_Generator_For_WordPress {
 		$pgfw_plugin_common = new Pdf_Generator_For_WordPress_Common( $this->pgfw_get_plugin_name(), $this->pgfw_get_version() );
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_common, 'pgfw_common_enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_common, 'pgfw_common_enqueue_scripts' );
-		$this->loader->add_action( 'init', $pgfw_plugin_common, 'pgfw_generate_pdf_link_catching_user' );
+		$this->loader->add_action( 'init', $pgfw_plugin_common, 'pgfw_generate_pdf_link_catching_user', 20 );
+		$this->loader->add_action( 'wp_ajax_nopriv_pgfw_bulk_add_products_ajax', $pgfw_plugin_common, 'pgfw_bulk_add_products_ajax', 10 );
+		$this->loader->add_action( 'wp_ajax_pgfw_bulk_add_products_ajax', $pgfw_plugin_common, 'pgfw_bulk_add_products_ajax', 10 );
+		$this->loader->add_action( 'init', $pgfw_plugin_common, 'pgfw_start_session_store_bulk_products', 1 );
+		$this->loader->add_action( 'wp_logout', $pgfw_plugin_common, 'pgfw_destroy_session_bulk_products' );
+		$this->loader->add_action( 'wp_ajax_pgfw_build_html_from_session', $pgfw_plugin_common, 'pgfw_build_html_from_session' );
+		$this->loader->add_action( 'wp_ajax_nopriv_pgfw_build_html_from_session', $pgfw_plugin_common, 'pgfw_build_html_from_session' );
+		$this->loader->add_action( 'wp_ajax_pgfw_delete_product_from_session', $pgfw_plugin_common, 'pgfw_delete_product_from_session' );
+		$this->loader->add_action( 'wp_ajax_nopriv_pgfw_delete_product_from_session', $pgfw_plugin_common, 'pgfw_delete_product_from_session' );
+		$this->loader->add_action( 'wp_ajax_mwb_pgfw_ajax_for_zip_or_pdf', $pgfw_plugin_common, 'mwb_pgfw_ajax_for_zip_or_pdf' );
+		$this->loader->add_action( 'wp_ajax_nopriv_mwb_pgfw_ajax_for_zip_or_pdf', $pgfw_plugin_common, 'mwb_pgfw_ajax_for_zip_or_pdf' );
 	}
 
 	/**
@@ -247,10 +257,13 @@ class Pdf_Generator_For_WordPress {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_public, 'pgfw_public_enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_public, 'pgfw_public_enqueue_scripts' );
-		// Single product listing page pdf generate button.
-		// $this->loader->add_action( 'woocommerce_after_single_product_summary', $pgfw_plugin_public, 'pgfw_show_download_icon_to_users', 20 );
-		// Single post listing page pdf generate button.
-		$this->loader->add_action( 'the_content', $pgfw_plugin_public, 'pgfw_show_download_icon_to_users' );
+		$general_settings_arr = get_option( 'mwb_pgfw_general_settings', array() );
+		$pgfw_enable_plugin   = array_key_exists( 'enable_plugin', $general_settings_arr ) ? $general_settings_arr['enable_plugin'] : '';
+		if ( 'yes' === $pgfw_enable_plugin ) {
+			// Single post listing page/post pdf generate button.
+			$this->loader->add_filter( 'the_content', $pgfw_plugin_public, 'pgfw_show_download_icon_to_users', 20 );
+		}
+
 	}
 
 	/**

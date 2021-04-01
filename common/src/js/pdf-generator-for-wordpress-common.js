@@ -28,5 +28,126 @@
 	 * Although scripts in the WordPress core, Plugins and Themes may be
 	 * practising this, we should strive to set a better example in our own work.
 	 */
-
+	 jQuery(document).ready(function($){
+		// add product ajax.
+		$('#pgfw-bulk-product-add').click(function(e){
+			e.preventDefault();
+			var self = this;
+			var cur_html = $(self).html();
+			$(self).html('<img src="' + pgfw_common_param.loader + '" style="width:20px;height:20px;display:inline;">');
+			var product_id = $(self).data('product-id');
+			$.ajax({
+				url    : pgfw_common_param.ajaxurl,
+				method : 'post',
+				data   : {
+					action     : 'pgfw_bulk_add_products_ajax',
+					product_id : product_id,
+					nonce : pgfw_common_param.nonce,
+				},
+				success: function( msg ) {
+					$('.pgfw-badge').text(msg);
+					if ( 1 == msg ) {
+						location.reload();
+					}
+					$(self).html(cur_html);
+				},
+				error: function() {
+					$(self).html(cur_html);
+					alert('no');
+				}
+			});
+		});
+		// bulk display of products chart ajax.
+		$('#pgfw-bulk-display-btn').click(function(e){
+			e.preventDefault();
+			var self = this;
+			var cur_html = $(self).html();
+			$(self).html('<img src="' + pgfw_common_param.loader + '" style="width:20px;height:20px;display:inline;">');
+			$.ajax({
+				url    : pgfw_common_param.ajaxurl,
+				method : 'post',
+				data   : {
+					action     : 'pgfw_build_html_from_session',
+					nonce: pgfw_common_param.nonce,
+				},
+				success: function( msg ) {
+					$('#pgfw-append-html-for-bulk-products').html(msg);
+					$('#pgfw-thickbox').click();
+					$(self).html(cur_html);
+				},
+				error: function() {
+					$(self).html(cur_html);
+					alert('no');
+				}
+			});
+		});
+		// delete products from the bulk list ajax.
+		$(document).on('click', '.pgfw-delete-this-products-bulk', function(e) {
+			e.preventDefault();
+			var self = this;
+			var cur_html = $(self).html();
+			$(self).html('<img src="' + pgfw_common_param.loader + '" style="width:20px;height:20px;display:inline;">');
+			var product_id = $(this).data('product-id');
+			$.ajax({
+				url    : pgfw_common_param.ajaxurl,
+				method : 'post',
+				data   : {
+					action     : 'pgfw_delete_product_from_session',
+					product_id : product_id,
+					nonce: pgfw_common_param.nonce,
+				},
+				success: function( msg ) {
+					$(self).html(cur_html);
+					$('#pgfw-append-html-for-bulk-products').html(msg);
+					var msg = $('.pgfw-badge').text();
+					msg = parseInt(msg)-1;
+					$('.pgfw-badge').text( msg );
+					if ( msg <= 0 ) {
+						$('#pgfw-bulk-display-btn').hide();
+					}
+				},
+				error: function() {
+					$(self).html(cur_html);
+					alert('no');
+				}
+			});
+		});
+		// create zip of bulk products.
+		$(document).on("click", "#pgfw-create-zip-bulk", function(){
+			var self = this;
+			var cur_html = $(self).html();
+			$(self).html('<img src="' + pgfw_common_param.loader + '" style="width:20px;height:20px;display:inline;">');
+			pgfw_ajax_for_zip_or_pdf( 'pdf_zip' );
+			$(self).html(cur_html);
+		});
+		// create pdf in continuation of bulk.
+		$(document).on('click', '#pgfw-create-pdf-bulk', function() {
+			var self = this;
+			var cur_html = $(self).html();
+			$(self).html('<img src="' + pgfw_common_param.loader + '" style="width:20px;height:20px;display:inline;">');
+			pgfw_ajax_for_zip_or_pdf( 'pdf_bulk' );
+			$(self).html(cur_html);
+		});
+		// ajax to create pdf for bulk and download it.
+		function pgfw_ajax_for_zip_or_pdf( name ) {
+			$.ajax({
+				url    : pgfw_common_param.ajaxurl,
+				method : 'post',
+				data   : {
+					action : 'mwb_pgfw_ajax_for_zip_or_pdf',
+					nonce  : pgfw_common_param.nonce,
+					name   : name
+				},
+				success: function( msg ) {
+					$('#pgfw-download-zip-parent').html('<a href="' + msg + '" download id="pgfw-download-zip"></a>');
+					$('#pgfw-download-zip')[0].click();
+					$('#pgfw-download-zip-parent').html('');
+					$('.tb-close-icon').click();
+				},
+				error: function() {
+					alert('error');
+				} 
+			});
+		}
+	});
 })( jQuery );

@@ -76,6 +76,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			wp_enqueue_style( $this->plugin_name, PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'admin/src/scss/pdf-generator-for-wordpress-admin.scss', array(), $this->version, 'all' );
 		}
 		wp_enqueue_style( 'wp-color-picker' );
+		wp_enqueue_style( 'pgfw-admin-commomn-css', PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'admin/src/scss/pdf-generator-for-wordpress-admin-common.css', array(), $this->version, 'all' );
 
 	}
 
@@ -134,7 +135,7 @@ class Pdf_Generator_For_WordPress_Admin {
 	public function pgfw_options_page() {
 		global $submenu;
 		if ( empty( $GLOBALS['admin_page_hooks']['mwb-plugins'] ) ) {
-			add_menu_page( __( 'MakeWebBetter', 'pdf-generator-for-wordpress' ), __( 'MakeWebBetter', 'pdf-generator-for-wordpress' ), 'manage_options', 'mwb-plugins', array( $this, 'mwb_plugins_listing_page' ), PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'admin/src/images/mwb-logo.png', 15 );
+			add_menu_page( __( 'MakeWebBetter', 'pdf-generator-for-wordpress' ), __( 'MakeWebBetter', 'pdf-generator-for-wordpress' ), 'manage_options', 'mwb-plugins', array( $this, 'mwb_plugins_listing_page' ), PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'admin/src/images/MWB_Grey-01.svg', 15 );
 			$pgfw_menus = apply_filters( 'mwb_add_plugins_menus_array', array() );
 			if ( is_array( $pgfw_menus ) && ! empty( $pgfw_menus ) ) {
 				foreach ( $pgfw_menus as $pgfw_key => $pgfw_value ) {
@@ -705,7 +706,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'       => __( 'Page Orientation', 'pdf-generator-for-wordpress' ),
 				'type'        => 'select',
-				'description' => __( 'Please choose page orientation to generate pdf.', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Choose page orientation to generate pdf.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_body_page_orientation',
 				'value'       => $pgfw_body_page_orientation,
 				'class'       => 'pgfw_body_page_orientation',
@@ -720,7 +721,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'       => __( 'Content Font Style', 'pdf-generator-for-wordpress' ),
 				'type'        => 'select',
-				'description' => __( 'Please choose page font to generate pdf.', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Choose page font to generate pdf.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_body_page_font_style',
 				'value'       => $pgfw_body_page_font_style,
 				'class'       => 'pgfw_body_page_font_style',
@@ -738,7 +739,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'       => __( 'Content font Size', 'pdf-generator-for-wordpress' ),
 				'type'        => 'number',
-				'description' => __( 'Please choose content font size to generate pdf.', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Choose content font size to generate pdf.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_content_font_size',
 				'value'       => $pgfw_body_page_font_size,
 				'class'       => 'pgfw_content_font_size',
@@ -747,7 +748,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'       => __( 'Choose body text color', 'pdf-generator-for-wordpress' ),
 				'type'        => 'color',
-				'description' => __( 'Please choose color to display in the footer', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Choose color to display in the footer', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_body_font_color',
 				'value'       => $pgfw_body_page_font_color,
 				'class'       => 'pgfw_color_picker pgfw_body_font_color',
@@ -758,7 +759,7 @@ class Pdf_Generator_For_WordPress_Admin {
 				'title'       => __( 'Border', 'pdf-generator-for-wordpress' ),
 				'type'        => 'multi',
 				'id'          => 'pgfw_body_border',
-				'description' => __( 'Please choose border: size in px and color.', 'pgfw-generator-for-wordpress' ),
+				'description' => __( 'Choose border: size in px and color.', 'pgfw-generator-for-wordpress' ),
 				'value'       => array(
 					array(
 						'type'        => 'number',
@@ -782,7 +783,7 @@ class Pdf_Generator_For_WordPress_Admin {
 				'title'       => __( 'Page Margin', 'pgfw-generator-for-wordpress' ),
 				'id'          => 'pgfw_body_margin',
 				'type'        => 'multi',
-				'description' => __( 'Please enter page margin : top, left, right.', 'pgfw-generator-for-wordpress' ),
+				'description' => __( 'Enter page margin : top, left, right.', 'pgfw-generator-for-wordpress' ),
 				'value'       => array(
 					array(
 						'type'        => 'number',
@@ -813,7 +814,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'       => __( 'RTL support', 'pdf-generator-for-wordpress' ),
 				'type'        => 'checkbox',
-				'description' => __( 'Please select this to enable RTL support.', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Select this to enable RTL support.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_body_rtl_support',
 				'value'       => $pgfw_body_rtl_support,
 				'class'       => 'pgfw_body_rtl_support',
@@ -822,7 +823,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'       => __( 'Add Watermark', 'pdf-generator-for-wordpress' ),
 				'type'        => 'checkbox',
-				'description' => __( 'Please select this to add watermark on the created PDF.', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Select this to add watermark on the created PDF.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_body_add_watermark',
 				'value'       => $pgfw_body_add_watermark,
 				'class'       => 'pgfw_body_add_watermark',
@@ -831,7 +832,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'       => __( 'Watermark text', 'pdf-generator-for-wordpress' ),
 				'type'        => 'textarea',
-				'description' => __( 'Please enter text to be used as watermark.', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Enter text to be used as watermark.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_body_watermark_text',
 				'value'       => $pgfw_body_watermark_text,
 				'class'       => 'pgfw_body_watermark_text',

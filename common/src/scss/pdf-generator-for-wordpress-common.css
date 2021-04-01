@@ -2,3 +2,9 @@
  * All of the CSS for your common functionality should be
  * included in this file.
  */
+#pgfw-right-floating-div{
+    z-index: 10;  
+    position: absolute;  
+    right: 0;
+
+}
