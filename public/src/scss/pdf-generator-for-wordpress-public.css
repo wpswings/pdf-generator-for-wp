@@ -8,3 +8,66 @@
      border-radius: 10px;
      padding: 2px;
  }
+ .pgfw-badge {
+    background-color: blue;
+    color: white;
+    border-radius: 10px;
+    padding: 2px;
+}
+.pgfw-single-pdf-download-button img{
+    display: inline;
+}
+/*Floating element CSS*/
+
+.mwb_pgw-button_wrapper {
+    position: fixed;
+    top: 15%;
+    right: -255px;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    transition: right 0.6s ease-in-out;
+}
+
+/*Floating Button*/
+.mwb_pgw-button {
+    color: #fff;
+    background: #ffffff;
+    width: 50px;
+    position: relative;
+    right: 10px;
+    height: 50px;
+    text-align: center;
+    padding: 0;
+    box-shadow: 0px 0 10px rgb(0 0 0 / 30%);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.mwb_pgw-button:hover {
+    transform: scale(1.1);
+}
+
+/*floating box*/
+.mwb_pgw-button_content {
+    min-height: 200px;
+    max-height: 400px;
+    overflow: auto;
+    background-color: #ffffff;
+    position: relative;
+    padding: 10px;
+    max-width: 250px;
+    width: 100%;
+    box-shadow: 0 0 10px rgb(0 0 0 / 30%);
+}
+
+/*Classes used in JS*/
+.mwb_pgw-out {
+    right: 0;
+} 

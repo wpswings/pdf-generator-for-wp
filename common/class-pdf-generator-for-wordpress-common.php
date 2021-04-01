@@ -162,12 +162,18 @@ class Pdf_Generator_For_WordPress_Common {
 		check_ajax_referer( 'pgfw_common_nonce', 'nonce' );
 		?>
 		<p>
-			<table>
-				<tr>
-					<th><?php esc_html_e( 'PostImage', 'pdf-generator-for-wordpress' ); ?></th>
-					<th><?php esc_html_e( 'PostName', 'pdf-generator-for-wordpress' ); ?></th>
-					<th><?php esc_html_e( 'Action', 'pdf-generator-for-wordpress' ); ?></th>
-				</tr>
+		<div class="pgfw_bulk_wrapper">
+			<ul class="pgfw_bulk_title">
+				<li>
+					<div><?php esc_html_e( 'PostImage', 'pdf-generator-for-wordpress' ); ?></div>
+				</li>
+				<li>
+					<div><?php esc_html_e( 'PostName', 'pdf-generator-for-wordpress' ); ?></div>
+				</li>
+				<li>
+					<div><?php esc_html_e( 'Action', 'pdf-generator-for-wordpress' ); ?></div>
+				</li>
+			</ul>
 			<?php
 			if ( isset( $_SESSION['bulk_products'] ) ) {
 				$product_ids = $_SESSION['bulk_products'];
@@ -175,16 +181,22 @@ class Pdf_Generator_For_WordPress_Common {
 					$post          = get_post( $product_id );
 					$thumbnail_url = get_the_post_thumbnail_url( $post );
 					?>
-					<tr>
-						<td><img style="width:70px;height:70px;"src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php esc_html_e( 'no image found', 'pdf-generator-for-wordpress' ); ?>"></td>
-						<td><?php echo esc_html( $post->post_title ); ?></td>
-						<td><a href="javascript:void(0);" class="pgfw-delete-this-products-bulk" data-product-id="<?php echo esc_html( $product_id ); ?>"><?php esc_html_e( 'delete', 'pdf-generator-for-wordpress' ); ?><a></td>
-					</tr>
+					<ul class="pgfw_bulk_content">
+						<li>
+							<div><img style="width:70px;height:70px;"src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php esc_html_e( 'no image found', 'pdf-generator-for-wordpress' ); ?>"></div>
+						</li>
+						<li>
+							<div><?php echo esc_html( $post->post_title ); ?></div>
+						</li>
+						<li>
+							<div><a href="javascript:void(0);" class="pgfw-delete-this-products-bulk" data-product-id="<?php echo esc_html( $product_id ); ?>"><?php esc_html_e( 'delete', 'pdf-generator-for-wordpress' ); ?></a></div>
+						</li>
+					</ul>
 					<?php
 				}
 			}
 			?>
-			</table>
+			</div>
 			<button id="pgfw-create-zip-bulk"><?php esc_html_e( 'Create Zip', 'pdf-generator-for-wordpress' ); ?></button>
 			<button id="pgfw-create-pdf-bulk"><?php esc_html_e( 'Create PDF', 'pdf-generator-for-wordpress' ); ?></button>
 		</p>
@@ -264,6 +276,8 @@ class Pdf_Generator_For_WordPress_Common {
 		$body_add_watermark   = array_key_exists( 'body_add_watermark', $body_settings_arr ) ? $body_settings_arr['body_add_watermark'] : '#000000';
 		$body_watermark_color = array_key_exists( 'body_watermark_color', $body_settings_arr ) ? $body_settings_arr['body_watermark_color'] : '';
 		$body_watermark_text  = array_key_exists( 'body_watermark_text', $body_settings_arr ) ? $body_settings_arr['body_watermark_text'] : '';
+		$body_page_size       = array_key_exists( 'body_page_size', $body_settings_arr ) ? $body_settings_arr['body_page_size'] : 'a4';
+		$page_orientation     = array_key_exists( 'body_page_orientation', $body_settings_arr ) ? $body_settings_arr['body_page_orientation'] : 'portrait';
 		$document_name        = '';
 		$post                 = get_post( $prod_id );
 		if ( 'custom' === $pdf_file_name ) {
@@ -284,7 +298,7 @@ class Pdf_Generator_For_WordPress_Common {
 		}
 		$dompdf = new Dompdf( array( 'enable_remote' => true ) );
 		$dompdf->loadHtml( $html );
-		$dompdf->setPaper( 'A4', '' );
+		$dompdf->setPaper( $body_page_size, $page_orientation );
 		@ob_end_clean(); // phpcs:ignore
 		$dompdf->render();
 		if ( 'yes' === $body_add_watermark ) {

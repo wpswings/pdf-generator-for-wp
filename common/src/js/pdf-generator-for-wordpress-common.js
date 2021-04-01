@@ -45,11 +45,10 @@
 					nonce : pgfw_common_param.nonce,
 				},
 				success: function( msg ) {
-					$('.pgfw-badge').text(msg);
-					if ( 1 == msg ) {
+					$(self).html(cur_html);
+					if ( msg == 1 ) {
 						location.reload();
 					}
-					$(self).html(cur_html);
 				},
 				error: function() {
 					$(self).html(cur_html);
@@ -58,7 +57,7 @@
 			});
 		});
 		// bulk display of products chart ajax.
-		$('#pgfw-bulk-display-btn').click(function(e){
+		$('.mwb_pgw-button').click(function(e){
 			e.preventDefault();
 			var self = this;
 			var cur_html = $(self).html();
@@ -71,8 +70,7 @@
 					nonce: pgfw_common_param.nonce,
 				},
 				success: function( msg ) {
-					$('#pgfw-append-html-for-bulk-products').html(msg);
-					$('#pgfw-thickbox').click();
+					$('.mwb_pgw-button_content').html(msg);
 					$(self).html(cur_html);
 				},
 				error: function() {
@@ -98,13 +96,7 @@
 				},
 				success: function( msg ) {
 					$(self).html(cur_html);
-					$('#pgfw-append-html-for-bulk-products').html(msg);
-					var msg = $('.pgfw-badge').text();
-					msg = parseInt(msg)-1;
-					$('.pgfw-badge').text( msg );
-					if ( msg <= 0 ) {
-						$('#pgfw-bulk-display-btn').hide();
-					}
+					$('.mwb_pgw-button_content').html(msg);
 				},
 				error: function() {
 					$(self).html(cur_html);
@@ -142,7 +134,6 @@
 					$('#pgfw-download-zip-parent').html('<a href="' + msg + '" download id="pgfw-download-zip"></a>');
 					$('#pgfw-download-zip')[0].click();
 					$('#pgfw-download-zip-parent').html('');
-					$('.tb-close-icon').click();
 				},
 				error: function() {
 					alert('error');

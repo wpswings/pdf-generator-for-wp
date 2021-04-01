@@ -19,7 +19,7 @@
  * @subpackage Pdf_Generator_For_Wordpress/includes
  * @author     makewebbetter <webmaster@makewebbetter.com>
  */
-class Pdf_Generator_For_Wordpress_Deactivator {
+class Pdf_Generator_For_WordPress_Deactivator {
 
 	/**
 	 * Short Description. (use period)

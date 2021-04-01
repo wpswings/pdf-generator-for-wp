@@ -41,6 +41,10 @@ $pgfw_default_tabs = $pgfw_mwb_pgfw_obj->mwb_pgfw_plug_default_tabs();
 
 					if ( ! empty( $pgfw_active_tab ) && $pgfw_active_tab === $pgfw_tab_key ) {
 						$pgfw_tab_classes .= 'active';
+					} elseif ( ! empty( $pgfw_active_tab ) && in_array( $pgfw_active_tab, array( 'pdf-generator-for-wordpress-header', 'pdf-generator-for-wordpress-body', 'pdf-generator-for-wordpress-footer' ), true ) ) {
+						if ( 'pdf-generator-for-wordpress-customize' === $pgfw_tab_key ) {
+							$pgfw_tab_classes .= 'active';
+						}
 					}
 					?>
 					<li>
@@ -55,19 +59,19 @@ $pgfw_default_tabs = $pgfw_mwb_pgfw_obj->mwb_pgfw_plug_default_tabs();
 
 	<section class="mwb-section">
 		<div>
-			<?php 
-				do_action( 'mwb_pgfw_before_general_settings_form' );
-						// if submenu is directly clicked on woocommerce.
-				if ( empty( $pgfw_active_tab ) ) {
-					$pgfw_active_tab = 'mwb_pgfw_plug_general';
-				}
+			<?php
+			do_action( 'mwb_pgfw_before_general_settings_form' );
+					// if submenu is directly clicked on woocommerce.
+			if ( empty( $pgfw_active_tab ) ) {
+				$pgfw_active_tab = 'mwb_pgfw_plug_general';
+			}
 
-						// look for the path based on the tab id in the admin templates.
-				$pgfw_tab_content_path = 'admin/partials/' . $pgfw_active_tab . '.php';
+					// look for the path based on the tab id in the admin templates.
+			$pgfw_tab_content_path = 'admin/partials/' . $pgfw_active_tab . '.php';
 
-				$pgfw_mwb_pgfw_obj->mwb_pgfw_plug_load_template( $pgfw_tab_content_path );
+			$pgfw_mwb_pgfw_obj->mwb_pgfw_plug_load_template( $pgfw_tab_content_path );
 
-				do_action( 'mwb_pgfw_after_general_settings_form' ); 
+			do_action( 'mwb_pgfw_after_general_settings_form' ); 
 			?>
 		</div>
 	</section>

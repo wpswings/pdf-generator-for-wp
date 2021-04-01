@@ -75,7 +75,6 @@ class Pdf_Generator_For_WordPress_Public {
 		wp_register_script( $this->plugin_name . 'public-js', PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'public/src/js/pdf-generator-for-wordpress-public.js', array( 'jquery' ), $this->version, false );
 		wp_localize_script( $this->plugin_name . 'public-js', 'pgfw_public_param', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 		wp_enqueue_script( $this->plugin_name . 'public-js' );
-		add_thickbox();
 	}
 	/**
 	 * Showing pdf generate icons to users.
@@ -138,18 +137,14 @@ class Pdf_Generator_For_WordPress_Public {
 		?>
 		<div style="text-align:center;">
 			<div>
-				<a href="<?php echo esc_html( $url_here ); ?>"><img src="<?php echo esc_url( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/PDF_Tray.svg'; ?>" style="display:inline;"></a> | 
-				<a href="javascript:void(0)" data-product-id="<?php echo esc_html( $id ); ?>" id="pgfw-bulk-product-add"><img src="<?php echo esc_url( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/download_PDF.svg'; ?>" style="display:inline;"></a>
+				<a href="<?php echo esc_html( $url_here ); ?>" class="pgfw-single-pdf-download-button"><img src="<?php echo esc_url( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/PDF_Tray.svg'; ?>" title="<?php esc_html_e( 'Generate PDF', 'pdf-generator-for-wordpress' ); ?>"></a> | 
+				<a href="javascript:void(0)" data-product-id="<?php echo esc_html( $id ); ?>" id="pgfw-bulk-product-add" class="pgfw-single-pdf-download-button"><img src="<?php echo esc_url( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/download_PDF.svg'; ?>" title="<?php esc_html_e( 'Add to Bulk Cart', 'pdf-generator-for-wordpress' ); ?>"></a>
+				<?php
+				if ( isset( $_SESSION['bulk_products'] ) && count( $_SESSION['bulk_products'] ) > 0 ) {
+					require_once PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'public/partials/pdf-generator-for-wordpress-public-display-bulk.php';
+				}
+				?>
 			</div>
-			<?php if ( isset( $_SESSION['bulk_products'] ) && count( $_SESSION['bulk_products'] ) > 0 ) { ?>
-			<a href="javascript:void(0);" id="pgfw-bulk-display-btn"><img src="<?php echo esc_url( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/Download_Full_PDF.svg'; ?>" style="display:inline;"><?php echo '<span class="pgfw-badge">' . count( $_SESSION['bulk_products'] ) . '</span>'; ?></a>
-			<a href="#TB_inline?width=700&height=300&inlineId=modal-window-id" class="thickbox" id="pgfw-thickbox" style="display:none;"></a>
-			<div id="modal-window-id" style="display:none;">
-				<div style="text-align:center;"><?php esc_html_e( 'Bulk Posts.', 'pdf-generator-for-wordpress' ); ?></div>
-				<div id="pgfw-append-html-for-bulk-products"></div>
-				<div id="pgfw-download-zip-parent"></div>
-			</div>
-			<?php } ?>
 		</div>
 		<?php
 	}

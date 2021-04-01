@@ -69,7 +69,7 @@ function pdf_generator_for_wordpress_constants( $key, $value ) {
  */
 function activate_pdf_generator_for_wordpress() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-pdf-generator-for-wordpress-activator.php';
-	Pdf_Generator_For_Wordpress_Activator::pdf_generator_for_wordpress_activate();
+	Pdf_Generator_For_WordPress_Activator::pdf_generator_for_wordpress_activate();
 	$mwb_pgfw_active_plugin = get_option( 'mwb_all_plugins_active', false );
 	if ( is_array( $mwb_pgfw_active_plugin ) && ! empty( $mwb_pgfw_active_plugin ) ) {
 		$mwb_pgfw_active_plugin['pdf-generator-for-wordpress'] = array(
@@ -92,7 +92,7 @@ function activate_pdf_generator_for_wordpress() {
  */
 function deactivate_pdf_generator_for_wordpress() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-pdf-generator-for-wordpress-deactivator.php';
-	Pdf_Generator_For_Wordpress_Deactivator::pdf_generator_for_wordpress_deactivate();
+	Pdf_Generator_For_WordPress_Deactivator::pdf_generator_for_wordpress_deactivate();
 	$mwb_pgfw_deactive_plugin = get_option( 'mwb_all_plugins_active', false );
 	if ( is_array( $mwb_pgfw_deactive_plugin ) && ! empty( $mwb_pgfw_deactive_plugin ) ) {
 		foreach ( $mwb_pgfw_deactive_plugin as $mwb_pgfw_deactive_key => $mwb_pgfw_deactive ) {

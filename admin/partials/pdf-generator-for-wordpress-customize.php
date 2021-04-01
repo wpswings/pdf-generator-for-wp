@@ -30,9 +30,12 @@ $pgfw_header_settings = apply_filters( 'pgfw_header_settings_array', array() );
 				foreach ( $pgfw_default_tabs as $pgfw_tab_key => $pgfw_default_tabs ) {
 
 					$pgfw_tab_classes = 'mwb-link ';
-
 					if ( ! empty( $pgfw_active_tab ) && $pgfw_active_tab === $pgfw_tab_key ) {
 						$pgfw_tab_classes .= 'active';
+					} elseif ( 'pdf-generator-for-wordpress-customize' === $pgfw_active_tab ) {
+						if ( 'pdf-generator-for-wordpress-header' === $pgfw_tab_key ) {
+							$pgfw_tab_classes .= 'active';
+						}
 					}
 					?>
 					<li>

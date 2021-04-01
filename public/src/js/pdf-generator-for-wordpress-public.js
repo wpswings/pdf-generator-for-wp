@@ -28,6 +28,12 @@
 	 * Although scripts in the WordPress core, Plugins and Themes may be
 	 * practising this, we should strive to set a better example in our own work.
 	 */
-	$(document).ready(function(){
+	jQuery(document).ready(function($){
+		mwb_pgw_float();
+		function mwb_pgw_float() {
+			$('.mwb_pgw-button').on('click',function(){
+				$('.mwb_pgw-button_wrapper').toggleClass('mwb_pgw-out');
+			});
+		} 
 	});
 })( jQuery );

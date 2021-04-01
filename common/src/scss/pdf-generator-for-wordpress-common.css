@@ -8,3 +8,11 @@
     right: 0;
 
 }
+.pgfw_bulk_wrapper ul {
+    margin: 0;
+    display: flex;
+}
+.pgfw_bulk_wrapper li {
+    list-style: none;
+    flex: 0 0 33%;
+}
