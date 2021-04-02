@@ -18,9 +18,12 @@ global $pgfw_mwb_pgfw_obj;
 $pgfw_settings_display_fields = apply_filters( 'pgfw_display_settings_array', array() );
 ?>
 <!--  template file for admin settings. -->
-<div class="pgfw-section-wrap">
-	<?php
-		$pgfw_template_html = $pgfw_mwb_pgfw_obj->mwb_pgfw_plug_generate_html( $pgfw_settings_display_fields );
-		echo esc_html( $pgfw_template_html );
-	?>
-</div>
+<form action="" method="POST" class="mwb-pgfw-gen-section-form">
+	<div class="pgfw-section-wrap">
+		<?php
+		wp_nonce_field( 'nonce_settings_save', 'pgfw_nonce_field' );
+		$pgfw_mwb_pgfw_obj->mwb_pgfw_plug_generate_html( $pgfw_settings_display_fields );
+		?>
+	</div>
+</form>
+

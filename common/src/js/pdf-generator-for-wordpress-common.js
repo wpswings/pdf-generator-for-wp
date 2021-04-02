@@ -49,6 +49,7 @@
 					if ( msg == 1 ) {
 						location.reload();
 					}
+					$('.mwb_pgfw-display-value').text(msg);
 				},
 				error: function() {
 					$(self).html(cur_html);
@@ -59,9 +60,6 @@
 		// bulk display of products chart ajax.
 		$('.mwb_pgw-button').click(function(e){
 			e.preventDefault();
-			var self = this;
-			var cur_html = $(self).html();
-			$(self).html('<img src="' + pgfw_common_param.loader + '" style="width:20px;height:20px;display:inline;">');
 			$.ajax({
 				url    : pgfw_common_param.ajaxurl,
 				method : 'post',
@@ -71,10 +69,8 @@
 				},
 				success: function( msg ) {
 					$('.mwb_pgw-button_content').html(msg);
-					$(self).html(cur_html);
 				},
 				error: function() {
-					$(self).html(cur_html);
 					alert('no');
 				}
 			});
@@ -97,6 +93,12 @@
 				success: function( msg ) {
 					$(self).html(cur_html);
 					$('.mwb_pgw-button_content').html(msg);
+					var cur_count = $('.mwb_pgfw-display-value').text();
+					cur_count = parseInt( cur_count ) -1;
+					$('.mwb_pgfw-display-value').text( cur_count );
+					if ( cur_count <=0 ) {
+						$('.mwb_pgw-button_wrapper').hide();
+					}
 				},
 				error: function() {
 					$(self).html(cur_html);

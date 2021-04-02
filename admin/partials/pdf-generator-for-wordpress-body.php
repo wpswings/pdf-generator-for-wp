@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 global $pgfw_mwb_pgfw_obj;
-$pgfw_active_tab   = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw_tab'] ) : 'pdf-generator-for-wordpress-header';
+$pgfw_active_tab   = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw_tab'] ) : 'pdf-generator-for-wordpress-header'; // phpcs:ignore
 $pgfw_default_tabs = $pgfw_mwb_pgfw_obj->mwb_pgfw_plug_default_sub_tabs();
 $pgfw_body_array   = apply_filters( 'pgfw_body_settings_array', array() );
 ?>
@@ -48,6 +48,7 @@ $pgfw_body_array   = apply_filters( 'pgfw_body_settings_array', array() );
 		<form action="" method="POST" class="mwb-pgfw-gen-section-form">
 			<div class="pgfw-secion-wrap">
 				<?php
+				wp_nonce_field( 'nonce_settings_save', 'pgfw_nonce_field' );
 				$pgfw_mwb_pgfw_obj->mwb_pgfw_plug_generate_html( $pgfw_body_array );
 				?>
 			</div>

@@ -49,6 +49,7 @@ $pgfw_settings_header_fields = apply_filters( 'pgfw_header_settings_array', arra
 		<form action="" method="POST" class="mwb-pgfw-gen-section-form">
 			<div class="pgfw-secion-wrap">
 				<?php
+				wp_nonce_field( 'nonce_settings_save', 'pgfw_nonce_field' );
 				$pgfw_mwb_pgfw_obj->mwb_pgfw_plug_generate_html( $pgfw_settings_header_fields );
 				?>
 			</div>

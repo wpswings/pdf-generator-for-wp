@@ -18,8 +18,11 @@ global $pgfw_mwb_pgfw_obj;
 $pgfw_meta_settings = apply_filters( 'pgfw_meta_fields_settings_array', array() );
 ?>
 <!--  template file for admin settings. -->
-<div class="pgfw-section-wrap">
-	<?php
+<form action="" method="POST" class="mwb-pgfw-gen-section-form">
+	<div class="pgfw-section-wrap">
+		<?php
+		wp_nonce_field( 'nonce_settings_save', 'pgfw_nonce_field' );
 		$pgfw_mwb_pgfw_obj->mwb_pgfw_plug_generate_html( $pgfw_meta_settings );
-	?>
-</div>
+		?>
+	</div>
+</form>

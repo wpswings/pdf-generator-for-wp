@@ -26,8 +26,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 function return_ob_html( $post_id ) {
 	$post                      = get_post( $post_id );
 	$thumbnail_url             = get_the_post_thumbnail_url( $post );
-	$pgfw_body_settings        = get_option( 'mwb_pgfw_body_settings', array() );
-	$pgfw_body_page_font_style = array_key_exists( 'body_page_font_style', $pgfw_body_settings ) ? $pgfw_body_settings['body_page_font_style'] : '';
+	$pgfw_body_settings        = get_option( 'pgfw_body_save_settings', array() );
+	$pgfw_body_page_font_style = array_key_exists( 'pgfw_body_page_font_style', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_page_font_style'] : '';
 
 	$html  = '<style>
 			div#font-family{

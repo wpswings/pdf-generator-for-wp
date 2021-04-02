@@ -2,52 +2,79 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
- .pgfw-badge{
-     background-color: blue;
-     color: white;
-     border-radius: 10px;
-     padding: 2px;
- }
  .pgfw-badge {
     background-color: blue;
     color: white;
     border-radius: 10px;
     padding: 2px;
 }
-.pgfw-single-pdf-download-button img{
-    display: inline;
+
+.pgfw-badge {
+    background-color: blue;
+    color: white;
+    border-radius: 10px;
+    padding: 2px;
 }
+
+.pgfw-single-pdf-download-button img {
+    display: inline;
+    width:auto;
+    height:25px;
+}
+
+.pgfw-single-pdf-download-button {
+    margin-right: 15px;
+}
+
+.pgfw-single-pdf-download-button:focus {
+    outline:none;
+}
+
 /*Floating element CSS*/
 
 .mwb_pgw-button_wrapper {
     position: fixed;
-    top: 15%;
-    right: -255px;
+    top: 10%;
+    right: -260px;
     z-index: 999999;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     transition: right 0.6s ease-in-out;
 }
 
 /*Floating Button*/
 .mwb_pgw-button {
-    color: #fff;
-    background: #ffffff;
-    width: 50px;
     position: relative;
-    right: 10px;
-    height: 50px;
-    text-align: center;
-    padding: 0;
-    box-shadow: 0px 0 10px rgb(0 0 0 / 30%);
-    border-radius: 50%;
+    right: 20px;
     cursor: pointer;
     z-index: 1;
+    transition: transform 0.3s ease-in-out;
+}
+
+.mwb_pgfw-display-value {
+    background-color: #333333;
+    height: 20px;
+    width: 20px;
     display: flex;
+    font-size: 10px;
+    color: #ffffff;
     align-items: center;
     justify-content: center;
-    font-size: 30px;
-    transition: transform 0.3s ease-in-out;
+    border-radius: 50%;
+    position: absolute;
+    top: -6px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.mwb_pgw-button img {
+    all: unset;
+    width: 24px;
+    height: 24px;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgb(0 0 0 / 24%);
 }
 
 .mwb_pgw-button:hover {
@@ -62,12 +89,66 @@
     background-color: #ffffff;
     position: relative;
     padding: 10px;
-    max-width: 250px;
+    min-width: 245px;
     width: 100%;
     box-shadow: 0 0 10px rgb(0 0 0 / 30%);
+    display: flex;
+    flex-direction: column;
+}
+
+/*Inner element of floating box*/
+.pgfw_bulk_wrapper ul:not(:first-child) {
+    margin: 0 !important;
+    padding: 0 0 10px !important;
+}
+
+.pgfw_bulk_title {
+    font-weight: 600;
+    font-size: 12px;
+    box-shadow: 0 5px 5px -5px rgb(0 0 0 / 23%);
+    margin: 0 0 10px !important;
+    color: #2196F3;
+    text-align: left;
+}
+
+.pgfw_bulk_title>li {
+    margin-right: 5px;
+}
+
+.mwb_pgw-button_content button {
+    border: none;
+    padding: 5px 10px;
+    background-color: #2196F3;
+    color: #ffffff;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    flex-grow: 1;
+}
+
+.pgfw_bulk_content {
+    text-align: left;
+}
+
+.pgfw_bulk_content li {
+    margin-right: 5px;
+}
+
+.pgfw_bulk_content-title {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #333333;
+}
+
+.pgfw-delete-this-products-bulk {
+    background-color: #ffc9c9;
+    font-size: 12px;
+    padding: 5px 8px;
+    text-transform: capitalize;
+    color: #b33c3c;
+    border-radius: 3px;
 }
 
 /*Classes used in JS*/
 .mwb_pgw-out {
     right: 0;
-} 
+}

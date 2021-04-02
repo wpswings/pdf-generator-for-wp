@@ -213,10 +213,10 @@ class Pdf_Generator_For_WordPress {
 		$this->loader->add_filter( 'pgfw_body_settings_array', $pgfw_plugin_admin, 'pgfw_admin_body_settings_page', 10 );
 		// Fields for advanced settings.
 		$this->loader->add_filter( 'pgfw_advanced_settings_array', $pgfw_plugin_admin, 'pgfw_admin_advanced_settings_page', 10 );
-		// fields for meta fields settings.
+		// Fields for meta fields settings.
 		$this->loader->add_filter( 'pgfw_meta_fields_settings_array', $pgfw_plugin_admin, 'pgfw_admin_meta_fields_settings_page', 10 );
-		// Ajax request handling for saving general settings.
-		$this->loader->add_action( 'wp_ajax_mwb_pgfw_saving_settings', $pgfw_plugin_admin, 'mwb_pgfw_saving_settings' );
+		// Request handling for saving general settings.
+		$this->loader->add_action( 'admin_init', $pgfw_plugin_admin, 'pgfw_admin_save_tab_settings' );
 	}
 
 	/**
@@ -257,12 +257,8 @@ class Pdf_Generator_For_WordPress {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_public, 'pgfw_public_enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_public, 'pgfw_public_enqueue_scripts' );
-		$general_settings_arr = get_option( 'mwb_pgfw_general_settings', array() );
-		$pgfw_enable_plugin   = array_key_exists( 'enable_plugin', $general_settings_arr ) ? $general_settings_arr['enable_plugin'] : '';
-		if ( 'yes' === $pgfw_enable_plugin ) {
-			// Single post listing page/post pdf generate button.
-			$this->loader->add_filter( 'the_content', $pgfw_plugin_public, 'pgfw_show_download_icon_to_users', 20 );
-		}
+		// Single post listing page/post pdf generate button.
+		$this->loader->add_filter( 'the_content', $pgfw_plugin_public, 'pgfw_show_download_icon_to_users', 20 );
 
 	}
 
@@ -627,7 +623,7 @@ class Pdf_Generator_For_WordPress {
 										id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"
 										type="checkbox"
 										class="mdc-checkbox__native-control <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
-										value="<?php echo ( isset( $pgfw_component['value'] ) ? esc_attr( $pgfw_component['value'] ) : '' ); ?>"
+										value="yes"
 										<?php checked( $pgfw_component['value'], 'yes' ); ?>
 										/>
 										<div class="mdc-checkbox__background">
@@ -695,7 +691,13 @@ class Pdf_Generator_For_WordPress {
 										<div class="mdc-switch__track"></div>
 										<div class="mdc-switch__thumb-underlay">
 											<div class="mdc-switch__thumb"></div>
-											<input name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>" type="checkbox" id="<?php echo esc_html( $pgfw_component['id'] ); ?>" value="on" class="mdc-switch__native-control <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>" role="switch" aria-checked="<?php echo esc_html( 'yes' === $pgfw_component['value'] ) ? 'true' : 'false'; ?>"
+											<input
+											name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
+											type="checkbox"
+											id="<?php echo esc_html( $pgfw_component['id'] ); ?>"
+											value="yes" class="mdc-switch__native-control <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
+											role="switch"
+											aria-checked="<?php echo esc_html( 'yes' === $pgfw_component['value'] ) ? 'true' : 'false'; ?>"
 											<?php checked( $pgfw_component['value'], 'yes' ); ?>
 											>
 										</div>
@@ -714,7 +716,7 @@ class Pdf_Generator_For_WordPress {
 						<div class="mwb-form-group">
 							<div class="mwb-form-group__label"></div>
 							<div class="mwb-form-group__control">
-								<button class="mdc-button mdc-button--raised" name= "<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
+								<button type="submit" class="mdc-button mdc-button--raised" name= "<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
 									id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"> <span class="mdc-button__ripple"></span>
 									<span class="mdc-button__label <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"><?php echo ( isset( $pgfw_component['button_text'] ) ? esc_html( $pgfw_component['button_text'] ) : '' ); ?></span>
 								</button>
@@ -781,7 +783,7 @@ class Pdf_Generator_For_WordPress {
 									id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"
 									type="<?php echo esc_attr( ( 'color' === $pgfw_component['type'] ) ? 'text' : $pgfw_component['type'] ); ?>"
 									value="<?php echo ( isset( $pgfw_component['value'] ) ? esc_attr( $pgfw_component['value'] ) : '' ); ?>"
-									<?php echo esc_html( ( 'date' === $pgfw_component['type'] ) ? 'max=' . gmdate( 'Y-m-d', strtotime( gmdate( "Y-m-d", mktime() ) . " + 365 day" ) ) .' ' . 'min=' . date( "Y-m-d" ) . '' : '' ); ?>
+									<?php echo esc_html( ( 'date' === $pgfw_component['type'] ) ? 'max=' . gmdate( 'Y-m-d', strtotime( gmdate( 'Y-m-d', mktime() ) . ' + 365 day' ) ) . ' min=' . gmdate( 'Y-m-d' ) . '' : '' ); ?>
 									>
 									<div class="mdc-text-field-helper-line">
 										<div class="mdc-text-field-helper-text--persistent mwb-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
@@ -812,14 +814,21 @@ class Pdf_Generator_For_WordPress {
 									<label for="<?php echo esc_attr( array_key_exists( 'id', $pgfw_component ) ? $pgfw_component['id'] : '' ); ?>" class="mwb-form-label"><?php echo esc_html( array_key_exists( 'title', $pgfw_component ) ? $pgfw_component['title'] : '' ); ?></label>
 								</div>
 								<div class="mwb-form-group__control">
+									<input
+									type="hidden"
+									id="<?php echo esc_attr( array_key_exists( 'id', $pgfw_component ) ? $pgfw_component['id'] : '' ); ?>"
+									class="<?php echo esc_attr( array_key_exists( 'class', $pgfw_component ) ? $pgfw_component['class'] : '' ); ?>"
+									name="<?php echo esc_attr( array_key_exists( 'name', $pgfw_component ) ? $pgfw_component['name'] : '' ); ?>"
+									value="<?php echo esc_html( array_key_exists( 'value', $pgfw_component ) ? $pgfw_component['value'] : '' ); ?>"
+									>
 									<img
 										src="<?php echo esc_attr( $pgfw_component['img-tag']['img-src'] ); ?>"
 										class="<?php echo esc_attr( $pgfw_component['img-tag']['img-class'] ); ?>"
 										id="<?php echo esc_attr( $pgfw_component['img-tag']['img-id'] ); ?>"
 										style="<?php echo esc_attr( $pgfw_component['img-tag']['img-style'] ); ?>"
 									>
-									<button class="mdc-button--raised" name="<?php echo esc_attr( array_key_exists( 'name', $pgfw_component ) ? $pgfw_component['name'] : '' ); ?>"
-										id="<?php echo esc_attr( array_key_exists( 'id', $pgfw_component ) ? $pgfw_component['id'] : '' ); ?>"> <span class="mdc-button__ripple"></span>
+									<button class="mdc-button--raised" name="<?php echo esc_attr( array_key_exists( 'sub_name', $pgfw_component ) ? $pgfw_component['sub_name'] : '' ); ?>"
+										id="<?php echo esc_attr( array_key_exists( 'sub_id', $pgfw_component ) ? $pgfw_component['sub_id'] : '' ); ?>"> <span class="mdc-button__ripple"></span>
 										<span class="mdc-button__label"><?php echo esc_attr( array_key_exists( 'button_text', $pgfw_component ) ? $pgfw_component['button_text'] : '' ); ?></span>
 									</button>
 									<button class="mdc-button--raised" name="<?php echo esc_attr( $pgfw_component['img-remove']['btn-name'] ); ?>"
@@ -829,6 +838,12 @@ class Pdf_Generator_For_WordPress {
 										></span>
 										<span class="mdc-button__label"><?php echo esc_attr( $pgfw_component['img-remove']['btn-title'] ); ?></span>
 									</button>
+									<input
+									type="hidden"
+									id="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['id'] ) : ''; ?>"
+									class="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['class'] ) : ''; ?>"
+									name="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['name'] ) : ''; ?>"
+									>
 								</div>
 							</div>
 								<?php

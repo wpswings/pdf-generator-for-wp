@@ -87,11 +87,29 @@ class Pdf_Generator_For_WordPress_Public {
 		$id = get_the_ID();
 		global $wp;
 		$url_here            = home_url( $wp->request );
-		$display_setings_arr = get_option( 'mwb_pgfw_display_settings', array() );
-		$user_access_pdf     = array_key_exists( 'user_access', $display_setings_arr ) ? $display_setings_arr['user_access'] : '';
-		$guest_access_pdf    = array_key_exists( 'guest_access', $display_setings_arr ) ? $display_setings_arr['guest_access'] : '';
-		if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ) ) {
-			if ( ! is_cart() && ! is_checkout() && ! is_shop() && ! is_account_page() ) {
+		$display_setings_arr = get_option( 'pgfw_save_admin_display_settings', array() );
+		$user_access_pdf     = array_key_exists( 'pgfw_user_access', $display_setings_arr ) ? $display_setings_arr['pgfw_user_access'] : '';
+		$guest_access_pdf    = array_key_exists( 'pgfw_guest_access', $display_setings_arr ) ? $display_setings_arr['pgfw_guest_access'] : '';
+
+		$pgfw_advanced_settings_arr = get_option( 'pgfw_advanced_save_settings', array() );
+		$pgfw_show_icons_to_posts   = array_key_exists( 'pgfw_advanced_show_post_type_icons', $pgfw_advanced_settings_arr ) ? $pgfw_advanced_settings_arr['pgfw_advanced_show_post_type_icons'] : array();
+		if ( in_array( get_post_type( $id ), $pgfw_show_icons_to_posts, true ) ) {
+			if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ) ) {
+				if ( ! is_cart() && ! is_checkout() && ! is_shop() && ! is_account_page() ) {
+					if ( ( 'yes' === $guest_access_pdf ) && ( 'yes' === $user_access_pdf ) ) {
+						echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput
+						$this->pgfw_download_pdf_button_show( $url_here, $id );
+					} elseif ( ( 'yes' === $guest_access_pdf ) && ! is_user_logged_in() ) {
+						echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput
+						$this->pgfw_download_pdf_button_show( $url_here, $id );
+					} elseif ( ( 'yes' === $user_access_pdf ) && is_user_logged_in() ) {
+						echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput
+						$this->pgfw_download_pdf_button_show( $url_here, $id );
+					}
+				} else {
+					echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput
+				}
+			} else {
 				if ( ( 'yes' === $guest_access_pdf ) && ( 'yes' === $user_access_pdf ) ) {
 					echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput
 					$this->pgfw_download_pdf_button_show( $url_here, $id );
@@ -102,20 +120,9 @@ class Pdf_Generator_For_WordPress_Public {
 					echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput
 					$this->pgfw_download_pdf_button_show( $url_here, $id );
 				}
-			} else {
-				echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput
 			}
 		} else {
-			if ( ( 'yes' === $guest_access_pdf ) && ( 'yes' === $user_access_pdf ) ) {
-				echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput
-				$this->pgfw_download_pdf_button_show( $url_here, $id );
-			} elseif ( ( 'yes' === $guest_access_pdf ) && ! is_user_logged_in() ) {
-				echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput
-				$this->pgfw_download_pdf_button_show( $url_here, $id );
-			} elseif ( ( 'yes' === $user_access_pdf ) && is_user_logged_in() ) {
-				echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput
-				$this->pgfw_download_pdf_button_show( $url_here, $id );
-			}
+			echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput
 		}
 	}
 	/**
@@ -137,7 +144,7 @@ class Pdf_Generator_For_WordPress_Public {
 		?>
 		<div style="text-align:center;">
 			<div>
-				<a href="<?php echo esc_html( $url_here ); ?>" class="pgfw-single-pdf-download-button"><img src="<?php echo esc_url( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/PDF_Tray.svg'; ?>" title="<?php esc_html_e( 'Generate PDF', 'pdf-generator-for-wordpress' ); ?>"></a> | 
+				<a href="<?php echo esc_html( $url_here ); ?>" class="pgfw-single-pdf-download-button"><img src="<?php echo esc_url( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/PDF_Tray.svg'; ?>" title="<?php esc_html_e( 'Generate PDF', 'pdf-generator-for-wordpress' ); ?>"></a>
 				<a href="javascript:void(0)" data-product-id="<?php echo esc_html( $id ); ?>" id="pgfw-bulk-product-add" class="pgfw-single-pdf-download-button"><img src="<?php echo esc_url( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/download_PDF.svg'; ?>" title="<?php esc_html_e( 'Add to Bulk Cart', 'pdf-generator-for-wordpress' ); ?>"></a>
 				<?php
 				if ( isset( $_SESSION['bulk_products'] ) && count( $_SESSION['bulk_products'] ) > 0 ) {

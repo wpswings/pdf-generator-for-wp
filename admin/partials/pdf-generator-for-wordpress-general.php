@@ -21,8 +21,8 @@ $pgfw_genaral_settings = apply_filters( 'pgfw_general_settings_array', array() )
 <form action="" method="POST" class="mwb-pgfw-gen-section-form">
 	<div class="pgfw-secion-wrap">
 		<?php
-		$pgfw_general_html = $pgfw_mwb_pgfw_obj->mwb_pgfw_plug_generate_html( $pgfw_genaral_settings );
-		echo esc_html( $pgfw_general_html );
+		wp_nonce_field( 'nonce_settings_save', 'pgfw_nonce_field' );
+		$pgfw_mwb_pgfw_obj->mwb_pgfw_plug_generate_html( $pgfw_genaral_settings );
 		?>
 	</div>
 </form>
