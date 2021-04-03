@@ -112,19 +112,6 @@ class Pdf_Generator_For_WordPress_Admin {
 		}
 		wp_enqueue_media();
 		wp_enqueue_script( 'mwb-pgfw-admin-custom-setting-js', PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'admin/src/js/pdf-generator-for-wordpress-admin-custom.js', array( 'jquery', 'wp-color-picker' ), $this->version, true );
-		// wp_localize_script(
-		// 	'mwb-pgfw-admin-custom-setting-js',
-		// 	'mwb_pgfw_save_settings_obj',
-		// 	array(
-		// 		'ajaxurl'               => admin_url( 'admin-ajax.php' ),
-		// 		'nonce'                 => wp_create_nonce( 'pgfw_setting_save_nonce' ),
-		// 		'loader_url'            => PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'admin/src/images/loader.gif',
-		// 		'saved_msg'             => __( 'Re Submit', 'pdf-generator-for-wordpress' ),
-		// 		'custom_file_error_msg' => '<div class="notice notice-error is-dismissible">
-		// 										<p>' . esc_html__( 'Please fill custom file name if you choose the file name to be custom.', 'pdf-generator-for-wordpress' ) . '</p>
-		// 									</div>',
-		// 	),
-		// );
 	}
 
 	/**
@@ -335,7 +322,7 @@ class Pdf_Generator_For_WordPress_Admin {
 	 * @since 1.0.0
 	 */
 	public function pgfw_admin_save_tab_settings() {
-		global $pgfw_mwb_pgfw_obj;
+		global $pgfw_mwb_pgfw_obj, $mwb_pgfw_gen_flag, $pgfw_save_check_flag;
 		$settings_general_arr = array();
 		$pgfw_save_check_flag = false;
 		if ( isset( $_POST['pgfw_nonce_field'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['pgfw_nonce_field'] ) ), 'nonce_settings_save' ) ) {
@@ -400,13 +387,8 @@ class Pdf_Generator_For_WordPress_Admin {
 							}
 						}
 					}
-					if ( $mwb_pgfw_gen_flag ) {
-						$mwb_pgfw_error_text = esc_html__( 'There might be some error, Please reload the page and try again.', 'pdf-generator-for-wordpress' );
-						$pgfw_mwb_pgfw_obj->mwb_pgfw_plug_admin_notice( $mwb_pgfw_error_text, 'error' );
-					} else {
+					if ( ! $mwb_pgfw_gen_flag ) {
 						update_option( $key, $settings_general_arr );
-						$mwb_pgfw_error_text = esc_html__( 'Settings saved successfully !', 'pdf-generator-for-wordpress' );
-						$pgfw_mwb_pgfw_obj->mwb_pgfw_plug_admin_notice( $mwb_pgfw_error_text, 'success' );
 					}
 				}
 			}
@@ -472,7 +454,9 @@ class Pdf_Generator_For_WordPress_Admin {
 	 */
 	public function pgfw_admin_header_settings_page( $pgfw_settings_header_fields_html_arr ) {
 		$pgfw_header_settings   = get_option( 'pgfw_header_setting_submit', array() );
+		$pgfw_header_use_in_pdf = array_key_exists( 'pgfw_header_use_in_pdf', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_use_in_pdf'] : '';
 		$pgfw_header_logo       = array_key_exists( 'sub_pgfw_header_image_upload', $pgfw_header_settings ) ? $pgfw_header_settings['sub_pgfw_header_image_upload'] : '';
+		$pgfw_header_comp_name  = array_key_exists( 'pgfw_header_company_name', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_company_name'] : '';
 		$pgfw_header_tagline    = array_key_exists( 'pgfw_header_tagline', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_tagline'] : '';
 		$pgfw_header_color      = array_key_exists( 'pgfw_header_color', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_color'] : '';
 		$pgfw_header_width      = array_key_exists( 'pgfw_header_width', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_width'] : '';
@@ -480,6 +464,15 @@ class Pdf_Generator_For_WordPress_Admin {
 		$pgfw_header_font_size  = array_key_exists( 'pgfw_header_font_size', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_font_size'] : '';
 
 		$pgfw_settings_header_fields_html_arr = array(
+			array(
+				'title'       => __( 'Include Header', 'pdf-generator-for-wordpress' ),
+				'type'        => 'checkbox',
+				'description' => __( 'Select this include header on the page.', 'pdf-generator-for-wordpress' ),
+				'id'          => 'pgfw_header_use_in_pdf',
+				'value'       => $pgfw_header_use_in_pdf,
+				'class'       => 'pgfw_header_use_in_pdf',
+				'name'        => 'pgfw_header_use_in_pdf',
+			),
 			array(
 				'title'       => __( 'Choose logo', 'pdf-generator-for-wordpress' ),
 				'type'        => 'upload-button',
@@ -507,19 +500,29 @@ class Pdf_Generator_For_WordPress_Admin {
 				),
 			),
 			array(
-				'title'       => __( 'Tagline', 'pdf-generator-for-wordpress' ),
+				'title'       => __( 'Company name', 'pdf-generator-for-wordpress' ),
+				'type'        => 'text',
+				'description' => __( 'Company name will be displayed in the right side of the header', 'pdf-generator-for-wordpress' ),
+				'id'          => 'pgfw_header_company_name',
+				'value'       => $pgfw_header_comp_name,
+				'class'       => 'pgfw_header_company_name',
+				'name'        => 'pgfw_header_company_name',
+				'placeholder' => __( 'company name', 'pdf-generator-for-wordpress' ),
+			),
+			array(
+				'title'       => __( 'Tagline or address', 'pdf-generator-for-wordpress' ),
 				'type'        => 'textarea',
 				'class'       => 'pgfw_header_tagline',
 				'id'          => 'pgfw_header_tagline',
 				'name'        => 'pgfw_header_tagline',
-				'description' => __( 'Enter the tagline to show in header' ),
-				'placeholder' => __( 'tagline', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Enter the tagline or address to show in header' ),
+				'placeholder' => __( 'tagline or address', 'pdf-generator-for-wordpress' ),
 				'value'       => $pgfw_header_tagline,
 			),
 			array(
 				'title'       => __( 'Choose color', 'pdf-generator-for-wordpress' ),
 				'type'        => 'color',
-				'description' => __( 'Please choose color to display in the header', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Please choose text color to display in the header', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_header_color',
 				'value'       => $pgfw_header_color,
 				'class'       => 'pgfw_color_picker pgfw_header_color',
@@ -527,9 +530,9 @@ class Pdf_Generator_For_WordPress_Admin {
 				'placeholder' => __( 'color', 'pdf-generator-for-wordpress' ),
 			),
 			array(
-				'title'       => __( 'Choose width', 'pdf-generator-for-wordpress' ),
+				'title'       => __( 'Header Width', 'pdf-generator-for-wordpress' ),
 				'type'        => 'number',
-				'description' => __( 'Please choose width to display in the header accepted values are in px, please enter number only', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Please enter width to display in the header accepted values are in px, please enter number only', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_header_width',
 				'value'       => $pgfw_header_width,
 				'class'       => 'pgfw_header_width',

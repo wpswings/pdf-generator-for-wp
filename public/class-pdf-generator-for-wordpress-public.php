@@ -93,8 +93,8 @@ class Pdf_Generator_For_WordPress_Public {
 
 		$pgfw_advanced_settings_arr = get_option( 'pgfw_advanced_save_settings', array() );
 		$pgfw_show_icons_to_posts   = array_key_exists( 'pgfw_advanced_show_post_type_icons', $pgfw_advanced_settings_arr ) ? $pgfw_advanced_settings_arr['pgfw_advanced_show_post_type_icons'] : array();
-		if ( in_array( get_post_type( $id ), $pgfw_show_icons_to_posts, true ) ) {
-			if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ) ) {
+		if ( is_array( $pgfw_show_icons_to_posts ) && in_array( get_post_type( $id ), $pgfw_show_icons_to_posts, true ) ) {
+			if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins', array() ) ), true ) ) {
 				if ( ! is_cart() && ! is_checkout() && ! is_shop() && ! is_account_page() ) {
 					if ( ( 'yes' === $guest_access_pdf ) && ( 'yes' === $user_access_pdf ) ) {
 						echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput
@@ -141,10 +141,14 @@ class Pdf_Generator_For_WordPress_Public {
 			),
 			$url_here
 		);
+
+		$general_settings_data  = get_option( 'pgfw_general_settings_save', array() );
+		$pgfw_pdf_generate_mode = array_key_exists( 'pgfw_general_pdf_generate_mode', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_generate_mode'] : '';
+		$mode                   = ( 'open_window' === $pgfw_pdf_generate_mode ) ? 'target=_blank' : '';
 		?>
 		<div style="text-align:center;">
 			<div>
-				<a href="<?php echo esc_html( $url_here ); ?>" class="pgfw-single-pdf-download-button"><img src="<?php echo esc_url( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/PDF_Tray.svg'; ?>" title="<?php esc_html_e( 'Generate PDF', 'pdf-generator-for-wordpress' ); ?>"></a>
+				<a href="<?php echo esc_html( $url_here ); ?>" class="pgfw-single-pdf-download-button" <?php echo esc_html( $mode ); ?>><img src="<?php echo esc_url( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/PDF_Tray.svg'; ?>" title="<?php esc_html_e( 'Generate PDF', 'pdf-generator-for-wordpress' ); ?>"></a>
 				<a href="javascript:void(0)" data-product-id="<?php echo esc_html( $id ); ?>" id="pgfw-bulk-product-add" class="pgfw-single-pdf-download-button"><img src="<?php echo esc_url( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/download_PDF.svg'; ?>" title="<?php esc_html_e( 'Add to Bulk Cart', 'pdf-generator-for-wordpress' ); ?>"></a>
 				<?php
 				if ( isset( $_SESSION['bulk_products'] ) && count( $_SESSION['bulk_products'] ) > 0 ) {
@@ -154,6 +158,27 @@ class Pdf_Generator_For_WordPress_Public {
 			</div>
 		</div>
 		<?php
+	}
+	/**
+	 * Adding shortcode to show create pdf icon anywhere on the page.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function pgfw_shortcode_to_generate_pdf() {
+		add_shortcode( 'PGFW_GENERATE_PDF', array( $this, 'pgfw_callback_for_generating_pdf' ) );
+	}
+	/**
+	 * Callback function for shortcode.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function pgfw_callback_for_generating_pdf() {
+		global $wp;
+		$post_id  = get_the_ID();
+		$url_here = home_url( $wp->request );
+		$this->pgfw_download_pdf_button_show( $url_here, $post_id );
 	}
 
 }

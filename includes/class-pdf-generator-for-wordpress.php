@@ -231,17 +231,28 @@ class Pdf_Generator_For_WordPress {
 		$pgfw_plugin_common = new Pdf_Generator_For_WordPress_Common( $this->pgfw_get_plugin_name(), $this->pgfw_get_version() );
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_common, 'pgfw_common_enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_common, 'pgfw_common_enqueue_scripts' );
-		$this->loader->add_action( 'init', $pgfw_plugin_common, 'pgfw_generate_pdf_link_catching_user', 20 );
-		$this->loader->add_action( 'wp_ajax_nopriv_pgfw_bulk_add_products_ajax', $pgfw_plugin_common, 'pgfw_bulk_add_products_ajax', 10 );
-		$this->loader->add_action( 'wp_ajax_pgfw_bulk_add_products_ajax', $pgfw_plugin_common, 'pgfw_bulk_add_products_ajax', 10 );
-		$this->loader->add_action( 'init', $pgfw_plugin_common, 'pgfw_start_session_store_bulk_products', 1 );
-		$this->loader->add_action( 'wp_logout', $pgfw_plugin_common, 'pgfw_destroy_session_bulk_products' );
-		$this->loader->add_action( 'wp_ajax_pgfw_build_html_from_session', $pgfw_plugin_common, 'pgfw_build_html_from_session' );
-		$this->loader->add_action( 'wp_ajax_nopriv_pgfw_build_html_from_session', $pgfw_plugin_common, 'pgfw_build_html_from_session' );
-		$this->loader->add_action( 'wp_ajax_pgfw_delete_product_from_session', $pgfw_plugin_common, 'pgfw_delete_product_from_session' );
-		$this->loader->add_action( 'wp_ajax_nopriv_pgfw_delete_product_from_session', $pgfw_plugin_common, 'pgfw_delete_product_from_session' );
-		$this->loader->add_action( 'wp_ajax_mwb_pgfw_ajax_for_zip_or_pdf', $pgfw_plugin_common, 'mwb_pgfw_ajax_for_zip_or_pdf' );
-		$this->loader->add_action( 'wp_ajax_nopriv_mwb_pgfw_ajax_for_zip_or_pdf', $pgfw_plugin_common, 'mwb_pgfw_ajax_for_zip_or_pdf' );
+		$pdf_general_settings_arr = get_option( 'pgfw_general_settings_save', array() );
+		$pgfw_enable_plugin       = array_key_exists( 'pgfw_enable_plugin', $pdf_general_settings_arr ) ? $pdf_general_settings_arr['pgfw_enable_plugin'] : '';
+		if ( 'yes' === $pgfw_enable_plugin ) {
+			// catching pdf generate link with $_GET.
+			$this->loader->add_action( 'init', $pgfw_plugin_common, 'pgfw_generate_pdf_link_catching_user', 20 );
+			// add product to bulk pdf ajax.
+			$this->loader->add_action( 'wp_ajax_nopriv_pgfw_bulk_add_products_ajax', $pgfw_plugin_common, 'pgfw_bulk_add_products_ajax', 10 );
+			$this->loader->add_action( 'wp_ajax_pgfw_bulk_add_products_ajax', $pgfw_plugin_common, 'pgfw_bulk_add_products_ajax', 10 );
+			// starting session to store bulk product.
+			$this->loader->add_action( 'init', $pgfw_plugin_common, 'pgfw_start_session_store_bulk_products', 1 );
+			// destroying session once logout.
+			$this->loader->add_action( 'wp_logout', $pgfw_plugin_common, 'pgfw_destroy_session_bulk_products' );
+			// ajax to build hml table from session.
+			$this->loader->add_action( 'wp_ajax_pgfw_build_html_from_session', $pgfw_plugin_common, 'pgfw_build_html_from_session' );
+			$this->loader->add_action( 'wp_ajax_nopriv_pgfw_build_html_from_session', $pgfw_plugin_common, 'pgfw_build_html_from_session' );
+			// deleting product from session bulk products.
+			$this->loader->add_action( 'wp_ajax_pgfw_delete_product_from_session', $pgfw_plugin_common, 'pgfw_delete_product_from_session' );
+			$this->loader->add_action( 'wp_ajax_nopriv_pgfw_delete_product_from_session', $pgfw_plugin_common, 'pgfw_delete_product_from_session' );
+			// ajax for creating zip of bulk product or continuation of bulk products.
+			$this->loader->add_action( 'wp_ajax_mwb_pgfw_ajax_for_zip_or_pdf', $pgfw_plugin_common, 'mwb_pgfw_ajax_for_zip_or_pdf' );
+			$this->loader->add_action( 'wp_ajax_nopriv_mwb_pgfw_ajax_for_zip_or_pdf', $pgfw_plugin_common, 'mwb_pgfw_ajax_for_zip_or_pdf' );
+		}
 	}
 
 	/**
@@ -257,8 +268,13 @@ class Pdf_Generator_For_WordPress {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_public, 'pgfw_public_enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_public, 'pgfw_public_enqueue_scripts' );
-		// Single post listing page/post pdf generate button.
-		$this->loader->add_filter( 'the_content', $pgfw_plugin_public, 'pgfw_show_download_icon_to_users', 20 );
+		$pdf_general_settings_arr = get_option( 'pgfw_general_settings_save', array() );
+		$pgfw_enable_plugin       = array_key_exists( 'pgfw_enable_plugin', $pdf_general_settings_arr ) ? $pdf_general_settings_arr['pgfw_enable_plugin'] : '';
+		if ( 'yes' === $pgfw_enable_plugin ) {
+			// Single post pdf generate button.
+			$this->loader->add_filter( 'the_content', $pgfw_plugin_public, 'pgfw_show_download_icon_to_users', 20 );
+			$this->loader->add_action( 'plugins_loaded', $pgfw_plugin_public, 'pgfw_shortcode_to_generate_pdf' );
+		}
 
 	}
 
@@ -461,7 +477,7 @@ class Pdf_Generator_For_WordPress {
 				break;
 		}
 
-		$pgfw_notice  = '<div class="' . esc_attr( $pgfw_classes ) . ' mwb-errorr-8">';
+		$pgfw_notice  = '<div class="' . esc_attr( $pgfw_classes ) . ' mwb-errorr-5">';
 		$pgfw_notice .= '<p>' . esc_html( $pgfw_message ) . '</p>';
 		$pgfw_notice .= '</div>';
 
@@ -566,7 +582,8 @@ class Pdf_Generator_For_WordPress {
 										<textarea class="mdc-text-field__input <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>" rows="2" cols="25" aria-label="Label" name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>" id="<?php echo esc_attr( $pgfw_component['id'] ); ?>" placeholder="<?php echo ( isset( $pgfw_component['placeholder'] ) ? esc_attr( $pgfw_component['placeholder'] ) : '' ); ?>"><?php echo ( isset( $pgfw_component['value'] ) ? esc_textarea( $pgfw_component['value'] ) : '' ); ?></textarea>
 									</span>
 								</label>
-
+								<br/>
+								<label class="mdl-textfield__label" for="octane"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></label>
 							</div>
 						</div>
 

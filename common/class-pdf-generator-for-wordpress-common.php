@@ -184,7 +184,7 @@ class Pdf_Generator_For_WordPress_Common {
 							<div class="pgfw_bulk_content-img"><img style="width:70px;height:70px;"src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php esc_html_e( 'no image found', 'pdf-generator-for-wordpress' ); ?>"></div>
 						</li>
 						<li>
-							<div class="pgfw_bulk_content-title"><?php echo esc_html( $post->post_title ); ?></div>
+							<div class="pgfw_bulk_content-title"><?php echo esc_html( substr( $post->post_title, 0, 30 ) ); ?></div>
 						</li>
 						<li>
 							<div><a href="javascript:void(0);" class="pgfw-delete-this-products-bulk" data-product-id="<?php echo esc_html( $product_id ); ?>"><?php esc_html_e( 'delete', 'pdf-generator-for-wordpress' ); ?></a></div>

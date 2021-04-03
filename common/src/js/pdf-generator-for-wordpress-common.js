@@ -29,7 +29,7 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 	 jQuery(document).ready(function($){
-		// add product ajax.
+		// add product to bulk ajax.
 		$('#pgfw-bulk-product-add').click(function(e){
 			e.preventDefault();
 			var self = this;
@@ -53,13 +53,15 @@
 				},
 				error: function() {
 					$(self).html(cur_html);
-					alert('no');
 				}
 			});
 		});
 		// bulk display of products chart ajax.
 		$('.mwb_pgw-button').click(function(e){
 			e.preventDefault();
+			var self = this;
+			var cur_html = $(self).html();
+			$(self).html('<img src="' + pgfw_common_param.loader + '" style="width:20px;height:20px;display:inline;">');
 			$.ajax({
 				url    : pgfw_common_param.ajaxurl,
 				method : 'post',
@@ -69,9 +71,11 @@
 				},
 				success: function( msg ) {
 					$('.mwb_pgw-button_content').html(msg);
+					$(self).html(cur_html);
+
 				},
 				error: function() {
-					alert('no');
+					$(self).html(cur_html);
 				}
 			});
 		});
@@ -80,7 +84,7 @@
 			e.preventDefault();
 			var self = this;
 			var cur_html = $(self).html();
-			$(self).html('<img src="' + pgfw_common_param.loader + '" style="width:20px;height:20px;display:inline;">');
+			$(self).html('<img src="' + pgfw_common_param.loader + '" style="width:10px;height:10px;display:inline;">');
 			var product_id = $(this).data('product-id');
 			$.ajax({
 				url    : pgfw_common_param.ajaxurl,
@@ -102,7 +106,6 @@
 				},
 				error: function() {
 					$(self).html(cur_html);
-					alert('no');
 				}
 			});
 		});
@@ -136,10 +139,7 @@
 					$('#pgfw-download-zip-parent').html('<a href="' + msg + '" download id="pgfw-download-zip"></a>');
 					$('#pgfw-download-zip')[0].click();
 					$('#pgfw-download-zip-parent').html('');
-				},
-				error: function() {
-					alert('error');
-				} 
+				}
 			});
 		}
 	});
