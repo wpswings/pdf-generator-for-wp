@@ -355,4 +355,46 @@ class Pdf_Generator_For_WordPress_Common {
 		}
 
 	}
+	/**
+	 * Download button for posters as shortcode callback.
+	 *
+	 * @since 1.0.0
+	 * @param string $atts attributes for shortcodes for downloading posters.
+	 * @return void
+	 */
+	public function pgfw_download_button_posters( $atts ) {
+		$atts = shortcode_atts(
+			array(
+				'id' => 0,
+			),
+			$atts
+		);
+
+		$pgfw_advanced_settings = get_option( 'pgfw_advanced_save_settings', array() );
+		$poster_images          = array_key_exists( 'sub_pgfw_poster_image_upload', $pgfw_advanced_settings ) ? $pgfw_advanced_settings['sub_pgfw_poster_image_upload'] : '';
+		if ( '' !== $poster_images ) {
+			$pgfw_poster_image = json_decode( $poster_images, true );
+			if ( is_array( $pgfw_poster_image ) ) {
+				$i = 0;
+				foreach ( $pgfw_poster_image as $file_name => $file_path ) {
+					if ( $i === (int) $atts['id'] ) {
+						?>
+						<a href="<?php echo esc_url( $file_path ); ?>" download><?php esc_html_e( 'Download Poster' ); ?></a>
+						<?php
+						break;
+					}
+					$i++;
+				}
+			}
+		}
+	}
+	/**
+	 * Shortcode for link generation of poster download.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function pgfw_poster_download_shortcode() {
+		add_shortcode( 'PGFW_DOWNLOAD_POSTER', array( $this, 'pgfw_download_button_posters' ) );
+	}
 }

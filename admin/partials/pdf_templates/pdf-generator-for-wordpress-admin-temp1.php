@@ -56,15 +56,22 @@ function return_ob_html( $post_id ) {
 	$pgfw_show_post_author     = array_key_exists( 'pgfw_general_pdf_show_author_name', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_author_name'] : '';
 	// meta fields settings.
 	$pgfw_meta_settings = get_option( 'pgfw_meta_fields_save_settings', array() );
+	// footer settings.
+	$pgfw_footer_settings   = get_option( 'pgfw_footer_setting_submit', array() );
+	$pgfw_footer_use_in_pdf = array_key_exists( 'pgfw_footer_use_in_pdf', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_use_in_pdf'] : '';
+	$pgfw_footer_tagline    = array_key_exists( 'pgfw_footer_tagline', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_tagline'] : '';
+	$pgfw_footer_color      = array_key_exists( 'pgfw_footer_color', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_color'] : '';
+	$pgfw_footer_width      = array_key_exists( 'pgfw_footer_width', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_width'] : '';
+	$pgfw_footer_font_style = array_key_exists( 'pgfw_footer_font_style', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_font_style'] : '';
+	$pgfw_footer_font_size  = array_key_exists( 'pgfw_footer_font_size', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_font_size'] : '';
 
 	$html = '<style>
-				@page {
-					margin-top: ' . $pgfw_body_margin_top . ';
-					margin-left: ' . $pgfw_body_margin_left . ';
-					margin-right: ' . $pgfw_body_margin_right . ';
-				}
-			</style>
-			<div class="pgfw-pdf-temp">';
+	@page {
+		margin-top: ' . $pgfw_body_margin_top . ';
+		margin-left: ' . $pgfw_body_margin_left . ';
+		margin-right: ' . $pgfw_body_margin_right . ';
+	}
+	</style>';
 	// Header for pdf.
 	if ( 'yes' === $pgfw_header_use_in_pdf ) {
 		$html .= '<style>
@@ -73,20 +80,22 @@ function return_ob_html( $post_id ) {
 						padding : ' . $pgfw_header_width . 'px;
 						font-family: ' . $pgfw_header_font_style . ';
 						font-size: ' . $pgfw_header_font_size . ';
+						overflow: hidden;
 					}
-					.pgfw-header-footer-logo{
+					.pgfw-header-logo{
 						width: 50px;
 						height: 50px;
 					}
-					.pgfw-header-footer-tagline{
+					.pgfw-header-tagline{
 						float:right;
 						color: ' . $pgfw_header_color . ';
+						overflow: hidden;
 					}
 				</style>
 				<div>
 					<div class="pgfw-pdf-header">
-						<img src="' . esc_url( $pgfw_header_logo ) . '" alt="' . esc_html__( 'No image found' ) . '" class="pgfw-header-footer-logo">
-						<div class="pgfw-header-footer-tagline" >
+						<img src="' . esc_url( $pgfw_header_logo ) . '" alt="' . esc_html__( 'No image found' ) . '" class="pgfw-header-logo">
+						<div class="pgfw-header-tagline" >
 							<span><b>' . esc_html( strtoupper( $pgfw_header_comp_name ) ) . '</b></span><br/>
 							<span>' . esc_html( $pgfw_header_tagline ) . '</span>
 						</div>
@@ -94,6 +103,36 @@ function return_ob_html( $post_id ) {
 				</div>';
 	}
 
+	// footer for pdf.
+	if ( 'yes' === $pgfw_footer_use_in_pdf ) {
+		$html .= '<style>
+			.pgfw-pdf-footer{
+				position: fixed;
+				left: 0px;
+				bottom: -150px;
+				height: 150px;
+				border-top: 2px solid gray;
+				padding: ' . $pgfw_footer_width . 'px;
+				font-family: ' . $pgfw_footer_font_style . ';
+				font-size: ' . $pgfw_footer_font_size . ';
+			}
+			.pgfw-footer-tagline{
+				color: ' . $pgfw_footer_color . ';
+				text-align: center;
+				overflow:hidden;
+			}
+			.pgfw-footer-pageno:after {
+				content: "Page " counter(page);
+				// overflow : hidden;
+			}
+		</style>';
+		$html .= '<div class="pgfw-pdf-footer">
+					<div class="pgfw-footer-tagline" >
+						<span>' . esc_html( $pgfw_footer_tagline ) . '</span>
+					</div>
+					<span class="pgfw-footer-pageno"></span>
+				</div>';
+	}
 	// body for pdf.
 	$post = get_post( $post_id );
 	if ( is_object( $post ) ) {
@@ -130,6 +169,11 @@ function return_ob_html( $post_id ) {
 					<div class="pgfw-pdf-body-title">
 						' . do_shortcode( $post->post_title ) . '
 					</div>
+					<h3>' . esc_html__( 'Short Description/Excerpt', 'pdf-generator-for-wordpress' ) . '</h3>
+					<div class="pgfw-pdf-body-content">
+						' . do_shortcode( $post->post_excerpt ) . '
+					</div>
+					<h3>' . esc_html__( 'Description', 'pdf-generator-for-wordpress' ) . '</h3>
 					<div class="pgfw-pdf-body-content">
 						' . do_shortcode( $post->post_content ) . '
 					</div>';
@@ -188,8 +232,8 @@ function return_ob_html( $post_id ) {
 				}
 			}
 		}
-		$html .= '</div>';
+		$html .= '</div>
+		<span style="page-break-after: always;overflow:hidden;"></span>';
 	}
-	$html .= '</div>';
 	return $html;
 }

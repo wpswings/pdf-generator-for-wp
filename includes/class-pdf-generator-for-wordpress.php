@@ -252,6 +252,7 @@ class Pdf_Generator_For_WordPress {
 			// ajax for creating zip of bulk product or continuation of bulk products.
 			$this->loader->add_action( 'wp_ajax_mwb_pgfw_ajax_for_zip_or_pdf', $pgfw_plugin_common, 'mwb_pgfw_ajax_for_zip_or_pdf' );
 			$this->loader->add_action( 'wp_ajax_nopriv_mwb_pgfw_ajax_for_zip_or_pdf', $pgfw_plugin_common, 'mwb_pgfw_ajax_for_zip_or_pdf' );
+			$this->loader->add_action( 'plugins_loaded', $pgfw_plugin_common, 'pgfw_poster_download_shortcode' );
 		}
 	}
 
@@ -268,12 +269,24 @@ class Pdf_Generator_For_WordPress {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_public, 'pgfw_public_enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_public, 'pgfw_public_enqueue_scripts' );
-		$pdf_general_settings_arr = get_option( 'pgfw_general_settings_save', array() );
-		$pgfw_enable_plugin       = array_key_exists( 'pgfw_enable_plugin', $pdf_general_settings_arr ) ? $pdf_general_settings_arr['pgfw_enable_plugin'] : '';
+		$pdf_general_settings_arr     = get_option( 'pgfw_general_settings_save', array() );
+		$pgfw_enable_plugin           = array_key_exists( 'pgfw_enable_plugin', $pdf_general_settings_arr ) ? $pdf_general_settings_arr['pgfw_enable_plugin'] : '';
+		$pgfw_pdf_icon_after          = array_key_exists( 'pgfw_general_pdf_icon_after', $pdf_general_settings_arr ) ? $pdf_general_settings_arr['pgfw_general_pdf_icon_after'] : '';
+		$pgfw_exclude_wp_filter_hooks = array( 'before_content', 'after_content' );
 		if ( 'yes' === $pgfw_enable_plugin ) {
-			// Single post pdf generate button.
-			$this->loader->add_filter( 'the_content', $pgfw_plugin_public, 'pgfw_show_download_icon_to_users', 20 );
 			$this->loader->add_action( 'plugins_loaded', $pgfw_plugin_public, 'pgfw_shortcode_to_generate_pdf' );
+			if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ) ) {
+				if ( '' !== $pgfw_pdf_icon_after && ! in_array( $pgfw_pdf_icon_after, $pgfw_exclude_wp_filter_hooks, true ) ) {
+					// post to pdf generate button if woocomerce is activated.
+					$this->loader->add_action( $pgfw_pdf_icon_after, $pgfw_plugin_public, 'pgfw_show_download_icon_to_users_for_woocommerce' );
+				} else {
+					// Post to pdf generate button if woocommerce is not activated.
+					$this->loader->add_filter( 'the_content', $pgfw_plugin_public, 'pgfw_show_download_icon_to_users', 20 );
+				}
+			} else {
+				// Post to pdf generate button if woocommerce is not activated.
+				$this->loader->add_filter( 'the_content', $pgfw_plugin_public, 'pgfw_show_download_icon_to_users', 20 );
+			}
 		}
 
 	}
@@ -772,7 +785,7 @@ class Pdf_Generator_For_WordPress {
 												type="<?php echo esc_attr( 'color' === $component['type'] ) ? 'text' : esc_html( $component['type'] ); ?>"
 												value="<?php echo ( isset( $component['value'] ) ? esc_attr( $component['value'] ) : '' ); ?>"
 												placeholder="<?php echo ( isset( $component['placeholder'] ) ? esc_attr( $component['placeholder'] ) : '' ); ?>"
-												<?php echo esc_attr( ( 'number' === $component['type'] ) ? 'max=10 min=0' : '' ); ?>
+												<?php echo esc_attr( ( 'number' === $component['type'] ) ? 'min=' . $component['min'] . ' max=' . $component['max'] : '' ); ?>
 												>
 												<?php if ( 'color' !== $component['type'] ) { ?>
 											</label>

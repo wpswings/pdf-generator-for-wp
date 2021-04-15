@@ -24,6 +24,7 @@ $pgfw_settings_display_fields = apply_filters( 'pgfw_display_settings_array', ar
 		wp_nonce_field( 'nonce_settings_save', 'pgfw_nonce_field' );
 		$pgfw_mwb_pgfw_obj->mwb_pgfw_plug_generate_html( $pgfw_settings_display_fields );
 		?>
+		<div><?php echo esc_html__( 'Add', 'pdf-generator-fpr-wordpress' ) . ' <b>[PGFW_GENERATE_PDF]</b> ' . esc_html__( 'shortcode anywhere on your page or posts to display pdf generating icon.' ); ?></div>
 	</div>
 </form>
 

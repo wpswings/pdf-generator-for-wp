@@ -65,19 +65,21 @@ class Pdf_Generator_For_WordPress_Activator {
 			$product_meta           = array_key_exists( 'product', $pgfw_meta_fields ) ? $pgfw_meta_fields['product'] : '';
 			$pgfw_new_settings      = array(
 				'mwb_pgfw_general_settings'     => array(
-					'enable_plugin'        => ( $pgfw_frontend_show ) ? 'yes' : 'no',
-					'default_pdf_icon'     => 'yes',
-					'show_post_categories' => ( $pgfw_show_category ) ? 'yes' : 'no',
-					'show_post_tags'       => ( $pgfw_post_tags ) ? 'yes' : 'no',
-					'show_post_date'       => ( $pgfw_post_date ) ? 'yes' : 'no',
-					'show_post_author'     => ( ( 'none' !== $author_name ) && ( '' !== $author_name ) ) ? 'yes' : 'no',
-					'pdf_generate_mode'    => 'download_locally',
-					'pdf_file_name'        => ( 'post_id' === $pgfw_file_name ) ? 'document_productid' : $pgfw_file_name,
-					'pdf_file_name_custom' => '',
+					'enable_plugin'                   => ( $pgfw_frontend_show ) ? 'yes' : 'no',
+					'pgfw_general_pdf_icon_after'     => 'after_content',
+					'pgfw_general_pdf_icon_alignment' => 'center',
+					'show_post_categories'            => ( $pgfw_show_category ) ? 'yes' : 'no',
+					'show_post_tags'                  => ( $pgfw_post_tags ) ? 'yes' : 'no',
+					'show_post_date'                  => ( $pgfw_post_date ) ? 'yes' : 'no',
+					'show_post_author'                => ( ( 'none' !== $author_name ) && ( '' !== $author_name ) ) ? 'yes' : 'no',
+					'pdf_generate_mode'               => 'download_locally',
+					'pdf_file_name'                   => ( 'post_id' === $pgfw_file_name ) ? 'document_productid' : $pgfw_file_name,
+					'pdf_file_name_custom'            => '',
 				),
 				'mwb_pgfw_display_settings'     => array(
-					'user_access'  => 'yes',
-					'guest_access' => ( 'guestuser' === $pgfw_show_option ) ? 'yes' : 'no',
+					'user_access'               => 'yes',
+					'guest_access'              => ( 'guestuser' === $pgfw_show_option ) ? 'yes' : 'no',
+					'pgfw_bulk_download_enable' => 'yes',
 				),
 				'mwb_pgfw_header_settings'      => array(
 					'header_image'      => $header_image,
@@ -119,7 +121,6 @@ class Pdf_Generator_For_WordPress_Activator {
 				),
 				'mwb_pgfw_advanced_settings'    => array(
 					'advanced_pdf_generate_icons_show' => array( 'page', 'post', 'product' ),
-					'advanced_pdf_password_protect'    => 'no',
 				),
 				'mwb_pgfw_meta_fields_settings' => array(
 					'post_meta_show'    => ( $post_meta ) ? 'yes' : 'no',
@@ -156,7 +157,6 @@ class Pdf_Generator_For_WordPress_Activator {
 					'header_font_size'  => 10,
 				),
 				'mwb_pgfw_footer_settings'      => array(
-					'footer_image'      => '',
 					'footer_tagline'    => '',
 					'footer_color'      => '#000000',
 					'footer_width'      => 10,
