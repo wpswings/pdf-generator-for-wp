@@ -2,7 +2,7 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
- .pgfw-badge {
+.pgfw-badge {
     background-color: blue;
     color: white;
     border-radius: 10px;
@@ -18,8 +18,8 @@
 
 .pgfw-single-pdf-download-button img {
     display: inline;
-    width:auto;
-    height:25px;
+    width: auto;
+    height: 25px;
 }
 
 .pgfw-single-pdf-download-button {
@@ -27,7 +27,7 @@
 }
 
 .pgfw-single-pdf-download-button:focus {
-    outline:none;
+    outline: none;
 }
 
 /*Floating element CSS*/
@@ -151,4 +151,60 @@
 /*Classes used in JS*/
 .mwb_pgw-out {
     right: 0;
+}
+
+/*popup modal of email input=========start*/
+#TB_window {
+    z-index: 1000000 !important;
+    width: 90% !important;
+    max-width: 400px;
+    transform: translate(-50%, -50%);
+    margin: 0 !important;
+    box-shadow: 0 0 0 5000px rgb(0 0 0 / 74%) !important;
+}
+
+/*popup modal*/
+.mwb_pgfw_email_input {
+    display: flex;
+    flex-direction: column;
+}
+
+.mwb_pgfw_email_input label {
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #1a1a1a;
+}
+
+.mwb_pgfw_email_input input {
+    border: 1px solid #333333!important;
+    box-shadow: none!important;
+    background-color: rgb(26 51 101 / 5%)!important;
+    margin-bottom: 10px;
+}
+
+.mwb_pgfw_email_input input:focus {
+    outline:none;
+    box-shadow: none;
+}
+
+.mwb_pgfw_email_button {
+    margin-top: 10px;
+}
+
+.mwb_pgfw_email_button button {
+    background-color: #333333;
+    color: #ffffff;
+    border:none;
+}
+
+.mwb_pgfw_email_button button:focus {
+    border:none;
+    outline:none;
+    color:#ffffff;
+}
+
+@media screen and (max-width: 480px) {
+    .mwb_pgfw_email_input {
+        width: 66%;
+    }
 }

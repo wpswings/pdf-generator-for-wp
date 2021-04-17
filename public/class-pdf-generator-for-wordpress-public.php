@@ -233,25 +233,25 @@ class Pdf_Generator_For_WordPress_Public {
 		</div>
 		<div id="single-pdf-download" style="display:none;">
 			<input type="hidden" name="post_id" id="pgfw_current_post_id" data-post-id="<?php echo esc_html( $id ); ?>">
-			<div>
+			<div class="mwb_pgfw_email_input">
 				<label for="pgfw-user-email-input">
 					<?php esc_html_e( 'Email ID', 'pdf-generator-for-wordpress' ); ?>
-					<input type="email" id="pgfw-user-email-input" name="pgfw-user-email-input">
 				</label>
+				<input type="email" id="pgfw-user-email-input" name="pgfw-user-email-input">
 			</div>
 			<?php
 			if ( is_user_logged_in() ) {
 				?>
-				<div>
+				<div class="mwb_pgfw_email_account">
+					<input type="checkbox" id="pgfw-user-email-from-account" name="pgfw-user-email-from-account">
 					<label for="pgfw-user-email-from-account">
-						<input type="checkbox" id="pgfw-user-email-from-account" name="pgfw-user-email-from-account">
 						<?php esc_html_e( 'Use account Email ID instead.', 'pdf-generator-for-wordpress' ); ?>
 					</label>
 				</div>
 				<?php
 			}
 			?>
-			<div style="padding:10px;">
+			<div class="mwb_pgfw_email_button">
 				<button id="pgfw-submit-email-user"><?php esc_html_e( 'Submit', 'pdf-generator-for-wordpress' ); ?></button>
 			</div>
 			<div id="pgfw-user-email-submittion-message"></div>
