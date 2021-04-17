@@ -66,8 +66,8 @@
 				url    : pgfw_common_param.ajaxurl,
 				method : 'post',
 				data   : {
-					action     : 'pgfw_build_html_from_session',
-					nonce: pgfw_common_param.nonce,
+					action  : 'pgfw_build_html_from_session',
+					nonce   : pgfw_common_param.nonce,
 				},
 				success: function( msg ) {
 					$('.mwb_pgw-button_content').html(msg);
@@ -133,7 +133,7 @@
 				data   : {
 					action : 'mwb_pgfw_ajax_for_zip_or_pdf',
 					nonce  : pgfw_common_param.nonce,
-					name   : name
+					name   : name,
 				},
 				success: function( msg ) {
 					$('#pgfw-download-zip-parent').html('<a href="' + msg + '" download id="pgfw-download-zip"></a>');
@@ -142,5 +142,54 @@
 				}
 			});
 		}
+		// user email submittion from modal on creating single PDF.
+		$('#pgfw-submit-email-user').click(function(e){
+			e.preventDefault();
+			var post_id           = $('#pgfw_current_post_id').data('post-id');
+			var email             = $('#pgfw-user-email-input').val();
+			var use_account_email = $('#pgfw-user-email-from-account').is(':checked');
+			$('#pgfw-user-email-submittion-message').html(pgfw_common_param.processing_html);
+			$.ajax({
+				url    : pgfw_common_param.ajaxurl,
+				method : 'post',
+				data   : {
+					action  : 'mwb_pgfw_ajax_for_zip_or_pdf',
+					nonce   : pgfw_common_param.nonce,
+					name    : 'single_pdf_mail',
+					email   : ( use_account_email ) ? 'use_account_email' : email,
+					post_id : post_id
+				},
+				success: function( msg ) {
+					$('#pgfw-user-email-submittion-message').html(msg);
+				}, error : function() {
+					$('#pgfw-user-email-submittion-message').html(pgfw_common_param.email_submit_error);
+				} 
+			});
+		});
+		// user email submittion from modal on creating bulk PDF.
+		$(document).on('click','#pgfw-submit-email-user-bulk',function(e){
+			e.preventDefault();
+			var email                  = $('#pgfw-user-email-input-bulk').val();
+			var use_account_email      = $('#pgfw-user-email-from-account-bulk').is(':checked');
+			var pdf_continuation_email = $('#pgfw-bulk-email-continuation-pdf').is(':checked');
+			var pdf_zip_email          = $('#pgfw-bulk-email-zip-pdf').is(':checked');
+			$('#pgfw-user-email-submittion-message-bulk').html(pgfw_common_param.processing_html);
+			$.ajax({
+				url    : pgfw_common_param.ajaxurl,
+				method : 'post',
+				data   : {
+					action  : 'mwb_pgfw_ajax_for_zip_or_pdf',
+					nonce   : pgfw_common_param.nonce,
+					name    : 'bulk_pdf_mail',
+					email   : ( use_account_email ) ? 'use_account_email' : email,
+					mode    : ( pdf_continuation_email ) ? 'bulk_pdf_continuation_mail' : 'bulk_pdf_zip_mail' 
+				},
+				success: function( msg ) {
+					$('#pgfw-user-email-submittion-message-bulk').html(msg);
+				}, error : function() {
+					$('#pgfw-user-email-submittion-message-bulk').html(pgfw_common_param.email_submit_error);
+				} 
+			});
+		});
 	});
 })( jQuery );

@@ -72,6 +72,10 @@
 /*===================================
 =         GLOBAL CSS               =
 ===================================*/
+.mwb_pgfw_setting_separate_border{
+    border-top: 1px solid gray;
+    padding-top: 5px;
+}
 .pgfw_upload_header_image img, .pgfw_upload_footer_image img{
     width: 100px;
 }

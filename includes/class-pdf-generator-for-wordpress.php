@@ -215,6 +215,8 @@ class Pdf_Generator_For_WordPress {
 		$this->loader->add_filter( 'pgfw_advanced_settings_array', $pgfw_plugin_admin, 'pgfw_admin_advanced_settings_page', 10 );
 		// Fields for meta fields settings.
 		$this->loader->add_filter( 'pgfw_meta_fields_settings_array', $pgfw_plugin_admin, 'pgfw_admin_meta_fields_settings_page', 10 );
+		// Fields for PDF upload settings.
+		$this->loader->add_filter( 'pgfw_pdf_upload_fields_settings_array', $pgfw_plugin_admin, 'pgfw_admin_pdf_upload_settings_page', 10 );
 		// Request handling for saving general settings.
 		$this->loader->add_action( 'admin_init', $pgfw_plugin_admin, 'pgfw_admin_save_tab_settings' );
 	}
@@ -270,8 +272,9 @@ class Pdf_Generator_For_WordPress {
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_public, 'pgfw_public_enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_public, 'pgfw_public_enqueue_scripts' );
 		$pdf_general_settings_arr     = get_option( 'pgfw_general_settings_save', array() );
+		$pgfw_display_settings        = get_option( 'pgfw_save_admin_display_settings', array() );
 		$pgfw_enable_plugin           = array_key_exists( 'pgfw_enable_plugin', $pdf_general_settings_arr ) ? $pdf_general_settings_arr['pgfw_enable_plugin'] : '';
-		$pgfw_pdf_icon_after          = array_key_exists( 'pgfw_general_pdf_icon_after', $pdf_general_settings_arr ) ? $pdf_general_settings_arr['pgfw_general_pdf_icon_after'] : '';
+		$pgfw_pdf_icon_after          = array_key_exists( 'pgfw_display_pdf_icon_after', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_display_pdf_icon_after'] : '';
 		$pgfw_exclude_wp_filter_hooks = array( 'before_content', 'after_content' );
 		if ( 'yes' === $pgfw_enable_plugin ) {
 			$this->loader->add_action( 'plugins_loaded', $pgfw_plugin_public, 'pgfw_shortcode_to_generate_pdf' );
@@ -391,6 +394,11 @@ class Pdf_Generator_For_WordPress {
 		$pgfw_default_tabs['pdf-generator-for-wordpress-meta-fields'] = array(
 			'title' => esc_html__( 'Meta Fields Settings', 'pdf-generator-for-wordpress' ),
 			'name'  => 'pdf-generator-for-wordpress-meta-fields',
+		);
+
+		$pgfw_default_tabs['pdf-generator-for-wordpress-pdf-upload'] = array(
+			'title' => esc_html__( 'PDF Upload', 'pdf-generator-for-wordpress' ),
+			'name'  => 'pdf-generator-for-wordpress-pdf-upload',
 		);
 
 		return $pgfw_default_tabs;
@@ -513,7 +521,7 @@ class Pdf_Generator_For_WordPress {
 						case 'email':
 						case 'text':
 							?>
-						<div class="mwb-form-group mwb-pgfw-<?php echo esc_attr( $pgfw_component['type'] . ' ' . $pgfw_component['class'] ); ?>" style="<?php echo esc_attr( array_key_exists( 'style', $pgfw_component ) ? $pgfw_component['style'] : '' ); ?>">
+						<div class="mwb-form-group mwb-pgfw-<?php echo esc_attr( $pgfw_component['type'] . ' ' . $pgfw_component['class'] . ' ' . ( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ) ); ?>" style="<?php echo esc_attr( array_key_exists( 'style', $pgfw_component ) ? $pgfw_component['style'] : '' ); ?>">
 							<div class="mwb-form-group__label">
 								<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="mwb-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
 							</div>
@@ -606,7 +614,7 @@ class Pdf_Generator_For_WordPress {
 						case 'select':
 						case 'multiselect':
 							?>
-						<div class="mwb-form-group">
+						<div class="mwb-form-group <?php echo esc_attr( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ); ?>">
 							<div class="mwb-form-group__label">
 								<label class="mwb-form-label" for="<?php echo esc_attr( $pgfw_component['id'] ); ?>"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
 							</div>
@@ -641,7 +649,7 @@ class Pdf_Generator_For_WordPress {
 
 						case 'checkbox':
 							?>
-						<div class="mwb-form-group">
+						<div class="mwb-form-group <?php echo esc_attr( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ); ?>">
 							<div class="mwb-form-group__label">
 								<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="mwb-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
 							</div>
@@ -802,7 +810,7 @@ class Pdf_Generator_For_WordPress {
 						case 'date':
 						case 'file':
 							?>
-							<div class="mwb-form-group mwb-isfw-<?php echo esc_attr( $pgfw_component['type'] ); ?>">
+							<div class="mwb-form-group mwb-isfw-<?php echo esc_attr( $pgfw_component['type'] ); ?> <?php echo esc_attr( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ); ?>">
 								<div class="mwb-form-group__label">
 									<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="mwb-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
 								</div>
@@ -839,7 +847,7 @@ class Pdf_Generator_For_WordPress {
 							break;
 						case 'upload-button':
 							?>
-								<div class="mwb-form-group">
+								<div class="mwb-form-group <?php echo esc_attr( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ); ?>">
 								<div class="mwb-form-group__label">
 									<label for="<?php echo esc_attr( array_key_exists( 'id', $pgfw_component ) ? $pgfw_component['id'] : '' ); ?>" class="mwb-form-label"><?php echo esc_html( array_key_exists( 'title', $pgfw_component ) ? $pgfw_component['title'] : '' ); ?></label>
 								</div>

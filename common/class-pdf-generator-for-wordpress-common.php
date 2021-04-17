@@ -75,12 +75,15 @@ class Pdf_Generator_For_WordPress_Common {
 			$this->plugin_name . 'common',
 			'pgfw_common_param',
 			array(
-				'ajaxurl' => admin_url( 'admin-ajax.php' ),
-				'nonce'   => wp_create_nonce( 'pgfw_common_nonce' ),
-				'loader'  => PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'admin/src/images/loader.gif',
+				'ajaxurl'            => admin_url( 'admin-ajax.php' ),
+				'nonce'              => wp_create_nonce( 'pgfw_common_nonce' ),
+				'loader'             => PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'admin/src/images/loader.gif',
+				'processing_html'    => '<span style="color:#1e73be;">' . esc_html__( 'Please wait....', 'pdf-generator-for-wordpress' ) . '</span>',
+				'email_submit_error' => '<span style="color:#8e4b86;">' . esc_html__( 'Some unexpected error occured. Kindly Resubmit again', 'pdf-generator-for-wordpress' ) . '</span>',
 			),
 		);
 		wp_enqueue_script( $this->plugin_name . 'common' );
+		add_thickbox();
 	}
 	/**
 	 * Catching link for pdf generation user.
@@ -195,8 +198,57 @@ class Pdf_Generator_For_WordPress_Common {
 			}
 			?>
 			</div>
-			<button id="pgfw-create-zip-bulk"><?php esc_html_e( 'Create Zip', 'pdf-generator-for-wordpress' ); ?></button>
-			<button id="pgfw-create-pdf-bulk"><?php esc_html_e( 'Create PDF', 'pdf-generator-for-wordpress' ); ?></button>
+			<?php
+			$display_setings_arr          = get_option( 'pgfw_save_admin_display_settings', array() );
+			$pgfw_guest_download_or_email = array_key_exists( 'pgfw_guest_download_or_email', $display_setings_arr ) ? $display_setings_arr['pgfw_guest_download_or_email'] : '';
+			$pgfw_user_download_or_email  = array_key_exists( 'pgfw_user_download_or_email', $display_setings_arr ) ? $display_setings_arr['pgfw_user_download_or_email'] : '';
+			if ( ( is_user_logged_in() && 'direct_download' === $pgfw_user_download_or_email ) || ( ! is_user_logged_in() && 'direct_download' === $pgfw_guest_download_or_email ) ) {
+				?>
+				<button id="pgfw-create-zip-bulk"><?php esc_html_e( 'Create Zip', 'pdf-generator-for-wordpress' ); ?></button>
+				<button id="pgfw-create-pdf-bulk"><?php esc_html_e( 'Create PDF', 'pdf-generator-for-wordpress' ); ?></button>
+				<?php
+			} else {
+				?>
+				<a href="#TB_inline?height=300&width=400&inlineId=bulk-pdf-download-modal" title="Please Enter Your Email ID" class="pgfw-single-pdf-download-button thickbox">Email PDFs</a>
+				<div id="bulk-pdf-download-modal" style="display:none;">
+					<div>
+						<label for="pgfw-user-email-input-bulk">
+							<?php esc_html_e( 'Email ID', 'pdf-generator-for-wordpress' ); ?>
+							<input type="email" id="pgfw-user-email-input-bulk" name="pgfw_user_email_input_bulk">
+						</label>
+					</div>
+					<?php
+					if ( is_user_logged_in() ) {
+						?>
+						<div>
+							<label for="pgfw-user-email-from-account">
+								<input type="checkbox" id="pgfw-user-email-from-account-bulk" name="pgfw_user_email_from_account_bulk">
+								<?php esc_html_e( 'Use account Email ID instead.', 'pdf-generator-for-wordpress' ); ?>
+							</label>
+						</div>
+						<?php
+					}
+					?>
+					<div>
+						<label for="pgfw-bulk-email-continuation-pdf">
+							<input type="checkbox" id="pgfw-bulk-email-continuation-pdf" name="pgfw_bulk_email_continuation_pdf">
+							<?php esc_html_e( 'Email PDF in Continuation.', 'pdf-generator-for-wordpress' ); ?>
+						</label>
+					</div>
+					<div>
+						<label for="pgfw-bulk-email-zip-pdf">
+							<input type="checkbox" id="pgfw-bulk-email-zip-pdf" name="pgfw_bulk_email_zip_pdf">
+							<?php esc_html_e( 'Email PDF in Zip.', 'pdf-generator-for-wordpress' ); ?>
+						</label>
+					</div>
+					<div style="padding:10px;">
+						<button id="pgfw-submit-email-user-bulk"><?php esc_html_e( 'Submit', 'pdf-generator-for-wordpress' ); ?></button>
+					</div>
+					<div id="pgfw-user-email-submittion-message-bulk"></div>
+				</div>
+				<?php
+			}
+			?>
 		</p>
 		<?php
 		wp_die();
@@ -226,33 +278,90 @@ class Pdf_Generator_For_WordPress_Common {
 	public function mwb_pgfw_ajax_for_zip_or_pdf() {
 		check_ajax_referer( 'pgfw_common_nonce', 'nonce' );
 		$name        = array_key_exists( 'name', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
+		$mode        = array_key_exists( 'mode', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['mode'] ) ) : '';
 		$product_ids = isset( $_SESSION['bulk_products'] ) ? $_SESSION['bulk_products'] : array();
-		if ( 'pdf_zip' === $name ) {
-			$this->zip      = new ZipArchive();
-			$upload_dir     = wp_upload_dir();
-			$upload_basedir = $upload_dir['basedir'] . '/post_to_pdf/';
-			$zip_path       = $upload_basedir . 'document.zip';
-			$files          = glob( $upload_basedir . '*' );
-			foreach ( $files as $file ) {
-				if ( is_file( $file ) ) {
-					@unlink( $file ); // phpcs:ignore
+		if ( 'pdf_zip' === $name || 'bulk_pdf_mail' === $name ) {
+			$temp = false;
+			if ( 'bulk_pdf_mail' === $name ) {
+				$email = array_key_exists( 'email', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['email'] ) ) : '';
+				if ( 'use_account_email' === $email ) {
+					$current_user = wp_get_current_user();
+					$email        = $current_user->user_email;
+				}
+				if ( ! is_email( $email ) ) {
+					?>
+					<span style="color:#8e4b86;"><?php esc_html_e( 'Please Enter Valid Email Address to Receive Attachment.', 'pdf-generator-for-wordpress' ); ?></span>
+					<?php
+				} else {
+					if ( 'bulk_pdf_zip_mail' === $mode ) {
+						$temp = true;
+					} else {
+						$this->pgfw_generate_pdf_from_library( $product_ids, 'upload_on_server', 'continuous_on_same_page' );
+						$upload_dir     = wp_upload_dir();
+						$upload_basedir = $upload_dir['basedir'] . '/post_to_pdf/';
+						$file_basedir   = $upload_basedir . 'bulk_post_to_pdf.pdf';
+						wp_mail( $email, __( 'document form site', 'pdf-generator-for-wordpress' ), __( 'Please find these attachment', 'pdf-generator-for-wordpress' ), '', array( $file_basedir ) );
+						?>
+						<span style="color:green;"><?php esc_html_e( 'Email Submitted Successfully.', 'pdf-generator-for-wordpress' ); ?></span><div><?php esc_html_e( 'Thank You For Submitting Your Email. You Will Receive an Email Containing the PDF as Attachment.', 'pdf-generator-for-wordpress' ); ?></div>
+						<?php
+					}
+				}
+			} else {
+				$temp = true;
+			}
+			if ( $temp ) {
+				$this->zip      = new ZipArchive();
+				$upload_dir     = wp_upload_dir();
+				$upload_basedir = $upload_dir['basedir'] . '/post_to_pdf/';
+				$zip_path       = $upload_basedir . 'document.zip';
+				$files          = glob( $upload_basedir . '*' );
+				foreach ( $files as $file ) {
+					if ( is_file( $file ) ) {
+						@unlink( $file ); // phpcs:ignore
+					}
+				}
+				$this->zip->open( $zip_path, ZipArchive::CREATE );
+				foreach ( $product_ids as $product_id ) {
+					$this->pgfw_generate_pdf_from_library( $product_id, 'upload_on_server' );
+				}
+				$this->zip->close();
+				$upload_dir     = wp_upload_dir();
+				$upload_baseurl = $upload_dir['baseurl'] . '/post_to_pdf/';
+				$file_url       = $upload_baseurl . 'document.zip';
+				$upload_basedir = $upload_dir['basedir'] . '/post_to_pdf/';
+				$file_basedir   = $upload_basedir . 'document.zip';
+				if ( 'bulk_pdf_mail' === $name ) {
+					wp_mail( $email, __( 'document form site', 'pdf-generator-for-wordpress' ), __( 'Please find these zip attachment', 'pdf-generator-for-wordpress' ), '', array( $file_basedir ) );
+					?>
+					<span style="color:green;"><?php esc_html_e( 'Email Submitted Successfully.', 'pdf-generator-for-wordpress' ); ?></span><div><?php esc_html_e( 'Thank You For Submitting Your Email. You Will Receive an Email Containing the Zip as Attachment.', 'pdf-generator-for-wordpress' ); ?></div>
+					<?php
+				} else {
+					echo esc_url( $file_url );
 				}
 			}
-			$this->zip->open( $zip_path, ZipArchive::CREATE );
-			foreach ( $product_ids as $product_id ) {
-				$this->pgfw_generate_pdf_from_library( $product_id, 'upload_on_server' );
-			}
-			$this->zip->close();
-			$upload_dir     = wp_upload_dir();
-			$upload_baseurl = $upload_dir['baseurl'] . '/post_to_pdf/';
-			$file_url       = $upload_baseurl . 'document.zip';
-			echo esc_url( $file_url );
-		} else {
-			$this->pgfw_generate_pdf_from_library( $_SESSION['bulk_products'], 'upload_on_server', 'continuous_on_same_page' );
+		} elseif ( 'pdf_bulk' === $name ) {
+			$this->pgfw_generate_pdf_from_library( $product_ids, 'upload_on_server', 'continuous_on_same_page' );
 			$upload_dir     = wp_upload_dir();
 			$upload_baseurl = $upload_dir['baseurl'] . '/post_to_pdf/';
 			$file_url       = $upload_baseurl . 'bulk_post_to_pdf.pdf';
 			echo esc_url( $file_url );
+		} elseif ( 'single_pdf_mail' === $name ) {
+			$email   = array_key_exists( 'email', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['email'] ) ) : '';
+			$post_id = array_key_exists( 'post_id', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) : '';
+			if ( 'use_account_email' === $email ) {
+				$current_user = wp_get_current_user();
+				$email        = $current_user->user_email;
+			}
+			if ( ! is_email( $email ) ) {
+				?>
+				<span style="color:#8e4b86;"><?php esc_html_e( 'Please Enter Valid Email Address to Receive Attachment.', 'pdf-generator-for-wordpress' ); ?></span>
+				<?php
+			} else {
+				$this->pgfw_generate_pdf_from_library( $post_id, 'upload_on_server', 'generate_and_mail', $email );
+				?>
+				<span style="color:green;"><?php esc_html_e( 'Email Submitted Successfully.', 'pdf-generator-for-wordpress' ); ?></span><div><?php esc_html_e( 'Thank You For Submitting Your Email. You Will Receive an Email Containing the PDF as Attachment.', 'pdf-generator-for-wordpress' ); ?></div>
+				<?php
+			}
 		}
 		wp_die();
 	}
@@ -263,9 +372,10 @@ class Pdf_Generator_For_WordPress_Common {
 	 * @param array  $prod_id product id.
 	 * @param string $pgfw_generate_mode mode to generate pdf : download_locally, open_window, upload_on_server.
 	 * @param string $mode mode to update either zip or continuation.
+	 * @param string $email email to send attachment.
 	 * @return void
 	 */
-	public function pgfw_generate_pdf_from_library( $prod_id, $pgfw_generate_mode, $mode = '' ) {
+	public function pgfw_generate_pdf_from_library( $prod_id, $pgfw_generate_mode, $mode = '', $email = '' ) {
 		require_once PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
 		require_once PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wordpress-admin-temp1.php';
 		$general_settings_arr = get_option( 'pgfw_general_settings_save', array() );
@@ -310,12 +420,12 @@ class Pdf_Generator_For_WordPress_Common {
 			$text         = $body_watermark_text;
 			$textheight   = $fontmetrices->getFontHeight( $font, 150 );
 			$textwidth    = $fontmetrices->getTextWidth( $text, $font, 40 );
-			$canvas->set_opacity( .2 );
+			$canvas->set_opacity( .2, 'Multiply' );
 			$x               = ( ( $w - $textwidth ) / 2 );
 			$y               = ( ( $h - $textheight ) / 2 );
 			$hex             = $body_watermark_color;
 			list($r, $g, $b) = sscanf( $hex, '#%02x%02x%02x' );
-			$canvas->text( $x, $y, $text, $font, 40, array( $r / 255, $g / 255, $b / 255 ), 0.0, 0.0, -20.0 );
+			$canvas->page_text( $x, $y, $text, $font, 40, array( $r / 255, $g / 255, $b / 255 ), 0.0, 0.0, -20.0 );
 		}
 		if ( 'download_locally' === $pgfw_generate_mode ) {
 			$dompdf->stream(
@@ -345,6 +455,12 @@ class Pdf_Generator_For_WordPress_Common {
 					@unlink( $path ); // phpcs:ignore
 				}
 				@file_put_contents( $path, $output ); // phpcs:ignore
+			} elseif ( 'generate_and_mail' === $mode ) {
+				$path = $upload_basedir . $document_name . '.pdf';
+				if ( ! file_exists( $path ) ) {
+					@file_put_contents( $path, $output ); // phpcs:ignore
+				}
+				wp_mail( $email, __( 'document form site', 'pdf-generator-for-wordpress' ), __( 'Please find these attachment', 'pdf-generator-for-wordpress' ), '', array( $path ) );
 			} else {
 				$path = $upload_basedir . $document_name . '.pdf';
 				if ( ! file_exists( $path ) ) {
@@ -370,21 +486,16 @@ class Pdf_Generator_For_WordPress_Common {
 			$atts
 		);
 
-		$pgfw_advanced_settings = get_option( 'pgfw_advanced_save_settings', array() );
-		$poster_images          = array_key_exists( 'sub_pgfw_poster_image_upload', $pgfw_advanced_settings ) ? $pgfw_advanced_settings['sub_pgfw_poster_image_upload'] : '';
-		if ( '' !== $poster_images ) {
-			$pgfw_poster_image = json_decode( $poster_images, true );
-			if ( is_array( $pgfw_poster_image ) ) {
-				$i = 0;
-				foreach ( $pgfw_poster_image as $file_name => $file_path ) {
-					if ( $i === (int) $atts['id'] ) {
-						?>
-						<a href="<?php echo esc_url( $file_path ); ?>" download><?php esc_html_e( 'Download Poster' ); ?></a>
-						<?php
-						break;
-					}
-					$i++;
-				}
+		$pgfw_pdf_upload_settings = get_option( 'pgfw_pdf_upload_save_settings', array() );
+		$pgfw_poster_user_access  = array_key_exists( 'pgfw_poster_user_access', $pgfw_pdf_upload_settings ) ? $pgfw_pdf_upload_settings['pgfw_poster_user_access'] : '';
+		$pgfw_poster_guest_access = array_key_exists( 'pgfw_poster_guest_access', $pgfw_pdf_upload_settings ) ? $pgfw_pdf_upload_settings['pgfw_poster_guest_access'] : '';
+		$poster_image_url         = get_the_guid( $atts['id'] );
+		$doc_type                 = get_post_type( $atts['id'] );
+		if ( ( 'yes' === $pgfw_poster_user_access && ! is_user_logged_in() ) || ( 'yes' === $pgfw_poster_guest_access && is_user_logged_in() ) ) {
+			if ( '' !== $poster_image_url && 'attachment' === $doc_type ) {
+				?>
+				<a href="<?php echo esc_url( $poster_image_url ); ?>" download><?php esc_html_e( 'Download Poster' ); ?></a>
+				<?php
 			}
 		}
 	}
