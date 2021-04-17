@@ -163,6 +163,12 @@
     box-shadow: 0 0 0 5000px rgb(0 0 0 / 74%) !important;
 }
 
+#TB_ajaxContent {
+    width: auto!important;
+    height:unset!important;
+    min-height: 305px;
+}
+
 /*popup modal*/
 .mwb_pgfw_email_input {
     display: flex;
@@ -176,14 +182,14 @@
 }
 
 .mwb_pgfw_email_input input {
-    border: 1px solid #333333!important;
-    box-shadow: none!important;
-    background-color: rgb(26 51 101 / 5%)!important;
+    border: 1px solid #333333 !important;
+    box-shadow: none !important;
+    background-color: rgb(26 51 101 / 5%) !important;
     margin-bottom: 10px;
 }
 
 .mwb_pgfw_email_input input:focus {
-    outline:none;
+    outline: none;
     box-shadow: none;
 }
 
@@ -194,17 +200,24 @@
 .mwb_pgfw_email_button button {
     background-color: #333333;
     color: #ffffff;
-    border:none;
+    border: none;
 }
 
 .mwb_pgfw_email_button button:focus {
-    border:none;
-    outline:none;
-    color:#ffffff;
+    border: none;
+    outline: none;
+    color: #ffffff;
+}
+
+#pgfw-user-email-submittion-message {
+    margin-top: 10px;
 }
 
 @media screen and (max-width: 480px) {
-    .mwb_pgfw_email_input {
-        width: 66%;
+
+    #pgfw-user-email-submittion-message {
+        width: 100%;
+        max-width: 275px;
+        margin-top: 10px;
     }
 }

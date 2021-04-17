@@ -22,25 +22,25 @@
 /*popup modal*/
 
 .mwb_pgfw_email_bulk_input {
-        display: flex;
+    display: flex;
     flex-direction: column;
 }
 
 .mwb_pgfw_email_bulk_input label {
-        font-weight: 600;
+    font-weight: 600;
     margin-bottom: 10px;
     color: #1a1a1a;
 }
 
 .mwb_pgfw_email_bulk_input input {
-        border: 1px solid #333333!important;
-    box-shadow: none!important;
-    background-color: rgb(26 51 101 / 5%)!important;
+    border: 1px solid #333333 !important;
+    box-shadow: none !important;
+    background-color: rgb(26 51 101 / 5%) !important;
     margin-bottom: 10px;
 }
 
 .mwb_pgfw_email_bulk_input input:focus {
-        outline:none;
+    outline: none;
     box-shadow: none;
 }
 
@@ -51,17 +51,23 @@
 .mwb_pgfw_email_bulk_button button {
     background-color: #333333;
     color: #ffffff;
-    border:none;
+    border: none;
 }
 
 .mwb_pgfw_email_bulk_button button:focus {
-    border:none;
-    outline:none;
-    color:#ffffff;
+    border: none;
+    outline: none;
+    color: #ffffff;
+}
+
+#pgfw-user-email-submittion-message-bulk {
+    margin-top: 10px;
 }
 
 @media screen and (max-width: 480px) {
-    .mwb_pgfw_email_bulk_input {
-        width: 66%;
+
+    #pgfw-user-email-submittion-message-bulk {
+        max-width: 275px;
+        margin-top: 10px;
     }
 }
