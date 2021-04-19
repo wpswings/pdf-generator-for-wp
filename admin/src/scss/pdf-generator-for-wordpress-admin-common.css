@@ -17,11 +17,15 @@
 .mwb-form-select {
     display: flex;
     flex-wrap: wrap;
-    flex-direction: column;
 }
 
 .mwb-form-select label {
     padding-top: 10px;
+    padding-left:10px;
+}
+
+.mwb-form-group__control .mdc-text-field-helper-line {
+    padding: 10px;
 }
 
 .mwb-form-group__label {
@@ -30,6 +34,8 @@
 
 .mwb-form-group__control {
     max-width: unset;
+    flex: 1 0 0;
+    width: 100%;
 }
 
 /*Upload and remove buttons ============START*/

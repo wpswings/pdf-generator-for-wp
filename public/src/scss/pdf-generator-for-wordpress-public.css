@@ -23,7 +23,12 @@
 }
 
 .pgfw-single-pdf-download-button {
-    margin-right: 15px;
+    max-width: 100px;
+    margin: 0 auto;
+    padding: 2px 5px;
+    background-color: #2196F3;
+    color: #ffffff;
+    border-radius: 3px;
 }
 
 .pgfw-single-pdf-download-button:focus {
@@ -70,7 +75,7 @@
 .mwb_pgw-button img {
     all: unset;
     width: 24px;
-    height: 24px;
+    ` height: 24px;
     background-color: #ffffff;
     padding: 15px;
     border-radius: 50%;
@@ -164,8 +169,8 @@
 }
 
 #TB_ajaxContent {
-    width: auto!important;
-    height:unset!important;
+    width: auto !important;
+    height: unset !important;
     min-height: 305px;
 }
 
