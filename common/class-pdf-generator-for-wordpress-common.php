@@ -209,39 +209,39 @@ class Pdf_Generator_For_WordPress_Common {
 				<?php
 			} else {
 				?>
-				<a href="#TB_inline?height=300&width=400&inlineId=bulk-pdf-download-modal" title="Please Enter Your Email ID" class="pgfw-single-pdf-download-button thickbox">Email PDFs</a>
+				<a href="#TB_inline?height=300&width=400&inlineId=bulk-pdf-download-modal" title="<?php esc_html_e( 'Please Enter Your Email ID', 'pdf-generator-for-wordpress' ); ?>" class="pgfw-bulk-pdf-download-button thickbox"><?php esc_html_e( 'Email PDFs', 'pdf-generator-for-wordpress' ); ?></a>
 				<div id="bulk-pdf-download-modal" style="display:none;">
-					<div>
+					<div class="mwb_pgfw_email_bulk_input">
 						<label for="pgfw-user-email-input-bulk">
 							<?php esc_html_e( 'Email ID', 'pdf-generator-for-wordpress' ); ?>
-							<input type="email" id="pgfw-user-email-input-bulk" name="pgfw_user_email_input_bulk">
 						</label>
+						<input type="email" id="pgfw-user-email-input-bulk" name="pgfw_user_email_input_bulk" placeholder="<?php esc_html_e( 'email', 'pdf-generator-for-wordpress' ); ?>">
 					</div>
 					<?php
 					if ( is_user_logged_in() ) {
 						?>
-						<div>
+						<div class="mwb_pgfw_email_bulk_account">
+							<input type="checkbox" id="pgfw-user-email-from-account-bulk" name="pgfw_user_email_from_account_bulk">
 							<label for="pgfw-user-email-from-account">
-								<input type="checkbox" id="pgfw-user-email-from-account-bulk" name="pgfw_user_email_from_account_bulk">
 								<?php esc_html_e( 'Use account Email ID instead.', 'pdf-generator-for-wordpress' ); ?>
 							</label>
 						</div>
 						<?php
 					}
 					?>
-					<div>
+					<div class="mwb_pgfw_email_bulk_continue">
+						<input type="checkbox" id="pgfw-bulk-email-continuation-pdf" name="pgfw_bulk_email_continuation_pdf">
 						<label for="pgfw-bulk-email-continuation-pdf">
-							<input type="checkbox" id="pgfw-bulk-email-continuation-pdf" name="pgfw_bulk_email_continuation_pdf">
 							<?php esc_html_e( 'Email PDF in Continuation.', 'pdf-generator-for-wordpress' ); ?>
 						</label>
 					</div>
-					<div>
+					<div class="mwb_pgfw_email_bulk_zip">
+						<input type="checkbox" id="pgfw-bulk-email-zip-pdf" name="pgfw_bulk_email_zip_pdf">
 						<label for="pgfw-bulk-email-zip-pdf">
-							<input type="checkbox" id="pgfw-bulk-email-zip-pdf" name="pgfw_bulk_email_zip_pdf">
 							<?php esc_html_e( 'Email PDF in Zip.', 'pdf-generator-for-wordpress' ); ?>
 						</label>
 					</div>
-					<div style="padding:10px;">
+					<div class="mwb_pgfw_email_bulk_button">
 						<button id="pgfw-submit-email-user-bulk"><?php esc_html_e( 'Submit', 'pdf-generator-for-wordpress' ); ?></button>
 					</div>
 					<div id="pgfw-user-email-submittion-message-bulk"></div>
@@ -377,9 +377,15 @@ class Pdf_Generator_For_WordPress_Common {
 	 */
 	public function pgfw_generate_pdf_from_library( $prod_id, $pgfw_generate_mode, $mode = '', $email = '' ) {
 		require_once PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
-		require_once PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wordpress-admin-temp1.php';
+		$body_settings_arr       = get_option( 'pgfw_body_save_settings', array() );
+		$pgfw_body_page_template = array_key_exists( 'pgfw_body_page_template', $body_settings_arr ) ? $body_settings_arr['pgfw_body_page_template'] : 'template1';
+		$pgfw_body_post_template = array_key_exists( 'pgfw_body_post_template', $body_settings_arr ) ? $body_settings_arr['pgfw_body_post_template'] : 'template1';
+		if ( 'page' === get_post_type( $prod_id ) ) {
+			require_once PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wordpress-admin-' . $pgfw_body_page_template . '.php';
+		} else {
+			require_once PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wordpress-admin-' . $pgfw_body_post_template . '.php';
+		}
 		$general_settings_arr = get_option( 'pgfw_general_settings_save', array() );
-		$body_settings_arr    = get_option( 'pgfw_body_save_settings', array() );
 		$pdf_file_name        = array_key_exists( 'pgfw_general_pdf_file_name', $general_settings_arr ) ? $general_settings_arr['pgfw_general_pdf_file_name'] : 'post_name';
 		$body_add_watermark   = array_key_exists( 'pgfw_body_add_watermark', $body_settings_arr ) ? $body_settings_arr['pgfw_body_add_watermark'] : '#000000';
 		$body_watermark_color = array_key_exists( 'pgfw_body_watermark_color', $body_settings_arr ) ? $body_settings_arr['pgfw_body_watermark_color'] : '';

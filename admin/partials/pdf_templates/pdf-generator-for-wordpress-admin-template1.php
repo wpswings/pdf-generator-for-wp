@@ -65,13 +65,24 @@ function return_ob_html( $post_id ) {
 	$pgfw_footer_font_style = array_key_exists( 'pgfw_footer_font_style', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_font_style'] : '';
 	$pgfw_footer_font_size  = array_key_exists( 'pgfw_footer_font_size', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_font_size'] : '';
 
-	$html = '<style>
-	@page {
-		margin-top: ' . $pgfw_body_margin_top . ';
-		margin-left: ' . $pgfw_body_margin_left . ';
-		margin-right: ' . $pgfw_body_margin_right . ';
+	if ( 'yes' === $pgfw_body_rtl_support ) {
+		$html = '<style>
+					@page {
+						margin-top: ' . $pgfw_body_margin_top . ';
+						margin-left: ' . $pgfw_body_margin_left . ';
+						margin-right: ' . $pgfw_body_margin_right . ';
+						font-family: DejaVu Sans, sans-serif
+					}
+				</style>';
+	} else {
+		$html = '<style>
+				@page {
+					margin-top: ' . $pgfw_body_margin_top . ';
+					margin-left: ' . $pgfw_body_margin_left . ';
+					margin-right: ' . $pgfw_body_margin_right . ';
+				}
+			</style>';
 	}
-	</style>';
 	// Header for pdf.
 	if ( 'yes' === $pgfw_header_use_in_pdf ) {
 		$html .= '<style>
@@ -102,7 +113,6 @@ function return_ob_html( $post_id ) {
 					</div>
 				</div>';
 	}
-
 	// footer for pdf.
 	if ( 'yes' === $pgfw_footer_use_in_pdf ) {
 		$html .= '<style>
