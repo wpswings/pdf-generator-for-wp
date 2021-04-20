@@ -11,6 +11,8 @@ namespace Dompdf\Renderer;
 
 use Dompdf\Adapter\CPDF;
 use Dompdf\Frame;
+include_once DOMPDF_DIR . "/I18N/Arabic/Glyphs.php";
+use I18N_Arabic_Glyphs;
 
 /**
  * Renders text frames
@@ -80,7 +82,13 @@ class Text extends AbstractRenderer
           array($this->_canvas->get_page_number()),
           $text
         );*/
-
+        $pgfw_body_settings         = get_option( 'pgfw_body_save_settings', array() );
+        $pgfw_body_rtl_support      = array_key_exists( 'pgfw_body_rtl_support', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_rtl_support'] : '';
+        if ( ! class_exists( 'I18N_Arabic' ) && 'yes' === $pgfw_body_rtl_support ){
+            $Arabic = new I18N_Arabic_Glyphs('Glyphs');
+            $text   = $Arabic->utf8Glyphs($text);
+            
+        }
         $this->_canvas->text($x, $y, $text,
             $font, $size,
             $style->color, $word_spacing, $char_spacing);
