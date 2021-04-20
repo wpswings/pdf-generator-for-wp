@@ -128,3 +128,15 @@
         padding: 0px 0;
     }
 } 
+#pgfw_poster_shortcode_listing_table {
+    border-collapse: collapse;
+}
+#pgfw_poster_shortcode_listing_table th, #pgfw_poster_shortcode_listing_table td{
+    border:1px solid gray;
+    padding:5px 10px;
+}
+.pgfw-delete-poster-form-table{
+    background-color: rgb(179, 77, 77);
+    border-radius : 5px;
+    padding: 5px 10px;
+}

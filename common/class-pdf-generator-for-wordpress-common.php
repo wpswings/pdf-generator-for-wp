@@ -124,6 +124,7 @@ class Pdf_Generator_For_WordPress_Common {
 	/**
 	 * Starting session to store the bulk products for generating PDF.
 	 *
+	 * @since 1.0.0
 	 * @return void
 	 */
 	public function pgfw_start_session_store_bulk_products() {
@@ -134,6 +135,7 @@ class Pdf_Generator_For_WordPress_Common {
 	/**
 	 * Destroying session at logout.
 	 *
+	 * @since 1.0.0
 	 * @return void
 	 */
 	public function pgfw_destroy_session_bulk_products() {
@@ -143,6 +145,7 @@ class Pdf_Generator_For_WordPress_Common {
 	/**
 	 * Adding products to bulk products for pdf generation using ajax.
 	 *
+	 * @since 1.0.0
 	 * @return void
 	 */
 	public function pgfw_bulk_add_products_ajax() {

@@ -28,40 +28,44 @@ $pgfw_pdf_upload_settings = apply_filters( 'pgfw_pdf_upload_fields_settings_arra
 		$pgfw_poster_doc          = array_key_exists( 'sub_pgfw_poster_image_upload', $pgfw_pdf_upload_settings ) ? $pgfw_pdf_upload_settings['sub_pgfw_poster_image_upload'] : '';
 		// poster images names and shortcodes.
 		if ( '' !== $pgfw_poster_doc ) {
-			?>
-			<div><?php esc_html_e( 'You can add these shortcodes to download posters anywhere on the page/post.', 'pdf-generator-for-wordpress' ); ?></div>
-			<br/>
-			<table style="border-collapse: collapse;">
-				<thead>
-					<tr>
-						<th style="border:1px solid gray;padding:5px 10px;"><?php esc_html_e( 'File Name', 'pdf-generator-for-wordpress' ); ?></th>
-						<th style="border:1px solid gray;padding:5px 10px;"><?php esc_html_e( 'ShortCode', 'pdf-generator-for-wordpress' ); ?></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
+			$pgfw_poster_image = json_decode( $pgfw_poster_doc, true );
+			if ( is_array( $pgfw_poster_image ) && count( $pgfw_poster_image ) > 0 ) {
+				?>
+				<div><?php esc_html_e( 'You can add these shortcodes to download posters anywhere on the page/post.', 'pdf-generator-for-wordpress' ); ?></div>
+				<br/>
+				<table id="pgfw_poster_shortcode_listing_table">
+					<thead>
+						<tr>
+							<th><?php esc_html_e( 'File Name', 'pdf-generator-for-wordpress' ); ?></th>
+							<th><?php esc_html_e( 'ShortCode', 'pdf-generator-for-wordpress' ); ?></th>
+							<th><?php esc_html_e( 'Action', 'pdf-generator-for-wordpress' ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
 						<?php
-						$pgfw_poster_image = json_decode( $pgfw_poster_doc, true );
 						foreach ( $pgfw_poster_image as $media_id ) {
 							$media_title = get_the_title( $media_id );
 							if ( $media_title ) {
 								?>
 								<tr>
-									<td style="border:1px solid gray;padding:5px 10px;">
+									<td>
 										<?php echo esc_html( $media_title ); ?>
 									</td>
-									<td style="border:1px solid gray;padding:5px 10px;">
+									<td>
 										<?php echo esc_html( '[PGFW_DOWNLOAD_POSTER id=' . $media_id . ']' ); ?>
+									</td>
+									<td>
+										<button data-media-id="<?php echo esc_html( $media_id ); ?>" class="pgfw-delete-poster-form-table"><?php esc_html_e( 'Delete', 'pdf-generator-for-wordpress' ); ?></button>
 									</td>
 								</tr>
 								<?php
 							}
 						}
 						?>
-					</tr>
-				</tbody>
-			</table>
-			<?php
+					</tbody>
+				</table>
+				<?php
+			}
 		}
 		?>
 	</div>

@@ -25,10 +25,10 @@
             e.preventDefault();
             if (this.window === undefined) {
                 this.window = wp.media({
-                    title    : 'upload image',
+                    title    : pgfw_admin_custom_param.upload_image,
                     library  : {type: 'image'},
                     multiple : false,
-                    button   : {text: 'use image'}
+                    button   : {text: pgfw_admin_custom_param.use_image}
                 });
                 var self = this;
                 this.window.on('select', function() {
@@ -56,10 +56,10 @@
             e.preventDefault();
             if (this.window === undefined) {
                 this.window = wp.media({
-                    title    : 'upload image',
+                    title    : pgfw_admin_custom_param.upload_image,
                     library  : {type: 'image'},
                     multiple : false,
-                    button   : {text: 'use image'}
+                    button   : {text: pgfw_admin_custom_param.use_image}
                 });
                 var self = this;
                 this.window.on('select', function() {
@@ -86,10 +86,10 @@
             e.preventDefault();
             if (this.window === undefined) {
                 this.window = wp.media({
-                    title    : 'upload image',
+                    title    : pgfw_admin_custom_param.upload_image,
                     library  : {type: 'image'},
                     multiple : false,
-                    button   : {text: 'use image'}
+                    button   : {text: pgfw_admin_custom_param.use_image}
                 });
                 var self = this;
                 this.window.on('select', function() {
@@ -104,13 +104,6 @@
             return false;
         });
 
-
-
-
-
-
-
-
         // remove poster.
         $('#pgfw_poster_image_remove').click(function(e){
             e.preventDefault();
@@ -124,10 +117,10 @@
             e.preventDefault();
             if (this.window === undefined) {
                 this.window = wp.media({
-                    title: 'Upload doc',
+                    title: pgfw_admin_custom_param.upload_doc,
                     library: {type: 'application/pdf'},
                     multiple: true,
-                    button: {text: 'Use doc'}
+                    button: {text: pgfw_admin_custom_param.use_doc}
                 });
                 var self = this;
                 this.window.on('select', function() {
@@ -144,6 +137,35 @@
             }
             this.window.open();
             return false;
+        });
+        $('#pgfw_poster_shortcode_listing_table').DataTable();
+        $('.pgfw-delete-poster-form-table').click(function(e){
+            e.preventDefault();
+            var r = confirm( pgfw_admin_custom_param.confirm_text );
+            if ( r ) {
+                var media_id = $(this).data('media-id');
+                var self     = this;
+                var cur_html = $(self).html();
+                $(self).html(pgfw_admin_custom_param.delete_loader);
+                $.ajax({
+                    url    : pgfw_admin_custom_param.ajaxurl,
+                    method : 'post',
+                    data   : {
+                        action   : 'mwb_pgfw_delete_poster_by_media_id_from_table',
+                        nonce    : pgfw_admin_custom_param.nonce,
+                        media_id : media_id
+                    },
+                    success: function( msg ) {
+                        $(self).closest('tr').remove();
+                        $(self).html(cur_html);
+                        if ( msg <= 0) {
+                            location.reload();
+                        }
+                    }, error : function() {
+                        $(self).html(cur_html);
+                    } 
+                });
+            }
         });
     });
 })( jQuery );

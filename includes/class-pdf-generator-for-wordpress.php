@@ -219,6 +219,8 @@ class Pdf_Generator_For_WordPress {
 		$this->loader->add_filter( 'pgfw_pdf_upload_fields_settings_array', $pgfw_plugin_admin, 'pgfw_admin_pdf_upload_settings_page', 10 );
 		// Request handling for saving general settings.
 		$this->loader->add_action( 'admin_init', $pgfw_plugin_admin, 'pgfw_admin_save_tab_settings' );
+		// Deleting media from table by media ID.
+		$this->loader->add_action( 'wp_ajax_mwb_pgfw_delete_poster_by_media_id_from_table', $pgfw_plugin_admin, 'mwb_pgfw_delete_poster_by_media_id_from_table' );
 	}
 
 	/**
@@ -283,7 +285,7 @@ class Pdf_Generator_For_WordPress {
 					// post to pdf generate button if woocomerce is activated.
 					$this->loader->add_action( $pgfw_pdf_icon_after, $pgfw_plugin_public, 'pgfw_show_download_icon_to_users_for_woocommerce' );
 				} else {
-					// Post to pdf generate button if woocommerce is not activated.
+					// Post to pdf generate button if woocommerce is activated but hook the content is used.
 					$this->loader->add_filter( 'the_content', $pgfw_plugin_public, 'pgfw_show_download_icon_to_users', 20 );
 				}
 			} else {
