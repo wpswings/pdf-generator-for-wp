@@ -240,23 +240,9 @@ class Pdf_Generator_For_WordPress {
 		if ( 'yes' === $pgfw_enable_plugin ) {
 			// catching pdf generate link with $_GET.
 			$this->loader->add_action( 'init', $pgfw_plugin_common, 'pgfw_generate_pdf_link_catching_user', 20 );
-			// add product to bulk pdf ajax.
-			$this->loader->add_action( 'wp_ajax_nopriv_pgfw_bulk_add_products_ajax', $pgfw_plugin_common, 'pgfw_bulk_add_products_ajax', 10 );
-			$this->loader->add_action( 'wp_ajax_pgfw_bulk_add_products_ajax', $pgfw_plugin_common, 'pgfw_bulk_add_products_ajax', 10 );
-			// starting session to store bulk product.
-			$this->loader->add_action( 'init', $pgfw_plugin_common, 'pgfw_start_session_store_bulk_products', 1 );
-			// destroying session once logout.
-			$this->loader->add_action( 'wp_logout', $pgfw_plugin_common, 'pgfw_destroy_session_bulk_products' );
-			// ajax to build hml table from session.
-			$this->loader->add_action( 'wp_ajax_pgfw_build_html_from_session', $pgfw_plugin_common, 'pgfw_build_html_from_session' );
-			$this->loader->add_action( 'wp_ajax_nopriv_pgfw_build_html_from_session', $pgfw_plugin_common, 'pgfw_build_html_from_session' );
-			// deleting product from session bulk products.
-			$this->loader->add_action( 'wp_ajax_pgfw_delete_product_from_session', $pgfw_plugin_common, 'pgfw_delete_product_from_session' );
-			$this->loader->add_action( 'wp_ajax_nopriv_pgfw_delete_product_from_session', $pgfw_plugin_common, 'pgfw_delete_product_from_session' );
-			// ajax for creating zip of bulk product or continuation of bulk products.
-			$this->loader->add_action( 'wp_ajax_mwb_pgfw_ajax_for_zip_or_pdf', $pgfw_plugin_common, 'mwb_pgfw_ajax_for_zip_or_pdf' );
-			$this->loader->add_action( 'wp_ajax_nopriv_mwb_pgfw_ajax_for_zip_or_pdf', $pgfw_plugin_common, 'mwb_pgfw_ajax_for_zip_or_pdf' );
 			$this->loader->add_action( 'plugins_loaded', $pgfw_plugin_common, 'pgfw_poster_download_shortcode' );
+			$this->loader->add_action( 'wp_ajax_nopriv_mwb_pgfw_ajax_for_zip_or_pdf', $pgfw_plugin_common, 'mwb_pgfw_ajax_for_zip_or_pdf' );
+			$this->loader->add_action( 'wp_ajax_mwb_pgfw_ajax_for_zip_or_pdf', $pgfw_plugin_common, 'mwb_pgfw_ajax_for_zip_or_pdf' );
 		}
 	}
 

@@ -141,8 +141,12 @@ class Pdf_Generator_For_WordPress_Public {
 	public function pgfw_show_download_icon_to_users_for_woocommerce() {
 		$id = get_the_ID();
 		global $wp;
-		$url_here = home_url( $wp->request );
-		$this->pgfw_download_pdf_button_show( $url_here, $id );
+		$url_here                   = home_url( $wp->request );
+		$pgfw_advanced_settings_arr = get_option( 'pgfw_advanced_save_settings', array() );
+		$pgfw_show_icons_to_posts   = array_key_exists( 'pgfw_advanced_show_post_type_icons', $pgfw_advanced_settings_arr ) ? $pgfw_advanced_settings_arr['pgfw_advanced_show_post_type_icons'] : array();
+		if ( is_array( $pgfw_show_icons_to_posts ) && in_array( get_post_type( $id ), $pgfw_show_icons_to_posts, true ) ) {
+			$this->pgfw_download_pdf_button_show( $url_here, $id );
+		}
 	}
 	/**
 	 * Show pdf download button.
@@ -179,9 +183,7 @@ class Pdf_Generator_For_WordPress_Public {
 				<a href="<?php echo esc_html( $url_here ); ?>" class="pgfw-single-pdf-download-button" <?php echo esc_html( $mode ); ?>><img src="<?php echo esc_url( $pgfw_single_pdf_download_icon_src ); ?>" title="<?php esc_html_e( 'Generate PDF', 'pdf-generator-for-wordpress' ); ?>" style="width:<?php echo esc_html( $pgfw_pdf_icon_width ); ?>px; height:<?php echo esc_html( $pgfw_pdf_icon_height ); ?>px;"></a>
 				<?php
 				if ( 'yes' === $pgfw_bulk_download_enable ) {
-					?>
-					<a href="javascript:void(0)" data-product-id="<?php echo esc_html( $id ); ?>" id="pgfw-bulk-product-add" class="pgfw-single-pdf-download-button"><img src="<?php echo esc_url( $pgfw_bulk_pdf_download_icon_src ); ?>" title="<?php esc_html_e( 'Add to Bulk PDFs', 'pdf-generator-for-wordpress' ); ?>" style="width:<?php echo esc_html( $pgfw_pdf_icon_width ); ?>px; height:<?php echo esc_html( $pgfw_pdf_icon_height ); ?>px;"></a>
-					<?php
+					do_action( 'mwb_pgfw_bulk_download_button_action_hook', $id );
 				}
 				if ( isset( $_SESSION['bulk_products'] ) && count( $_SESSION['bulk_products'] ) > 0 ) {
 					require_once PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'public/partials/pdf-generator-for-wordpress-public-display-bulk.php';
@@ -212,9 +214,7 @@ class Pdf_Generator_For_WordPress_Public {
 		$pgfw_pdf_icon_alignment           = array_key_exists( 'pgfw_display_pdf_icon_alignment', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_display_pdf_icon_alignment'] : '';
 		$pgfw_bulk_download_enable         = array_key_exists( 'pgfw_bulk_download_enable', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_bulk_download_enable'] : '';
 		$sub_pgfw_pdf_single_download_icon = array_key_exists( 'sub_pgfw_pdf_single_download_icon', $pgfw_display_settings ) ? $pgfw_display_settings['sub_pgfw_pdf_single_download_icon'] : '';
-		$sub_pgfw_pdf_bulk_download_icon   = array_key_exists( 'sub_pgfw_pdf_bulk_download_icon', $pgfw_display_settings ) ? $pgfw_display_settings['sub_pgfw_pdf_bulk_download_icon'] : '';
 		$pgfw_single_pdf_download_icon_src = ( '' !== $sub_pgfw_pdf_single_download_icon ) ? $sub_pgfw_pdf_single_download_icon : PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'admin/src/images/PDF_Tray.svg';
-		$pgfw_bulk_pdf_download_icon_src   = ( '' !== $sub_pgfw_pdf_bulk_download_icon ) ? $sub_pgfw_pdf_bulk_download_icon : PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'admin/src/images/download_PDF.svg';
 		$pgfw_pdf_icon_width               = array_key_exists( 'pgfw_pdf_icon_width', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_pdf_icon_width'] : '';
 		$pgfw_pdf_icon_height              = array_key_exists( 'pgfw_pdf_icon_height', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_pdf_icon_height'] : '';
 		?>
@@ -222,9 +222,7 @@ class Pdf_Generator_For_WordPress_Public {
 			<a href="#TB_inline?height=300&width=400&inlineId=single-pdf-download" title="<?php esc_html_e( 'Please Enter Your Email ID', 'pdf-generator-for-wordpress' ); ?>" class="pgfw-single-pdf-download-button thickbox"><img src="<?php echo esc_url( $pgfw_single_pdf_download_icon_src ); ?>" title="<?php esc_html_e( 'Generate PDF', 'pdf-generator-for-wordpress' ); ?>" style="width:<?php echo esc_html( $pgfw_pdf_icon_width ); ?>px; height:<?php echo esc_html( $pgfw_pdf_icon_height ); ?>px;"></a>
 			<?php
 			if ( 'yes' === $pgfw_bulk_download_enable ) {
-				?>
-				<a href="javascript:void(0)" data-product-id="<?php echo esc_html( $id ); ?>" id="pgfw-bulk-product-add" class="pgfw-single-pdf-download-button"><img src="<?php echo esc_url( $pgfw_bulk_pdf_download_icon_src ); ?>" title="<?php esc_html_e( 'Add to Bulk PDFs', 'pdf-generator-for-wordpress' ); ?>" style="width:<?php echo esc_html( $pgfw_pdf_icon_width ); ?>px; height:<?php echo esc_html( $pgfw_pdf_icon_height ); ?>px;"></a>
-				<?php
+				do_action( 'mwb_pgfw_bulk_download_button_action_hook', $id );
 			}
 			if ( isset( $_SESSION['bulk_products'] ) && count( $_SESSION['bulk_products'] ) > 0 ) {
 				require_once PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'public/partials/pdf-generator-for-wordpress-public-display-bulk.php';
