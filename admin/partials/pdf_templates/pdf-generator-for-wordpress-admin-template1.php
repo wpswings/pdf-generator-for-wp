@@ -191,17 +191,19 @@ function return_ob_html( $post_id ) {
 		if ( 'yes' === $pgfw_show_post_categories ) {
 			$taxonomies = get_object_taxonomies( $post );
 			if ( is_array( $taxonomies ) ) {
+				$html1 = '';
 				foreach ( $taxonomies as $taxonomy ) {
 					$prod_cat = get_the_terms( $post, $taxonomy );
 					if ( is_array( $prod_cat ) ) {
-						$html .= '<div><b>' . strtoupper( str_replace( '_', ' ', $taxonomy ) ) . '</b></div>';
-						$html .= '<ul>';
+						$html1 .= '<div><b>' . strtoupper( str_replace( '_', ' ', $taxonomy ) ) . '</b></div>';
+						$html1 .= '<ul>';
 						foreach ( $prod_cat as $category ) {
-							$html .= '<li>' . $category->name . '</li>';
+							$html1 .= '<li>' . $category->name . '</li>';
 						}
-						$html .= '</ul>';
+						$html1 .= '</ul>';
 					}
 				}
+				$html .= apply_filters( 'mwb_pgfw_product_taxonomy_in_pdf_filter_hook', $html1, $post );
 			}
 		}
 		// tags for posts.
@@ -235,9 +237,10 @@ function return_ob_html( $post_id ) {
 			if ( is_array( $pgfw_show_type_meta_arr ) ) {
 				$html .= '<div><b>' . __( 'Meta Fields', 'pdf-generator-for-wordpress' ) . '</b></div>';
 				foreach ( $pgfw_show_type_meta_arr as $meta_key ) {
-					$meta_val = get_post_meta( $post->ID, $meta_key, true );
+					$meta_val          = get_post_meta( $post->ID, $meta_key, true );
+					$wpg_meta_key_name = array_key_exists( $meta_key, $pgfw_meta_settings ) && '' !== $pgfw_meta_settings[ $meta_key ] ? $pgfw_meta_settings[ $meta_key ] : strtoupper( str_replace( '_', ' ', $meta_key ) );
 					if ( $meta_val ) {
-						$html .= '<div><b>' . strtoupper( str_replace( '_', ' ', $meta_key ) ) . ' :</b> ' . $meta_val . '</div>';
+						$html .= '<div><b>' . $wpg_meta_key_name . ' : </b> ' . $meta_val . '</div>';
 					}
 				}
 			}

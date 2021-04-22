@@ -80,7 +80,6 @@ class Pdf_Generator_For_WordPress_Activator {
 					'pgfw_save_admin_display_settings' => array(
 						'pgfw_user_access'                => 'yes',
 						'pgfw_guest_access'               => ( 'guestuser' === $pgfw_show_option ) ? 'yes' : 'no',
-						'pgfw_bulk_download_enable'       => 'yes',
 						'pgfw_guest_download_or_email'    => 'direct_download',
 						'pgfw_user_download_or_email'     => 'direct_download',
 						'pgfw_display_pdf_icon_after'     => 'after_content',
@@ -162,7 +161,6 @@ class Pdf_Generator_For_WordPress_Activator {
 					'pgfw_save_admin_display_settings' => array(
 						'pgfw_user_access'                => 'yes',
 						'pgfw_guest_access'               => 'yes',
-						'pgfw_bulk_download_enable'       => 'yes',
 						'pgfw_guest_download_or_email'    => 'direct_download',
 						'pgfw_user_download_or_email'     => 'direct_download',
 						'pgfw_display_pdf_icon_after'     => 'after_content',

@@ -362,8 +362,6 @@ class Pdf_Generator_For_WordPress {
 			'name'  => 'pdf-generator-for-wordpress-general',
 		);
 
-		$pgfw_default_tabs = apply_filters( 'mwb_pgfw_plugin_standard_admin_settings_tabs', $pgfw_default_tabs );
-
 		$pgfw_default_tabs['pdf-generator-for-wordpress-display'] = array(
 			'title' => esc_html__( 'Display Settings', 'pdf-generator-for-wordpress' ),
 			'name'  => 'pdf-generator-for-wordpress-display',
@@ -383,6 +381,7 @@ class Pdf_Generator_For_WordPress {
 			'title' => esc_html__( 'Meta Fields Settings', 'pdf-generator-for-wordpress' ),
 			'name'  => 'pdf-generator-for-wordpress-meta-fields',
 		);
+		$pgfw_default_tabs = apply_filters( 'mwb_pgfw_plugin_standard_admin_settings_tabs', $pgfw_default_tabs );
 
 		$pgfw_default_tabs['pdf-generator-for-wordpress-pdf-upload'] = array(
 			'title' => esc_html__( 'PDF Upload', 'pdf-generator-for-wordpress' ),
@@ -428,10 +427,10 @@ class Pdf_Generator_For_WordPress {
 	 */
 	public function mwb_pgfw_plug_load_template( $path, $params = array() ) {
 		$pgfw_file_path = PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . $path;
+		$pgfw_file_path = apply_filters( 'mwb_pgfw_setting_page_loading_filter_hook', $pgfw_file_path, $path );
 		if ( file_exists( $pgfw_file_path ) ) {
 			include $pgfw_file_path;
 		} else {
-
 			/* translators: %s: file path */
 			$pgfw_notice = sprintf( esc_html__( 'Unable to locate file at location "%s". Some features may not work properly in this plugin. Please contact us!', 'pdf-generator-for-wordpress' ), $pgfw_file_path );
 			$this->mwb_pgfw_plug_admin_notice( $pgfw_notice, 'error' );

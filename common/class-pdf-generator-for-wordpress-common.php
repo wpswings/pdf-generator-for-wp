@@ -215,6 +215,7 @@ class Pdf_Generator_For_WordPress_Common {
 			$hex             = $body_watermark_color;
 			list($r, $g, $b) = sscanf( $hex, '#%02x%02x%02x' );
 			$canvas->page_text( $x, $y, $text, $font, 40, array( $r / 255, $g / 255, $b / 255 ), 0.0, 0.0, -20.0 );
+			do_action( 'mwb_pgfw_password_protect_action_hook', $canvas );
 		}
 		if ( 'download_locally' === $pgfw_generate_mode ) {
 			$dompdf->stream(
@@ -239,7 +240,8 @@ class Pdf_Generator_For_WordPress_Common {
 				wp_mkdir_p( $upload_basedir );
 			}
 			if ( 'continuous_on_same_page' === $mode ) {
-				$path = $upload_basedir . 'bulk_post_to_pdf.pdf';
+				$path          = $upload_basedir . 'bulk_post_to_pdf.pdf';
+				$document_name = 'bulk_post_to_pdf.pdf';
 				if ( file_exists( $path ) ) {
 					@unlink( $path ); // phpcs:ignore
 				}
@@ -257,6 +259,10 @@ class Pdf_Generator_For_WordPress_Common {
 				}
 				$obj->zip->addFile( $path, $document_name . '.pdf' );
 			}
+			$current_user = wp_get_current_user();
+			$user_name    = $current_user->display_name;
+			$email        = isset( $email ) ? $email : $current_user->user_email;
+			do_action( 'mwb_pgfw_update_pdf_details_indb', $document_name, $user_name, $email );
 		}
 
 	}

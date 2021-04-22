@@ -222,7 +222,7 @@ class Pdf_Generator_For_WordPress_Admin {
 		$pgfw_pdf_file_name        = array_key_exists( 'pgfw_general_pdf_file_name', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_file_name'] : '';
 		$pgfw_pdf_file_name_custom = array_key_exists( 'pgfw_custom_pdf_file_name', $general_settings_data ) ? $general_settings_data['pgfw_custom_pdf_file_name'] : '';
 
-		$pgfw_settings_general_html_arr = array(
+		$pgfw_settings_general_html_arr   = array(
 			array(
 				'title'       => __( 'Enable Plugin', 'pdf-generator-for-wordpress' ),
 				'type'        => 'radio-switch',
@@ -1243,6 +1243,7 @@ class Pdf_Generator_For_WordPress_Admin {
 				'placeholder' => '',
 				'options'     => $post_meta_field,
 			);
+			$pgfw_meta_settings_html_arr   = apply_filters( 'pgfw_settings_meta_fields_html_arr_filter_hook', $pgfw_meta_settings_html_arr, $pgfw_show_type_meta_arr );
 			$i++;
 		}
 		$pgfw_meta_settings_html_arr[] = array(
