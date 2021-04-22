@@ -150,3 +150,19 @@ function pdf_generator_for_wordpress_settings_link( $links ) {
 	);
 	return array_merge( $my_link, $links );
 }
+/**
+ * Adding custom setting links at the plugin activation list.
+ *
+ * @param array  $links_array array containing the links to plugin.
+ * @param string $plugin_file_name plugin file name.
+ * @return array
+ */
+function pdf_generator_for_wordpress_custom_settings_at_plugin_tab( $links_array, $plugin_file_name ) {
+	if ( strpos( $plugin_file_name, basename( __FILE__ ) ) ) {
+		$links_array[] = '<a href="#" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/Demo.svg" class="mwb-info-img" alt="Demo image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Demo', 'pdf-generator-for-wordpress' ) . '</a>';
+		$links_array[] = '<a href="#" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/Documentation.svg" class="mwb-info-img" alt="documentation image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Documentation', 'pdf-generator-for-wordpress' ) . '</a>';
+		$links_array[] = '<a href="#" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/Support.svg" class="mwb-info-img" alt="support image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Support', 'pdf-generator-for-wordpress' ) . '</a>';
+	}
+	return $links_array;
+}
+add_filter( 'plugin_row_meta', 'pdf_generator_for_wordpress_custom_settings_at_plugin_tab', 10, 2 );
