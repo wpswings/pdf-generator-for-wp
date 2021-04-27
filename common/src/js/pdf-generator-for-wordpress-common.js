@@ -40,7 +40,7 @@
 				url    : pgfw_common_param.ajaxurl,
 				method : 'post',
 				data   : {
-					action  : 'mwb_pgfw_ajax_for_zip_or_pdf',
+					action  : 'mwb_pgfw_ajax_for_single_pdf_mail',
 					nonce   : pgfw_common_param.nonce,
 					name    : 'single_pdf_mail',
 					email   : ( use_account_email ) ? 'use_account_email' : email,

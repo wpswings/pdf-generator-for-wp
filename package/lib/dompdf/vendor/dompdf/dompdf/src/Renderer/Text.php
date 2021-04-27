@@ -87,7 +87,6 @@ class Text extends AbstractRenderer
         if ( ! class_exists( 'I18N_Arabic' ) && 'yes' === $pgfw_body_rtl_support ){
             $Arabic = new I18N_Arabic_Glyphs('Glyphs');
             $text   = $Arabic->utf8Glyphs($text);
-            
         }
         $this->_canvas->text($x, $y, $text,
             $font, $size,

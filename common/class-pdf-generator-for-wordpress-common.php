@@ -127,7 +127,7 @@ class Pdf_Generator_For_WordPress_Common {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function mwb_pgfw_ajax_for_zip_or_pdf() {
+	public function mwb_pgfw_generate_pdf_single_and_mail() {
 		check_ajax_referer( 'pgfw_common_nonce', 'nonce' );
 		$email   = array_key_exists( 'email', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['email'] ) ) : '';
 		$post_id = array_key_exists( 'post_id', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) : '';
@@ -140,7 +140,7 @@ class Pdf_Generator_For_WordPress_Common {
 			<span style="color:#8e4b86;"><?php esc_html_e( 'Please Enter Valid Email Address to Receive Attachment.', 'pdf-generator-for-wordpress' ); ?></span>
 			<?php
 		} else {
-			$this->pgfw_generate_pdf_from_library( $post_id, 'upload_on_server', 'generate_and_mail', $email, $this );
+			$this->pgfw_generate_pdf_from_library( $post_id, 'upload_on_server_and_mail', '', $email );
 			?>
 			<span style="color:green;"><?php esc_html_e( 'Email Submitted Successfully.', 'pdf-generator-for-wordpress' ); ?></span><div><?php esc_html_e( 'Thank You For Submitting Your Email. You Will Receive an Email Containing the PDF as Attachment.', 'pdf-generator-for-wordpress' ); ?></div>
 			<?php
@@ -155,15 +155,15 @@ class Pdf_Generator_For_WordPress_Common {
 	 * @param string $pgfw_generate_mode mode to generate pdf : download_locally, open_window, upload_on_server.
 	 * @param string $mode mode to update either zip or continuation.
 	 * @param string $email email to send attachment.
-	 * @param object $obj object of the class accessing this method.
-	 * @return void
+	 * @return string
 	 */
-	public function pgfw_generate_pdf_from_library( $prod_id, $pgfw_generate_mode, $mode = '', $email = '', $obj = '' ) {
+	public function pgfw_generate_pdf_from_library( $prod_id, $pgfw_generate_mode, $mode = '', $email = '' ) {
 		require_once PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
 		$body_settings_arr       = get_option( 'pgfw_body_save_settings', array() );
 		$pgfw_body_page_template = array_key_exists( 'pgfw_body_page_template', $body_settings_arr ) ? $body_settings_arr['pgfw_body_page_template'] : 'template1';
 		$pgfw_body_post_template = array_key_exists( 'pgfw_body_post_template', $body_settings_arr ) ? $body_settings_arr['pgfw_body_post_template'] : 'template1';
-		if ( 'page' === get_post_type( $prod_id ) ) {
+		$post_id                 = is_array( $prod_id ) ? $prod_id[0] : $prod_id;
+		if ( 'page' === get_post_type( $post_id ) ) {
 			require_once PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wordpress-admin-' . $pgfw_body_page_template . '.php';
 		} else {
 			require_once PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wordpress-admin-' . $pgfw_body_post_template . '.php';
@@ -176,7 +176,7 @@ class Pdf_Generator_For_WordPress_Common {
 		$body_page_size       = array_key_exists( 'pgfw_body_page_size', $body_settings_arr ) ? $body_settings_arr['pgfw_body_page_size'] : 'a4';
 		$page_orientation     = array_key_exists( 'pgfw_body_page_orientation', $body_settings_arr ) ? $body_settings_arr['pgfw_body_page_orientation'] : 'portrait';
 		$document_name        = '';
-		$post                 = get_post( $prod_id );
+		$post                 = get_post( $post_id );
 		if ( 'custom' === $pdf_file_name ) {
 			$pdf_file_name_custom = array_key_exists( 'pgfw_custom_pdf_file_name', $general_settings_arr ) ? $general_settings_arr['pgfw_custom_pdf_file_name'] : '';
 			$document_name        = ( ( '' !== $pdf_file_name_custom ) && ( $post ) ) ? $pdf_file_name_custom . '_' . $post->ID : 'document';
@@ -217,7 +217,20 @@ class Pdf_Generator_For_WordPress_Common {
 			$canvas->page_text( $x, $y, $text, $font, 40, array( $r / 255, $g / 255, $b / 255 ), 0.0, 0.0, -20.0 );
 			do_action( 'mwb_pgfw_password_protect_action_hook', $canvas );
 		}
+		$upload_dir     = wp_upload_dir();
+		$upload_basedir = $upload_dir['basedir'] . '/post_to_pdf/';
+		if ( ! file_exists( $upload_basedir ) ) {
+			wp_mkdir_p( $upload_basedir );
+		}
+		$current_user = wp_get_current_user();
+		$user_name    = $current_user->display_name;
+		$email        = ( '' !== $email ) ? $email : $current_user->user_email;
+		$output       = $dompdf->output();
 		if ( 'download_locally' === $pgfw_generate_mode ) {
+			$path = $upload_basedir . $document_name . '.pdf';
+			if ( ! file_exists( $path ) ) {
+				@file_put_contents( $path, $output ); // phpcs:ignore
+			}
 			$dompdf->stream(
 				$document_name . '.pdf',
 				array(
@@ -225,6 +238,10 @@ class Pdf_Generator_For_WordPress_Common {
 				),
 			);
 		} elseif ( 'open_window' === $pgfw_generate_mode ) {
+			$path = $upload_basedir . $document_name . '.pdf';
+			if ( ! file_exists( $path ) ) {
+				@file_put_contents( $path, $output ); // phpcs:ignore
+			}
 			$dompdf->stream(
 				$document_name . '.pdf',
 				array(
@@ -232,39 +249,26 @@ class Pdf_Generator_For_WordPress_Common {
 					'Attachment' => 0,
 				),
 			);
-		} elseif ( 'upload_on_server' === $pgfw_generate_mode ) {
-			$output         = $dompdf->output();
-			$upload_dir     = wp_upload_dir();
-			$upload_basedir = $upload_dir['basedir'] . '/post_to_pdf/';
-			if ( ! file_exists( $upload_basedir ) ) {
-				wp_mkdir_p( $upload_basedir );
-			}
-			if ( 'continuous_on_same_page' === $mode ) {
-				$path          = $upload_basedir . 'bulk_post_to_pdf.pdf';
-				$document_name = 'bulk_post_to_pdf.pdf';
-				if ( file_exists( $path ) ) {
-					@unlink( $path ); // phpcs:ignore
-				}
+		} elseif ( 'upload_on_server_and_mail' === $pgfw_generate_mode ) {
+			$output = $dompdf->output();
+			$path   = $upload_basedir . $document_name . '.pdf';
+			if ( ! file_exists( $path ) ) {
 				@file_put_contents( $path, $output ); // phpcs:ignore
-			} elseif ( 'generate_and_mail' === $mode ) {
-				$path = $upload_basedir . $document_name . '.pdf';
-				if ( ! file_exists( $path ) ) {
-					@file_put_contents( $path, $output ); // phpcs:ignore
-				}
-				wp_mail( $email, __( 'document form site', 'pdf-generator-for-wordpress' ), __( 'Please find these attachment', 'pdf-generator-for-wordpress' ), '', array( $path ) );
-			} else {
-				$path = $upload_basedir . $document_name . '.pdf';
-				if ( ! file_exists( $path ) ) {
-					@file_put_contents( $path, $output ); // phpcs:ignore
-				}
-				$obj->zip->addFile( $path, $document_name . '.pdf' );
 			}
-			$current_user = wp_get_current_user();
-			$user_name    = $current_user->display_name;
-			$email        = isset( $email ) ? $email : $current_user->user_email;
-			do_action( 'mwb_pgfw_update_pdf_details_indb', $document_name, $user_name, $email );
+			wp_mail( $email, __( 'document form site', 'pdf-generator-for-wordpress' ), __( 'Please find these attachment', 'pdf-generator-for-wordpress' ), '', array( $path ) );
+		} elseif ( 'bulk' === $pgfw_generate_mode ) {
+			if ( 'continuous_on_same_page' === $mode ) {
+				$document_name = 'bulk_post_to_pdf_' . strtotime( gmdate( 'y-m-d H:i:s' ) );
+				$path          = $upload_basedir . $document_name . '.pdf';
+			} elseif ( 'bulk_zip' === $mode ) {
+				$path = $upload_basedir . $document_name . '.pdf';
+			}
+			if ( ! file_exists( $path ) ) {
+				@file_put_contents( $path, $output ); // phpcs:ignore
+			}
+			return $document_name;
 		}
-
+		do_action( 'mwb_pgfw_update_pdf_details_indb', $prod_id, $user_name, $email );
 	}
 	/**
 	 * Download button for posters as shortcode callback.
@@ -286,7 +290,7 @@ class Pdf_Generator_For_WordPress_Common {
 		$pgfw_poster_guest_access = array_key_exists( 'pgfw_poster_guest_access', $pgfw_pdf_upload_settings ) ? $pgfw_pdf_upload_settings['pgfw_poster_guest_access'] : '';
 		$poster_image_url         = get_the_guid( $atts['id'] );
 		$doc_type                 = get_post_type( $atts['id'] );
-		if ( ( 'yes' === $pgfw_poster_user_access && ! is_user_logged_in() ) || ( 'yes' === $pgfw_poster_guest_access && is_user_logged_in() ) ) {
+		if ( ( 'yes' === $pgfw_poster_user_access && is_user_logged_in() ) || ( 'yes' === $pgfw_poster_guest_access && ! is_user_logged_in() ) ) {
 			if ( '' !== $poster_image_url && 'attachment' === $doc_type ) {
 				?>
 				<a href="<?php echo esc_url( $poster_image_url ); ?>" download><?php esc_html_e( 'Download Poster' ); ?></a>
