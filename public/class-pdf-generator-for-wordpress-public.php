@@ -141,11 +141,28 @@ class Pdf_Generator_For_WordPress_Public {
 	public function pgfw_show_download_icon_to_users_for_woocommerce() {
 		$id = get_the_ID();
 		global $wp;
-		$url_here                   = home_url( $wp->request );
-		$pgfw_advanced_settings_arr = get_option( 'pgfw_advanced_save_settings', array() );
-		$pgfw_show_icons_to_posts   = array_key_exists( 'pgfw_advanced_show_post_type_icons', $pgfw_advanced_settings_arr ) ? $pgfw_advanced_settings_arr['pgfw_advanced_show_post_type_icons'] : array();
+		$url_here                     = home_url( $wp->request );
+		$pgfw_advanced_settings_arr   = get_option( 'pgfw_advanced_save_settings', array() );
+		$pgfw_show_icons_to_posts     = array_key_exists( 'pgfw_advanced_show_post_type_icons', $pgfw_advanced_settings_arr ) ? $pgfw_advanced_settings_arr['pgfw_advanced_show_post_type_icons'] : array();
+		$display_setings_arr          = get_option( 'pgfw_save_admin_display_settings', array() );
+		$user_access_pdf              = array_key_exists( 'pgfw_user_access', $display_setings_arr ) ? $display_setings_arr['pgfw_user_access'] : '';
+		$guest_access_pdf             = array_key_exists( 'pgfw_guest_access', $display_setings_arr ) ? $display_setings_arr['pgfw_guest_access'] : '';
+		$pgfw_guest_download_or_email = array_key_exists( 'pgfw_guest_download_or_email', $display_setings_arr ) ? $display_setings_arr['pgfw_guest_download_or_email'] : '';
+		$pgfw_user_download_or_email  = array_key_exists( 'pgfw_user_download_or_email', $display_setings_arr ) ? $display_setings_arr['pgfw_user_download_or_email'] : '';
 		if ( is_array( $pgfw_show_icons_to_posts ) && in_array( get_post_type( $id ), $pgfw_show_icons_to_posts, true ) ) {
-			$this->pgfw_download_pdf_button_show( $url_here, $id );
+			if ( ( 'yes' === $guest_access_pdf ) && ! is_user_logged_in() ) {
+				if ( 'email' === $pgfw_guest_download_or_email ) {
+					$this->pgfw_modal_for_email_storing_during_pdf_generation( $url_here, $id );
+				} else {
+					$this->pgfw_download_pdf_button_show( $url_here, $id );
+				}
+			} elseif ( ( 'yes' === $user_access_pdf ) && is_user_logged_in() ) {
+				if ( 'email' === $pgfw_user_download_or_email ) {
+					$this->pgfw_modal_for_email_storing_during_pdf_generation( $url_here, $id );
+				} else {
+					$this->pgfw_download_pdf_button_show( $url_here, $id );
+				}
+			}
 		}
 	}
 	/**

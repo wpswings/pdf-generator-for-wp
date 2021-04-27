@@ -241,8 +241,8 @@ class Pdf_Generator_For_WordPress {
 			// catching pdf generate link with $_GET.
 			$this->loader->add_action( 'init', $pgfw_plugin_common, 'pgfw_generate_pdf_link_catching_user', 20 );
 			$this->loader->add_action( 'plugins_loaded', $pgfw_plugin_common, 'pgfw_poster_download_shortcode' );
-			$this->loader->add_action( 'wp_ajax_nopriv_mwb_pgfw_ajax_for_zip_or_pdf', $pgfw_plugin_common, 'mwb_pgfw_ajax_for_zip_or_pdf' );
-			$this->loader->add_action( 'wp_ajax_mwb_pgfw_ajax_for_zip_or_pdf', $pgfw_plugin_common, 'mwb_pgfw_ajax_for_zip_or_pdf' );
+			$this->loader->add_action( 'wp_ajax_nopriv_mwb_pgfw_ajax_for_single_pdf_mail', $pgfw_plugin_common, 'mwb_pgfw_generate_pdf_single_and_mail' );
+			$this->loader->add_action( 'wp_ajax_mwb_pgfw_ajax_for_single_pdf_mail', $pgfw_plugin_common, 'mwb_pgfw_generate_pdf_single_and_mail' );
 		}
 	}
 
@@ -530,6 +530,8 @@ class Pdf_Generator_For_WordPress {
 									type="<?php echo esc_attr( $pgfw_component['type'] ); ?>"
 									value="<?php echo ( isset( $pgfw_component['value'] ) ? esc_attr( $pgfw_component['value'] ) : '' ); ?>"
 									placeholder="<?php echo ( isset( $pgfw_component['placeholder'] ) ? esc_attr( $pgfw_component['placeholder'] ) : '' ); ?>"
+									<?php echo ( 'number' === $pgfw_component['type'] && isset( $pgfw_component['min'] ) ) ? esc_html( 'min=' . $pgfw_component['min'] ) : ''; ?>
+									<?php echo ( 'number' === $pgfw_component['type'] && isset( $pgfw_component['max'] ) ) ? esc_html( 'max=' . $pgfw_component['max'] ) : ''; ?>
 									>
 								</label>
 								<div class="mdc-text-field-helper-line">
@@ -869,6 +871,9 @@ class Pdf_Generator_For_WordPress {
 									class="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['class'] ) : ''; ?>"
 									name="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['name'] ) : ''; ?>"
 									>
+									<div class="mdc-text-field-helper-line">
+										<div class="mdc-text-field-helper-text--persistent mwb-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
+									</div>
 								</div>
 							</div>
 								<?php

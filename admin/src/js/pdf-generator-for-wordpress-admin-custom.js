@@ -73,36 +73,6 @@
             this.window.open();
             return false;
         });
-        // remove bulk pdf download icon.
-        $('#pgfw_bulk_pdf_icon_image_remove').click(function(e){
-            e.preventDefault();
-            $('.pgfw_bulk_pdf_icon_image').attr('src', '');
-            $('.pgfw_bulk_pdf_icon_image').hide();
-            $('#sub_pgfw_pdf_bulk_download_icon').val('');
-            $(this).hide();
-        });
-        // insert bulk pdf download icon.
-        $('#pgfw_pdf_bulk_download_icon').click(function(e) {
-            e.preventDefault();
-            if (this.window === undefined) {
-                this.window = wp.media({
-                    title    : pgfw_admin_custom_param.upload_image,
-                    library  : {type: 'image'},
-                    multiple : false,
-                    button   : {text: pgfw_admin_custom_param.use_image}
-                });
-                var self = this;
-                this.window.on('select', function() {
-                    var response = self.window.state().get('selection').first().toJSON();
-                    $('.pgfw_bulk_pdf_icon_image').attr('src', response.sizes.thumbnail.url);
-                    $('.pgfw_bulk_pdf_icon_image').show();
-                    $('#pgfw_bulk_pdf_icon_image_remove').show();
-                    $('#sub_pgfw_pdf_bulk_download_icon').val( response.sizes.thumbnail.url );
-                });
-            }
-            this.window.open();
-            return false;
-        });
 
         // remove poster.
         $('#pgfw_poster_image_remove').click(function(e){
@@ -119,15 +89,23 @@
                 this.window = wp.media({
                     title: pgfw_admin_custom_param.upload_doc,
                     library: {type: 'application/pdf'},
-                    multiple: true,
+                    multiple: 'add',
                     button: {text: pgfw_admin_custom_param.use_doc}
                 });
                 var self = this;
                 this.window.on('select', function() {
                     var response = self.window.state().get('selection').toJSON();
                     var response_arr = {};
+                    var old_val_fetched = $('#sub_pgfw_poster_image_upload').val();
                     for ( var i = 0; i < response.length; i++ ) {
                         response_arr[i] = response[i].id;
+                    }
+                    if ( '' !== old_val_fetched ) {
+                        var old_val = JSON.parse( old_val_fetched );
+                        for( var j = 0; j < old_val.length; j++ ) {
+                            response_arr[i] = old_val[j];
+                            i++;
+                        }
                     }
                     $('.pgfw_poster_image').attr('src', pgfw_admin_custom_param.pgfw_doc_dummy_img );
                     $('.pgfw_poster_image').show();
