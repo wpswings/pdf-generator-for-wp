@@ -64,14 +64,20 @@ function return_ob_html( $post_id ) {
 	// meta fields settings.
 	$pgfw_meta_settings = get_option( 'pgfw_meta_fields_save_settings', array() );
 	// footer settings.
-	$pgfw_footer_settings   = get_option( 'pgfw_footer_setting_submit', array() );
-	$pgfw_footer_use_in_pdf = array_key_exists( 'pgfw_footer_use_in_pdf', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_use_in_pdf'] : '';
-	$pgfw_footer_tagline    = array_key_exists( 'pgfw_footer_tagline', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_tagline'] : '';
-	$pgfw_footer_color      = array_key_exists( 'pgfw_footer_color', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_color'] : '';
-	$pgfw_footer_width      = array_key_exists( 'pgfw_footer_width', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_width'] : '';
-	$pgfw_footer_font_style = array_key_exists( 'pgfw_footer_font_style', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_font_style'] : '';
-	$pgfw_footer_font_style = ( $pgfw_footer_font_style === $pgfw_ttf_font_doc ) ? 'My_font' : $pgfw_footer_font_style;
-	$pgfw_footer_font_size  = array_key_exists( 'pgfw_footer_font_size', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_font_size'] : '';
+	$pgfw_footer_settings           = get_option( 'pgfw_footer_setting_submit', array() );
+	$pgfw_footer_use_in_pdf         = array_key_exists( 'pgfw_footer_use_in_pdf', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_use_in_pdf'] : '';
+	$pgfw_footer_tagline            = array_key_exists( 'pgfw_footer_tagline', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_tagline'] : '';
+	$pgfw_footer_color              = array_key_exists( 'pgfw_footer_color', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_color'] : '';
+	$pgfw_footer_width              = array_key_exists( 'pgfw_footer_width', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_width'] : '';
+	$pgfw_footer_font_style         = array_key_exists( 'pgfw_footer_font_style', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_font_style'] : '';
+	$pgfw_footer_font_style         = ( $pgfw_footer_font_style === $pgfw_ttf_font_doc ) ? 'My_font' : $pgfw_footer_font_style;
+	$pgfw_footer_font_size          = array_key_exists( 'pgfw_footer_font_size', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_font_size'] : '';
+	$header_data                    = get_option( 'wpg_header_customisation_editor_data_save' );
+	$body_data                      = get_option( 'wpg_body_customisation_editor_data_save' );
+	$footer_data                    = get_option( 'wpg_footer_customisation_editor_data_save' );
+	$pgfw_custom_header_from_editor = array_key_exists( 'pgfw_custom_header_from_editor', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_custom_header_from_editor'] : '';
+	$pgfw_custom_footer_from_editor = array_key_exists( 'pgfw_custom_footer_from_editor', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_custom_footer_from_editor'] : '';
+	$pgfw_custom_body_from_editor   = array_key_exists( 'pgfw_custom_body_from_editor', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_custom_body_from_editor'] : '';
 	if ( 'yes' === $pgfw_body_rtl_support ) {
 		$pgfw_header_font_style     = 'DejaVu Sans, sans-serif';
 		$pgfw_body_page_font_style  = 'DejaVu Sans, sans-serif';
@@ -101,9 +107,8 @@ function return_ob_html( $post_id ) {
 				}
 			</style>';
 	}
-	// }
 	// Header for pdf.
-	if ( 'yes' === $pgfw_header_use_in_pdf ) {
+	if ( ( 'yes' === $pgfw_header_use_in_pdf ) && ( 'yes' !== $pgfw_custom_header_from_editor ) ) {
 		$html .= '<style>
 					.pgfw-pdf-header-each-page{
 						position   : fixed;
@@ -137,9 +142,19 @@ function return_ob_html( $post_id ) {
 						</div>
 					</div>
 				</div>';
+	} else {
+		$html .= '<style>
+		.wpg_header_data{
+			position   : fixed;
+			left       : 0px;
+			height     : 150px;
+			top        : -220px;
+		}
+	</style>
+	<div class="wpg_header_data">' . $header_data . '</div>';
 	}
 	// footer for pdf.
-	if ( 'yes' === $pgfw_footer_use_in_pdf ) {
+	if ( ( 'yes' === $pgfw_footer_use_in_pdf ) && ( 'yes' !== $pgfw_custom_footer_from_editor ) ) {
 		$html .= '<style>
 			.pgfw-pdf-footer{
 				position    : fixed;
@@ -166,124 +181,145 @@ function return_ob_html( $post_id ) {
 						<span>' . esc_html( $pgfw_footer_tagline ) . '</span>
 					</div>
 				</div>';
+	} else {
+		$html .= '<style>
+			.wpg_footer_data{
+				position : fixed;
+				left     : 0px;
+				bottom   : -140px;
+				height   : 150px;
+			}
+		</style>
+		<div class="wpg_footer_data">' . $footer_data . '</div>';
 	}
 	// body for pdf.
-	$post = get_post( $post_id );
-	if ( is_object( $post ) ) {
-		$html .= '<style>
-					.pgfw-pdf-body{
-						border     : ' . $pgfw_body_border_size . 'px solid ' . $pgfw_body_border_color . ';
-						border-top : none;
-					}
-					.pgfw-pdf-body-title{
-						font-family : ' . $pgfw_body_title_font_style . ';
-						font-size   : ' . $pgfw_body_title_font_size . 'px;
-						color       : ' . $pgfw_body_title_font_color . ';
-						padding     : 10px 0px;
-					}
-					.pgfw-pdf-body-title-image{
-						margin-top : 10px;
-					}
-					.pgfw-pdf-body-title-image img{
-						width  : 200px;
-						height : 200px;
-					}
-					.pgfw-pdf-body-content{
-						font-family : ' . $pgfw_body_page_font_style . ';
-						font-size   : ' . $pgfw_body_page_font_size . ';
-						color       : ' . $pgfw_body_page_font_color . ';
-					}
-				</style>
-				<div class="pgfw-pdf-body">
-					<div class="pgfw-pdf-body-title-image">
-						<img src="' . get_the_post_thumbnail_url( $post ) . '">
-					</div>
-					<div class="pgfw-pdf-body-title">
-						' . do_shortcode( $post->post_title ) . '
-					</div>
-					<div class="pgfw-pdf-body-content">
-					<h3>' . esc_html__( 'Short Description/Excerpt', 'pdf-generator-for-wordpress' ) . '</h3>
-					<div>
-						' . do_shortcode( $post->post_excerpt ) . '
-					</div>
-					<h3>' . esc_html__( 'Description', 'pdf-generator-for-wordpress' ) . '</h3>
-					<div>
-						' . do_shortcode( $post->post_content ) . '
-					</div>';
-		// taxonomies for posts.
-		if ( 'yes' === $pgfw_show_post_taxonomy ) {
-			$taxonomies = get_object_taxonomies( $post );
-			if ( is_array( $taxonomies ) ) {
-				$html1 = '';
-				foreach ( $taxonomies as $taxonomy ) {
-					$prod_cat = get_the_terms( $post, $taxonomy );
-					if ( is_array( $prod_cat ) ) {
-						$html1 .= '<div><b>' . strtoupper( str_replace( '_', ' ', $taxonomy ) ) . '</b></div>';
-						$html1 .= '<ul>';
-						foreach ( $prod_cat as $category ) {
-							$html1 .= '<li>' . $category->name . '</li>';
+	if ( 'yes' !== $pgfw_custom_body_from_editor ) {
+		$post = get_post( $post_id );
+		if ( is_object( $post ) ) {
+			$html .= '<style>
+						.pgfw-pdf-body{
+							border     : ' . $pgfw_body_border_size . 'px solid ' . $pgfw_body_border_color . ';
+							border-top : none;
 						}
-						$html1 .= '</ul>';
+						.pgfw-pdf-body-title{
+							font-family : ' . $pgfw_body_title_font_style . ';
+							font-size   : ' . $pgfw_body_title_font_size . 'px;
+							color       : ' . $pgfw_body_title_font_color . ';
+							padding     : 10px 0px;
+						}
+						.pgfw-pdf-body-title-image{
+							margin-top : 10px;
+						}
+						.pgfw-pdf-body-title-image img{
+							width  : 200px;
+							height : 200px;
+						}
+						.pgfw-pdf-body-content{
+							font-family : ' . $pgfw_body_page_font_style . ';
+							font-size   : ' . $pgfw_body_page_font_size . ';
+							color       : ' . $pgfw_body_page_font_color . ';
+						}
+					</style>
+					<div class="pgfw-pdf-body">
+						<div class="pgfw-pdf-body-title-image">
+							<img src="' . get_the_post_thumbnail_url( $post ) . '">
+						</div>
+						<div class="pgfw-pdf-body-title">
+							' . do_shortcode( $post->post_title ) . '
+						</div>
+						<div class="pgfw-pdf-body-content">
+						<h3>' . esc_html__( 'Short Description/Excerpt', 'pdf-generator-for-wordpress' ) . '</h3>
+						<div>
+							' . do_shortcode( $post->post_excerpt ) . '
+						</div>
+						<h3>' . esc_html__( 'Description', 'pdf-generator-for-wordpress' ) . '</h3>
+						<div>
+							' . do_shortcode( $post->post_content ) . '
+						</div>';
+			// taxonomies for posts.
+			if ( 'yes' === $pgfw_show_post_taxonomy ) {
+				$taxonomies = get_object_taxonomies( $post );
+				if ( is_array( $taxonomies ) ) {
+					$html1 = '';
+					foreach ( $taxonomies as $taxonomy ) {
+						$prod_cat = get_the_terms( $post, $taxonomy );
+						if ( is_array( $prod_cat ) ) {
+							$html1 .= '<div><b>' . strtoupper( str_replace( '_', ' ', $taxonomy ) ) . '</b></div>';
+							$html1 .= '<ul>';
+							foreach ( $prod_cat as $category ) {
+								$html1 .= '<li>' . $category->name . '</li>';
+							}
+							$html1 .= '</ul>';
+						}
+					}
+					$html .= apply_filters( 'mwb_pgfw_product_taxonomy_in_pdf_filter_hook', $html1, $post );
+				}
+			}
+			// category for posts.
+			if ( 'yes' === $pgfw_show_post_categories ) {
+				$categories = get_the_category( $post->ID );
+				if ( is_array( $categories ) && ! empty( $categories ) ) {
+					$html .= '<div><b>' . esc_html__( 'Category', 'pdf-generator-for-wordpress' ) . '</b></div>';
+					$html .= '<ul>';
+					foreach ( $categories as $category ) {
+						$html .= '<li>' . $category->name . '</li>';
+					}
+					$html .= '</ul>';
+				}
+			}
+			// tags for posts.
+			if ( 'yes' === $pgfw_show_post_tags ) {
+				$tags = get_the_tags( $post );
+				if ( is_array( $tags ) ) {
+					$html .= '<div><b>' . __( 'Tags', 'pdf-generator-for-wordpress' ) . '</b></div>';
+					$html .= '<ul>';
+					foreach ( $tags as $tag ) {
+						$html .= '<li>' . $tag->name . '</li> ';
+					}
+					$html .= '</ul>';
+				}
+			}
+			// post created date.
+			if ( 'yes' === $pgfw_show_post_date ) {
+				$created_date = get_the_date( 'F Y', $post );
+				$html        .= '<div><b>' . __( 'Date Created', 'pdf-generator-for-wordpress' ) . '</b></div>';
+				$html        .= '<div>' . $created_date . '</div>';
+			}
+			// post author.
+			if ( 'yes' === $pgfw_show_post_author ) {
+				$author_id   = $post->post_author;
+				$author_name = get_the_author_meta( 'user_nicename', $author_id );
+				$html       .= '<div><b>' . __( 'Author', 'pdf-generator-for-wordpress' ) . '</b></div>';
+				$html       .= '<div>' . $author_name . '</div>';
+			}
+			// meta fields.
+			$post_type               = $post->post_type;
+			$pgfw_show_type_meta_val = array_key_exists( 'pgfw_meta_fields_' . $post_type . '_show', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_' . $post_type . '_show' ] : '';
+			$pgfw_show_type_meta_arr = array_key_exists( 'pgfw_meta_fields_' . $post_type . '_list', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_' . $post_type . '_list' ] : array();
+			if ( 'yes' === $pgfw_show_type_meta_val ) {
+				if ( is_array( $pgfw_show_type_meta_arr ) ) {
+					$html .= '<div><b>' . __( 'Meta Fields', 'pdf-generator-for-wordpress' ) . '</b></div>';
+					foreach ( $pgfw_show_type_meta_arr as $meta_key ) {
+						$meta_val          = get_post_meta( $post->ID, $meta_key, true );
+						$wpg_meta_key_name = array_key_exists( $meta_key, $pgfw_meta_settings ) && '' !== $pgfw_meta_settings[ $meta_key ] ? $pgfw_meta_settings[ $meta_key ] : strtoupper( str_replace( '_', ' ', $meta_key ) );
+						if ( $meta_val ) {
+							$html .= '<div><b>' . $wpg_meta_key_name . ' : </b> ' . $meta_val . '</div>';
+						}
 					}
 				}
-				$html .= apply_filters( 'mwb_pgfw_product_taxonomy_in_pdf_filter_hook', $html1, $post );
 			}
+			$html .= '</div></div>
+			<span style="page-break-after: always;overflow:hidden;"></span>';
+		} else {
+			$body_data = str_replace( '{post-title}', '[MWB_WPG_TITLE id=' . $post_id . ']', $body_data );
+			$body_data = str_replace( '{post-content}', '[MWB_WPG_DESCRIPTION id=' . $post_id . ']', $body_data );
+			$body_data = str_replace( '{post-metafields}', '[MWB_WPG_METAFIELDS id=' . $post_id . ']', $body_data );
+			$body_data = str_replace( '{post-taxonomy}', '[MWB_WPG_TAXONOMY id=' . $post_id . ']', $body_data );
+			$body_data = str_replace( '{post-createddate}', '[MWB_WPG_POST_CREATEDDATE id=' . $post_id . ']', $body_data );
+			$body_data = str_replace( '{post-author}', '[MWB_WPG_POST_AUTHOR id=' . $post_id . ']', $body_data );
+			$html     .= do_shortcode( $body_data ) . '<span style="page-break-after: always;"></span>';
+
 		}
-		// category for posts.
-		if ( 'yes' === $pgfw_show_post_categories ) {
-			$categories = get_the_category( $post->ID );
-			if ( is_array( $categories ) && ! empty( $categories ) ) {
-				$html .= '<div><b>' . esc_html__( 'Category', 'pdf-generator-for-wordpress' ) . '</b></div>';
-				$html .= '<ul>';
-				foreach ( $categories as $category ) {
-					$html .= '<li>' . $category->name . '</li>';
-				}
-				$html .= '</ul>';
-			}
-		}
-		// tags for posts.
-		if ( 'yes' === $pgfw_show_post_tags ) {
-			$tags = get_the_tags( $post );
-			if ( is_array( $tags ) ) {
-				$html .= '<div><b>' . __( 'Tags', 'pdf-generator-for-wordpress' ) . '</b></div>';
-				$html .= '<ul>';
-				foreach ( $tags as $tag ) {
-					$html .= '<li>' . $tag->name . '</li> ';
-				}
-				$html .= '</ul>';
-			}
-		}
-		// post created date.
-		if ( 'yes' === $pgfw_show_post_date ) {
-			$created_date = get_the_date( 'F Y', $post );
-			$html        .= '<div><b>' . __( 'Date Created', 'pdf-generator-for-wordpress' ) . '</b></div>';
-			$html        .= '<div>' . $created_date . '</div>';
-		}
-		// post author.
-		if ( 'yes' === $pgfw_show_post_author ) {
-			$author_id   = $post->post_author;
-			$author_name = get_the_author_meta( 'user_nicename', $author_id );
-			$html       .= '<div><b>' . __( 'Author', 'pdf-generator-for-wordpress' ) . '</b></div>';
-			$html       .= '<div>' . $author_name . '</div>';
-		}
-		// meta fields.
-		$post_type               = $post->post_type;
-		$pgfw_show_type_meta_val = array_key_exists( 'pgfw_meta_fields_' . $post_type . '_show', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_' . $post_type . '_show' ] : '';
-		$pgfw_show_type_meta_arr = array_key_exists( 'pgfw_meta_fields_' . $post_type . '_list', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_' . $post_type . '_list' ] : array();
-		if ( 'yes' === $pgfw_show_type_meta_val ) {
-			if ( is_array( $pgfw_show_type_meta_arr ) ) {
-				$html .= '<div><b>' . __( 'Meta Fields', 'pdf-generator-for-wordpress' ) . '</b></div>';
-				foreach ( $pgfw_show_type_meta_arr as $meta_key ) {
-					$meta_val          = get_post_meta( $post->ID, $meta_key, true );
-					$wpg_meta_key_name = array_key_exists( $meta_key, $pgfw_meta_settings ) && '' !== $pgfw_meta_settings[ $meta_key ] ? $pgfw_meta_settings[ $meta_key ] : strtoupper( str_replace( '_', ' ', $meta_key ) );
-					if ( $meta_val ) {
-						$html .= '<div><b>' . $wpg_meta_key_name . ' : </b> ' . $meta_val . '</div>';
-					}
-				}
-			}
-		}
-		$html .= '</div></div>
-		<span style="page-break-after: always;overflow:hidden;"></span>';
 	}
 	return $html;
 }
