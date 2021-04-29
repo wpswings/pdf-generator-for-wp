@@ -51,6 +51,10 @@ $pgfw_body_array   = apply_filters( 'pgfw_body_settings_array', array() );
 				wp_nonce_field( 'nonce_settings_save', 'pgfw_nonce_field' );
 				$pgfw_mwb_pgfw_obj->mwb_pgfw_plug_generate_html( $pgfw_body_array );
 				?>
+				<div class="wpg_body_customisation_notice"><?php esc_html_e( 'Body customisation through editor.', 'wordpress-pdf-generator' ); ?></div>
+				<?php
+				do_action( 'mwb_pgfw_custmisation_editor', 'body' );
+				?>
 			</div>
 		</form>
 	</div>
