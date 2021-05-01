@@ -76,6 +76,9 @@
     border-top: 1px solid gray;
     padding-top: 5px;
 }
+.wpg-secion-wrap .tablenav .actions select{
+    padding: 0px 20px !important;
+}
 .pgfw_upload_header_image img, .pgfw_upload_footer_image img{
     width: 100px;
 }

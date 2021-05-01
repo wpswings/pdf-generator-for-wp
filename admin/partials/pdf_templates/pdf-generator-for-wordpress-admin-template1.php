@@ -26,7 +26,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 function return_ob_html( $post_id ) {
 	// advanced settings.
 	$pgfw_advanced_settings = get_option( 'pgfw_advanced_save_settings', array() );
-	$pgfw_ttf_font_doc      = array_key_exists( 'sub_pgfw_ttf_font_upload', $pgfw_advanced_settings ) ? $pgfw_advanced_settings['sub_pgfw_ttf_font_upload'] : '';
+	$pgfw_ttf_font_upload   = array_key_exists( 'pgfw_ttf_font_upload', $pgfw_advanced_settings ) ? $pgfw_advanced_settings['pgfw_ttf_font_upload'] : '';
+
 	// header customisation settings.
 	$pgfw_header_settings   = get_option( 'pgfw_header_setting_submit', array() );
 	$pgfw_header_use_in_pdf = array_key_exists( 'pgfw_header_use_in_pdf', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_use_in_pdf'] : '';
@@ -36,16 +37,17 @@ function return_ob_html( $post_id ) {
 	$pgfw_header_color      = array_key_exists( 'pgfw_header_color', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_color'] : '';
 	$pgfw_header_width      = array_key_exists( 'pgfw_header_width', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_width'] : '';
 	$pgfw_header_font_style = array_key_exists( 'pgfw_header_font_style', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_font_style'] : '';
-	$pgfw_header_font_style = ( $pgfw_header_font_style === $pgfw_ttf_font_doc ) ? 'My_font' : $pgfw_header_font_style;
+	$pgfw_header_font_style = ( 'custom' === $pgfw_header_font_style ) ? 'My_font' : $pgfw_header_font_style;
 	$pgfw_header_font_size  = array_key_exists( 'pgfw_header_font_size', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_font_size'] : '';
+	$pgfw_header_top        = array_key_exists( 'pgfw_header_top', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_top'] : '';
 	// body customisation settings.
 	$pgfw_body_settings         = get_option( 'pgfw_body_save_settings', array() );
 	$pgfw_body_title_font_style = array_key_exists( 'pgfw_body_title_font_style', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_title_font_style'] : '';
-	$pgfw_body_title_font_style = ( $pgfw_body_title_font_style === $pgfw_ttf_font_doc ) ? 'My_font' : $pgfw_body_title_font_style;
+	$pgfw_body_title_font_style = ( 'custom' === $pgfw_body_title_font_style ) ? 'My_font' : $pgfw_body_title_font_style;
 	$pgfw_body_title_font_size  = array_key_exists( 'pgfw_body_title_font_size', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_title_font_size'] : '';
 	$pgfw_body_title_font_color = array_key_exists( 'pgfw_body_title_font_color', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_title_font_color'] : '';
 	$pgfw_body_page_font_style  = array_key_exists( 'pgfw_body_page_font_style', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_page_font_style'] : '';
-	$pgfw_body_page_font_style  = ( $pgfw_body_page_font_style === $pgfw_ttf_font_doc ) ? 'My_font' : $pgfw_body_page_font_style;
+	$pgfw_body_page_font_style  = ( 'custom' === $pgfw_body_page_font_style ) ? 'My_font' : $pgfw_body_page_font_style;
 	$pgfw_body_page_font_size   = array_key_exists( 'pgfw_content_font_size', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_content_font_size'] : '';
 	$pgfw_body_page_font_color  = array_key_exists( 'pgfw_body_font_color', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_font_color'] : '';
 	$pgfw_body_border_size      = array_key_exists( 'pgfw_body_border_size', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_border_size'] : '';
@@ -53,6 +55,7 @@ function return_ob_html( $post_id ) {
 	$pgfw_body_margin_top       = array_key_exists( 'pgfw_body_margin_top', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_margin_top'] : '';
 	$pgfw_body_margin_left      = array_key_exists( 'pgfw_body_margin_left', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_margin_left'] : '';
 	$pgfw_body_margin_right     = array_key_exists( 'pgfw_body_margin_right', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_margin_right'] : '';
+	$pgfw_body_margin_bottom    = array_key_exists( 'pgfw_body_margin_bottom', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_margin_bottom'] : '';
 	$pgfw_body_rtl_support      = array_key_exists( 'pgfw_body_rtl_support', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_rtl_support'] : '';
 	// general settings.
 	$general_settings_data     = get_option( 'pgfw_general_settings_save', array() );
@@ -70,8 +73,9 @@ function return_ob_html( $post_id ) {
 	$pgfw_footer_color              = array_key_exists( 'pgfw_footer_color', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_color'] : '';
 	$pgfw_footer_width              = array_key_exists( 'pgfw_footer_width', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_width'] : '';
 	$pgfw_footer_font_style         = array_key_exists( 'pgfw_footer_font_style', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_font_style'] : '';
-	$pgfw_footer_font_style         = ( $pgfw_footer_font_style === $pgfw_ttf_font_doc ) ? 'My_font' : $pgfw_footer_font_style;
+	$pgfw_footer_font_style         = ( 'custom' === $pgfw_footer_font_style ) ? 'My_font' : $pgfw_footer_font_style;
 	$pgfw_footer_font_size          = array_key_exists( 'pgfw_footer_font_size', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_font_size'] : '';
+	$pgfw_footer_bottom             = array_key_exists( 'pgfw_footer_bottom', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_bottom'] : '';
 	$header_data                    = get_option( 'wpg_header_customisation_editor_data_save' );
 	$body_data                      = get_option( 'wpg_body_customisation_editor_data_save' );
 	$footer_data                    = get_option( 'wpg_footer_customisation_editor_data_save' );
@@ -85,36 +89,38 @@ function return_ob_html( $post_id ) {
 		$pgfw_footer_font_style     = 'DejaVu Sans, sans-serif';
 	}
 
-	if ( '' !== $pgfw_ttf_font_doc ) {
-		$font_url = get_the_guid( $pgfw_ttf_font_doc );
-		$html     = '<style>
-				@font-face{
-					font-family  : My_font;
-					src          : url("' . $font_url . '")  format("truetype");
-				}
-				@page {
-					margin-top   : ' . $pgfw_body_margin_top . ';
-					margin-left  : ' . $pgfw_body_margin_left . ';
-					margin-right : ' . $pgfw_body_margin_right . ';
-				}
-			</style>';
-	} else {
-		$html = '<style>
-				@page {
-					margin-top   : ' . $pgfw_body_margin_top . ';
-					margin-left  : ' . $pgfw_body_margin_left . ';
-					margin-right : ' . $pgfw_body_margin_right . ';
-				}
-			</style>';
+	$html = '';
+	if ( '' !== $pgfw_ttf_font_upload && ( $pgfw_ttf_font_upload ) ) {
+		$upload_dir     = wp_upload_dir();
+		$upload_baseurl = $upload_dir['baseurl'] . '/pgfw_ttf_font/';
+		$upload_basedir = $upload_dir['basedir'] . '/pgfw_ttf_font/';
+		$font_url       = $upload_baseurl . $pgfw_ttf_font_upload;
+		$font_path      = $upload_basedir . $pgfw_ttf_font_upload;
+		if ( file_exists( $font_path ) ) {
+			$html = '<style>
+					@font-face{
+						font-family  : My_font;
+						src          : url("' . $font_url . '")  format("truetype");
+					}
+				</style>';
+		}
 	}
+	$html .= '<style>
+			@page {
+				margin-top   : ' . $pgfw_body_margin_top . ';
+				margin-left  : ' . $pgfw_body_margin_left . ';
+				margin-right : ' . $pgfw_body_margin_right . ';
+				margin-bottom : ' . $pgfw_body_margin_bottom . ';
+			}
+		</style>';
 	// Header for pdf.
 	if ( ( 'yes' === $pgfw_header_use_in_pdf ) && ( 'yes' !== $pgfw_custom_header_from_editor ) ) {
 		$html .= '<style>
 					.pgfw-pdf-header-each-page{
-						position   : fixed;
-						left       : 0px;
-						height     : 100px;
-						top        : -45;
+						position : fixed;
+						left     : 0px;
+						height   : 100px;
+						top      : ' . $pgfw_header_top . ';
 					}
 					.pgfw-pdf-header{
 						border-bottom  : 2px solid gray;
@@ -142,13 +148,14 @@ function return_ob_html( $post_id ) {
 						</div>
 					</div>
 				</div>';
-	} else {
+	} elseif ( ( 'yes' === $pgfw_header_use_in_pdf ) && ( 'yes' === $pgfw_custom_header_from_editor ) ) {
 		$html .= '<style>
 		.wpg_header_data{
-			position   : fixed;
-			left       : 0px;
-			height     : 150px;
-			top        : -220px;
+			position    : fixed;
+			left        : 0px;
+			top         : ' . $pgfw_header_top . ';
+			font-family : ' . $pgfw_header_font_style . ';
+			font-size   : ' . $pgfw_header_font_size . ';
 		}
 	</style>
 	<div class="wpg_header_data">' . $header_data . '</div>';
@@ -159,7 +166,7 @@ function return_ob_html( $post_id ) {
 			.pgfw-pdf-footer{
 				position    : fixed;
 				left        : 0px;
-				bottom      : -150px;
+				bottom      : ' . $pgfw_footer_bottom . ';
 				height      : 150px;
 				border-top  : 2px solid gray;
 				padding     : ' . $pgfw_footer_width . 'px;
@@ -181,13 +188,19 @@ function return_ob_html( $post_id ) {
 						<span>' . esc_html( $pgfw_footer_tagline ) . '</span>
 					</div>
 				</div>';
-	} else {
+	} elseif ( ( 'yes' === $pgfw_footer_use_in_pdf ) && ( 'yes' === $pgfw_custom_footer_from_editor ) ) {
+		$footer_data = str_replace( '{pageno}', '<span class="pgfw-footer-pageno"></span>', $footer_data );
+
 		$html .= '<style>
 			.wpg_footer_data{
-				position : fixed;
-				left     : 0px;
-				bottom   : -140px;
-				height   : 150px;
+				position    : fixed;
+				left        : 0px;
+				bottom      : ' . $pgfw_footer_bottom . ';
+				font-family : ' . $pgfw_footer_font_style . ';
+				font-size   : ' . $pgfw_footer_font_size . ';
+			}
+			.pgfw-footer-pageno:after {
+				content : counter(page);
 			}
 		</style>
 		<div class="wpg_footer_data">' . $footer_data . '</div>';
@@ -196,11 +209,15 @@ function return_ob_html( $post_id ) {
 	if ( 'yes' !== $pgfw_custom_body_from_editor ) {
 		$post = get_post( $post_id );
 		if ( is_object( $post ) ) {
+			if ( $pgfw_body_border_size > 0 ) {
+				$html .= '<style>
+					.pgfw-pdf-body{
+						border  : ' . $pgfw_body_border_size . 'px solid ' . $pgfw_body_border_color . ';
+						padding : 10px;
+					}
+				</style>';
+			}
 			$html .= '<style>
-						.pgfw-pdf-body{
-							border     : ' . $pgfw_body_border_size . 'px solid ' . $pgfw_body_border_color . ';
-							border-top : none;
-						}
 						.pgfw-pdf-body-title{
 							font-family : ' . $pgfw_body_title_font_style . ';
 							font-size   : ' . $pgfw_body_title_font_size . 'px;
@@ -308,18 +325,32 @@ function return_ob_html( $post_id ) {
 					}
 				}
 			}
-			$html .= '</div></div>
-			<span style="page-break-after: always;overflow:hidden;"></span>';
-		} else {
-			$body_data = str_replace( '{post-title}', '[MWB_WPG_TITLE id=' . $post_id . ']', $body_data );
-			$body_data = str_replace( '{post-content}', '[MWB_WPG_DESCRIPTION id=' . $post_id . ']', $body_data );
-			$body_data = str_replace( '{post-metafields}', '[MWB_WPG_METAFIELDS id=' . $post_id . ']', $body_data );
-			$body_data = str_replace( '{post-taxonomy}', '[MWB_WPG_TAXONOMY id=' . $post_id . ']', $body_data );
-			$body_data = str_replace( '{post-createddate}', '[MWB_WPG_POST_CREATEDDATE id=' . $post_id . ']', $body_data );
-			$body_data = str_replace( '{post-author}', '[MWB_WPG_POST_AUTHOR id=' . $post_id . ']', $body_data );
-			$html     .= do_shortcode( $body_data ) . '<span style="page-break-after: always;"></span>';
-
+			$html .= '</div></div><span style="page-break-after: always;overflow:hidden;"></span>';
 		}
+	} else {
+		$body_data = str_replace( '{post-title}', '[MWB_WPG_TITLE id=' . $post_id . ']', $body_data );
+		$body_data = str_replace( '{post-thumbnail}', '[MWB_WPG_THUMBNAIL id=' . $post_id . ' width=250 height=250]', $body_data );
+		$body_data = str_replace( '{post-content}', '[MWB_WPG_DESCRIPTION id=' . $post_id . ']', $body_data );
+		$body_data = str_replace( '{post-metafields}', '[MWB_WPG_METAFIELDS id=' . $post_id . ']', $body_data );
+		$body_data = str_replace( '{post-taxonomy}', '[MWB_WPG_TAXONOMY id=' . $post_id . ']', $body_data );
+		$body_data = str_replace( '{post-createddate}', '[MWB_WPG_POST_CREATEDDATE id=' . $post_id . ']', $body_data );
+		$body_data = str_replace( '{post-author}', '[MWB_WPG_POST_AUTHOR id=' . $post_id . ']', $body_data );
+		if ( $pgfw_body_border_size > 0 ) {
+			$html .= '<style>
+			.pgfw-pdf-body-html{
+				border      : ' . $pgfw_body_border_size . 'px solid ' . $pgfw_body_border_color . ';
+				padding     : 10px;
+			}
+			</style>';
+		}
+		$html .= '<style>
+			.pgfw-pdf-body-html{
+				font-family : ' . $pgfw_body_page_font_style . ';
+			}
+		</style>
+		<div class="pgfw-pdf-body-html">' . do_shortcode( $body_data ) . '</div>
+		<span style="page-break-after: always;"></span>';
+
 	}
 	return $html;
 }

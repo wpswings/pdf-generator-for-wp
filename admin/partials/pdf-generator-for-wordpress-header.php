@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 global $pgfw_mwb_pgfw_obj;
-$pgfw_active_tab             = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw_tab'] ) : 'pdf-generator-for-wordpress-header';
+$pgfw_active_tab             = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw_tab'] ) : 'pdf-generator-for-wordpress-header'; // phpcs:ignore WordPress.Security.NonceVerification
 $pgfw_default_tabs           = $pgfw_mwb_pgfw_obj->mwb_pgfw_plug_default_sub_tabs();
 $pgfw_settings_header_fields = apply_filters( 'pgfw_header_settings_array', array() );
 ?>
@@ -51,9 +51,6 @@ $pgfw_settings_header_fields = apply_filters( 'pgfw_header_settings_array', arra
 				<?php
 				wp_nonce_field( 'nonce_settings_save', 'pgfw_nonce_field' );
 				$pgfw_mwb_pgfw_obj->mwb_pgfw_plug_generate_html( $pgfw_settings_header_fields );
-				?>
-				<div class="wpg_header_customisation_notice"><?php esc_html_e( 'Header customisation through editor.', 'pdf-generator-for-wordpress' ); ?></div>
-				<?php
 				do_action( 'mwb_pgfw_custmisation_editor', 'header' );
 				?>
 			</div>
