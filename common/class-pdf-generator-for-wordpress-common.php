@@ -341,8 +341,8 @@ class Pdf_Generator_For_WordPress_Common {
 		if ( ( 'yes' === $pgfw_poster_user_access && is_user_logged_in() ) || ( 'yes' === $pgfw_poster_guest_access && ! is_user_logged_in() ) ) {
 			if ( '' !== $poster_image_url && 'attachment' === $doc_type ) {
 				?>
-				<div>
-					<a href="<?php echo esc_url( $poster_image_url ); ?>" download><?php esc_html_e( 'Download Poster' ); ?></a>
+				<div id="pgfw-poster-dowload-url-link">
+					<a href="<?php echo esc_url( $poster_image_url ); ?>" download title="<?php esc_html_e( 'Download Poster', 'pdf-generator-for-wordpress' ); ?>"><img src="<?php echo esc_attr( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ); ?>admin/src/images/postericon.svg" alt="<?php esc_attr_e( 'Download Poster', 'pdf-generator-for-wordpress' ); ?>"/></a>
 				</div>
 				<?php
 			}
