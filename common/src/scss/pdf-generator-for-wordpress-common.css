@@ -66,3 +66,7 @@
         margin-top: 10px;
     }
 } 
+#pgfw-poster-dowload-url-link a img{
+    width: 25px !important;
+    height : 45px;
+}
