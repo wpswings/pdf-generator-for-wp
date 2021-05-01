@@ -77,10 +77,7 @@
     'italic' => $fontDir . '/DejaVuSerif-Italic',
     'normal' => $fontDir . '/DejaVuSerif',
   ),
-  'magnolia' => array(
-    'normal' => $fontDir . '/magnolia_normal_bc9ef5c1c9c5c43209dd44ff0b36186c',
-  ),
   'my_font' => array(
-    'normal' => $fontDir . '/my_font_normal_eacace183f5cf495329ba1c5bccb566f',
+    'normal' => $fontDir . '/my_font_normal_efd87d39adb46bc7c41e85a658a56cc0',
   ),
 ) ?>

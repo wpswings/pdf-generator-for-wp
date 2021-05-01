@@ -50,9 +50,6 @@ $pgfw_footer_settings_array = apply_filters( 'pgfw_footer_settings_array', array
 				<?php
 				wp_nonce_field( 'nonce_settings_save', 'pgfw_nonce_field' );
 				$pgfw_mwb_pgfw_obj->mwb_pgfw_plug_generate_html( $pgfw_footer_settings_array );
-				?>
-				<div class="wpg_footer_customisation_notice"><?php esc_html_e( 'Footer customisation through editor.', 'pdf-generator-for-wordpress' ); ?></div>
-				<?php
 				do_action( 'mwb_pgfw_custmisation_editor', 'footer' );
 				?>
 			</div>

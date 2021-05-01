@@ -293,7 +293,9 @@ class Pdf_Generator_For_WordPress_Common {
 		if ( ( 'yes' === $pgfw_poster_user_access && is_user_logged_in() ) || ( 'yes' === $pgfw_poster_guest_access && ! is_user_logged_in() ) ) {
 			if ( '' !== $poster_image_url && 'attachment' === $doc_type ) {
 				?>
-				<a href="<?php echo esc_url( $poster_image_url ); ?>" download><?php esc_html_e( 'Download Poster' ); ?></a>
+				<div>
+					<a href="<?php echo esc_url( $poster_image_url ); ?>" download><?php esc_html_e( 'Download Poster' ); ?></a>
+				</div>
 				<?php
 			}
 		}

@@ -812,6 +812,9 @@ class Pdf_Generator_For_WordPress {
 									value="<?php echo ( isset( $pgfw_component['value'] ) ? esc_attr( $pgfw_component['value'] ) : '' ); ?>"
 									<?php echo esc_html( ( 'date' === $pgfw_component['type'] ) ? 'max=' . gmdate( 'Y-m-d', strtotime( gmdate( 'Y-m-d', mktime() ) . ' + 365 day' ) ) . ' min=' . gmdate( 'Y-m-d' ) . '' : '' ); ?>
 									>
+									<?php if ( 'file' === $pgfw_component['type'] ) { ?>
+									<span><?php echo esc_attr( $pgfw_component['value'] ); ?></span>
+									<?php } ?>
 									<div class="mdc-text-field-helper-line">
 										<div class="mdc-text-field-helper-text--persistent mwb-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
 									</div>

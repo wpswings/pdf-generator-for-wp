@@ -48,6 +48,7 @@
 				},
 				success: function( msg ) {
 					$('#pgfw-user-email-submittion-message').html(msg);
+					setTimeout(function(){ location.reload(); }, 5000);
 				}, error : function() {
 					$('#pgfw-user-email-submittion-message').html(pgfw_common_param.email_submit_error);
 				} 
