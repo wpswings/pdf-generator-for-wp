@@ -221,6 +221,9 @@ class Pdf_Generator_For_WordPress {
 		$this->loader->add_action( 'admin_init', $pgfw_plugin_admin, 'pgfw_admin_save_tab_settings' );
 		// Deleting media from table by media ID.
 		$this->loader->add_action( 'wp_ajax_mwb_pgfw_delete_poster_by_media_id_from_table', $pgfw_plugin_admin, 'mwb_pgfw_delete_poster_by_media_id_from_table' );
+		// schedular fo deleting documents form server.
+		$this->loader->add_action( 'init', $pgfw_plugin_admin, 'pgfw_delete_pdf_form_server_scheduler' );
+		$this->loader->add_action( 'pgfw_cron_delete_pdf_from_server', $pgfw_plugin_admin, 'pgfw_delete_pdf_from_server' );
 	}
 
 	/**
@@ -368,7 +371,7 @@ class Pdf_Generator_For_WordPress {
 		);
 
 		$pgfw_default_tabs['pdf-generator-for-wordpress-customize'] = array(
-			'title' => esc_html__( 'Customizations', 'pdf-generator-for-wordpress' ),
+			'title' => esc_html__( 'Layout Settings', 'pdf-generator-for-wordpress' ),
 			'name'  => 'pdf-generator-for-wordpress-customize',
 		);
 
@@ -404,8 +407,6 @@ class Pdf_Generator_For_WordPress {
 			'name'  => 'pdf-generator-for-wordpress-header',
 		);
 
-		$pgfw_default_tabs = apply_filters( 'mwb_pgfw_plugin_standard_admin_settings_sub_tabs', $pgfw_default_tabs );
-
 		$pgfw_default_tabs['pdf-generator-for-wordpress-body'] = array(
 			'title' => esc_html__( 'Body Settings', 'pdf-generator-for-wordpress' ),
 			'name'  => 'pdf-generator-for-wordpress-body',
@@ -415,6 +416,8 @@ class Pdf_Generator_For_WordPress {
 			'title' => esc_html__( 'Footer', 'pdf-generator-for-wordpress' ),
 			'name'  => 'pdf-generator-for-wordpress-footer',
 		);
+
+		$pgfw_default_tabs = apply_filters( 'mwb_pgfw_plugin_standard_admin_settings_sub_tabs', $pgfw_default_tabs );
 		return $pgfw_default_tabs;
 	}
 
@@ -445,6 +448,7 @@ class Pdf_Generator_For_WordPress {
 	 */
 	public function mwb_pgfw_plug_load_sub_template( $path, $params = array() ) {
 		$pgfw_file_path = PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . $path;
+		$pgfw_file_path = apply_filters( 'mwb_pgfw_setting_sub_page_loading_filter_hook', $pgfw_file_path, $path );
 		if ( file_exists( $pgfw_file_path ) ) {
 			include $pgfw_file_path;
 		} else {
@@ -532,6 +536,7 @@ class Pdf_Generator_For_WordPress {
 									placeholder="<?php echo ( isset( $pgfw_component['placeholder'] ) ? esc_attr( $pgfw_component['placeholder'] ) : '' ); ?>"
 									<?php echo ( 'number' === $pgfw_component['type'] && isset( $pgfw_component['min'] ) ) ? esc_html( 'min=' . $pgfw_component['min'] ) : ''; ?>
 									<?php echo ( 'number' === $pgfw_component['type'] && isset( $pgfw_component['max'] ) ) ? esc_html( 'max=' . $pgfw_component['max'] ) : ''; ?>
+									<?php echo isset( $pgfw_component['step'] ) ? esc_html( 'step=' . $pgfw_component['step'] ) : ''; ?>
 									>
 								</label>
 								<div class="mdc-text-field-helper-line">
