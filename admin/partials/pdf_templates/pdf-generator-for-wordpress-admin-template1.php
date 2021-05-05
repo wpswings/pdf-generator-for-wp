@@ -41,22 +41,27 @@ function return_ob_html( $post_id ) {
 	$pgfw_header_font_size  = array_key_exists( 'pgfw_header_font_size', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_font_size'] : '';
 	$pgfw_header_top        = array_key_exists( 'pgfw_header_top', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_top'] : '';
 	// body customisation settings.
-	$pgfw_body_settings         = get_option( 'pgfw_body_save_settings', array() );
-	$pgfw_body_title_font_style = array_key_exists( 'pgfw_body_title_font_style', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_title_font_style'] : '';
-	$pgfw_body_title_font_style = ( 'custom' === $pgfw_body_title_font_style ) ? 'My_font' : $pgfw_body_title_font_style;
-	$pgfw_body_title_font_size  = array_key_exists( 'pgfw_body_title_font_size', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_title_font_size'] : '';
-	$pgfw_body_title_font_color = array_key_exists( 'pgfw_body_title_font_color', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_title_font_color'] : '';
-	$pgfw_body_page_font_style  = array_key_exists( 'pgfw_body_page_font_style', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_page_font_style'] : '';
-	$pgfw_body_page_font_style  = ( 'custom' === $pgfw_body_page_font_style ) ? 'My_font' : $pgfw_body_page_font_style;
-	$pgfw_body_page_font_size   = array_key_exists( 'pgfw_content_font_size', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_content_font_size'] : '';
-	$pgfw_body_page_font_color  = array_key_exists( 'pgfw_body_font_color', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_font_color'] : '';
-	$pgfw_body_border_size      = array_key_exists( 'pgfw_body_border_size', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_border_size'] : '';
-	$pgfw_body_border_color     = array_key_exists( 'pgfw_body_border_color', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_border_color'] : '';
-	$pgfw_body_margin_top       = array_key_exists( 'pgfw_body_margin_top', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_margin_top'] : '';
-	$pgfw_body_margin_left      = array_key_exists( 'pgfw_body_margin_left', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_margin_left'] : '';
-	$pgfw_body_margin_right     = array_key_exists( 'pgfw_body_margin_right', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_margin_right'] : '';
-	$pgfw_body_margin_bottom    = array_key_exists( 'pgfw_body_margin_bottom', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_margin_bottom'] : '';
-	$pgfw_body_rtl_support      = array_key_exists( 'pgfw_body_rtl_support', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_rtl_support'] : '';
+	$pgfw_body_settings              = get_option( 'pgfw_body_save_settings', array() );
+	$pgfw_body_title_font_style      = array_key_exists( 'pgfw_body_title_font_style', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_title_font_style'] : '';
+	$pgfw_body_title_font_style      = ( 'custom' === $pgfw_body_title_font_style ) ? 'My_font' : $pgfw_body_title_font_style;
+	$pgfw_body_title_font_size       = array_key_exists( 'pgfw_body_title_font_size', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_title_font_size'] : '';
+	$pgfw_body_title_font_color      = array_key_exists( 'pgfw_body_title_font_color', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_title_font_color'] : '';
+	$pgfw_body_page_font_style       = array_key_exists( 'pgfw_body_page_font_style', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_page_font_style'] : '';
+	$pgfw_body_page_font_style       = ( 'custom' === $pgfw_body_page_font_style ) ? 'My_font' : $pgfw_body_page_font_style;
+	$pgfw_body_page_font_size        = array_key_exists( 'pgfw_content_font_size', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_content_font_size'] : '';
+	$pgfw_body_page_font_color       = array_key_exists( 'pgfw_body_font_color', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_font_color'] : '';
+	$pgfw_body_border_size           = array_key_exists( 'pgfw_body_border_size', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_border_size'] : '';
+	$pgfw_body_border_color          = array_key_exists( 'pgfw_body_border_color', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_border_color'] : '';
+	$pgfw_body_margin_top            = array_key_exists( 'pgfw_body_margin_top', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_margin_top'] : '';
+	$pgfw_body_margin_left           = array_key_exists( 'pgfw_body_margin_left', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_margin_left'] : '';
+	$pgfw_body_margin_right          = array_key_exists( 'pgfw_body_margin_right', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_margin_right'] : '';
+	$pgfw_body_margin_bottom         = array_key_exists( 'pgfw_body_margin_bottom', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_margin_bottom'] : '';
+	$pgfw_body_rtl_support           = array_key_exists( 'pgfw_body_rtl_support', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_rtl_support'] : '';
+	$pgfw_watermark_image_use_in_pdf = array_key_exists( 'pgfw_watermark_image_use_in_pdf', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_watermark_image_use_in_pdf'] : '';
+	$pgfw_border_position_top        = array_key_exists( 'pgfw_border_position_top', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_top'] : '';
+	$pgfw_border_position_bottom     = array_key_exists( 'pgfw_border_position_bottom', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_bottom'] : '';
+	$pgfw_border_position_left       = array_key_exists( 'pgfw_border_position_left', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_left'] : '';
+	$pgfw_border_position_right      = array_key_exists( 'pgfw_border_position_right', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_right'] : '';
 	// general settings.
 	$general_settings_data     = get_option( 'pgfw_general_settings_save', array() );
 	$pgfw_show_post_categories = array_key_exists( 'pgfw_general_pdf_show_categories', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_categories'] : '';
@@ -113,6 +118,19 @@ function return_ob_html( $post_id ) {
 				margin-bottom : ' . $pgfw_body_margin_bottom . ';
 			}
 		</style>';
+	if ( $pgfw_body_border_size > 0 ) {
+		$html .= '<style>
+			.pgfw-border-page {
+				position: fixed;
+				margin-bottom: ' . $pgfw_border_position_bottom . ';
+				margin-left: ' . $pgfw_border_position_left . ';
+				margin-top: ' . $pgfw_border_position_top . ';
+				margin-right: ' . $pgfw_border_position_right . ';
+				border  : ' . $pgfw_body_border_size . 'px solid ' . $pgfw_body_border_color . ';
+			}
+		</style>
+		<div class="pgfw-border-page" ></div>';
+	}
 	// Header for pdf.
 	if ( ( 'yes' === $pgfw_header_use_in_pdf ) && ( 'yes' !== $pgfw_custom_header_from_editor ) ) {
 		$html .= '<style>
@@ -207,16 +225,11 @@ function return_ob_html( $post_id ) {
 	}
 	// body for pdf.
 	if ( 'yes' !== $pgfw_custom_body_from_editor ) {
+		if ( 'yes' === $pgfw_watermark_image_use_in_pdf ) {
+			$html = apply_filters( 'pgfw_customize_body_watermark_image_pdf', $html );
+		}
 		$post = get_post( $post_id );
 		if ( is_object( $post ) ) {
-			if ( $pgfw_body_border_size > 0 ) {
-				$html .= '<style>
-					.pgfw-pdf-body{
-						border  : ' . $pgfw_body_border_size . 'px solid ' . $pgfw_body_border_color . ';
-						padding : 10px;
-					}
-				</style>';
-			}
 			$html .= '<style>
 						.pgfw-pdf-body-title{
 							font-family : ' . $pgfw_body_title_font_style . ';
@@ -328,20 +341,21 @@ function return_ob_html( $post_id ) {
 			$html .= '</div></div><span style="page-break-after: always;overflow:hidden;"></span>';
 		}
 	} else {
+		if ( 'yes' === $pgfw_watermark_image_use_in_pdf ) {
+			$html = apply_filters( 'pgfw_customize_body_watermark_image_pdf', $html );
+		}
 		$body_data = str_replace( '{post-title}', '[MWB_WPG_TITLE id=' . $post_id . ']', $body_data );
-		$body_data = str_replace( '{post-thumbnail}', '[MWB_WPG_THUMBNAIL id=' . $post_id . ' width=250 height=250]', $body_data );
 		$body_data = str_replace( '{post-content}', '[MWB_WPG_DESCRIPTION id=' . $post_id . ']', $body_data );
 		$body_data = str_replace( '{post-metafields}', '[MWB_WPG_METAFIELDS id=' . $post_id . ']', $body_data );
 		$body_data = str_replace( '{post-taxonomy}', '[MWB_WPG_TAXONOMY id=' . $post_id . ']', $body_data );
 		$body_data = str_replace( '{post-createddate}', '[MWB_WPG_POST_CREATEDDATE id=' . $post_id . ']', $body_data );
 		$body_data = str_replace( '{post-author}', '[MWB_WPG_POST_AUTHOR id=' . $post_id . ']', $body_data );
-		if ( $pgfw_body_border_size > 0 ) {
-			$html .= '<style>
-			.pgfw-pdf-body-html{
-				border      : ' . $pgfw_body_border_size . 'px solid ' . $pgfw_body_border_color . ';
-				padding     : 10px;
+		preg_match_all( '/<img[^>]+>/i', $body_data, $result );
+		if ( isset( $result[0][0] ) ) {
+			preg_match_all( '/(width|height)=("[^"]*")/i', $result[0][0], $img );
+			if ( isset( $img[0][0] ) && isset( $img[0][1] ) ) {
+				$body_data = str_replace( $result[0][0], '[MWB_WPG_THUMBNAIL id=' . $post_id . ' ' . $img[0][0] . ' ' . $img[0][1] . ']', $body_data );
 			}
-			</style>';
 		}
 		$html .= '<style>
 			.pgfw-pdf-body-html{

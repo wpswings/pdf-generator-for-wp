@@ -14,7 +14,7 @@
  * @wordpress-plugin
  * Plugin Name:       PDF Generator For WordPress
  * Plugin URI:        https://makewebbetter.com/product/pdf-generator-for-wordpress/
- * Description:       generates pdf for various post types in WordPress.
+ * Description:       Let your users download pages, posts, and products in PDF format using this plugin allowing you to add technical and marketing utility for your WordPress site.
  * Version:           1.0.0
  * Author:            makewebbetter
  * Author URI:        https://makewebbetter.com/
@@ -162,6 +162,7 @@ function pdf_generator_for_wordpress_custom_settings_at_plugin_tab( $links_array
 		$links_array[] = '<a href="#" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/Demo.svg" class="mwb-info-img" alt="Demo image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Demo', 'pdf-generator-for-wordpress' ) . '</a>';
 		$links_array[] = '<a href="#" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/Documentation.svg" class="mwb-info-img" alt="documentation image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Documentation', 'pdf-generator-for-wordpress' ) . '</a>';
 		$links_array[] = '<a href="#" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/Support.svg" class="mwb-info-img" alt="support image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Support', 'pdf-generator-for-wordpress' ) . '</a>';
+		$links_array[] = '<a href="https://makewebbetter.com/product/wordpress-pdf-generator/" target="_blank">' . esc_html__( 'Go Pro', 'pdf-generator-for-wordpress' ) . '</a>';
 	}
 	return $links_array;
 }

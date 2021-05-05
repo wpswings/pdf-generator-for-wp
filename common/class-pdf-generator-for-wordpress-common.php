@@ -276,9 +276,6 @@ class Pdf_Generator_For_WordPress_Common {
 		$output       = $dompdf->output();
 		if ( 'download_locally' === $pgfw_generate_mode ) {
 			$path = $upload_basedir . $document_name . '.pdf';
-			if ( ! file_exists( $path ) ) {
-				@file_put_contents( $path, $output ); // phpcs:ignore
-			}
 			$dompdf->stream(
 				$document_name . '.pdf',
 				array(
@@ -287,9 +284,6 @@ class Pdf_Generator_For_WordPress_Common {
 			);
 		} elseif ( 'open_window' === $pgfw_generate_mode ) {
 			$path = $upload_basedir . $document_name . '.pdf';
-			if ( ! file_exists( $path ) ) {
-				@file_put_contents( $path, $output ); // phpcs:ignore
-			}
 			$dompdf->stream(
 				$document_name . '.pdf',
 				array(
@@ -300,7 +294,9 @@ class Pdf_Generator_For_WordPress_Common {
 		} elseif ( 'upload_on_server_and_mail' === $pgfw_generate_mode ) {
 			$output = $dompdf->output();
 			$path   = $upload_basedir . $document_name . '.pdf';
-			if ( ! file_exists( $path ) ) {
+			if ( file_exists( $path ) ) {
+				@unlink( $path ); // phpcs:ignore
+			} else {
 				@file_put_contents( $path, $output ); // phpcs:ignore
 			}
 			wp_mail( $email, __( 'document form site', 'pdf-generator-for-wordpress' ), __( 'Please find these attachment', 'pdf-generator-for-wordpress' ), '', array( $path ) );
