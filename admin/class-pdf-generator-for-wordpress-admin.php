@@ -1339,7 +1339,7 @@ class Pdf_Generator_For_WordPress_Admin {
 				array(
 					'post_type' => $post_type,
 					'limit'     => -1,
-				),
+				)
 			);
 			foreach ( $posts as $post ) {
 				$post_meta_keys = get_post_custom_keys( $post->ID );
