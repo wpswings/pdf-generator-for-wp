@@ -126,7 +126,7 @@ class Pdf_Generator_For_WordPress_Admin {
 					'upload_image'       => esc_html__( 'Upload Image', 'pdf-generator-for-wordpress' ),
 					'use_image'          => esc_html__( 'Use Image', 'pdf-generator-for-wordpress' ),
 					'confirm_text'       => esc_html__( 'Are you sure you want to delete Doc ?', 'pdf-generator-for-wordpress' ),
-				),
+				)
 			);
 		}
 	}
