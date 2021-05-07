@@ -1,0 +1,182 @@
+@charset "UTF-8";
+/* Create Color variables here
+ * follow this link for Color name
+ * https://chir.ag/projects/name-that-color/
+ * and use $c prefix.
+ * use lowercase for color code and variable name 
+ * i.e $c-black: #000000; */
+/* Create Typo variables here
+ * use $ff prefix for font family
+ * use $fs for font size
+ i.e $ff-roboto-b: Roboto-bold;
+ * $fs-large: 40px; */
+/* Placeholders */
+/* Mixins */
+/* SCSS Functions */
+/* Enter Your Global CSS here */
+* {
+  box-sizing: border-box;
+}
+
+*:after, *:before {
+  box-sizing: border-box;
+}
+
+.mwb-info-img {
+  display: inline-block;
+  margin-right: 6px;
+  margin-top: -3px;
+  max-width: 15px;
+}
+
+/* Enter Button Global CSS Here */
+/* Header CSS */
+/* Footer CSS */
+/* Navigation CSS */
+/* Sidebar CSS */
+/* About page css */
+/* Home Page CSS */
+/* Overview page css */
+.mwb-overview__wrapper {
+  width: calc(100% - 20px);
+}
+
+.mwb-overview__wrapper .mwb-overview__banner {
+  background-color: #ffffff;
+  margin: 10px 0 25px;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.mwb-overview__wrapper .mwb-overview__banner img {
+  width: 100%;
+}
+
+.mwb-overview__wrapper .mwb-overview__content .mwb-overview__content-description {
+  background-color: #ffffff;
+  margin-bottom: 30px;
+  padding: 25px 0;
+  text-align: left;
+}
+
+.mwb-overview__wrapper .mwb-overview__content .mwb-overview__content-description h2 {
+  color: #163062;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  line-height: 150%;
+  margin: 10px 0px;
+  text-align: left;
+}
+
+.mwb-overview__wrapper .mwb-overview__content .mwb-overview__content-description p {
+  color: #565857;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+.mwb-overview__wrapper .mwb-overview__content .mwb-overview__content-description h3 {
+  color: #163062;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  margin-bottom: 15px;
+  margin-top: 25px;
+}
+
+.mwb-overview__wrapper .mwb-overview__content .mwb-overview__content-description .mwb-overview__features {
+  list-style: none;
+}
+
+.mwb-overview__wrapper .mwb-overview__content .mwb-overview__content-description .mwb-overview__features li {
+  color: #565857;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  line-height: 24px;
+}
+
+.mwb-overview__wrapper .mwb-overview__content .mwb-overview__content-description .mwb-overview__features li:before {
+  color: #1a3365;
+  content: "⚬";
+  font-size: 20px;
+  font-weight: 400;
+  vertical-align: middle;
+}
+
+.mwb-overview__wrapper .mwb-overview__content h2 {
+  color: #163062;
+  font-size: 30px;
+  font-weight: 600;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  line-height: 150%;
+  margin: 10px 0px;
+  text-align: left;
+}
+
+.mwb-overview__wrapper .mwb-overview__content .mwb-overview__keywords {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+
+.mwb-overview__wrapper .mwb-overview__content .mwb-overview__keywords .mwb-overview__keywords-item {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 0 0 33.33%;
+  margin-bottom: 20px;
+  max-width: 33.33%;
+  padding: 0 15px;
+}
+
+.mwb-overview__wrapper .mwb-overview__content .mwb-overview__keywords .mwb-overview__keywords-item .mwb-overview__keywords-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #dddddd;
+  box-shadow: 0px 4px 10px #efefef;
+  color: #ffffff;
+  flex-grow: 1;
+  padding: 30px;
+}
+
+.mwb-overview__wrapper .mwb-overview__content .mwb-overview__keywords .mwb-overview__keywords-item .mwb-overview__keywords-card .mwb-overview__keywords-image {
+  overflow: hidden;
+}
+
+.mwb-overview__wrapper .mwb-overview__content .mwb-overview__keywords .mwb-overview__keywords-item .mwb-overview__keywords-card .mwb-overview__keywords-image img {
+  max-width: 80px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: auto;
+}
+
+.mwb-overview__wrapper .mwb-overview__content .mwb-overview__keywords .mwb-overview__keywords-item .mwb-overview__keywords-card .mwb-overview__keywords-text .mwb-overview__keywords-heading {
+  color: #163062;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  line-height: 38px;
+  margin: 15px 0;
+}
+
+.mwb-overview__wrapper .mwb-overview__content .mwb-overview__keywords .mwb-overview__keywords-item .mwb-overview__keywords-card .mwb-overview__keywords-text .mwb-overview__keywords-description {
+  color: #565857;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+/* overview page css ends */
+
+@media (max-width: 992px){
+  .mwb-overview__wrapper .mwb-overview__content .mwb-overview__keywords .mwb-overview__keywords-item {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 768px){
+  .mwb-overview__wrapper .mwb-overview__content .mwb-overview__keywords .mwb-overview__keywords-item {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}

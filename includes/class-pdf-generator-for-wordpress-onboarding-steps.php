@@ -19,13 +19,13 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-if ( class_exists( 'Pdf_Generator_For_Wordpress_Onboarding_Steps' ) ) {
+if ( class_exists( 'Pdf_Generator_For_WordPress_Onboarding_Steps' ) ) {
 	return;
 }
 /**
  * Define class and module for onboarding steps.
  */
-class Pdf_Generator_For_Wordpress_Onboarding_Steps {
+class Pdf_Generator_For_WordPress_Onboarding_Steps {
 
 	/**
 	 * The single instance of the class.
@@ -170,7 +170,7 @@ class Pdf_Generator_For_Wordpress_Onboarding_Steps {
 		if ( $this->mwb_pgfw_valid_page_screen_check() || $is_valid ) {
 			// comment the line of code Only when your plugin doesn't uses the Select2.
 			wp_enqueue_style( 'mwb-pgfw-onboarding-select2-style', PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'package/lib/select-2/pdf-generator-for-wordpress-select2.css', array(), time(), 'all' );
-			
+
 			wp_enqueue_style( 'mwb-pgfw-meterial-css', PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'package/lib/material-design/material-components-web.min.css', array(), time(), 'all' );
 			wp_enqueue_style( 'mwb-pgfw-meterial-css2', PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.css', array(), time(), 'all' );
 			wp_enqueue_style( 'mwb-pgfw-meterial-lite', PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'package/lib/material-design/material-lite.min.css', array(), time(), 'all' );
@@ -213,10 +213,10 @@ class Pdf_Generator_For_Wordpress_Onboarding_Steps {
 				'mwb-pgfw-onboarding-scripts',
 				'mwb_pgfw_onboarding',
 				array(
-					'ajaxurl'       => admin_url( 'admin-ajax.php' ),
-					'pgfw_auth_nonce'    => wp_create_nonce( 'mwb_pgfw_onboarding_nonce' ),
-					'pgfw_current_screen'    => $pagenow,
-					'pgfw_current_supported_slug'    => apply_filters( 'mwb_pgfw_deactivation_supported_slug', array( $pgfw_current_slug ) ),
+					'ajaxurl'                     => admin_url( 'admin-ajax.php' ),
+					'pgfw_auth_nonce'             => wp_create_nonce( 'mwb_pgfw_onboarding_nonce' ),
+					'pgfw_current_screen'         => $pagenow,
+					'pgfw_current_supported_slug' => apply_filters( 'mwb_pgfw_deactivation_supported_slug', array( $pgfw_current_slug ) ),
 				)
 			);
 		}
@@ -253,8 +253,8 @@ class Pdf_Generator_For_Wordpress_Onboarding_Steps {
 	 */
 	public function mwb_pgfw_skip_onboarding_popup() {
 
-	 $get_skipped_timstamp = update_option( 'mwb_pgfw_onboarding_data_skipped', time() );
-		echo json_encode( 'true' );
+		$get_skipped_timstamp = update_option( 'mwb_pgfw_onboarding_data_skipped', time() );
+		echo wp_json_encode( 'true' );
 		wp_die();
 	}
 
@@ -296,131 +296,131 @@ class Pdf_Generator_For_Wordpress_Onboarding_Steps {
 			 */
 
 			rand() => array(
-				'id' => 'mwb-pgfw-monthly-revenue',
-				'title' => esc_html__( 'What is your monthly revenue?', 'pdf-generator-for-wordpress' ),
-				'type' => 'radio',
+				'id'          => 'mwb-pgfw-monthly-revenue',
+				'title'       => esc_html__( 'What is your monthly revenue?', 'pdf-generator-for-wordpress' ),
+				'type'        => 'radio',
 				'description' => '',
-				'name' => 'monthly_revenue_',
-				'value' => '',
-				'multiple' => 'no',
+				'name'        => 'monthly_revenue_',
+				'value'       => '',
+				'multiple'    => 'no',
 				'placeholder' => '',
-				'required' => 'yes',
-				'class' => '',
-				'options' => array(
-					'0-500'         => $currency_symbol . '0-' . $currency_symbol . '500',
-					'501-5000'          => $currency_symbol . '501-' . $currency_symbol . '5000',
-					'5001-10000'        => $currency_symbol . '5001-' . $currency_symbol . '10000',
-					'10000+'        => $currency_symbol . '10000+',
+				'required'    => 'yes',
+				'class'       => '',
+				'options'     => array(
+					'0-500'      => $currency_symbol . '0-' . $currency_symbol . '500',
+					'501-5000'   => $currency_symbol . '501-' . $currency_symbol . '5000',
+					'5001-10000' => $currency_symbol . '5001-' . $currency_symbol . '10000',
+					'10000+'     => $currency_symbol . '10000+',
 				),
 			),
 
 			rand() => array(
-				'id' => 'mwb_pgfw_industry_type',
-				'title' => esc_html__( 'What industry defines your business?', 'pdf-generator-for-wordpress' ),
-				'type' => 'select',
-				'name' => 'industry_type_',
-				'value' => '',
+				'id'          => 'mwb_pgfw_industry_type',
+				'title'       => esc_html__( 'What industry defines your business?', 'pdf-generator-for-wordpress' ),
+				'type'        => 'select',
+				'name'        => 'industry_type_',
+				'value'       => '',
 				'description' => '',
-				'multiple' => 'yes',
+				'multiple'    => 'yes',
 				'placeholder' => esc_html__( 'Industry Type', 'pdf-generator-for-wordpress' ),
-				'required' => 'yes',
-				'class' => '',
-				'options' => array(
-					'agency'                => 'Agency',
-					'consumer-services'     => 'Consumer Services',
-					'ecommerce'             => 'Ecommerce',
-					'financial-services'    => 'Financial Services',
-					'healthcare'            => 'Healthcare',
-					'manufacturing'         => 'Manufacturing',
+				'required'    => 'yes',
+				'class'       => '',
+				'options'     => array(
+					'agency'                  => 'Agency',
+					'consumer-services'       => 'Consumer Services',
+					'ecommerce'               => 'Ecommerce',
+					'financial-services'      => 'Financial Services',
+					'healthcare'              => 'Healthcare',
+					'manufacturing'           => 'Manufacturing',
 					'nonprofit-and-education' => 'Nonprofit and Education',
-					'professional-services' => 'Professional Services',
-					'real-estate'           => 'Real Estate',
-					'software'              => 'Software',
-					'startups'              => 'Startups',
-					'restaurant'            => 'Restaurant',
-					'fitness'               => 'Fitness',
-					'jewelry'               => 'Jewelry',
-					'beauty'                => 'Beauty',
-					'celebrity'             => 'Celebrity',
-					'gaming'                => 'Gaming',
-					'government'            => 'Government',
-					'sports'                => 'Sports',
-					'retail-store'          => 'Retail Store',
-					'travel'                => 'Travel',
-					'political-campaign'    => 'Political Campaign',
+					'professional-services'   => 'Professional Services',
+					'real-estate'             => 'Real Estate',
+					'software'                => 'Software',
+					'startups'                => 'Startups',
+					'restaurant'              => 'Restaurant',
+					'fitness'                 => 'Fitness',
+					'jewelry'                 => 'Jewelry',
+					'beauty'                  => 'Beauty',
+					'celebrity'               => 'Celebrity',
+					'gaming'                  => 'Gaming',
+					'government'              => 'Government',
+					'sports'                  => 'Sports',
+					'retail-store'            => 'Retail Store',
+					'travel'                  => 'Travel',
+					'political-campaign'      => 'Political Campaign',
 				),
 			),
 
 			rand() => array(
-				'id' => 'mwb-pgfw-onboard-email',
-				'title' => esc_html__( 'What is the best email address to contact you?', 'pdf-generator-for-wordpress' ),
-				'type' => 'email',
+				'id'          => 'mwb-pgfw-onboard-email',
+				'title'       => esc_html__( 'What is the best email address to contact you?', 'pdf-generator-for-wordpress' ),
+				'type'        => 'email',
 				'description' => '',
-				'name' => 'email',
+				'name'        => 'email',
 				'placeholder' => esc_html__( 'Email', 'pdf-generator-for-wordpress' ),
-				'value' => $current_user_email,
-				'required' => 'yes',
-				'class' => 'pgfw-text-class',
+				'value'       => $current_user_email,
+				'required'    => 'yes',
+				'class'       => 'pgfw-text-class',
 			),
 
 			rand() => array(
-				'id' => 'mwb-pgfw-onboard-number',
-				'title' => esc_html__( 'What is your contact number?', 'pdf-generator-for-wordpress' ),
-				'type' => 'text',
+				'id'          => 'mwb-pgfw-onboard-number',
+				'title'       => esc_html__( 'What is your contact number?', 'pdf-generator-for-wordpress' ),
+				'type'        => 'text',
 				'description' => '',
-				'name' => 'phone',
-				'value' => '',
+				'name'        => 'phone',
+				'value'       => '',
 				'placeholder' => esc_html__( 'Contact Number', 'pdf-generator-for-wordpress' ),
-				'required' => 'yes',
-				'class' => '',
+				'required'    => 'yes',
+				'class'       => '',
 			),
 
 			rand() => array(
-				'id' => 'mwb-pgfw-store-name',
-				'title' => '',
+				'id'          => 'mwb-pgfw-store-name',
+				'title'       => '',
 				'description' => '',
-				'type' => 'hidden',
-				'name' => 'company',
+				'type'        => 'hidden',
+				'name'        => 'company',
 				'placeholder' => '',
-				'value' => self::$mwb_pgfw_store_name,
-				'required' => '',
-				'class' => '',
+				'value'       => self::$mwb_pgfw_store_name,
+				'required'    => '',
+				'class'       => '',
 			),
 
 			rand() => array(
-				'id' => 'mwb-pgfw-store-url',
-				'title' => '',
+				'id'          => 'mwb-pgfw-store-url',
+				'title'       => '',
 				'description' => '',
-				'type' => 'hidden',
-				'name' => 'website',
+				'type'        => 'hidden',
+				'name'        => 'website',
 				'placeholder' => '',
-				'value' => self::$mwb_pgfw_store_url,
-				'required' => '',
-				'class' => '',
+				'value'       => self::$mwb_pgfw_store_url,
+				'required'    => '',
+				'class'       => '',
 			),
 
 			rand() => array(
-				'id' => 'mwb-pgfw-show-counter',
-				'title' => '',
+				'id'          => 'mwb-pgfw-show-counter',
+				'title'       => '',
 				'description' => '',
-				'type' => 'hidden',
+				'type'        => 'hidden',
 				'placeholder' => '',
-				'name' => 'mwb-pgfw-show-counter',
-				'value' => get_option( 'mwb_pgfw_onboarding_data_sent', 'not-sent' ),
-				'required' => '',
-				'class' => '',
+				'name'        => 'mwb-pgfw-show-counter',
+				'value'       => get_option( 'mwb_pgfw_onboarding_data_sent', 'not-sent' ),
+				'required'    => '',
+				'class'       => '',
 			),
 
 			rand() => array(
-				'id' => 'mwb-pgfw-plugin-name',
-				'title' => '',
+				'id'          => 'mwb-pgfw-plugin-name',
+				'title'       => '',
 				'description' => '',
-				'type' => 'hidden',
+				'type'        => 'hidden',
 				'placeholder' => '',
-				'name' => 'org_plugin_name',
-				'value' => self::$mwb_pgfw_plugin_name,
-				'required' => '',
-				'class' => '',
+				'name'        => 'org_plugin_name',
+				'value'       => self::$mwb_pgfw_plugin_name,
+				'required'    => '',
+				'class'       => '',
 			),
 		);
 
@@ -459,84 +459,84 @@ class Pdf_Generator_For_Wordpress_Onboarding_Steps {
 			 */
 
 			rand() => array(
-				'id' => 'mwb-pgfw-deactivation-reason',
-				'title' => '',
+				'id'          => 'mwb-pgfw-deactivation-reason',
+				'title'       => '',
 				'description' => '',
-				'type' => 'radio',
+				'type'        => 'radio',
 				'placeholder' => '',
-				'name' => 'plugin_deactivation_reason',
-				'value' => '',
-				'multiple' => 'no',
-				'required' => 'yes',
-				'class' => 'pgfw-radio-class',
-				'options' => array(
-					'temporary-deactivation-for-debug'      => 'It is a temporary deactivation. I am just debugging an issue.',
-					'site-layout-broke'         => 'The plugin broke my layout or some functionality.',
-					'complicated-configuration'         => 'The plugin is too complicated to configure.',
-					'no-longer-need'        => 'I no longer need the plugin',
-					'found-better-plugin'       => 'I found a better plugin',
-					'other'         => 'Other',
+				'name'        => 'plugin_deactivation_reason',
+				'value'       => '',
+				'multiple'    => 'no',
+				'required'    => 'yes',
+				'class'       => 'pgfw-radio-class',
+				'options'     => array(
+					'temporary-deactivation-for-debug' => 'It is a temporary deactivation. I am just debugging an issue.',
+					'site-layout-broke'                => 'The plugin broke my layout or some functionality.',
+					'complicated-configuration'        => 'The plugin is too complicated to configure.',
+					'no-longer-need'                   => 'I no longer need the plugin',
+					'found-better-plugin'              => 'I found a better plugin',
+					'other'                            => 'Other',
 				),
 			),
 
 			rand() => array(
-				'id' => 'mwb-pgfw-deactivation-reason-text',
-				'title' => esc_html__( 'Let us know why you are deactivating ' . self::$mwb_pgfw_plugin_name_label . ' so we can improve the plugin', 'pdf-generator-for-wordpress' ),
-				'type' => 'textarea',
+				'id'          => 'mwb-pgfw-deactivation-reason-text',
+				'title'       => esc_html__( 'Let us know why you are deactivating ' . self::$mwb_pgfw_plugin_name_label . ' so we can improve the plugin', 'pdf-generator-for-wordpress' ),
+				'type'        => 'textarea',
 				'description' => '',
-				'name' => 'deactivation_reason_text',
+				'name'        => 'deactivation_reason_text',
 				'placeholder' => esc_html__( 'Reason', 'pdf-generator-for-wordpress' ),
-				'value' => '',
-				'required' => '',
-				'class' => 'mwb-keep-hidden',
+				'value'       => '',
+				'required'    => '',
+				'class'       => 'mwb-keep-hidden',
 			),
 
 			rand() => array(
-				'id' => 'mwb-pgfw-admin-email',
-				'title' => '',
+				'id'          => 'mwb-pgfw-admin-email',
+				'title'       => '',
 				'description' => '',
-				'type' => 'hidden',
-				'name' => 'email',
+				'type'        => 'hidden',
+				'name'        => 'email',
 				'placeholder' => '',
-				'value' => $current_user_email,
-				'required' => '',
-				'class' => '',
+				'value'       => $current_user_email,
+				'required'    => '',
+				'class'       => '',
 			),
 
 			rand() => array(
-				'id' => 'mwb-pgfw-store-name',
-				'title' => '',
+				'id'          => 'mwb-pgfw-store-name',
+				'title'       => '',
 				'description' => '',
-				'type' => 'hidden',
+				'type'        => 'hidden',
 				'placeholder' => '',
-				'name' => 'company',
-				'value' => self::$mwb_pgfw_store_name,
-				'required' => '',
-				'class' => '',
+				'name'        => 'company',
+				'value'       => self::$mwb_pgfw_store_name,
+				'required'    => '',
+				'class'       => '',
 			),
 
 			rand() => array(
-				'id' => 'mwb-pgfw-store-url',
-				'title' => '',
+				'id'          => 'mwb-pgfw-store-url',
+				'title'       => '',
 				'description' => '',
-				'type' => 'hidden',
-				'name' => 'website',
+				'type'        => 'hidden',
+				'name'        => 'website',
 				'placeholder' => '',
-				'value' => self::$mwb_pgfw_store_url,
-				'required' => '',
-				'class' => '',
+				'value'       => self::$mwb_pgfw_store_url,
+				'required'    => '',
+				'class'       => '',
 			),
 
 			rand() => array(
-				'id' => 'mwb-pgfw-plugin-name',
-				'title' => '',
+				'id'          => 'mwb-pgfw-plugin-name',
+				'title'       => '',
 				'description' => '',
-				'type' => 'hidden',
+				'type'        => 'hidden',
 				'placeholder' => '',
-				'name' => 'org_plugin_name',
-				'value' => '',
-				'required' => '',
-				'class' => '',
+				'name'        => 'org_plugin_name',
+				'value'       => '',
+				'required'    => '',
+				'class'       => '',
 			),
 		);
 
@@ -618,15 +618,15 @@ class Pdf_Generator_For_Wordpress_Onboarding_Steps {
 			}
 		} catch ( Exception $e ) {
 
-			echo json_encode( $e->getMessage() );
+			echo wp_json_encode( $e->getMessage() );
 			wp_die();
 		}
 
 		if ( ! empty( $action_type ) && 'onboarding' == $action_type ) {
-			 $get_skipped_timstamp = update_option( 'mwb_pgfw_onboarding_data_sent', 'sent' );
+			$get_skipped_timstamp = update_option( 'mwb_pgfw_onboarding_data_sent', 'sent' );
 		}
 
-		echo json_encode( $formatted_data );
+		echo wp_json_encode( $formatted_data );
 		wp_die();
 	}
 
@@ -634,8 +634,8 @@ class Pdf_Generator_For_Wordpress_Onboarding_Steps {
 	/**
 	 * Handle pdf-generator-for-wordpress form submission.
 	 *
-	 * @param      bool   $submission       The resultant data of the form.
-	 * @param      string $action_type      Type of action.
+	 * @param  array  $submission  The resultant data of the form.
+	 * @param  string $action_type  Type of action.
 	 * @since    1.0.0
 	 */
 	protected function mwb_pgfw_handle_form_submission_for_hubspot( $submission = false, $action_type = 'onboarding' ) {
@@ -668,7 +668,7 @@ class Pdf_Generator_For_Wordpress_Onboarding_Steps {
 	 * @since       1.0.0
 	 */
 	protected function mwb_pgfw_hubwoo_submit_form( $form_data = array(), $action_type = 'onboarding' ) {
-		
+
 		if ( 'onboarding' == $action_type ) {
 			$form_id = self::$mwb_pgfw_onboarding_form_id;
 		} else {
@@ -681,21 +681,20 @@ class Pdf_Generator_For_Wordpress_Onboarding_Steps {
 			'Content-Type: application/json',
 		);
 
-		$form_data = json_encode(
+		$form_data = wp_json_encode(
 			array(
-				'fields' => $form_data,
-				'context'  => array(
-					'pageUri' => self::$mwb_pgfw_store_url,
-					'pageName' => self::$mwb_pgfw_store_name,
+				'fields'  => $form_data,
+				'context' => array(
+					'pageUri'   => self::$mwb_pgfw_store_url,
+					'pageName'  => self::$mwb_pgfw_store_name,
 					'ipAddress' => $this->mwb_pgfw_get_client_ip(),
 				),
 			)
 		);
-	
-		$response = $this->mwb_pgfw_hic_post( $url, $form_data, $headers );
 
+		$response = $this->mwb_pgfw_hic_post( $url, $form_data, $headers );
 		if ( 200 == $response['status_code'] ) {
-			$result = json_decode( $response['response'], true );
+			$result            = json_decode( $response['response'], true );
 			$result['success'] = true;
 		} else {
 			$result = $response;
@@ -703,38 +702,6 @@ class Pdf_Generator_For_Wordpress_Onboarding_Steps {
 
 		return $result;
 	}
-
-
-	/**
-	 * Handle Hubspot GET api calls.
-	 *
-	 * @since    1.0.0
-	 * @param   string $endpoint   Url where the form data posted.
-	 * @param   array  $headers    data that must be included in header for request.
-	 */
-	private function mwb_pgfw_hic_get( $endpoint, $headers ) {
-
-		$url = $this->mwb_pgfw_base_url . $endpoint;
-
-		$ch = @curl_init();
-		@curl_setopt( $ch, CURLOPT_POST, false );
-		@curl_setopt( $ch, CURLOPT_URL, $url );
-		@curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers );
-		@curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-		@curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-		@curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false );
-		$response = @curl_exec( $ch );
-		$status_code = @curl_getinfo( $ch, CURLINFO_HTTP_CODE );
-		$curl_errors = curl_error( $ch );
-		@curl_close( $ch );
-
-		return array(
-			'status_code' => $status_code,
-			'response' => $response,
-			'errors' => $curl_errors,
-		);
-	}
-
 	/**
 	 * Handle Hubspot POST api calls.
 	 *
@@ -744,26 +711,31 @@ class Pdf_Generator_For_Wordpress_Onboarding_Steps {
 	 * @param   array  $headers    data that must be included in header for request.
 	 */
 	private function mwb_pgfw_hic_post( $endpoint, $post_params, $headers ) {
-
-		$url = $this->mwb_pgfw_base_url . $endpoint;
-
-		$ch = @curl_init();
-		@curl_setopt( $ch, CURLOPT_POST, true );
-		@curl_setopt( $ch, CURLOPT_URL, $url );
-		@curl_setopt( $ch, CURLOPT_POSTFIELDS, $post_params );
-		@curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers );
-		@curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-		@curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-		@curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false );
-		$response = @curl_exec( $ch );
-		$status_code = @curl_getinfo( $ch, CURLINFO_HTTP_CODE );
-		$curl_errors = curl_error( $ch );
-		@curl_close( $ch );
-
+		$url      = $this->mwb_pgfw_base_url . $endpoint;
+		$request  = array(
+			'method'      => 'POST',
+			'timeout'     => 45,
+			'redirection' => 5,
+			'httpversion' => '1.0',
+			'blocking'    => true,
+			'headers'     => $headers,
+			'body'        => $post_params,
+			'cookies'     => array(),
+		);
+		$response = wp_remote_post( $url, $request );
+		if ( is_wp_error( $response ) ) {
+			$status_code = 500;
+			$response    = esc_html__( 'Unexpected Error Occured', 'invoice-system-for-woocommerce' );
+			$curl_errors = $response;
+		} else {
+			$response    = wp_remote_retrieve_body( $response );
+			$status_code = wp_remote_retrieve_response_code( $response );
+			$curl_errors = $response;
+		}
 		return array(
 			'status_code' => $status_code,
-			'response' => $response,
-			'errors' => $curl_errors,
+			'response'    => $response,
+			'errors'      => $curl_errors,
 		);
 	}
 
@@ -777,15 +749,15 @@ class Pdf_Generator_For_Wordpress_Onboarding_Steps {
 		$ipaddress = '';
 		if ( getenv( 'HTTP_CLIENT_IP' ) ) {
 			$ipaddress = getenv( 'HTTP_CLIENT_IP' );
-		} else if ( getenv( 'HTTP_X_FORWARDED_FOR' ) ) {
+		} elseif ( getenv( 'HTTP_X_FORWARDED_FOR' ) ) {
 			$ipaddress = getenv( 'HTTP_X_FORWARDED_FOR' );
-		} else if ( getenv( 'HTTP_X_FORWARDED' ) ) {
+		} elseif ( getenv( 'HTTP_X_FORWARDED' ) ) {
 			$ipaddress = getenv( 'HTTP_X_FORWARDED' );
-		} else if ( getenv( 'HTTP_FORWARDED_FOR' ) ) {
+		} elseif ( getenv( 'HTTP_FORWARDED_FOR' ) ) {
 			$ipaddress = getenv( 'HTTP_FORWARDED_FOR' );
-		} else if ( getenv( 'HTTP_FORWARDED' ) ) {
+		} elseif ( getenv( 'HTTP_FORWARDED' ) ) {
 			$ipaddress = getenv( 'HTTP_FORWARDED' );
-		} else if ( getenv( 'REMOTE_ADDR' ) ) {
+		} elseif ( getenv( 'REMOTE_ADDR' ) ) {
 			$ipaddress = getenv( 'REMOTE_ADDR' );
 		} else {
 			$ipaddress = 'UNKNOWN';
@@ -799,7 +771,7 @@ class Pdf_Generator_For_Wordpress_Onboarding_Steps {
 	 * @since    1.0.0
 	 */
 	public function mwb_pgfw_valid_page_screen_check() {
-		$mwb_pgfw_screen = get_current_screen();
+		$mwb_pgfw_screen  = get_current_screen();
 		$mwb_pgfw_is_flag = false;
 		if ( isset( $mwb_pgfw_screen->id ) && 'makewebbetter_page_pdf_generator_for_wordpress_menu' == $mwb_pgfw_screen->id ) {
 			$mwb_pgfw_is_flag = true;

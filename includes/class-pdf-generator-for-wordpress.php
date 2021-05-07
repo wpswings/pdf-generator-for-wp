@@ -136,12 +136,12 @@ class Pdf_Generator_For_WordPress {
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-pdf-generator-for-wordpress-admin.php';
 
 			// The class responsible for on-boarding steps for plugin.
-			if ( is_dir( plugin_dir_path( dirname( __FILE__ ) ) . 'onboarding' ) && ! class_exists( 'Pdf_Generator_For_Wordpress_Onboarding_Steps' ) ) {
+			if ( is_dir( plugin_dir_path( dirname( __FILE__ ) ) . 'onboarding' ) && ! class_exists( 'Pdf_Generator_For_WordPress_Onboarding_Steps' ) ) {
 				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-pdf-generator-for-wordpress-onboarding-steps.php';
 			}
 
-			if ( class_exists( 'Pdf_Generator_For_Wordpress_Onboarding_Steps' ) ) {
-				$pgfw_onboard_steps = new Pdf_Generator_For_Wordpress_Onboarding_Steps();
+			if ( class_exists( 'Pdf_Generator_For_WordPress_Onboarding_Steps' ) ) {
+				$pgfw_onboard_steps = new Pdf_Generator_For_WordPress_Onboarding_Steps();
 			}
 		} else {
 
@@ -391,6 +391,10 @@ class Pdf_Generator_For_WordPress {
 			'name'  => 'pdf-generator-for-wordpress-pdf-upload',
 		);
 
+		$pgfw_default_tabs['pdf-generator-for-wordpress-overview'] = array(
+			'title' => esc_html__( 'Overview', 'pdf-generator-for-wordpress' ),
+			'name'  => 'pdf-generator-for-wordpress-overview',
+		);
 		return $pgfw_default_tabs;
 	}
 	/**
@@ -885,6 +889,44 @@ class Pdf_Generator_For_WordPress {
 								</div>
 							</div>
 								<?php
+							break;
+						case 'sub-text':
+							?>
+						<div class="sub-text-parent-class">
+							<div class="mwb-form-group mwb-pgfw-<?php echo esc_attr( $pgfw_component['type'] . ' ' . $pgfw_component['class'] . ' ' . ( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ) ); ?>" style="<?php echo esc_attr( array_key_exists( 'style', $pgfw_component ) ? $pgfw_component['style'] : '' ); ?>">
+								<div class="mwb-form-group__label">
+									<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="mwb-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
+								</div>
+								<div class="mwb-form-group__control">
+									<label class="mdc-text-field mdc-text-field--outlined">
+										<span class="mdc-notched-outline">
+											<span class="mdc-notched-outline__leading"></span>
+											<span class="mdc-notched-outline__notch">
+												<?php if ( 'number' !== $pgfw_component['type'] ) { ?>
+													<span class="mdc-floating-label" id="my-label-id" style=""><?php echo ( isset( $pgfw_component['placeholder'] ) ? esc_attr( $pgfw_component['placeholder'] ) : '' ); ?></span>
+												<?php } ?>
+											</span>
+											<span class="mdc-notched-outline__trailing"></span>
+										</span>
+										<input
+										class="mdc-text-field__input <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>" 
+										name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
+										id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"
+										type="<?php echo esc_attr( $pgfw_component['type'] ); ?>"
+										value="<?php echo ( isset( $pgfw_component['value'] ) ? esc_attr( $pgfw_component['value'] ) : '' ); ?>"
+										placeholder="<?php echo ( isset( $pgfw_component['placeholder'] ) ? esc_attr( $pgfw_component['placeholder'] ) : '' ); ?>"
+										<?php echo ( 'number' === $pgfw_component['type'] && isset( $pgfw_component['min'] ) ) ? esc_html( 'min=' . $pgfw_component['min'] ) : ''; ?>
+										<?php echo ( 'number' === $pgfw_component['type'] && isset( $pgfw_component['max'] ) ) ? esc_html( 'max=' . $pgfw_component['max'] ) : ''; ?>
+										<?php echo isset( $pgfw_component['step'] ) ? esc_html( 'step=' . $pgfw_component['step'] ) : ''; ?>
+										>
+									</label>
+									<div class="mdc-text-field-helper-line">
+										<div class="mdc-text-field-helper-text--persistent mwb-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
+									</div>
+								</div>
+							</div>
+						</div>
+							<?php
 							break;
 						default:
 							break;

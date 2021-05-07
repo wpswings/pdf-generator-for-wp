@@ -51,7 +51,7 @@ if ( $pgfw_save_check_flag ) {
 
 					if ( ! empty( $pgfw_active_tab ) && $pgfw_active_tab === $pgfw_tab_key ) {
 						$pgfw_tab_classes .= 'active';
-					} elseif ( ! empty( $pgfw_active_tab ) && in_array( $pgfw_active_tab, array( 'pdf-generator-for-wordpress-header', 'pdf-generator-for-wordpress-body', 'pdf-generator-for-wordpress-footer' ), true ) ) {
+					} elseif ( ! empty( $pgfw_active_tab ) && in_array( $pgfw_active_tab, array( 'pdf-generator-for-wordpress-header', 'pdf-generator-for-wordpress-body', 'pdf-generator-for-wordpress-footer', 'wordpress-pdf-generator-templates' ), true ) ) {
 						if ( 'pdf-generator-for-wordpress-customize' === $pgfw_tab_key ) {
 							$pgfw_tab_classes .= 'active';
 						}

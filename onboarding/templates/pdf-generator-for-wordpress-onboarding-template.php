@@ -10,6 +10,7 @@
  * @package    Makewebbetter_Onboarding
  * @subpackage Makewebbetter_Onboarding/admin/onboarding
  */
+
 global $pgfw_mwb_pgfw_obj;
 $pgfw_onboarding_form_fields = apply_filters( 'mwb_pgfw_on_boarding_form_fields', array() );
 ?>
@@ -27,7 +28,7 @@ $pgfw_onboarding_form_fields = apply_filters( 'mwb_pgfw_on_boarding_form_fields'
 					<p class="mwb-pgfw-on-boarding-desc"><?php esc_html_e( 'We love making new friends! Subscribe below and we promise to keep you up-to-date with our latest new plugins, updates, awesome deals and a few special offers.', 'pdf-generator-for-wordpress' ); ?></p>
 
 					<form action="#" method="post" class="mwb-pgfw-on-boarding-form">
-						<?php 
+						<?php
 						$pgfw_onboarding_html = $pgfw_mwb_pgfw_obj->mwb_pgfw_plug_generate_html( $pgfw_onboarding_form_fields );
 						echo esc_html( $pgfw_onboarding_html );
 						?>

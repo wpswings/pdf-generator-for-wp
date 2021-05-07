@@ -77,6 +77,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			wp_enqueue_style( 'wp-color-picker' );
 			wp_enqueue_style( 'pgfw-admin-commomn-css', PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'admin/src/scss/pdf-generator-for-wordpress-admin-common.css', array(), $this->version, 'all' );
 			wp_enqueue_style( 'pgfw-datatable-css', PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'package/lib/datatable/datatables.min.css', array(), $this->version, 'all' );
+			wp_enqueue_style( 'pgfw-overview-form-css', PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'admin/src/scss/mwb-admin.css', array(), $this->version, 'all' );
 		}
 		wp_enqueue_style( 'pgfw-admin-custom-css', PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'admin/src/scss/pdf-generator-for-wordpress-admin-custom.css', array(), $this->version, 'all' );
 	}
@@ -258,14 +259,13 @@ class Pdf_Generator_For_WordPress_Admin {
 				'name'        => 'pgfw_general_pdf_show_tags',
 			),
 			array(
-				'title'        => __( 'Include Taxonomy', 'pdf-generator-for-wordpress' ),
-				'type'         => 'checkbox',
-				'description'  => __( 'Taxonomy will be shown on PDF( works for all post types ) this also includes category and tags for posts.', 'pdf-generator-for-wordpress' ),
-				'id'           => 'pgfw_general_pdf_show_taxonomy',
-				'value'        => $pgfw_show_post_taxonomy,
-				'class'        => 'pgfw_general_pdf_show_taxonomy',
-				'name'         => 'pgfw_general_pdf_show_taxonomy',
-				'parent-class' => '',
+				'title'       => __( 'Include Taxonomy', 'pdf-generator-for-wordpress' ),
+				'type'        => 'checkbox',
+				'description' => __( 'Taxonomy will be shown on PDF( works for all post types ) this also includes category and tags for posts.', 'pdf-generator-for-wordpress' ),
+				'id'          => 'pgfw_general_pdf_show_taxonomy',
+				'value'       => $pgfw_show_post_taxonomy,
+				'class'       => 'pgfw_general_pdf_show_taxonomy',
+				'name'        => 'pgfw_general_pdf_show_taxonomy',
 			),
 			array(
 				'title'       => __( 'Display Post Date', 'pdf-generator-for-wordpress' ),
@@ -1377,7 +1377,7 @@ class Pdf_Generator_For_WordPress_Admin {
 				'placeholder' => '',
 				'options'     => $post_meta_field,
 			);
-			$pgfw_meta_settings_html_arr   = apply_filters( 'pgfw_settings_meta_fields_html_arr_filter_hook', $pgfw_meta_settings_html_arr, $pgfw_show_type_meta_arr );
+			$pgfw_meta_settings_html_arr   = apply_filters( 'pgfw_settings_meta_fields_html_arr_filter_hook', $pgfw_meta_settings_html_arr, $post_meta_field );
 			$i++;
 		}
 		$pgfw_meta_settings_html_arr[] = array(
