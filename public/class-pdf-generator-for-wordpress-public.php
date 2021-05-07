@@ -102,17 +102,17 @@ class Pdf_Generator_For_WordPress_Public {
 				if ( ! is_cart() && ! is_checkout() && ! is_shop() && ! is_account_page() ) {
 					$temp = true;
 				} else {
-					echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput
+					echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 			} else {
 				$temp = true;
 			}
 		} else {
-			echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput
+			echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 		if ( $temp ) {
 			if ( 'after_content' === $pgfw_pdf_icon_after || ( '' === $pgfw_pdf_icon_after && '' === $pgfw_pdf_icon_after) ) {
-				echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput
+				echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 			if ( ( 'yes' === $guest_access_pdf ) && ! is_user_logged_in() ) {
 				if ( 'email' === $pgfw_guest_download_or_email ) {
@@ -128,7 +128,7 @@ class Pdf_Generator_For_WordPress_Public {
 				}
 			}
 			if ( 'before_content' === $pgfw_pdf_icon_after ) {
-				echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput
+				echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		}
 	}
