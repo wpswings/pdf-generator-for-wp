@@ -16,14 +16,19 @@
 				?>
 			</p>
 			<h3><?php esc_html_e( 'With our PDF Generator for WordPress plugin, you can:', 'pdf-generator-for-wordpress' ); ?></h3>
-			<ul class="mwb-overview__features">
-				<li><?php esc_html_e( 'Create pdf files to build your company portfolio as per your industry best practices.', 'pdf-generator-for-wordpress' ); ?></li>
-				<li><?php esc_html_e( 'Allow users to download products and content from your website.', 'pdf-generator-for-wordpress' ); ?></li>
-				<li><?php esc_html_e( 'Allow users to share the pdf files on different channels or access them offline.', 'pdf-generator-for-wordpress' ); ?></li>
-				<li><?php esc_html_e( 'Upload pdf files in advance to let your customers download them.', 'pdf-generator-for-wordpress' ); ?></li>
-				<li><?php esc_html_e( 'Request the users’ email id in exchange for information.', 'pdf-generator-for-wordpress' ); ?></li>
-				<li><?php esc_html_e( 'Disperse your branding effectively with the useful information you have to sell.', 'pdf-generator-for-wordpress' ); ?></li>
-			</ul>
+			<div class="mwb-overview__features-wrapper">
+				<ul class="mwb-overview__features">
+					<li><?php esc_html_e( 'Create pdf files to build your company portfolio as per your industry best practices.', 'pdf-generator-for-wordpress' ); ?></li>
+					<li><?php esc_html_e( 'Allow users to download products and content from your website.', 'pdf-generator-for-wordpress' ); ?></li>
+					<li><?php esc_html_e( 'Allow users to share the pdf files on different channels or access them offline.', 'pdf-generator-for-wordpress' ); ?></li>
+					<li><?php esc_html_e( 'Upload pdf files in advance to let your customers download them.', 'pdf-generator-for-wordpress' ); ?></li>
+					<li><?php esc_html_e( 'Request the users’ email id in exchange for information.', 'pdf-generator-for-wordpress' ); ?></li>
+					<li><?php esc_html_e( 'Disperse your branding effectively with the useful information you have to sell.', 'pdf-generator-for-wordpress' ); ?></li>
+				</ul>
+				<div class="mwb-overview__video--url">
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/n_ramvCpIy0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+				</div>
+			</div>
 		</div>
 		<h2> <?php esc_html_e( 'The Free Plugin Benefits', 'pdf-generator-for-wordpress' ); ?></h2>
 		<div class="mwb-overview__keywords">

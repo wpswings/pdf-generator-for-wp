@@ -1116,7 +1116,7 @@ class Pdf_Generator_For_WordPress_Admin {
 				'title'       => __( 'PDF Border Position', 'pgfw-generator-for-wordpress' ),
 				'id'          => 'pgfw_border_position',
 				'type'        => 'multi',
-				'description' => __( 'Enter Border margin : top, left, right, bottom, accepted values are positive and negative.', 'pgfw-generator-for-wordpress' ),
+				'description' => __( 'Enter Border margin : top, left, right, bottom, accepted values are positive and negative, this will decide the position of border on the page.', 'pgfw-generator-for-wordpress' ),
 				'value'       => array(
 					array(
 						'type'        => 'number',
@@ -1164,7 +1164,7 @@ class Pdf_Generator_For_WordPress_Admin {
 				'title'       => __( 'Page Margin', 'pgfw-generator-for-wordpress' ),
 				'id'          => 'pgfw_body_margin',
 				'type'        => 'multi',
-				'description' => __( 'Enter page margin : top, left, right, bottom, set top and bottom values if any issue with content placement.', 'pgfw-generator-for-wordpress' ),
+				'description' => __( 'Enter page margin : top, left, right, bottom, set top and bottom values if any issue with content placement, while changing the header and footer width, margin top and margin bottom must be set from here to display correctly on the page.', 'pgfw-generator-for-wordpress' ),
 				'value'       => array(
 					array(
 						'type'        => 'number',
@@ -1211,7 +1211,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'        => __( 'RTL support', 'pdf-generator-for-wordpress' ),
 				'type'         => 'checkbox',
-				'description'  => __( 'Select this to enable RTL support ( enabling this will enable font-style : DejaVu Sans, sans-serif globally ).', 'pdf-generator-for-wordpress' ),
+				'description'  => __( 'Select this to enable RTL support ( enabling this will enable, font-style : DejaVu Sans, sans-serif globally ) and will support right to left text alignment.', 'pdf-generator-for-wordpress' ),
 				'id'           => 'pgfw_body_rtl_support',
 				'value'        => $pgfw_body_rtl_support,
 				'class'        => 'pgfw_body_rtl_support',
@@ -1221,7 +1221,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'       => __( 'Add Watermark Text', 'pdf-generator-for-wordpress' ),
 				'type'        => 'checkbox',
-				'description' => __( 'Select this to add watermark on the created PDF.', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Select this to add watermark text on the created PDF.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_body_add_watermark',
 				'value'       => $pgfw_body_add_watermark,
 				'class'       => 'pgfw_body_add_watermark',

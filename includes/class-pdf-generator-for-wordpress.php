@@ -157,7 +157,6 @@ class Pdf_Generator_For_WordPress {
 		 * of the plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'common/class-pdf-generator-for-wordpress-common.php';
-
 		$this->loader = new Pdf_Generator_For_Wordpress_Loader();
 
 	}
@@ -510,7 +509,6 @@ class Pdf_Generator_For_WordPress {
 			foreach ( $pgfw_components as $pgfw_component ) {
 				if ( ! empty( $pgfw_component['type'] ) && ! empty( $pgfw_component['id'] ) ) {
 					switch ( $pgfw_component['type'] ) {
-
 						case 'hidden':
 						case 'number':
 						case 'email':

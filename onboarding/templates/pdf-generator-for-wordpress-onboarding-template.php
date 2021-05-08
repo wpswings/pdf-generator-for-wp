@@ -29,8 +29,7 @@ $pgfw_onboarding_form_fields = apply_filters( 'mwb_pgfw_on_boarding_form_fields'
 
 					<form action="#" method="post" class="mwb-pgfw-on-boarding-form">
 						<?php
-						$pgfw_onboarding_html = $pgfw_mwb_pgfw_obj->mwb_pgfw_plug_generate_html( $pgfw_onboarding_form_fields );
-						echo esc_html( $pgfw_onboarding_html );
+						$pgfw_mwb_pgfw_obj->mwb_pgfw_plug_generate_html( $pgfw_onboarding_form_fields );
 						?>
 						<div class="mwb-pgfw-on-boarding-form-btn__wrapper mdc-dialog__actions">
 							<div class="mwb-pgfw-on-boarding-form-submit mwb-pgfw-on-boarding-form-verify ">
