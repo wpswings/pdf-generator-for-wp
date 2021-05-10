@@ -7,7 +7,7 @@
 
 .mwb-form-group {
     margin: 0 -15px 15px;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
 }
 
 .mwb-form-select {
