@@ -159,9 +159,9 @@ function pdf_generator_for_wordpress_settings_link( $links ) {
  */
 function pdf_generator_for_wordpress_custom_settings_at_plugin_tab( $links_array, $plugin_file_name ) {
 	if ( strpos( $plugin_file_name, basename( __FILE__ ) ) ) {
-		$links_array[] = '<a href="#" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/Demo.svg" class="mwb-info-img" alt="Demo image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Demo', 'pdf-generator-for-wordpress' ) . '</a>';
-		$links_array[] = '<a href="#" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/Documentation.svg" class="mwb-info-img" alt="documentation image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Documentation', 'pdf-generator-for-wordpress' ) . '</a>';
-		$links_array[] = '<a href="#" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/Support.svg" class="mwb-info-img" alt="support image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Support', 'pdf-generator-for-wordpress' ) . '</a>';
+		$links_array[] = '<a href="https://demo.makewebbetter.com/" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/Demo.svg" class="mwb-info-img" alt="Demo image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Demo', 'pdf-generator-for-wordpress' ) . '</a>';
+		$links_array[] = '<a href="https://docs.makewebbetter.com/" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/Documentation.svg" class="mwb-info-img" alt="documentation image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Documentation', 'pdf-generator-for-wordpress' ) . '</a>';
+		$links_array[] = '<a href="https://support.makewebbetter.com/" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WORDPRESS_DIR_URL ) . 'admin/src/images/Support.svg" class="mwb-info-img" alt="support image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Support', 'pdf-generator-for-wordpress' ) . '</a>';
 		$links_array[] = '<a href="https://makewebbetter.com/product/wordpress-pdf-generator/" target="_blank">' . esc_html__( 'Go Pro', 'pdf-generator-for-wordpress' ) . '</a>';
 	}
 	return $links_array;

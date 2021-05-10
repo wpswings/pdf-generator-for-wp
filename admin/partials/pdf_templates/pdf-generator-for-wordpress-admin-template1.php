@@ -98,29 +98,29 @@ function return_ob_html( $post_id ) {
 		if ( file_exists( $font_path ) ) {
 			$html = '<style>
 					@font-face{
-						font-family  : My_font;
-						src          : url("' . $font_url . '")  format("truetype");
+						font-family : My_font;
+						src         : url("' . $font_url . '")  format("truetype");
 					}
 				</style>';
 		}
 	}
 	$html .= '<style>
 			@page {
-				margin-top   : ' . $pgfw_body_margin_top . ';
-				margin-left  : ' . $pgfw_body_margin_left . ';
-				margin-right : ' . $pgfw_body_margin_right . ';
+				margin-top    : ' . $pgfw_body_margin_top . ';
+				margin-left   : ' . $pgfw_body_margin_left . ';
+				margin-right  : ' . $pgfw_body_margin_right . ';
 				margin-bottom : ' . $pgfw_body_margin_bottom . ';
 			}
 		</style>';
 	if ( $pgfw_body_border_size > 0 ) {
 		$html .= '<style>
 			.pgfw-border-page {
-				position: fixed;
-				margin-bottom: ' . $pgfw_border_position_bottom . ';
-				margin-left: ' . $pgfw_border_position_left . ';
-				margin-top: ' . $pgfw_border_position_top . ';
-				margin-right: ' . $pgfw_border_position_right . ';
-				border  : ' . $pgfw_body_border_size . 'px solid ' . $pgfw_body_border_color . ';
+				position      : fixed;
+				margin-bottom : ' . $pgfw_border_position_bottom . ';
+				margin-left   : ' . $pgfw_border_position_left . ';
+				margin-top    : ' . $pgfw_border_position_top . ';
+				margin-right  : ' . $pgfw_border_position_right . ';
+				border        : ' . $pgfw_body_border_size . 'px solid ' . $pgfw_body_border_color . ';
 			}
 		</style>
 		<div class="pgfw-border-page" ></div>';
