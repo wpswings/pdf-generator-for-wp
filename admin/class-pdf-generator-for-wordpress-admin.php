@@ -839,7 +839,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'       => __( 'Choose color', 'pdf-generator-for-wordpress' ),
 				'type'        => 'color',
-				'description' => __( 'Please choose color to display in the footer', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Please choose color to display in the footer text', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_footer_color',
 				'value'       => $pgfw_footer_color,
 				'class'       => 'pgfw_color_picker pgfw_footer_color',
@@ -974,7 +974,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'       => __( 'Choose Title color', 'pdf-generator-for-wordpress' ),
 				'type'        => 'color',
-				'description' => __( 'Please choose color to display in the footer', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Please choose color to display the title text.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_body_title_font_color',
 				'value'       => $pgfw_body_title_font_color,
 				'class'       => 'pgfw_color_picker pgfw_body_title_font_color',
@@ -1078,7 +1078,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'        => __( 'Choose body text color', 'pdf-generator-for-wordpress' ),
 				'type'         => 'color',
-				'description'  => __( 'Choose color to display in the footer', 'pdf-generator-for-wordpress' ),
+				'description'  => __( 'Choose color to display body text.', 'pdf-generator-for-wordpress' ),
 				'id'           => 'pgfw_body_font_color',
 				'value'        => $pgfw_body_page_font_color,
 				'class'        => 'pgfw_color_picker pgfw_body_font_color',
