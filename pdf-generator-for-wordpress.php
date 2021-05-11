@@ -16,7 +16,7 @@
  * Plugin URI:        http://wordpress.org/plugins/pdf-generator-for-wordpress/
  * Description:       Let your users download pages, posts, and products in PDF format using this plugin allowing you to add technical and marketing utility for your WordPress site.
  * Version:           1.0.0
- * Author:            MakewWebBetter
+ * Author:            Makewebbetter
  * Author URI:        https://makewebbetter.com/
  * Text Domain:       pdf-generator-for-wordpress
  * Domain Path:       /languages
