@@ -802,6 +802,49 @@ class Pdf_Generator_For_WordPress {
 							</div>
 								<?php
 							break;
+						case 'multiwithcheck':
+							?>
+							<div class="mwb-form-group mwb-isfw-<?php echo esc_attr( $pgfw_component['type'] ); ?>">
+								<div class="mwb-form-group__label">
+									<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="mwb-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
+									</div>
+									<div class="mwb-form-group__control">
+									<?php
+									foreach ( $pgfw_component['value'] as $component ) {
+										if ( 'color' !== $component['type'] ) {
+											?>
+											<label class="mdc-text-field mdc-text-field--outlined">
+												<span class="mdc-notched-outline">
+													<span class="mdc-notched-outline__leading"></span>
+													<span class="mdc-notched-outline__notch">
+														<?php if ( 'number' !== $component['type'] ) { ?>
+															<span class="mdc-floating-label" id="my-label-id" style=""><?php echo ( isset( $component['placeholder'] ) ? esc_attr( $component['placeholder'] ) : '' ); ?></span>
+														<?php } ?>
+													</span>
+													<span class="mdc-notched-outline__trailing"></span>
+												</span>
+												<?php } ?>
+												<input type="checkbox" name="<?php echo ( isset( $component['checkbox_name'] ) ? esc_attr( $component['checkbox_name'] ) : '' ); ?>" id="<?php echo ( isset( $component['checkbox_id'] ) ? esc_attr( $component['checkbox_id'] ) : '' ); ?>" <?php checked( ( isset( $component['checkbox_value'] ) ? $component['checkbox_value'] : '' ), 'yes' ); ?> value="yes">
+												<input 
+												class="mdc-text-field__input <?php echo ( isset( $component['class'] ) ? esc_attr( $component['class'] ) : '' ); ?>" 
+												name="<?php echo ( isset( $component['name'] ) ? esc_html( $component['name'] ) : esc_html( $component['id'] ) ); ?>"
+												id="<?php echo esc_attr( $component['id'] ); ?>"
+												type="<?php echo esc_attr( 'color' === $component['type'] ) ? 'text' : esc_html( $component['type'] ); ?>"
+												value="<?php echo ( isset( $component['value'] ) ? esc_attr( $component['value'] ) : '' ); ?>"
+												placeholder="<?php echo ( isset( $component['placeholder'] ) ? esc_attr( $component['placeholder'] ) : '' ); ?>"
+												<?php echo esc_attr( ( 'number' === $component['type'] ) ? 'min=' . $component['min'] . ' max=' . $component['max'] : '' ); ?>
+												>
+												<?php if ( 'color' !== $component['type'] ) { ?>
+											</label>
+											<?php } ?>
+								<?php } ?>
+									<div class="mdc-text-field-helper-line">
+										<div class="mdc-text-field-helper-text--persistent mwb-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
+									</div>
+								</div>
+							</div>
+								<?php
+							break;
 						case 'color':
 						case 'date':
 						case 'file':

@@ -233,10 +233,10 @@ function return_ob_html( $post_id ) {
 						' . do_shortcode( $post->post_content ) . '
 					</div>';
 		// taxonomies for posts.
+		$html1 = '';
 		if ( 'yes' === $pgfw_show_post_taxonomy ) {
 			$taxonomies = get_object_taxonomies( $post );
 			if ( is_array( $taxonomies ) ) {
-				$html1 = '';
 				foreach ( $taxonomies as $taxonomy ) {
 					$prod_cat = get_the_terms( $post, $taxonomy );
 					if ( is_array( $prod_cat ) ) {
@@ -248,9 +248,9 @@ function return_ob_html( $post_id ) {
 						$html1 .= '</ul>';
 					}
 				}
-				$html .= apply_filters( 'mwb_pgfw_product_taxonomy_in_pdf_filter_hook', $html1, $post );
 			}
 		}
+		$html .= apply_filters( 'mwb_pgfw_product_taxonomy_in_pdf_filter_hook', $html1, $post );
 		// category for posts.
 		if ( 'yes' === $pgfw_show_post_categories ) {
 			$categories = get_the_category( $post->ID );
@@ -292,18 +292,20 @@ function return_ob_html( $post_id ) {
 		$post_type               = $post->post_type;
 		$pgfw_show_type_meta_val = array_key_exists( 'pgfw_meta_fields_' . $post_type . '_show', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_' . $post_type . '_show' ] : '';
 		$pgfw_show_type_meta_arr = array_key_exists( 'pgfw_meta_fields_' . $post_type . '_list', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_' . $post_type . '_list' ] : array();
+		$html2                   = '';
 		if ( 'yes' === $pgfw_show_type_meta_val ) {
 			if ( is_array( $pgfw_show_type_meta_arr ) ) {
-				$html .= '<div><b>' . __( 'Meta Fields', 'pdf-generator-for-wordpress' ) . '</b></div>';
+				$html2 .= '<div><b>' . __( 'Meta Fields', 'pdf-generator-for-wordpress' ) . '</b></div>';
 				foreach ( $pgfw_show_type_meta_arr as $meta_key ) {
 					$meta_val          = get_post_meta( $post->ID, $meta_key, true );
-					$wpg_meta_key_name = array_key_exists( $meta_key, $pgfw_meta_settings ) && '' !== $pgfw_meta_settings[ $meta_key ] ? $pgfw_meta_settings[ $meta_key ] : strtoupper( str_replace( '_', ' ', $meta_key ) );
+					$wpg_meta_key_name = strtoupper( str_replace( '_', ' ', $meta_key ) );
 					if ( $meta_val ) {
-						$html .= '<div><b>' . $wpg_meta_key_name . ' : </b> ' . $meta_val . '</div>';
+						$html2 .= '<div><b>' . $wpg_meta_key_name . ' : </b> ' . $meta_val . '</div>';
 					}
 				}
 			}
 		}
+		$html .= apply_filters( 'mwb_pgfw_product_post_meta_in_pdf_filter_hook', $html2, $post );
 		$html .= '</div></div><span style="page-break-after: always;overflow:hidden;"></span>';
 	}
 	return $html;

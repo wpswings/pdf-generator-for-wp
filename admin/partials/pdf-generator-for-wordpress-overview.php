@@ -25,9 +25,6 @@
 					<li><?php esc_html_e( 'Request the users’ email id in exchange for information.', 'pdf-generator-for-wordpress' ); ?></li>
 					<li><?php esc_html_e( 'Disperse your branding effectively with the useful information you have to sell.', 'pdf-generator-for-wordpress' ); ?></li>
 				</ul>
-				<div class="mwb-overview__video--url">
-					<iframe width="560" height="315" src="https://www.youtube.com/embed/n_ramvCpIy0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-				</div>
 			</div>
 		</div>
 		<h2> <?php esc_html_e( 'The Free Plugin Benefits', 'pdf-generator-for-wordpress' ); ?></h2>

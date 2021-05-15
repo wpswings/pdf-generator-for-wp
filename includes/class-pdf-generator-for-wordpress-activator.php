@@ -30,20 +30,22 @@ class Pdf_Generator_For_WordPress_Activator {
 	 */
 	public static function pdf_generator_for_wordpress_activate() {
 		$old_plugin_settings = get_option( 'ptp_settings', array() );
-		$pdf_builder         = array_key_exists( 'pdf_builder', $old_plugin_settings ) ? $old_plugin_settings['pdf_builder'] : '';
+		$general_setting     = get_option( 'wp_pdf_gen', array() );
+		$setting_to_use      = array_key_exists( 'settingname', $general_setting ) ? $general_setting['settingname'] : '';
+		$pdf_builder         = array_key_exists( $setting_to_use, $old_plugin_settings ) ? $old_plugin_settings[ $setting_to_use ] : '';
 		$pgfw_show_option    = array_key_exists( 'show', $old_plugin_settings ) ? $old_plugin_settings['show'] : '';
 		$pgfw_frontend_show  = array_key_exists( 'frontend', $old_plugin_settings ) ? $old_plugin_settings['frontend'] : '';
 
 		$pgfw_general_settings_check = get_option( 'pgfw_general_settings_save' );
 		if ( ! $pgfw_general_settings_check ) {
-			if ( '' !== $pdf_builder ) {
-				$post_options           = $old_plugin_settings['pdf_builder'][0];
+			if ( '' !== $setting_to_use ) {
+				$post_options           = $old_plugin_settings[ $setting_to_use ][0];
 				$pgfw_file_name         = array_key_exists( 'mwb_file_name', $post_options ) ? $post_options['mwb_file_name'] : '';
 				$pgfw_show_category     = array_key_exists( 'post_categ', $post_options ) ? $post_options['post_categ'] : '';
 				$pgfw_post_tags         = array_key_exists( 'post_tags', $post_options ) ? $post_options['post_tags'] : '';
 				$pgfw_post_date         = array_key_exists( 'post_date', $post_options ) ? $post_options['post_date'] : '';
 				$author_name            = array_key_exists( 'author_name', $post_options ) ? $post_options['author_name'] : '';
-				$post_template_settings = $old_plugin_settings['pdf_builder'][1];
+				$post_template_settings = $old_plugin_settings[ $setting_to_use ][1];
 				$content_font_size      = array_key_exists( 'content_font_size', $post_template_settings ) ? $post_template_settings['content_font_size'] : '';
 				$content_font_pdf       = array_key_exists( 'content_font_pdf', $post_template_settings ) ? $post_template_settings['content_font_pdf'] : '';
 				$page_orientation       = array_key_exists( 'page_orientation', $post_template_settings ) ? $post_template_settings['page_orientation'] : '';
@@ -51,18 +53,18 @@ class Pdf_Generator_For_WordPress_Activator {
 				$margin_top             = array_key_exists( 'margin_top', $post_template_settings ) ? $post_template_settings['margin_top'] : '';
 				$margin_left            = array_key_exists( 'margin_left', $post_template_settings ) ? $post_template_settings['margin_left'] : '';
 				$margin_right           = array_key_exists( 'margin_right', $post_template_settings ) ? $post_template_settings['margin_right'] : '';
-				$pgfw_header_settings   = $old_plugin_settings['pdf_builder'][2];
+				$pgfw_header_settings   = $old_plugin_settings[ $setting_to_use ][2];
 				$header_font_pdf        = array_key_exists( 'header_font_pdf', $pgfw_header_settings ) ? $pgfw_header_settings['header_font_pdf'] : '';
 				$header_font_size       = array_key_exists( 'header_font_size', $pgfw_header_settings ) ? $pgfw_header_settings['header_font_size'] : '';
 				$header_image           = array_key_exists( 'logo_img_url', $pgfw_header_settings ) ? $pgfw_header_settings['logo_img_url'] : '';
-				$pgfw_footer_settings   = $old_plugin_settings['pdf_builder'][7];
+				$pgfw_footer_settings   = $old_plugin_settings[ $setting_to_use ][7];
 				$footer_font_pdf        = array_key_exists( 'footer_font_pdf', $pgfw_footer_settings ) ? $pgfw_footer_settings['footer_font_pdf'] : '';
 				$footer_font_size       = array_key_exists( 'footer_font_size', $pgfw_footer_settings ) ? $pgfw_footer_settings['footer_font_size'] : '';
 				$footer_font_margin     = array_key_exists( 'footer_font_margin', $pgfw_footer_settings ) ? $pgfw_footer_settings['footer_font_margin'] : '';
-				$pgfw_add_watermark     = $old_plugin_settings['pdf_builder'][3];
+				$pgfw_add_watermark     = $old_plugin_settings[ $setting_to_use ][3];
 				$add_watermark          = array_key_exists( 'add_watermark', $pgfw_add_watermark ) ? $pgfw_add_watermark['add_watermark'] : '';
 				$watermark_text         = array_key_exists( 'watermark_text', $pgfw_add_watermark ) ? $pgfw_add_watermark['watermark_text'] : '';
-				$pgfw_meta_fields       = $old_plugin_settings['pdf_builder'][6];
+				$pgfw_meta_fields       = $old_plugin_settings[ $setting_to_use ][6];
 				$post_meta              = array_key_exists( 'post', $pgfw_meta_fields ) ? $pgfw_meta_fields['post'] : '';
 				$page_meta              = array_key_exists( 'page', $pgfw_meta_fields ) ? $pgfw_meta_fields['page'] : '';
 				$product_meta           = array_key_exists( 'product', $pgfw_meta_fields ) ? $pgfw_meta_fields['product'] : '';
@@ -138,20 +140,27 @@ class Pdf_Generator_For_WordPress_Activator {
 					'pgfw_advanced_save_settings'      => array(
 						'pgfw_advanced_show_post_type_icons' => array( 'page', 'post', 'product' ),
 					),
-					'pgfw_meta_fields_save_settings'   => array(
-						'pgfw_meta_fields_post_show'    => ( $post_meta ) ? 'yes' : 'no',
-						'pgfw_meta_fields_product_show' => ( $product_meta ) ? 'yes' : 'no',
-						'pgfw_meta_fields_page_show'    => ( $page_meta ) ? 'yes' : 'no',
-						'pgfw_meta_fields_product_list' => $product_meta,
-						'pgfw_meta_fields_post_list'    => $post_meta,
-						'pgfw_meta_fields_page_list'    => $page_meta,
-					),
 					'pgfw_pdf_upload_save_settings'    => array(
 						'sub_pgfw_poster_image_upload' => '',
 						'pgfw_poster_user_access'      => 'yes',
 						'pgfw_poster_guest_access'     => 'yes',
 					),
 				);
+
+				$meta_settings = array();
+				unset( $pgfw_meta_fields['index'] );
+				foreach ( $pgfw_meta_fields as $key => $value ) {
+					if ( isset( $value[ $key ] ) ) {
+						$meta_settings[ 'pgfw_meta_fields_' . $key . '_show' ] = 'yes';
+						$meta_fields = $value;
+						unset( $meta_fields[ $key ] );
+						$meta_fields_to_show                                   = is_array( $meta_fields ) ? array_keys( $meta_fields ) : array();
+						$meta_settings[ 'pgfw_meta_fields_' . $key . '_list' ] = $meta_fields_to_show;
+					} else {
+						$meta_settings[ 'pgfw_meta_fields_' . $key . '_show' ] = 'no';
+					}
+				}
+				$pgfw_new_settings['pgfw_meta_fields_save_settings'] = $meta_settings;
 			} else {
 				$pgfw_new_settings = array(
 					'pgfw_general_settings_save'       => array(
