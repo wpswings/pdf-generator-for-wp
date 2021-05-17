@@ -99,8 +99,9 @@
   color: #1a3365;
   content: "⚬";
   font-size: 20px;
-  font-weight: 400;
+  font-weight: 900;
   vertical-align: middle;
+  margin-right: 5px;
 }
 
 .mwb-overview__wrapper .mwb-overview__content h2 {

@@ -239,7 +239,6 @@ class Pdf_Generator_For_WordPress_Onboarding_Steps {
 	 * @since    1.0.0
 	 */
 	public function mwb_pgfw_add_deactivation_popup_screen() {
-
 		global $pagenow;
 		if ( ! empty( $pagenow ) && 'plugins.php' == $pagenow ) {
 			require_once PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'onboarding/templates/pdf-generator-for-wordpress-deactivation-template.php';

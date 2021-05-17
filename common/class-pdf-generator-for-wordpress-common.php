@@ -155,22 +155,27 @@ class Pdf_Generator_For_WordPress_Common {
 	 * @param string $pgfw_generate_mode mode to generate pdf : download_locally, open_window, upload_on_server.
 	 * @param string $mode mode to update either zip or continuation.
 	 * @param string $email email to send attachment.
+	 * @param string $template template to use for pdf generation in case of preview.
 	 * @return string
 	 */
-	public function pgfw_generate_pdf_from_library( $prod_id, $pgfw_generate_mode, $mode = '', $email = '' ) {
+	public function pgfw_generate_pdf_from_library( $prod_id, $pgfw_generate_mode, $mode = '', $email = '', $template = '' ) {
 		require_once PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
 		$body_settings_arr       = get_option( 'pgfw_body_save_settings', array() );
 		$pgfw_body_page_template = array_key_exists( 'pgfw_body_page_template', $body_settings_arr ) ? $body_settings_arr['pgfw_body_page_template'] : 'template1';
 		$pgfw_body_post_template = array_key_exists( 'pgfw_body_post_template', $body_settings_arr ) ? $body_settings_arr['pgfw_body_post_template'] : 'template1';
 		$post_id                 = is_array( $prod_id ) ? $prod_id[0] : $prod_id;
-		if ( 'page' === get_post_type( $post_id ) ) {
-			$template_file_name = PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wordpress-admin-' . $pgfw_body_page_template . '.php';
-			$template_file_name = apply_filters( 'pgfw_load_templates_for_pdf_html', $template_file_name );
-			require_once $template_file_name;
+		if ( 'preview' === $pgfw_generate_mode ) {
+			require_once $template;
 		} else {
-			$template_file_name = PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wordpress-admin-' . $pgfw_body_post_template . '.php';
-			$template_file_name = apply_filters( 'pgfw_load_templates_for_pdf_html', $template_file_name );
-			require_once $template_file_name;
+			if ( 'page' === get_post_type( $post_id ) ) {
+				$template_file_name = PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wordpress-admin-' . $pgfw_body_page_template . '.php';
+				$template_file_name = apply_filters( 'pgfw_load_templates_for_pdf_html', $template_file_name );
+				require_once $template_file_name;
+			} else {
+				$template_file_name = PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wordpress-admin-' . $pgfw_body_post_template . '.php';
+				$template_file_name = apply_filters( 'pgfw_load_templates_for_pdf_html', $template_file_name );
+				require_once $template_file_name;
+			}
 		}
 		$general_settings_arr = get_option( 'pgfw_general_settings_save', array() );
 		$pdf_file_name        = array_key_exists( 'pgfw_general_pdf_file_name', $general_settings_arr ) ? $general_settings_arr['pgfw_general_pdf_file_name'] : 'post_name';
@@ -315,6 +320,15 @@ class Pdf_Generator_For_WordPress_Common {
 				@file_put_contents( $path, $output ); // phpcs:ignore
 			}
 			return $document_name;
+		} elseif ( 'preview' === $pgfw_generate_mode ) {
+			$dompdf->stream(
+				$document_name . '.pdf',
+				array(
+					'compress'   => 0,
+					'Attachment' => 0,
+				)
+			);
+			return;
 		}
 		do_action( 'mwb_pgfw_update_pdf_details_indb', $prod_id, $user_name, $email );
 	}

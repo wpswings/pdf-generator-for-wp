@@ -136,3 +136,14 @@
     border-radius : 5px;
     padding: 5px 10px;
 }
+.pgfw_advanced_reset_settings{
+    border: none;
+    padding: 8px;
+    font-size: 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: #ff3d30;
+    color: #ffffff;
+    min-width: 100px;
+    margin: 5px;
+}
