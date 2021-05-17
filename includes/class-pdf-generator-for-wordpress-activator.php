@@ -22,13 +22,20 @@
 class Pdf_Generator_For_WordPress_Activator {
 
 	/**
-	 * Saving mandatory and default settings while activating plugin.
+	 * Function will run during plugin activation..
 	 *
-	 * This will contain all the settings which are required to generate PDF.
-	 *
-	 * @since    1.0.0
+	 * @since 1.0.0
 	 */
 	public static function pdf_generator_for_wordpress_activate() {
+		( new self() )->pgfw_updating_default_settings_indb();
+	}
+	/**
+	 * Updating default settings in db wile plugin activation.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function pgfw_updating_default_settings_indb() {
 		$old_plugin_settings = get_option( 'ptp_settings', array() );
 		$general_setting     = get_option( 'wp_pdf_gen', array() );
 		$setting_to_use      = array_key_exists( 'settingname', $general_setting ) ? $general_setting['settingname'] : '';
