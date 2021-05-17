@@ -145,5 +145,28 @@
                 });
             }
         });
+        // reset setting.
+        $('#pgfw_advanced_reset_settings').click(function(e){
+            e.preventDefault();
+            $('#pgfw_reset_setting_loader').html('<img src="' + pgfw_admin_custom_param.reset_loader + '" width="30" height="30">');
+            var r = confirm( pgfw_admin_custom_param.reset_confirm );
+            if ( r ) {
+                $.ajax({
+                    url    : pgfw_admin_custom_param.ajaxurl,
+                    method : 'post',
+                    data   : {
+                        action : 'pgfw_reset_default_settings',
+                        nonce  : pgfw_admin_custom_param.nonce,
+                    },
+                    success : function( msg ) {
+                        $('#pgfw_reset_setting_loader').html('<img src="' + pgfw_admin_custom_param.reset_success + '" width="30" height="30">');
+                    },
+                    error  : function() {
+                        $('#pgfw_reset_setting_loader').html('<img src="' + pgfw_admin_custom_param.reset_error + '" width="30" height="30">');
+                    }
+    
+                });
+            }
+        });
     });
 })( jQuery );

@@ -223,6 +223,8 @@ class Pdf_Generator_For_WordPress {
 		// schedular fo deleting documents form server.
 		$this->loader->add_action( 'init', $pgfw_plugin_admin, 'pgfw_delete_pdf_form_server_scheduler' );
 		$this->loader->add_action( 'pgfw_cron_delete_pdf_from_server', $pgfw_plugin_admin, 'pgfw_delete_pdf_from_server' );
+		// Reset all the settings to default.
+		$this->loader->add_action( 'wp_ajax_pgfw_reset_default_settings', $pgfw_plugin_admin, 'pgfw_reset_default_settings' );
 	}
 
 	/**
@@ -754,6 +756,25 @@ class Pdf_Generator_For_WordPress {
 									id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"> <span class="mdc-button__ripple"></span>
 									<span class="mdc-button__label <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"><?php echo ( isset( $pgfw_component['button_text'] ) ? esc_html( $pgfw_component['button_text'] ) : '' ); ?></span>
 								</button>
+							</div>
+						</div>
+							<?php
+							break;
+						case 'reset-button':
+							?>
+						<div class="mwb-form-group">
+							<div class="mwb-form-group__label">
+								<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="mwb-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
+							</div>
+							<div class="mwb-form-group__control">
+								<button type="submit" class="<?php echo esc_attr( $pgfw_component['class'] ); ?>" name= "<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
+									id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"> <span class="mdc-button__ripple"></span>
+									<span class="mdc-button__label <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"><?php echo ( isset( $pgfw_component['button_text'] ) ? esc_html( $pgfw_component['button_text'] ) : '' ); ?></span>
+								</button>
+								<span id="<?php echo ( isset( $pgfw_component['loader-id'] ) ? esc_attr( $pgfw_component['loader-id'] ) : '' ); ?>" ></span>
+								<div class="mdc-text-field-helper-line">
+									<div class="mdc-text-field-helper-text--persistent mwb-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
+								</div>
 							</div>
 						</div>
 

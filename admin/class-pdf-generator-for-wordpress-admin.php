@@ -127,6 +127,10 @@ class Pdf_Generator_For_WordPress_Admin {
 					'upload_image'       => esc_html__( 'Upload Image', 'pdf-generator-for-wordpress' ),
 					'use_image'          => esc_html__( 'Use Image', 'pdf-generator-for-wordpress' ),
 					'confirm_text'       => esc_html__( 'Are you sure you want to delete Doc ?', 'pdf-generator-for-wordpress' ),
+					'reset_confirm'      => esc_html__( 'Are you sure you want to reset all the settings to default ?', 'pdf-generator-for-wordpress' ),
+					'reset_loader'       => PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'admin/src/images/loader.gif',
+					'reset_success'      => PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'admin/src/images/checked.png',
+					'reset_error'        => PDF_GENERATOR_FOR_WORDPRESS_DIR_URL . 'admin/src/images/cross.png',
 				)
 			);
 		}
@@ -1325,6 +1329,16 @@ class Pdf_Generator_For_WordPress_Admin {
 		);
 		$pgfw_advanced_settings_html_arr   = apply_filters( 'pgfw_settings_advance_html_arr_filter_hook', $pgfw_advanced_settings_html_arr );
 		$pgfw_advanced_settings_html_arr[] = array(
+			'title'       => __( 'Reset Settings', 'pdf-generator-for-wordpress' ),
+			'description' => __( 'This will reset all the settings to default.', 'pdf-generator-for-wordpress' ),
+			'type'        => 'reset-button',
+			'id'          => 'pgfw_advanced_reset_settings',
+			'button_text' => __( 'Reset settings', 'pdf-generator-for-wordpress' ),
+			'class'       => 'pgfw_advanced_reset_settings',
+			'name'        => 'pgfw_advanced_reset_settings',
+			'loader-id'   => 'pgfw_reset_setting_loader',
+		);
+		$pgfw_advanced_settings_html_arr[] = array(
 			'type'        => 'button',
 			'id'          => 'pgfw_advanced_save_settings',
 			'button_text' => __( 'Save settings', 'pdf-generator-for-wordpress' ),
@@ -1532,5 +1546,114 @@ class Pdf_Generator_For_WordPress_Admin {
 				}
 			}
 		}
+	}
+	/**
+	 * Reset Default settings.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function pgfw_reset_default_settings() {
+		check_ajax_referer( 'pgfw_delete_media_by_id', 'nonce' );
+		$this->pgfw_default_settings_update();
+		wp_die();
+	}
+	/**
+	 * Update deafult settings in options table.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function pgfw_default_settings_update() {
+		$pgfw_new_settings = array(
+			'pgfw_general_settings_save'       => array(
+				'pgfw_enable_plugin'                => 'yes',
+				'pgfw_general_pdf_show_categories'  => 'yes',
+				'pgfw_general_pdf_show_tags'        => 'yes',
+				'pgfw_general_pdf_show_post_date'   => 'yes',
+				'pgfw_general_pdf_show_author_name' => 'yes',
+				'pgfw_general_pdf_generate_mode'    => 'download_locally',
+				'pgfw_general_pdf_file_name'        => 'post_name',
+				'pgfw_custom_pdf_file_name'         => '',
+			),
+			'pgfw_save_admin_display_settings' => array(
+				'pgfw_user_access'                  => 'yes',
+				'pgfw_guest_access'                 => 'yes',
+				'pgfw_guest_download_or_email'      => 'direct_download',
+				'pgfw_user_download_or_email'       => 'direct_download',
+				'pgfw_display_pdf_icon_after'       => 'after_content',
+				'pgfw_display_pdf_icon_alignment'   => 'center',
+				'sub_pgfw_pdf_single_download_icon' => '',
+				'sub_pgfw_pdf_bulk_download_icon'   => '',
+				'pgfw_pdf_icon_width'               => 25,
+				'pgfw_pdf_icon_height'              => 45,
+			),
+			'pgfw_header_setting_submit'       => array(
+				'pgfw_header_use_in_pdf'       => 'yes',
+				'sub_pgfw_header_image_upload' => '',
+				'pgfw_header_company_name'     => 'Company Name',
+				'pgfw_header_tagline'          => 'Address | Phone | Link | Email',
+				'pgfw_header_color'            => '#000000',
+				'pgfw_header_width'            => 8,
+				'pgfw_header_font_style'       => 'helvetica',
+				'pgfw_header_font_size'        => 10,
+				'pgfw_header_top'              => -60,
+			),
+			'pgfw_footer_setting_submit'       => array(
+				'pgfw_footer_use_in_pdf' => 'yes',
+				'pgfw_footer_tagline'    => 'Footer Tagline',
+				'pgfw_footer_color'      => '#000000',
+				'pgfw_footer_width'      => 12,
+				'pgfw_footer_font_style' => 'helvetica',
+				'pgfw_footer_font_size'  => 10,
+				'pgfw_footer_bottom'     => -140,
+			),
+			'pgfw_body_save_settings'          => array(
+				'pgfw_body_title_font_style'  => 'helvetica',
+				'pgfw_body_title_font_size'   => 20,
+				'pgfw_body_title_font_color'  => '#000000',
+				'pgfw_body_page_size'         => 'a4',
+				'pgfw_body_page_orientation'  => 'portrait',
+				'pgfw_body_page_font_style'   => 'helvetica',
+				'pgfw_content_font_size'      => 12,
+				'pgfw_body_font_color'        => '#000000',
+				'pgfw_body_border_size'       => 0,
+				'pgfw_body_border_color'      => '',
+				'pgfw_body_margin_top'        => 70,
+				'pgfw_body_margin_left'       => 35,
+				'pgfw_body_margin_right'      => 10,
+				'pgfw_body_margin_bottom'     => 60,
+				'pgfw_body_rtl_support'       => 'no',
+				'pgfw_body_add_watermark'     => 'yes',
+				'pgfw_body_watermark_text'    => 'default watermark',
+				'pgfw_body_watermark_color'   => '#000000',
+				'pgfw_body_page_template'     => 'template1',
+				'pgfw_body_post_template'     => 'template1',
+				'pgfw_border_position_top'    => -110,
+				'pgfw_border_position_left'   => -34,
+				'pgfw_border_position_right'  => -15,
+				'pgfw_border_position_bottom' => -60,
+			),
+			'pgfw_advanced_save_settings'      => array(
+				'pgfw_advanced_show_post_type_icons' => array( 'page', 'post', 'product' ),
+			),
+			'pgfw_meta_fields_save_settings'   => array(
+				'pgfw_meta_fields_post_show'    => 'no',
+				'pgfw_meta_fields_product_show' => 'no',
+				'pgfw_meta_fields_page_show'    => 'no',
+				'pgfw_meta_fields_product_list' => '',
+				'pgfw_meta_fields_post_list'    => '',
+				'pgfw_meta_fields_page_list'    => '',
+			),
+			'pgfw_pdf_upload_save_settings'    => array(
+				'sub_pgfw_poster_image_upload' => '',
+				'pgfw_poster_user_access'      => 'yes',
+				'pgfw_poster_guest_access'     => 'yes',
+			),
+		);
+		foreach ( $pgfw_new_settings as $key => $val ) {
+			update_option( $key, $val );
+		}
+		do_action( 'mwb_pgfw_save_default_pro_settings' );
 	}
 }
