@@ -2,7 +2,7 @@
 /**
  * Provide a admin area view for the plugin
  *
- * This file is used to markup the admin-facing aspects of the plugin.
+ * This file is used to markup the html field for general tab.
  *
  * @link       https://makewebbetter.com/
  * @since      1.0.0
@@ -12,14 +12,12 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-
-	exit(); // Exit if accessed directly.
+	exit;
 }
-
 global $pgfw_mwb_pgfw_obj;
-$pgfw_active_tab      = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw_tab'] ) : 'pdf-generator-for-wordpress-customize';
-$pgfw_default_tabs    = $pgfw_mwb_pgfw_obj->mwb_pgfw_plug_default_sub_tabs();
-$pgfw_header_settings = apply_filters( 'pgfw_header_settings_array', array() );
+$pgfw_active_tab              = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw_tab'] ) : 'pdf-generator-for-wordpress-header'; // phpcs:ignore WordPress.Security.NonceVerification
+$pgfw_default_tabs            = $pgfw_mwb_pgfw_obj->mwb_pgfw_plug_default_sub_tabs();
+$pgfw_settings_display_fields = apply_filters( 'pgfw_display_settings_array', array() );
 ?>
 <main class="mwb-main mwb-bg-white mwb-r-8">
 	<nav class="mwb-navbar">
@@ -30,12 +28,9 @@ $pgfw_header_settings = apply_filters( 'pgfw_header_settings_array', array() );
 				foreach ( $pgfw_default_tabs as $pgfw_tab_key => $pgfw_default_tabs ) {
 
 					$pgfw_tab_classes = 'mwb-link ';
+
 					if ( ! empty( $pgfw_active_tab ) && $pgfw_active_tab === $pgfw_tab_key ) {
 						$pgfw_tab_classes .= 'active';
-					} elseif ( 'pdf-generator-for-wordpress-customize' === $pgfw_active_tab ) {
-						if ( 'pdf-generator-for-wordpress-header' === $pgfw_tab_key ) {
-							$pgfw_tab_classes .= 'active';
-						}
 					}
 					?>
 					<li>
@@ -47,15 +42,16 @@ $pgfw_header_settings = apply_filters( 'pgfw_header_settings_array', array() );
 			?>
 		</ul>
 	</nav>
-	<section class="mwb-section">
-		<div>
-			<form action="" method="POST" class="mwb-pgfw-gen-section-form">
-				<div class="pgfw-secion-wrap">
-					<?php
-					wp_nonce_field( 'nonce_settings_save', 'pgfw_nonce_field' );
-					$pgfw_mwb_pgfw_obj->mwb_pgfw_plug_generate_html( $pgfw_header_settings );
-					?>
-				</div>
-			</form>
+
+<!--  template file for admin settings. -->
+<section class="mwb-section">
+	<form action="" method="POST" class="mwb-pgfw-gen-section-form">
+		<div class="pgfw-section-wrap">
+			<?php
+			wp_nonce_field( 'nonce_settings_save', 'pgfw_nonce_field' );
+			$pgfw_mwb_pgfw_obj->mwb_pgfw_plug_generate_html( $pgfw_settings_display_fields );
+			?>
+			<div><?php echo esc_html__( 'Add', 'pdf-generator-fpr-wordpress' ) . ' <b>[PGFW_GENERATE_PDF]</b> ' . esc_html__( 'shortcode anywhere on your page or posts to display PDF generating icon.' ); ?></div>
 		</div>
-	</section>
+	</form>
+</section>

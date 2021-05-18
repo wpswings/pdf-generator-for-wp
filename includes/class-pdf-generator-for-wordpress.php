@@ -356,7 +356,7 @@ class Pdf_Generator_For_WordPress {
 	/**
 	 * Predefined default mwb_pgfw_plug tabs.
 	 *
-	 * @return  Array       An key=>value pair of PDF Generator For WordPress tabs.
+	 * @return array An key=>value pair of PDF Generator For WordPress tabs.
 	 */
 	public function mwb_pgfw_plug_default_tabs() {
 		$pgfw_default_tabs = array();
@@ -366,14 +366,9 @@ class Pdf_Generator_For_WordPress {
 			'name'  => 'pdf-generator-for-wordpress-general',
 		);
 
-		$pgfw_default_tabs['pdf-generator-for-wordpress-display'] = array(
-			'title' => esc_html__( 'Display Settings', 'pdf-generator-for-wordpress' ),
-			'name'  => 'pdf-generator-for-wordpress-display',
-		);
-
-		$pgfw_default_tabs['pdf-generator-for-wordpress-customize'] = array(
-			'title' => esc_html__( 'Layout Settings', 'pdf-generator-for-wordpress' ),
-			'name'  => 'pdf-generator-for-wordpress-customize',
+		$pgfw_default_tabs['pdf-generator-for-wordpress-pdf-setting'] = array(
+			'title' => esc_html__( 'PDF Settings', 'pdf-generator-for-wordpress' ),
+			'name'  => 'pdf-generator-for-wordpress-pdf-setting',
 		);
 
 		$pgfw_default_tabs['pdf-generator-for-wordpress-advanced'] = array(
@@ -406,6 +401,10 @@ class Pdf_Generator_For_WordPress {
 	 */
 	public function mwb_pgfw_plug_default_sub_tabs() {
 		$pgfw_default_tabs = array();
+		$pgfw_default_tabs['pdf-generator-for-wordpress-pdf-icon-setting'] = array(
+			'title' => esc_html__( 'PDF Icon', 'pdf-generator-for-wordpress' ),
+			'name'  => 'pdf-generator-for-wordpress-pdf-icon-setting',
+		);
 
 		$pgfw_default_tabs['pdf-generator-for-wordpress-header'] = array(
 			'title' => esc_html__( 'Header', 'pdf-generator-for-wordpress' ),
@@ -422,10 +421,19 @@ class Pdf_Generator_For_WordPress {
 			'name'  => 'pdf-generator-for-wordpress-footer',
 		);
 
-		$pgfw_default_tabs = apply_filters( 'mwb_pgfw_plugin_standard_admin_settings_sub_tabs', $pgfw_default_tabs );
 		return $pgfw_default_tabs;
 	}
-
+	/**
+	 * Loading sub tabs for layout settings used by pro plugin.
+	 *
+	 * @since 1.0.0
+	 * @return array
+	 */
+	public function mwb_pgfw_plug_layout_setting_sub_tabs() {
+		$pgfw_default_sub_tabs = array();
+		$pgfw_default_sub_tabs = apply_filters( 'mwb_pgfw_plugin_standard_admin_settings_sub_tabs', $pgfw_default_sub_tabs );
+		return $pgfw_default_sub_tabs;
+	}
 	/**
 	 * Locate and load appropriate tempate.
 	 *
@@ -845,7 +853,7 @@ class Pdf_Generator_For_WordPress {
 													<span class="mdc-notched-outline__trailing"></span>
 												</span>
 												<?php } ?>
-												<input type="checkbox" name="<?php echo ( isset( $component['checkbox_name'] ) ? esc_attr( $component['checkbox_name'] ) : '' ); ?>" id="<?php echo ( isset( $component['checkbox_id'] ) ? esc_attr( $component['checkbox_id'] ) : '' ); ?>" <?php checked( ( isset( $component['checkbox_value'] ) ? $component['checkbox_value'] : '' ), 'yes' ); ?> value="yes">
+												<input type="checkbox" class="wpg-multi-checkbox" name="<?php echo ( isset( $component['checkbox_name'] ) ? esc_attr( $component['checkbox_name'] ) : '' ); ?>" id="<?php echo ( isset( $component['checkbox_id'] ) ? esc_attr( $component['checkbox_id'] ) : '' ); ?>" <?php checked( ( isset( $component['checkbox_value'] ) ? $component['checkbox_value'] : '' ), 'yes' ); ?> value="yes">
 												<input 
 												class="mdc-text-field__input <?php echo ( isset( $component['class'] ) ? esc_attr( $component['class'] ) : '' ); ?>" 
 												name="<?php echo ( isset( $component['name'] ) ? esc_html( $component['name'] ) : esc_html( $component['id'] ) ); ?>"

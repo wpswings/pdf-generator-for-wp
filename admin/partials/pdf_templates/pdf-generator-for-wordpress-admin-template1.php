@@ -19,11 +19,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Function contains html for template 1;
  *
  * @param int $post_id post id.
+ * @param string $template_name template name to be used.
  * @since 1.0.0
  *
  * @return string
  */
-function return_ob_html( $post_id ) {
+function return_ob_html( $post_id, $template_name = '' ) {
 	// advanced settings.
 	$pgfw_advanced_settings = get_option( 'pgfw_advanced_save_settings', array() );
 	$pgfw_ttf_font_upload   = array_key_exists( 'pgfw_ttf_font_upload', $pgfw_advanced_settings ) ? $pgfw_advanced_settings['pgfw_ttf_font_upload'] : '';

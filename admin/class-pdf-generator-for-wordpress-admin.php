@@ -307,7 +307,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'       => __( 'Default File Name', 'pdf-generator-for-wordpress' ),
 				'type'        => 'select',
-				'description' => __( 'File name will be used as the name of the pdf generated.', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'File name will be used as the name of the PDF generated.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_general_pdf_file_name',
 				'value'       => $pgfw_pdf_file_name,
 				'class'       => 'pgfw_general_pdf_file_name',
@@ -502,7 +502,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'       => __( 'Logged in Users', 'pdf-generator-for-wordpress' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'Enable this to give access to logged in users to download pdf.', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Enable this to give access to logged in users to download PDF.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_user_access',
 				'value'       => $pgfw_user_access,
 				'class'       => 'pgfw_user_access',
@@ -515,7 +515,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'       => __( 'Guest', 'pdf-generator-for-wordpress' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'Enable this to give access to guest users to download pdf', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Enable this to give access to guest users to download PDF.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_guest_access',
 				'value'       => $pgfw_guest_access,
 				'class'       => 'pgfw_guest_access',
@@ -528,7 +528,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'        => __( 'Direct download or Email User', 'pdf-generator-for-wordpress' ),
 				'type'         => 'select',
-				'description'  => __( 'Please choose either to direct download or to email user', 'pdf-generator-for-wordpress' ),
+				'description'  => __( 'Please choose either to direct download or to email user.', 'pdf-generator-for-wordpress' ),
 				'id'           => 'pgfw_user_download_or_email',
 				'value'        => $pgfw_user_download_or_email,
 				'class'        => 'pgfw_user_download_or_email',
@@ -543,7 +543,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'        => __( 'Direct download or Email Guest', 'pdf-generator-for-wordpress' ),
 				'type'         => 'select',
-				'description'  => __( 'Please choose either to direct download or to email guest', 'pdf-generator-for-wordpress' ),
+				'description'  => __( 'Please choose either to direct download or to email guest.', 'pdf-generator-for-wordpress' ),
 				'id'           => 'pgfw_guest_download_or_email',
 				'value'        => $pgfw_guest_download_or_email,
 				'class'        => 'pgfw_guest_download_or_email',
@@ -556,9 +556,9 @@ class Pdf_Generator_For_WordPress_Admin {
 				),
 			),
 			array(
-				'title'        => __( 'Show Pdf Icon', 'pdf-generator-for-wordpress' ),
+				'title'        => __( 'Show PDF Icon', 'pdf-generator-for-wordpress' ),
 				'type'         => 'select',
-				'description'  => __( 'Pdf Icon will be shown after selected space.', 'pdf-generator-for-wordpress' ),
+				'description'  => __( 'PDF Icon will be shown after selected space.', 'pdf-generator-for-wordpress' ),
 				'id'           => 'pgfw_display_pdf_icon_after',
 				'value'        => $pgfw_pdf_icon_after,
 				'class'        => 'pgfw_display_pdf_icon_after',
@@ -567,9 +567,9 @@ class Pdf_Generator_For_WordPress_Admin {
 				'options'      => $pgfw_pdf_icon_places,
 			),
 			array(
-				'title'       => __( 'Pdf Icon Alignment', 'pdf-generator-for-wordpress' ),
+				'title'       => __( 'PDF Icon Alignment', 'pdf-generator-for-wordpress' ),
 				'type'        => 'select',
-				'description' => __( 'Pdf Icon will be aligned according to the selected value.', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'PDF Icon will be aligned according to the selected value.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_display_pdf_icon_alignment',
 				'value'       => $pgfw_pdf_icon_alignment,
 				'class'       => 'pgfw_display_pdf_icon_alignment',
@@ -582,7 +582,7 @@ class Pdf_Generator_For_WordPress_Admin {
 				),
 			),
 			array(
-				'title'        => __( 'Choose Single Download Pdf Icon', 'pdf-generator-for-wordpress' ),
+				'title'        => __( 'Choose Single Download PDF Icon', 'pdf-generator-for-wordpress' ),
 				'type'         => 'upload-button',
 				'button_text'  => __( 'Upload Icon', 'pdf-generator-for-wordpress' ),
 				'class'        => 'sub_pgfw_pdf_single_download_icon',
@@ -593,7 +593,7 @@ class Pdf_Generator_For_WordPress_Admin {
 				'sub_name'     => 'pgfw_pdf_single_download_icon',
 				'name'         => 'sub_pgfw_pdf_single_download_icon',
 				'parent-class' => 'mwb_pgfw_setting_separate_border',
-				'description'  => __( 'If no icon is choosen default icon will be used', 'pdf-generator-for-wordpress' ),
+				'description'  => __( 'If no icon is choosen default icon will be used.', 'pdf-generator-for-wordpress' ),
 				'img-tag'      => array(
 					'img-class' => 'pgfw_single_pdf_icon_image',
 					'img-id'    => 'pgfw_single_pdf_icon_image',
@@ -613,7 +613,7 @@ class Pdf_Generator_For_WordPress_Admin {
 				'title'       => __( 'Icon size', 'pdf-generator-for-wordpress' ),
 				'type'        => 'multi',
 				'id'          => 'pgfw_pdf_icons_sizes',
-				'description' => __( 'Enter icon width and height in pixels', 'pgfw-generator-for-wordpress' ),
+				'description' => __( 'Enter icon width and height in pixels.', 'pgfw-generator-for-wordpress' ),
 				'value'       => array(
 					array(
 						'type'        => 'number',
@@ -857,7 +857,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'       => __( 'Choose color', 'pdf-generator-for-wordpress' ),
 				'type'        => 'color',
-				'description' => __( 'Please choose color to display in the footer text', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Please choose color to display in the footer text.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_footer_color',
 				'value'       => $pgfw_footer_color,
 				'class'       => 'pgfw_color_picker pgfw_footer_color',
@@ -867,7 +867,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'       => __( 'Choose width', 'pdf-generator-for-wordpress' ),
 				'type'        => 'number',
-				'description' => __( 'Please choose width to display in the footer accepted values are in px, please enter number only', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Please choose width to display in the footer accepted values are in px, please enter number only.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_footer_width',
 				'value'       => $pgfw_footer_width,
 				'class'       => 'pgfw_footer_width',
@@ -877,7 +877,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'       => __( 'Choose font style', 'pdf-generator-for-wordpress' ),
 				'type'        => 'select',
-				'description' => __( 'Please choose font style to display in the footer', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Please choose font style to display in the footer.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_footer_font_style',
 				'value'       => $pgfw_footer_font_style,
 				'class'       => 'pgfw_footer_font_style',
@@ -888,7 +888,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'       => __( 'Choose font size', 'pdf-generator-for-wordpress' ),
 				'type'        => 'number',
-				'description' => __( 'Please choose font size to display in the footer', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Please choose font size to display in the footer.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_footer_font_size',
 				'value'       => $pgfw_footer_font_size,
 				'class'       => 'pgfw_footer_font_size',
@@ -978,7 +978,7 @@ class Pdf_Generator_For_WordPress_Admin {
 				'options'     => $mwb_pgfw_font_styles,
 			),
 			array(
-				'title'       => __( 'Title Font Size', 'pdf-generator-for-wordpress' ),
+				'title'       => __( 'Title Font Size.', 'pdf-generator-for-wordpress' ),
 				'type'        => 'number',
 				'description' => __( 'This will be the font size of the title.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_body_title_font_size',
@@ -1002,7 +1002,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'        => __( 'Page Size', 'pdf-generator-for-wordpress' ),
 				'type'         => 'select',
-				'description'  => __( 'Please choose page size to generate pdf.', 'pdf-generator-for-wordpress' ),
+				'description'  => __( 'Please choose page size to generate PDF.', 'pdf-generator-for-wordpress' ),
 				'id'           => 'pgfw_body_page_size',
 				'value'        => $pgfw_body_page_size,
 				'class'        => 'pgfw_body_page_size',
@@ -1060,7 +1060,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'       => __( 'Page Orientation', 'pdf-generator-for-wordpress' ),
 				'type'        => 'select',
-				'description' => __( 'Choose page orientation to generate pdf.', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Choose page orientation to generate PDF.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_body_page_orientation',
 				'value'       => $pgfw_body_page_orientation,
 				'class'       => 'pgfw_body_page_orientation',
@@ -1075,7 +1075,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'        => __( 'Content Font Style', 'pdf-generator-for-wordpress' ),
 				'type'         => 'select',
-				'description'  => __( 'Choose page font to generate pdf.', 'pdf-generator-for-wordpress' ),
+				'description'  => __( 'Choose page font to generate PDF.', 'pdf-generator-for-wordpress' ),
 				'id'           => 'pgfw_body_page_font_style',
 				'value'        => $pgfw_body_page_font_style,
 				'class'        => 'pgfw_body_page_font_style',
@@ -1087,7 +1087,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'       => __( 'Content font Size', 'pdf-generator-for-wordpress' ),
 				'type'        => 'number',
-				'description' => __( 'Choose content font size to generate pdf.', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Choose content font size to generate PDF.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_content_font_size',
 				'value'       => $pgfw_body_page_font_size,
 				'class'       => 'pgfw_content_font_size',
@@ -1258,7 +1258,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'       => __( 'Choose Watermark Text Color', 'pdf-generator-for-wordpress' ),
 				'type'        => 'color',
-				'description' => __( 'Please choose color to display the text of watermark', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'Please choose color to display the text of watermark.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_body_watermark_color',
 				'value'       => $pgfw_body_watermark_color,
 				'class'       => 'pgfw_color_picker pgfw_body_watermark_color',
@@ -1387,7 +1387,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			array(
 				'title'        => __( 'Show meta fields for ', 'pdf-generator-for-wordpress' ) . $post_type,
 				'type'         => 'checkbox',
-				'description'  => __( 'selecting this will show the meta fields on pdf.', 'pdf-generator-for-wordpress' ),
+				'description'  => __( 'selecting this will show the meta fields on PDF.', 'pdf-generator-for-wordpress' ),
 				'id'           => 'pgfw_meta_fields_' . $post_type . '_show',
 				'value'        => $pgfw_show_type_meta_val,
 				'class'        => 'pgfw_meta_fields_' . $post_type . '_show',
@@ -1397,7 +1397,7 @@ class Pdf_Generator_For_WordPress_Admin {
 			$pgfw_meta_settings_html_arr[] = array(
 				'title'       => __( 'Meta fields in ', 'pdf-generator-for-wordpress' ) . $post_type,
 				'type'        => 'multiselect',
-				'description' => __( 'These meta fields will be shown on pdf.', 'pdf-generator-for-wordpress' ),
+				'description' => __( 'These meta fields will be shown on PDF.', 'pdf-generator-for-wordpress' ),
 				'id'          => 'pgfw_meta_fields_' . $post_type . '_list',
 				'name'        => 'pgfw_meta_fields_' . $post_type . '_list',
 				'value'       => $pgfw_show_type_meta_arr,
