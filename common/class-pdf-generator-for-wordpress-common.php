@@ -156,9 +156,10 @@ class Pdf_Generator_For_WordPress_Common {
 	 * @param string $mode mode to update either zip or continuation.
 	 * @param string $email email to send attachment.
 	 * @param string $template template to use for pdf generation in case of preview.
+	 * @param string $template_name template name to preview for.
 	 * @return string
 	 */
-	public function pgfw_generate_pdf_from_library( $prod_id, $pgfw_generate_mode, $mode = '', $email = '', $template = '' ) {
+	public function pgfw_generate_pdf_from_library( $prod_id, $pgfw_generate_mode, $mode = '', $email = '', $template = '', $template_name = '' ) {
 		require_once PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
 		$body_settings_arr       = get_option( 'pgfw_body_save_settings', array() );
 		$pgfw_body_page_template = array_key_exists( 'pgfw_body_page_template', $body_settings_arr ) ? $body_settings_arr['pgfw_body_page_template'] : 'template1';
@@ -200,7 +201,7 @@ class Pdf_Generator_For_WordPress_Common {
 				$html .= return_ob_html( $id );
 			}
 		} else {
-			$html = return_ob_html( $prod_id );
+			$html = return_ob_html( $prod_id, $template_name );
 		}
 		$paper_sizes = array(
 			'4a0'                      => array( 0, 0, 4767.87, 6740.79 ),
