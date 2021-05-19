@@ -144,9 +144,6 @@ class Pdf_Generator_For_WordPress_Activator {
 						'pgfw_border_position_right'  => -15,
 						'pgfw_border_position_bottom' => -60,
 					),
-					'pgfw_advanced_save_settings'      => array(
-						'pgfw_advanced_show_post_type_icons' => array( 'page', 'post', 'product' ),
-					),
 					'pgfw_pdf_upload_save_settings'    => array(
 						'sub_pgfw_poster_image_upload' => '',
 						'pgfw_poster_user_access'      => 'yes',
@@ -154,11 +151,13 @@ class Pdf_Generator_For_WordPress_Activator {
 					),
 				);
 
-				$meta_settings = array();
+				$meta_settings    = array();
+				$advanced_setting = array();
 				unset( $pgfw_meta_fields['index'] );
 				foreach ( $pgfw_meta_fields as $key => $value ) {
 					if ( isset( $value[ $key ] ) ) {
 						$meta_settings[ 'pgfw_meta_fields_' . $key . '_show' ] = 'yes';
+						$advanced_setting[]                                    = $key;
 						$meta_fields = $value;
 						unset( $meta_fields[ $key ] );
 						$meta_fields_to_show                                   = is_array( $meta_fields ) ? array_keys( $meta_fields ) : array();
@@ -168,6 +167,7 @@ class Pdf_Generator_For_WordPress_Activator {
 					}
 				}
 				$pgfw_new_settings['pgfw_meta_fields_save_settings'] = $meta_settings;
+				$pgfw_new_settings['pgfw_advanced_save_settings']    = array( 'pgfw_advanced_show_post_type_icons' => $advanced_setting );
 			} else {
 				$pgfw_new_settings = array(
 					'pgfw_general_settings_save'       => array(
@@ -239,7 +239,7 @@ class Pdf_Generator_For_WordPress_Activator {
 						'pgfw_border_position_bottom' => -60,
 					),
 					'pgfw_advanced_save_settings'      => array(
-						'pgfw_advanced_show_post_type_icons' => array( 'page', 'post', 'product' ),
+						'pgfw_advanced_show_post_type_icons' => array( 'page', 'post' ),
 					),
 					'pgfw_meta_fields_save_settings'   => array(
 						'pgfw_meta_fields_post_show'    => 'no',

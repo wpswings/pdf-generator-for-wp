@@ -704,7 +704,7 @@ class Pdf_Generator_For_WordPress_Admin {
 				'img-tag'     => array(
 					'img-class' => 'pgfw_header_image',
 					'img-id'    => 'pgfw_header_image',
-					'img-style' => ( $pgfw_header_logo ) ? 'margin:10px;' : 'display:none;margin:10px;',
+					'img-style' => ( $pgfw_header_logo ) ? 'margin-right:10px;width:100px;height:100px;' : 'display:none;margin:10px;width:100px;height:100px;',
 					'img-src'   => $pgfw_header_logo,
 				),
 				'img-remove'  => array(
@@ -1635,7 +1635,7 @@ class Pdf_Generator_For_WordPress_Admin {
 				'pgfw_border_position_bottom' => -60,
 			),
 			'pgfw_advanced_save_settings'      => array(
-				'pgfw_advanced_show_post_type_icons' => array( 'page', 'post', 'product' ),
+				'pgfw_advanced_show_post_type_icons' => array( 'page', 'post' ),
 			),
 			'pgfw_meta_fields_save_settings'   => array(
 				'pgfw_meta_fields_post_show'    => 'no',

@@ -197,11 +197,14 @@ class Pdf_Generator_For_WordPress_Common {
 		}
 		if ( 'continuous_on_same_page' === $mode ) {
 			$html = '';
+			$html = apply_filters( 'mwb_pgfw_add_cover_page_template_to_bulk_pdf', $html );
 			foreach ( $prod_id as $id ) {
 				$html .= return_ob_html( $id );
 			}
 		} else {
-			$html = return_ob_html( $prod_id, $template_name );
+			$html  = '';
+			$html  = apply_filters( 'mwb_pgfw_add_cover_page_template_to_single_pdf', $html );
+			$html .= return_ob_html( $prod_id, $template_name );
 		}
 		$paper_sizes = array(
 			'4a0'                      => array( 0, 0, 4767.87, 6740.79 ),

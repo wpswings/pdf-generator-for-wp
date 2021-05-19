@@ -33,10 +33,10 @@
                 var self = this;
                 this.window.on('select', function() {
                     var response = self.window.state().get('selection').first().toJSON();
-                    $('.pgfw_header_image').attr('src', response.sizes.thumbnail.url);
+                    $('.pgfw_header_image').attr('src', response.url);
                     $('.pgfw_header_image').show();
                     $('#pgfw_header_image_remove').show();
-                    $('#sub_pgfw_header_image_upload').val( response.sizes.thumbnail.url );
+                    $('#sub_pgfw_header_image_upload').val( response.url );
                 });
             }
             this.window.open();
@@ -64,10 +64,10 @@
                 var self = this;
                 this.window.on('select', function() {
                     var response = self.window.state().get('selection').first().toJSON();
-                    $('.pgfw_single_pdf_icon_image').attr('src', response.sizes.thumbnail.url);
+                    $('.pgfw_single_pdf_icon_image').attr('src', response.url);
                     $('.pgfw_single_pdf_icon_image').show();
                     $('#pgfw_single_pdf_icon_image_remove').show();
-                    $('#sub_pgfw_pdf_single_download_icon').val( response.sizes.thumbnail.url );
+                    $('#sub_pgfw_pdf_single_download_icon').val( response.url );
                 });
             }
             this.window.open();
@@ -116,7 +116,9 @@
             this.window.open();
             return false;
         });
+        // add datatable to the poster listing table.
         $('#pgfw_poster_shortcode_listing_table').DataTable();
+        // delete posters.
         $('.pgfw-delete-poster-form-table').click(function(e){
             e.preventDefault();
             var r = confirm( pgfw_admin_custom_param.confirm_text );
@@ -145,12 +147,12 @@
                 });
             }
         });
-        // reset setting.
+        // reset settings.
         $('#pgfw_advanced_reset_settings').click(function(e){
             e.preventDefault();
-            $('#pgfw_reset_setting_loader').html('<img src="' + pgfw_admin_custom_param.reset_loader + '" width="30" height="30">');
             var r = confirm( pgfw_admin_custom_param.reset_confirm );
             if ( r ) {
+                $('#pgfw_reset_setting_loader').html('<img src="' + pgfw_admin_custom_param.reset_loader + '" width="30" height="30">');
                 $.ajax({
                     url    : pgfw_admin_custom_param.ajaxurl,
                     method : 'post',

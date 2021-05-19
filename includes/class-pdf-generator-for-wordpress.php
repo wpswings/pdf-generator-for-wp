@@ -402,7 +402,7 @@ class Pdf_Generator_For_WordPress {
 	public function mwb_pgfw_plug_default_sub_tabs() {
 		$pgfw_default_tabs = array();
 		$pgfw_default_tabs['pdf-generator-for-wordpress-pdf-icon-setting'] = array(
-			'title' => esc_html__( 'PDF Icon', 'pdf-generator-for-wordpress' ),
+			'title' => esc_html__( 'Icon Display', 'pdf-generator-for-wordpress' ),
 			'name'  => 'pdf-generator-for-wordpress-pdf-icon-setting',
 		);
 
