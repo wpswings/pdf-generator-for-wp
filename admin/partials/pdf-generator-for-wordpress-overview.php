@@ -24,6 +24,7 @@
 					<li><?php esc_html_e( 'Request the users’ email id in exchange for information.', 'pdf-generator-for-wordpress' ); ?></li>
 					<li><?php esc_html_e( 'Disperse your branding effectively with the useful information you have to sell.', 'pdf-generator-for-wordpress' ); ?></li>
 				</ul>
+				<?php do_action( 'pgfw_add_demo_video_at_overview_form' ); ?>
 			</div>
 		</div>
 		<h2> <?php esc_html_e( 'The Free Plugin Benefits', 'pdf-generator-for-wordpress' ); ?></h2>

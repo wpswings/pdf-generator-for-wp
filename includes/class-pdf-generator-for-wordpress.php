@@ -739,7 +739,8 @@ class Pdf_Generator_For_WordPress {
 											name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
 											type="checkbox"
 											id="<?php echo esc_html( $pgfw_component['id'] ); ?>"
-											value="yes" class="mdc-switch__native-control <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
+											value="yes"
+											class="mdc-switch__native-control <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
 											role="switch"
 											aria-checked="<?php echo esc_html( 'yes' === $pgfw_component['value'] ) ? 'true' : 'false'; ?>"
 											<?php checked( $pgfw_component['value'], 'yes' ); ?>

@@ -139,7 +139,7 @@ class Pdf_Generator_For_WordPress_Admin {
 	/**
 	 * Adding settings menu for PDF Generator For WordPress.
 	 *
-	 * @since    1.0.0
+	 * @since 1.0.0
 	 */
 	public function pgfw_options_page() {
 		global $submenu;
@@ -167,8 +167,6 @@ class Pdf_Generator_For_WordPress_Admin {
 			}
 		}
 	}
-
-
 	/**
 	 * PDF Generator For WordPress pgfw_admin_submenu_page.
 	 *
@@ -205,11 +203,8 @@ class Pdf_Generator_For_WordPress_Admin {
 	 * @since    1.0.0
 	 */
 	public function pgfw_options_menu_html() {
-
 		include_once PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'admin/partials/pdf-generator-for-wordpress-admin-dashboard.php';
 	}
-
-
 	/**
 	 * PDF Generator For WordPress admin menu page.
 	 *
@@ -345,6 +340,7 @@ class Pdf_Generator_For_WordPress_Admin {
 	 * PDF Generator For WordPress save tab settings.
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	public function pgfw_admin_save_tab_settings() {
 		global $pgfw_mwb_pgfw_obj, $mwb_pgfw_gen_flag, $pgfw_save_check_flag;

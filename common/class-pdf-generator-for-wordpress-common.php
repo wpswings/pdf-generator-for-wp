@@ -170,11 +170,11 @@ class Pdf_Generator_For_WordPress_Common {
 		} else {
 			if ( 'page' === get_post_type( $post_id ) ) {
 				$template_file_name = PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wordpress-admin-' . $pgfw_body_page_template . '.php';
-				$template_file_name = apply_filters( 'pgfw_load_templates_for_pdf_html', $template_file_name );
+				$template_file_name = apply_filters( 'pgfw_load_templates_for_pdf_html', $template_file_name, $pgfw_body_page_template, $post_id );
 				require_once $template_file_name;
 			} else {
 				$template_file_name = PDF_GENERATOR_FOR_WORDPRESS_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wordpress-admin-' . $pgfw_body_post_template . '.php';
-				$template_file_name = apply_filters( 'pgfw_load_templates_for_pdf_html', $template_file_name );
+				$template_file_name = apply_filters( 'pgfw_load_templates_for_pdf_html', $template_file_name, $pgfw_body_post_template, $post_id );
 				require_once $template_file_name;
 			}
 		}

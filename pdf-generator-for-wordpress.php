@@ -57,7 +57,7 @@ function define_pdf_generator_for_wordpress_constants() {
  *
  * @param   String $key    Key for contant.
  * @param   String $value   value for contant.
- * @since             1.0.0
+ * @since   1.0.0
  */
 function pdf_generator_for_wordpress_constants( $key, $value ) {
 
