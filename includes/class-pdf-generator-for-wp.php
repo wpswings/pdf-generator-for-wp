@@ -8,8 +8,8 @@
  * @link       https://makewebbetter.com/
  * @since      1.0.0
  *
- * @package    Pdf_Generator_For_Wordpress
- * @subpackage Pdf_Generator_For_Wordpress/includes
+ * @package    Pdf_Generator_For_Wp
+ * @subpackage Pdf_Generator_For_Wp/includes
  */
 
 /**
@@ -22,8 +22,8 @@
  * version of the plugin.
  *
  * @since      1.0.0
- * @package    Pdf_Generator_For_Wordpress
- * @subpackage Pdf_Generator_For_Wordpress/includes
+ * @package    Pdf_Generator_For_Wp
+ * @subpackage Pdf_Generator_For_Wp/includes
  * @author     makewebbetter <webmaster@makewebbetter.com>
  */
 class Pdf_Generator_For_Wp {
@@ -84,7 +84,7 @@ class Pdf_Generator_For_Wp {
 			$this->version = '1.0.0';
 		}
 
-		$this->plugin_name = 'pdf-generator-for-wordpress';
+		$this->plugin_name = 'pdf-generator-for-wp';
 
 		$this->pdf_generator_for_wp_dependencies();
 		$this->pdf_generator_for_wp_locale();

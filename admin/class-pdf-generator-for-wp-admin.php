@@ -5,8 +5,8 @@
  * @link       https://makewebbetter.com/
  * @since      1.0.0
  *
- * @package    Pdf_Generator_For_Wordpress
- * @subpackage Pdf_Generator_For_Wordpress/admin
+ * @package    Pdf_Generator_For_Wp
+ * @subpackage Pdf_Generator_For_Wp/admin
  */
 
 /**
@@ -15,8 +15,8 @@
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
- * @package    Pdf_Generator_For_Wordpress
- * @subpackage Pdf_Generator_For_Wordpress/admin
+ * @package    Pdf_Generator_For_Wp
+ * @subpackage Pdf_Generator_For_Wp/admin
  * @author     makewebbetter <webmaster@makewebbetter.com>
  */
 class Pdf_Generator_For_Wp_Admin {
@@ -175,7 +175,7 @@ class Pdf_Generator_For_Wp_Admin {
 	 */
 	public function pgfw_admin_submenu_page( $menus = array() ) {
 		$menus[] = array(
-			'name'      => __( 'PDF Generator For WordPress', 'pdf-generator-for-wp' ),
+			'name'      => __( 'PDF Generator For Wp', 'pdf-generator-for-wp' ),
 			'slug'      => 'pdf_generator_for_wp_menu',
 			'menu_link' => 'pdf_generator_for_wp_menu',
 			'instance'  => $this,

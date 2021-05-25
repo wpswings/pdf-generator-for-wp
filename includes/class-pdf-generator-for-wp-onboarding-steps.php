@@ -208,7 +208,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 
 			wp_enqueue_script( 'mwb-pgfw-onboarding-scripts', PDF_GENERATOR_FOR_WP_DIR_URL . 'onboarding/js/pdf-generator-for-wp-onboarding.js', array( 'jquery', 'mwb-pgfw-onboarding-select2-js', 'mwb-pgfw-metarial-js', 'mwb-pgfw-metarial-js2', 'mwb-pgfw-metarial-lite' ), time(), true );
 
-			$pgfw_current_slug = 'pdf-generator-for-wordpress';
+			$pgfw_current_slug = 'pdf-generator-for-wp';
 			wp_localize_script(
 				'mwb-pgfw-onboarding-scripts',
 				'mwb_pgfw_onboarding',
@@ -416,7 +416,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 				'description' => '',
 				'type'        => 'hidden',
 				'placeholder' => '',
-				'name'        => 'org_plugin_name',
+				'name'        => 'pdf_generator_for_wp',
 				'value'       => self::$mwb_pgfw_plugin_name,
 				'required'    => '',
 				'class'       => '',
@@ -532,7 +532,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 				'description' => '',
 				'type'        => 'hidden',
 				'placeholder' => '',
-				'name'        => 'org_plugin_name',
+				'name'        => 'pdf_generator_for_wp',
 				'value'       => '',
 				'required'    => '',
 				'class'       => '',
