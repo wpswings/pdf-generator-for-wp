@@ -1,4 +1,4 @@
-=== PDF Generator for WordPress ===
+=== PDF Generator for Wp ===
 Contributors: MakeWebBetter
 Donate link: https://makewebbetter.com/
 Tags: PDF, PDF creator, PDF generator, PDF maker, wordpress, wordpress pdf generator
@@ -11,19 +11,19 @@ Requires PHP: 5.6
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-PDF Generator for WordPress allows you to convert posts into PDF files to share information across multiple channels. 
+PDF Generator for Wp allows you to convert posts into PDF files to share information across multiple channels. 
 
 == Description ==
 
-***PDF GENERATOR FOR WORDPRESS LETS YOU CREATE PDF OF RELEVANT PAGES, PRODUCTS, AND POSTS FOR BETTER DISPERSAL OF BRAND INFORMATION.*** 
+***PDF GENERATOR FOR WP LETS YOU CREATE PDF OF RELEVANT PAGES, PRODUCTS, AND POSTS FOR BETTER DISPERSAL OF BRAND INFORMATION.*** 
 
-PDF Generator for WordPress provides the key support in portfolio building depending on your industry type. The PDF plugin for WordPress allows you to create PDF files for the pages to ensure the availability of information offline. It allows the admin to convert all the posts, pages, blogs, and products on their website into PDF files. 
+PDF Generator for Wp provides the key support in portfolio building depending on your industry type. The PDF plugin for WordPress allows you to create PDF files for the pages to ensure the availability of information offline. It allows the admin to convert all the posts, pages, blogs, and products on their website into PDF files. 
 
 Users can download these PDF files or view them in a new tab. Also, the admin can authorize users to receive their PDFs on their email addresses. The WordPress PDF creator makes sharing information seamless across different channels. You can predefine the settings to customize the header, the body, and the footer.
 
 Users can non-commercially distribute the downloaded PDF files. The admin can customize the pdf template to align with their brand. So, the distribution of PDFs provides an opportunity for brand promotion.
 
-== With the PDF Generator for WordPress plugin, you can: ==
+== With the PDF Generator for Wp plugin, you can: ==
 
 **1.** Convert all the posts, pages, blogs, and products into PDF files.
 **2.** Display icon to both guest users and registered users.
@@ -35,9 +35,9 @@ Users can non-commercially distribute the downloaded PDF files. The admin can cu
 **8.** Predefine header, footer, and body settings.
 **9.** Include author details. 
 
-[**Free demo of PDF Generator for WordPress**](https://demo.makewebbetter.com/pdf-generator-for-wp/?utm_source=MWB-PDF-org&utm_medium=MWB-ORG-Page&utm_campaign=MWB-frontend_demo)
+[**Free demo of PDF Generator for Wp**](https://demo.makewebbetter.com/pdf-generator-for-wp/?utm_source=MWB-PDF-org&utm_medium=MWB-ORG-Page&utm_campaign=MWB-frontend_demo)
 
-== WHAT’S INCLUDED IN OUR PDF GENERATOR FOR WORDPRESS PLUGIN == 
+== WHAT’S INCLUDED IN OUR PDF GENERATOR FOR WP PLUGIN == 
 
 **1)** **INCLUDE IMPORTANT DETAILS**
 The General Settings in the PDF plugin allows you to include important information in the generated PDF files. The plugin lets you display the categories, tags, taxonomy, post date, and author name. 
@@ -66,7 +66,7 @@ The plugin allows you to upload your own PDF files for download. You can also li
 == PLUGIN MEETS YOUR REQUIREMENT, SO ==
 [**Download Now**](https://downloads.wordpress.org/plugin/pdf-generator-for-wp.zip)
 
-Visit [**PDF Generator for WordPress Documentation**](http://docs.makewebbetter.com/pdf-generator-for-wp/?utm_source=MWB-PDF-org&utm_medium=MWB-ORG-Page&utm_campaign=MWB-doc) and learn more about the features and working of the plugin.
+Visit [**PDF Generator for Wp Documentation**](http://docs.makewebbetter.com/pdf-generator-for-wp/?utm_source=MWB-PDF-org&utm_medium=MWB-ORG-Page&utm_campaign=MWB-doc) and learn more about the features and working of the plugin.
 
 == WHAT PREMIUM VERSION OF WORDPRESS PDF GENERATOR PLUGIN OFFERS ==
 
@@ -90,13 +90,13 @@ If you need support or have any question then kindly use our online chat window 
 
 = Automatic installation =
 
-Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't need to leave your web browser. To do an automatic install of PDF Generator for WordPress, log in to your WordPress dashboard, navigate to the Plugins menu, and click Add New.
+Automatic installation is the easiest option as Wp handles the file transfers itself and you don't need to leave your web browser. To do an automatic install of PDF Generator for Wp, log in to your WordPress dashboard, navigate to the Plugins menu, and click Add New.
 
-In the search field type "PDF Generator for WordPress" and click Search Plugins. Once you've found our plugin you can view details about it such as the point release, rating, and description. Most importantly, of course, you can install it by simply clicking "Install Now".
+In the search field type "PDF Generator for Wp" and click Search Plugins. Once you've found our plugin you can view details about it such as the point release, rating, and description. Most importantly, of course, you can install it by simply clicking "Install Now".
 
 = Manual installation =
 
-The manual installation method involves downloading our PDF Generator for WordPress and uploading it to your webserver via your favorite FTP application. The WordPress contains [instructions on how to do this here](https://wordpress.org/support/article/managing-plugins/#manual-plugin-installation).
+The manual installation method involves downloading our PDF Generator for Wp and uploading it to your webserver via your favorite FTP application. The WordPress contains [instructions on how to do this here](https://wordpress.org/support/article/managing-plugins/#manual-plugin-installation).
 
 = Updating =
 
@@ -115,7 +115,7 @@ We have already provided the shortcode. You can use that shortcode to place the 
 
 = How to place the PDF button appropriapety for my uploaded document? =
 
-Go to MakeWebBetter--> PDF Generator for WordPress--> PDF Upload. Click on the Upload Doc button to upload your PDF file. Click on the Save Settings button. The shortcode will be generated. Use this shortcode to place your PDF icon appropriately for your users.
+Go to MakeWebBetter--> PDF Generator for Wp--> PDF Upload. Click on the Upload Doc button to upload your PDF file. Click on the Save Settings button. The shortcode will be generated. Use this shortcode to place your PDF icon appropriately for your users.
 
 = Can I rename the meta fields for posts, pages and products? =
 
