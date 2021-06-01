@@ -309,9 +309,8 @@ class Pdf_Generator_For_Wp_Common {
 			$path   = $upload_basedir . $document_name . '.pdf';
 			if ( file_exists( $path ) ) {
 				@unlink( $path ); // phpcs:ignore
-			} else {
-				@file_put_contents( $path, $output ); // phpcs:ignore
 			}
+			@file_put_contents( $path, $output ); // phpcs:ignore
 			wp_mail( $email, __( 'document form site', 'pdf-generator-for-wp' ), __( 'Please find these attachment', 'pdf-generator-for-wp' ), '', array( $path ) );
 		} elseif ( 'bulk' === $pgfw_generate_mode ) {
 			if ( 'continuous_on_same_page' === $mode ) {
