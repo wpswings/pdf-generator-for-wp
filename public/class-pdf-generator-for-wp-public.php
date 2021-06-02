@@ -85,9 +85,6 @@ class Pdf_Generator_For_Wp_Public {
 	 * @return string
 	 */
 	public function pgfw_show_download_icon_to_users( $desc ) {
-		if ( wp_doing_ajax() ) {
-			return $desc;
-		}
 		$id = get_the_ID();
 		global $wp;
 		$url_here                     = home_url( $wp->request );
