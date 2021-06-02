@@ -63,6 +63,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 	$pgfw_border_position_bottom     = array_key_exists( 'pgfw_border_position_bottom', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_bottom'] : '';
 	$pgfw_border_position_left       = array_key_exists( 'pgfw_border_position_left', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_left'] : '';
 	$pgfw_border_position_right      = array_key_exists( 'pgfw_border_position_right', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_right'] : '';
+	$pgfw_body_custom_css            = array_key_exists( 'pgfw_body_custom_css', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_css'] : '';
 	// general settings.
 	$general_settings_data     = get_option( 'pgfw_general_settings_save', array() );
 	$pgfw_show_post_categories = array_key_exists( 'pgfw_general_pdf_show_categories', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_categories'] : '';
@@ -194,6 +195,11 @@ function return_ob_html( $post_id, $template_name = '' ) {
 	// body for pdf.
 	if ( 'yes' === $pgfw_watermark_image_use_in_pdf ) {
 		$html = apply_filters( 'pgfw_customize_body_watermark_image_pdf', $html );
+	}
+	if ( '' !== $pgfw_body_custom_css ) {
+		$html .= '<style>
+					' . $pgfw_body_custom_css . '
+				</style>';
 	}
 	$post = get_post( $post_id );
 	if ( is_object( $post ) ) {
