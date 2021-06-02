@@ -266,7 +266,7 @@ class Pdf_Generator_For_Wp_Public {
 	 * Callback function for shortcode.
 	 *
 	 * @since 1.0.0
-	 * @return void
+	 * @return string
 	 */
 	public function pgfw_callback_for_generating_pdf() {
 		global $wp;
@@ -277,18 +277,20 @@ class Pdf_Generator_For_Wp_Public {
 		$guest_access_pdf             = array_key_exists( 'pgfw_guest_access', $display_setings_arr ) ? $display_setings_arr['pgfw_guest_access'] : '';
 		$pgfw_guest_download_or_email = array_key_exists( 'pgfw_guest_download_or_email', $display_setings_arr ) ? $display_setings_arr['pgfw_guest_download_or_email'] : '';
 		$pgfw_user_download_or_email  = array_key_exists( 'pgfw_user_download_or_email', $display_setings_arr ) ? $display_setings_arr['pgfw_user_download_or_email'] : '';
+		$html                         = '';
 		if ( 'yes' === $user_access_pdf && is_user_logged_in() ) {
 			if ( 'email' === $pgfw_user_download_or_email ) {
-				$this->pgfw_modal_for_email_storing_during_pdf_generation( $url_here, $post_id );
+				$html = $this->pgfw_modal_for_email_storing_during_pdf_generation( $url_here, $post_id );
 			} else {
-				$this->pgfw_download_pdf_button_show( $url_here, $post_id );
+				$html = $this->pgfw_download_pdf_button_show( $url_here, $post_id );
 			}
 		} elseif ( 'yes' === $guest_access_pdf && ! is_user_logged_in() ) {
 			if ( 'email' === $pgfw_guest_download_or_email ) {
-				$this->pgfw_modal_for_email_storing_during_pdf_generation( $url_here, $post_id );
+				$html = $this->pgfw_modal_for_email_storing_during_pdf_generation( $url_here, $post_id );
 			} else {
-				$this->pgfw_download_pdf_button_show( $url_here, $post_id );
+				$html = $this->pgfw_download_pdf_button_show( $url_here, $post_id );
 			}
 		}
+		return $html;
 	}
 }
