@@ -206,6 +206,7 @@ class Pdf_Generator_For_Wp_Common {
 			$html  = apply_filters( 'mwb_pgfw_add_cover_page_template_to_single_pdf', $html );
 			$html .= return_ob_html( $prod_id, $template_name );
 		}
+		$html        = str_replace( '[WORDPRESS_PDF]', '', $html );
 		$paper_sizes = array(
 			'4a0'                      => array( 0, 0, 4767.87, 6740.79 ),
 			'2a0'                      => array( 0, 0, 3370.39, 4767.87 ),
