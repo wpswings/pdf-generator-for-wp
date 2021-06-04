@@ -225,7 +225,6 @@ class Pdf_Generator_For_Wp {
 		$this->loader->add_action( 'pgfw_cron_delete_pdf_from_server', $pgfw_plugin_admin, 'pgfw_delete_pdf_from_server' );
 		// Reset all the settings to default.
 		$this->loader->add_action( 'wp_ajax_pgfw_reset_default_settings', $pgfw_plugin_admin, 'pgfw_reset_default_settings' );
-		// $thi
 	}
 
 	/**
