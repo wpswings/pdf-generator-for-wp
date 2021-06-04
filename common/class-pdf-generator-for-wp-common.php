@@ -206,7 +206,6 @@ class Pdf_Generator_For_Wp_Common {
 			$html  = apply_filters( 'mwb_pgfw_add_cover_page_template_to_single_pdf', $html );
 			$html .= return_ob_html( $prod_id, $template_name );
 		}
-		$html        = str_replace( '[WORDPRESS_PDF]', '', $html );
 		$paper_sizes = array(
 			'4a0'                      => array( 0, 0, 4767.87, 6740.79 ),
 			'2a0'                      => array( 0, 0, 3370.39, 4767.87 ),
@@ -310,8 +309,9 @@ class Pdf_Generator_For_Wp_Common {
 			$path   = $upload_basedir . $document_name . '.pdf';
 			if ( file_exists( $path ) ) {
 				@unlink( $path ); // phpcs:ignore
+			} else {
+				@file_put_contents( $path, $output ); // phpcs:ignore
 			}
-			@file_put_contents( $path, $output ); // phpcs:ignore
 			wp_mail( $email, __( 'document form site', 'pdf-generator-for-wp' ), __( 'Please find these attachment', 'pdf-generator-for-wp' ), '', array( $path ) );
 		} elseif ( 'bulk' === $pgfw_generate_mode ) {
 			if ( 'continuous_on_same_page' === $mode ) {
@@ -341,7 +341,7 @@ class Pdf_Generator_For_Wp_Common {
 	 *
 	 * @since 1.0.0
 	 * @param string $atts attributes for shortcodes for downloading posters.
-	 * @return string
+	 * @return void
 	 */
 	public function pgfw_download_button_posters( $atts ) {
 		$atts = shortcode_atts(
@@ -356,15 +356,15 @@ class Pdf_Generator_For_Wp_Common {
 		$pgfw_poster_guest_access = array_key_exists( 'pgfw_poster_guest_access', $pgfw_pdf_upload_settings ) ? $pgfw_pdf_upload_settings['pgfw_poster_guest_access'] : '';
 		$poster_image_url         = get_the_guid( $atts['id'] );
 		$doc_type                 = get_post_type( $atts['id'] );
-		$html                     = '';
 		if ( ( 'yes' === $pgfw_poster_user_access && is_user_logged_in() ) || ( 'yes' === $pgfw_poster_guest_access && ! is_user_logged_in() ) ) {
 			if ( '' !== $poster_image_url && 'attachment' === $doc_type ) {
-				$html = '<div id="pgfw-poster-dowload-url-link">
-						<a href="' . esc_url( $poster_image_url ) . '" download title="' . esc_html__( 'Download Poster', 'pdf-generator-for-wp' ) . '"><img src="' . esc_attr( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/postericon.svg" alt="' . esc_attr__( 'Download Poster', 'pdf-generator-for-wp' ) . '"/></a>
-					</div>';
+				?>
+				<div id="pgfw-poster-dowload-url-link">
+					<a href="<?php echo esc_url( $poster_image_url ); ?>" download title="<?php esc_html_e( 'Download Poster', 'pdf-generator-for-wp' ); ?>"><img src="<?php echo esc_attr( PDF_GENERATOR_FOR_WP_DIR_URL ); ?>admin/src/images/postericon.svg" alt="<?php esc_attr_e( 'Download Poster', 'pdf-generator-for-wp' ); ?>"/></a>
+				</div>
+				<?php
 			}
 		}
-		return $html;
 	}
 	/**
 	 * Shortcode for link generation of poster download.

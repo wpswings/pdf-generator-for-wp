@@ -948,7 +948,6 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_border_position_bottom = array_key_exists( 'pgfw_border_position_bottom', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_bottom'] : '';
 		$pgfw_border_position_left   = array_key_exists( 'pgfw_border_position_left', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_left'] : '';
 		$pgfw_border_position_right  = array_key_exists( 'pgfw_border_position_right', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_right'] : '';
-		$pgfw_body_custom_css        = array_key_exists( 'pgfw_body_custom_css', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_css'] : '';
 
 		$mwb_pgfw_font_styles = array(
 			''            => __( 'Select option', 'pdf-generator-for-wp' ),
@@ -1288,16 +1287,6 @@ class Pdf_Generator_For_Wp_Admin {
 					''          => __( 'Select option', 'pdf-generator-for-wp' ),
 					'template1' => __( 'Template1', 'pdf-generator-for-wp' ),
 				),
-			),
-			array(
-				'title'       => __( 'Custom CSS', 'pdf-generator-for-wp' ),
-				'type'        => 'textarea',
-				'description' => __( 'Add custom css for any html element this will be applied to the elements in the content.', 'pdf-generator-for-wp' ),
-				'id'          => 'pgfw_body_custom_css',
-				'value'       => $pgfw_body_custom_css,
-				'class'       => 'pgfw_body_custom_css',
-				'name'        => 'pgfw_body_custom_css',
-				'placeholder' => __( 'custom css', 'pdf-generator-for-wp' ),
 			),
 		);
 		$pgfw_body_html_arr   = apply_filters( 'pgfw_settings_body_fields_html_arr_filter_hook', $pgfw_body_html_arr );
@@ -1642,7 +1631,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'pgfw_border_position_bottom' => -60,
 			),
 			'pgfw_advanced_save_settings'      => array(
-				'pgfw_advanced_show_post_type_icons' => array( 'page', 'post', 'product' ),
+				'pgfw_advanced_show_post_type_icons' => array( 'page', 'post' ),
 			),
 			'pgfw_meta_fields_save_settings'   => array(
 				'pgfw_meta_fields_post_show'    => 'no',
