@@ -1642,7 +1642,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'pgfw_border_position_bottom' => -60,
 			),
 			'pgfw_advanced_save_settings'      => array(
-				'pgfw_advanced_show_post_type_icons' => array( 'page', 'post' ),
+				'pgfw_advanced_show_post_type_icons' => array( 'page', 'post', 'product' ),
 			),
 			'pgfw_meta_fields_save_settings'   => array(
 				'pgfw_meta_fields_post_show'    => 'no',

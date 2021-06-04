@@ -197,7 +197,7 @@ class Pdf_Generator_For_Wp_Public {
 		$pgfw_pdf_icon_height              = array_key_exists( 'pgfw_pdf_icon_height', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_pdf_icon_height'] : '';
 
 		$html  = '<div style="text-align:' . esc_html( $pgfw_pdf_icon_alignment ) . '">
-					<a href="' . esc_html( $url_here ) . '" class="pgfw-single-pdf-download-button" ' . esc_html( $mode ) . '><img src="' . esc_url( $pgfw_single_pdf_download_icon_src ) . '" title="' . esc_html( 'Generate PDF' ) . '" style="width:' . esc_html( $pgfw_pdf_icon_width ) . 'px; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;"></a>';
+					<a href="' . esc_html( $url_here ) . '" class="pgfw-single-pdf-download-button" ' . esc_html( $mode ) . '><img src="' . esc_url( $pgfw_single_pdf_download_icon_src ) . '" title="' . esc_html__( 'Generate PDF', 'pdf-generator-for-wp' ) . '" style="width:' . esc_html( $pgfw_pdf_icon_width ) . 'px; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;"></a>';
 		$html  = apply_filters( 'mwb_pgfw_bulk_download_button_filter_hook', $html, $id );
 		$html .= '</div>';
 		return $html;
@@ -227,27 +227,27 @@ class Pdf_Generator_For_Wp_Public {
 		$pgfw_pdf_icon_height              = array_key_exists( 'pgfw_pdf_icon_height', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_pdf_icon_height'] : '';
 
 		$html  = '<div style="text-align:' . esc_html( $pgfw_pdf_icon_alignment ) . '">
-					<a href="#TB_inline?height=300&width=400&inlineId=single-pdf-download" title="' . esc_html( 'Please Enter Your Email ID' ) . '" class="pgfw-single-pdf-download-button thickbox"><img src="' . esc_url( $pgfw_single_pdf_download_icon_src ) . '" title="' . esc_html( 'Generate PDF' ) . '" style="width:' . esc_html( $pgfw_pdf_icon_width ) . 'px; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;"></a>';
+					<a href="#TB_inline?height=300&width=400&inlineId=single-pdf-download" title="' . esc_html__( 'Please Enter Your Email ID', 'pdf-generator-for-wp' ) . '" class="pgfw-single-pdf-download-button thickbox"><img src="' . esc_url( $pgfw_single_pdf_download_icon_src ) . '" title="' . esc_html__( 'Generate PDF', 'pdf-generator-for-wp' ) . '" style="width:' . esc_html( $pgfw_pdf_icon_width ) . 'px; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;"></a>';
 		$html  = apply_filters( 'mwb_pgfw_bulk_download_button_filter_hook', $html, $id );
 		$html .= '</div>
 					<div id="single-pdf-download" style="display:none;">
 						<input type="hidden" name="post_id" id="pgfw_current_post_id" data-post-id="' . esc_html( $id ) . '">
 						<div class="mwb_pgfw_email_input">
 							<label for="pgfw-user-email-input">
-								' . esc_html( 'Email ID' ) . '
+								' . esc_html__( 'Email ID', 'pdf-generator-for-wp' ) . '
 							</label>
-							<input type="email" id="pgfw-user-email-input" name="pgfw-user-email-input" placeholder="' . esc_html( 'email' ) . '">
+							<input type="email" id="pgfw-user-email-input" name="pgfw-user-email-input" placeholder="' . esc_html__( 'email', 'pdf-generator-for-wp' ) . '">
 						</div>';
 		if ( is_user_logged_in() ) {
 			$html .= '<div class="mwb_pgfw_email_account">
 						<input type="checkbox" id="pgfw-user-email-from-account" name="pgfw-user-email-from-account">
 						<label for="pgfw-user-email-from-account">
-							' . esc_html( 'Use account Email ID instead.' ) . '
+							' . esc_html__( 'Use account Email ID instead.', 'pdf-generator-for-wp' ) . '
 						</label>
 					</div>';
 		}
 		$html .= '<div class="mwb_pgfw_email_button">
-					<button id="pgfw-submit-email-user">' . esc_html( 'Submit' ) . '</button>
+					<button id="pgfw-submit-email-user">' . esc_html__( 'Submit', 'pdf-generator-for-wp' ) . '</button>
 					</div>
 					<div id="pgfw-user-email-submittion-message"></div>
 				</div>';
