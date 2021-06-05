@@ -226,6 +226,9 @@ class Pdf_Generator_For_Wp_Public {
 	 * @return string
 	 */
 	public function pgfw_callback_for_generating_pdf() {
+		if ( isset( $_GET['action'] ) && 'genpdf' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification
+			return;
+		}
 		global $wp;
 		$post_id                      = get_the_ID();
 		$url_here                     = home_url( $wp->request );
