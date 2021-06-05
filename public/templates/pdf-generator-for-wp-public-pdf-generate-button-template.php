@@ -11,6 +11,9 @@
  * @subpackage Pdf_Generator_For_Wordpress/public/partials
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 /**
  * PDF Download button.
  *

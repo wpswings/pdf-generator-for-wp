@@ -11,6 +11,9 @@
  * @subpackage Pdf_Generator_For_Wordpress/common/partials
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 /**
  * Return download button for poster shortcodes.
  *

@@ -11,15 +11,9 @@
  * @subpackage Pdf_Generator_For_Wordpress/common/partials
  */
 
-/**
- * Return notices for the emails.
- *
- * @param string $color color of the message.
- * @param string $message message to show.
- * @return string
- */
-function notice_template_for_email( $color, $message ) {
-	$html = '<span style="' . $color . '">' . esc_html( $message ) . '</span>';
-	return $html;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
 }
+?>
+<span style="<?php echo esc_attr( $color ); ?>"><?php echo esc_html( $message ); ?></span>
 

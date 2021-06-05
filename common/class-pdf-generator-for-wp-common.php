@@ -129,7 +129,6 @@ class Pdf_Generator_For_Wp_Common {
 	 */
 	public function mwb_pgfw_generate_pdf_single_and_mail() {
 		check_ajax_referer( 'pgfw_common_nonce', 'nonce' );
-		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'common/templates/pdf-generator-for-wp-common-email-notice-template.php';
 		$email   = array_key_exists( 'email', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['email'] ) ) : '';
 		$post_id = array_key_exists( 'post_id', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) : '';
 		if ( 'use_account_email' === $email ) {
@@ -137,12 +136,14 @@ class Pdf_Generator_For_Wp_Common {
 			$email        = $current_user->user_email;
 		}
 		if ( ! is_email( $email ) ) {
-			$html = notice_template_for_email( 'color:#8e4b86;', __( 'Please Enter Valid Email Address to Receive Attachment.', 'pdf-generator-for-wp' ) );
-			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			$color   = 'color:#8e4b86;';
+			$message = __( 'Please Enter Valid Email Address to Receive Attachment.', 'pdf-generator-for-wp' );
+			require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'common/templates/pdf-generator-for-wp-common-email-notice-template.php';
 		} else {
 			$this->pgfw_generate_pdf_from_library( $post_id, 'upload_on_server_and_mail', '', $email );
-			$html = notice_template_for_email( 'color:green;', __( 'Email Submitted Successfully.', 'pdf-generator-for-wp' ) );
-			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			$color   = 'color:green;';
+			$message = __( 'Email Submitted Successfully.', 'pdf-generator-for-wp' );
+			require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'common/templates/pdf-generator-for-wp-common-email-notice-template.php';
 		}
 		wp_die();
 	}
