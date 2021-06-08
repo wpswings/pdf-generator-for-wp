@@ -381,6 +381,7 @@ class Pdf_Generator_For_Wp {
 			'title' => esc_html__( 'Meta Fields Settings', 'pdf-generator-for-wp' ),
 			'name'  => 'pdf-generator-for-wp-meta-fields',
 		);
+
 		$pgfw_default_tabs = apply_filters( 'mwb_pgfw_plugin_standard_admin_settings_tabs', $pgfw_default_tabs );
 
 		$pgfw_default_tabs['pdf-generator-for-wp-pdf-upload'] = array(

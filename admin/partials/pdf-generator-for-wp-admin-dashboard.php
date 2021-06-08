@@ -17,9 +17,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $pgfw_mwb_pgfw_obj, $mwb_pgfw_gen_flag, $pgfw_save_check_flag;
 $pgfw_active_tab   = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw_tab'] ) : 'pdf-generator-for-wp-general'; // phpcs:ignore
+do_action( 'pgfw_license_activation_notice_on_dashboard' );
 $pgfw_default_tabs = $pgfw_mwb_pgfw_obj->mwb_pgfw_plug_default_tabs();
 ?>
 <header>
+	<?php
+	// desc - This hook is used for trial.
+	do_action( 'mwb_wpg_settings_saved_notice' );
+	?>
 	<div class="mwb-header-container mwb-bg-white mwb-r-8">
 		<h1 class="mwb-header-title"><?php echo esc_attr( strtoupper( str_replace( '-', ' ', $pgfw_mwb_pgfw_obj->pgfw_get_plugin_name() ) ) ); ?></h1>
 		<a href="https://docs.makewebbetter.com/" target="_blank" class="mwb-link"><?php esc_html_e( 'Documentation', 'pdf-generator-for-wp' ); ?></a>

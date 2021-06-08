@@ -33,7 +33,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 * @since   1.0.0
 	 * @var $_instance object of onboarding.
 	 */
-	protected static $_instance = null;
+	protected static $_instance = null; // phpcs:ignore
 
 	/**
 	 * Base url of hubspot api for pdf-generator-for-wp.
@@ -164,7 +164,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	public function mwb_pgfw_onboarding_enqueue_styles() {
 		global $pagenow;
 		$is_valid = false;
-		if ( ! $is_valid && 'plugins.php' == $pagenow ) {
+		if ( ! $is_valid && 'plugins.php' == $pagenow ) { // phpcs:ignore
 			$is_valid = true;
 		}
 		if ( $this->mwb_pgfw_valid_page_screen_check() || $is_valid ) {
@@ -195,7 +195,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	public function mwb_pgfw_onboarding_enqueue_scripts() {
 		global $pagenow;
 		$is_valid = false;
-		if ( ! $is_valid && 'plugins.php' == $pagenow ) {
+		if ( ! $is_valid && 'plugins.php' == $pagenow ) { // phpcs:ignore
 			$is_valid = true;
 		}
 		if ( $this->mwb_pgfw_valid_page_screen_check() || $is_valid ) {
@@ -240,7 +240,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 */
 	public function mwb_pgfw_add_deactivation_popup_screen() {
 		global $pagenow;
-		if ( ! empty( $pagenow ) && 'plugins.php' == $pagenow ) {
+		if ( ! empty( $pagenow ) && 'plugins.php' == $pagenow ) { // phpcs:ignore
 			require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'onboarding/templates/pdf-generator-for-wp-deactivation-template.php';
 		}
 	}
@@ -294,7 +294,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 			 * Email field with label. ( auto filled with admin email )
 			 */
 
-			rand() => array(
+			wp_rand() => array(
 				'id'          => 'mwb-pgfw-monthly-revenue',
 				'title'       => esc_html__( 'What is your monthly revenue?', 'pdf-generator-for-wp' ),
 				'type'        => 'radio',
@@ -313,7 +313,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 				),
 			),
 
-			rand() => array(
+			wp_rand() => array(
 				'id'          => 'mwb_pgfw_industry_type',
 				'title'       => esc_html__( 'What industry defines your business?', 'pdf-generator-for-wp' ),
 				'type'        => 'select',
@@ -350,7 +350,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 				),
 			),
 
-			rand() => array(
+			wp_rand() => array(
 				'id'          => 'mwb-pgfw-onboard-email',
 				'title'       => esc_html__( 'What is the best email address to contact you?', 'pdf-generator-for-wp' ),
 				'type'        => 'email',
@@ -362,7 +362,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 				'class'       => 'pgfw-text-class',
 			),
 
-			rand() => array(
+			wp_rand() => array(
 				'id'          => 'mwb-pgfw-onboard-number',
 				'title'       => esc_html__( 'What is your contact number?', 'pdf-generator-for-wp' ),
 				'type'        => 'text',
@@ -374,7 +374,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 				'class'       => '',
 			),
 
-			rand() => array(
+			wp_rand() => array(
 				'id'          => 'mwb-pgfw-store-name',
 				'title'       => '',
 				'description' => '',
@@ -386,7 +386,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 				'class'       => '',
 			),
 
-			rand() => array(
+			wp_rand() => array(
 				'id'          => 'mwb-pgfw-store-url',
 				'title'       => '',
 				'description' => '',
@@ -398,7 +398,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 				'class'       => '',
 			),
 
-			rand() => array(
+			wp_rand() => array(
 				'id'          => 'mwb-pgfw-show-counter',
 				'title'       => '',
 				'description' => '',
@@ -410,7 +410,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 				'class'       => '',
 			),
 
-			rand() => array(
+			wp_rand() => array(
 				'id'          => 'mwb-pgfw-plugin-name',
 				'title'       => '',
 				'description' => '',
@@ -457,7 +457,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 			 * Email field with label. ( auto filled with admin email )
 			 */
 
-			rand() => array(
+			wp_rand() => array(
 				'id'          => 'mwb-pgfw-deactivation-reason',
 				'title'       => '',
 				'description' => '',
@@ -478,9 +478,13 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 				),
 			),
 
-			rand() => array(
+			wp_rand() => array(
 				'id'          => 'mwb-pgfw-deactivation-reason-text',
-				'title'       => esc_html__( 'Let us know why you are deactivating ' . self::$mwb_pgfw_plugin_name_label . ' so we can improve the plugin', 'pdf-generator-for-wp' ),
+				'title'       => sprintf(
+					/* translators: plugin name label. */
+					esc_html__( 'Let us know why you are deactivating %s so we can improve the plugin', 'pdf-generator-for-wp' ),
+					self::$mwb_pgfw_plugin_name_label
+				),
 				'type'        => 'textarea',
 				'description' => '',
 				'name'        => 'deactivation_reason_text',
@@ -490,7 +494,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 				'class'       => 'mwb-keep-hidden',
 			),
 
-			rand() => array(
+			wp_rand() => array(
 				'id'          => 'mwb-pgfw-admin-email',
 				'title'       => '',
 				'description' => '',
@@ -502,7 +506,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 				'class'       => '',
 			),
 
-			rand() => array(
+			wp_rand() => array(
 				'id'          => 'mwb-pgfw-store-name',
 				'title'       => '',
 				'description' => '',
@@ -514,7 +518,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 				'class'       => '',
 			),
 
-			rand() => array(
+			wp_rand() => array(
 				'id'          => 'mwb-pgfw-store-url',
 				'title'       => '',
 				'description' => '',
@@ -526,7 +530,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 				'class'       => '',
 			),
 
-			rand() => array(
+			wp_rand() => array(
 				'id'          => 'mwb-pgfw-plugin-name',
 				'title'       => '',
 				'description' => '',
@@ -560,7 +564,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 
 			foreach ( $form_data as $key => $input ) {
 
-				if ( 'mwb-pgfw-show-counter' == $input->name ) {
+				if ( 'mwb-pgfw-show-counter' == $input->name ) {// phpcs:ignore
 					continue;
 				}
 
@@ -598,7 +602,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 				array_filter(
 					$formatted_data,
 					function( $item ) {
-						return isset( $item['name'] ) && 'plugin_deactivation_reason' == $item['name'];
+						return isset( $item['name'] ) && 'plugin_deactivation_reason' == $item['name']; // phpcs:ignore
 					}
 				)
 			);
@@ -621,7 +625,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 			wp_die();
 		}
 
-		if ( ! empty( $action_type ) && 'onboarding' == $action_type ) {
+		if ( ! empty( $action_type ) && 'onboarding' == $action_type ) { // phpcs:ignore
 			$get_skipped_timstamp = update_option( 'mwb_pgfw_onboarding_data_sent', 'sent' );
 		}
 
@@ -639,7 +643,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 */
 	protected function mwb_pgfw_handle_form_submission_for_hubspot( $submission = false, $action_type = 'onboarding' ) {
 
-		if ( 'onboarding' == $action_type ) {
+		if ( 'onboarding' == $action_type ) { // phpcs:ignore
 			array_push(
 				$submission,
 				array(
@@ -651,7 +655,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 
 		$result = $this->mwb_pgfw_hubwoo_submit_form( $submission, $action_type );
 
-		if ( true == $result['success'] ) {
+		if ( true == $result['success'] ) { // phpcs:ignore
 			return true;
 		} else {
 			return false;
@@ -668,7 +672,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 */
 	protected function mwb_pgfw_hubwoo_submit_form( $form_data = array(), $action_type = 'onboarding' ) {
 
-		if ( 'onboarding' == $action_type ) {
+		if ( 'onboarding' == $action_type ) { // phpcs:ignore
 			$form_id = self::$mwb_pgfw_onboarding_form_id;
 		} else {
 			$form_id = self::$mwb_pgfw_deactivation_form_id;
@@ -692,7 +696,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 		);
 
 		$response = $this->mwb_pgfw_hic_post( $url, $form_data, $headers );
-		if ( 200 == $response['status_code'] ) {
+		if ( 200 == $response['status_code'] ) { // phpcs:ignore
 			$result            = json_decode( $response['response'], true );
 			$result['success'] = true;
 		} else {
@@ -772,7 +776,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	public function mwb_pgfw_valid_page_screen_check() {
 		$mwb_pgfw_screen  = get_current_screen();
 		$mwb_pgfw_is_flag = false;
-		if ( isset( $mwb_pgfw_screen->id ) && 'makewebbetter_page_pdf_generator_for_wp_menu' == $mwb_pgfw_screen->id ) {
+		if ( isset( $mwb_pgfw_screen->id ) && 'makewebbetter_page_pdf_generator_for_wp_menu' == $mwb_pgfw_screen->id ) { // phpcs:ignore
 			$mwb_pgfw_is_flag = true;
 		}
 
@@ -789,7 +793,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 		$mwb_pgfw_is_already_sent = get_option( 'mwb_pgfw_onboarding_data_sent', false );
 
 		// Already submitted the data.
-		if ( ! empty( $mwb_pgfw_is_already_sent ) && 'sent' == $mwb_pgfw_is_already_sent ) {
+		if ( ! empty( $mwb_pgfw_is_already_sent ) && 'sent' == $mwb_pgfw_is_already_sent ) { // phpcs:ignore
 			return false;
 		}
 
