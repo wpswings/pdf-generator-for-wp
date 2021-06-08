@@ -28,7 +28,7 @@ Users can non-commercially distribute the downloaded PDF files. The admin can cu
 ### PLUGIN MEETS YOUR REQUIREMENT, SO 
 [**Download Now !!**](https://downloads.wordpress.org/plugin/pdf-generator-for-wp.zip) 
 
-Visit [**PDF Generator for WordPress Documentation**](http://docs.makewebbetter.com/pdf-generator-for-wp/?utm_source=MWB-PDF-org&utm_medium=MWB-ORG-Page&utm_campaign=MWB-doc) and learn more about the features and working of the plugin.
+Visit [**PDF Generator for WordPress Documentation**](http://docs.makewebbetter.com/pdf-generator-for-wp/?utm_source=MWB-PDF-git&utm_medium=MWB-git-Page&utm_campaign=MWB-doc) and learn more about the features and working of the plugin.
 
 ## WHAT’S INCLUDED IN OUR PDF GENERATOR FOR WORDPRESS PLUGIN
 
