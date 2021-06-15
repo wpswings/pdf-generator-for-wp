@@ -1,4 +1,22 @@
+<?php
+/**
+ * Provide a admin area view for the plugin
+ *
+ * This file is used to markup the html field for overview tab.
+ *
+ * @link       https://makewebbetter.com/
+ * @since      1.0.0
+ *
+ * @package    Pdf_Generator_For_Wordpress
+ * @subpackage Pdf_Generator_For_Wordpress/admin/partials
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+?>
 <div class="mwb-overview__wrapper">
+	<?php do_action( 'pgfw_overview_content_top' ); ?>
 	<div class="mwb-overview__banner">
 		<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ); ?>admin/src/images/pdfgeneratorbannerimage.png" alt="Overview banner image">
 	</div>
@@ -132,4 +150,5 @@
 			</div>
 		</div>
 	</div>
+	<?php do_action( 'pgfw_overview_content_bottom' ); ?>
 </div>
