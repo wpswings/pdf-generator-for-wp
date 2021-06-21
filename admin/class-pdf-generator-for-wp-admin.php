@@ -346,6 +346,9 @@ class Pdf_Generator_For_Wp_Admin {
 		global $pgfw_mwb_pgfw_obj, $mwb_pgfw_gen_flag, $pgfw_save_check_flag;
 		$settings_general_arr = array();
 		$pgfw_save_check_flag = false;
+		if ( wp_doing_ajax() ) {
+			return;
+		}
 		if ( isset( $_POST['pgfw_nonce_field'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['pgfw_nonce_field'] ) ), 'nonce_settings_save' ) ) {
 			if ( isset( $_POST['pgfw_general_settings_save'] ) ) {
 				$pgfw_genaral_settings = apply_filters( 'pgfw_general_settings_array', array() );

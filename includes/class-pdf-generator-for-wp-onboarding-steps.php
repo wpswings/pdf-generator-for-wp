@@ -110,8 +110,8 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	public function __construct() {
 		self::$mwb_pgfw_store_name        = get_bloginfo( 'name' );
 		self::$mwb_pgfw_store_url         = home_url();
-		self::$mwb_pgfw_plugin_name       = 'PDF Generator For WordPress';
-		self::$mwb_pgfw_plugin_name_label = 'PDF Generator For WordPress';
+		self::$mwb_pgfw_plugin_name       = 'PDF Generator For Wp';
+		self::$mwb_pgfw_plugin_name_label = 'PDF Generator For Wp';
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'mwb_pgfw_onboarding_enqueue_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'mwb_pgfw_onboarding_enqueue_scripts' ) );
@@ -208,7 +208,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 
 			wp_enqueue_script( 'mwb-pgfw-onboarding-scripts', PDF_GENERATOR_FOR_WP_DIR_URL . 'onboarding/js/pdf-generator-for-wp-onboarding.js', array( 'jquery', 'mwb-pgfw-onboarding-select2-js', 'mwb-pgfw-metarial-js', 'mwb-pgfw-metarial-js2', 'mwb-pgfw-metarial-lite' ), time(), true );
 
-			$pgfw_current_slug = 'pdf-generator-for-wp';
+			$pgfw_current_slug = ! empty( explode( '/', plugin_basename( __FILE__ ) ) ) ? explode( '/', plugin_basename( __FILE__ ) )[0] : '';
 			wp_localize_script(
 				'mwb-pgfw-onboarding-scripts',
 				'mwb_pgfw_onboarding',
@@ -416,8 +416,8 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 				'description' => '',
 				'type'        => 'hidden',
 				'placeholder' => '',
-				'name'        => 'pdf_generator_for_wp',
-				'value'       => self::$mwb_pgfw_plugin_name,
+				'name'        => 'org_plugin_name',
+				'value'       => self::$mwb_pgfw_plugin_name_label,
 				'required'    => '',
 				'class'       => '',
 			),
@@ -536,8 +536,8 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 				'description' => '',
 				'type'        => 'hidden',
 				'placeholder' => '',
-				'name'        => 'pdf_generator_for_wp',
-				'value'       => '',
+				'name'        => 'org_plugin_name',
+				'value'       => self::$mwb_pgfw_plugin_name_label,
 				'required'    => '',
 				'class'       => '',
 			),
@@ -671,7 +671,6 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 * @since       1.0.0
 	 */
 	protected function mwb_pgfw_hubwoo_submit_form( $form_data = array(), $action_type = 'onboarding' ) {
-
 		if ( 'onboarding' == $action_type ) { // phpcs:ignore
 			$form_id = self::$mwb_pgfw_onboarding_form_id;
 		} else {
@@ -681,7 +680,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 		$url = 'submissions/v3/integration/submit/' . self::$mwb_pgfw_portal_id . '/' . $form_id;
 
 		$headers = array(
-			'Content-Type: application/json',
+			'Content-Type' => 'application/json',
 		);
 
 		$form_data = wp_json_encode(
@@ -728,7 +727,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 		$response = wp_remote_post( $url, $request );
 		if ( is_wp_error( $response ) ) {
 			$status_code = 500;
-			$response    = esc_html__( 'Unexpected Error Occured', 'invoice-system-for-woocommerce' );
+			$response    = esc_html__( 'Unexpected Error Occured', 'pdf-generator-for-wp' );
 			$curl_errors = $response;
 		} else {
 			$response    = wp_remote_retrieve_body( $response );
