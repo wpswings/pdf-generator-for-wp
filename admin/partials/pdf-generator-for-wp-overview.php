@@ -14,6 +14,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+do_action( 'mwb_pgfw_pro_overview_content' );
 ?>
 <div class="mwb-overview__wrapper">
 	<?php do_action( 'pgfw_overview_content_top' ); ?>

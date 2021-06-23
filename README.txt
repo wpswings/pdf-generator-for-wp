@@ -6,7 +6,7 @@ Requires at least: 4.0
 Tested up to: 5.7.1
 WC requires at least: 3.0.0
 WC tested up to: 5.2.0
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 Requires PHP: 5.6
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -15,7 +15,7 @@ PDF Generator for Wp allows you to convert posts into PDF files to share informa
 
 == Description ==
 
-***PDF GENERATOR FOR WP LETS YOU CREATE PDF OF RELEVANT PAGES, PRODUCTS, AND POSTS FOR BETTER DISPERSAL OF BRAND INFORMATION.*** 
+***PDF GENERATOR FOR Wp LETS YOU CREATE PDF OF RELEVANT PAGES, PRODUCTS, AND POSTS FOR BETTER DISPERSAL OF BRAND INFORMATION.*** 
 
 PDF Generator for Wp provides the key support in portfolio building depending on your industry type. The PDF plugin for WordPress allows you to create PDF files for the pages to ensure the availability of information offline. It allows the admin to convert all the posts, pages, blogs, and products on their website into PDF files. 
 
@@ -66,7 +66,7 @@ The plugin allows you to upload your own PDF files for download. You can also li
 == PLUGIN MEETS YOUR REQUIREMENT, SO ==
 [**Download Now**](https://downloads.wordpress.org/plugin/pdf-generator-for-wp.zip)
 
-Visit [**PDF Generator for Wp Documentation**](http://docs.makewebbetter.com/pdf-generator-for-wp/?utm_source=MWB-PDF-org&utm_medium=MWB-ORG-Page&utm_campaign=MWB-doc) and learn more about the features and working of the plugin.
+Visit [**PDF Generator for WordPress Documentation**](http://docs.makewebbetter.com/pdf-generator-for-wp/?utm_source=MWB-PDF-org&utm_medium=MWB-ORG-Page&utm_campaign=MWB-doc) and learn more about the features and working of the plugin.
 
 == WHAT PREMIUM VERSION OF WORDPRESS PDF GENERATOR PLUGIN OFFERS ==
 
@@ -90,7 +90,7 @@ If you need support or have any question then kindly use our online chat window 
 
 = Automatic installation =
 
-Automatic installation is the easiest option as Wp handles the file transfers itself and you don't need to leave your web browser. To do an automatic install of PDF Generator for Wp, log in to your WordPress dashboard, navigate to the Plugins menu, and click Add New.
+Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't need to leave your web browser. To do an automatic install of PDF Generator for WordPress, log in to your WordPress dashboard, navigate to the Plugins menu, and click Add New.
 
 In the search field type "PDF Generator for Wp" and click Search Plugins. Once you've found our plugin you can view details about it such as the point release, rating, and description. Most importantly, of course, you can install it by simply clicking "Install Now".
 
@@ -113,7 +113,7 @@ Yes, customers can directly download the PDF on their local devices.
 
 We have already provided the shortcode. You can use that shortcode to place the PDF button on  particular product page.
 
-= How to place the PDF button appropriapety for my uploaded document? =
+= How to place the PDF button  appropriately for my uploaded document? =
 
 Go to MakeWebBetter--> PDF Generator for Wp--> PDF Upload. Click on the Upload Doc button to upload your PDF file. Click on the Save Settings button. The shortcode will be generated. Use this shortcode to place your PDF icon appropriately for your users.
 
@@ -127,16 +127,21 @@ Please visit the [MakeWebBetter knowledge base](https://support.makewebbetter.co
 
 == Changelog ==
 
+= 1.0.1 - RELEASED ON 23 June 2021 =
+* NEW: Shortcode updated
+* FIX: Minor bug fixes
+* FIX: Content issue resolved while using shortcode.
+
 = 1.0.0 =
 * First version. 
 
 == Screenshots ==
 
 1. General setting
-2. Display setting
+2. PDF setting
 3. Direct download pdf
 4. Pdf icon setting
-5. PDF layout setting
+5. PDF Header setting
 6. PDF Body setting
 7. PDF Page setting
 8. PDF Border setting
@@ -149,5 +154,7 @@ Please visit the [MakeWebBetter knowledge base](https://support.makewebbetter.co
 
 == Upgrade Notice ==
 
-= 1.0.0 =
-* First version. 
+= 1.0.1 - RELEASED ON 23 June 2021 =
+* NEW: Shortcode updated
+* FIX: Minor bug fixes
+* FIX: Content issue resolved while using shortcode.
