@@ -330,7 +330,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_settings_general_html_arr[] = array(
 			'type'        => 'button',
 			'id'          => 'pgfw_general_settings_save',
-			'button_text' => __( 'Save Setting', 'pdf-generator-for-wp' ),
+			'button_text' => __( 'Save Settings', 'pdf-generator-for-wp' ),
 			'class'       => 'pgfw_general_settings_save',
 			'name'        => 'pgfw_general_settings_save',
 		);
@@ -525,7 +525,7 @@ class Pdf_Generator_For_Wp_Admin {
 				),
 			),
 			array(
-				'title'        => __( 'Direct download or Email User', 'pdf-generator-for-wp' ),
+				'title'        => __( 'Direct Download or Email User', 'pdf-generator-for-wp' ),
 				'type'         => 'select',
 				'description'  => __( 'Please choose either to direct download or to email user.', 'pdf-generator-for-wp' ),
 				'id'           => 'pgfw_user_download_or_email',
@@ -540,7 +540,7 @@ class Pdf_Generator_For_Wp_Admin {
 				),
 			),
 			array(
-				'title'        => __( 'Direct download or Email Guest', 'pdf-generator-for-wp' ),
+				'title'        => __( 'Direct Download or Email Guest', 'pdf-generator-for-wp' ),
 				'type'         => 'select',
 				'description'  => __( 'Please choose either to direct download or to email guest.', 'pdf-generator-for-wp' ),
 				'id'           => 'pgfw_guest_download_or_email',
@@ -609,7 +609,7 @@ class Pdf_Generator_For_Wp_Admin {
 				),
 			),
 			array(
-				'title'       => __( 'Icon size', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Icon Size', 'pdf-generator-for-wp' ),
 				'type'        => 'multi',
 				'id'          => 'pgfw_pdf_icons_sizes',
 				'description' => __( 'Enter icon width and height in pixels.', 'pgfw-generator-for-wp' ),
@@ -641,7 +641,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_settings_display_fields_html_arr[] = array(
 			'type'        => 'button',
 			'id'          => 'pgfw_save_admin_display_settings',
-			'button_text' => __( 'Save Setting', 'pdf-generator-for-wp' ),
+			'button_text' => __( 'Save Settings', 'pdf-generator-for-wp' ),
 			'class'       => 'pgfw_save_admin_display_settings',
 			'name'        => 'pgfw_save_admin_display_settings',
 		);
@@ -690,7 +690,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'name'        => 'pgfw_header_use_in_pdf',
 			),
 			array(
-				'title'       => __( 'Choose logo', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Choose Logo', 'pdf-generator-for-wp' ),
 				'type'        => 'upload-button',
 				'button_text' => __( 'Upload Image', 'pdf-generator-for-wp' ),
 				'sub_class'   => 'pgfw_header_image_upload',
@@ -716,7 +716,7 @@ class Pdf_Generator_For_Wp_Admin {
 				),
 			),
 			array(
-				'title'       => __( 'Company name', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Company Name', 'pdf-generator-for-wp' ),
 				'type'        => 'text',
 				'description' => __( 'Company name will be displayed in the right side of the header', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_header_company_name',
@@ -726,7 +726,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'placeholder' => __( 'company name', 'pdf-generator-for-wp' ),
 			),
 			array(
-				'title'       => __( 'Tagline or address', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Tagline or Address', 'pdf-generator-for-wp' ),
 				'type'        => 'textarea',
 				'class'       => 'pgfw_header_tagline',
 				'id'          => 'pgfw_header_tagline',
@@ -736,7 +736,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'value'       => $pgfw_header_tagline,
 			),
 			array(
-				'title'       => __( 'Choose color', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Choose Color', 'pdf-generator-for-wp' ),
 				'type'        => 'color',
 				'description' => __( 'Please choose text color to display in the header', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_header_color',
@@ -758,7 +758,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'max'         => 30,
 			),
 			array(
-				'title'       => __( 'Choose font style', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Choose Font Style', 'pdf-generator-for-wp' ),
 				'type'        => 'select',
 				'description' => __( 'Please choose font style to display in the header', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_header_font_style',
@@ -769,7 +769,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'options'     => $mwb_pgfw_font_styles,
 			),
 			array(
-				'title'       => __( 'Choose font size', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Choose Font Size', 'pdf-generator-for-wp' ),
 				'type'        => 'number',
 				'description' => __( 'Please choose font size to display in the header', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_header_font_size',
@@ -854,7 +854,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'value'       => $pgfw_footer_tagline,
 			),
 			array(
-				'title'       => __( 'Choose color', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Choose Color', 'pdf-generator-for-wp' ),
 				'type'        => 'color',
 				'description' => __( 'Please choose color to display in the footer text.', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_footer_color',
@@ -864,7 +864,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'placeholder' => __( 'color', 'pdf-generator-for-wp' ),
 			),
 			array(
-				'title'       => __( 'Choose width', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Choose Width', 'pdf-generator-for-wp' ),
 				'type'        => 'number',
 				'description' => __( 'Please choose width to display in the footer accepted values are in px, please enter number only.', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_footer_width',
@@ -874,7 +874,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'placeholder' => __( 'width', 'pdf-generator-for-wp' ),
 			),
 			array(
-				'title'       => __( 'Choose font style', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Choose Font Style', 'pdf-generator-for-wp' ),
 				'type'        => 'select',
 				'description' => __( 'Please choose font style to display in the footer.', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_footer_font_style',
@@ -885,7 +885,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'options'     => $mwb_pgfw_font_styles,
 			),
 			array(
-				'title'       => __( 'Choose font size', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Choose Font Size', 'pdf-generator-for-wp' ),
 				'type'        => 'number',
 				'description' => __( 'Please choose font size to display in the footer.', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_footer_font_size',
@@ -990,7 +990,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'max'         => 50,
 			),
 			array(
-				'title'       => __( 'Choose Title color', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Choose Title Color', 'pdf-generator-for-wp' ),
 				'type'        => 'color',
 				'description' => __( 'Please choose color to display the title text.', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_body_title_font_color',
@@ -1085,7 +1085,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'options'      => $mwb_pgfw_font_styles,
 			),
 			array(
-				'title'       => __( 'Content font Size', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Content Font Size', 'pdf-generator-for-wp' ),
 				'type'        => 'number',
 				'description' => __( 'Choose content font size to generate PDF.', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_content_font_size',
@@ -1094,7 +1094,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'placeholder' => '',
 			),
 			array(
-				'title'        => __( 'Choose body text color', 'pdf-generator-for-wp' ),
+				'title'        => __( 'Choose Body Text Color', 'pdf-generator-for-wp' ),
 				'type'         => 'color',
 				'description'  => __( 'Choose color to display body text.', 'pdf-generator-for-wp' ),
 				'id'           => 'pgfw_body_font_color',
@@ -1227,7 +1227,7 @@ class Pdf_Generator_For_Wp_Admin {
 				),
 			),
 			array(
-				'title'        => __( 'RTL support', 'pdf-generator-for-wp' ),
+				'title'        => __( 'RTL Support', 'pdf-generator-for-wp' ),
 				'type'         => 'checkbox',
 				'description'  => __( 'Select this to enable RTL support ( enabling this will enable, font-style : DejaVu Sans, sans-serif globally ) and will support right to left text alignment.', 'pdf-generator-for-wp' ),
 				'id'           => 'pgfw_body_rtl_support',
@@ -1266,7 +1266,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'placeholder' => __( 'color', 'pdf-generator-for-wp' ),
 			),
 			array(
-				'title'        => __( 'Page template', 'pdf-generator-for-wp' ),
+				'title'        => __( 'Page Template', 'pdf-generator-for-wp' ),
 				'type'         => 'select',
 				'description'  => __( 'This will be used as the page template.', 'pdf-generator-for-wp' ),
 				'id'           => 'pgfw_body_page_template',
@@ -1280,7 +1280,7 @@ class Pdf_Generator_For_Wp_Admin {
 				),
 			),
 			array(
-				'title'       => __( 'Post template', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Post Template', 'pdf-generator-for-wp' ),
 				'type'        => 'select',
 				'description' => __( 'This will be used as the post template.', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_body_post_template',
@@ -1307,7 +1307,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_body_html_arr[] = array(
 			'type'        => 'button',
 			'id'          => 'pgfw_body_save_settings',
-			'button_text' => __( 'Save settings', 'pdf-generator-for-wp' ),
+			'button_text' => __( 'Save Settings', 'pdf-generator-for-wp' ),
 			'class'       => 'pgfw_body_save_settings',
 			'name'        => 'pgfw_body_save_settings',
 		);
@@ -1351,7 +1351,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_advanced_settings_html_arr[] = array(
 			'type'        => 'button',
 			'id'          => 'pgfw_advanced_save_settings',
-			'button_text' => __( 'Save settings', 'pdf-generator-for-wp' ),
+			'button_text' => __( 'Save Settings', 'pdf-generator-for-wp' ),
 			'class'       => 'pgfw_advanced_save_settings',
 			'name'        => 'pgfw_advanced_save_settings',
 		);
@@ -1395,7 +1395,7 @@ class Pdf_Generator_For_Wp_Admin {
 
 			$pgfw_meta_settings_html_arr[] =
 			array(
-				'title'        => __( 'Show meta fields for ', 'pdf-generator-for-wp' ) . $post_type,
+				'title'        => __( 'Show Meta Fields For ', 'pdf-generator-for-wp' ) . $post_type,
 				'type'         => 'checkbox',
 				'description'  => __( 'selecting this will show the meta fields on PDF.', 'pdf-generator-for-wp' ),
 				'id'           => 'pgfw_meta_fields_' . $post_type . '_show',
@@ -1405,7 +1405,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'parent-class' => ( 0 === $i ) ? '' : 'mwb_pgfw_setting_separate_border',
 			);
 			$pgfw_meta_settings_html_arr[] = array(
-				'title'       => __( 'Meta fields in ', 'pdf-generator-for-wp' ) . $post_type,
+				'title'       => __( 'Meta Fields in ', 'pdf-generator-for-wp' ) . $post_type,
 				'type'        => 'multiselect',
 				'description' => __( 'These meta fields will be shown on PDF.', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_meta_fields_' . $post_type . '_list',
@@ -1421,7 +1421,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_meta_settings_html_arr[] = array(
 			'type'        => 'button',
 			'id'          => 'pgfw_meta_fields_save_settings',
-			'button_text' => __( 'Save settings', 'pdf-generator-for-wp' ),
+			'button_text' => __( 'Save Settings', 'pdf-generator-for-wp' ),
 			'class'       => 'pgfw_meta_fields_save_settings',
 			'name'        => 'pgfw_meta_fields_save_settings',
 		);
@@ -1498,7 +1498,7 @@ class Pdf_Generator_For_Wp_Admin {
 			array(
 				'type'        => 'button',
 				'id'          => 'pgfw_pdf_upload_save_settings',
-				'button_text' => __( 'Save settings', 'pdf-generator-for-wp' ),
+				'button_text' => __( 'Save Settings', 'pdf-generator-for-wp' ),
 				'class'       => 'pgfw_pdf_upload_save_settings',
 				'name'        => 'pgfw_pdf_upload_save_settings',
 			),
