@@ -25,9 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string
  */
 function return_ob_html( $post_id, $template_name = '' ) {
-	if ( class_exists( 'WPBMap' ) ) {
-		WPBMap::addAllMappedShortcodes();
-	}
+	do_action( 'mwb_pgfw_load_wp_bakery_shortcode_converter' );
 	// advanced settings.
 	$pgfw_advanced_settings = get_option( 'pgfw_advanced_save_settings', array() );
 	$pgfw_ttf_font_upload   = array_key_exists( 'pgfw_ttf_font_upload', $pgfw_advanced_settings ) ? $pgfw_advanced_settings['pgfw_ttf_font_upload'] : '';
