@@ -33,7 +33,6 @@ class Pdf_Generator_For_Wp {
 	 * the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   protected
 	 * @var      Pdf_Generator_For_Wp_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
@@ -42,7 +41,6 @@ class Pdf_Generator_For_Wp {
 	 * The unique identifier of this plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   protected
 	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
 	 */
 	protected $plugin_name;
@@ -51,7 +49,6 @@ class Pdf_Generator_For_Wp {
 	 * The current version of the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   protected
 	 * @var      string    $version    The current version of the plugin.
 	 */
 	protected $version;
@@ -60,7 +57,6 @@ class Pdf_Generator_For_Wp {
 	 * The current version of the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   protected
 	 * @var      string    $pgfw_onboard    To initializsed the object of class onboard.
 	 */
 	protected $pgfw_onboard;
@@ -114,7 +110,6 @@ class Pdf_Generator_For_Wp {
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 */
 	private function pdf_generator_for_wp_dependencies() {
 
@@ -168,7 +163,6 @@ class Pdf_Generator_For_Wp {
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 */
 	private function pdf_generator_for_wp_locale() {
 
@@ -183,7 +177,6 @@ class Pdf_Generator_For_Wp {
 	 * of the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 */
 	private function pdf_generator_for_wp_admin_hooks() {
 
@@ -233,7 +226,6 @@ class Pdf_Generator_For_Wp {
 	 * of the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 */
 	private function pdf_generator_for_wp_common_hooks() {
 
@@ -256,7 +248,6 @@ class Pdf_Generator_For_Wp {
 	 * of the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 */
 	private function pdf_generator_for_wp_public_hooks() {
 
@@ -292,7 +283,6 @@ class Pdf_Generator_For_Wp {
 	 * of the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 */
 	private function pdf_generator_for_wp_api_hooks() {
 

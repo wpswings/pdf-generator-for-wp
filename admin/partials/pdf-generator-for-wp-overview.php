@@ -43,7 +43,9 @@ do_action( 'mwb_pgfw_pro_overview_content' );
 					<li><?php esc_html_e( 'Request the users’ email id in exchange for information.', 'pdf-generator-for-wp' ); ?></li>
 					<li><?php esc_html_e( 'Disperse your branding effectively with the useful information you have to sell.', 'pdf-generator-for-wp' ); ?></li>
 				</ul>
-				<?php do_action( 'pgfw_add_demo_video_at_overview_form' ); ?>
+				<div class="mwb-overview__video--url">
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/tmdht_8uLMI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+				</div>
 			</div>
 		</div>
 		<h2> <?php esc_html_e( 'The Free Plugin Benefits', 'pdf-generator-for-wp' ); ?></h2>

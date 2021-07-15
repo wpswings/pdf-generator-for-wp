@@ -26,7 +26,6 @@ class Pdf_Generator_For_Wp_Public {
 	 * The ID of this plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 * @var      string    $plugin_name    The ID of this plugin.
 	 */
 	private $plugin_name;
@@ -35,7 +34,6 @@ class Pdf_Generator_For_Wp_Public {
 	 * The version of this plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 * @var      string    $version    The current version of this plugin.
 	 */
 	private $version;
@@ -156,15 +154,15 @@ class Pdf_Generator_For_Wp_Public {
 		if ( is_array( $pgfw_show_icons_to_posts ) && in_array( get_post_type( $id ), $pgfw_show_icons_to_posts, true ) ) {
 			if ( ( 'yes' === $guest_access_pdf ) && ! is_user_logged_in() ) {
 				if ( 'email' === $pgfw_guest_download_or_email ) {
-					echo $this->pgfw_modal_for_email_storing_during_pdf_generation( $url_here, $id ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo wp_kses_post( $this->pgfw_modal_for_email_storing_during_pdf_generation( $url_here, $id ) );
 				} else {
-					echo $this->pgfw_download_pdf_button_show( $url_here, $id ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo wp_kses_post( $this->pgfw_download_pdf_button_show( $url_here, $id ) );
 				}
 			} elseif ( ( 'yes' === $user_access_pdf ) && is_user_logged_in() ) {
 				if ( 'email' === $pgfw_user_download_or_email ) {
-					echo $this->pgfw_modal_for_email_storing_during_pdf_generation( $url_here, $id ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo wp_kses_post( $this->pgfw_modal_for_email_storing_during_pdf_generation( $url_here, $id ) );
 				} else {
-					echo $this->pgfw_download_pdf_button_show( $url_here, $id ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo wp_kses_post( $this->pgfw_download_pdf_button_show( $url_here, $id ) );
 				}
 			}
 		}

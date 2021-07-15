@@ -31,7 +31,6 @@ class Pdf_Generator_For_Wp_Rest_Api {
 	 * The unique identifier of this plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   protected
 	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
 	 */
 	protected $plugin_name;
@@ -40,7 +39,6 @@ class Pdf_Generator_For_Wp_Rest_Api {
 	 * The current version of the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   protected
 	 * @var      string    $version    The current version of the plugin.
 	 */
 	protected $version;
@@ -70,7 +68,6 @@ class Pdf_Generator_For_Wp_Rest_Api {
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 */
 	public function mwb_pgfw_add_endpoint() {
 		register_rest_route(
