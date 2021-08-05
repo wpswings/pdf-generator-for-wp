@@ -133,6 +133,7 @@ function run_pdf_generator_for_wp() {
 	$pgfw_plugin_standard = new Pdf_Generator_For_Wp();
 	$pgfw_plugin_standard->pgfw_run();
 	$GLOBALS['pgfw_mwb_pgfw_obj'] = $pgfw_plugin_standard;
+	require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'includes/pdf-generator-for-wp-global-functions.php';
 
 }
 run_pdf_generator_for_wp();
