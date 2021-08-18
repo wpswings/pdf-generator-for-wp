@@ -29,7 +29,7 @@ $pgfw_default_tabs = $pgfw_mwb_pgfw_obj->mwb_pgfw_plug_default_tabs();
 		<h1 class="mwb-header-title"><?php echo esc_attr( strtoupper( str_replace( '-', ' ', $pgfw_mwb_pgfw_obj->pgfw_get_plugin_name() ) ) ); ?></h1>
 		<a href="https://docs.makewebbetter.com/" target="_blank" class="mwb-link"><?php esc_html_e( 'Documentation', 'pdf-generator-for-wp' ); ?></a>
 		<span>|</span>
-		<a href="https://makewebbetter.com/contact-us/" target="_blank" class="mwb-link"><?php esc_html_e( 'Support', 'invoice-system-for-woocommerce' ); ?></a>
+		<a href="https://makewebbetter.com/contact-us/" target="_blank" class="mwb-link"><?php esc_html_e( 'Support', 'pdf-generator-for-wp' ); ?></a>
 	</div>
 </header>
 <?php
