@@ -25,7 +25,7 @@
  * Tested up to:         5.7.2
  * WC requires at least: 4.0.0
  * WC tested up to:      5.4.1
- * Stable tag:           1.0.1
+ * Stable tag:           1.0.2
  * Requires PHP:         7.2
  *
  * License:           GNU General Public License v3.0
@@ -40,11 +40,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Define plugin constants.
  *
- * @since             1.0.0
+ * @since 1.0.0
  */
 function define_pdf_generator_for_wp_constants() {
-
-	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.0.1' );
+	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.0.2' );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_PATH', plugin_dir_path( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_URL', plugin_dir_url( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_SERVER_URL', 'https://makewebbetter.com' );
@@ -129,7 +128,6 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-pdf-generator-for-wp.php';
  */
 function run_pdf_generator_for_wp() {
 	define_pdf_generator_for_wp_constants();
-
 	$pgfw_plugin_standard = new Pdf_Generator_For_Wp();
 	$pgfw_plugin_standard->pgfw_run();
 	$GLOBALS['pgfw_mwb_pgfw_obj'] = $pgfw_plugin_standard;
