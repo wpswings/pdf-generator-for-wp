@@ -143,14 +143,17 @@ add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'pdf_generator
 /**
  * Settings link.
  *
- * @since    1.0.0
- * @param   Array $links    Settings link array.
+ * @since 1.0.0
+ * @param array $links    Settings link array.
  */
 function pdf_generator_for_wp_settings_link( $links ) {
 
 	$my_link = array(
 		'<a href="' . admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ) . '">' . __( 'Settings', 'pdf-generator-for-wp' ) . '</a>',
 	);
+	if ( ! in_array( 'wordpress-pdf-generator/wordpress-pdf-generator.php', get_option( 'active_plugins' ), true ) ) {
+		$my_link[] = '<a href="https://makewebbetter.com/product/wordpress-pdf-generator/?utm_source=MWB-pdf-org-backend&utm_medium=MWB-pdf-proORG-backend&utm_campaign=MWB-backend" target="_blank" class="mwb-pgfw-go-pro-link-backend">' . esc_html__( 'Go Pro', 'pdf-generator-for-wp' ) . '</a>';
+	}
 	return array_merge( $my_link, $links );
 }
 /**
@@ -165,7 +168,6 @@ function pdf_generator_for_wp_custom_settings_at_plugin_tab( $links_array, $plug
 		$links_array[] = '<a href="https://demo.makewebbetter.com/pdf-generator-for-wp/?utm_source=MWB-pdf-org-backend&utm_medium=MWB-demoORG-backend&utm_campaign=MWB-backend" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Demo.svg" class="mwb-info-img" alt="Demo image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Demo', 'pdf-generator-for-wp' ) . '</a>';
 		$links_array[] = '<a href="https://docs.makewebbetter.com/pdf-generator-for-wp/?utm_source=MWB-pdf-org-backend&utm_medium=MWB-docORG-backend&utm_campaign=MWB-backend" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Documentation.svg" class="mwb-info-img" alt="documentation image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Documentation', 'pdf-generator-for-wp' ) . '</a>';
 		$links_array[] = '<a href="https://makewebbetter.com/submit-query/" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Support.svg" class="mwb-info-img" alt="support image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Support', 'pdf-generator-for-wp' ) . '</a>';
-		$links_array[] = '<a href="https://makewebbetter.com/product/wordpress-pdf-generator/?utm_source=MWB-pdf-org-backend&utm_medium=MWB-pdf-proORG-backend&utm_campaign=MWB-backend" target="_blank">' . esc_html__( 'Go Pro', 'pdf-generator-for-wp' ) . '</a>';
 	}
 	return $links_array;
 }

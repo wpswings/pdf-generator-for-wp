@@ -142,7 +142,7 @@ class Pdf_Generator_For_Wp_Admin {
 	public function pgfw_options_page() {
 		global $submenu;
 		if ( empty( $GLOBALS['admin_page_hooks']['mwb-plugins'] ) ) {
-			add_menu_page( __( 'MakeWebBetter', 'pdf-generator-for-wp' ), __( 'MakeWebBetter', 'pdf-generator-for-wp' ), 'manage_options', 'mwb-plugins', array( $this, 'mwb_plugins_listing_page' ), PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/MWB_Grey-01.svg', 15 );
+			add_menu_page( 'MakeWebBetter', 'MakeWebBetter', 'manage_options', 'mwb-plugins', array( $this, 'mwb_plugins_listing_page' ), PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/MWB_Grey-01.svg', 15 );
 			$pgfw_menus = apply_filters( 'mwb_add_plugins_menus_array', array() );
 			if ( is_array( $pgfw_menus ) && ! empty( $pgfw_menus ) ) {
 				foreach ( $pgfw_menus as $pgfw_key => $pgfw_value ) {
