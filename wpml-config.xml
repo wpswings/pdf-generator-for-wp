@@ -13,5 +13,8 @@
         <key name="pgfw_general_settings_save">
             <key name="pgfw_custom_pdf_file_name" />
         </key>
+        <key name="pgfw_meta_fields_save_settings">
+            <key name="*" />
+        </key>
     </admin-texts>
 </wpml-config>
