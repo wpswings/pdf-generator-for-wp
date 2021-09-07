@@ -729,7 +729,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'class'       => 'pgfw_header_tagline',
 				'id'          => 'pgfw_header_tagline',
 				'name'        => 'pgfw_header_tagline',
-				'description' => __( 'Enter the tagline or address to show in header' ),
+				'description' => __( 'Enter the tagline or address to show in header', 'pdf-generator-for-wp' ),
 				'placeholder' => __( 'tagline or address', 'pdf-generator-for-wp' ),
 				'value'       => $pgfw_header_tagline,
 			),

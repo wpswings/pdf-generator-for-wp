@@ -103,6 +103,14 @@ function return_ob_html( $post_id, $template_name = '' ) {
 					@font-face{
 						font-family : My_font;
 						src         : url("' . $font_url . '")  format("truetype");
+						font-weight : bold;
+						font-style  : normal;
+					}
+					@font-face{
+						font-family : My_font;
+						src         : url("' . $font_url . '")  format("truetype");
+						font-weight : normal;
+						font-style  : normal;
 					}
 				</style>';
 		}
