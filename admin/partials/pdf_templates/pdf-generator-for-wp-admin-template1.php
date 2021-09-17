@@ -237,16 +237,12 @@ function return_ob_html( $post_id, $template_name = '' ) {
 						<img src="' . get_the_post_thumbnail_url( $post ) . '">
 					</div>
 					<div class="pgfw-pdf-body-title">
-						' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', do_shortcode( apply_filters( 'the_title', $post->post_title ) ) ) ) . '
+						' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', apply_filters( 'the_title', $post->post_title ) ) ) . '
 					</div>
 					<div class="pgfw-pdf-body-content">
-					<h3>' . esc_html__( 'Short Description/Excerpt', 'pdf-generator-for-wp' ) . '</h3>
-					<div>
-						' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', do_shortcode( apply_filters( 'the_excerpt', $post->post_excerpt ) ) ) ) . '
-					</div>
 					<h3>' . esc_html__( 'Description', 'pdf-generator-for-wp' ) . '</h3>
 					<div>
-						' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', do_shortcode( apply_filters( 'the_content', $post->post_content ) ) ) ) . '
+						' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', apply_filters( 'the_content', $post->post_content ) ) ) . '
 					</div>';
 		// taxonomies for posts.
 		$html1 = '';
