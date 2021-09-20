@@ -27,16 +27,12 @@
 error_reporting(E_STRICT);
 $time_start = microtime(true);
 
-$text = 'ÈÓã Çááå ÇáÑÍãä ÇáÑÍíã';
+$text = 'ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½';
 
 require '../../Arabic.php';
 $Arabic = new I18N_Arabic('CharsetD');
 
 $charset = $Arabic->getCharset($text);
-
-echo "$text ($charset) <br/>";
-
-print_r($Arabic->guess($text));
 ?>
 
 </div><br />
@@ -45,7 +41,7 @@ print_r($Arabic->guess($text));
 <?php
 $code = <<< END
 <?php
-    \$text = 'ÈÓã Çááå ÇáÑÍãä ÇáÑÍíã';
+    \$text = 'ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½';
 
     require '../../Arabic.php';
     \$Arabic = new I18N_Arabic('CharsetD');
@@ -54,7 +50,6 @@ $code = <<< END
     
     echo "\$text (\$charset) <br/>";
     
-    print_r(\$Arabic->guess(\$text));
 END;
 
 highlight_string($code);

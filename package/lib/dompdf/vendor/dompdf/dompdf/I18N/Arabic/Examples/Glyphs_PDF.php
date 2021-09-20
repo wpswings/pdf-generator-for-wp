@@ -41,9 +41,6 @@ $text .= "\n\nتصحيح طريقة عرض الأرقام المتصلة بأح�
 $text .= "\n\nخالد الشمعة khaled@ar-php.org والموقع هو http://www.ar-php.org";
 
 // Known bugs:
-//$text = 'The title is "عصر الأجاكس!" in Arabic';
-//$text = ' مؤسسة (World Wide Web Consortium) W3C';
-//$text = ' ماذا لو كانت الجملة تنتهي بكلمة إنجليزية مثل Test?';
 
 $font_size = 16;
 $chars_in_line = $Arabic->a4MaxChars($font_size);

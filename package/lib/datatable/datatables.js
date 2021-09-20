@@ -6538,9 +6538,6 @@
 				type( settings, tn, msg );
 			}
 		}
-		else if ( window.console && console.log ) {
-			console.log( msg );
-		}
 	}
 	
 	

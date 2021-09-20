@@ -847,7 +847,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'class'       => 'pgfw_footer_tagline',
 				'id'          => 'pgfw_footer_tagline',
 				'name'        => 'pgfw_footer_tagline',
-				'description' => __( 'Enter the tagline to show in footer' ),
+				'description' => __( 'Enter the tagline to show in footer', 'pdf-generator-for-wp' ),
 				'placeholder' => __( 'tagline', 'pdf-generator-for-wp' ),
 				'value'       => $pgfw_footer_tagline,
 			),
