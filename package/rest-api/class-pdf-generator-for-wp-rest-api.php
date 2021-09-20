@@ -7,8 +7,8 @@
  * @link       https://makewebbetter.com/
  * @since      1.0.0
  *
- * @package    Pdf_Generator_For_Wordpress
- * @subpackage Pdf_Generator_For_Wordpress/package/rest-api/version1
+ * @package    Pdf_Generator_For_Wp
+ * @subpackage Pdf_Generator_For_Wp/package/rest-api/version1
  */
 
 /**
@@ -21,8 +21,8 @@
  * version of the plugin.
  *
  * @since      1.0.0
- * @package    Pdf_Generator_For_Wordpress
- * @subpackage Pdf_Generator_For_Wordpress/package/rest-api/version1
+ * @package    Pdf_Generator_For_Wp
+ * @subpackage Pdf_Generator_For_Wp/package/rest-api/version1
  * @author     makewebbetter <webmaster@makewebbetter.com>
  */
 class Pdf_Generator_For_Wp_Rest_Api {
@@ -64,7 +64,7 @@ class Pdf_Generator_For_Wp_Rest_Api {
 	/**
 	 * Define endpoints for the plugin.
 	 *
-	 * Uses the Pdf_Generator_For_Wordpress_Rest_Api class in order to create the endpoint
+	 * Uses the Pdf_Generator_For_Wp_Rest_Api class in order to create the endpoint
 	 * with WordPress.
 	 *
 	 * @since    1.0.0

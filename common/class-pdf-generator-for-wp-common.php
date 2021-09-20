@@ -5,8 +5,8 @@
  * @link       https://makewebbetter.com/
  * @since      1.0.0
  *
- * @package    Pdf_Generator_For_Wordpress
- * @subpackage Pdf_Generator_For_Wordpress/common
+ * @package    Pdf_Generator_For_Wp
+ * @subpackage Pdf_Generator_For_Wp/common
  */
 
 use Dompdf\Dompdf;
@@ -17,10 +17,10 @@ use Dompdf\FontMetrics;
  *
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the common stylesheet and JavaScript.
- * namespace pdf_generator_for_wordpress_common.
+ * namespace pdf_generator_for_wp_common.
  *
- * @package    Pdf_Generator_For_Wordpress
- * @subpackage Pdf_Generator_For_Wordpress/common
+ * @package    Pdf_Generator_For_Wp
+ * @subpackage Pdf_Generator_For_Wp/common
  * @author     makewebbetter <webmaster@makewebbetter.com>
  */
 class Pdf_Generator_For_Wp_Common {

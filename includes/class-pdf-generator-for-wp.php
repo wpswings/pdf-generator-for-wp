@@ -100,11 +100,11 @@ class Pdf_Generator_For_Wp {
 	 *
 	 * Include the following files that make up the plugin:
 	 *
-	 * - Pdf_Generator_For_Wordpress_Loader. Orchestrates the hooks of the plugin.
-	 * - Pdf_Generator_For_Wordpress_i18n. Defines internationalization functionality.
-	 * - Pdf_Generator_For_WordPress_Admin. Defines all hooks for the admin area.
-	 * - Pdf_Generator_For_Wordpress_Common. Defines all hooks for the common area.
-	 * - Pdf_Generator_For_WordPress_Public. Defines all hooks for the public side of the site.
+	 * - Pdf_Generator_For_Wp_Loader. Orchestrates the hooks of the plugin.
+	 * - Pdf_Generator_For_Wp_i18n. Defines internationalization functionality.
+	 * - Pdf_Generator_For_Wp_Admin. Defines all hooks for the admin area.
+	 * - Pdf_Generator_For_Wp_Common. Defines all hooks for the common area.
+	 * - Pdf_Generator_For_Wp_Public. Defines all hooks for the public side of the site.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
@@ -159,7 +159,7 @@ class Pdf_Generator_For_Wp {
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the Pdf_Generator_For_Wordpress_I18n class in order to set the domain and to register the hook
+	 * Uses the Pdf_Generator_For_Wp_I18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since    1.0.0

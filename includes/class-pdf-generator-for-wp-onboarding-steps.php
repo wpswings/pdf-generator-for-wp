@@ -5,15 +5,15 @@
  * @link       https://makewebbetter.com
  * @since      1.0.0
  *
- * @package     pdf_generator_for_wordpress
- * @subpackage  pdf_generator_for_wordpress/includes
+ * @package     pdf_generator_for_wp
+ * @subpackage  pdf_generator_for_wp/includes
  */
 
 /**
  * The Onboarding-specific functionality of the plugin admin side.
  *
- * @package     pdf_generator_for_wordpress
- * @subpackage  pdf_generator_for_wordpress/includes
+ * @package     pdf_generator_for_wp
+ * @subpackage  pdf_generator_for_wp/includes
  * @author      makewebbetter <webmaster@makewebbetter.com>
  */
 if ( ! defined( 'ABSPATH' ) ) {
