@@ -15,8 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 global $pgfw_mwb_pgfw_obj;
-$pgfw_active_tab   = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw_tab'] ) : 'pdf-generator-for-wp-header';
-$pgfw_default_tabs = $pgfw_mwb_pgfw_obj->mwb_pgfw_plug_default_sub_tabs();
+$pgfw_active_tab            = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw_tab'] ) : 'pdf-generator-for-wp-header';
+$pgfw_default_tabs          = $pgfw_mwb_pgfw_obj->mwb_pgfw_plug_default_sub_tabs();
 $pgfw_footer_settings_array = apply_filters( 'pgfw_footer_settings_array', array() );
 ?>
 <main class="mwb-main mwb-bg-white mwb-r-8">

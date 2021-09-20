@@ -7,8 +7,8 @@
  * @link       https://makewebbetter.com
  * @since      1.0.0
  *
- * @package    Makewebbetter_Onboarding
- * @subpackage Makewebbetter_Onboarding/admin/onboarding
+ * @package    Pdf_Generator_For_Wp
+ * @subpackage Pdf_Generator_For_Wp/admin/onboarding
  */
 
 global $pagenow, $pgfw_mwb_pgfw_obj;

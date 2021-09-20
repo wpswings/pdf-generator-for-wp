@@ -164,7 +164,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 				</style>
 				<div class="pgfw-pdf-header-each-page">
 					<div class="pgfw-pdf-header">
-						<img src="' . esc_url( $pgfw_header_logo ) . '" alt="' . esc_html__( 'No image found' ) . '" class="pgfw-header-logo">
+						<img src="' . esc_url( $pgfw_header_logo ) . '" alt="' . esc_html__( 'No image found', 'pdf-generator-for-wp' ) . '" class="pgfw-header-logo">
 						<div class="pgfw-header-tagline" >
 							<span><b>' . esc_html( strtoupper( $pgfw_header_comp_name ) ) . '</b></span><br/>
 							<span>' . esc_html( $pgfw_header_tagline ) . '</span>
