@@ -1,4 +1,23 @@
+<?php
+/**
+ * Provide a admin area view for the plugin
+ *
+ * This file is used to markup the html field for overview tab.
+ *
+ * @link       https://makewebbetter.com/
+ * @since      1.0.0
+ *
+ * @package    Pdf_Generator_For_Wp
+ * @subpackage Pdf_Generator_For_Wp/admin/partials
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+do_action( 'mwb_pgfw_pro_overview_content' );
+?>
 <div class="mwb-overview__wrapper">
+	<?php do_action( 'pgfw_overview_content_top' ); ?>
 	<div class="mwb-overview__banner">
 		<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ); ?>admin/src/images/pdfgeneratorbannerimage.png" alt="Overview banner image">
 	</div>
@@ -24,7 +43,9 @@
 					<li><?php esc_html_e( 'Request the users’ email id in exchange for information.', 'pdf-generator-for-wp' ); ?></li>
 					<li><?php esc_html_e( 'Disperse your branding effectively with the useful information you have to sell.', 'pdf-generator-for-wp' ); ?></li>
 				</ul>
-				<?php do_action( 'pgfw_add_demo_video_at_overview_form' ); ?>
+				<div class="mwb-overview__video--url">
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/tmdht_8uLMI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+				</div>
 			</div>
 		</div>
 		<h2> <?php esc_html_e( 'The Free Plugin Benefits', 'pdf-generator-for-wp' ); ?></h2>
@@ -132,4 +153,5 @@
 			</div>
 		</div>
 	</div>
+	<?php do_action( 'pgfw_overview_content_bottom' ); ?>
 </div>

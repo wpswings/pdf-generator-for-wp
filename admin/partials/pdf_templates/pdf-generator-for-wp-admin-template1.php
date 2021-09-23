@@ -7,8 +7,8 @@
  * @link       https://makewebbetter.com/
  * @since      1.0.0
  *
- * @package    Pdf_Generator_For_Wordpress
- * @subpackage Pdf_Generator_For_Wordpress/admin/partials
+ * @package    Pdf_Generator_For_Wp
+ * @subpackage Pdf_Generator_For_Wp/admin/partials
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -25,6 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string
  */
 function return_ob_html( $post_id, $template_name = '' ) {
+	do_action( 'mwb_pgfw_load_wp_bakery_shortcode_converter' );
 	// advanced settings.
 	$pgfw_advanced_settings = get_option( 'pgfw_advanced_save_settings', array() );
 	$pgfw_ttf_font_upload   = array_key_exists( 'pgfw_ttf_font_upload', $pgfw_advanced_settings ) ? $pgfw_advanced_settings['pgfw_ttf_font_upload'] : '';
@@ -63,6 +64,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 	$pgfw_border_position_bottom     = array_key_exists( 'pgfw_border_position_bottom', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_bottom'] : '';
 	$pgfw_border_position_left       = array_key_exists( 'pgfw_border_position_left', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_left'] : '';
 	$pgfw_border_position_right      = array_key_exists( 'pgfw_border_position_right', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_right'] : '';
+	$pgfw_body_custom_css            = array_key_exists( 'pgfw_body_custom_css', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_css'] : '';
 	// general settings.
 	$general_settings_data     = get_option( 'pgfw_general_settings_save', array() );
 	$pgfw_show_post_categories = array_key_exists( 'pgfw_general_pdf_show_categories', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_categories'] : '';
@@ -101,6 +103,14 @@ function return_ob_html( $post_id, $template_name = '' ) {
 					@font-face{
 						font-family : My_font;
 						src         : url("' . $font_url . '")  format("truetype");
+						font-weight : bold;
+						font-style  : normal;
+					}
+					@font-face{
+						font-family : My_font;
+						src         : url("' . $font_url . '")  format("truetype");
+						font-weight : normal;
+						font-style  : normal;
 					}
 				</style>';
 		}
@@ -154,7 +164,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 				</style>
 				<div class="pgfw-pdf-header-each-page">
 					<div class="pgfw-pdf-header">
-						<img src="' . esc_url( $pgfw_header_logo ) . '" alt="' . esc_html__( 'No image found' ) . '" class="pgfw-header-logo">
+						<img src="' . esc_url( $pgfw_header_logo ) . '" alt="' . esc_html__( 'No image found', 'pdf-generator-for-wp' ) . '" class="pgfw-header-logo">
 						<div class="pgfw-header-tagline" >
 							<span><b>' . esc_html( strtoupper( $pgfw_header_comp_name ) ) . '</b></span><br/>
 							<span>' . esc_html( $pgfw_header_tagline ) . '</span>
@@ -195,6 +205,11 @@ function return_ob_html( $post_id, $template_name = '' ) {
 	if ( 'yes' === $pgfw_watermark_image_use_in_pdf ) {
 		$html = apply_filters( 'pgfw_customize_body_watermark_image_pdf', $html );
 	}
+	if ( '' !== $pgfw_body_custom_css ) {
+		$html .= '<style>
+					' . $pgfw_body_custom_css . '
+				</style>';
+	}
 	$post = get_post( $post_id );
 	if ( is_object( $post ) ) {
 		$html .= '<style>
@@ -222,16 +237,12 @@ function return_ob_html( $post_id, $template_name = '' ) {
 						<img src="' . get_the_post_thumbnail_url( $post ) . '">
 					</div>
 					<div class="pgfw-pdf-body-title">
-						' . do_shortcode( $post->post_title ) . '
+						' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', apply_filters( 'the_title', $post->post_title ) ) ) . '
 					</div>
 					<div class="pgfw-pdf-body-content">
-					<h3>' . esc_html__( 'Short Description/Excerpt', 'pdf-generator-for-wp' ) . '</h3>
-					<div>
-						' . do_shortcode( $post->post_excerpt ) . '
-					</div>
 					<h3>' . esc_html__( 'Description', 'pdf-generator-for-wp' ) . '</h3>
 					<div>
-						' . do_shortcode( $post->post_content ) . '
+						' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', apply_filters( 'the_content', $post->post_content ) ) ) . '
 					</div>';
 		// taxonomies for posts.
 		$html1 = '';

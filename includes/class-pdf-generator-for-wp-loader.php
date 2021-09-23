@@ -5,8 +5,8 @@
  * @link       https://makewebbetter.com/
  * @since      1.0.0
  *
- * @package    Pdf_Generator_For_Wordpress
- * @subpackage Pdf_Generator_For_Wordpress/includes
+ * @package    Pdf_Generator_For_Wp
+ * @subpackage Pdf_Generator_For_Wp/includes
  */
 
 /**
@@ -16,8 +16,8 @@
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package    Pdf_Generator_For_Wordpress
- * @subpackage Pdf_Generator_For_Wordpress/includes
+ * @package    Pdf_Generator_For_Wp
+ * @subpackage Pdf_Generator_For_Wp/includes
  * @author     makewebbetter <webmaster@makewebbetter.com>
  */
 class Pdf_Generator_For_Wp_Loader {
@@ -26,7 +26,6 @@ class Pdf_Generator_For_Wp_Loader {
 	 * The array of actions registered with WordPress.
 	 *
 	 * @since    1.0.0
-	 * @access   protected
 	 * @var      array    $actions    The actions registered with WordPress to fire when the plugin loads.
 	 */
 	protected $actions;
@@ -35,7 +34,6 @@ class Pdf_Generator_For_Wp_Loader {
 	 * The array of filters registered with WordPress.
 	 *
 	 * @since    1.0.0
-	 * @access   protected
 	 * @var      array    $filters    The filters registered with WordPress to fire when the plugin loads.
 	 */
 	protected $filters;
@@ -85,7 +83,6 @@ class Pdf_Generator_For_Wp_Loader {
 	 * collection.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 * @param    array  $hooks            The collection of hooks that is being registered (that is, actions or filters).
 	 * @param    string $hook             The name of the WordPress filter that is being registered.
 	 * @param    object $component        A reference to the instance of the object on which the filter is defined.

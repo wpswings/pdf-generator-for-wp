@@ -5,8 +5,8 @@
  * @link       https://makewebbetter.com/
  * @since      1.0.0
  *
- * @package    Pdf_Generator_For_Wordpress
- * @subpackage Pdf_Generator_For_Wordpress/includes
+ * @package    Pdf_Generator_For_Wp
+ * @subpackage Pdf_Generator_For_Wp/includes
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,8 +20,8 @@ if ( ! class_exists( 'Pdf_Generator_For_Wp_Api_Process' ) ) {
 	 * This is used to define the functions and data manipulation for custom endpoints.
 	 *
 	 * @since      1.0.0
-	 * @package    Hydroshop_Api_Management
-	 * @subpackage Hydroshop_Api_Management/includes
+	 * @package    Pdf_Generator_For_Wp
+	 * @subpackage Pdf_Generator_For_Wp/includes
 	 * @author     MakeWebBetter <makewebbetter.com>
 	 */
 	class Pdf_Generator_For_Wp_Api_Process {

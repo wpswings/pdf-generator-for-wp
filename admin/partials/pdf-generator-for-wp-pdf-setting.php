@@ -7,8 +7,8 @@
  * @link       https://makewebbetter.com/
  * @since      1.0.0
  *
- * @package    Pdf_Generator_For_Wordpress
- * @subpackage Pdf_Generator_For_Wordpress/admin/partials
+ * @package    Pdf_Generator_For_Wp
+ * @subpackage Pdf_Generator_For_Wp/admin/partials
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -53,7 +53,12 @@ $pgfw_settings_display_fields = apply_filters( 'pgfw_display_settings_array', ar
 			wp_nonce_field( 'nonce_settings_save', 'pgfw_nonce_field' );
 			$pgfw_mwb_pgfw_obj->mwb_pgfw_plug_generate_html( $pgfw_settings_display_fields );
 			?>
-			<div><?php echo esc_html__( 'Add', 'pdf-generator-for-wp' ) . ' <b>[PGFW_GENERATE_PDF]</b> ' . esc_html__( 'shortcode anywhere on your page or posts to display PDF generating icon.', 'pdf-generator-for-wp' ); ?></div>
+			<div>
+				<?php
+				/* translators: shortcode name. */
+				printf( esc_html__( 'Add %s shortcode anywhere on your page or posts to display PDF generating icon.', 'pdf-generator-for-wp' ), '[WORDPRESS_PDF]' );
+				?>
+			</div>
 		</div>
 	</form>
 </section>

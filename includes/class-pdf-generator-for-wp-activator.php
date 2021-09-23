@@ -5,8 +5,8 @@
  * @link       https://makewebbetter.com/
  * @since      1.0.0
  *
- * @package    Pdf_Generator_For_Wordpress
- * @subpackage Pdf_Generator_For_Wordpress/includes
+ * @package    Pdf_Generator_For_Wp
+ * @subpackage Pdf_Generator_For_Wp/includes
  */
 
 /**
@@ -15,8 +15,8 @@
  * This class defines all code necessary to run during the plugin's activation.
  *
  * @since      1.0.0
- * @package    Pdf_Generator_For_Wordpress
- * @subpackage Pdf_Generator_For_Wordpress/includes
+ * @package    Pdf_Generator_For_Wp
+ * @subpackage Pdf_Generator_For_Wp/includes
  * @author     makewebbetter <webmaster@makewebbetter.com>
  */
 class Pdf_Generator_For_Wp_Activator {
@@ -239,7 +239,7 @@ class Pdf_Generator_For_Wp_Activator {
 						'pgfw_border_position_bottom' => -60,
 					),
 					'pgfw_advanced_save_settings'      => array(
-						'pgfw_advanced_show_post_type_icons' => array( 'page', 'post' ),
+						'pgfw_advanced_show_post_type_icons' => array( 'page', 'post', 'product' ),
 					),
 					'pgfw_meta_fields_save_settings'   => array(
 						'pgfw_meta_fields_post_show'    => 'no',

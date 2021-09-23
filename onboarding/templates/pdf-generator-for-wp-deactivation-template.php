@@ -7,8 +7,8 @@
  * @link       https://makewebbetter.com
  * @since      1.0.0
  *
- * @package    Makewebbetter_Onboarding
- * @subpackage Makewebbetter_Onboarding/admin/onboarding
+ * @package    Pdf_Generator_For_Wp
+ * @subpackage Pdf_Generator_For_Wp/admin/onboarding
  */
 
 global $pagenow, $pgfw_mwb_pgfw_obj;
@@ -32,9 +32,8 @@ $pgfw_onboarding_form_deactivate = apply_filters( 'mwb_pgfw_deactivation_form_fi
 					<h3 class="mwb-pgfw-on-boarding-heading mdc-dialog__title"></h3>
 					<p class="mwb-pgfw-on-boarding-desc"><?php esc_html_e( 'May we have a little info about why you are deactivating?', 'pdf-generator-for-wp' ); ?></p>
 					<form action="#" method="post" class="mwb-pgfw-on-boarding-form">
-						<?php 
-						$pgfw_onboarding_deactive_html = $pgfw_mwb_pgfw_obj->mwb_pgfw_plug_generate_html( $pgfw_onboarding_form_deactivate );
-						echo esc_html( $pgfw_onboarding_deactive_html );
+						<?php
+						$pgfw_mwb_pgfw_obj->mwb_pgfw_plug_generate_html( $pgfw_onboarding_form_deactivate );
 						?>
 						<div class="mwb-pgfw-on-boarding-form-btn__wrapper mdc-dialog__actions">
 							<div class="mwb-pgfw-on-boarding-form-submit mwb-pgfw-on-boarding-form-verify ">

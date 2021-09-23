@@ -5,8 +5,8 @@
  * @link       https://makewebbetter.com/
  * @since      1.0.0
  *
- * @package    Pdf_Generator_For_Wordpress
- * @subpackage Pdf_Generator_For_Wordpress/common
+ * @package    Pdf_Generator_For_Wp
+ * @subpackage Pdf_Generator_For_Wp/common
  */
 
 use Dompdf\Dompdf;
@@ -17,10 +17,10 @@ use Dompdf\FontMetrics;
  *
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the common stylesheet and JavaScript.
- * namespace pdf_generator_for_wordpress_common.
+ * namespace pdf_generator_for_wp_common.
  *
- * @package    Pdf_Generator_For_Wordpress
- * @subpackage Pdf_Generator_For_Wordpress/common
+ * @package    Pdf_Generator_For_Wp
+ * @subpackage Pdf_Generator_For_Wp/common
  * @author     makewebbetter <webmaster@makewebbetter.com>
  */
 class Pdf_Generator_For_Wp_Common {
@@ -28,7 +28,6 @@ class Pdf_Generator_For_Wp_Common {
 	 * The ID of this plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 * @var      string    $plugin_name    The ID of this plugin.
 	 */
 	private $plugin_name;
@@ -36,18 +35,17 @@ class Pdf_Generator_For_Wp_Common {
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
+	 * @since 1.0.0
+	 * @var   string    $version    The current version of this plugin.
 	 */
 	private $version;
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
-	 * @param      string $plugin_name       The name of the plugin.
-	 * @param      string $version    The version of this plugin.
+	 * @since  1.0.0
+	 * @param  string $plugin_name       The name of the plugin.
+	 * @param  string $version    The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
@@ -136,14 +134,14 @@ class Pdf_Generator_For_Wp_Common {
 			$email        = $current_user->user_email;
 		}
 		if ( ! is_email( $email ) ) {
-			?>
-			<span style="color:#8e4b86;"><?php esc_html_e( 'Please Enter Valid Email Address to Receive Attachment.', 'pdf-generator-for-wp' ); ?></span>
-			<?php
+			$color   = 'color:#8e4b86;';
+			$message = __( 'Please Enter Valid Email Address to Receive Attachment.', 'pdf-generator-for-wp' );
+			require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'common/templates/pdf-generator-for-wp-common-email-notice-template.php';
 		} else {
 			$this->pgfw_generate_pdf_from_library( $post_id, 'upload_on_server_and_mail', '', $email );
-			?>
-			<span style="color:green;"><?php esc_html_e( 'Email Submitted Successfully.', 'pdf-generator-for-wp' ); ?></span><div><?php esc_html_e( 'Thank You For Submitting Your Email. You Will Receive an Email Containing the PDF as Attachment.', 'pdf-generator-for-wp' ); ?></div>
-			<?php
+			$color   = 'color:green;';
+			$message = __( 'Email Submitted Successfully.', 'pdf-generator-for-wp' );
+			require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'common/templates/pdf-generator-for-wp-common-email-notice-template.php';
 		}
 		wp_die();
 	}
@@ -206,6 +204,7 @@ class Pdf_Generator_For_Wp_Common {
 			$html  = apply_filters( 'mwb_pgfw_add_cover_page_template_to_single_pdf', $html );
 			$html .= return_ob_html( $prod_id, $template_name );
 		}
+		$html        = str_replace( '[WORDPRESS_PDF]', '', $html );
 		$paper_sizes = array(
 			'4a0'                      => array( 0, 0, 4767.87, 6740.79 ),
 			'2a0'                      => array( 0, 0, 3370.39, 4767.87 ),
@@ -276,7 +275,6 @@ class Pdf_Generator_For_Wp_Common {
 			$hex             = $body_watermark_color;
 			list($r, $g, $b) = sscanf( $hex, '#%02x%02x%02x' );
 			$canvas->page_text( $x, $y, $text, $font, 40, array( $r / 255, $g / 255, $b / 255 ), 0.0, 0.0, -20.0 );
-			do_action( 'mwb_pgfw_password_protect_action_hook', $canvas );
 		}
 		$upload_dir     = wp_upload_dir();
 		$upload_basedir = $upload_dir['basedir'] . '/post_to_pdf/';
@@ -309,9 +307,8 @@ class Pdf_Generator_For_Wp_Common {
 			$path   = $upload_basedir . $document_name . '.pdf';
 			if ( file_exists( $path ) ) {
 				@unlink( $path ); // phpcs:ignore
-			} else {
-				@file_put_contents( $path, $output ); // phpcs:ignore
 			}
+			@file_put_contents( $path, $output ); // phpcs:ignore
 			wp_mail( $email, __( 'document form site', 'pdf-generator-for-wp' ), __( 'Please find these attachment', 'pdf-generator-for-wp' ), '', array( $path ) );
 		} elseif ( 'bulk' === $pgfw_generate_mode ) {
 			if ( 'continuous_on_same_page' === $mode ) {
@@ -341,7 +338,7 @@ class Pdf_Generator_For_Wp_Common {
 	 *
 	 * @since 1.0.0
 	 * @param string $atts attributes for shortcodes for downloading posters.
-	 * @return void
+	 * @return string
 	 */
 	public function pgfw_download_button_posters( $atts ) {
 		$atts = shortcode_atts(
@@ -356,15 +353,14 @@ class Pdf_Generator_For_Wp_Common {
 		$pgfw_poster_guest_access = array_key_exists( 'pgfw_poster_guest_access', $pgfw_pdf_upload_settings ) ? $pgfw_pdf_upload_settings['pgfw_poster_guest_access'] : '';
 		$poster_image_url         = get_the_guid( $atts['id'] );
 		$doc_type                 = get_post_type( $atts['id'] );
+		$html                     = '';
 		if ( ( 'yes' === $pgfw_poster_user_access && is_user_logged_in() ) || ( 'yes' === $pgfw_poster_guest_access && ! is_user_logged_in() ) ) {
 			if ( '' !== $poster_image_url && 'attachment' === $doc_type ) {
-				?>
-				<div id="pgfw-poster-dowload-url-link">
-					<a href="<?php echo esc_url( $poster_image_url ); ?>" download title="<?php esc_html_e( 'Download Poster', 'pdf-generator-for-wp' ); ?>"><img src="<?php echo esc_attr( PDF_GENERATOR_FOR_WP_DIR_URL ); ?>admin/src/images/postericon.svg" alt="<?php esc_attr_e( 'Download Poster', 'pdf-generator-for-wp' ); ?>"/></a>
-				</div>
-				<?php
+				require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'common/templates/pdf-generator-for-wp-common-poster-download-template.php';
+				$html = pgfw_poster_download_button_for_shortcode( $poster_image_url );
 			}
 		}
+		return $html;
 	}
 	/**
 	 * Shortcode for link generation of poster download.

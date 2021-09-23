@@ -11,6 +11,9 @@
  * @subpackage Pdf_Generator_For_Wp/common/partials
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 ?>
+<span style="<?php echo esc_attr( $color ); ?>"><?php echo esc_html( $message ); ?></span>
 
-<!-- This file should primarily consist of HTML with a little bit of PHP. -->

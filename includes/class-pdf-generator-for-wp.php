@@ -33,7 +33,6 @@ class Pdf_Generator_For_Wp {
 	 * the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   protected
 	 * @var      Pdf_Generator_For_Wp_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
@@ -42,7 +41,6 @@ class Pdf_Generator_For_Wp {
 	 * The unique identifier of this plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   protected
 	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
 	 */
 	protected $plugin_name;
@@ -51,7 +49,6 @@ class Pdf_Generator_For_Wp {
 	 * The current version of the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   protected
 	 * @var      string    $version    The current version of the plugin.
 	 */
 	protected $version;
@@ -60,7 +57,6 @@ class Pdf_Generator_For_Wp {
 	 * The current version of the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   protected
 	 * @var      string    $pgfw_onboard    To initializsed the object of class onboard.
 	 */
 	protected $pgfw_onboard;
@@ -104,17 +100,16 @@ class Pdf_Generator_For_Wp {
 	 *
 	 * Include the following files that make up the plugin:
 	 *
-	 * - Pdf_Generator_For_Wordpress_Loader. Orchestrates the hooks of the plugin.
-	 * - Pdf_Generator_For_Wordpress_i18n. Defines internationalization functionality.
-	 * - Pdf_Generator_For_WordPress_Admin. Defines all hooks for the admin area.
-	 * - Pdf_Generator_For_Wordpress_Common. Defines all hooks for the common area.
-	 * - Pdf_Generator_For_WordPress_Public. Defines all hooks for the public side of the site.
+	 * - Pdf_Generator_For_Wp_Loader. Orchestrates the hooks of the plugin.
+	 * - Pdf_Generator_For_Wp_i18n. Defines internationalization functionality.
+	 * - Pdf_Generator_For_Wp_Admin. Defines all hooks for the admin area.
+	 * - Pdf_Generator_For_Wp_Common. Defines all hooks for the common area.
+	 * - Pdf_Generator_For_Wp_Public. Defines all hooks for the public side of the site.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 */
 	private function pdf_generator_for_wp_dependencies() {
 
@@ -164,11 +159,10 @@ class Pdf_Generator_For_Wp {
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the Pdf_Generator_For_Wordpress_I18n class in order to set the domain and to register the hook
+	 * Uses the Pdf_Generator_For_Wp_I18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 */
 	private function pdf_generator_for_wp_locale() {
 
@@ -183,7 +177,6 @@ class Pdf_Generator_For_Wp {
 	 * of the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 */
 	private function pdf_generator_for_wp_admin_hooks() {
 
@@ -225,6 +218,7 @@ class Pdf_Generator_For_Wp {
 		$this->loader->add_action( 'pgfw_cron_delete_pdf_from_server', $pgfw_plugin_admin, 'pgfw_delete_pdf_from_server' );
 		// Reset all the settings to default.
 		$this->loader->add_action( 'wp_ajax_pgfw_reset_default_settings', $pgfw_plugin_admin, 'pgfw_reset_default_settings' );
+		// $thi
 	}
 
 	/**
@@ -232,7 +226,6 @@ class Pdf_Generator_For_Wp {
 	 * of the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 */
 	private function pdf_generator_for_wp_common_hooks() {
 
@@ -255,7 +248,6 @@ class Pdf_Generator_For_Wp {
 	 * of the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 */
 	private function pdf_generator_for_wp_public_hooks() {
 
@@ -291,7 +283,6 @@ class Pdf_Generator_For_Wp {
 	 * of the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 */
 	private function pdf_generator_for_wp_api_hooks() {
 
@@ -380,6 +371,7 @@ class Pdf_Generator_For_Wp {
 			'title' => esc_html__( 'Meta Fields Settings', 'pdf-generator-for-wp' ),
 			'name'  => 'pdf-generator-for-wp-meta-fields',
 		);
+
 		$pgfw_default_tabs = apply_filters( 'mwb_pgfw_plugin_standard_admin_settings_tabs', $pgfw_default_tabs );
 
 		$pgfw_default_tabs['pdf-generator-for-wp-pdf-upload'] = array(
