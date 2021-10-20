@@ -77,19 +77,11 @@ function pdf_generator_for_wp_constants( $key, $value ) {
 function activate_pdf_generator_for_wp( $network_wide ) {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-pdf-generator-for-wp-activator.php';
 	Pdf_Generator_For_Wp_Activator::pdf_generator_for_wp_activate( $network_wide );
-	$mwb_pgfw_active_plugin = get_option( 'mwb_all_plugins_active', false );
-	if ( is_array( $mwb_pgfw_active_plugin ) && ! empty( $mwb_pgfw_active_plugin ) ) {
-		$mwb_pgfw_active_plugin['pdf-generator-for-wp'] = array(
-			'plugin_name' => __( 'PDF Generator For WordPress', 'pdf-generator-for-wp' ),
-			'active'      => '1',
-		);
-	} else {
-		$mwb_pgfw_active_plugin                         = array();
-		$mwb_pgfw_active_plugin['pdf-generator-for-wp'] = array(
-			'plugin_name' => __( 'PDF Generator For WordPress', 'pdf-generator-for-wp' ),
-			'active'      => '1',
-		);
-	}
+	$mwb_pgfw_active_plugin                         = get_option( 'mwb_all_plugins_active', array() );
+	$mwb_pgfw_active_plugin['pdf-generator-for-wp'] = array(
+		'plugin_name' => __( 'PDF Generator For WordPress', 'pdf-generator-for-wp' ),
+		'active'      => '1',
+	);
 	update_option( 'mwb_all_plugins_active', $mwb_pgfw_active_plugin );
 }
 
