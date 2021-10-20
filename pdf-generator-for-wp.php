@@ -109,6 +109,12 @@ function mwb_pgfw_new_site_created_options( $new_site ) {
 		switch_to_blog( $blog_id );
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-pdf-generator-for-wp-activator.php';
 		Pdf_Generator_For_Wp_Activator::pgfw_updating_default_settings_indb();
+		$mwb_pgfw_active_plugin                         = get_option( 'mwb_all_plugins_active', array() );
+		$mwb_pgfw_active_plugin['pdf-generator-for-wp'] = array(
+			'plugin_name' => __( 'PDF Generator For WordPress', 'pdf-generator-for-wp' ),
+			'active'      => '1',
+		);
+		update_option( 'mwb_all_plugins_active', $mwb_pgfw_active_plugin );
 		restore_current_blog();
 	}
 

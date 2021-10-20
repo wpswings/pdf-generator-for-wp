@@ -23,6 +23,7 @@ $pgfw_meta_settings = apply_filters( 'pgfw_meta_fields_settings_array', array() 
 		<?php
 		wp_nonce_field( 'nonce_settings_save', 'pgfw_nonce_field' );
 		$pgfw_mwb_pgfw_obj->mwb_pgfw_plug_generate_html( $pgfw_meta_settings );
+		do_action( 'mwb_pgfw_below_meta_fields_setting_form' );
 		?>
 	</div>
 </form>

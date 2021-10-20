@@ -1377,8 +1377,8 @@ class Pdf_Generator_For_Wp_Admin {
 					'limit'     => -1,
 				)
 			);
-			foreach ( $posts as $post ) {
-				$post_meta_keys = get_post_custom_keys( $post->ID );
+			foreach ( $posts as $_post ) {
+				$post_meta_keys = get_post_custom_keys( $_post->ID );
 				if ( $post_meta_keys ) {
 					$meta_keys = array_merge( $meta_keys, $post_meta_keys );
 				}
@@ -1413,7 +1413,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'placeholder' => '',
 				'options'     => $post_meta_field,
 			);
-			$pgfw_meta_settings_html_arr   = apply_filters( 'pgfw_settings_meta_fields_html_arr_filter_hook', $pgfw_meta_settings_html_arr, $post_meta_field );
+			$pgfw_meta_settings_html_arr   = apply_filters( 'pgfw_settings_meta_fields_html_arr_filter_hook', $pgfw_meta_settings_html_arr, $post_meta_field, $post_type );
 			$i++;
 		}
 		$pgfw_meta_settings_html_arr[] = array(
