@@ -15,7 +15,7 @@
  * Plugin Name:       PDF Generator For Wp
  * Plugin URI:        http://wordpress.org/plugins/pdf-generator-for-wp/
  * Description:       Let your users download pages, posts, and products in PDF format using this plugin allowing you to add technical and marketing utility for your WordPress site.
- * Version:           1.0.2
+ * Version:           1.0.3
  * Author:            MakeWebBetter
  * Author URI:        https://makewebbetter.com/?utm_source=MWB-pdf-backend&utm_medium=MWB-pdf-ORG-backend&utm_campaign=MWB-backend
  * Text Domain:       pdf-generator-for-wp
@@ -24,8 +24,8 @@
  * Requires at least:    4.6
  * Tested up to:         5.8.1
  * WC requires at least: 4.0.0
- * WC tested up to:      5.6.0
- * Stable tag:           1.0.2
+ * WC tested up to:      5.8.0
+ * Stable tag:           1.0.3
  * Requires PHP:         7.2
  *
  * License:           GNU General Public License v3.0
@@ -43,7 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0
  */
 function define_pdf_generator_for_wp_constants() {
-	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.0.2' );
+	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.0.3' );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_PATH', plugin_dir_path( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_URL', plugin_dir_url( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_SERVER_URL', 'https://makewebbetter.com' );
@@ -69,10 +69,14 @@ function pdf_generator_for_wp_constants( $key, $value ) {
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-pdf-generator-for-wp-activator.php
+ *
+ * @param boolean $network_wide if activated network wide.
+ * @since 1.0.3
+ * @return void
  */
-function activate_pdf_generator_for_wp() {
+function activate_pdf_generator_for_wp( $network_wide ) {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-pdf-generator-for-wp-activator.php';
-	Pdf_Generator_For_Wp_Activator::pdf_generator_for_wp_activate();
+	Pdf_Generator_For_Wp_Activator::pdf_generator_for_wp_activate( $network_wide );
 	$mwb_pgfw_active_plugin = get_option( 'mwb_all_plugins_active', false );
 	if ( is_array( $mwb_pgfw_active_plugin ) && ! empty( $mwb_pgfw_active_plugin ) ) {
 		$mwb_pgfw_active_plugin['pdf-generator-for-wp'] = array(
@@ -88,6 +92,29 @@ function activate_pdf_generator_for_wp() {
 	}
 	update_option( 'mwb_all_plugins_active', $mwb_pgfw_active_plugin );
 }
+
+/**
+ * Update default values when new site is created.
+ *
+ * @param object $new_site current blog object.
+ * @since 1.0.3
+ * @return void
+ */
+function mwb_pgfw_new_site_created_options( $new_site ) {
+	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+		require_once ABSPATH . '/wp-admin/includes/plugin.php';
+	}
+	if ( is_plugin_active_for_network( 'pdf-generator-for-wp/pdf-generator-for-wp.php' ) ) {
+		$blog_id = $new_site->blog_id;
+		switch_to_blog( $blog_id );
+		require_once plugin_dir_path( __FILE__ ) . 'includes/class-pdf-generator-for-wp-activator.php';
+		Pdf_Generator_For_Wp_Activator::pgfw_updating_default_settings_indb();
+		restore_current_blog();
+	}
+
+}
+
+add_action( 'wp_initialize_site', 'mwb_pgfw_new_site_created_options', 900 );
 
 /**
  * The code that runs during plugin deactivation.
