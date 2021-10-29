@@ -5,8 +5,8 @@ Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress, WordPress pdf gener
 Requires at least: 4.6
 Tested up to: 5.8.1
 WC requires at least: 4.0.0
-WC tested up to: 5.6.0
-Stable tag: 1.0.2
+WC tested up to: 5.8.0
+Stable tag: 1.0.3
 Requires PHP: 7.2
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -35,6 +35,7 @@ Users can non-commercially distribute the downloaded PDF files. The admin can cu
 **8.** Predefine header, footer, and body settings.
 **9.** Include author details. 
 **10.** Compatible with WPML, thus, facilitating your multi-lingual audience.
+**11.** Compatible with WordPress Multisite
 
 [**Free demo of PDF Generator for WordPress**](https://demo.makewebbetter.com/pdf-generator-for-wp/?utm_source=MWB-PDF-org&utm_medium=MWB-ORG-Page&utm_campaign=MWB-frontend_demo)
 
@@ -47,7 +48,7 @@ The General Settings in the PDF plugin allows you to include important informati
 From the display settings of the PDF icon, you can choose to display the PDF generator icon to either the registered users or the guest users or both. You can also opt to allow, both, the registered and guest users to either directly download the information in PDF format or e-mail the PDF file to the user.
 
 **3)** **ICON SETTINGS**
-WordPress PDF Generator gives you a free hand to customize the plugin icon for the front end of your website. You can also set the size of the PDF generator icon as per the design and theme requirements of the WordPress site. Display settings in the plugin allow several positions to place the icon, also letting you set the alignment of the same to centre, right, and left.
+WordPress PDF Generator gives you a free hand to customize the plugin icon for the front end of your website. You can also set the size of the PDF generator icon as per the design and theme requirements of the WordPress site. Display settings in the plugin allow several positions to place the icon, also letting you set the alignment of the same to center, right, and left.
 
 **4)** **PREDEFINE HEADER SETTINGS**
 The layout settings authorize you to tailor-make the header settings. You can upload the company logo and details besides setting the header width. Layout settings also allow you to set the font and font size. 
@@ -81,6 +82,11 @@ Visit [**PDF Generator for WordPress Documentation**](http://docs.makewebbetter.
 * Bulk download or email in the continuation or in a zip folder.
 
 *Make a smart move with Premium Version of [WordPress PDF Generator](https://makewebbetter.com/product/wordpress-pdf-generator/?utm_source=MWB-PDF-org&utm_medium=MWB-ORG-Page&utm_campaign=MWB-PDF-pro)*
+
+== LIVE DEMO OF PREMIUM VERSION ==
+
+* [**WordPress PDF Generator Frontend demo**](https://demo.makewebbetter.com/wordpress-pdf-generator/?utm_source=MWB-PDF-org&utm_medium=MWB-ORG-Page&utm_campaign=MWB-frontend_demo)
+* [**Request Personal Demo For WordPress PDF Generator**](https://demo.makewebbetter.com/wordpress-pdf-generator/request-for-personal-demo/?utm_source=MWB-PDF-org&utm_medium=MWB-ORG-Page&utm_campaign=MWB-backend_demo)
 
 == SUPPORT ==
 
@@ -147,7 +153,11 @@ Please visit the [MakeWebBetter knowledge base](https://support.makewebbetter.co
 
 == Changelog ==
 
-= 1.0.2 - RELEASED ON 20 September 2021 =
+= 1.0.3 - RELEASED ON 29 October 2021 =
+* NEW: Multisite Compatibility added
+* FIX: Minor bug fixes
+
+= 1.0.2 - RELEASED ON 21 September 2021 =
 * NEW: WPML Compatibility
 * FIX: Minor bug fixes
 
@@ -160,7 +170,6 @@ Please visit the [MakeWebBetter knowledge base](https://support.makewebbetter.co
 * First version. 
 
 == Upgrade Notice ==
-
-= 1.0.2 - RELEASED ON 20 September 2021 =
-* NEW: WPML Compatibility
+= 1.0.3 - RELEASED ON 29 October 2021 =
+* NEW: Multisite Compatibility added
 * FIX: Minor bug fixes
