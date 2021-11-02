@@ -1,4 +1,4 @@
-[![Build Status](https://img.shields.io/travis/twbs/bootstrap/v4-dev.svg)](https://travis-ci.org/twbs/bootstrap) ![Active installs](https://img.shields.io/badge/Active-40%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-5.8.1-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-5.6.0-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.3.5-blue)
+[![Build Status](https://img.shields.io/travis/twbs/bootstrap/v4-dev.svg)](https://travis-ci.org/twbs/bootstrap) ![Active installs](https://img.shields.io/badge/Active-100%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-5.8.1-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-5.8.0-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.2-blue)
 # PDF Generator for WordPress
 ![PDF Generator for WordPress](https://ps.w.org/pdf-generator-for-wp/assets/banner-772x250.png?rev=2537763)
 * Contributors: MakeWebBetter
@@ -25,6 +25,7 @@ Users can non-commercially distribute the downloaded PDF files. The admin can cu
 - Predefine header, footer, and body settings.
 - Include author details. 
 - Compatible with WPML, thus, facilitating your multi-lingual audience.
+- Compatible with WordPress Multisite
 
 ### PLUGIN MEETS YOUR REQUIREMENT, SO 
 [**Download Now !!**](https://downloads.wordpress.org/plugin/pdf-generator-for-wp.zip) 
@@ -76,6 +77,11 @@ The plugin allows you to upload your own PDF files for download. You can also li
 If you need support or have any question then kindly use our online chat window [here](https://makewebbetter.com/?utm_source=MWB-PDF-git&utm_medium=MWB-git-page&utm_campaign=MWB-PDF-git) or  connect with us then [**Generate a Ticket**](https://makewebbetter.com/submit-query/)
 
 If our documentation doesn’t contain the solution to your problem, you can visit the [**MakeWebBetter Forums**](https://forums.makewebbetter.com/?utm_source=MWB-pdf-git&utm_medium=MWB-git-page&utm_campaign=MWB-pdf-git) with your question.
+
+## LIVE DEMO OF PREMIUM VERSION
+
+* [**WordPress PDF Generator Frontend demo**](https://demo.makewebbetter.com/wordpress-pdf-generator/?utm_source=MWB-PDF-git&utm_medium=MWB-git-Page&utm_campaign=MWB-frontend_demo)
+* [**Request Personal Demo For WordPress PDF Generator**](https://demo.makewebbetter.com/wordpress-pdf-generator/request-for-personal-demo/?utm_source=MWB-PDF-git&utm_medium=MWB-git-Page&utm_campaign=MWB-backend_demo)
 
 ### **MORE ABOUT MAKEWEBBETTER**
 
