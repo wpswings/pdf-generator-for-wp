@@ -79,6 +79,5 @@
   ),
   'my_font' => array(
     'normal' => $fontDir . '/my_font_normal_7dac3d55779d88b0693106476830ae75',
-    'bold' => $fontDir . '/my_font_bold_7dac3d55779d88b0693106476830ae75',
   ),
 ) ?>

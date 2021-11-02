@@ -69,15 +69,14 @@ class Pdf_Generator_For_Wp_Admin {
 
 			wp_enqueue_style( 'mwb-pgfw-meterial-icons-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/icon.css', array(), time(), 'all' );
 
-			wp_enqueue_style( $this->plugin_name . '-admin-global', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/scss/pdf-generator-for-wp-admin-global.css', array( 'mwb-pgfw-meterial-icons-css' ), time(), 'all' );
+			wp_enqueue_style( $this->plugin_name . '-admin-global', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-generator-for-wp-admin-global.css', array( 'mwb-pgfw-meterial-icons-css' ), time(), 'all' );
 
-			wp_enqueue_style( $this->plugin_name, PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/scss/pdf-generator-for-wp-admin.scss', array(), $this->version, 'all' );
 			wp_enqueue_style( 'wp-color-picker' );
-			wp_enqueue_style( 'pgfw-admin-commomn-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/scss/pdf-generator-for-wp-admin-common.css', array(), $this->version, 'all' );
+			wp_enqueue_style( 'pgfw-admin-commomn-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-generator-for-wp-admin-common.css', array(), $this->version, 'all' );
 			wp_enqueue_style( 'pgfw-datatable-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/datatable/datatables.min.css', array(), $this->version, 'all' );
-			wp_enqueue_style( 'pgfw-overview-form-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/scss/mwb-admin.css', array(), $this->version, 'all' );
+			wp_enqueue_style( 'pgfw-overview-form-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/mwb-admin.css', array(), $this->version, 'all' );
 		}
-		wp_enqueue_style( 'pgfw-admin-custom-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/scss/pdf-generator-for-wp-admin-custom.css', array(), $this->version, 'all' );
+		wp_enqueue_style( 'pgfw-admin-custom-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-generator-for-wp-admin-custom.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -1377,8 +1376,8 @@ class Pdf_Generator_For_Wp_Admin {
 					'limit'     => -1,
 				)
 			);
-			foreach ( $posts as $post ) {
-				$post_meta_keys = get_post_custom_keys( $post->ID );
+			foreach ( $posts as $_post ) {
+				$post_meta_keys = get_post_custom_keys( $_post->ID );
 				if ( $post_meta_keys ) {
 					$meta_keys = array_merge( $meta_keys, $post_meta_keys );
 				}
@@ -1413,7 +1412,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'placeholder' => '',
 				'options'     => $post_meta_field,
 			);
-			$pgfw_meta_settings_html_arr   = apply_filters( 'pgfw_settings_meta_fields_html_arr_filter_hook', $pgfw_meta_settings_html_arr, $post_meta_field );
+			$pgfw_meta_settings_html_arr   = apply_filters( 'pgfw_settings_meta_fields_html_arr_filter_hook', $pgfw_meta_settings_html_arr, $post_meta_field, $post_type );
 			$i++;
 		}
 		$pgfw_meta_settings_html_arr[] = array(
