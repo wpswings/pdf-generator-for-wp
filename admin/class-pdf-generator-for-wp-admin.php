@@ -403,10 +403,10 @@ class Pdf_Generator_For_Wp_Admin {
 								} elseif ( 'multiwithcheck' === $pgfw_genaral_setting['type'] ) {
 									$pgfw_general_settings_sub_arr = $pgfw_genaral_setting['value'];
 									foreach ( $pgfw_general_settings_sub_arr as $pgfw_genaral_setting ) {
-										if ( isset( $_POST[ $pgfw_genaral_setting['id'] ] ) ) {
-											$settings_general_arr[ $pgfw_genaral_setting['id'] ] = is_array( $_POST[ $pgfw_genaral_setting['id'] ] ) ? map_deep( wp_unslash( $_POST[ $pgfw_genaral_setting['id'] ] ), 'sanitize_text_field' ) : sanitize_text_field( wp_unslash( $_POST[ $pgfw_genaral_setting['id'] ] ) );
+										if ( isset( $_POST[ $pgfw_genaral_setting['name'] ] ) ) {
+											$settings_general_arr[ $pgfw_genaral_setting['name'] ] = is_array( $_POST[ $pgfw_genaral_setting['name'] ] ) ? map_deep( wp_unslash( $_POST[ $pgfw_genaral_setting['name'] ] ), 'sanitize_text_field' ) : sanitize_text_field( wp_unslash( $_POST[ $pgfw_genaral_setting['name'] ] ) );
 										} else {
-											$settings_general_arr[ $pgfw_genaral_setting['id'] ] = '';
+											$settings_general_arr[ $pgfw_genaral_setting['name'] ] = '';
 										}
 										if ( isset( $_POST[ $pgfw_genaral_setting['checkbox_id'] ] ) ) {
 											$settings_general_arr[ $pgfw_genaral_setting['checkbox_id'] ] = is_array( $_POST[ $pgfw_genaral_setting['checkbox_id'] ] ) ? map_deep( wp_unslash( $_POST[ $pgfw_genaral_setting['checkbox_id'] ] ), 'sanitize_text_field' ) : sanitize_text_field( wp_unslash( $_POST[ $pgfw_genaral_setting['checkbox_id'] ] ) );
