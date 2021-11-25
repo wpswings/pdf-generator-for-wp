@@ -1327,7 +1327,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_advanced_settings_html_arr[] = array(
 			'title'       => __( 'Show Icons for Post Type', 'pdf-generator-for-wp' ),
 			'type'        => 'multiselect',
-			'description' => __( 'PDF generate icons will be visible to selected post types.', 'pdf-generator-for-wp' ),
+			'description' => __( 'PDF generate icons will be visible to selected post type.', 'pdf-generator-for-wp' ),
 			'id'          => 'pgfw_advanced_show_post_type_icons',
 			'value'       => $pgfw_advanced_icon_show,
 			'class'       => 'pgfw-multiselect-class mwb-defaut-multiselect pgfw_advanced_show_post_type_icons',
@@ -1466,7 +1466,7 @@ class Pdf_Generator_For_Wp_Admin {
 				),
 			),
 			array(
-				'title'        => __( 'Choose Poster', 'pdf-generator-for-wp' ),
+				'title'        => __( 'Choose Poster(s)', 'pdf-generator-for-wp' ),
 				'type'         => 'upload-button',
 				'button_text'  => __( 'Upload Doc', 'pdf-generator-for-wp' ),
 				'class'        => 'sub_pgfw_poster_image_upload',
@@ -1486,8 +1486,8 @@ class Pdf_Generator_For_Wp_Admin {
 				'img-remove'   => array(
 					'btn-class' => 'pgfw_poster_image_remove',
 					'btn-id'    => 'pgfw_poster_image_remove',
-					'btn-text'  => __( 'Remove doc', 'pdf-generator-for-wp' ),
-					'btn-title' => __( 'Remove doc', 'pdf-generator-for-wp' ),
+					'btn-text'  => __( 'Remove Doc', 'pdf-generator-for-wp' ),
+					'btn-title' => __( 'Remove Doc', 'pdf-generator-for-wp' ),
 					'btn-name'  => 'pgfw_poster_image_remove',
 					'btn-style' => ! ( $pgfw_poster_doc ) ? 'display:none' : '',
 				),

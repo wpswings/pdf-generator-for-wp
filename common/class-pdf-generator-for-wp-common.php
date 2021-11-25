@@ -351,9 +351,13 @@ class Pdf_Generator_For_Wp_Common {
 		$pgfw_pdf_upload_settings = get_option( 'pgfw_pdf_upload_save_settings', array() );
 		$pgfw_poster_user_access  = array_key_exists( 'pgfw_poster_user_access', $pgfw_pdf_upload_settings ) ? $pgfw_pdf_upload_settings['pgfw_poster_user_access'] : '';
 		$pgfw_poster_guest_access = array_key_exists( 'pgfw_poster_guest_access', $pgfw_pdf_upload_settings ) ? $pgfw_pdf_upload_settings['pgfw_poster_guest_access'] : '';
+		$_pgfw_poster_uploaded    = array_key_exists( 'sub_pgfw_poster_image_upload', $pgfw_pdf_upload_settings ) ? json_decode( $pgfw_pdf_upload_settings['sub_pgfw_poster_image_upload'], true ) : array();
 		$poster_image_url         = get_the_guid( $atts['id'] );
 		$doc_type                 = get_post_type( $atts['id'] );
 		$html                     = '';
+		if ( ! is_array( $_pgfw_poster_uploaded ) || ! in_array( $atts['id'], $_pgfw_poster_uploaded ) ) {
+			return;
+		}
 		if ( ( 'yes' === $pgfw_poster_user_access && is_user_logged_in() ) || ( 'yes' === $pgfw_poster_guest_access && ! is_user_logged_in() ) ) {
 			if ( '' !== $poster_image_url && 'attachment' === $doc_type ) {
 				require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'common/templates/pdf-generator-for-wp-common-poster-download-template.php';
