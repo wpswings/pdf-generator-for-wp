@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PDF Generator For Wp 1.0.3\n"
-"POT-Creation-Date: 2021-10-28 17:00+0530\n"
+"Project-Id-Version: PDF Generator For Wp 1.0.4\n"
+"POT-Creation-Date: 2021-11-25 16:45+0530\n"
 "PO-Revision-Date: 2021-09-20 12:33+0530\n"
 "Last-Translator: \n"
 "Language-Team: MakeWebBetter\n"
@@ -937,7 +937,7 @@ msgid "Show Icons for Post Type"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:1330
-msgid "PDF generate icons will be visible to selected post types."
+msgid "PDF generate icons will be visible to selected post type."
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:1339
@@ -985,12 +985,12 @@ msgid "Enable this to give access to Guests to Download Posters."
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:1469
-msgid "Choose Poster"
+msgid "Choose Poster(s)"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:1489
 #: admin/class-pdf-generator-for-wp-admin.php:1490
-msgid "Remove doc"
+msgid "Remove Doc"
 msgstr ""
 
 #: admin/partials/pdf-generator-for-wp-admin-dashboard.php:30
@@ -1327,7 +1327,7 @@ msgid "Header"
 msgstr ""
 
 #: includes/class-pdf-generator-for-wp.php:407
-msgid "Body Settings"
+msgid "Body"
 msgstr ""
 
 #: includes/class-pdf-generator-for-wp.php:412

@@ -3,10 +3,10 @@ Contributors: MakeWebBetter
 Donate link: https://makewebbetter.com/
 Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress, WordPress pdf generator
 Requires at least: 4.6
-Tested up to: 5.8.1
+Tested up to: 5.8.2
 WC requires at least: 4.0.0
-WC tested up to: 5.8.0
-Stable tag: 1.0.3
+WC tested up to: 5.9.0
+Stable tag: 1.0.4
 Requires PHP: 7.2
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -153,6 +153,10 @@ Please visit the [MakeWebBetter knowledge base](https://support.makewebbetter.co
 
 == Changelog ==
 
+= 1.0.4 - RELEASED ON 26 November 2021 =
+* NEW: Compatibility with latest WP(5.8.2) and WC(5.9).
+* FIX: Minor bug fixes
+
 = 1.0.3 - RELEASED ON 29 October 2021 =
 * NEW: Multisite Compatibility added
 * FIX: Minor bug fixes
@@ -170,6 +174,6 @@ Please visit the [MakeWebBetter knowledge base](https://support.makewebbetter.co
 * First version. 
 
 == Upgrade Notice ==
-= 1.0.3 - RELEASED ON 29 October 2021 =
-* NEW: Multisite Compatibility added
+= 1.0.4 - RELEASED ON 26 November 2021 =
+* NEW: Compatibility with latest WP(5.8.2) and WC(5.9).
 * FIX: Minor bug fixes

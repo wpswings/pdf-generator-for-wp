@@ -242,7 +242,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 					<div class="pgfw-pdf-body-content">
 					<h3>' . esc_html__( 'Description', 'pdf-generator-for-wp' ) . '</h3>
 					<div>
-						' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', apply_filters( 'the_content', $post->post_content ) ) ) . '
+						' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', apply_filters( 'the_content', apply_filters( 'mwb_wpg_customize_template_post_content', $post->post_content, $post ) ) ) ) . '
 					</div>';
 		// taxonomies for posts.
 		$html1 = '';
