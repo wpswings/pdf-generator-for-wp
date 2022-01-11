@@ -213,22 +213,24 @@ function mwb_pdf_gen_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 
 	?>
 
-	<tr class="plugin-update-tr active notice-warning notice-alt">
-		<td colspan="4" class="plugin-update colspanchange">
-			<div class="notice notice-error inline update-message notice-alt">
-				<div class='ppec-notice-title ppec-notice-section'>
-					<p><strong>IMPORTANT NOTICE-</strong></p>
+		<tr class="plugin-update-tr active notice-warning notice-alt">
+			<td colspan="4" class="plugin-update colspanchange">
+				<div class="notice notice-success inline update-message notice-alt">
+					<div class='wps-notice-title wps-notice-section'>
+						<p><strong>IMPORTANT NOTICE:</strong></p>
+					</div>
+					<div class='wps-notice-content wps-notice-section'>
+						<p>From this update [version 1.0.5] onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
+						Please connect with us for all setup, support, and update related queries without hesitation.</p>
+					</div>
 				</div>
-				<div class='ppec-notice-content ppec-notice-section'>
-					<p>From this update[version 1.0.5]onwards, the plugin and its support will be handled by WP Swings. WP
-						Swings is just our improvised and rebranded version with all quality solutions and help being the
-						same, so no worries at your end.</p>
-					<p>Please connect with us for all setup, support, and update related queries without hesitation.</p>
-				</div>
-
-			</div>
-		</td>
-	</tr>
+			</td>
+		</tr>
+		<style>
+			.wps-notice-section > p:before {
+				content: none;
+			}
+		</style>
 
 	<?php
 
@@ -239,31 +241,30 @@ add_action( 'admin_notices', 'mwb_pdf_gen_plugin_upgrade_notice', 20 );
 
 /**
  * Displays notice to upgrade for Wallet.
- *
- * @param string $plugin_file Path to the plugin file relative to the plugins directory.
- * @param array  $plugin_data An array of plugin data.
- * @param string $status Status filter currently applied to the plugin list.
  */
 function mwb_pdf_gen_plugin_upgrade_notice() {
 	$screen = get_current_screen();
 	if ( isset( $screen->id ) && 'wp-swings_page_pdf_generator_for_wp_menu' === $screen->id ) {
 		?>
 
-	<tr class="plugin-update-tr active notice-warning notice-alt">
-		<td colspan="4" class="plugin-update colspanchange">
-			<div class="notice notice-error inline update-message notice-alt">
-				<div class='ppec-notice-title ppec-notice-section'>
-					<p><strong>IMPORTANT NOTICE-</strong></p>
+		<tr class="plugin-update-tr active notice-warning notice-alt">
+			<td colspan="4" class="plugin-update colspanchange">
+				<div class="notice notice-success inline update-message notice-alt">
+					<div class='wps-notice-title wps-notice-section'>
+						<p><strong>IMPORTANT NOTICE:</strong></p>
+					</div>
+					<div class='wps-notice-content wps-notice-section'>
+						<p>From this update [version 1.0.5] onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
+						Please connect with us for all setup, support, and update related queries without hesitation.</p>
+					</div>
 				</div>
-				<div class='ppec-notice-content ppec-notice-section'>
-					<p>From this update[version 1.0.5]onwards, the plugin and its support will be handled by WP Swings. WP
-						Swings is just our improvised and rebranded version with all quality solutions and help being the
-						same, so no worries at your end.</p>
-					<p>Please connect with us for all setup, support, and update related queries without hesitation.</p>
-				</div>
-			</div>
-		</td>
-	</tr>
+			</td>
+		</tr>
+		<style>
+			.wps-notice-section > p:before {
+				content: none;
+			}
+		</style>
 
 		<?php
 	}

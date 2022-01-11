@@ -24,7 +24,7 @@ $pgfw_onboarding_form_fields = apply_filters( 'mwb_pgfw_on_boarding_form_fields'
 						<a href="#"><span class="pgfw-close-form material-icons mwb-pgfw-close-icon mdc-dialog__button" data-mdc-dialog-action="close">clear</span></a>
 					</div>
 
-					<h3 class="mwb-pgfw-on-boarding-heading mdc-dialog__title"><?php esc_html_e( 'Welcome to MakeWebBetter', 'pdf-generator-for-wp' ); ?> </h3>
+					<h3 class="mwb-pgfw-on-boarding-heading mdc-dialog__title"><?php esc_html_e( 'Welcome to WP Swings', 'pdf-generator-for-wp' ); ?> </h3>
 					<p class="mwb-pgfw-on-boarding-desc"><?php esc_html_e( 'We love making new friends! Subscribe below and we promise to keep you up-to-date with our latest new plugins, updates, awesome deals and a few special offers.', 'pdf-generator-for-wp' ); ?></p>
 
 					<form action="#" method="post" class="mwb-pgfw-on-boarding-form">
