@@ -220,7 +220,7 @@ function mwb_pdf_gen_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 						<p><strong>IMPORTANT NOTICE:</strong></p>
 					</div>
 					<div class='wps-notice-content wps-notice-section'>
-						<p>From this update [version 1.0.5] onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
+						<p>From this update [ here ] onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
 						Please connect with us for all setup, support, and update related queries without hesitation.</p>
 					</div>
 				</div>
@@ -254,7 +254,7 @@ function mwb_pdf_gen_plugin_upgrade_notice() {
 						<p><strong>IMPORTANT NOTICE:</strong></p>
 					</div>
 					<div class='wps-notice-content wps-notice-section'>
-						<p>From this update [version 1.0.5] onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
+						<p>From this update [ here ] onwards, the plugin and its support will be handled by <strong>WP Swings</strong>.</p><p><strong>WP Swings</strong> is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.
 						Please connect with us for all setup, support, and update related queries without hesitation.</p>
 					</div>
 				</div>
