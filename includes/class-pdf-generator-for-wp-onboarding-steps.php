@@ -14,7 +14,7 @@
  *
  * @package     pdf_generator_for_wp
  * @subpackage  pdf_generator_for_wp/includes
- * @author      makewebbetter <webmaster@makewebbetter.com>
+ * @author      WP Swings <webmaster@wpswings.com>
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

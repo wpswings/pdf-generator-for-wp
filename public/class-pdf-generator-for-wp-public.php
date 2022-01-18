@@ -18,7 +18,7 @@
  *
  * @package    Pdf_Generator_For_Wp
  * @subpackage Pdf_Generator_For_Wp/public
- * @author     makewebbetter <webmaster@makewebbetter.com>
+ * @author     WP Swings <webmaster@wpswings.com>
  */
 class Pdf_Generator_For_Wp_Public {
 
