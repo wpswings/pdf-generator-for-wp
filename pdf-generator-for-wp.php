@@ -7,24 +7,24 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              https://wpswings.com/?utm_source=MWB-pdf-backend&utm_medium=MWB-pdf-ORG-backend&utm_campaign=MWB-backend
+ * @link              https://wpswings.com/
  * @since             1.0.0
  * @package           Pdf_Generator_For_Wp
  *
  * @wordpress-plugin
  * Plugin Name:       PDF Generator For Wp
- * Plugin URI:        http://wordpress.org/plugins/pdf-generator-for-wp/
+ * Plugin URI:        https://wordpress.org/plugins/pdf-generator-for-wp/
  * Description:       Let your users download pages, posts, and products in PDF format using this plugin allowing you to add technical and marketing utility for your WordPress site.
  * Version:           1.0.5
  * Author:            WP Swings
- * Author URI:        https://wpswings.com/?utm_source=MWB-pdf-backend&utm_medium=MWB-pdf-ORG-backend&utm_campaign=MWB-backend
+ * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=pdf-org-backend&utm_campaign=official
  * Text Domain:       pdf-generator-for-wp
  * Domain Path:       /languages
  *
  * Requires at least:    4.6
- * Tested up to:         5.8.2
+ * Tested up to:         5.8.3
  * WC requires at least: 4.0.0
- * WC tested up to:      6.0.0
+ * WC tested up to:      6.1.0
  * Stable tag:           1.0.5
  * Requires PHP:         7.2
  *
@@ -177,7 +177,7 @@ function pdf_generator_for_wp_settings_link( $links ) {
 		'<a href="' . admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ) . '">' . __( 'Settings', 'pdf-generator-for-wp' ) . '</a>',
 	);
 	if ( ! in_array( 'wordpress-pdf-generator/wordpress-pdf-generator.php', get_option( 'active_plugins' ), true ) ) {
-		$my_link[] = '<a href="https://makewebbetter.com/product/wordpress-pdf-generator/?utm_source=MWB-pdf-org-backend&utm_medium=MWB-pdf-proORG-backend&utm_campaign=MWB-backend" target="_blank" class="mwb-pgfw-go-pro-link-backend">' . esc_html__( 'Go Pro', 'pdf-generator-for-wp' ) . '</a>';
+		$my_link[] = '<a href="https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=pdf-org-backend&utm_campaign=go-pro" target="_blank" class="mwb-pgfw-go-pro-link-backend">' . esc_html__( 'Go Pro', 'pdf-generator-for-wp' ) . '</a>';
 	}
 	return array_merge( $my_link, $links );
 }
@@ -190,9 +190,9 @@ function pdf_generator_for_wp_settings_link( $links ) {
  */
 function pdf_generator_for_wp_custom_settings_at_plugin_tab( $links_array, $plugin_file_name ) {
 	if ( strpos( $plugin_file_name, basename( __FILE__ ) ) ) {
-		$links_array[] = '<a href="https://demo.makewebbetter.com/pdf-generator-for-wp/?utm_source=MWB-pdf-org-backend&utm_medium=MWB-demoORG-backend&utm_campaign=MWB-backend" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Demo.svg" class="mwb-info-img" alt="Demo image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Demo', 'pdf-generator-for-wp' ) . '</a>';
-		$links_array[] = '<a href="https://docs.makewebbetter.com/pdf-generator-for-wp/?utm_source=MWB-pdf-org-backend&utm_medium=MWB-docORG-backend&utm_campaign=MWB-backend" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Documentation.svg" class="mwb-info-img" alt="documentation image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Documentation', 'pdf-generator-for-wp' ) . '</a>';
-		$links_array[] = '<a href="https://makewebbetter.com/submit-query/" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Support.svg" class="mwb-info-img" alt="support image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Support', 'pdf-generator-for-wp' ) . '</a>';
+		$links_array[] = '<a href="https://demo.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-demo&utm_medium=wpswings-org-backend&utm_campaign=View-demo" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Demo.svg" class="mwb-info-img" alt="Demo image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Demo', 'pdf-generator-for-wp' ) . '</a>';
+		$links_array[] = '<a href="https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-backend&utm_campaign=documentation" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Documentation.svg" class="mwb-info-img" alt="documentation image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Documentation', 'pdf-generator-for-wp' ) . '</a>';
+		$links_array[] = '<a href="https://wpswings.com/?utm_source=wpswings-pdf-support&utm_medium=wpswings-org-backend&utm_campaign=support" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Support.svg" class="mwb-info-img" alt="support image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Support', 'pdf-generator-for-wp' ) . '</a>';
 	}
 	return $links_array;
 }
