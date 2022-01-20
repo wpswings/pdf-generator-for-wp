@@ -774,7 +774,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	public function mwb_pgfw_valid_page_screen_check() {
 		$mwb_pgfw_screen  = get_current_screen();
 		$mwb_pgfw_is_flag = false;
-		if ( isset( $mwb_pgfw_screen->id ) && 'makewebbetter_page_pdf_generator_for_wp_menu' == $mwb_pgfw_screen->id ) { // phpcs:ignore
+		if ( isset( $mwb_pgfw_screen->id ) && 'wp-swings_page_pdf_generator_for_wp_menu' == $mwb_pgfw_screen->id ) { // phpcs:ignore
 			$mwb_pgfw_is_flag = true;
 		}
 
