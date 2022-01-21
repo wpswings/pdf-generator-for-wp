@@ -27,9 +27,9 @@ $pgfw_default_tabs = $pgfw_mwb_pgfw_obj->mwb_pgfw_plug_default_tabs();
 	?>
 	<div class="mwb-header-container mwb-bg-white mwb-r-8">
 		<h1 class="mwb-header-title"><?php echo esc_attr( strtoupper( str_replace( '-', ' ', apply_filters( 'mwb_pgfw_update_plugin_name_dashboard', $pgfw_mwb_pgfw_obj->pgfw_get_plugin_name() ) ) ) ); ?></h1>
-		<a href="https://docs.wpswings.com/" target="_blank" class="mwb-link"><?php esc_html_e( 'Documentation', 'pdf-generator-for-wp' ); ?></a>
+		<a href="https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-backend&utm_campaign=documentation" target="_blank" class="mwb-link"><?php esc_html_e( 'Documentation', 'pdf-generator-for-wp' ); ?></a>
 		<span>|</span>
-		<a href="https://wpswings.com/contact-us/" target="_blank" class="mwb-link"><?php esc_html_e( 'Support', 'pdf-generator-for-wp' ); ?></a>
+		<a href="https://support.wpswings.com/?utm_source=wpswings-pdf-support&utm_medium=pdf-pro-backend&utm_campaign=support" target="_blank" class="mwb-link"><?php esc_html_e( 'Support', 'pdf-generator-for-wp' ); ?></a>
 	</div>
 </header>
 <?php
