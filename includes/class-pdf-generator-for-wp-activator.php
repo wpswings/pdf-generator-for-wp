@@ -2,7 +2,7 @@
 /**
  * Fired during plugin activation
  *
- * @link       https://makewebbetter.com/
+ * @link       https://wpswings.com/
  * @since      1.0.0
  *
  * @package    Pdf_Generator_For_Wp

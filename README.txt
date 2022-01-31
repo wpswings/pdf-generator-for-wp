@@ -5,7 +5,7 @@ Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress, WordPress pdf gener
 Requires at least: 4.6
 Tested up to: 5.8.3
 WC requires at least: 4.0.0
-WC tested up to: 6.1.0
+WC tested up to: 6.1.1
 Stable tag: 1.0.5
 Requires PHP: 7.2
 License: GPLv3 or later 
@@ -41,7 +41,7 @@ Users can non-commercially distribute the downloaded PDF files. The admin can cu
 **10.** Compatible with WPML, thus facilitating your multilingual audience.
 **11.** Compatible with WordPress Multisite
 
-[**Free demo of PDF Generator for WordPress**](https://demo.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-demo&utm_medium=wpswings-org-page&utm_campaign=demo)
+[**Free demo of PDF Generator for WordPress**](https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=wpswings-org-page&utm_campaign=demo)
 
 == WHAT’S INCLUDED IN OUR PDF GENERATOR FOR WORDPRESS PLUGIN == 
 

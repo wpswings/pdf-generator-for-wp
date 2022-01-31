@@ -2,7 +2,7 @@
 /**
  * The admin-specific on-boarding functionality of the plugin.
  *
- * @link       https://makewebbetter.com
+ * @link       https://wpswings.com
  * @since      1.0.0
  *
  * @package     pdf_generator_for_wp

@@ -24,7 +24,7 @@
  * Requires at least:    4.6
  * Tested up to:         5.8.3
  * WC requires at least: 4.0.0
- * WC tested up to:      6.1.0
+ * WC tested up to:      6.1.1
  * Stable tag:           1.0.5
  * Requires PHP:         7.2
  *
@@ -190,7 +190,7 @@ function pdf_generator_for_wp_settings_link( $links ) {
  */
 function pdf_generator_for_wp_custom_settings_at_plugin_tab( $links_array, $plugin_file_name ) {
 	if ( strpos( $plugin_file_name, basename( __FILE__ ) ) ) {
-		$links_array[] = '<a href="https://demo.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-demo&utm_medium=wpswings-org-backend&utm_campaign=View-demo" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Demo.svg" class="mwb-info-img" alt="Demo image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Demo', 'pdf-generator-for-wp' ) . '</a>';
+		$links_array[] = '<a href="https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=wpswings-org-backend&utm_campaign=View-demo" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Demo.svg" class="mwb-info-img" alt="Demo image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Demo', 'pdf-generator-for-wp' ) . '</a>';
 		$links_array[] = '<a href="https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-backend&utm_campaign=documentation" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Documentation.svg" class="mwb-info-img" alt="documentation image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Documentation', 'pdf-generator-for-wp' ) . '</a>';
 		$links_array[] = '<a href="https://wpswings.com/?utm_source=wpswings-pdf-support&utm_medium=wpswings-org-backend&utm_campaign=support" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Support.svg" class="mwb-info-img" alt="support image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Support', 'pdf-generator-for-wp' ) . '</a>';
 	}
