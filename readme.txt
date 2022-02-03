@@ -5,7 +5,7 @@ Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress, WordPress pdf gener
 Requires at least: 4.6
 Tested up to: 5.9
 WC requires at least: 4.0.0
-WC tested up to: 5.8.0
+WC tested up to: 6.1.1
 Stable tag: 1.0.5
 Requires PHP: 7.2
 License: GPLv3 or later 
@@ -40,8 +40,6 @@ Users can non-commercially distribute the downloaded PDF files. The admin can cu
 **9.** Include author details. 
 **10.** Compatible with WPML, thus facilitating your multilingual audience.
 **11.** Compatible with WordPress Multisite
-
-[**Free demo of PDF Generator for WordPress**](https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=pdf-pro-page&utm_campaign=view-demo)
 
 == WHAT’S INCLUDED IN OUR PDF GENERATOR FOR WORDPRESS PLUGIN == 
 
@@ -83,7 +81,7 @@ The plugin allows you to upload your own PDF files for download. You can also li
 
 Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-page&utm_campaign=documentation) and learn more about the features and working of the plugin.
 
-Check Out [**PDF Generator For WordPress Plugin Knowledge Base**] (https://support.wpswings.com/wordpress-plugins-knowledge-base/category/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-kb&utm_medium=pdf-org-page&utm_campaign=kb)
+Check Out [**PDF Generator For WordPress Plugin Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-kb&utm_medium=pdf-org-page&utm_campaign=kb)
 
 == LIVE DEMO OF PDF Generator PLUGIN ==
 
@@ -164,11 +162,15 @@ You can rename the meta fields and taxonomies in the premium version of the PDF 
 
 == Changelog ==
 
-= 1.0.4 - RELEASED ON 03 February 2022 =
+= 1.0.5 - RELEASED ON 03 February 2022 =
 
 * New: Change author from MakeWebBetter to WP Swings
 * New: Notice display of current version for [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=pdf-org-page&utm_campaign=official).
 * NEW: Compatible with latest WP and WC
+* FIX: Minor bug fixes
+
+= 1.0.4 - RELEASED ON 26 November 2021 =
+* NEW: Compatibility with latest WP(5.8.2) and WC(5.9).
 * FIX: Minor bug fixes
 
 = 1.0.3 - RELEASED ON 29 October 2021 =
@@ -195,7 +197,7 @@ You can rename the meta fields and taxonomies in the premium version of the PDF 
 
 == Upgrade Notice ==
 
-= 2.0.2 - RELEASED ON 03 February 2022 =
+= 1.0.5 - RELEASED ON 03 February 2022 =
 
 * New: Change author from MakeWebBetter to WP Swings
 * New: Notice display of current version for [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=pdf-org-page&utm_campaign=official).
