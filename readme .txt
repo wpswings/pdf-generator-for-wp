@@ -5,7 +5,7 @@ Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress, WordPress pdf gener
 Requires at least: 4.6
 Tested up to: 5.9
 WC requires at least: 4.0.0
-WC tested up to: 6.1.1
+WC tested up to: 5.8.0
 Stable tag: 1.0.5
 Requires PHP: 7.2
 License: GPLv3 or later 
@@ -22,9 +22,9 @@ Users can non-commercially distribute the downloaded PDF files. The admin can cu
 ***
 >**IMPORTANT NOTICE:**
 
->_**From this update Version 1.0.5 onwards, the plugin and its support will be handled by [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=rma-org-page&utm_campaign=official).**_
+>_**From this update Version 1.0.5 onwards, the plugin and its support will be handled by [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=pdf-org-page&utm_campaign=official).**_
 
->_**WP Swings is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end. Please [**connect with us**](https://wpswings.com/contact-us/?utm_source=wpswings-pdf-pro-notice&utm_medium=pdf-org-page&utm_campaign=notice) for all setup, support, and update related queries without hesitation."**_
+>_**WP Swings is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end. Please [**connect with us**](https://wpswings.com/contact-us/?utm_source=wpswings-pdf-contact-us&utm_medium=pdf-org-page&utm_campaign=contact-us) for all setup, support, and update related queries without hesitation."**_
 ***
 
 == With the PDF Generator for WordPress plugin, you can: ==
@@ -41,7 +41,7 @@ Users can non-commercially distribute the downloaded PDF files. The admin can cu
 **10.** Compatible with WPML, thus facilitating your multilingual audience.
 **11.** Compatible with WordPress Multisite
 
-[**Free demo of PDF Generator for WordPress**](https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=wpswings-org-page&utm_campaign=demo)
+[**Free demo of PDF Generator for WordPress**](https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=pdf-pro-page&utm_campaign=view-demo)
 
 == WHAT’S INCLUDED IN OUR PDF GENERATOR FOR WORDPRESS PLUGIN == 
 
@@ -83,6 +83,14 @@ The plugin allows you to upload your own PDF files for download. You can also li
 
 Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-page&utm_campaign=documentation) and learn more about the features and working of the plugin.
 
+Check Out [**PDF Generator For WordPress Plugin Knowledge Base**] (https://support.wpswings.com/wordpress-plugins-knowledge-base/category/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-kb&utm_medium=pdf-org-page&utm_campaign=kb)
+
+== LIVE DEMO OF PDF Generator PLUGIN ==
+
+* [**WordPress PDF Generator Frontend demo**](https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=wpswings-org-page&utm_campaign=frontend-demo)
+
+* [**WordPress PDF Generator Backend demo**](https://demo.wpswings.com/pdf-generator-for-wp-pro/request-for-personal-demo/?utm_source=wpswings-pdf-demo&utm_medium=wpswings-org-page&utm_campaign=backend-demo)
+
 == WHAT PREMIUM VERSION OF WORDPRESS PDF GENERATOR PLUGIN OFFERS ==
 
 * Upload TTF font.
@@ -94,13 +102,7 @@ Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/
 * Download PDF from the server or generate it every time.
 * Bulk download or email in the continuation or in a zip folder.
 
-*Make a smart move with Premium Version of [WordPress PDF Generator](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=pdf-org-backend&utm_campaign=go-pro)*
-
-== LIVE DEMO OF PREMIUM VERSION ==
-
-* [**WordPress PDF Generator Frontend demo**](https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=wpswings-org-page&utm_campaign=frontend-demo)
-
-* [**Request Personal Demo For WordPress PDF Generator**](https://demo.wpswings.com/pdf-generator-for-wp-pro/request-for-personal-demo/?utm_source=wpswings-pdf-demo&utm_medium=wpswings-org-page&utm_campaign=backend-demo)
+*Make a smart move with Premium Version of [WordPress PDF Generator](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=wpswings-org-page&utm_campaign=pdf-pro)*
 
 == SUPPORT ==
 
@@ -162,8 +164,9 @@ You can rename the meta fields and taxonomies in the premium version of the PDF 
 
 == Changelog ==
 
-= 1.0.5 - RELEASED ON 20 January 2022 =
+= 1.0.4 - RELEASED ON 03 February 2022 =
 
+* New: Change author from MakeWebBetter to WP Swings
 * New: Notice display of current version for [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=pdf-org-page&utm_campaign=official).
 * NEW: Compatible with latest WP and WC
 * FIX: Minor bug fixes
@@ -192,8 +195,9 @@ You can rename the meta fields and taxonomies in the premium version of the PDF 
 
 == Upgrade Notice ==
 
-= 1.0.5 - RELEASED ON 20 January 2022 =
+= 2.0.2 - RELEASED ON 03 February 2022 =
 
+* New: Change author from MakeWebBetter to WP Swings
 * New: Notice display of current version for [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=pdf-org-page&utm_campaign=official).
-* NEW: Compatible with latest WP and WC
-* FIX: Minor bug fixes
+* New: Minor Bug fixes
+* New: Compatible with latest WP and WC 
