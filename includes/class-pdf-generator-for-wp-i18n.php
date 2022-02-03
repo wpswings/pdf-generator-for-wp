@@ -5,7 +5,7 @@
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
- * @link       https://makewebbetter.com/
+ * @link       https://wpswings.com/
  * @since      1.0.0
  *
  * @package    Pdf_Generator_For_Wp
@@ -21,7 +21,7 @@
  * @since      1.0.0
  * @package    Pdf_Generator_For_Wp
  * @subpackage Pdf_Generator_For_Wp/includes
- * @author     makewebbetter <webmaster@makewebbetter.com>
+ * @author     WP Swings <webmaster@wpswings.com>
  */
 class Pdf_Generator_For_Wp_I18n {
 

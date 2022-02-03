@@ -2,7 +2,7 @@
 /**
  * Fired during plugin activation
  *
- * @link       https://makewebbetter.com/
+ * @link       https://wpswings.com/
  * @since      1.0.0
  *
  * @package    Pdf_Generator_For_Wp
@@ -22,7 +22,7 @@ if ( ! class_exists( 'Pdf_Generator_For_Wp_Api_Process' ) ) {
 	 * @since      1.0.0
 	 * @package    Pdf_Generator_For_Wp
 	 * @subpackage Pdf_Generator_For_Wp/includes
-	 * @author     MakeWebBetter <makewebbetter.com>
+	 * @author     WP Swings <wpswings.com>
 	 */
 	class Pdf_Generator_For_Wp_Api_Process {
 

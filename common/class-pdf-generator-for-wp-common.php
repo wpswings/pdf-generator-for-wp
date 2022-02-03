@@ -2,7 +2,7 @@
 /**
  * The common functionality of the plugin.
  *
- * @link       https://makewebbetter.com/
+ * @link       https://wpswings.com/
  * @since      1.0.0
  *
  * @package    Pdf_Generator_For_Wp
@@ -21,7 +21,7 @@ use Dompdf\FontMetrics;
  *
  * @package    Pdf_Generator_For_Wp
  * @subpackage Pdf_Generator_For_Wp/common
- * @author     makewebbetter <webmaster@makewebbetter.com>
+ * @author     WP Swings <webmaster@wpswings.com>
  */
 class Pdf_Generator_For_Wp_Common {
 	/**

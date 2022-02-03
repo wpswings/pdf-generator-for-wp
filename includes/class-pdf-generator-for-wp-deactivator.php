@@ -2,7 +2,7 @@
 /**
  * Fired during plugin deactivation
  *
- * @link       https://makewebbetter.com/
+ * @link       https://wpswings.com/
  * @since      1.0.0
  *
  * @package    Pdf_Generator_For_Wp
@@ -17,7 +17,7 @@
  * @since      1.0.0
  * @package    Pdf_Generator_For_Wp
  * @subpackage Pdf_Generator_For_Wp/includes
- * @author     makewebbetter <webmaster@makewebbetter.com>
+ * @author     WP Swings <webmaster@wpswings.com>
  */
 class Pdf_Generator_For_Wp_Deactivator {
 

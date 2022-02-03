@@ -2,7 +2,7 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * @link       https://makewebbetter.com/
+ * @link       https://wpswings.com/
  * @since      1.0.0
  *
  * @package    Pdf_Generator_For_Wp
@@ -17,7 +17,7 @@
  *
  * @package    Pdf_Generator_For_Wp
  * @subpackage Pdf_Generator_For_Wp/admin
- * @author     makewebbetter <webmaster@makewebbetter.com>
+ * @author     WP Swings <webmaster@wpswings.com>
  */
 class Pdf_Generator_For_Wp_Admin {
 
@@ -59,7 +59,7 @@ class Pdf_Generator_For_Wp_Admin {
 	 */
 	public function pgfw_admin_enqueue_styles( $hook ) {
 		$screen = get_current_screen();
-		if ( isset( $screen->id ) && 'makewebbetter_page_pdf_generator_for_wp_menu' == $screen->id ) { // phpcs:ignore
+		if ( isset( $screen->id ) && 'wp-swings_page_pdf_generator_for_wp_menu' == $screen->id ) { // phpcs:ignore
 
 			wp_enqueue_style( 'mwb-pgfw-select2-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.css', array(), time(), 'all' );
 
@@ -88,7 +88,7 @@ class Pdf_Generator_For_Wp_Admin {
 	public function pgfw_admin_enqueue_scripts( $hook ) {
 
 		$screen = get_current_screen();
-		if ( isset( $screen->id ) && 'makewebbetter_page_pdf_generator_for_wp_menu' == $screen->id ) { // phpcs:ignore
+		if ( isset( $screen->id ) && 'wp-swings_page_pdf_generator_for_wp_menu' == $screen->id ) { // phpcs:ignore
 			wp_enqueue_script( 'mwb-pgfw-select2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.js', array( 'jquery' ), time(), false );
 
 			wp_enqueue_script( 'mwb-pgfw-metarial-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-web.min.js', array(), time(), false );
@@ -141,7 +141,7 @@ class Pdf_Generator_For_Wp_Admin {
 	public function pgfw_options_page() {
 		global $submenu;
 		if ( empty( $GLOBALS['admin_page_hooks']['mwb-plugins'] ) ) {
-			add_menu_page( 'MakeWebBetter', 'MakeWebBetter', 'manage_options', 'mwb-plugins', array( $this, 'mwb_plugins_listing_page' ), PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/MWB_Grey-01.svg', 15 );
+			add_menu_page( 'WP Swings', 'WP Swings', 'manage_options', 'mwb-plugins', array( $this, 'mwb_plugins_listing_page' ), PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/wpswings_logo.png', 15 );
 			$pgfw_menus = apply_filters( 'mwb_add_plugins_menus_array', array() );
 			if ( is_array( $pgfw_menus ) && ! empty( $pgfw_menus ) ) {
 				foreach ( $pgfw_menus as $pgfw_key => $pgfw_value ) {

@@ -2,7 +2,7 @@
 /**
  * The admin-specific on-boarding functionality of the plugin.
  *
- * @link       https://makewebbetter.com
+ * @link       https://wpswings.com
  * @since      1.0.0
  *
  * @package     pdf_generator_for_wp
@@ -14,7 +14,7 @@
  *
  * @package     pdf_generator_for_wp
  * @subpackage  pdf_generator_for_wp/includes
- * @author      makewebbetter <webmaster@makewebbetter.com>
+ * @author      WP Swings <webmaster@wpswings.com>
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -49,7 +49,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 * @since 1.0.0
 	 * @var string Portal id.
 	 */
-	private static $mwb_pgfw_portal_id = '6493626';
+	private static $mwb_pgfw_portal_id = '25444144';
 
 	/**
 	 * Form id of hubspot api for pdf-generator-for-wp.
@@ -57,7 +57,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 * @since 1.0.0
 	 * @var string Form id.
 	 */
-	private static $mwb_pgfw_onboarding_form_id = 'd94dcb10-c9c1-4155-a9ad-35354f2c3b52';
+	private static $mwb_pgfw_onboarding_form_id = '2a2fe23c-0024-43f5-9473-cbfefdb06fe2';
 
 	/**
 	 * Form id of hubspot api for pdf-generator-for-wp.
@@ -65,7 +65,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 * @since 1.0.0
 	 * @var string Form id.
 	 */
-	private static $mwb_pgfw_deactivation_form_id = '329ffc7a-0e8c-4e11-8b41-960815c31f8d';
+	private static $mwb_pgfw_deactivation_form_id = '67feecaa-9a93-4fda-8f85-f73168da2672';
 
 	/**
 	 * Define some variables for pdf-generator-for-wp.
@@ -680,9 +680,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 
 		$url = 'submissions/v3/integration/submit/' . self::$mwb_pgfw_portal_id . '/' . $form_id;
 
-		$headers = array(
-			'Content-Type' => 'application/json',
-		);
+		$headers = 'Content-Type: application/json';
 
 		$form_data = wp_json_encode(
 			array(
@@ -776,7 +774,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	public function mwb_pgfw_valid_page_screen_check() {
 		$mwb_pgfw_screen  = get_current_screen();
 		$mwb_pgfw_is_flag = false;
-		if ( isset( $mwb_pgfw_screen->id ) && 'makewebbetter_page_pdf_generator_for_wp_menu' == $mwb_pgfw_screen->id ) { // phpcs:ignore
+		if ( isset( $mwb_pgfw_screen->id ) && 'wp-swings_page_pdf_generator_for_wp_menu' == $mwb_pgfw_screen->id ) { // phpcs:ignore
 			$mwb_pgfw_is_flag = true;
 		}
 

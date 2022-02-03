@@ -5,7 +5,7 @@
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @link       https://makewebbetter.com/
+ * @link       https://wpswings.com/
  * @since      1.0.0
  *
  * @package    Pdf_Generator_For_Wp
@@ -24,7 +24,7 @@
  * @since      1.0.0
  * @package    Pdf_Generator_For_Wp
  * @subpackage Pdf_Generator_For_Wp/includes
- * @author     makewebbetter <webmaster@makewebbetter.com>
+ * @author     WP Swings <webmaster@wpswings.com>
  */
 class Pdf_Generator_For_Wp {
 
