@@ -404,7 +404,7 @@ class Pdf_Generator_For_Wp {
 		);
 
 		$pgfw_default_tabs['pdf-generator-for-wp-body'] = array(
-			'title' => esc_html__( 'Body Settings', 'pdf-generator-for-wp' ),
+			'title' => esc_html__( 'Body', 'pdf-generator-for-wp' ),
 			'name'  => 'pdf-generator-for-wp-body',
 		);
 

@@ -157,7 +157,8 @@ option {
 }
 
 select {
-    padding: 10px 30px 10px 15px!important;
+    padding: 7px 30px 5px 14px!important;
+    margin-bottom: 10px;
 }
 
 

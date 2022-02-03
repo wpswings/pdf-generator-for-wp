@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string
  */
 function return_ob_html( $post_id, $template_name = '' ) {
-	do_action( 'mwb_pgfw_load_wp_bakery_shortcode_converter' );
+	do_action( 'mwb_pgfw_load_all_compatible_shortcode_converter' );
 	// advanced settings.
 	$pgfw_advanced_settings = get_option( 'pgfw_advanced_save_settings', array() );
 	$pgfw_ttf_font_upload   = array_key_exists( 'pgfw_ttf_font_upload', $pgfw_advanced_settings ) ? $pgfw_advanced_settings['pgfw_ttf_font_upload'] : '';
@@ -242,7 +242,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 					<div class="pgfw-pdf-body-content">
 					<h3>' . esc_html__( 'Description', 'pdf-generator-for-wp' ) . '</h3>
 					<div>
-						' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', apply_filters( 'the_content', $post->post_content ) ) ) . '
+						' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', apply_filters( 'the_content', apply_filters( 'mwb_wpg_customize_template_post_content', $post->post_content, $post ) ) ) ) . '
 					</div>';
 		// taxonomies for posts.
 		$html1 = '';

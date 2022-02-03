@@ -15,17 +15,17 @@
  * Plugin Name:       PDF Generator For Wp
  * Plugin URI:        http://wordpress.org/plugins/pdf-generator-for-wp/
  * Description:       Let your users download pages, posts, and products in PDF format using this plugin allowing you to add technical and marketing utility for your WordPress site.
- * Version:           1.0.3
+ * Version:           1.0.4
  * Author:            MakeWebBetter
  * Author URI:        https://makewebbetter.com/?utm_source=MWB-pdf-backend&utm_medium=MWB-pdf-ORG-backend&utm_campaign=MWB-backend
  * Text Domain:       pdf-generator-for-wp
  * Domain Path:       /languages
  *
  * Requires at least:    4.6
- * Tested up to:         5.8.1
+ * Tested up to:         5.8.2
  * WC requires at least: 4.0.0
- * WC tested up to:      5.8.0
- * Stable tag:           1.0.3
+ * WC tested up to:      5.9.0
+ * Stable tag:           1.0.4
  * Requires PHP:         7.2
  *
  * License:           GNU General Public License v3.0
@@ -43,7 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0
  */
 function define_pdf_generator_for_wp_constants() {
-	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.0.3' );
+	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.0.4' );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_PATH', plugin_dir_path( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_URL', plugin_dir_url( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_SERVER_URL', 'https://makewebbetter.com' );
