@@ -65,9 +65,9 @@ The plugin gives you the option to make the post visible only for relevant post 
 ### 8) Upload Your PDF Files
 The plugin allows you to upload your own PDF files for download. You can also limit access to these files for registered users or guest users.
 
-Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-docs&utm_medium=pdf-github-page&utm_campaign=documentation) and learn more about the features and working of the plugin.
+Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-doc&utm_medium=pdf-github-page&utm_campaign=documentation) and learn more about the features and working of the plugin.
 
-Check Out [**PDF Generator For WordPress Plugin Knowledge Base**](https://support.wpswings.com/wordpress-pdf-generator-pro/?utm_source=wpswings-pdf-support&utm_medium=wpswings-github-page&utm_campaign=kb)
+Check Out [**PDF Generator For WordPress Plugin Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/pdf-generator-for-wp/?utm_source=wpswings-pdf-kb&utm_medium=pdf-github-page&utm_campaign=kb)
 
 ## LIVE DEMO OF PREMIUM VERSION
 
@@ -89,6 +89,8 @@ Check Out [**PDF Generator For WordPress Plugin Knowledge Base**](https://suppor
 
 ### Make a smart move with Premium Version of [WordPress PDF Generator](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=pdf-github-page&utm_campaign=pdf-pro)
 
+Visit [**PDF Generator for WP Pro Documentation**](https://docs.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-docs&utm_medium=pdf-github-page&utm_campaign=documentation) and learn more about the features and working of the plugin.
+
 
 
 ## SUPPORT
@@ -102,4 +104,5 @@ If you need support or have any question then kindly use our online chat window 
 - [**Tweet us on @WPSwings**](https://twitter.com/wpswings)
 - [**Visit our LinkedIn Account**](https://www.linkedin.com/company/wpswings)
 - [**Subscribe To Our YouTube Channel**](https://www.youtube.com/channel/UC7nYNf0JETOwW3GOD_EW2Ag)
-- [**Follow Our SlideShare**](https://www.slideshare.net/wpswings)
+
+
