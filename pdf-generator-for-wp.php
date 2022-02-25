@@ -270,24 +270,23 @@ function wps_pdf_gen_plugin_upgrade_notice() {
 	}
 }
 add_action( 'admin_init' , 'pgfw_pro_upgrade_wp_options' );
-	/**
+		/**
 		 * Upgrade_wp_options. (use period)
 		 *
 		 * Upgrade_wp_options.
 		 *
 		 * @since    1.0.0
 		 */
- function pgfw_pro_upgrade_wp_options() {
+function pgfw_pro_upgrade_wp_options() {
 
-	$condition = get_option('pgfw_wps_code_migrated');
+	$condition = get_option( 'pgfw_wps_code_migrated' , 'no' );
 
-	if( $condition != 'yes') {
-		
-			$wp_options = array(
-				'mwb_pgfw_onboarding_data_skipped' => '',
-				'mwb_all_plugins_active'		   => '',
-				'mwb_pgfw_onboarding_data_sent'	   => '',
-				'pgfw_wps_code_migrated'		=> 'yes',
+	if ( $condition != 'yes') {
+		$wp_options = array(
+			'mwb_pgfw_onboarding_data_skipped' => '',
+			'mwb_all_plugins_active'		   => '',
+			'mwb_pgfw_onboarding_data_sent'	   => '',
+			'pgfw_wps_code_migrated'		   => 'yes',
 
 			);
 
