@@ -40,16 +40,16 @@ if ( ! class_exists( 'Pdf_Generator_For_Wp_Api_Process' ) ) {
 		 *
 		 * @since    1.0.0
 		 * @param   Array $pgfw_request  data of requesting headers and other information.
-		 * @return  Array $mwb_pgfw_rest_response    returns processed data and status of operations.
+		 * @return  Array $wps_pgfw_rest_response    returns processed data and status of operations.
 		 */
-		public function mwb_pgfw_default_process( $pgfw_request ) {
-			$mwb_pgfw_rest_response = array();
+		public function wps_pgfw_default_process( $pgfw_request ) {
+			$wps_pgfw_rest_response = array();
 
 			// Write your custom code here.
 
-			$mwb_pgfw_rest_response['status'] = 200;
-			$mwb_pgfw_rest_response['data'] = $pgfw_request->get_headers();
-			return $mwb_pgfw_rest_response;
+			$wps_pgfw_rest_response['status'] = 200;
+			$wps_pgfw_rest_response['data'] = $pgfw_request->get_headers();
+			return $wps_pgfw_rest_response;
 		}
 	}
 }

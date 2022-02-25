@@ -40,7 +40,7 @@
 
 /*Floating element CSS*/
 
-.mwb_pgw-button_wrapper {
+.wps_pgw-button_wrapper {
     position: fixed;
     top: 10%;
     right: -260px;
@@ -51,7 +51,7 @@
 }
 
 /*Floating Button*/
-.mwb_pgw-button {
+.wps_pgw-button {
     position: relative;
     right: 20px;
     cursor: pointer;
@@ -59,7 +59,7 @@
     transition: transform 0.3s ease-in-out;
 }
 
-.mwb_pgfw-display-value {
+.wps_pgfw-display-value {
     background-color: #333333;
     height: 20px;
     width: 20px;
@@ -75,7 +75,7 @@
     letter-spacing: 1px;
 }
 
-.mwb_pgw-button img {
+.wps_pgw-button img {
     all: unset;
     width: 24px;
     height: 24px;
@@ -85,12 +85,12 @@
     box-shadow: 0 0 5px rgb(0 0 0 / 24%);
 }
 
-.mwb_pgw-button:hover {
+.wps_pgw-button:hover {
     transform: scale(1.1);
 }
 
 /*floating box*/
-.mwb_pgw-button_content {
+.wps_pgw-button_content {
     min-height: 200px;
     max-height: 400px;
     overflow: auto;
@@ -123,7 +123,7 @@
     margin-right: 5px;
 }
 
-.mwb_pgw-button_content button {
+.wps_pgw-button_content button {
     border: none;
     padding: 5px 10px;
     background-color: #2196F3;
@@ -157,7 +157,7 @@
 }
 
 /*Classes used in JS*/
-.mwb_pgw-out {
+.wps_pgw-out {
     right: 0;
 }
 
@@ -176,40 +176,40 @@
     min-height: 305px;
 }
 /*popup modal*/
-.mwb_pgfw_email_input {
+.wps_pgfw_email_input {
     display: flex;
     flex-direction: column;
 }
 
-.mwb_pgfw_email_input label {
+.wps_pgfw_email_input label {
     font-weight: 600;
     margin-bottom: 10px;
     color: #1a1a1a;
 }
 
-.mwb_pgfw_email_input input {
+.wps_pgfw_email_input input {
     border: 1px solid #333333 !important;
     box-shadow: none !important;
     background-color: rgb(26 51 101 / 5%) !important;
     margin-bottom: 10px;
 }
 
-.mwb_pgfw_email_input input:focus {
+.wps_pgfw_email_input input:focus {
     outline:none;
     box-shadow: none;
 }
 
-.mwb_pgfw_email_button {
+.wps_pgfw_email_button {
     margin-top: 10px;
 }
 
-.mwb_pgfw_email_button button {
+.wps_pgfw_email_button button {
     background-color: #333333;
     color: #ffffff;
     border:none;
 }
 
-.mwb_pgfw_email_button button:focus {
+.wps_pgfw_email_button button:focus {
     border:none;
     outline:none;
     color:#ffffff;

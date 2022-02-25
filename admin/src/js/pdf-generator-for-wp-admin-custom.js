@@ -131,7 +131,7 @@
                     url    : pgfw_admin_custom_param.ajaxurl,
                     method : 'post',
                     data   : {
-                        action   : 'mwb_pgfw_delete_poster_by_media_id_from_table',
+                        action   : 'wps_pgfw_delete_poster_by_media_id_from_table',
                         nonce    : pgfw_admin_custom_param.nonce,
                         media_id : media_id
                     },

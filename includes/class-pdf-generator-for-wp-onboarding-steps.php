@@ -41,7 +41,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 * @since 1.0.0
 	 * @var string base url of API.
 	 */
-	private $mwb_pgfw_base_url = 'https://api.hsforms.com/';
+	private $wps_pgfw_base_url = 'https://api.hsforms.com/';
 
 	/**
 	 * Portal id of hubspot api for pdf-generator-for-wp.
@@ -49,7 +49,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 * @since 1.0.0
 	 * @var string Portal id.
 	 */
-	private static $mwb_pgfw_portal_id = '25444144';
+	private static $wps_pgfw_portal_id = '25444144';
 
 	/**
 	 * Form id of hubspot api for pdf-generator-for-wp.
@@ -57,7 +57,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 * @since 1.0.0
 	 * @var string Form id.
 	 */
-	private static $mwb_pgfw_onboarding_form_id = '2a2fe23c-0024-43f5-9473-cbfefdb06fe2';
+	private static $wps_pgfw_onboarding_form_id = '2a2fe23c-0024-43f5-9473-cbfefdb06fe2';
 
 	/**
 	 * Form id of hubspot api for pdf-generator-for-wp.
@@ -65,39 +65,39 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 * @since 1.0.0
 	 * @var string Form id.
 	 */
-	private static $mwb_pgfw_deactivation_form_id = '67feecaa-9a93-4fda-8f85-f73168da2672';
+	private static $wps_pgfw_deactivation_form_id = '67feecaa-9a93-4fda-8f85-f73168da2672';
 
 	/**
 	 * Define some variables for pdf-generator-for-wp.
 	 *
 	 * @since 1.0.0
-	 * @var string $mwb_pgfw_plugin_name plugin name.
+	 * @var string $wps_pgfw_plugin_name plugin name.
 	 */
-	private static $mwb_pgfw_plugin_name;
+	private static $wps_pgfw_plugin_name;
 
 	/**
 	 * Define some variables for pdf-generator-for-wp.
 	 *
 	 * @since 1.0.0
-	 * @var string $mwb_pgfw_plugin_name_label plugin name text.
+	 * @var string $wps_pgfw_plugin_name_label plugin name text.
 	 */
-	private static $mwb_pgfw_plugin_name_label;
+	private static $wps_pgfw_plugin_name_label;
 
 	/**
 	 * Define some variables for pdf-generator-for-wp.
 	 *
-	 * @var string $mwb_pgfw_store_name store name.
+	 * @var string $wps_pgfw_store_name store name.
 	 * @since 1.0.0
 	 */
-	private static $mwb_pgfw_store_name;
+	private static $wps_pgfw_store_name;
 
 	/**
 	 * Define some variables for pdf-generator-for-wp.
 	 *
 	 * @since 1.0.0
-	 * @var string $mwb_pgfw_store_url store url.
+	 * @var string $wps_pgfw_store_url store url.
 	 */
-	private static $mwb_pgfw_store_url;
+	private static $wps_pgfw_store_url;
 
 	/**
 	 * Define the onboarding functionality of the plugin.
@@ -108,26 +108,26 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		self::$mwb_pgfw_store_name        = get_bloginfo( 'name' );
-		self::$mwb_pgfw_store_url         = home_url();
-		self::$mwb_pgfw_plugin_name       = 'PDF Generator For Wp';
-		self::$mwb_pgfw_plugin_name_label = 'PDF Generator For Wp';
+		self::$wps_pgfw_store_name        = get_bloginfo( 'name' );
+		self::$wps_pgfw_store_url         = home_url();
+		self::$wps_pgfw_plugin_name       = 'PDF Generator For Wp';
+		self::$wps_pgfw_plugin_name_label = 'PDF Generator For Wp';
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'mwb_pgfw_onboarding_enqueue_styles' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'mwb_pgfw_onboarding_enqueue_scripts' ) );
-		add_action( 'admin_footer', array( $this, 'mwb_pgfw_add_onboarding_popup_screen' ) );
-		add_action( 'admin_footer', array( $this, 'mwb_pgfw_add_deactivation_popup_screen' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'wps_pgfw_onboarding_enqueue_styles' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'wps_pgfw_onboarding_enqueue_scripts' ) );
+		add_action( 'admin_footer', array( $this, 'wps_pgfw_add_onboarding_popup_screen' ) );
+		add_action( 'admin_footer', array( $this, 'wps_pgfw_add_deactivation_popup_screen' ) );
 
-		add_filter( 'mwb_pgfw_on_boarding_form_fields', array( $this, 'mwb_pgfw_add_on_boarding_form_fields' ) );
-		add_filter( 'mwb_pgfw_deactivation_form_fields', array( $this, 'mwb_pgfw_add_deactivation_form_fields' ) );
+		add_filter( 'wps_pgfw_on_boarding_form_fields', array( $this, 'wps_pgfw_add_on_boarding_form_fields' ) );
+		add_filter( 'wps_pgfw_deactivation_form_fields', array( $this, 'wps_pgfw_add_deactivation_form_fields' ) );
 
 		// Ajax to send data.
-		add_action( 'wp_ajax_mwb_pgfw_send_onboarding_data', array( $this, 'mwb_pgfw_send_onboarding_data' ) );
-		add_action( 'wp_ajax_nopriv_mwb_pgfw_send_onboarding_data', array( $this, 'mwb_pgfw_send_onboarding_data' ) );
+		add_action( 'wp_ajax_wps_pgfw_send_onboarding_data', array( $this, 'wps_pgfw_send_onboarding_data' ) );
+		add_action( 'wp_ajax_nopriv_wps_pgfw_send_onboarding_data', array( $this, 'wps_pgfw_send_onboarding_data' ) );
 
 		// Ajax to Skip popup.
-		add_action( 'wp_ajax_pgfw_skip_onboarding_popup', array( $this, 'mwb_pgfw_skip_onboarding_popup' ) );
-		add_action( 'wp_ajax_nopriv_pgfw_skip_onboarding_popup', array( $this, 'mwb_pgfw_skip_onboarding_popup' ) );
+		add_action( 'wp_ajax_pgfw_skip_onboarding_popup', array( $this, 'wps_pgfw_skip_onboarding_popup' ) );
+		add_action( 'wp_ajax_nopriv_pgfw_skip_onboarding_popup', array( $this, 'wps_pgfw_skip_onboarding_popup' ) );
 
 	}
 
@@ -161,22 +161,22 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 * between the defined hooks and the functions defined in this
 	 * class.
 	 */
-	public function mwb_pgfw_onboarding_enqueue_styles() {
+	public function wps_pgfw_onboarding_enqueue_styles() {
 		global $pagenow;
 		$is_valid = false;
 		if ( ! $is_valid && 'plugins.php' == $pagenow ) { // phpcs:ignore
 			$is_valid = true;
 		}
-		if ( $this->mwb_pgfw_valid_page_screen_check() || $is_valid ) {
+		if ( $this->wps_pgfw_valid_page_screen_check() || $is_valid ) {
 			// comment the line of code Only when your plugin doesn't uses the Select2.
-			wp_enqueue_style( 'mwb-pgfw-onboarding-select2-style', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.css', array(), time(), 'all' );
+			wp_enqueue_style( 'wps-pgfw-onboarding-select2-style', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.css', array(), time(), 'all' );
 
-			wp_enqueue_style( 'mwb-pgfw-meterial-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-web.min.css', array(), time(), 'all' );
-			wp_enqueue_style( 'mwb-pgfw-meterial-css2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.css', array(), time(), 'all' );
-			wp_enqueue_style( 'mwb-pgfw-meterial-lite', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-lite.min.css', array(), time(), 'all' );
-			wp_enqueue_style( 'mwb-pgfw-meterial-icons-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/icon.css', array(), time(), 'all' );
+			wp_enqueue_style( 'wps-pgfw-meterial-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-web.min.css', array(), time(), 'all' );
+			wp_enqueue_style( 'wps-pgfw-meterial-css2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.css', array(), time(), 'all' );
+			wp_enqueue_style( 'wps-pgfw-meterial-lite', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-lite.min.css', array(), time(), 'all' );
+			wp_enqueue_style( 'wps-pgfw-meterial-icons-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/icon.css', array(), time(), 'all' );
 
-			wp_enqueue_style( 'mwb-pgfw-onboarding-style', PDF_GENERATOR_FOR_WP_DIR_URL . 'onboarding/css/pdf-generator-for-wp-onboarding.css', array(), time(), 'all' );
+			wp_enqueue_style( 'wps-pgfw-onboarding-style', PDF_GENERATOR_FOR_WP_DIR_URL . 'onboarding/css/pdf-generator-for-wp-onboarding.css', array(), time(), 'all' );
 
 		}
 	}
@@ -192,31 +192,31 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 * between the defined hooks and the functions defined in this
 	 * class.
 	 */
-	public function mwb_pgfw_onboarding_enqueue_scripts() {
+	public function wps_pgfw_onboarding_enqueue_scripts() {
 		global $pagenow;
 		$is_valid = false;
 		if ( ! $is_valid && 'plugins.php' == $pagenow ) { // phpcs:ignore
 			$is_valid = true;
 		}
-		if ( $this->mwb_pgfw_valid_page_screen_check() || $is_valid ) {
+		if ( $this->wps_pgfw_valid_page_screen_check() || $is_valid ) {
 
-			wp_enqueue_script( 'mwb-pgfw-onboarding-select2-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.js', array( 'jquery' ), '1.0.0', false );
+			wp_enqueue_script( 'wps-pgfw-onboarding-select2-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.js', array( 'jquery' ), '1.0.0', false );
 
-			wp_enqueue_script( 'mwb-pgfw-metarial-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-web.min.js', array(), time(), false );
-			wp_enqueue_script( 'mwb-pgfw-metarial-js2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.js', array(), time(), false );
-			wp_enqueue_script( 'mwb-pgfw-metarial-lite', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-lite.min.js', array(), time(), false );
+			wp_enqueue_script( 'wps-pgfw-metarial-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-web.min.js', array(), time(), false );
+			wp_enqueue_script( 'wps-pgfw-metarial-js2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.js', array(), time(), false );
+			wp_enqueue_script( 'wps-pgfw-metarial-lite', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-lite.min.js', array(), time(), false );
 
-			wp_enqueue_script( 'mwb-pgfw-onboarding-scripts', PDF_GENERATOR_FOR_WP_DIR_URL . 'onboarding/js/pdf-generator-for-wp-onboarding.js', array( 'jquery', 'mwb-pgfw-onboarding-select2-js', 'mwb-pgfw-metarial-js', 'mwb-pgfw-metarial-js2', 'mwb-pgfw-metarial-lite' ), time(), true );
+			wp_enqueue_script( 'wps-pgfw-onboarding-scripts', PDF_GENERATOR_FOR_WP_DIR_URL . 'onboarding/js/pdf-generator-for-wp-onboarding.js', array( 'jquery', 'wps-pgfw-onboarding-select2-js', 'wps-pgfw-metarial-js', 'wps-pgfw-metarial-js2', 'wps-pgfw-metarial-lite' ), time(), true );
 
 			$pgfw_current_slug = ! empty( explode( '/', plugin_basename( __FILE__ ) ) ) ? explode( '/', plugin_basename( __FILE__ ) )[0] : '';
 			wp_localize_script(
-				'mwb-pgfw-onboarding-scripts',
-				'mwb_pgfw_onboarding',
+				'wps-pgfw-onboarding-scripts',
+				'wps_pgfw_onboarding',
 				array(
 					'ajaxurl'                     => admin_url( 'admin-ajax.php' ),
-					'pgfw_auth_nonce'             => wp_create_nonce( 'mwb_pgfw_onboarding_nonce' ),
+					'pgfw_auth_nonce'             => wp_create_nonce( 'wps_pgfw_onboarding_nonce' ),
 					'pgfw_current_screen'         => $pagenow,
-					'pgfw_current_supported_slug' => apply_filters( 'mwb_pgfw_deactivation_supported_slug', array( $pgfw_current_slug ) ),
+					'pgfw_current_supported_slug' => apply_filters( 'wps_pgfw_deactivation_supported_slug', array( $pgfw_current_slug ) ),
 				)
 			);
 		}
@@ -227,8 +227,8 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 *
 	 * @since    1.0.0
 	 */
-	public function mwb_pgfw_add_onboarding_popup_screen() {
-		if ( $this->mwb_pgfw_valid_page_screen_check() && $this->mwb_pgfw_show_onboarding_popup_check() ) {
+	public function wps_pgfw_add_onboarding_popup_screen() {
+		if ( $this->wps_pgfw_valid_page_screen_check() && $this->wps_pgfw_show_onboarding_popup_check() ) {
 			require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'onboarding/templates/pdf-generator-for-wp-onboarding-template.php';
 		}
 	}
@@ -238,7 +238,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 *
 	 * @since    1.0.0
 	 */
-	public function mwb_pgfw_add_deactivation_popup_screen() {
+	public function wps_pgfw_add_deactivation_popup_screen() {
 		global $pagenow;
 		if ( ! empty( $pagenow ) && 'plugins.php' == $pagenow ) { // phpcs:ignore
 			require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'onboarding/templates/pdf-generator-for-wp-deactivation-template.php';
@@ -250,9 +250,9 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 *
 	 * @since    1.0.0
 	 */
-	public function mwb_pgfw_skip_onboarding_popup() {
+	public function wps_pgfw_skip_onboarding_popup() {
 
-		$get_skipped_timstamp = update_option( 'mwb_pgfw_onboarding_data_skipped', time() );
+		$get_skipped_timstamp = update_option( 'wps_pgfw_onboarding_data_skipped', time() );
 		echo esc_html( wp_json_encode( 'true' ) );
 		wp_die();
 	}
@@ -263,7 +263,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 *
 	 * @since    1.0.0
 	 */
-	public function mwb_pgfw_add_on_boarding_form_fields() {
+	public function wps_pgfw_add_on_boarding_form_fields() {
 
 		$current_user = wp_get_current_user();
 		if ( ! empty( $current_user ) ) {
@@ -295,7 +295,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 			 */
 
 			wp_rand() => array(
-				'id'          => 'mwb-pgfw-monthly-revenue',
+				'id'          => 'wps-pgfw-monthly-revenue',
 				'title'       => esc_html__( 'What is your monthly revenue?', 'pdf-generator-for-wp' ),
 				'type'        => 'radio',
 				'description' => '',
@@ -314,7 +314,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 			),
 
 			wp_rand() => array(
-				'id'          => 'mwb_pgfw_industry_type',
+				'id'          => 'wps_pgfw_industry_type',
 				'title'       => esc_html__( 'What industry defines your business?', 'pdf-generator-for-wp' ),
 				'type'        => 'select',
 				'name'        => 'industry_type_',
@@ -351,7 +351,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 			),
 
 			wp_rand() => array(
-				'id'          => 'mwb-pgfw-onboard-email',
+				'id'          => 'wps-pgfw-onboard-email',
 				'title'       => esc_html__( 'What is the best email address to contact you?', 'pdf-generator-for-wp' ),
 				'type'        => 'email',
 				'description' => '',
@@ -363,7 +363,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 			),
 
 			wp_rand() => array(
-				'id'          => 'mwb-pgfw-onboard-number',
+				'id'          => 'wps-pgfw-onboard-number',
 				'title'       => esc_html__( 'What is your contact number?', 'pdf-generator-for-wp' ),
 				'type'        => 'text',
 				'description' => '',
@@ -375,49 +375,49 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 			),
 
 			wp_rand() => array(
-				'id'          => 'mwb-pgfw-store-name',
+				'id'          => 'wps-pgfw-store-name',
 				'title'       => '',
 				'description' => '',
 				'type'        => 'hidden',
 				'name'        => 'company',
 				'placeholder' => '',
-				'value'       => self::$mwb_pgfw_store_name,
+				'value'       => self::$wps_pgfw_store_name,
 				'required'    => '',
 				'class'       => '',
 			),
 
 			wp_rand() => array(
-				'id'          => 'mwb-pgfw-store-url',
+				'id'          => 'wps-pgfw-store-url',
 				'title'       => '',
 				'description' => '',
 				'type'        => 'hidden',
 				'name'        => 'website',
 				'placeholder' => '',
-				'value'       => self::$mwb_pgfw_store_url,
+				'value'       => self::$wps_pgfw_store_url,
 				'required'    => '',
 				'class'       => '',
 			),
 
 			wp_rand() => array(
-				'id'          => 'mwb-pgfw-show-counter',
+				'id'          => 'wps-pgfw-show-counter',
 				'title'       => '',
 				'description' => '',
 				'type'        => 'hidden',
 				'placeholder' => '',
-				'name'        => 'mwb-pgfw-show-counter',
-				'value'       => get_option( 'mwb_pgfw_onboarding_data_sent', 'not-sent' ),
+				'name'        => 'wps-pgfw-show-counter',
+				'value'       => get_option( 'wps_pgfw_onboarding_data_sent', 'not-sent' ),
 				'required'    => '',
 				'class'       => '',
 			),
 
 			wp_rand() => array(
-				'id'          => 'mwb-pgfw-plugin-name',
+				'id'          => 'wps-pgfw-plugin-name',
 				'title'       => '',
 				'description' => '',
 				'type'        => 'hidden',
 				'placeholder' => '',
 				'name'        => 'org_plugin_name',
-				'value'       => self::$mwb_pgfw_plugin_name_label,
+				'value'       => self::$wps_pgfw_plugin_name_label,
 				'required'    => '',
 				'class'       => '',
 			),
@@ -432,7 +432,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 *
 	 * @since    1.0.0
 	 */
-	public function mwb_pgfw_add_deactivation_form_fields() {
+	public function wps_pgfw_add_deactivation_form_fields() {
 
 		$current_user = wp_get_current_user();
 		if ( ! empty( $current_user ) ) {
@@ -458,7 +458,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 			 */
 
 			wp_rand() => array(
-				'id'          => 'mwb-pgfw-deactivation-reason',
+				'id'          => 'wps-pgfw-deactivation-reason',
 				'title'       => '',
 				'description' => '',
 				'type'        => 'radio',
@@ -479,11 +479,11 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 			),
 
 			wp_rand() => array(
-				'id'          => 'mwb-pgfw-deactivation-reason-text',
+				'id'          => 'wps-pgfw-deactivation-reason-text',
 				'title'       => sprintf(
 					/* translators: plugin name label. */
 					esc_html__( 'Let us know why you are deactivating %s so we can improve the plugin', 'pdf-generator-for-wp' ),
-					self::$mwb_pgfw_plugin_name_label
+					self::$wps_pgfw_plugin_name_label
 				),
 				'type'        => 'textarea',
 				'description' => '',
@@ -491,11 +491,11 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 				'placeholder' => esc_html__( 'Reason', 'pdf-generator-for-wp' ),
 				'value'       => '',
 				'required'    => '',
-				'class'       => 'mwb-keep-hidden',
+				'class'       => 'wps-keep-hidden',
 			),
 
 			wp_rand() => array(
-				'id'          => 'mwb-pgfw-admin-email',
+				'id'          => 'wps-pgfw-admin-email',
 				'title'       => '',
 				'description' => '',
 				'type'        => 'hidden',
@@ -507,37 +507,37 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 			),
 
 			wp_rand() => array(
-				'id'          => 'mwb-pgfw-store-name',
+				'id'          => 'wps-pgfw-store-name',
 				'title'       => '',
 				'description' => '',
 				'type'        => 'hidden',
 				'placeholder' => '',
 				'name'        => 'company',
-				'value'       => self::$mwb_pgfw_store_name,
+				'value'       => self::$wps_pgfw_store_name,
 				'required'    => '',
 				'class'       => '',
 			),
 
 			wp_rand() => array(
-				'id'          => 'mwb-pgfw-store-url',
+				'id'          => 'wps-pgfw-store-url',
 				'title'       => '',
 				'description' => '',
 				'type'        => 'hidden',
 				'name'        => 'website',
 				'placeholder' => '',
-				'value'       => self::$mwb_pgfw_store_url,
+				'value'       => self::$wps_pgfw_store_url,
 				'required'    => '',
 				'class'       => '',
 			),
 
 			wp_rand() => array(
-				'id'          => 'mwb-pgfw-plugin-name',
+				'id'          => 'wps-pgfw-plugin-name',
 				'title'       => '',
 				'description' => '',
 				'type'        => 'hidden',
 				'placeholder' => '',
 				'name'        => 'org_plugin_name',
-				'value'       => self::$mwb_pgfw_plugin_name_label,
+				'value'       => self::$wps_pgfw_plugin_name_label,
 				'required'    => '',
 				'class'       => '',
 			),
@@ -552,9 +552,9 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 *
 	 * @since    1.0.0
 	 */
-	public function mwb_pgfw_send_onboarding_data() {
+	public function wps_pgfw_send_onboarding_data() {
 
-		check_ajax_referer( 'mwb_pgfw_onboarding_nonce', 'nonce' );
+		check_ajax_referer( 'wps_pgfw_onboarding_nonce', 'nonce' );
 
 		$form_data = ! empty( $_POST['form_data'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['form_data'] ) ) ) : '';
 		$form_data = is_array( $form_data ) ? map_deep( wp_unslash( $form_data ), 'sanitize_text_field' ) : sanitize_text_field( wp_unslash( $form_data ) );
@@ -565,7 +565,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 
 			foreach ( $form_data as $key => $input ) {
 
-				if ( 'mwb-pgfw-show-counter' == $input->name ) {// phpcs:ignore
+				if ( 'wps-pgfw-show-counter' == $input->name ) {// phpcs:ignore
 					continue;
 				}
 
@@ -616,9 +616,9 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 
 			if ( ! empty( $formatted_data ) && is_array( $formatted_data ) ) {
 
-				unset( $formatted_data['mwb-pgfw-show-counter'] );
+				unset( $formatted_data['wps-pgfw-show-counter'] );
 
-				$result = $this->mwb_pgfw_handle_form_submission_for_hubspot( $formatted_data, $action_type );
+				$result = $this->wps_pgfw_handle_form_submission_for_hubspot( $formatted_data, $action_type );
 			}
 		} catch ( Exception $e ) {
 
@@ -627,7 +627,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 		}
 
 		if ( ! empty( $action_type ) && 'onboarding' == $action_type ) { // phpcs:ignore
-			$get_skipped_timstamp = update_option( 'mwb_pgfw_onboarding_data_sent', 'sent' );
+			$get_skipped_timstamp = update_option( 'wps_pgfw_onboarding_data_sent', 'sent' );
 		}
 
 		echo wp_kses_post( wp_json_encode( $formatted_data ) );
@@ -642,7 +642,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 * @param  string $action_type  Type of action.
 	 * @since    1.0.0
 	 */
-	protected function mwb_pgfw_handle_form_submission_for_hubspot( $submission = false, $action_type = 'onboarding' ) {
+	protected function wps_pgfw_handle_form_submission_for_hubspot( $submission = false, $action_type = 'onboarding' ) {
 
 		if ( 'onboarding' == $action_type ) { // phpcs:ignore
 			array_push(
@@ -654,7 +654,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 			);
 		}
 
-		$result = $this->mwb_pgfw_hubwoo_submit_form( $submission, $action_type );
+		$result = $this->wps_pgfw_hubwoo_submit_form( $submission, $action_type );
 
 		if ( true == $result['success'] ) { // phpcs:ignore
 			return true;
@@ -671,14 +671,14 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 * @param      string $action_type    type of action.
 	 * @since       1.0.0
 	 */
-	protected function mwb_pgfw_hubwoo_submit_form( $form_data = array(), $action_type = 'onboarding' ) {
+	protected function wps_pgfw_hubwoo_submit_form( $form_data = array(), $action_type = 'onboarding' ) {
 		if ( 'onboarding' == $action_type ) { // phpcs:ignore
-			$form_id = self::$mwb_pgfw_onboarding_form_id;
+			$form_id = self::$wps_pgfw_onboarding_form_id;
 		} else {
-			$form_id = self::$mwb_pgfw_deactivation_form_id;
+			$form_id = self::$wps_pgfw_deactivation_form_id;
 		}
 
-		$url = 'submissions/v3/integration/submit/' . self::$mwb_pgfw_portal_id . '/' . $form_id;
+		$url = 'submissions/v3/integration/submit/' . self::$wps_pgfw_portal_id . '/' . $form_id;
 
 		$headers = 'Content-Type: application/json';
 
@@ -686,14 +686,14 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 			array(
 				'fields'  => $form_data,
 				'context' => array(
-					'pageUri'   => self::$mwb_pgfw_store_url,
-					'pageName'  => self::$mwb_pgfw_store_name,
-					'ipAddress' => $this->mwb_pgfw_get_client_ip(),
+					'pageUri'   => self::$wps_pgfw_store_url,
+					'pageName'  => self::$wps_pgfw_store_name,
+					'ipAddress' => $this->wps_pgfw_get_client_ip(),
 				),
 			)
 		);
 
-		$response = $this->mwb_pgfw_hic_post( $url, $form_data, $headers );
+		$response = $this->wps_pgfw_hic_post( $url, $form_data, $headers );
 		if ( 200 == $response['status_code'] ) { // phpcs:ignore
 			$result            = json_decode( $response['response'], true );
 			$result['success'] = true;
@@ -711,8 +711,8 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 * @param   array  $post_params    form data that need to be send.
 	 * @param   array  $headers    data that must be included in header for request.
 	 */
-	private function mwb_pgfw_hic_post( $endpoint, $post_params, $headers ) {
-		$url      = $this->mwb_pgfw_base_url . $endpoint;
+	private function wps_pgfw_hic_post( $endpoint, $post_params, $headers ) {
+		$url      = $this->wps_pgfw_base_url . $endpoint;
 		$request  = array(
 			'method'      => 'POST',
 			'timeout'     => 45,
@@ -746,7 +746,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 *
 	 * @since    1.0.0
 	 */
-	public function mwb_pgfw_get_client_ip() {
+	public function wps_pgfw_get_client_ip() {
 		$ipaddress = '';
 		if ( getenv( 'HTTP_CLIENT_IP' ) ) {
 			$ipaddress = getenv( 'HTTP_CLIENT_IP' );
@@ -771,14 +771,14 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 *
 	 * @since    1.0.0
 	 */
-	public function mwb_pgfw_valid_page_screen_check() {
-		$mwb_pgfw_screen  = get_current_screen();
-		$mwb_pgfw_is_flag = false;
-		if ( isset( $mwb_pgfw_screen->id ) && 'wp-swings_page_pdf_generator_for_wp_menu' == $mwb_pgfw_screen->id ) { // phpcs:ignore
-			$mwb_pgfw_is_flag = true;
+	public function wps_pgfw_valid_page_screen_check() {
+		$wps_pgfw_screen  = get_current_screen();
+		$wps_pgfw_is_flag = false;
+		if ( isset( $wps_pgfw_screen->id ) && 'wp-swings_page_pdf_generator_for_wp_menu' == $wps_pgfw_screen->id ) { // phpcs:ignore
+			$wps_pgfw_is_flag = true;
 		}
 
-		return $mwb_pgfw_is_flag;
+		return $wps_pgfw_is_flag;
 	}
 
 	/**
@@ -786,25 +786,25 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 *
 	 * @since    1.0.0
 	 */
-	public function mwb_pgfw_show_onboarding_popup_check() {
+	public function wps_pgfw_show_onboarding_popup_check() {
 
-		$mwb_pgfw_is_already_sent = get_option( 'mwb_pgfw_onboarding_data_sent', false );
+		$wps_pgfw_is_already_sent = get_option( 'wps_pgfw_onboarding_data_sent', false );
 
 		// Already submitted the data.
-		if ( ! empty( $mwb_pgfw_is_already_sent ) && 'sent' == $mwb_pgfw_is_already_sent ) { // phpcs:ignore
+		if ( ! empty( $wps_pgfw_is_already_sent ) && 'sent' == $wps_pgfw_is_already_sent ) { // phpcs:ignore
 			return false;
 		}
 
-		$mwb_pgfw_get_skipped_timstamp = get_option( 'mwb_pgfw_onboarding_data_skipped', false );
-		if ( ! empty( $mwb_pgfw_get_skipped_timstamp ) ) {
+		$wps_pgfw_get_skipped_timstamp = get_option( 'wps_pgfw_onboarding_data_skipped', false );
+		if ( ! empty( $wps_pgfw_get_skipped_timstamp ) ) {
 
-			$mwb_pgfw_next_show = strtotime( '+2 days', $mwb_pgfw_get_skipped_timstamp );
+			$wps_pgfw_next_show = strtotime( '+2 days', $wps_pgfw_get_skipped_timstamp );
 
-			$mwb_pgfw_current_time = time();
+			$wps_pgfw_current_time = time();
 
-			$mwb_pgfw_time_diff = $mwb_pgfw_next_show - $mwb_pgfw_current_time;
+			$wps_pgfw_time_diff = $wps_pgfw_next_show - $wps_pgfw_current_time;
 
-			if ( 0 < $mwb_pgfw_time_diff ) {
+			if ( 0 < $wps_pgfw_time_diff ) {
 				return false;
 			}
 		}

@@ -18,40 +18,40 @@
 }
 /*popup modal*/
 
-.mwb_pgfw_email_bulk_input {
+.wps_pgfw_email_bulk_input {
     display: flex;
     flex-direction: column;
 }
 
-.mwb_pgfw_email_bulk_input label {
+.wps_pgfw_email_bulk_input label {
     font-weight: 600;
     margin-bottom: 10px;
     color: #1a1a1a;
 }
 
-.mwb_pgfw_email_bulk_input input {
+.wps_pgfw_email_bulk_input input {
     border: 1px solid #333333 !important;
     box-shadow: none !important;
     background-color: rgb(26 51 101 / 5%) !important;
     margin-bottom: 10px;
 }
 
-.mwb_pgfw_email_bulk_input input:focus {
+.wps_pgfw_email_bulk_input input:focus {
     outline:none;
     box-shadow: none;
 }
 
-.mwb_pgfw_email_bulk_button {
+.wps_pgfw_email_bulk_button {
     margin-top: 10px;
 }
 
-.mwb_pgfw_email_bulk_button button {
+.wps_pgfw_email_bulk_button button {
     background-color: #333333;
     color: #ffffff;
     border:none;
 }
 
-.mwb_pgfw_email_bulk_button button:focus {
+.wps_pgfw_email_bulk_button button:focus {
     border:none;
     outline:none;
     color:#ffffff;

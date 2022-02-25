@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Dompdf\FontMetrics;
-if ( ! function_exists( 'mwb_generate_pdf' ) ) {
+if ( ! function_exists( 'wps_generate_pdf' ) ) {
 
 	/**
 	 * Main function for generating pdf.
@@ -27,7 +27,7 @@ if ( ! function_exists( 'mwb_generate_pdf' ) ) {
 	 *
 	 * @return string|bool
 	 */
-	function mwb_generate_pdf( $args = array() ) {
+	function wps_generate_pdf( $args = array() ) {
 		$attr = wp_parse_args(
 			$args,
 			array(
@@ -43,9 +43,9 @@ if ( ! function_exists( 'mwb_generate_pdf' ) ) {
 			)
 		);
 
-		$dompdf = mwb_get_dompdf_object();
+		$dompdf = wps_get_dompdf_object();
 		$dompdf->loadHtml( $attr['html'] );
-		$dompdf->setPaper( mwb_get_page_sizes( $attr['paper_size'] ), $attr['page_orientation'] );
+		$dompdf->setPaper( wps_get_page_sizes( $attr['paper_size'] ), $attr['page_orientation'] );
 		$dompdf->render();
 		$output = $dompdf->output();
 		if ( $attr['get_content'] ) {
@@ -68,7 +68,7 @@ if ( ! function_exists( 'mwb_generate_pdf' ) ) {
 	 *
 	 * @return object
 	 */
-	function mwb_get_dompdf_object() {
+	function wps_get_dompdf_object() {
 		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
 		$dompdf = new Dompdf( array( 'enable_remote' => true ) );
 		return $dompdf;
@@ -79,7 +79,7 @@ if ( ! function_exists( 'mwb_generate_pdf' ) ) {
 	 * @param string $page_size page size to generate PDF on.
 	 * @return array array containing page size.
 	 */
-	function mwb_get_page_sizes( $page_size = 'a4' ) {
+	function wps_get_page_sizes( $page_size = 'a4' ) {
 		$paper_sizes = array(
 			'4a0'                      => array( 0, 0, 4767.87, 6740.79 ),
 			'2a0'                      => array( 0, 0, 3370.39, 4767.87 ),

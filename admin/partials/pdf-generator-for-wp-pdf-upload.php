@@ -14,16 +14,16 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-global $pgfw_mwb_pgfw_obj;
+global $pgfw_wps_pgfw_obj;
 $pgfw_pdf_upload_settings = apply_filters( 'pgfw_pdf_upload_fields_settings_array', array() );
 ?>
 <!--  template file for admin settings. -->
-<form action="" method="POST" class="mwb-pgfw-gen-section-form">
+<form action="" method="POST" class="wps-pgfw-gen-section-form">
 	<div class="pgfw-section-wrap">
 		<div class="pgfw-upload-poster-notification"><?php esc_html_e( 'Upload posters from here and you will get shortcode which you can use anywhere on your post or page to give access to download these posters.', 'pdf-generator-for-wp' ); ?></div>
 		<?php
 		wp_nonce_field( 'nonce_settings_save', 'pgfw_nonce_field' );
-		$pgfw_mwb_pgfw_obj->mwb_pgfw_plug_generate_html( $pgfw_pdf_upload_settings );
+		$pgfw_wps_pgfw_obj->wps_pgfw_plug_generate_html( $pgfw_pdf_upload_settings );
 		$pgfw_pdf_upload_settings = get_option( 'pgfw_pdf_upload_save_settings', array() );
 		$pgfw_poster_doc          = array_key_exists( 'sub_pgfw_poster_image_upload', $pgfw_pdf_upload_settings ) ? $pgfw_pdf_upload_settings['sub_pgfw_poster_image_upload'] : '';
 		// poster images names and shortcodes.

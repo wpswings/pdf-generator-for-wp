@@ -69,14 +69,14 @@ class Pdf_Generator_For_Wp_Rest_Api {
 	 *
 	 * @since    1.0.0
 	 */
-	public function mwb_pgfw_add_endpoint() {
+	public function wps_pgfw_add_endpoint() {
 		register_rest_route(
 			'pgfw-route/v1',
 			'/pgfw-dummy-data/',
 			array(
 				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'mwb_pgfw_default_callback' ),
-				'permission_callback' => array( $this, 'mwb_pgfw_default_permission_check' ),
+				'callback'            => array( $this, 'wps_pgfw_default_callback' ),
+				'permission_callback' => array( $this, 'wps_pgfw_default_permission_check' ),
 			)
 		);
 	}
@@ -89,7 +89,7 @@ class Pdf_Generator_For_Wp_Rest_Api {
 	 * @return  Array   $result   return rest response to server from where the endpoint hits.
 	 * @since    1.0.0
 	 */
-	public function mwb_pgfw_default_permission_check( $request ) {
+	public function wps_pgfw_default_permission_check( $request ) {
 
 		// Add rest api validation for each request.
 		$result = true;
@@ -101,20 +101,20 @@ class Pdf_Generator_For_Wp_Rest_Api {
 	 * Begins execution of api endpoint.
 	 *
 	 * @param   Array $request    All information related with the api request containing in this array.
-	 * @return  Array   $mwb_pgfw_response   return rest response to server from where the endpoint hits.
+	 * @return  Array   $wps_pgfw_response   return rest response to server from where the endpoint hits.
 	 * @since    1.0.0
 	 */
-	public function mwb_pgfw_default_callback( $request ) {
+	public function wps_pgfw_default_callback( $request ) {
 
 		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/rest-api/version1/class-pdf-generator-for-wp-api-process.php';
-		$mwb_pgfw_api_obj     = new Pdf_Generator_For_Wp_Api_Process();
-		$mwb_pgfw_resultsdata = $mwb_pgfw_api_obj->mwb_pgfw_default_process( $request );
-		if ( is_array( $mwb_pgfw_resultsdata ) && isset( $mwb_pgfw_resultsdata['status'] ) && 200 == $mwb_pgfw_resultsdata['status'] ) {
-			unset( $mwb_pgfw_resultsdata['status'] );
-			$mwb_pgfw_response = new WP_REST_Response( $mwb_pgfw_resultsdata, 200 );
+		$wps_pgfw_api_obj     = new Pdf_Generator_For_Wp_Api_Process();
+		$wps_pgfw_resultsdata = $wps_pgfw_api_obj->wps_pgfw_default_process( $request );
+		if ( is_array( $wps_pgfw_resultsdata ) && isset( $wps_pgfw_resultsdata['status'] ) && 200 == $wps_pgfw_resultsdata['status'] ) {
+			unset( $wps_pgfw_resultsdata['status'] );
+			$wps_pgfw_response = new WP_REST_Response( $wps_pgfw_resultsdata, 200 );
 		} else {
-			$mwb_pgfw_response = new WP_Error( $mwb_pgfw_resultsdata );
+			$wps_pgfw_response = new WP_Error( $wps_pgfw_resultsdata );
 		}
-		return $mwb_pgfw_response;
+		return $wps_pgfw_response;
 	}
 }
