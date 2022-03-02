@@ -25,7 +25,7 @@
  * Tested up to:         5.9
  * WC requires at least: 4.0.0
  * WC tested up to:      6.1.1
- * Stable tag:           1.0.5
+ * Stable tag:           1.0.6
  * Requires PHP:         7.2
  *
  * License:           GNU General Public License v3.0
@@ -198,7 +198,7 @@ function pdf_generator_for_wp_custom_settings_at_plugin_tab( $links_array, $plug
 }
 add_filter( 'plugin_row_meta', 'pdf_generator_for_wp_custom_settings_at_plugin_tab', 10, 2 );
 
-///////////////////// Adding notice code ///////////////////////////////////// Upgrade notice. /////.
+// Adding notice code ///////////////////////////////////// Upgrade notice. /////.
 
 add_action( 'after_plugin_row_' . plugin_basename( __FILE__ ), 'wps_pdf_gen_upgrade_notice', 0, 3 );
 
@@ -269,7 +269,7 @@ function wps_pdf_gen_plugin_upgrade_notice() {
 		<?php
 	}
 }
-add_action( 'admin_init' , 'pgfw_pro_upgrade_wp_options' );
+add_action( 'admin_init', 'pgfw_pro_upgrade_wp_options' );
 		/**
 		 * Upgrade_wp_options. (use period)
 		 *
@@ -279,42 +279,40 @@ add_action( 'admin_init' , 'pgfw_pro_upgrade_wp_options' );
 		 */
 function pgfw_pro_upgrade_wp_options() {
 
-	$condition = get_option( 'pgfw_wps_code_migrated' , 'no' );
+	$condition_check = get_option( 'pgfw_wps_code_migrated', 'no' );
 
-	if ( $condition != 'yes') {
+	if ( $condition_check != 'yes' ) {
 		$wp_options = array(
 			'mwb_pgfw_onboarding_data_skipped' => '',
-			'mwb_all_plugins_active'		   => '',
-			'mwb_pgfw_onboarding_data_sent'	   => '',
-			'pgfw_wps_code_migrated'		   => 'yes',
+			'mwb_all_plugins_active'           => '',
+			'mwb_pgfw_onboarding_data_sent'    => '',
+			'pgfw_wps_code_migrated'           => 'yes',
 
-			);
+		);
 
-			foreach ( $wp_options as $key => $value ) {
+		foreach ( $wp_options as $key => $value ) {
 
-				$new_key = str_replace( 'mwb_', 'wps_', $key );	
-				if ( ! empty( get_option( $new_key ) ) ) {
-					continue;
+			$new_key = str_replace( 'mwb_', 'wps_', $key );
+			if ( ! empty( get_option( $new_key ) ) ) {
+				continue;
+			}
+			$new_value = get_option( $key, $value );
+
+			$arr_val = array();
+			if ( is_array( $new_value ) ) {
+				foreach ( $new_value as $key => $value ) {
+					$new_key1 = str_replace( 'mwb_', 'wps_', $key );
+					$new_key2 = str_replace( 'mwb-', 'wps-', $new_key1 );
+
+					$value_1 = str_replace( 'mwb-', 'wps-', $value );
+					$value_2 = str_replace( 'mwb_', 'wps_', $value_1 );
+					$arr_val[ $new_key2 ] = $value_2;
 				}
-				$new_value = get_option( $key, $value );
-
-				$arr_val = array();
-				if ( is_array( $new_value )) {
-					foreach ( $new_value as $key => $value) {
-						$new_key1 = str_replace( 'mwb_', 'wps_', $key );
-						$new_key2 = str_replace( 'mwb-', 'wps-', $new_key1 );
-
-						$value_1 = str_replace( 'mwb-', 'wps-', $value);
-						$value_2 = str_replace( 'mwb_', 'wps_', $value_1);
-						$arr_val[ $new_key2 ] = $value_2;
-					}
-					update_option( $new_key, $arr_val );
-				}
-				else {
-					update_option( $new_key, $new_value );
-				}
+				update_option( $new_key, $arr_val );
+			} else {
+				update_option( $new_key, $new_value );
 			}
 		}
-		}
-///////////////////Ending noticed code/////////////////////////////////////
-
+	}
+}
+// Ending noticed code/////////////////////////////////////.
