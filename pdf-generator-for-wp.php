@@ -15,7 +15,7 @@
  * Plugin Name:       PDF Generator For Wp
  * Plugin URI:        https://wordpress.org/plugins/pdf-generator-for-wp/
  * Description:       Let your users download pages, posts, and products in PDF format using this plugin allowing you to add technical and marketing utility for your WordPress site.
- * Version:           1.0.5
+ * Version:           1.0.6
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=pdf-org-backend&utm_campaign=official
  * Text Domain:       pdf-generator-for-wp
