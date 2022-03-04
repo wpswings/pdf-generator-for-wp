@@ -36,7 +36,17 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
+include_once ABSPATH . 'wp-admin/includes/plugin.php';
+if ( is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
 
+	$plug = get_plugins();
+	if ( isset( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php'] ) ) {
+		if ( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php']['Version'] < '3.4.2' ) {
+			unset( $_GET['activate'] );
+			deactivate_plugins( plugin_basename( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) );
+		}
+	}
+}
 /**
  * Define plugin constants.
  *
@@ -176,7 +186,7 @@ function pdf_generator_for_wp_settings_link( $links ) {
 	$my_link = array(
 		'<a href="' . admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ) . '">' . __( 'Settings', 'pdf-generator-for-wp' ) . '</a>',
 	);
-	if ( ! in_array( 'wordpress-pdf-generator/wordpress-pdf-generator.php', get_option( 'active_plugins' ), true ) ) {
+	if ( ! in_array( 'pdf-generator-for-wp-pro/wordpress-pdf-generator.php', get_option( 'active_plugins' ), true ) ) {
 		$my_link[] = '<a href="https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=pdf-org-backend&utm_campaign=go-pro" target="_blank" class="wps-pgfw-go-pro-link-backend">' . esc_html__( 'Go Pro', 'pdf-generator-for-wp' ) . '</a>';
 	}
 	return array_merge( $my_link, $links );
