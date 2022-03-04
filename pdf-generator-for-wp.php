@@ -41,7 +41,7 @@ if ( is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) )
 
 	$plug = get_plugins();
 	if ( isset( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php'] ) ) {
-		if ( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php']['Version'] < '3.4.2' ) {
+		if ( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php']['Version'] < '3.0.5' ) {
 			unset( $_GET['activate'] );
 			deactivate_plugins( plugin_basename( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) );
 		}
