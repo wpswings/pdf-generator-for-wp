@@ -269,7 +269,6 @@ class Pdf_Generator_For_Wp_Common {
 			$text         = $body_watermark_text;
 			$textheight   = $fontmetrices->getFontHeight( $font, 150 );
 			$textwidth    = $fontmetrices->getTextWidth( $text, $font, 40 );
-			$canvas->set_opacity( .2, 'Multiply' );
 			$x               = ( ( $w - $textwidth ) / 2 );
 			$y               = ( ( $h - $textheight ) / 2 );
 			$hex             = $body_watermark_color;

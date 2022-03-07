@@ -67,7 +67,7 @@ The plugin allows you to upload your own PDF files for download. You can also li
 
 Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-docs&utm_medium=pdf-github-page&utm_campaign=documentation) and learn more about the features and working of the plugin.
 
-Check Out [**PDF Generator For WordPress Plugin Knowledge Base**](https://support.wpswings.com/wordpress-pdf-generator-pro/?utm_source=wpswings-pdf-support&utm_medium=wpswings-github-page&utm_campaign=kb)
+Check Out [**PDF Generator For WordPress Plugin Knowledge Base**](https://support.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-support&utm_medium=wpswings-github-page&utm_campaign=kb)
 
 ## LIVE DEMO OF PREMIUM VERSION
 
