@@ -253,11 +253,11 @@ function return_ob_html( $post_id, $template_name = '' ) {
 					$prod_cat = get_the_terms( $post, $taxonomy );
 					if ( is_array( $prod_cat ) ) {
 						$html1 .= '<div><b>' . strtoupper( str_replace( '_', ' ', $taxonomy ) ) . '</b></div>';
-						$html1 .= '<ul>';
+						$html1 .= '<ol>';
 						foreach ( $prod_cat as $category ) {
 							$html1 .= '<li>' . $category->name . '</li>';
 						}
-						$html1 .= '</ul>';
+						$html1 .= '</ol>';
 					}
 				}
 			}
@@ -268,11 +268,11 @@ function return_ob_html( $post_id, $template_name = '' ) {
 			$categories = get_the_category( $post->ID );
 			if ( is_array( $categories ) && ! empty( $categories ) ) {
 				$html .= '<div><b>' . esc_html__( 'Category', 'pdf-generator-for-wp' ) . '</b></div>';
-				$html .= '<ul>';
+				$html .= '<ol>';
 				foreach ( $categories as $category ) {
 					$html .= '<li>' . $category->name . '</li>';
 				}
-				$html .= '</ul>';
+				$html .= '</ol>';
 			}
 		}
 		// tags for posts.
@@ -280,11 +280,11 @@ function return_ob_html( $post_id, $template_name = '' ) {
 			$tags = get_the_tags( $post );
 			if ( is_array( $tags ) ) {
 				$html .= '<div><b>' . __( 'Tags', 'pdf-generator-for-wp' ) . '</b></div>';
-				$html .= '<ul>';
+				$html .= '<ol>';
 				foreach ( $tags as $tag ) {
 					$html .= '<li>' . $tag->name . '</li> ';
 				}
-				$html .= '</ul>';
+				$html .= '</ol>';
 			}
 		}
 		// post created date.
