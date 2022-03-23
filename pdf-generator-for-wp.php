@@ -36,17 +36,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
-include_once ABSPATH . 'wp-admin/includes/plugin.php';
-if ( is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
 
-	$plug = get_plugins();
-	if ( isset( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php'] ) ) {
-		if ( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php']['Version'] < '3.0.5' ) {
-			unset( $_GET['activate'] );
-			deactivate_plugins( plugin_basename( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) );
-		}
-	}
-}
 /**
  * Define plugin constants.
  *
@@ -291,7 +281,7 @@ function pgfw_pro_upgrade_wp_options() {
 
 	$condition_check = get_option( 'pgfw_wps_code_migrated', 'no' );
 
-	if ( $condition_check != 'yes' ) {
+	if ( $condition_check !== 'yes' ) {
 		$wp_options = array(
 			'mwb_pgfw_onboarding_data_skipped' => '',
 			'mwb_all_plugins_active'           => '',
@@ -308,21 +298,8 @@ function pgfw_pro_upgrade_wp_options() {
 			}
 			$new_value = get_option( $key, $value );
 
-			$arr_val = array();
-			if ( is_array( $new_value ) ) {
-				foreach ( $new_value as $key => $value ) {
-					$new_key1 = str_replace( 'mwb_', 'wps_', $key );
-					$new_key2 = str_replace( 'mwb-', 'wps-', $new_key1 );
-
-					$value_1 = str_replace( 'mwb-', 'wps-', $value );
-					$value_2 = str_replace( 'mwb_', 'wps_', $value_1 );
-					$arr_val[ $new_key2 ] = $value_2;
-				}
-				update_option( $new_key, $arr_val );
-			} else {
 				update_option( $new_key, $new_value );
 			}
-		}
 	}
 }
 // Ending noticed code/////////////////////////////////////.
