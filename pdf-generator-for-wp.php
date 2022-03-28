@@ -203,7 +203,7 @@ add_filter( 'plugin_row_meta', 'pdf_generator_for_wp_custom_settings_at_plugin_t
 add_action( 'after_plugin_row_' . plugin_basename( __FILE__ ), 'wps_pdf_gen_upgrade_notice', 0, 3 );
 
 /**
- * Displays notice to upgrade to membership pro.
+ * Displays notice to upgrade to pdf.
  *
  * @param string $plugin_file Path to the plugin file relative to the plugins directory.
  * @param array  $plugin_data An array of plugin data.
@@ -237,38 +237,7 @@ function wps_pdf_gen_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 }
 // Upgrade notice.
 
-add_action( 'admin_notices', 'wps_pdf_gen_plugin_upgrade_notice', 20 );
 
-/**
- * Displays notice to upgrade for Wallet.
- */
-function wps_pdf_gen_plugin_upgrade_notice() {
-	$screen = get_current_screen();
-	if ( isset( $screen->id ) && 'wp-swings_page_pdf_generator_for_wp_menu' === $screen->id ) {
-		?>
-
-		<tr class="plugin-update-tr active notice-warning notice-alt">
-			<td colspan="4" class="plugin-update colspanchange">
-				<div class="notice notice-success inline update-message notice-alt">
-					<div class='wps-notice-title wps-notice-section'>
-						<p><strong><?php esc_html_e( 'IMPORTANT NOTICE:', 'pdf-generator-for-wp' ); ?></strong></p>
-					</div>
-					<div class='wps-notice-content wps-notice-section'>
-						<p><?php esc_html_e( 'From this update', 'pdf-generator-for-wp' ); ?><strong><?php esc_html_e( ' Version 1.0.5', 'pdf-generator-for-wp' ); ?></strong><?php esc_html_e( ' onwards, the plugin and its support will be handled by', 'pdf-generator-for-wp' ); ?><strong><?php esc_html_e( ' WP Swings', 'pdf-generator-for-wp' ); ?></strong>.</p><p><strong><?php esc_html_e( 'WP Swings', 'pdf-generator-for-wp' ); ?></strong><?php esc_html_e( ' is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.', 'pdf-generator-for-wp' ); ?>
-						<?php esc_html_e( 'Please connect with us for all setup, support, and update related queries without hesitation.', 'pdf-generator-for-wp' ); ?></p>
-					</div>
-				</div>
-			</td>
-		</tr>
-		<style>
-			.wps-notice-section > p:before {
-				content: none;
-			}
-		</style>
-
-		<?php
-	}
-}
 add_action( 'admin_init', 'pgfw_pro_upgrade_wp_options' );
 		/**
 		 * Upgrade_wp_options. (use period)
@@ -281,7 +250,7 @@ function pgfw_pro_upgrade_wp_options() {
 
 	$condition_check = get_option( 'pgfw_wps_code_migrated', 'no' );
 
-	if ( $condition_check !== 'yes' ) {
+	if ( 'yes' !== $condition_check ) {
 		$wp_options = array(
 			'mwb_pgfw_onboarding_data_skipped' => '',
 			'mwb_all_plugins_active'           => '',
@@ -299,7 +268,7 @@ function pgfw_pro_upgrade_wp_options() {
 			$new_value = get_option( $key, $value );
 
 				update_option( $new_key, $new_value );
-			}
+		}
 	}
 }
 // Ending noticed code/////////////////////////////////////.
