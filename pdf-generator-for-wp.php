@@ -36,6 +36,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
+require_once ABSPATH . '/wp-admin/includes/plugin.php';
 $old_pro_exists = false;
 $plug           = get_plugins();
 if ( isset( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php'] ) ) {
