@@ -130,6 +130,21 @@ class Pdf_Generator_For_Wp_Admin {
 					'reset_error'        => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/cross.png',
 				)
 			);
+			$migration_success = get_option( 'wps_code_migratded' );
+			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'src/js/wpg-addon-admin.js', array( 'jquery' ), $this->version, false );
+			wp_enqueue_script( $this->plugin_name . '-swal', plugin_dir_url( __FILE__ ) . 'src/js/wpg-swal.js', array( 'jquery' ), $this->version, false );
+			wp_enqueue_script( $this->plugin_name . '-wps-swal', plugin_dir_url( __FILE__ ) . 'src/js/wps-wpg-swal.js', array( 'jquery' ), $this->version, false );	
+			wp_localize_script(
+				$this->plugin_name,
+				'localised',
+				array(
+					'ajaxurl'       => admin_url( 'admin-ajax.php' ),
+					'nonce'         => wp_create_nonce( 'wps_wpg_migrated_nonce' ),
+					'callback'      => 'wpg_ajax_callbacks',
+					'pending_settings' => $this->wps_wpg_get_count( 'settings' ),
+					'hide_import'   => $migration_success,
+				)
+			);
 		}
 	}
 
@@ -1662,5 +1677,131 @@ class Pdf_Generator_For_Wp_Admin {
 			update_option( $key, $val );
 		}
 		do_action( 'wps_pgfw_save_default_pro_settings' );
+	}
+
+	/**
+	 * This function is used to count pending post.
+	 *
+	 * @param string $type type.
+	 * @param string $action actions.
+	 * @return int $result result.
+	 */
+	public function wps_wpg_get_count( $type = 'all' ) {
+		global $wpdb;
+
+		switch ( $type ) {
+			case 'settings':
+				$table = $wpdb->prefix . 'options';
+				$sql = "SELECT `option_id`
+				FROM `$table`
+				WHERE `option_name` LIKE 'mwb_pgfw_onboarding_data_skipped' 
+				OR `option_name` LIKE 'mwb_all_plugins_active'
+				OR `option_name` LIKE 'mwb_pgfw_onboarding_data_sent'
+				OR `option_name` LIKE 'mwb_wpg_check_license_daily'
+				OR `option_name` LIKE 'mwb_wpg_activated_timestamp'
+				OR `option_name` LIKE 'mwb_wpg_plugin_update'
+				OR `option_name` LIKE 'mwb_wpg_license_key'
+				OR `option_name` LIKE 'mwb_wpg_license_check'
+				OR `option_name` LIKE 'mwb_wpg_meta_fields_in_page'
+				OR `option_name` LIKE 'mwb_wpg_meta_fields_in_post'
+				OR `option_name` LIKE 'mwb_wpg_meta_fields_in_product'";
+
+				break;
+
+			default:
+				$sql = false;
+				break;
+		}
+
+		if ( empty( $sql ) ) {
+			return 0;
+		}
+
+		$result = $wpdb->get_results( $sql, ARRAY_A ); // @codingStandardsIgnoreLine.
+		return $result;
+	}
+
+	/**
+	 * This is a ajax callback function for migration.
+	 */
+	public function wps_wpg_ajax_callbacks() {
+		check_ajax_referer( 'wps_wpg_migrated_nonce', 'nonce' );
+		$event = ! empty( $_POST['event'] ) ? sanitize_text_field( wp_unslash( $_POST['event'] ) ) : '';
+		if ( method_exists( $this, $event ) ) {
+			$data = $this->$event( $_POST );
+		} else {
+			$data = esc_html__( 'method not found', 'pdf-generator-for-wp-pro' );
+		}
+		echo wp_json_encode( $data );
+		wp_die();
+	}
+
+	/**
+	 * Upgrade_wp_options. (use period)
+	 *
+	 * Upgrade_wp_options.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wpg_import_options_table() {
+		$wp_options = array(
+			'mwb_pgfw_onboarding_data_skipped' => '',
+			'mwb_all_plugins_active'           => '',
+			'mwb_pgfw_onboarding_data_sent'    => '',
+			'mwb_wpg_check_license_daily' => '',
+			'mwb_wpg_activated_timestamp' => '',
+			'mwb_wpg_plugin_update'       => '',
+			'mwb_wpg_license_key'        => '',
+			'mwb_wpg_license_check'       => '',
+			'mwb_wpg_meta_fields_in_page' => '',
+			'mwb_wpg_meta_fields_in_post' => '',
+			'mwb_wpg_meta_fields_in_product' => '',
+		);
+
+		foreach ( $wp_options as $key => $value ) {
+
+			$new_key = str_replace( 'mwb_', 'wps_', $key );	
+			$new_value = get_option( $key, $value );
+
+			$arr_val = array();
+			if ( is_array( $new_value ) ) {
+				foreach ( $new_value as $keys => $values ) {
+					$new_key1 = str_replace( 'mwb_', 'wps_', $keys );
+					$new_key2 = str_replace( 'mwb-', 'wps-', $new_key1 );
+
+					$value_1 = str_replace( 'mwb-', 'wps-', $values );
+					$value_2 = str_replace( 'mwb_', 'wps_', $value_1 );
+					$arr_val[ $new_key2 ] = $value_2;
+				}
+
+				update_option( $new_key, $arr_val );
+				update_option( 'copy_' . $key, $new_value );
+				delete_option( $key );
+			} else {
+				update_option( $new_key, $new_value );
+				update_option( 'copy_' . $key, $new_value );
+				delete_option( $key );
+			}
+		}
+	}
+
+	/**
+	 * Get Previous log data with wps keys
+	 */
+	public function wpg_import_pdflog() {
+		global $wpdb;
+		$table_name      = $wpdb->prefix . 'wps_pdflog';
+		$charset_collate = $wpdb->get_charset_collate();
+		$sql             = "CREATE TABLE $table_name (
+			id mediumint(9) NOT NULL AUTO_INCREMENT,
+			postid text,
+			username varchar(500),
+			email varchar(320),
+			time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			PRIMARY KEY  (id)
+		) $charset_collate;";
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		dbDelta( $sql );
+		$sql = $wpdb->query( 'INSERT INTO ' . $table_name . ' select * from ' . $wpdb->prefix . 'mwb_pdflog' );
 	}
 }

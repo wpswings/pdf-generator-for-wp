@@ -74,6 +74,27 @@ if ( $pgfw_save_check_flag ) {
 			?>
 		</ul>
 	</nav>
+	<?php 
+		$plugin_admin = new Pdf_Generator_For_Wp_Admin( 'pdf-generator-for-wp', '1.0.6' );
+		$count        = $plugin_admin->wps_wpg_get_count( 'settings' );
+	if ( ! empty( $count ) ) {
+			$global_custom_css = 'const triggerError = () => {
+				swal({
+					title: "Attention Required!",
+					text: "Please Migrate Your Database keys first by click on the below button then you can access the dashboard page.",
+					icon: "error",
+					button: "Click to Import",
+					closeOnClickOutside: false,
+				}).then(function() {
+					jQuery( ".treat-button" ).click();
+				});
+			}
+			triggerError();';
+			wp_register_script( 'wps_wpg_incompatible_css', false, array(), '', 'all' );
+			wp_enqueue_script( 'wps_wpg_incompatible_css' );
+			wp_add_inline_script( 'wps_wpg_incompatible_css', $global_custom_css );
+	}
+	?>
 	<section class="wps-section">
 		<div>
 			<?php

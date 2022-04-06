@@ -164,7 +164,6 @@ function run_pdf_generator_for_wp() {
 	$pgfw_plugin_standard->pgfw_run();
 	$GLOBALS['pgfw_wps_pgfw_obj'] = $pgfw_plugin_standard;
 	require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'includes/pdf-generator-for-wp-global-functions.php';
-
 }
 run_pdf_generator_for_wp();
 
@@ -207,77 +206,11 @@ add_filter( 'plugin_row_meta', 'pdf_generator_for_wp_custom_settings_at_plugin_t
 
 // Adding notice code ///////////////////////////////////// Upgrade notice. /////.
 
-add_action( 'after_plugin_row_' . plugin_basename( __FILE__ ), 'wps_pdf_gen_upgrade_notice', 0, 3 );
 
-/**
- * Displays notice to upgrade to pdf.
- *
- * @param string $plugin_file Path to the plugin file relative to the plugins directory.
- * @param array  $plugin_data An array of plugin data.
- * @param string $status Status filter currently applied to the plugin list.
- */
-function wps_pdf_gen_upgrade_notice( $plugin_file, $plugin_data, $status ) {
-
-	?>
-
-		<tr class="plugin-update-tr active notice-warning notice-alt">
-			<td colspan="4" class="plugin-update colspanchange">
-				<div class="notice notice-success inline update-message notice-alt">
-					<div class='wps-notice-title wps-notice-section'>
-						<p><strong><?php esc_html_e( 'IMPORTANT NOTICE:', 'pdf-generator-for-wp' ); ?></strong></p>
-					</div>
-					<div class='wps-notice-content wps-notice-section'>
-						<p><?php esc_html_e( 'From this update', 'pdf-generator-for-wp' ); ?><strong><?php esc_html_e( ' Version 1.0.5', 'pdf-generator-for-wp' ); ?></strong><?php esc_html_e( ' onwards, the plugin and its support will be handled by', 'pdf-generator-for-wp' ); ?><strong><?php esc_html_e( ' WP Swings', 'pdf-generator-for-wp' ); ?></strong>.</p><p><strong><?php esc_html_e( 'WP Swings', 'pdf-generator-for-wp' ); ?></strong><?php esc_html_e( ' is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end.', 'pdf-generator-for-wp' ); ?>
-						<?php esc_html_e( 'Please connect with us for all setup, support, and update related queries without hesitation.', 'pdf-generator-for-wp' ); ?></p>
-					</div>
-				</div>
-			</td>
-		</tr>
-		<style>
-			.wps-notice-section > p:before {
-				content: none;
-			}
-		</style>
-
-	<?php
-
-}
 // Upgrade notice.
 
 
-add_action( 'admin_init', 'pgfw_pro_upgrade_wp_options' );
-		/**
-		 * Upgrade_wp_options. (use period)
-		 *
-		 * Upgrade_wp_options.
-		 *
-		 * @since    1.0.0
-		 */
-function pgfw_pro_upgrade_wp_options() {
 
-	$condition_check = get_option( 'pgfw_wps_code_migrated', 'no' );
-
-	if ( 'yes' !== $condition_check ) {
-		$wp_options = array(
-			'mwb_pgfw_onboarding_data_skipped' => '',
-			'mwb_all_plugins_active'           => '',
-			'mwb_pgfw_onboarding_data_sent'    => '',
-			'pgfw_wps_code_migrated'           => 'yes',
-
-		);
-
-		foreach ( $wp_options as $key => $value ) {
-
-			$new_key = str_replace( 'mwb_', 'wps_', $key );
-			if ( ! empty( get_option( $new_key ) ) ) {
-				continue;
-			}
-			$new_value = get_option( $key, $value );
-
-				update_option( $new_key, $new_value );
-		}
-	}
-}
 // Ending noticed code/////////////////////////////////////.
 
 add_action( 'after_plugin_row_wordpress-pdf-generator/wordpress-pdf-generator.php', 'wps_wpg_old_upgrade_notice', 0, 3 );
@@ -311,4 +244,70 @@ function wps_wpg_old_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 		</style>
 			<?php
 	}
+}
+add_action( 'admin_notices', 'wps_wpg_migrate_notice', 99 );
+/**
+ * Migration to new domain notice on main dashboard notice.
+ */
+function wps_wpg_migrate_notice() {
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended
+	$tab = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+	global $old_pro_exists;
+
+	if ( 'pdf_generator_for_wp_menu' === $tab ) {
+
+		?>
+		<input type="hidden" class="treat-button">
+		<?php
+		if ( $old_pro_exists ) {
+
+			?>
+			<tr class="plugin-update-tr active notice-warning notice-alt">
+					<td colspan="4" class="plugin-update colspanchange">
+						<div class="notice notice-warning inline update-message notice-alt">
+							<p class='wps-notice-title wps-notice-section'>
+								<?php esc_html_e( 'If You are using Premium Version of PDF plugin then please update Pro plugin from plugin page by ', 'pdf-generator-for-wp' ); ?><a style="text-decoration:none;" href="<?php echo esc_url( admin_url( 'plugins.php' ) ); ?>"><?php esc_html_e( 'Click Here', 'pdf-generator-for-wp' ); ?></strong></a>
+							</p>
+						</div>
+					</td>
+				</tr>
+			<style>
+				.wps-notice-section > p:before {
+						content: none;
+				}
+			</style>
+				<?php
+		}
+	}
+}
+add_action( 'after_plugin_row_' . plugin_basename( __FILE__ ), 'wps_pro_pdf_upgrade_notice', 0, 3 );
+
+/**
+ * Displays notice to upgrade to .
+ *
+ * @param string $plugin_file Path to the plugin file relative to the plugins directory.
+ * @param array  $plugin_data An array of plugin data.
+ * @param string $status Status filter currently applied to the plugin list.
+ */
+function wps_pro_pdf_upgrade_notice( $plugin_file, $plugin_data, $status ) {
+
+	?>
+
+		<tr class="plugin-update-tr active notice-warning notice-alt">
+			<td colspan="4" class="plugin-update colspanchange">
+				<div class="notice notice-error inline update-message notice-alt">
+					<p class='wps-notice-title wps-notice-section'>
+						<?php esc_html_e( 'The latest update includes some substantial changes across different areas of the plugin. Hence, if you are not a new user then', 'pdf-generator-for-wp-pro' ); ?><strong><?php esc_html_e( ' please migrate your old data and settings from ', 'pdf-generator-for-wp-pro' ); ?><a style="text-decoration:none;" href="<?php echo esc_url( admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ) ); ?>"><?php esc_html_e( 'Dashboard', 'pdf-generator-for-wp-pro' ); ?></strong></a><?php esc_html_e( ' page then Click On Start Import Button.', 'pdf-generator-for-wp-pro' ); ?>
+					</p>
+				</div>
+			</td>
+		</tr>
+		<style>
+			.wps-notice-section > p:before {
+				content: none;
+			}
+		</style>
+
+	<?php
+
 }
