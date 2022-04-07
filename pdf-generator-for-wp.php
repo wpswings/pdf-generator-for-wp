@@ -44,6 +44,7 @@ if ( isset( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php'] ) ) {
 		$old_pro_exists = true;
 	}
 }
+
 /**
  * Define plugin constants.
  *
@@ -207,9 +208,36 @@ add_filter( 'plugin_row_meta', 'pdf_generator_for_wp_custom_settings_at_plugin_t
 // Adding notice code ///////////////////////////////////// Upgrade notice. /////.
 
 
-// Upgrade notice.
+// Update now link in pro.
 
+if ( true === $old_pro_exists ) {
 
+	add_action( 'admin_notices', 'wps_wpg_check_and_inform_update' );
+	/**
+	 * Check update if pro is old.
+	 */
+	function wps_wpg_check_and_inform_update() {
+
+		$update_file = plugin_dir_path( dirname( __FILE__ ) ) . 'wordpress-pdf-generator/class-mwb-wordpress-pdf-generator-update.php';
+
+			// If present but not active.
+		if ( ! is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
+			if ( file_exists( $update_file ) ) {
+					$mwb_wpg_license_key = get_option( 'mwb_wpg_license_key', '' );
+					! defined( 'WORDPRESS_PDF_GENERATOR_LICENSE_KEY' ) && define( 'WORDPRESS_PDF_GENERATOR_LICENSE_KEY', $mwb_wpg_license_key );
+					! defined( 'WORDPRESS_PDF_GENERATOR_BASE_FILE' ) && define( 'WORDPRESS_PDF_GENERATOR_BASE_FILE', 'wordpress-pdf-generator/wordpress-pdf-generator.php' );
+					! defined( 'WORDPRESS_PDF_GENERATOR_VERSION' ) && define( 'WORDPRESS_PDF_GENERATOR_VERSION', '3.0.4' );
+
+			}
+			require_once $update_file;
+		}
+		if ( defined( 'WORDPRESS_PDF_GENERATOR_BASE_FILE' ) ) {	
+
+				$wps_wpg_version_old_pro = new Mwb_WordPress_Pdf_Generator_Update();
+				$wps_wpg_version_old_pro->mwb_check_update();
+		}
+	}
+}
 
 // Ending noticed code/////////////////////////////////////.
 
