@@ -75,7 +75,7 @@ jQuery(document).ready( function($) {
 		function() {
 			// All options imported!
 		//	window.location.reload();
-		Swal.fire(' All of the Data are Migrated Successfully !', 'If You are using Premium Version of Giftcard then please update Pro plugin from plugin page.', 'success').then(() => {
+		Swal.fire(' All of the Data are Migrated Successfully !', 'If You are using Premium Version of PDF then please update Pro plugin from plugin page.', 'success').then(() => {
 			window.location.reload();
 		});
 		}, function(error) {

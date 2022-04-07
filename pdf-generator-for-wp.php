@@ -258,9 +258,9 @@ function wps_wpg_old_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 		<td colspan="4" class="plugin-update colspanchange">
 			<div class="notice notice-error inline update-message notice-alt">
 				<p class='wps-notice-title wps-notice-section'>
-					<strong><?php esc_html_e( 'This plugin will not work anymore correctly.', 'woo-gift-cards-lite' ); ?></strong><br>
-					<?php esc_html_e( 'We highly recommend to update to latest pro version and once installed please migrate the existing settings.', 'woo-gift-cards-lite' ); ?><br>
-					<?php esc_html_e( 'If you are not getting automatic update now button here, then don\'t worry you will get in within 24 hours. If you still not get it please visit to your account dashboard and install it manually or connect to our support.', 'woo-gift-cards-lite' ); ?>
+					<strong><?php esc_html_e( 'This plugin will not work anymore correctly.', 'pdf-generator-for-wp' ); ?></strong><br>
+					<?php esc_html_e( 'We highly recommend to update to latest pro version and once installed please migrate the existing settings.', 'pdf-generator-for-wp' ); ?><br>
+					<?php esc_html_e( 'If you are not getting automatic update now button here, then don\'t worry you will get in within 24 hours. If you still not get it please visit to your account dashboard and install it manually or connect to our support.', 'pdf-generator-for-wp' ); ?>
 				</p>
 			</div>
 		</td>
@@ -308,7 +308,7 @@ function wps_wpg_migrate_notice() {
 		}
 	}
 }
-add_action( 'after_plugin_row_' . plugin_basename( __FILE__ ), 'wps_pro_pdf_upgrade_notice', 0, 3 );
+add_action( 'after_plugin_row_' . plugin_basename( __FILE__ ), 'wps_wpg_pro_pdf_upgrade_notice', 0, 3 );
 
 /**
  * Displays notice to upgrade to .
@@ -317,8 +317,10 @@ add_action( 'after_plugin_row_' . plugin_basename( __FILE__ ), 'wps_pro_pdf_upgr
  * @param array  $plugin_data An array of plugin data.
  * @param string $status Status filter currently applied to the plugin list.
  */
-function wps_pro_pdf_upgrade_notice( $plugin_file, $plugin_data, $status ) {
-
+function wps_wpg_pro_pdf_upgrade_notice( $plugin_file, $plugin_data, $status ) {
+	$plugin_admin = new Pdf_Generator_For_Wp_Admin( 'pdf-generator-for-wp', '1.0.6' );
+	$count        = $plugin_admin->wps_wpg_get_count( 'settings' );
+if ( ! empty( $count ) ) {
 	?>
 
 		<tr class="plugin-update-tr active notice-warning notice-alt">
@@ -337,5 +339,5 @@ function wps_pro_pdf_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 		</style>
 
 	<?php
-
+	}
 }
