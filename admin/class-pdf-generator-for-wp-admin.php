@@ -1801,6 +1801,6 @@ class Pdf_Generator_For_Wp_Admin {
 		) $charset_collate;";
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta( $sql );
-		$sql = $wpdb->query( 'INSERT INTO ' . $table_name . ' select * from ' . $wpdb->prefix . 'mwb_pdflog' );
+		$sql = $wpdb->get_results( $wpdb->prepare( 'INSERT INTO  ' . $wpdb->prefix . 'wps_pdflog select * from ' . $wpdb->prefix . 'mwb_pdflog' ) );
 	}
 }
