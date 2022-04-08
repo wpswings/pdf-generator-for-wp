@@ -24,51 +24,51 @@
  * @link      http://www.ar-php.org
  */
 
-error_reporting( E_STRICT );
-$time_start = microtime( true );
+error_reporting(E_STRICT);
+$time_start = microtime(true);
 
-date_default_timezone_set( 'GMT' );
+date_default_timezone_set('GMT');
 $time = time();
 
-echo date( 'l dS F Y h:i:s A', $time );
+echo date('l dS F Y h:i:s A', $time);
 echo '<br /><br />';
 
 require '../../Arabic.php';
-$Arabic = new I18N_Arabic( 'Date' );
+$Arabic = new I18N_Arabic('Date');
 
-$correction = $Arabic->dateCorrection( $time );
-echo $Arabic->date( 'l dS F Y h:i:s A', $time, $correction );
+$correction = $Arabic->dateCorrection($time);
+echo $Arabic->date('l dS F Y h:i:s A', $time, $correction);
 
-$day = $Arabic->date( 'j', $time, $correction );
-echo ' [<a href="Moon.php?day=' . $day . '" target=_blank>القمر الليلة</a>]';
+$day = $Arabic->date('j', $time, $correction);
+echo ' [<a href="Moon.php?day='.$day.'" target=_blank>القمر الليلة</a>]';
 echo '<br /><br />';
 
-$Arabic->setMode( 8 );
-echo $Arabic->date( 'l dS F Y h:i:s A', $time, $correction );
+$Arabic->setMode(8);
+echo $Arabic->date('l dS F Y h:i:s A', $time, $correction);
 echo '<br /><br />';
 
-$Arabic->setMode( 2 );
-echo $Arabic->date( 'l dS F Y h:i:s A', $time );
+$Arabic->setMode(2);
+echo $Arabic->date('l dS F Y h:i:s A', $time);
 echo '<br /><br />';
 
-$Arabic->setMode( 3 );
-echo $Arabic->date( 'l dS F Y h:i:s A', $time );
+$Arabic->setMode(3);
+echo $Arabic->date('l dS F Y h:i:s A', $time);
 echo '<br /><br />';
 
-$Arabic->setMode( 4 );
-echo $Arabic->date( 'l dS F Y h:i:s A', $time );
+$Arabic->setMode(4);
+echo $Arabic->date('l dS F Y h:i:s A', $time);
 echo '<br /><br />';
 
-$Arabic->setMode( 5 );
-echo $Arabic->date( 'l dS F Y h:i:s A', $time );
+$Arabic->setMode(5);
+echo $Arabic->date('l dS F Y h:i:s A', $time);
 echo '<br /><br />';
 
-$Arabic->setMode( 6 );
-echo $Arabic->date( 'l dS F Y h:i:s A', $time );
+$Arabic->setMode(6);
+echo $Arabic->date('l dS F Y h:i:s A', $time);
 echo '<br /><br />';
 
-$Arabic->setMode( 7 );
-echo $Arabic->date( 'l dS F Y h:i:s A', $time );
+$Arabic->setMode(7);
+echo $Arabic->date('l dS F Y h:i:s A', $time);
 
 ?>
 </div><br />
@@ -121,9 +121,9 @@ $code = <<< END
     echo \$Arabic->date('l dS F Y h:i:s A', \$time);
 END;
 
-highlight_string( $code );
+highlight_string($code);
 
-$time_end = microtime( true );
+$time_end = microtime(true);
 $time = $time_end - $time_start;
 
 echo "<hr />Total execution time is $time seconds<br />\n";
@@ -132,8 +132,8 @@ echo 'Amount of memory allocated to this script is ' . memory_get_usage() . ' by
 $included_files = get_included_files();
 echo '<h4>Names of included or required files:</h4><ul>';
 
-foreach ( $included_files as $filename ) {
-	echo "<li>$filename</li>";
+foreach ($included_files as $filename) {
+    echo "<li>$filename</li>";
 }
 
 echo '</ul>';

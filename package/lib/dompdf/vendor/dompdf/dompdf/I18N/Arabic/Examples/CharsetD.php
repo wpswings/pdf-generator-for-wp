@@ -24,15 +24,15 @@
  * @link      http://www.ar-php.org
  */
 
-error_reporting( E_STRICT );
-$time_start = microtime( true );
+error_reporting(E_STRICT);
+$time_start = microtime(true);
 
 $text = '��� ���� ������ ������';
 
 require '../../Arabic.php';
-$Arabic = new I18N_Arabic( 'CharsetD' );
+$Arabic = new I18N_Arabic('CharsetD');
 
-$charset = $Arabic->getCharset( $text );
+$charset = $Arabic->getCharset($text);
 ?>
 
 </div><br />
@@ -52,9 +52,9 @@ $code = <<< END
     
 END;
 
-highlight_string( $code );
+highlight_string($code);
 
-$time_end = microtime( true );
+$time_end = microtime(true);
 $time = $time_end - $time_start;
 
 echo "<hr />Total execution time is $time seconds<br />\n";
@@ -63,8 +63,8 @@ echo 'Amount of memory allocated to this script is ' . memory_get_usage() . ' by
 $included_files = get_included_files();
 echo '<h4>Names of included or required files:</h4><ul>';
 
-foreach ( $included_files as $filename ) {
-	echo "<li>$filename</li>";
+foreach ($included_files as $filename) {
+    echo "<li>$filename</li>";
 }
 
 echo '</ul>';

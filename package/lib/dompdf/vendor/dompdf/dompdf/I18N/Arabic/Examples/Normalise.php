@@ -24,11 +24,11 @@
  * @link      http://www.ar-php.org
  */
 
-error_reporting( E_STRICT );
-$time_start = microtime( true );
+error_reporting(E_STRICT);
+$time_start = microtime(true);
 
 require '../../Arabic.php';
-$Arabic = new I18N_Arabic( 'Normalise' );
+$Arabic = new I18N_Arabic('Normalise');
 
 echo <<<END
 <p>قال الشاعر حافظ إبراهيم على لسان اللغة العربية</p>
@@ -38,29 +38,29 @@ END;
 $lines[] = 'وَسِعْتُ كِتابَ اللَّهِ لفظـــاً وَحِكمَــــةً **** وَما ضِقْتُ عن آيٍ به وَعِظــــاتِ';
 $lines[] = 'فَكيفَ أَضيقُ اليومَ عن وَصْفِ آلــةٍ **** وَتَنسيـــقُ أسمــاءٍ لِمُخْتَرَعــــاتِ';
 
-foreach ( $lines as $line ) {
-	echo '<tr><th style="background-color: #E5E5E5">Function</th>
+foreach ($lines as $line) {
+    echo '<tr><th style="background-color: #E5E5E5">Function</th>
           <th style="background-color: #E5E5E5">Text</th></tr>';
 
-	echo "<tr bgcolor=#F0F8FF><th>Original</th><td>$line</td></tr>";
-
-	$n1 = $Arabic->unshape( $line );
-	echo "<tr bgcolor=#F0F8FF><th>Unshape</th><td>$n1</td></tr>";
-
-	$n2 = $Arabic->utf8Strrev( $n1 );
-	echo "<tr bgcolor=#F0F8FF><th>UTF8 Reverse</th><td>$n2</td></tr>";
-
-	$n3 = $Arabic->stripTashkeel( $n1 );
-	echo "<tr bgcolor=#F0F8FF><th>Strip Tashkeel</th><td>$n3</td></tr>";
-
-	$n4 = $Arabic->stripTatweel( $n3 );
-	echo "<tr bgcolor=#F0F8FF><th>Strip Tatweel</th><td>$n4</td></tr>";
-
-	$n5 = $Arabic->normaliseHamza( $n4 );
-	echo "<tr bgcolor=#F0F8FF><th>Normalise Hamza</th><td>$n5</td></tr>";
-
-	$n6 = $Arabic->normaliseLamaleph( $n5 );
-	echo "<tr bgcolor=#F0F8FF><th>Normalise Lam Alef</th><td>$n6</td></tr>";
+    echo "<tr bgcolor=#F0F8FF><th>Original</th><td>$line</td></tr>";
+    
+    $n1 = $Arabic->unshape($line);
+    echo "<tr bgcolor=#F0F8FF><th>Unshape</th><td>$n1</td></tr>";
+  
+    $n2 = $Arabic->utf8Strrev($n1);
+    echo "<tr bgcolor=#F0F8FF><th>UTF8 Reverse</th><td>$n2</td></tr>";
+  
+    $n3 = $Arabic->stripTashkeel($n1);
+    echo "<tr bgcolor=#F0F8FF><th>Strip Tashkeel</th><td>$n3</td></tr>";
+  
+    $n4 = $Arabic->stripTatweel($n3);
+    echo "<tr bgcolor=#F0F8FF><th>Strip Tatweel</th><td>$n4</td></tr>";
+  
+    $n5 = $Arabic->normaliseHamza($n4);
+    echo "<tr bgcolor=#F0F8FF><th>Normalise Hamza</th><td>$n5</td></tr>";
+  
+    $n6 = $Arabic->normaliseLamaleph($n5);
+    echo "<tr bgcolor=#F0F8FF><th>Normalise Lam Alef</th><td>$n6</td></tr>";
 }
 
 echo '</table>';
@@ -112,9 +112,9 @@ foreach (\$lines as \$line) {
 echo '</table>';
 ENDALL;
 
-highlight_string( $code );
+highlight_string($code);
 
-$time_end = microtime( true );
+$time_end = microtime(true);
 $time = $time_end - $time_start;
 
 echo "<hr />Total execution time is $time seconds<br />\n";
@@ -123,8 +123,8 @@ echo 'Amount of memory allocated to this script is ' . memory_get_usage() . ' by
 $included_files = get_included_files();
 echo '<h4>Names of included or required files:</h4><ul>';
 
-foreach ( $included_files as $filename ) {
-	echo "<li>$filename</li>";
+foreach ($included_files as $filename) {
+    echo "<li>$filename</li>";
 }
 
 echo '</ul>';

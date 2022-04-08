@@ -25,22 +25,22 @@
  * @link      http://www.ar-php.org
  */
 
-error_reporting( E_STRICT );
-$time_start = microtime( true );
+error_reporting(E_STRICT);
+$time_start = microtime(true);
 
-date_default_timezone_set( 'UTC' );
+date_default_timezone_set('UTC');
 
 require '../../Arabic.php';
-$Arabic = new I18N_Arabic( 'Mktime' );
+$Arabic = new I18N_Arabic('Mktime');
 
-$correction = $Arabic->mktimeCorrection( 9, 1429 );
-$time = $Arabic->mktime( 0, 0, 0, 9, 1, 1429, $correction );
+$correction = $Arabic->mktimeCorrection(9, 1429);
+$time = $Arabic->mktime(0, 0, 0, 9, 1, 1429, $correction);
 echo "Calculated first day of Ramadan 1429 unix timestamp is: $time<br>";
 
-$Gregorian = date( 'l F j, Y', $time );
+$Gregorian = date('l F j, Y', $time);
 echo "Which is $Gregorian in Gregorian calendar<br>";
 
-$days = $Arabic->hijriMonthDays( 9, 1429 );
+$days = $Arabic->hijriMonthDays(9, 1429);
 echo "That Ramadan has $days days in total";
 
 ?>
@@ -66,9 +66,9 @@ $code = <<< END
     echo "That Ramadan has \$days days in total";
 END;
 
-highlight_string( $code );
+highlight_string($code);
 
-$time_end = microtime( true );
+$time_end = microtime(true);
 $time = $time_end - $time_start;
 
 echo "<hr />Total execution time is $time seconds<br />\n";
@@ -77,8 +77,8 @@ echo 'Amount of memory allocated to this script is ' . memory_get_usage() . ' by
 $included_files = get_included_files();
 echo '<h4>Names of included or required files:</h4><ul>';
 
-foreach ( $included_files as $filename ) {
-	echo "<li>$filename</li>";
+foreach ($included_files as $filename) {
+    echo "<li>$filename</li>";
 }
 
 echo '</ul>';

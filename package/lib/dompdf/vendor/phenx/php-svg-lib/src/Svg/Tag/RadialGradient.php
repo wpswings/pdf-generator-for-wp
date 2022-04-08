@@ -8,8 +8,10 @@
 
 namespace Svg\Tag;
 
-class RadialGradient extends AbstractTag {
+class RadialGradient extends AbstractTag
+{
+    public function start($attributes)
+    {
 
-	public function start( $attributes ) {
-	}
-}
+    }
+} 

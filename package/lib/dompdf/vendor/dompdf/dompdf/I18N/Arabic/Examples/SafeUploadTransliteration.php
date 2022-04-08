@@ -25,45 +25,45 @@
  * @link      http://www.ar-php.org
  */
 
-if ( isset( $_POST['submit'] ) ) {
+if (isset($_POST['submit'])) {
 
-	include '../../Arabic.php';
-	$Arabic = new I18N_Arabic( 'Transliteration' );
+    include '../../Arabic.php';
+    $Arabic = new I18N_Arabic('Transliteration');
+    
+    // Continue only if the file was uploaded via HTTP POST
+    if (is_uploaded_file($_FILES['image']['tmp_name'])) {
 
-	// Continue only if the file was uploaded via HTTP POST
-	if ( is_uploaded_file( $_FILES['image']['tmp_name'] ) ) {
+        // Is file size less than 1 MB = 1,048,576 Byte
+        if ($_FILES['image']['size'] < 1048576) {
 
-		// Is file size less than 1 MB = 1,048,576 Byte
-		if ( $_FILES['image']['size'] < 1048576 ) {
+            // Detect MIME Content-type for a file 
+            if (function_exists('mime_content_type')) {
+                $mime = mime_content_type($_FILES['image']['tmp_name']);
+            } else {
+                $mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $_FILES['image']['tmp_name']);
+            }
 
-			// Detect MIME Content-type for a file
-			if ( function_exists( 'mime_content_type' ) ) {
-				$mime = mime_content_type( $_FILES['image']['tmp_name'] );
-			} else {
-				$mime = finfo_file( finfo_open( FILEINFO_MIME_TYPE ), $_FILES['image']['tmp_name'] );
-			}
+            // List of accepted MIME Content-type
+            $images = array('image/jpeg', 'image/gif', 'image/png', 'image/svg+xml');
 
-			// List of accepted MIME Content-type
-			$images = array( 'image/jpeg', 'image/gif', 'image/png', 'image/svg+xml' );
+            if (in_array($mime, $images)) {
 
-			if ( in_array( $mime, $images ) ) {
+                // PHP5 is not capable of addressing files with multi-byte characters in their names at all.
+                // This is why we use Transliteration functionality in Arabic class
+                $filename = trim($Arabic->ar2en($_FILES['image']['name']));
 
-				// PHP5 is not capable of addressing files with multi-byte characters in their names at all.
-				// This is why we use Transliteration functionality in Arabic class
-				$filename = trim( $Arabic->ar2en( $_FILES['image']['name'] ) );
-
-				// Moves an uploaded file to a new location
-				// move_uploaded_file ($_FILES['image']['tmp_name'], $dir.DIRECTORY_SEPARATOR.$filename);
-				echo "move_uploaded_file(\$_FILES['image']['tmp_name'], \$dir.DIRECTORY_SEPARATOR.\"$filename\");";
-			} else {
-				echo '<h3>You can upload image file only (i.e. gif, jpg, png, and svg)!</h3>';
-			}
-		} else {
-			echo '<h3>You can not upload file bigger than 1MB!</h3>';
-		}
-	} else {
-		echo '<h3>You have to select file first to upload it!</h3>';
-	}
+                // Moves an uploaded file to a new location
+                // move_uploaded_file ($_FILES['image']['tmp_name'], $dir.DIRECTORY_SEPARATOR.$filename);
+                echo "move_uploaded_file(\$_FILES['image']['tmp_name'], \$dir.DIRECTORY_SEPARATOR.\"$filename\");";
+            } else {
+                echo '<h3>You can upload image file only (i.e. gif, jpg, png, and svg)!</h3>';
+            }
+        } else {
+            echo '<h3>You can not upload file bigger than 1MB!</h3>';
+        }
+    } else {
+        echo '<h3>You have to select file first to upload it!</h3>';
+    }
 }
 
 ?>
@@ -71,16 +71,16 @@ if ( isset( $_POST['submit'] ) ) {
 
 <form  action="SafeUploadTransliteration.php" method="post" enctype="multipart/form-data">
 
-	<input name="image" type="file" size="60">
+    <input name="image" type="file" size="60">
 
-	<input name="submit" type="submit" value="Upload">
+    <input name="submit" type="submit" value="Upload">
 
 </form>
 
 <h4>Verified Conditions:</h4>
 <ol>
-	<li>Max uploaded file size is 1 MB</li>
-	<li>Accepted MIME Content-types are: image/jpeg, image/gif, image/png, and image/svg+xml</li>
+    <li>Max uploaded file size is 1 MB</li>
+    <li>Accepted MIME Content-types are: image/jpeg, image/gif, image/png, and image/svg+xml</li>
 </ol>
 
 </div><br />
@@ -138,7 +138,7 @@ if(isset(\$_POST['submit'])){
 </form><br />
 END;
 
-highlight_string( $code );
+highlight_string($code);
 ?>
 </div>
 </body>

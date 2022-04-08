@@ -10,24 +10,26 @@ use Dompdf\Frame;
  * @access private
  * @package dompdf
  */
-class FrameTreeList implements IteratorAggregate {
+class FrameTreeList implements IteratorAggregate
+{
+    /**
+     * @var \Dompdf\Frame
+     */
+    protected $_root;
 
-	/**
-	 * @var \Dompdf\Frame
-	 */
-	protected $_root;
+    /**
+     * @param \Dompdf\Frame $root
+     */
+    public function __construct(Frame $root)
+    {
+        $this->_root = $root;
+    }
 
-	/**
-	 * @param \Dompdf\Frame $root
-	 */
-	public function __construct( Frame $root ) {
-		$this->_root = $root;
-	}
-
-	/**
-	 * @return FrameTreeIterator
-	 */
-	public function getIterator() {
-		 return new FrameTreeIterator( $this->_root );
-	}
+    /**
+     * @return FrameTreeIterator
+     */
+    public function getIterator()
+    {
+        return new FrameTreeIterator($this->_root);
+    }
 }

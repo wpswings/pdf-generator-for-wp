@@ -24,8 +24,8 @@
  * @link      http://www.ar-php.org
  */
 
-error_reporting( E_STRICT );
-$time_start = microtime( true );
+error_reporting(E_STRICT);
+$time_start = microtime(true);
 
 $text = <<< END
 <p> <big><big><b> Peace &nbsp; <big>سلام</big> &nbsp; שלום &nbsp; Hasîtî &nbsp;
@@ -81,19 +81,19 @@ just as well with respect and communication.  The Internet Internationalization
 END;
 
 require '../../Arabic.php';
-$Arabic = new I18N_Arabic( 'Identifier' );
+$Arabic = new I18N_Arabic('Identifier');
 
-$pos = I18N_Arabic_Identifier::identify( $text );
+$pos = I18N_Arabic_Identifier::identify($text);
 
-$total = count( $pos );
+$total = count($pos);
 
-echo substr( $text, 0, $pos[0] );
+echo substr($text, 0, $pos[0]);
 
-for ( $i = 0; $i < $total; $i += 2 ) {
-	echo '<span style="BACKGROUND-COLOR: #EEEE80">';
-	echo substr( $text, $pos[ $i ], $pos[ $i + 1 ] - $pos[ $i ] );
-	echo '</span>';
-	echo substr( $text, $pos[ $i + 1 ], $pos[ $i + 2 ] - $pos[ $i + 1 ] );
+for ($i=0; $i<$total; $i+=2) {
+    echo '<span style="BACKGROUND-COLOR: #EEEE80">';
+    echo substr($text, $pos[$i], $pos[$i+1]-$pos[$i]);
+    echo '</span>';
+    echo substr($text, $pos[$i+1], $pos[$i+2]-$pos[$i+1]);
 }
 
 ?>
@@ -120,9 +120,9 @@ $code = <<< END
     }
 END;
 
-highlight_string( $code );
+highlight_string($code);
 
-$time_end = microtime( true );
+$time_end = microtime(true);
 $time = $time_end - $time_start;
 
 echo "<hr />Total execution time is $time seconds<br />\n";
@@ -131,8 +131,8 @@ echo 'Amount of memory allocated to this script is ' . memory_get_usage() . ' by
 $included_files = get_included_files();
 echo '<h4>Names of included or required files:</h4><ul>';
 
-foreach ( $included_files as $filename ) {
-	echo "<li>$filename</li>";
+foreach ($included_files as $filename) {
+    echo "<li>$filename</li>";
 }
 
 echo '</ul>';

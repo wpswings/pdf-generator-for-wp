@@ -24,28 +24,15 @@
  * @link      http://www.ar-php.org
  */
 
-error_reporting( E_STRICT );
-$time_start = microtime( true );
+error_reporting(E_STRICT);
+$time_start = microtime(true);
 
 require '../../Arabic.php';
-$Arabic = new I18N_Arabic( 'Transliteration' );
+$Arabic = new I18N_Arabic('Transliteration');
 
-$en_terms = array(
-	'George Bush, Paul Wolfowitz',
-	'Silvio Berlusconi?',
-	'Guantanamo',
-	'Arizona',
-	'Maryland',
-	'Oracle',
-	'Yahoo',
-	'Google',
-	'Formula1',
-	'Boeing',
-	'Caviar',
-	'Telephone',
-	'Internet',
-	"Côte d'Ivoire",
-);
+$en_terms = array('George Bush, Paul Wolfowitz', 'Silvio Berlusconi?',
+    'Guantanamo', 'Arizona', 'Maryland', 'Oracle', 'Yahoo', 'Google',
+    'Formula1', 'Boeing', 'Caviar', 'Telephone', 'Internet', "Côte d'Ivoire");
 
 echo <<< END
 <center>
@@ -68,16 +55,16 @@ echo <<< END
     </tr>
 END;
 
-foreach ( $en_terms as $term ) {
-	echo '<tr><td bgcolor="#f5f5f5" align="left">' . $term . '</td>';
-	echo '<td bgcolor="#f5f5f5" align="right"><font face="Tahoma">';
-	echo $Arabic->en2ar( $term );
-	echo '</font></td></tr>';
+foreach ($en_terms as $term) {
+    echo '<tr><td bgcolor="#f5f5f5" align="left">'.$term.'</td>';
+    echo '<td bgcolor="#f5f5f5" align="right"><font face="Tahoma">';
+    echo $Arabic->en2ar($term);
+    echo '</font></td></tr>';
 }
 
 echo '<tr><td bgcolor="#d0d0f5" align="left">0123,456.789</td>';
 echo '<td bgcolor="#d0d0f5" align="right"><font face="Tahoma">';
-echo $Arabic->arNum( '0123,456.789' );
+echo $Arabic->arNum('0123,456.789');
 echo '</font></td></tr>';
 
 echo '</table></center>';
@@ -132,9 +119,9 @@ END;
 
 ENDALL;
 
-highlight_string( $code );
+highlight_string($code);
 
-$time_end = microtime( true );
+$time_end = microtime(true);
 $time = $time_end - $time_start;
 
 echo "<hr />Total execution time is $time seconds<br />\n";
@@ -143,8 +130,8 @@ echo 'Amount of memory allocated to this script is ' . memory_get_usage() . ' by
 $included_files = get_included_files();
 echo '<h4>Names of included or required files:</h4><ul>';
 
-foreach ( $included_files as $filename ) {
-	echo "<li>$filename</li>";
+foreach ($included_files as $filename) {
+    echo "<li>$filename</li>";
 }
 
 echo '</ul>';

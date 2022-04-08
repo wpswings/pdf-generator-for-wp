@@ -12,8 +12,8 @@ class AtRuleSet extends RuleSet implements AtRule {
 	private $sType;
 	private $sArgs;
 
-	public function __construct( $sType, $sArgs = '', $iLineNo = 0 ) {
-		parent::__construct( $iLineNo );
+	public function __construct($sType, $sArgs = '', $iLineNo = 0) {
+		parent::__construct($iLineNo);
 		$this->sType = $sType;
 		$this->sArgs = $sArgs;
 	}
@@ -27,16 +27,16 @@ class AtRuleSet extends RuleSet implements AtRule {
 	}
 
 	public function __toString() {
-		return $this->render( new \Sabberworm\CSS\OutputFormat() );
+		return $this->render(new \Sabberworm\CSS\OutputFormat());
 	}
 
-	public function render( \Sabberworm\CSS\OutputFormat $oOutputFormat ) {
+	public function render(\Sabberworm\CSS\OutputFormat $oOutputFormat) {
 		$sArgs = $this->sArgs;
-		if ( $sArgs ) {
+		if($sArgs) {
 			$sArgs = ' ' . $sArgs;
 		}
 		$sResult = "@{$this->sType}$sArgs{$oOutputFormat->spaceBeforeOpeningBrace()}{";
-		$sResult .= parent::render( $oOutputFormat );
+		$sResult .= parent::render($oOutputFormat);
 		$sResult .= '}';
 		return $sResult;
 	}

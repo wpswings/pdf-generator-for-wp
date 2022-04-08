@@ -7,16 +7,16 @@ abstract class ValueList extends Value {
 	protected $aComponents;
 	protected $sSeparator;
 
-	public function __construct( $aComponents = array(), $sSeparator = ',', $iLineNo = 0 ) {
-		parent::__construct( $iLineNo );
-		if ( ! is_array( $aComponents ) ) {
-			$aComponents = array( $aComponents );
+	public function __construct($aComponents = array(), $sSeparator = ',', $iLineNo = 0) {
+		parent::__construct($iLineNo);
+		if (!is_array($aComponents)) {
+			$aComponents = array($aComponents);
 		}
 		$this->aComponents = $aComponents;
 		$this->sSeparator = $sSeparator;
 	}
 
-	public function addListComponent( $mComponent ) {
+	public function addListComponent($mComponent) {
 		$this->aComponents[] = $mComponent;
 	}
 
@@ -24,7 +24,7 @@ abstract class ValueList extends Value {
 		return $this->aComponents;
 	}
 
-	public function setListComponents( $aComponents ) {
+	public function setListComponents($aComponents) {
 		$this->aComponents = $aComponents;
 	}
 
@@ -32,16 +32,16 @@ abstract class ValueList extends Value {
 		return $this->sSeparator;
 	}
 
-	public function setListSeparator( $sSeparator ) {
+	public function setListSeparator($sSeparator) {
 		$this->sSeparator = $sSeparator;
 	}
 
 	public function __toString() {
-		return $this->render( new \Sabberworm\CSS\OutputFormat() );
+		return $this->render(new \Sabberworm\CSS\OutputFormat());
 	}
 
-	public function render( \Sabberworm\CSS\OutputFormat $oOutputFormat ) {
-		return $oOutputFormat->implode( $oOutputFormat->spaceBeforeListArgumentSeparator( $this->sSeparator ) . $this->sSeparator . $oOutputFormat->spaceAfterListArgumentSeparator( $this->sSeparator ), $this->aComponents );
+	public function render(\Sabberworm\CSS\OutputFormat $oOutputFormat) {
+		return $oOutputFormat->implode($oOutputFormat->spaceBeforeListArgumentSeparator($this->sSeparator) . $this->sSeparator . $oOutputFormat->spaceAfterListArgumentSeparator($this->sSeparator), $this->aComponents);
 	}
 
 }

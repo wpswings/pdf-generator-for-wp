@@ -12,8 +12,8 @@ class AtRuleBlockList extends CSSBlockList implements AtRule {
 	private $sType;
 	private $sArgs;
 
-	public function __construct( $sType, $sArgs = '', $iLineNo = 0 ) {
-		parent::__construct( $iLineNo );
+	public function __construct($sType, $sArgs = '', $iLineNo = 0) {
+		parent::__construct($iLineNo);
 		$this->sType = $sType;
 		$this->sArgs = $sArgs;
 	}
@@ -27,17 +27,17 @@ class AtRuleBlockList extends CSSBlockList implements AtRule {
 	}
 
 	public function __toString() {
-		return $this->render( new \Sabberworm\CSS\OutputFormat() );
+		return $this->render(new \Sabberworm\CSS\OutputFormat());
 	}
 
-	public function render( \Sabberworm\CSS\OutputFormat $oOutputFormat ) {
+	public function render(\Sabberworm\CSS\OutputFormat $oOutputFormat) {
 		$sArgs = $this->sArgs;
-		if ( $sArgs ) {
+		if($sArgs) {
 			$sArgs = ' ' . $sArgs;
 		}
 		$sResult  = $oOutputFormat->sBeforeAtRuleBlock;
 		$sResult .= "@{$this->sType}$sArgs{$oOutputFormat->spaceBeforeOpeningBrace()}{";
-		$sResult .= parent::render( $oOutputFormat );
+		$sResult .= parent::render($oOutputFormat);
 		$sResult .= '}';
 		$sResult .= $oOutputFormat->sAfterAtRuleBlock;
 		return $sResult;

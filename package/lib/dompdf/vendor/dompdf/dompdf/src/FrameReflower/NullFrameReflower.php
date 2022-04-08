@@ -16,23 +16,24 @@ use Dompdf\FrameDecorator\Block as BlockFrameDecorator;
  *
  * @package dompdf
  */
-class NullFrameReflower extends AbstractFrameReflower {
+class NullFrameReflower extends AbstractFrameReflower
+{
 
+    /**
+     * NullFrameReflower constructor.
+     * @param Frame $frame
+     */
+    function __construct(Frame $frame)
+    {
+        parent::__construct($frame);
+    }
 
-	/**
-	 * NullFrameReflower constructor.
-	 *
-	 * @param Frame $frame
-	 */
-	function __construct( Frame $frame ) {
-		parent::__construct( $frame );
-	}
-
-	/**
-	 * @param BlockFrameDecorator|null $block
-	 */
-	function reflow( BlockFrameDecorator $block = null ) {
-		return;
-	}
+    /**
+     * @param BlockFrameDecorator|null $block
+     */
+    function reflow(BlockFrameDecorator $block = null)
+    {
+        return;
+    }
 
 }

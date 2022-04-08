@@ -11,18 +11,18 @@
  * @link      http://www.ar-php.org
  */
 
-error_reporting( E_STRICT );
+error_reporting(E_STRICT);
 
-( ! empty( $_GET['w'] ) ) ? $word = $_GET['w'] : $word = 'Khaled Shamaa';
+(!empty($_GET['w'])) ? $word = $_GET['w'] : $word='Khaled Shamaa';
 
 require '../../Arabic.php';
-$x = new I18N_Arabic( 'Hiero' );
+$x = new I18N_Arabic('Hiero');
 
-$im = $x->str2graph( $word );
+$im = $x->str2graph($word);
 
 // Set the content-type
-header( 'Content-type: image/png' );
+header("Content-type: image/png");
 
-imagepng( $im );
-imagedestroy( $im );
-
+imagepng($im);
+imagedestroy($im);
+?>

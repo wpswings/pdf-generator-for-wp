@@ -15,13 +15,14 @@ use Dompdf\FrameDecorator\AbstractFrameDecorator;
  *
  * @package dompdf
  */
-class NullPositioner extends AbstractPositioner {
+class NullPositioner extends AbstractPositioner
+{
 
-
-	/**
-	 * @param AbstractFrameDecorator $frame
-	 */
-	function position( AbstractFrameDecorator $frame ) {
-		return;
-	}
+    /**
+     * @param AbstractFrameDecorator $frame
+     */
+    function position(AbstractFrameDecorator $frame)
+    {
+        return;
+    }
 }

@@ -11,29 +11,29 @@
  * @link      http://www.ar-php.org
  */
 
-error_reporting( E_STRICT );
+error_reporting(E_STRICT);
 
-( ! empty( $_GET['w'] ) ) ? $word = $_GET['w'] : $word = 'خالد الشمعة';
+(!empty($_GET['w'])) ? $word = $_GET['w'] : $word='خالد الشمعة';
 
 require '../../Arabic.php';
-$x = new I18N_Arabic( 'Hiero' );
+$x = new I18N_Arabic('Hiero');
 
-$x->setLanguage( 'Phoenician' );
-$im = $x->str2graph( $word, 'rtl', 'ar' );
+$x->setLanguage('Phoenician');
+$im = $x->str2graph($word, 'rtl', 'ar');
 
-$w = imagesx( $im );
-$h = imagesy( $im );
+$w = imagesx($im);
+$h = imagesy($im);
 
-$bg  = imagecreatefromjpeg( 'images/bg.jpg' );
-$bgw = imagesx( $bg );
-$bgh = imagesy( $bg );
+$bg  = imagecreatefromjpeg('images/bg.jpg');
+$bgw = imagesx($bg);
+$bgh = imagesy($bg);
 
 // Set the content-type
-header( 'Content-type: image/png' );
+header("Content-type: image/png");
 
-imagecopyresized( $bg, $im, ( $bgw - $w ) / 2, ( $bgh - $h ) / 2, 0, 0, $w, $h, $w, $h );
+imagecopyresized($bg, $im, ($bgw-$w)/2, ($bgh-$h)/2, 0, 0, $w, $h, $w, $h);
 
-imagepng( $bg );
-imagedestroy( $im );
-imagedestroy( $bg );
-
+imagepng($bg);
+imagedestroy($im);
+imagedestroy($bg);
+?>

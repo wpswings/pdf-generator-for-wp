@@ -23,34 +23,17 @@
  * @link      http://www.ar-php.org
  */
 
-error_reporting( E_STRICT );
-$time_start = microtime( true );
+error_reporting(E_STRICT);
+$time_start = microtime(true);
 
 require '../../Arabic.php';
-$Arabic = new I18N_Arabic( 'Transliteration' );
+$Arabic = new I18N_Arabic('Transliteration');
 
-$ar_terms = array(
-	'خالِد الشَمعَة',
-	'جُبران خَليل جُبران',
-	'كاظِم الساهِر',
-	'ماجِدَة الرُومِي، نِزار قَبَّانِي',
-	'سُوق الحَمِيدِيَّة؟',
-	'مَغارَة
-    جَعِيتَا',
-	'غُوطَة دِمَشق',
-	'حَلَب الشَهبَاء',
-	'جَزيرَة أَرواد',
-	'بِلاد
-    الرافِدَين',
-	'أهرامات الجِيزَة',
-	'دِرْع',
-	'عِيد',
-	'عُود',
-	'رِدْء',
-	'إِيدَاء',
-	'هِبَة الله',
-	'قاضٍ',
-);
+$ar_terms = array('خالِد الشَمعَة', 'جُبران خَليل جُبران', 'كاظِم الساهِر',
+    'ماجِدَة الرُومِي، نِزار قَبَّانِي', 'سُوق الحَمِيدِيَّة؟', 'مَغارَة
+    جَعِيتَا', 'غُوطَة دِمَشق', 'حَلَب الشَهبَاء', 'جَزيرَة أَرواد', 'بِلاد
+    الرافِدَين', 'أهرامات الجِيزَة', 'دِرْع', 'عِيد', 'عُود', 'رِدْء', 
+    'إِيدَاء', 'هِبَة الله', 'قاضٍ');
 
 echo <<< END
 <center>
@@ -73,15 +56,15 @@ echo <<< END
     </tr>
 END;
 
-foreach ( $ar_terms as $term ) {
-	echo '<tr><td bgcolor="#f5f5f5" align="left"><font face="Tahoma">';
-	echo $Arabic->ar2en( $term );
-	echo '</font></td>';
-	echo '<td bgcolor="#f5f5f5" align="right">' . $term . '</td></tr>';
+foreach ($ar_terms as $term) {
+    echo '<tr><td bgcolor="#f5f5f5" align="left"><font face="Tahoma">';
+    echo $Arabic->ar2en($term);
+    echo '</font></td>';
+    echo '<td bgcolor="#f5f5f5" align="right">'.$term.'</td></tr>';
 }
 
 echo '<tr><td bgcolor="#d0d0f5" align="left"><font face="Tahoma">';
-echo $Arabic->enNum( '0123,456.789' );
+echo $Arabic->enNum('0123,456.789');
 echo '</font></td>';
 echo '<td bgcolor="#d0d0f5" align="right">0123,456.789</td></tr>';
 
@@ -138,9 +121,9 @@ END;
     echo '</table></center>';
 ENDALL;
 
-highlight_string( $code );
+highlight_string($code);
 
-$time_end = microtime( true );
+$time_end = microtime(true);
 $time = $time_end - $time_start;
 
 echo "<hr />Total execution time is $time seconds<br />\n";
@@ -149,8 +132,8 @@ echo 'Amount of memory allocated to this script is ' . memory_get_usage() . ' by
 $included_files = get_included_files();
 echo '<h4>Names of included or required files:</h4><ul>';
 
-foreach ( $included_files as $filename ) {
-	echo "<li>$filename</li>";
+foreach ($included_files as $filename) {
+    echo "<li>$filename</li>";
 }
 
 echo '</ul>';

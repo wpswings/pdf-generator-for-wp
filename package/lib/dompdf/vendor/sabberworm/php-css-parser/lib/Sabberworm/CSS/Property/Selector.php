@@ -7,7 +7,7 @@ namespace Sabberworm\CSS\Property;
  */
 class Selector {
 
-	// Regexes for specificity calculations
+	//Regexes for specificity calculations
 	const NON_ID_ATTRIBUTES_AND_PSEUDO_CLASSES_RX = '/
 	(\.[\w]+)                   # classes
 	|
@@ -38,9 +38,9 @@ class Selector {
 	private $sSelector;
 	private $iSpecificity;
 
-	public function __construct( $sSelector, $bCalculateSpecificity = false ) {
-		$this->setSelector( $sSelector );
-		if ( $bCalculateSpecificity ) {
+	public function __construct($sSelector, $bCalculateSpecificity = false) {
+		$this->setSelector($sSelector);
+		if ($bCalculateSpecificity) {
 			$this->getSpecificity();
 		}
 	}
@@ -49,8 +49,8 @@ class Selector {
 		return $this->sSelector;
 	}
 
-	public function setSelector( $sSelector ) {
-		$this->sSelector = trim( $sSelector );
+	public function setSelector($sSelector) {
+		$this->sSelector = trim($sSelector);
 		$this->iSpecificity = null;
 	}
 
@@ -59,14 +59,14 @@ class Selector {
 	}
 
 	public function getSpecificity() {
-		if ( $this->iSpecificity === null ) {
+		if ($this->iSpecificity === null) {
 			$a = 0;
-			// @todo should exclude \# as well as "#"
+			/// @todo should exclude \# as well as "#"
 			$aMatches = null;
-			$b = substr_count( $this->sSelector, '#' );
-			$c = preg_match_all( self::NON_ID_ATTRIBUTES_AND_PSEUDO_CLASSES_RX, $this->sSelector, $aMatches );
-			$d = preg_match_all( self::ELEMENTS_AND_PSEUDO_ELEMENTS_RX, $this->sSelector, $aMatches );
-			$this->iSpecificity = ( $a * 1000 ) + ( $b * 100 ) + ( $c * 10 ) + $d;
+			$b = substr_count($this->sSelector, '#');
+			$c = preg_match_all(self::NON_ID_ATTRIBUTES_AND_PSEUDO_CLASSES_RX, $this->sSelector, $aMatches);
+			$d = preg_match_all(self::ELEMENTS_AND_PSEUDO_ELEMENTS_RX, $this->sSelector, $aMatches);
+			$this->iSpecificity = ($a * 1000) + ($b * 100) + ($c * 10) + $d;
 		}
 		return $this->iSpecificity;
 	}
