@@ -24,7 +24,7 @@
  * Requires at least:    4.6
  * Tested up to:         5.9.2
  * WC requires at least: 4.0.0
- * WC tested up to:      6.2.1
+ * WC tested up to:      6.3.1
  * Stable tag:           1.0.6
  * Requires PHP:         7.2
  *
@@ -327,7 +327,7 @@ function wps_wpg_pro_pdf_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 			<td colspan="4" class="plugin-update colspanchange">
 				<div class="notice notice-error inline update-message notice-alt">
 					<p class='wps-notice-title wps-notice-section'>
-						<?php esc_html_e( 'The latest update includes some substantial changes across different areas of the plugin. Hence, if you are not a new user then', 'pdf-generator-for-wp-pro' ); ?><strong><?php esc_html_e( ' please migrate your old data and settings from ', 'pdf-generator-for-wp-pro' ); ?><a style="text-decoration:none;" href="<?php echo esc_url( admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ) ); ?>"><?php esc_html_e( 'Dashboard', 'pdf-generator-for-wp-pro' ); ?></strong></a><?php esc_html_e( ' page then Click On Start Import Button.', 'pdf-generator-for-wp-pro' ); ?>
+						<?php esc_html_e( 'The latest update includes some substantial changes across different areas of the plugin. Hence, if you are not a new user then', 'pdf-generator-for-wp' ); ?><strong><?php esc_html_e( ' please migrate your old data and settings from ', 'pdf-generator-for-wp-pro' ); ?><a style="text-decoration:none;" href="<?php echo esc_url( admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ) ); ?>"><?php esc_html_e( 'Dashboard', 'pdf-generator-for-wp-pro' ); ?></strong></a><?php esc_html_e( ' page then Click On Start Import Button.', 'pdf-generator-for-wp-pro' ); ?>
 					</p>
 				</div>
 			</td>
