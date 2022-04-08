@@ -39,14 +39,14 @@ jQuery(document).ready( function($) {
 					}
 				});
 			
-				startOptionsImport();
+				pgfw_startOptionsImport();
 			} else if (result.isDismissed) {
 			  Swal.fire('Import Stopped', '', 'info');
 			}
 		})
 	});
 
-	const startOptionsImport = () => {
+	const pgfw_startOptionsImport = () => {
 		var event   = 'wpg_import_options_table';
 		var request = { action, event, nonce };
 		jQuery.post( ajaxUrl , request ).done(function( response ){
@@ -61,13 +61,13 @@ jQuery(document).ready( function($) {
 					Swal.showLoading()
 				}
 			});
-			startpdflogImport();
+			pgfw_startpdflogImport();
 		}, function(error) {
 			console.error(error);
 		});
 	}
 
-	const startpdflogImport = () => {
+	const pgfw_startpdflogImport = () => {
 		var event   = 'wpg_import_pdflog';
 		var request = { action, event, nonce };
 		jQuery.post( ajaxUrl , request ).done(function( response ){
