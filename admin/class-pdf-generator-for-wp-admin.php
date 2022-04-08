@@ -1729,7 +1729,7 @@ class Pdf_Generator_For_Wp_Admin {
 		if ( method_exists( $this, $event ) ) {
 			$data = $this->$event( $_POST );
 		} else {
-			$data = esc_html__( 'method not found', 'pdf-generator-for-wp-pro' );
+			$data = esc_html__( 'method not found', 'pdf-generator-for-wp' );
 		}
 		echo wp_json_encode( $data );
 		wp_die();
