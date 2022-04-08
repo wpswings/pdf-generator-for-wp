@@ -37,11 +37,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 require_once ABSPATH . '/wp-admin/includes/plugin.php';
-$old_pro_exists = false;
+$pgfw_old_plugin_exists = false;
 $plug           = get_plugins();
 if ( isset( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php'] ) ) {
 	if ( version_compare( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php']['Version'], '3.0.5', '<' ) ) {
-		$old_pro_exists = true;
+		$pgfw_old_plugin_exists = true;
 	}
 }
 
@@ -210,7 +210,7 @@ add_filter( 'plugin_row_meta', 'pdf_generator_for_wp_custom_settings_at_plugin_t
 
 // Update now link in pro.
 
-if ( true === $old_pro_exists ) {
+if ( true === $pgfw_old_plugin_exists ) {
 
 	add_action( 'admin_notices', 'wps_wpg_check_and_inform_update' );
 	/**
@@ -251,8 +251,8 @@ add_action( 'after_plugin_row_wordpress-pdf-generator/wordpress-pdf-generator.ph
  */
 function wps_wpg_old_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 
-	global $old_pro_exists;
-	if ( $old_pro_exists ) {
+	global $pgfw_old_plugin_exists;
+	if ( $pgfw_old_plugin_exists ) {
 		?>
 		<tr class="plugin-update-tr active notice-warning notice-alt">
 		<td colspan="4" class="plugin-update colspanchange">
@@ -280,14 +280,14 @@ add_action( 'admin_notices', 'wps_wpg_migrate_notice', 99 );
 function wps_wpg_migrate_notice() {
 	// phpcs:disable WordPress.Security.NonceVerification.Recommended
 	$tab = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
-	global $old_pro_exists;
+	global $pgfw_old_plugin_exists;
 
 	if ( 'pdf_generator_for_wp_menu' === $tab ) {
 
 		?>
 		<input type="hidden" class="treat-button">
 		<?php
-		if ( $old_pro_exists ) {
+		if ( $pgfw_old_plugin_exists ) {
 
 			?>
 			<tr class="plugin-update-tr active notice-warning notice-alt">
