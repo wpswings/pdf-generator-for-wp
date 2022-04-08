@@ -10,54 +10,50 @@ namespace Svg\Tag;
 
 use Svg\Style;
 
-class Shape extends AbstractTag
-{
-    protected function before($attributes)
-    {
-        $surface = $this->document->getSurface();
+class Shape extends AbstractTag {
 
-        $surface->save();
+	protected function before( $attributes ) {
+		$surface = $this->document->getSurface();
 
-        $style = $this->makeStyle($attributes);
+		$surface->save();
 
-        $this->setStyle($style);
-        $surface->setStyle($style);
+		$style = $this->makeStyle( $attributes );
 
-        $this->applyTransform($attributes);
-    }
+		$this->setStyle( $style );
+		$surface->setStyle( $style );
 
-    protected function after()
-    {
-        $surface = $this->document->getSurface();
+		$this->applyTransform( $attributes );
+	}
 
-        if ($this->hasShape) {
-            $style = $surface->getStyle();
+	protected function after() {
+		$surface = $this->document->getSurface();
 
-            $fill   = $style->fill   && is_array($style->fill);
-            $stroke = $style->stroke && is_array($style->stroke);
+		if ( $this->hasShape ) {
+			$style = $surface->getStyle();
 
-            if ($fill) {
-                if ($stroke) {
-                    $surface->fillStroke();
-                } else {
-//                    if (is_string($style->fill)) {
-//                        /** @var LinearGradient|RadialGradient $gradient */
-//                        $gradient = $this->getDocument()->getDef($style->fill);
-//
-//                        var_dump($gradient->getStops());
-//                    }
+			$fill   = $style->fill && is_array( $style->fill );
+			$stroke = $style->stroke && is_array( $style->stroke );
 
-                    $surface->fill();
-                }
-            }
-            elseif ($stroke) {
-                $surface->stroke();
-            }
-            else {
-                $surface->endPath();
-            }
-        }
+			if ( $fill ) {
+				if ( $stroke ) {
+					$surface->fillStroke();
+				} else {
+					// if (is_string($style->fill)) {
+					// ** @var LinearGradient|RadialGradient $gradient */
+					// $gradient = $this->getDocument()->getDef($style->fill);
+					//
+					// var_dump($gradient->getStops());
+					// }
 
-        $surface->restore();
-    }
-} 
+					$surface->fill();
+				}
+			} elseif ( $stroke ) {
+				$surface->stroke();
+			} else {
+				$surface->endPath();
+			}
+		}
+
+		$surface->restore();
+	}
+}

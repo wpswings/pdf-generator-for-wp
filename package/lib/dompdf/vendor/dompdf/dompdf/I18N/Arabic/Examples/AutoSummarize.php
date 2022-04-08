@@ -29,11 +29,11 @@
  * @link      http://www.ar-php.org
  */
 
-error_reporting(E_STRICT);
-$time_start = microtime(true);
+error_reporting( E_STRICT );
+$time_start = microtime( true );
 
 require '../../Arabic.php';
-$Arabic = new I18N_Arabic('AutoSummarize');
+$Arabic = new I18N_Arabic( 'AutoSummarize' );
 
 $rate     = 25;
 $title    = 'أضخم تجربة علمية لدراسة بنية المادة المعتمة بمصادم الهدرونات الكبير';
@@ -78,17 +78,17 @@ $contents = <<<END
 المعتمد على نظريات العالم البرت اينشتاين في اوائل القرن العشرين.
 END;
 
-    $contents = str_replace("\n", '', $contents);
+	$contents = str_replace( "\n", '', $contents );
 
-    $highlighted = $Arabic->highlightRateSummary($contents, $rate, $_GET['q'], 'summary');
-    $summary = $Arabic->doRateSummarize($contents, $rate, $_GET['q']);
+	$highlighted = $Arabic->highlightRateSummary( $contents, $rate, $_GET['q'], 'summary' );
+	$summary = $Arabic->doRateSummarize( $contents, $rate, $_GET['q'] );
 
-    echo "<h3>$title:</h3>";
-    echo '<a href="AutoSummarize.php">ملخص عادي</a> | ';
-    echo '<a href="AutoSummarize.php?q=هيجنز">';
-    echo 'الملخص لو كنت تبحث عن كلمة هيجنز</a>';
-    echo "<h4>الملخص</h4>$summary";
-    echo "<h4>النص الكامل</h4>$highlighted";
+	echo "<h3>$title:</h3>";
+	echo '<a href="AutoSummarize.php">ملخص عادي</a> | ';
+	echo '<a href="AutoSummarize.php?q=هيجنز">';
+	echo 'الملخص لو كنت تبحث عن كلمة هيجنز</a>';
+	echo "<h4>الملخص</h4>$summary";
+	echo "<h4>النص الكامل</h4>$highlighted";
 ?>
 </div><br />
 <div class="Paragraph">
@@ -155,9 +155,9 @@ END;
     echo "<h4>النص الكامل</h4>\$highlighted";
 ENDALL;
 
-highlight_string($code);
+highlight_string( $code );
 
-$time_end = microtime(true);
+$time_end = microtime( true );
 $time = $time_end - $time_start;
 
 echo "<hr />Total execution time is $time seconds<br />\n";
@@ -166,8 +166,8 @@ echo 'Amount of memory allocated to this script is ' . memory_get_usage() . ' by
 $included_files = get_included_files();
 echo '<h4>Names of included or required files:</h4><ul>';
 
-foreach ($included_files as $filename) {
-    echo "<li>$filename</li>";
+foreach ( $included_files as $filename ) {
+	echo "<li>$filename</li>";
 }
 
 echo '</ul>';

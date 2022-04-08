@@ -133,7 +133,7 @@ class Pdf_Generator_For_Wp_Admin {
 			$migration_success = get_option( 'wps_code_migratded' );
 			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'src/js/wpg-addon-admin.js', array( 'jquery' ), $this->version, false );
 			wp_enqueue_script( $this->plugin_name . '-swal', plugin_dir_url( __FILE__ ) . 'src/js/wpg-swal.js', array( 'jquery' ), $this->version, false );
-			wp_enqueue_script( $this->plugin_name . '-wps-swal', plugin_dir_url( __FILE__ ) . 'src/js/wps-wpg-swal.js', array( 'jquery' ), $this->version, false );	
+			wp_enqueue_script( $this->plugin_name . '-wps-swal', plugin_dir_url( __FILE__ ) . 'src/js/wps-wpg-swal.js', array( 'jquery' ), $this->version, false );
 			wp_localize_script(
 				$this->plugin_name,
 				'localised',
@@ -1683,7 +1683,6 @@ class Pdf_Generator_For_Wp_Admin {
 	 * This function is used to count pending post.
 	 *
 	 * @param string $type type.
-	 * @param string $action actions.
 	 * @return int $result result.
 	 */
 	public function wps_wpg_get_count( $type = 'all' ) {
@@ -1760,7 +1759,7 @@ class Pdf_Generator_For_Wp_Admin {
 
 		foreach ( $wp_options as $key => $value ) {
 
-			$new_key = str_replace( 'mwb_', 'wps_', $key );	
+			$new_key = str_replace( 'mwb_', 'wps_', $key );
 			$new_value = get_option( $key, $value );
 
 			$arr_val = array();

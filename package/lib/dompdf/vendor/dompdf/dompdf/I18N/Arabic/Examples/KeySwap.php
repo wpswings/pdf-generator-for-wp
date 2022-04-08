@@ -24,17 +24,17 @@
  * @link      http://www.ar-php.org
  */
 
-error_reporting(E_STRICT);
-$time_start = microtime(true);
+error_reporting( E_STRICT );
+$time_start = microtime( true );
 
 require '../../Arabic.php';
-$Arabic = new I18N_Arabic('KeySwap');
+$Arabic = new I18N_Arabic( 'KeySwap' );
 
 $str = "Hpf lk hgkhs hglj'vtdkK Hpf hg`dk dldg,k f;gdjil Ygn
 ,p]hkdm hgHl,v tb drt,k ljv]]dk fdk krdqdk>";
 echo "<u><i>Before - English Keyboard:</i></u><br />$str<br /><br />";
 
-$text = $Arabic->swapEa($str);
+$text = $Arabic->swapEa( $str );
 echo "<u><i>After:</i></u><br />$text<br /><br />";
 
 ?>
@@ -56,7 +56,7 @@ $code = <<< END
 ?>
 END;
 
-highlight_string($code);
+highlight_string( $code );
 
 ?>
 </div>
@@ -68,7 +68,7 @@ $str = 'Hpf lk hgkhs hgljùvtdkK Hpf hg²dk dldg;k fmgdjil Ygn
 ;p$hkd, hgHl;v tb drt;k ljv$$dk fdk krdadk/';
 echo "<u><i>Before - French Keyboard:</i></u><br />$str<br /><br />";
 
-$text = $Arabic->swapFa($str);
+$text = $Arabic->swapFa( $str );
 echo "<u><i>After:</i></u><br />$text<br /><br /><b>جبران خليل جبران</b>";
 
 ?>
@@ -90,7 +90,7 @@ $code = <<< END
 ?>
 END;
 
-highlight_string($code);
+highlight_string( $code );
 
 ?>
 </div>
@@ -98,11 +98,11 @@ highlight_string($code);
 <div class="Paragraph">
 <h2 dir="ltr">Example Output 2:</h2>
 <?php
-    $str = "ِىغ هىفثممهلثىف بخخم ؤشى ةشنث فاهىلس لاهللثق ةخقث ؤخةحمثء شىي ةخقث رهخمثىفز ÷ف فشنثس ش فخعؤا خب لثىهعس شىي ش مخف خب ؤخعقشلث فخ ةخرث هى فاث خححخسهفث يهقثؤفهخىز";
-    echo "<u><i>Before:</i></u><br />$str<br /><br />";
-    
-    $text = $Arabic->swapAe($str);
-    echo "<u><i>After:</i></u><br />$text<br /><br /><b>Albert Einstein</b>";
+	$str = 'ِىغ هىفثممهلثىف بخخم ؤشى ةشنث فاهىلس لاهللثق ةخقث ؤخةحمثء شىي ةخقث رهخمثىفز ÷ف فشنثس ش فخعؤا خب لثىهعس شىي ش مخف خب ؤخعقشلث فخ ةخرث هى فاث خححخسهفث يهقثؤفهخىز';
+	echo "<u><i>Before:</i></u><br />$str<br /><br />";
+
+	$text = $Arabic->swapAe( $str );
+	echo "<u><i>After:</i></u><br />$text<br /><br /><b>Albert Einstein</b>";
 ?>
 
 </div><br />
@@ -123,7 +123,7 @@ $code = <<< END
 ?>
 END;
 
-highlight_string($code);
+highlight_string( $code );
 
 ?>
 </div>
@@ -131,14 +131,14 @@ highlight_string($code);
 <div class="Paragraph">
 <h2 dir="ltr">Example Output 3:</h2>
 <?php
-    $examples = array("ff'z g;k fefhj", "FF'Z G;K FEFHJ", 'ٍمخصمغ لاعف سعقثمغ', 'sLOWLY BUT SURELY');
+	$examples = array( "ff'z g;k fefhj", "FF'Z G;K FEFHJ", 'ٍمخصمغ لاعف سعقثمغ', 'sLOWLY BUT SURELY' );
 
-    foreach ($examples as $example) {
-        $fix = $Arabic->fixKeyboardLang($example);
+foreach ( $examples as $example ) {
+	$fix = $Arabic->fixKeyboardLang( $example );
 
-        echo '<font color="red">' . $example . '</font> => ';
-        echo '<font color="blue">' . $fix . '</font><br />';
-    }
+	echo '<font color="red">' . $example . '</font> => ';
+	echo '<font color="blue">' . $fix . '</font><br />';
+}
 ?>
 
 </div><br />
@@ -161,9 +161,9 @@ $code = <<< END
 ?>
 END;
 
-highlight_string($code);
+highlight_string( $code );
 
-$time_end = microtime(true);
+$time_end = microtime( true );
 $time = $time_end - $time_start;
 
 echo "<hr />Total execution time is $time seconds<br />\n";
@@ -172,8 +172,8 @@ echo 'Amount of memory allocated to this script is ' . memory_get_usage() . ' by
 $included_files = get_included_files();
 echo '<h4>Names of included or required files:</h4><ul>';
 
-foreach ($included_files as $filename) {
-    echo "<li>$filename</li>";
+foreach ( $included_files as $filename ) {
+	echo "<li>$filename</li>";
 }
 
 echo '</ul>';

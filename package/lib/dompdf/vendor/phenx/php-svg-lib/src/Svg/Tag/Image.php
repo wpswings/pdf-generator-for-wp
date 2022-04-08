@@ -8,55 +8,52 @@
 
 namespace Svg\Tag;
 
-class Image extends AbstractTag
-{
-    protected $x = 0;
-    protected $y = 0;
-    protected $width = 0;
-    protected $height = 0;
-    protected $href = null;
+class Image extends AbstractTag {
 
-    protected function before($attributes)
-    {
-        parent::before($attributes);
+	protected $x = 0;
+	protected $y = 0;
+	protected $width = 0;
+	protected $height = 0;
+	protected $href = null;
 
-        $surface = $this->document->getSurface();
-        $surface->save();
+	protected function before( $attributes ) {
+		parent::before( $attributes );
 
-        $this->applyTransform($attributes);
-    }
+		$surface = $this->document->getSurface();
+		$surface->save();
 
-    public function start($attributes)
-    {
-        $document = $this->document;
-        $height = $this->document->getHeight();
-        $this->y = $height;
+		$this->applyTransform( $attributes );
+	}
 
-        if (isset($attributes['x'])) {
-            $this->x = $attributes['x'];
-        }
-        if (isset($attributes['y'])) {
-            $this->y = $height - $attributes['y'];
-        }
+	public function start( $attributes ) {
+		$document = $this->document;
+		$height = $this->document->getHeight();
+		$this->y = $height;
 
-        if (isset($attributes['width'])) {
-            $this->width = $attributes['width'];
-        }
-        if (isset($attributes['height'])) {
-            $this->height = $attributes['height'];
-        }
+		if ( isset( $attributes['x'] ) ) {
+			$this->x = $attributes['x'];
+		}
+		if ( isset( $attributes['y'] ) ) {
+			$this->y = $height - $attributes['y'];
+		}
 
-        if (isset($attributes['xlink:href'])) {
-            $this->href = $attributes['xlink:href'];
-        }
+		if ( isset( $attributes['width'] ) ) {
+			$this->width = $attributes['width'];
+		}
+		if ( isset( $attributes['height'] ) ) {
+			$this->height = $attributes['height'];
+		}
 
-        $document->getSurface()->transform(1, 0, 0, -1, 0, $height);
+		if ( isset( $attributes['xlink:href'] ) ) {
+			$this->href = $attributes['xlink:href'];
+		}
 
-        $document->getSurface()->drawImage($this->href, $this->x, $this->y, $this->width, $this->height);
-    }
+		$document->getSurface()->transform( 1, 0, 0, -1, 0, $height );
 
-    protected function after()
-    {
-        $this->document->getSurface()->restore();
-    }
-} 
+		$document->getSurface()->drawImage( $this->href, $this->x, $this->y, $this->width, $this->height );
+	}
+
+	protected function after() {
+		$this->document->getSurface()->restore();
+	}
+}

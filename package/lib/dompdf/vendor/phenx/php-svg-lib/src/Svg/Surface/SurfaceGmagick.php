@@ -10,299 +10,323 @@ namespace Svg\Surface;
 
 use Svg\Style;
 
-class SurfaceGmagick implements SurfaceInterface
-{
-    const DEBUG = false;
+class SurfaceGmagick implements SurfaceInterface {
 
-    /** @var \GmagickDraw */
-    private $canvas;
+	const DEBUG = false;
 
-    private $width;
-    private $height;
+	/** @var \GmagickDraw */
+	private $canvas;
 
-    /** @var Style */
-    private $style;
+	private $width;
+	private $height;
 
-    public function __construct($w, $h)
-    {
-        if (self::DEBUG) {
-            echo __FUNCTION__ . "\n";
-        }
-        $this->width = $w;
-        $this->height = $h;
+	/** @var Style */
+	private $style;
 
-        $canvas = new \GmagickDraw();
+	public function __construct( $w, $h ) {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->width = $w;
+		$this->height = $h;
 
-        $this->canvas = $canvas;
-    }
+		$canvas = new \GmagickDraw();
 
-    function out()
-    {
-        if (self::DEBUG) {
-            echo __FUNCTION__ . "\n";
-        }
+		$this->canvas = $canvas;
+	}
 
-        $image = new \Gmagick();
-        $image->newimage($this->width, $this->height);
-        $image->drawimage($this->canvas);
+	function out() {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
 
-        $tmp = tempnam("", "gm");
+		$image = new \Gmagick();
+		$image->newimage( $this->width, $this->height );
+		$image->drawimage( $this->canvas );
 
-        $image->write($tmp);
+		$tmp = tempnam( '', 'gm' );
 
-        return file_get_contents($tmp);
-    }
+		$image->write( $tmp );
 
-    public function save()
-    {
-        if (self::DEBUG) {
-            echo __FUNCTION__ . "\n";
-        }
-        $this->canvas->save();
-    }
+		return file_get_contents( $tmp );
+	}
 
-    public function restore()
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        $this->canvas->restore();
-    }
+	public function save() {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->canvas->save();
+	}
 
-    public function scale($x, $y)
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        $this->canvas->scale($x, $y);
-    }
+	public function restore() {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->canvas->restore();
+	}
 
-    public function rotate($angle)
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        $this->canvas->rotate($angle);
-    }
+	public function scale( $x, $y ) {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->canvas->scale( $x, $y );
+	}
 
-    public function translate($x, $y)
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        $this->canvas->translate($x, $y);
-    }
+	public function rotate( $angle ) {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->canvas->rotate( $angle );
+	}
 
-    public function transform($a, $b, $c, $d, $e, $f)
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        $this->canvas->concat($a, $b, $c, $d, $e, $f);
-    }
+	public function translate( $x, $y ) {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->canvas->translate( $x, $y );
+	}
 
-    public function beginPath()
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        // TODO: Implement beginPath() method.
-    }
+	public function transform( $a, $b, $c, $d, $e, $f ) {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->canvas->concat( $a, $b, $c, $d, $e, $f );
+	}
 
-    public function closePath()
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        $this->canvas->closepath();
-    }
+	public function beginPath() {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		// TODO: Implement beginPath() method.
+	}
 
-    public function fillStroke()
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        $this->canvas->fill_stroke();
-    }
+	public function closePath() {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->canvas->closepath();
+	}
 
-    public function clip()
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        $this->canvas->clip();
-    }
+	public function fillStroke() {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->canvas->fill_stroke();
+	}
 
-    public function fillText($text, $x, $y, $maxWidth = null)
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        $this->canvas->set_text_pos($x, $y);
-        $this->canvas->show($text);
-    }
+	public function clip() {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->canvas->clip();
+	}
 
-    public function strokeText($text, $x, $y, $maxWidth = null)
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        // TODO: Implement drawImage() method.
-    }
+	public function fillText( $text, $x, $y, $maxWidth = null ) {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->canvas->set_text_pos( $x, $y );
+		$this->canvas->show( $text );
+	}
 
-    public function drawImage($image, $sx, $sy, $sw = null, $sh = null, $dx = null, $dy = null, $dw = null, $dh = null)
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
+	public function strokeText( $text, $x, $y, $maxWidth = null ) {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		// TODO: Implement drawImage() method.
+	}
 
-        if (strpos($image, "data:") === 0) {
-            $data = substr($image, strpos($image, ";") + 1);
-            if (strpos($data, "base64") === 0) {
-                $data = base64_decode(substr($data, 7));
-            }
+	public function drawImage( $image, $sx, $sy, $sw = null, $sh = null, $dx = null, $dy = null, $dw = null, $dh = null ) {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
 
-            $image = tempnam("", "svg");
-            file_put_contents($image, $data);
-        }
+		if ( strpos( $image, 'data:' ) === 0 ) {
+			$data = substr( $image, strpos( $image, ';' ) + 1 );
+			if ( strpos( $data, 'base64' ) === 0 ) {
+				$data = base64_decode( substr( $data, 7 ) );
+			}
 
-        $img = $this->canvas->load_image("auto", $image, "");
+			$image = tempnam( '', 'svg' );
+			file_put_contents( $image, $data );
+		}
 
-        $sy = $sy - $sh;
-        $this->canvas->fit_image($img, $sx, $sy, 'boxsize={' . "$sw $sh" . '} fitmethod=entire');
-    }
+		$img = $this->canvas->load_image( 'auto', $image, '' );
 
-    public function lineTo($x, $y)
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        $this->canvas->lineto($x, $y);
-    }
+		$sy = $sy - $sh;
+		$this->canvas->fit_image( $img, $sx, $sy, 'boxsize={' . "$sw $sh" . '} fitmethod=entire' );
+	}
 
-    public function moveTo($x, $y)
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        $this->canvas->moveto($x, $y);
-    }
+	public function lineTo( $x, $y ) {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->canvas->lineto( $x, $y );
+	}
 
-    public function quadraticCurveTo($cpx, $cpy, $x, $y)
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        // TODO: Implement quadraticCurveTo() method.
-    }
+	public function moveTo( $x, $y ) {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->canvas->moveto( $x, $y );
+	}
 
-    public function bezierCurveTo($cp1x, $cp1y, $cp2x, $cp2y, $x, $y)
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        $this->canvas->curveto($cp1x, $cp1y, $cp2x, $cp2y, $x, $y);
-    }
+	public function quadraticCurveTo( $cpx, $cpy, $x, $y ) {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		// TODO: Implement quadraticCurveTo() method.
+	}
 
-    public function arcTo($x1, $y1, $x2, $y2, $radius)
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-    }
+	public function bezierCurveTo( $cp1x, $cp1y, $cp2x, $cp2y, $x, $y ) {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->canvas->curveto( $cp1x, $cp1y, $cp2x, $cp2y, $x, $y );
+	}
 
-    public function arc($x, $y, $radius, $startAngle, $endAngle, $anticlockwise = false)
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        $this->canvas->arc($x, $y, $radius, $startAngle, $endAngle);
-    }
+	public function arcTo( $x1, $y1, $x2, $y2, $radius ) {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+	}
 
-    public function circle($x, $y, $radius)
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        $this->canvas->circle($x, $y, $radius);
-    }
+	public function arc( $x, $y, $radius, $startAngle, $endAngle, $anticlockwise = false ) {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->canvas->arc( $x, $y, $radius, $startAngle, $endAngle );
+	}
 
-    public function ellipse($x, $y, $radiusX, $radiusY, $rotation, $startAngle, $endAngle, $anticlockwise)
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        $this->canvas->ellipse($x, $y, $radiusX, $radiusY);
-    }
+	public function circle( $x, $y, $radius ) {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->canvas->circle( $x, $y, $radius );
+	}
 
-    public function fillRect($x, $y, $w, $h)
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        $this->rect($x, $y, $w, $h);
-        $this->fill();
-    }
+	public function ellipse( $x, $y, $radiusX, $radiusY, $rotation, $startAngle, $endAngle, $anticlockwise ) {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->canvas->ellipse( $x, $y, $radiusX, $radiusY );
+	}
 
-    public function rect($x, $y, $w, $h, $rx = 0, $ry = 0)
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        $this->canvas->rect($x, $y, $w, $h);
-    }
+	public function fillRect( $x, $y, $w, $h ) {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->rect( $x, $y, $w, $h );
+		$this->fill();
+	}
 
-    public function fill()
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        $this->canvas->fill();
-    }
+	public function rect( $x, $y, $w, $h, $rx = 0, $ry = 0 ) {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->canvas->rect( $x, $y, $w, $h );
+	}
 
-    public function strokeRect($x, $y, $w, $h)
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        $this->rect($x, $y, $w, $h);
-        $this->stroke();
-    }
+	public function fill() {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->canvas->fill();
+	}
 
-    public function stroke()
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        $this->canvas->stroke();
-    }
+	public function strokeRect( $x, $y, $w, $h ) {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->rect( $x, $y, $w, $h );
+		$this->stroke();
+	}
 
-    public function endPath()
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        //$this->canvas->endPath();
-    }
+	public function stroke() {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$this->canvas->stroke();
+	}
 
-    public function measureText($text)
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
-        $style = $this->getStyle();
-        $font = $this->getFont($style->fontFamily, $style->fontStyle);
+	public function endPath() {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		// $this->canvas->endPath();
+	}
 
-        return $this->canvas->stringwidth($text, $font, $this->getStyle()->fontSize);
-    }
+	public function measureText( $text ) {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
+		$style = $this->getStyle();
+		$font = $this->getFont( $style->fontFamily, $style->fontStyle );
 
-    public function getStyle()
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
+		return $this->canvas->stringwidth( $text, $font, $this->getStyle()->fontSize );
+	}
 
-        return $this->style;
-    }
+	public function getStyle() {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
 
-    public function setStyle(Style $style)
-    {
-        if (self::DEBUG) echo __FUNCTION__ . "\n";
+		return $this->style;
+	}
 
-        $this->style = $style;
-        $canvas = $this->canvas;
+	public function setStyle( Style $style ) {
+		if ( self::DEBUG ) {
+			echo __FUNCTION__ . "\n";
+		}
 
-        if (is_array($style->stroke) && $stroke = $style->stroke) {
-            $canvas->setcolor("stroke", "rgb", $stroke[0] / 255, $stroke[1] / 255, $stroke[2] / 255, null);
-        }
+		$this->style = $style;
+		$canvas = $this->canvas;
 
-        if (is_array($style->fill) && $fill = $style->fill) {
-           // $canvas->setcolor("fill", "rgb", $fill[0] / 255, $fill[1] / 255, $fill[2] / 255, null);
-        }
+		if ( is_array( $style->stroke ) && $stroke = $style->stroke ) {
+			$canvas->setcolor( 'stroke', 'rgb', $stroke[0] / 255, $stroke[1] / 255, $stroke[2] / 255, null );
+		}
 
-        $opts = array();
-        if ($style->strokeWidth > 0.000001) {
-            $opts[] = "linewidth=$style->strokeWidth";
-        }
+		if ( is_array( $style->fill ) && $fill = $style->fill ) {
+			// $canvas->setcolor("fill", "rgb", $fill[0] / 255, $fill[1] / 255, $fill[2] / 255, null);
+		}
 
-        if (in_array($style->strokeLinecap, array("butt", "round", "projecting"))) {
-            $opts[] = "linecap=$style->strokeLinecap";
-        }
+		$opts = array();
+		if ( $style->strokeWidth > 0.000001 ) {
+			$opts[] = "linewidth=$style->strokeWidth";
+		}
 
-        if (in_array($style->strokeLinejoin, array("miter", "round", "bevel"))) {
-            $opts[] = "linejoin=$style->strokeLinejoin";
-        }
+		if ( in_array( $style->strokeLinecap, array( 'butt', 'round', 'projecting' ) ) ) {
+			$opts[] = "linecap=$style->strokeLinecap";
+		}
 
-        $canvas->set_graphics_option(implode(" ", $opts));
+		if ( in_array( $style->strokeLinejoin, array( 'miter', 'round', 'bevel' ) ) ) {
+			$opts[] = "linejoin=$style->strokeLinejoin";
+		}
 
-        $font = $this->getFont($style->fontFamily, $style->fontStyle);
-        $canvas->setfont($font, $style->fontSize);
-    }
+		$canvas->set_graphics_option( implode( ' ', $opts ) );
 
-    private function getFont($family, $style)
-    {
-        $map = array(
-            "serif"      => "Times",
-            "sans-serif" => "Helvetica",
-            "fantasy"    => "Symbol",
-            "cursive"    => "serif",
-            "monospance" => "Courier",
-        );
+		$font = $this->getFont( $style->fontFamily, $style->fontStyle );
+		$canvas->setfont( $font, $style->fontSize );
+	}
 
-        $family = strtolower($family);
-        if (isset($map[$family])) {
-            $family = $map[$family];
-        }
+	private function getFont( $family, $style ) {
+		$map = array(
+			'serif'      => 'Times',
+			'sans-serif' => 'Helvetica',
+			'fantasy'    => 'Symbol',
+			'cursive'    => 'serif',
+			'monospance' => 'Courier',
+		);
 
-        return $this->canvas->load_font($family, "unicode", "fontstyle=$style");
-    }
+		$family = strtolower( $family );
+		if ( isset( $map[ $family ] ) ) {
+			$family = $map[ $family ];
+		}
 
-    public function setFont($family, $style, $weight)
-    {
-        // TODO: Implement setFont() method.
-    }
+		return $this->canvas->load_font( $family, 'unicode', "fontstyle=$style" );
+	}
+
+	public function setFont( $family, $style, $weight ) {
+		// TODO: Implement setFont() method.
+	}
 }

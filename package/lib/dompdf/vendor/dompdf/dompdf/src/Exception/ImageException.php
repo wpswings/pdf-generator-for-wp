@@ -14,18 +14,17 @@ use Dompdf\Exception;
  *
  * @package dompdf
  */
-class ImageException extends Exception
-{
+class ImageException extends Exception {
 
-    /**
-     * Class constructor
-     *
-     * @param string $message Error message
-     * @param int $code       Error code
-     */
-    function __construct($message = null, $code = 0)
-    {
-        parent::__construct($message, $code);
-    }
+
+	/**
+	 * Class constructor
+	 *
+	 * @param string $message Error message
+	 * @param int    $code       Error code
+	 */
+	function __construct( $message = null, $code = 0 ) {
+		parent::__construct( $message, $code );
+	}
 
 }

@@ -10,24 +10,22 @@ namespace Svg\Tag;
 
 use Svg\Style;
 
-class Group extends AbstractTag
-{
-    protected function before($attributes)
-    {
-        $surface = $this->document->getSurface();
+class Group extends AbstractTag {
 
-        $surface->save();
+	protected function before( $attributes ) {
+		$surface = $this->document->getSurface();
 
-        $style = $this->makeStyle($attributes);
+		$surface->save();
 
-        $this->setStyle($style);
-        $surface->setStyle($style);
+		$style = $this->makeStyle( $attributes );
 
-        $this->applyTransform($attributes);
-    }
+		$this->setStyle( $style );
+		$surface->setStyle( $style );
 
-    protected function after()
-    {
-        $this->document->getSurface()->restore();
-    }
-} 
+		$this->applyTransform( $attributes );
+	}
+
+	protected function after() {
+		$this->document->getSurface()->restore();
+	}
+}

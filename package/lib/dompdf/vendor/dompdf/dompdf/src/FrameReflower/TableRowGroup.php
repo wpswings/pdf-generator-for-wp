@@ -15,58 +15,57 @@ use Dompdf\FrameDecorator\Table as TableFrameDecorator;
  *
  * @package dompdf
  */
-class TableRowGroup extends AbstractFrameReflower
-{
+class TableRowGroup extends AbstractFrameReflower {
 
-    /**
-     * TableRowGroup constructor.
-     * @param \Dompdf\Frame $frame
-     */
-    function __construct($frame)
-    {
-        parent::__construct($frame);
-    }
 
-    /**
-     * @param BlockFrameDecorator|null $block
-     */
-    function reflow(BlockFrameDecorator $block = null)
-    {
-        $page = $this->_frame->get_root();
+	/**
+	 * TableRowGroup constructor.
+	 *
+	 * @param \Dompdf\Frame $frame
+	 */
+	function __construct( $frame ) {
+		parent::__construct( $frame );
+	}
 
-        $style = $this->_frame->get_style();
+	/**
+	 * @param BlockFrameDecorator|null $block
+	 */
+	function reflow( BlockFrameDecorator $block = null ) {
+		$page = $this->_frame->get_root();
 
-        // Our width is equal to the width of our parent table
-        $table = TableFrameDecorator::find_parent_table($this->_frame);
+		$style = $this->_frame->get_style();
 
-        $cb = $this->_frame->get_containing_block();
+		// Our width is equal to the width of our parent table
+		$table = TableFrameDecorator::find_parent_table( $this->_frame );
 
-        foreach ($this->_frame->get_children() as $child) {
-            // Bail if the page is full
-            if ($page->is_full()) {
-                return;
-            }
+		$cb = $this->_frame->get_containing_block();
 
-            $child->set_containing_block($cb["x"], $cb["y"], $cb["w"], $cb["h"]);
-            $child->reflow();
+		foreach ( $this->_frame->get_children() as $child ) {
+			// Bail if the page is full
+			if ( $page->is_full() ) {
+				return;
+			}
 
-            // Check if a split has occured
-            $page->check_page_break($child);
-        }
+			$child->set_containing_block( $cb['x'], $cb['y'], $cb['w'], $cb['h'] );
+			$child->reflow();
 
-        if ($page->is_full()) {
-            return;
-        }
+			// Check if a split has occured
+			$page->check_page_break( $child );
+		}
 
-        $cellmap = $table->get_cellmap();
-        $style->width = $cellmap->get_frame_width($this->_frame);
-        $style->height = $cellmap->get_frame_height($this->_frame);
+		if ( $page->is_full() ) {
+			return;
+		}
 
-        $this->_frame->set_position($cellmap->get_frame_position($this->_frame));
+		$cellmap = $table->get_cellmap();
+		$style->width = $cellmap->get_frame_width( $this->_frame );
+		$style->height = $cellmap->get_frame_height( $this->_frame );
 
-        if ($table->get_style()->border_collapse === "collapse") {
-            // Unset our borders because our cells are now using them
-            $style->border_style = "none";
-        }
-    }
+		$this->_frame->set_position( $cellmap->get_frame_position( $this->_frame ) );
+
+		if ( $table->get_style()->border_collapse === 'collapse' ) {
+			// Unset our borders because our cells are now using them
+			$style->border_style = 'none';
+		}
+	}
 }

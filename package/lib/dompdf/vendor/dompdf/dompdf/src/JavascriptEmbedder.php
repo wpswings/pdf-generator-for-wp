@@ -12,41 +12,38 @@ namespace Dompdf;
  *
  * @package dompdf
  */
-class JavascriptEmbedder
-{
+class JavascriptEmbedder {
 
-    /**
-     * @var Dompdf
-     */
-    protected $_dompdf;
 
-    /**
-     * JavascriptEmbedder constructor.
-     *
-     * @param Dompdf $dompdf
-     */
-    public function __construct(Dompdf $dompdf)
-    {
-        $this->_dompdf = $dompdf;
-    }
+	/**
+	 * @var Dompdf
+	 */
+	protected $_dompdf;
 
-    /**
-     * @param $script
-     */
-    public function insert($script)
-    {
-        $this->_dompdf->getCanvas()->javascript($script);
-    }
+	/**
+	 * JavascriptEmbedder constructor.
+	 *
+	 * @param Dompdf $dompdf
+	 */
+	public function __construct( Dompdf $dompdf ) {
+		 $this->_dompdf = $dompdf;
+	}
 
-    /**
-     * @param Frame $frame
-     */
-    public function render(Frame $frame)
-    {
-        if (!$this->_dompdf->getOptions()->getIsJavascriptEnabled()) {
-            return;
-        }
+	/**
+	 * @param $script
+	 */
+	public function insert( $script ) {
+		 $this->_dompdf->getCanvas()->javascript( $script );
+	}
 
-        $this->insert($frame->get_node()->nodeValue);
-    }
+	/**
+	 * @param Frame $frame
+	 */
+	public function render( Frame $frame ) {
+		if ( ! $this->_dompdf->getOptions()->getIsJavascriptEnabled() ) {
+			return;
+		}
+
+		$this->insert( $frame->get_node()->nodeValue );
+	}
 }

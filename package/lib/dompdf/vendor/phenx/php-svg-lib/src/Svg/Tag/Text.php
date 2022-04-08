@@ -8,63 +8,58 @@
 
 namespace Svg\Tag;
 
-class Text extends Shape
-{
-    protected $x = 0;
-    protected $y = 0;
-    protected $text = "";
+class Text extends Shape {
 
-    public function start($attributes)
-    {
-        $document = $this->document;
-        $height = $this->document->getHeight();
-        $this->y = $height;
+	protected $x = 0;
+	protected $y = 0;
+	protected $text = '';
 
-        if (isset($attributes['x'])) {
-            $this->x = $attributes['x'];
-        }
-        if (isset($attributes['y'])) {
-            $this->y = $height - $attributes['y'];
-        }
+	public function start( $attributes ) {
+		$document = $this->document;
+		$height = $this->document->getHeight();
+		$this->y = $height;
 
-        $document->getSurface()->transform(1, 0, 0, -1, 0, $height);
-    }
+		if ( isset( $attributes['x'] ) ) {
+			$this->x = $attributes['x'];
+		}
+		if ( isset( $attributes['y'] ) ) {
+			$this->y = $height - $attributes['y'];
+		}
 
-    public function end()
-    {
-        $surface = $this->document->getSurface();
-        $x = $this->x;
-        $y = $this->y;
-        $style = $surface->getStyle();
-        $surface->setFont($style->fontFamily, $style->fontStyle, $style->fontWeight);
+		$document->getSurface()->transform( 1, 0, 0, -1, 0, $height );
+	}
 
-        switch ($style->textAnchor) {
-            case "middle":
-                $width = $surface->measureText($this->text);
-                $x -= $width / 2;
-                break;
+	public function end() {
+		 $surface = $this->document->getSurface();
+		$x = $this->x;
+		$y = $this->y;
+		$style = $surface->getStyle();
+		$surface->setFont( $style->fontFamily, $style->fontStyle, $style->fontWeight );
 
-            case "end":
-                $width = $surface->measureText($this->text);
-                $x -= $width;
-                break;
-        }
+		switch ( $style->textAnchor ) {
+			case 'middle':
+				$width = $surface->measureText( $this->text );
+				$x -= $width / 2;
+				break;
 
-        $surface->fillText($this->getText(), $x, $y);
-    }
+			case 'end':
+				$width = $surface->measureText( $this->text );
+				$x -= $width;
+				break;
+		}
 
-    protected function after()
-    {
-        $this->document->getSurface()->restore();
-    }
+		$surface->fillText( $this->getText(), $x, $y );
+	}
 
-    public function appendText($text)
-    {
-        $this->text .= $text;
-    }
+	protected function after() {
+		$this->document->getSurface()->restore();
+	}
 
-    public function getText()
-    {
-        return trim($this->text);
-    }
-} 
+	public function appendText( $text ) {
+		$this->text .= $text;
+	}
+
+	public function getText() {
+		 return trim( $this->text );
+	}
+}

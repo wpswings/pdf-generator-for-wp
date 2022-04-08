@@ -24,14 +24,20 @@
  * @link      http://www.ar-php.org
  */
 
-error_reporting(E_STRICT);
-$time_start = microtime(true);
+error_reporting( E_STRICT );
+$time_start = microtime( true );
 
 require '../../Arabic.php';
-$Arabic = new I18N_Arabic('Soundex');
+$Arabic = new I18N_Arabic( 'Soundex' );
 
-$Clinton = array('كلينتون', 'كلينتن', 'كلينطون', 'كلنتن', 'كلنتون', 
-                 'كلاينتون');
+$Clinton = array(
+	'كلينتون',
+	'كلينتن',
+	'كلينطون',
+	'كلنتن',
+	'كلنتون',
+	'كلاينتون',
+);
 
 echo <<<END
 <table border="0" cellpadding="5" cellspacing="2" align="center">
@@ -49,21 +55,21 @@ END;
 echo '<tr>
         <td bgcolor=#f5f5f5>PHP soundex function</td>
         <td bgcolor=#f5f5f5>Clinton</td>
-        <td bgcolor=#f5f5f5>' . soundex('Clinton') . '</td>
+        <td bgcolor=#f5f5f5>' . soundex( 'Clinton' ) . '</td>
       </tr>';
 
-foreach ($Clinton as $name) {
-    echo '<tr>
+foreach ( $Clinton as $name ) {
+	echo '<tr>
             <td bgcolor=#f5f5f5>ArSoundex Method</td>
             <td bgcolor=#f5f5f5>' . $name . '</td>
-            <td bgcolor=#f5f5f5>' . $Arabic->soundex($name) . '</td>
+            <td bgcolor=#f5f5f5>' . $Arabic->soundex( $name ) . '</td>
           </tr>';
 }
 
 echo '<tr>
         <td bgcolor=#f5f5c5>ArSoundex Method</td>
         <td bgcolor=#f5f5c5>كلينزمان</td>
-        <td bgcolor=#f5f5c5>' . $Arabic->soundex('كلينزمان') . '</td>
+        <td bgcolor=#f5f5c5>' . $Arabic->soundex( 'كلينزمان' ) . '</td>
       </tr>';
 
 echo <<<END
@@ -82,28 +88,34 @@ echo <<<END
 </tr>
 <tr>
 END;
-    
-$Milosevic = array('ميلوسيفيتش', 'ميلوسفيتش', 'ميلوزفيتش', 'ميلوزيفيتش',
-                   'ميلسيفيتش', 'ميلوسيفتش');
+
+$Milosevic = array(
+	'ميلوسيفيتش',
+	'ميلوسفيتش',
+	'ميلوزفيتش',
+	'ميلوزيفيتش',
+	'ميلسيفيتش',
+	'ميلوسيفتش',
+);
 
 echo '<tr>
         <td bgcolor=#f5f5f5>PHP soundex function</td>
         <td bgcolor=#f5f5f5>Milosevic</td>
-        <td bgcolor=#f5f5f5>' . soundex('Milosevic') . '</td>
+        <td bgcolor=#f5f5f5>' . soundex( 'Milosevic' ) . '</td>
       </tr>';
-                   
-foreach ($Milosevic as $name) {
-    echo '<tr>
+
+foreach ( $Milosevic as $name ) {
+	echo '<tr>
             <td bgcolor=#f5f5f5>ArSoundex Method</td>
             <td bgcolor=#f5f5f5>' . $name . '</td>
-            <td bgcolor=#f5f5f5>' . $Arabic->soundex($name) . '</td>
+            <td bgcolor=#f5f5f5>' . $Arabic->soundex( $name ) . '</td>
           </tr>';
 }
 
 echo '<tr>
         <td bgcolor=#f5f5c5>ArSoundex Method</td>
         <td bgcolor=#f5f5c5>ميلينيوم</td>
-        <td bgcolor=#f5f5c5>' . $Arabic->soundex('ميلينيوم') . '</td>
+        <td bgcolor=#f5f5c5>' . $Arabic->soundex( 'ميلينيوم' ) . '</td>
       </tr></table>';
 ?>
 </div><br />
@@ -190,9 +202,9 @@ END;
           </tr></table>';
 ENDALL;
 
-highlight_string($code);
+highlight_string( $code );
 
-$time_end = microtime(true);
+$time_end = microtime( true );
 $time = $time_end - $time_start;
 
 echo "<hr />Total execution time is $time seconds<br />\n";
@@ -201,8 +213,8 @@ echo 'Amount of memory allocated to this script is ' . memory_get_usage() . ' by
 $included_files = get_included_files();
 echo '<h4>Names of included or required files:</h4><ul>';
 
-foreach ($included_files as $filename) {
-    echo "<li>$filename</li>";
+foreach ( $included_files as $filename ) {
+	echo "<li>$filename</li>";
 }
 
 echo '</ul>';

@@ -12,52 +12,50 @@ namespace Dompdf;
  *
  * @package dompdf
  */
-class PhpEvaluator
-{
+class PhpEvaluator {
 
-    /**
-     * @var Canvas
-     */
-    protected $_canvas;
 
-    /**
-     * PhpEvaluator constructor.
-     * @param Canvas $canvas
-     */
-    public function __construct(Canvas $canvas)
-    {
-        $this->_canvas = $canvas;
-    }
+	/**
+	 * @var Canvas
+	 */
+	protected $_canvas;
 
-    /**
-     * @param $code
-     * @param array $vars
-     */
-    public function evaluate($code, $vars = [])
-    {
-        if (!$this->_canvas->get_dompdf()->getOptions()->getIsPhpEnabled()) {
-            return;
-        }
+	/**
+	 * PhpEvaluator constructor.
+	 *
+	 * @param Canvas $canvas
+	 */
+	public function __construct( Canvas $canvas ) {
+		 $this->_canvas = $canvas;
+	}
 
-        // Set up some variables for the inline code
-        $pdf = $this->_canvas;
-        $fontMetrics = $pdf->get_dompdf()->getFontMetrics();
-        $PAGE_NUM = $pdf->get_page_number();
-        $PAGE_COUNT = $pdf->get_page_count();
+	/**
+	 * @param $code
+	 * @param array $vars
+	 */
+	public function evaluate( $code, $vars = array() ) {
+		if ( ! $this->_canvas->get_dompdf()->getOptions()->getIsPhpEnabled() ) {
+			return;
+		}
 
-        // Override those variables if passed in
-        foreach ($vars as $k => $v) {
-            $$k = $v;
-        }
+		// Set up some variables for the inline code
+		$pdf = $this->_canvas;
+		$fontMetrics = $pdf->get_dompdf()->getFontMetrics();
+		$PAGE_NUM = $pdf->get_page_number();
+		$PAGE_COUNT = $pdf->get_page_count();
 
-        eval($code);
-    }
+		// Override those variables if passed in
+		foreach ( $vars as $k => $v ) {
+			$$k = $v;
+		}
 
-    /**
-     * @param Frame $frame
-     */
-    public function render(Frame $frame)
-    {
-        $this->evaluate($frame->get_node()->nodeValue);
-    }
+		eval( $code );
+	}
+
+	/**
+	 * @param Frame $frame
+	 */
+	public function render( Frame $frame ) {
+		$this->evaluate( $frame->get_node()->nodeValue );
+	}
 }

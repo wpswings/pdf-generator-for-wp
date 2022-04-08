@@ -17,129 +17,128 @@ use Dompdf\Image\Cache;
  * @access  private
  * @package dompdf
  */
-class Image extends Block
-{
+class Image extends Block {
 
-    /**
-     * @param Frame $frame
-     */
-    function render(Frame $frame)
-    {
-        // Render background & borders
-        $style = $frame->get_style();
-        $cb = $frame->get_containing_block();
-        list($x, $y, $w, $h) = $frame->get_border_box();
 
-        if ($w === 0.0 || $h === 0.0) {
-            return;
-        }
+	/**
+	 * @param Frame $frame
+	 */
+	function render( Frame $frame ) {
+		// Render background & borders
+		$style = $frame->get_style();
+		$cb = $frame->get_containing_block();
+		list($x, $y, $w, $h) = $frame->get_border_box();
 
-        $this->_set_opacity($frame->get_opacity($style->opacity));
+		if ( $w === 0.0 || $h === 0.0 ) {
+			return;
+		}
 
-        list($tl, $tr, $br, $bl) = $style->get_computed_border_radius($w, $h);
+		$this->_set_opacity( $frame->get_opacity( $style->opacity ) );
 
-        $has_border_radius = $tl + $tr + $br + $bl > 0;
+		list($tl, $tr, $br, $bl) = $style->get_computed_border_radius( $w, $h );
 
-        if ($has_border_radius) {
-            $this->_canvas->clipping_roundrectangle($x, $y, (float)$w, (float)$h, $tl, $tr, $br, $bl);
-        }
+		$has_border_radius = $tl + $tr + $br + $bl > 0;
 
-        if (($bg = $style->background_color) !== "transparent") {
-            $this->_canvas->filled_rectangle($x, $y, (float)$w, (float)$h, $bg);
-        }
+		if ( $has_border_radius ) {
+			$this->_canvas->clipping_roundrectangle( $x, $y, (float) $w, (float) $h, $tl, $tr, $br, $bl );
+		}
 
-        if (($url = $style->background_image) && $url !== "none") {
-            $this->_background_image($url, $x, $y, $w, $h, $style);
-        }
+		if ( ( $bg = $style->background_color ) !== 'transparent' ) {
+			$this->_canvas->filled_rectangle( $x, $y, (float) $w, (float) $h, $bg );
+		}
 
-        if ($has_border_radius) {
-            $this->_canvas->clipping_end();
-        }
+		if ( ( $url = $style->background_image ) && $url !== 'none' ) {
+			$this->_background_image( $url, $x, $y, $w, $h, $style );
+		}
 
-        $this->_render_border($frame);
-        $this->_render_outline($frame);
+		if ( $has_border_radius ) {
+			$this->_canvas->clipping_end();
+		}
 
-        list($x, $y) = $frame->get_padding_box();
+		$this->_render_border( $frame );
+		$this->_render_outline( $frame );
 
-        $x += (float)$style->length_in_pt($style->padding_left, $cb["w"]);
-        $y += (float)$style->length_in_pt($style->padding_top, $cb["h"]);
+		list($x, $y) = $frame->get_padding_box();
 
-        $w = (float)$style->length_in_pt($style->width, $cb["w"]);
-        $h = (float)$style->length_in_pt($style->height, $cb["h"]);
+		$x += (float) $style->length_in_pt( $style->padding_left, $cb['w'] );
+		$y += (float) $style->length_in_pt( $style->padding_top, $cb['h'] );
 
-        if ($has_border_radius) {
-            list($wt, $wr, $wb, $wl) = [
-                $style->border_top_width,
-                $style->border_right_width,
-                $style->border_bottom_width,
-                $style->border_left_width,
-            ];
+		$w = (float) $style->length_in_pt( $style->width, $cb['w'] );
+		$h = (float) $style->length_in_pt( $style->height, $cb['h'] );
 
-            // we have to get the "inner" radius
-            if ($tl > 0) {
-                $tl -= ($wt + $wl) / 2;
-            }
-            if ($tr > 0) {
-                $tr -= ($wt + $wr) / 2;
-            }
-            if ($br > 0) {
-                $br -= ($wb + $wr) / 2;
-            }
-            if ($bl > 0) {
-                $bl -= ($wb + $wl) / 2;
-            }
+		if ( $has_border_radius ) {
+			list($wt, $wr, $wb, $wl) = array(
+				$style->border_top_width,
+				$style->border_right_width,
+				$style->border_bottom_width,
+				$style->border_left_width,
+			);
 
-            $this->_canvas->clipping_roundrectangle($x, $y, $w, $h, $tl, $tr, $br, $bl);
-        }
+			// we have to get the "inner" radius
+			if ( $tl > 0 ) {
+				$tl -= ( $wt + $wl ) / 2;
+			}
+			if ( $tr > 0 ) {
+				$tr -= ( $wt + $wr ) / 2;
+			}
+			if ( $br > 0 ) {
+				$br -= ( $wb + $wr ) / 2;
+			}
+			if ( $bl > 0 ) {
+				$bl -= ( $wb + $wl ) / 2;
+			}
 
-        $src = $frame->get_image_url();
-        $alt = null;
+			$this->_canvas->clipping_roundrectangle( $x, $y, $w, $h, $tl, $tr, $br, $bl );
+		}
 
-        if (Cache::is_broken($src) &&
-            $alt = $frame->get_node()->getAttribute("alt")
-        ) {
-            $font = $style->font_family;
-            $size = $style->font_size;
-            $spacing = $style->word_spacing;
-            $this->_canvas->text(
-                $x,
-                $y,
-                $alt,
-                $font,
-                $size,
-                $style->color,
-                $spacing
-            );
-        } else {
-            $this->_canvas->image($src, $x, $y, $w, $h, $style->image_resolution);
-        }
+		$src = $frame->get_image_url();
+		$alt = null;
 
-        if ($has_border_radius) {
-            $this->_canvas->clipping_end();
-        }
+		if ( Cache::is_broken( $src ) &&
+			$alt = $frame->get_node()->getAttribute( 'alt' )
+		) {
+			$font = $style->font_family;
+			$size = $style->font_size;
+			$spacing = $style->word_spacing;
+			$this->_canvas->text(
+				$x,
+				$y,
+				$alt,
+				$font,
+				$size,
+				$style->color,
+				$spacing
+			);
+		} else {
+			$this->_canvas->image( $src, $x, $y, $w, $h, $style->image_resolution );
+		}
 
-        if ($msg = $frame->get_image_msg()) {
-            $parts = preg_split("/\s*\n\s*/", $msg);
-            $height = 10;
-            $_y = $alt ? $y + $h - count($parts) * $height : $y;
+		if ( $has_border_radius ) {
+			$this->_canvas->clipping_end();
+		}
 
-            foreach ($parts as $i => $_part) {
-                $this->_canvas->text($x, $_y + $i * $height, $_part, "times", $height * 0.8, [0.5, 0.5, 0.5]);
-            }
-        }
+		if ( $msg = $frame->get_image_msg() ) {
+			$parts = preg_split( "/\s*\n\s*/", $msg );
+			$height = 10;
+			$_y = $alt ? $y + $h - count( $parts ) * $height : $y;
 
-        if ($this->_dompdf->getOptions()->getDebugLayout() && $this->_dompdf->getOptions()->getDebugLayoutBlocks()) {
-            $debug_border_box = $frame->get_border_box();
-            $this->_debug_layout([$debug_border_box['x'], $debug_border_box['y'], (float)$debug_border_box['w'], (float)$debug_border_box['h']], "blue");
-            if ($this->_dompdf->getOptions()->getDebugLayoutPaddingBox()) {
-                $debug_padding_box = $frame->get_padding_box();
-                $this->_debug_layout([$debug_padding_box['x'], $debug_padding_box['y'], (float)$debug_padding_box['w'], (float)$debug_padding_box['h']], "blue", [0.5, 0.5]);
-        }
-        }
+			foreach ( $parts as $i => $_part ) {
+				$this->_canvas->text( $x, $_y + $i * $height, $_part, 'times', $height * 0.8, array( 0.5, 0.5, 0.5 ) );
+			}
+		}
 
-        $id = $frame->get_node()->getAttribute("id");
-        if (strlen($id) > 0)  {
-            $this->_canvas->add_named_dest($id);
-        }
-    }
+		if ( $this->_dompdf->getOptions()->getDebugLayout() && $this->_dompdf->getOptions()->getDebugLayoutBlocks() ) {
+			$debug_border_box = $frame->get_border_box();
+			$this->_debug_layout( array( $debug_border_box['x'], $debug_border_box['y'], (float) $debug_border_box['w'], (float) $debug_border_box['h'] ), 'blue' );
+			if ( $this->_dompdf->getOptions()->getDebugLayoutPaddingBox() ) {
+				$debug_padding_box = $frame->get_padding_box();
+				$this->_debug_layout( array( $debug_padding_box['x'], $debug_padding_box['y'], (float) $debug_padding_box['w'], (float) $debug_padding_box['h'] ), 'blue', array( 0.5, 0.5 ) );
+			}
+		}
+
+		$id = $frame->get_node()->getAttribute( 'id' );
+		if ( strlen( $id ) > 0 ) {
+			$this->_canvas->add_named_dest( $id );
+		}
+	}
 }

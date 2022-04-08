@@ -17,17 +17,17 @@ class Parser {
 	 *
 	 * @param $sText
 	 * @param Settings|null $oParserSettings
-	 * @param int $iLineNo
+	 * @param int           $iLineNo
 	 */
-	public function __construct($sText, Settings $oParserSettings = null, $iLineNo = 1) {
-		if ($oParserSettings === null) {
+	public function __construct( $sText, Settings $oParserSettings = null, $iLineNo = 1 ) {
+		if ( $oParserSettings === null ) {
 			$oParserSettings = Settings::create();
 		}
-		$this->oParserState = new ParserState($sText, $oParserSettings, $iLineNo);
+		$this->oParserState = new ParserState( $sText, $oParserSettings, $iLineNo );
 	}
 
-	public function setCharset($sCharset) {
-		$this->oParserState->setCharset($sCharset);
+	public function setCharset( $sCharset ) {
+		$this->oParserState->setCharset( $sCharset );
 	}
 
 	public function getCharset() {
@@ -35,7 +35,7 @@ class Parser {
 	}
 
 	public function parse() {
-		return Document::parse($this->oParserState);
+		return Document::parse( $this->oParserState );
 	}
 
 }

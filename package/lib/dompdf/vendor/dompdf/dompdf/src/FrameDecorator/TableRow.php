@@ -16,53 +16,51 @@ use Dompdf\FrameDecorator\Table as TableFrameDecorator;
  *
  * @package dompdf
  */
-class TableRow extends AbstractFrameDecorator
-{
-    /**
-     * TableRow constructor.
-     * @param Frame $frame
-     * @param Dompdf $dompdf
-     */
-    function __construct(Frame $frame, Dompdf $dompdf)
-    {
-        parent::__construct($frame, $dompdf);
-    }
+class TableRow extends AbstractFrameDecorator {
 
-    //........................................................................
+	/**
+	 * TableRow constructor.
+	 *
+	 * @param Frame  $frame
+	 * @param Dompdf $dompdf
+	 */
+	function __construct( Frame $frame, Dompdf $dompdf ) {
+		parent::__construct( $frame, $dompdf );
+	}
 
-    /**
-     * Remove all non table-cell frames from this row and move them after
-     * the table.
-     */
-    function normalise()
-    {
-        // Find our table parent
-        $p = TableFrameDecorator::find_parent_table($this);
+	// ........................................................................
 
-        $erroneous_frames = [];
-        foreach ($this->get_children() as $child) {
-            $display = $child->get_style()->display;
+	/**
+	 * Remove all non table-cell frames from this row and move them after
+	 * the table.
+	 */
+	function normalise() {
+		// Find our table parent
+		$p = TableFrameDecorator::find_parent_table( $this );
 
-            if ($display !== "table-cell") {
-                $erroneous_frames[] = $child;
-            }
-        }
+		$erroneous_frames = array();
+		foreach ( $this->get_children() as $child ) {
+			$display = $child->get_style()->display;
 
-        //  dump the extra nodes after the table.
-        foreach ($erroneous_frames as $frame) {
-            $p->move_after($frame);
-        }
-    }
+			if ( $display !== 'table-cell' ) {
+				$erroneous_frames[] = $child;
+			}
+		}
 
-    function split(Frame $child = null, $force_pagebreak = false)
-    {
-        $this->_already_pushed = true;
-        
-        if (is_null($child)) {
-            parent::split();
-            return;
-        }
+		// dump the extra nodes after the table.
+		foreach ( $erroneous_frames as $frame ) {
+			$p->move_after( $frame );
+		}
+	}
 
-        parent::split($child, $force_pagebreak);
-    }
+	function split( Frame $child = null, $force_pagebreak = false ) {
+		$this->_already_pushed = true;
+
+		if ( is_null( $child ) ) {
+			parent::split();
+			return;
+		}
+
+		parent::split( $child, $force_pagebreak );
+	}
 }

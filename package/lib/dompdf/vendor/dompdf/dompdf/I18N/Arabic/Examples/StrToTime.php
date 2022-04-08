@@ -24,51 +24,51 @@
  * @link      http://www.ar-php.org
  */
 
-error_reporting(E_STRICT);
-$time_start = microtime(true);
+error_reporting( E_STRICT );
+$time_start = microtime( true );
 
-date_default_timezone_set('UTC');
+date_default_timezone_set( 'UTC' );
 $time = time();
 
-echo date('l dS F Y', $time);
+echo date( 'l dS F Y', $time );
 echo '<br /><br />';
 
 require '../../Arabic.php';
-$Arabic = new I18N_Arabic('StrToTime');
+$Arabic = new I18N_Arabic( 'StrToTime' );
 
 $str  = 'الخميس القادم';
-$int  = $Arabic->strtotime($str, $time);
-$date = date('l dS F Y', $int);
+$int  = $Arabic->strtotime( $str, $time );
+$date = date( 'l dS F Y', $int );
 echo "$str - $int - $date<br /><br />";
 
 $str  = 'الأحد الماضي';
-$int  = $Arabic->strtotime($str, $time);
-$date = date('l dS F Y', $int);
+$int  = $Arabic->strtotime( $str, $time );
+$date = date( 'l dS F Y', $int );
 echo "$str - $int - $date<br /><br />";
 
 $str  = 'بعد أسبوع و ثلاثة أيام';
-$int  = $Arabic->strtotime($str, $time);
-$date = date('l dS F Y', $int);
+$int  = $Arabic->strtotime( $str, $time );
+$date = date( 'l dS F Y', $int );
 echo "$str - $int - $date<br /><br />";
 
 $str  = 'منذ تسعة أيام';
-$int  = $Arabic->strtotime($str, $time);
-$date = date('l dS F Y', $int);
+$int  = $Arabic->strtotime( $str, $time );
+$date = date( 'l dS F Y', $int );
 echo "$str - $int - $date<br /><br />";
 
 $str  = 'قبل إسبوعين';
-$int  = $Arabic->strtotime($str, $time);
-$date = date('l dS F Y', $int);
+$int  = $Arabic->strtotime( $str, $time );
+$date = date( 'l dS F Y', $int );
 echo "$str - $int - $date<br /><br />";
 
 $str  = '2 آب 1975';
-$int  = $Arabic->strtotime($str, $time);
-$date = date('l dS F Y', $int);
+$int  = $Arabic->strtotime( $str, $time );
+$date = date( 'l dS F Y', $int );
 echo "$str - $int - $date<br /><br />";
 
 $str  = '1 رمضان 1429';
-$int  = $Arabic->strtotime($str, $time);
-$date = date('l dS F Y', $int);
+$int  = $Arabic->strtotime( $str, $time );
+$date = date( 'l dS F Y', $int );
 echo "$str - $int - $date<br /><br />";
 ?>
 </div><br />
@@ -122,9 +122,9 @@ $code = <<< END
     echo "\$str - \$int - \$date<br /><br />";
 END;
 
-highlight_string($code);
+highlight_string( $code );
 
-$time_end = microtime(true);
+$time_end = microtime( true );
 $time = $time_end - $time_start;
 
 echo "<hr />Total execution time is $time seconds<br />\n";
@@ -133,8 +133,8 @@ echo 'Amount of memory allocated to this script is ' . memory_get_usage() . ' by
 $included_files = get_included_files();
 echo '<h4>Names of included or required files:</h4><ul>';
 
-foreach ($included_files as $filename) {
-    echo "<li>$filename</li>";
+foreach ( $included_files as $filename ) {
+	echo "<li>$filename</li>";
 }
 
 echo '</ul>';

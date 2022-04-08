@@ -11,180 +11,164 @@ namespace Svg\Tag;
 use Svg\Document;
 use Svg\Style;
 
-abstract class AbstractTag
-{
-    /** @var Document */
-    protected $document;
+abstract class AbstractTag {
 
-    public $tagName;
+	/** @var Document */
+	protected $document;
 
-    /** @var Style */
-    protected $style;
+	public $tagName;
 
-    protected $attributes = array();
+	/** @var Style */
+	protected $style;
 
-    protected $hasShape = true;
+	protected $attributes = array();
 
-    /** @var self[] */
-    protected $children = array();
+	protected $hasShape = true;
 
-    public function __construct(Document $document, $tagName)
-    {
-        $this->document = $document;
-        $this->tagName = $tagName;
-    }
+	/** @var self[] */
+	protected $children = array();
 
-    public function getDocument(){
-        return $this->document;
-    }
+	public function __construct( Document $document, $tagName ) {
+		$this->document = $document;
+		$this->tagName = $tagName;
+	}
 
-    /**
-     * @return Group|null
-     */
-    public function getParentGroup() {
-        $stack = $this->getDocument()->getStack();
-        for ($i = count($stack)-2; $i >= 0; $i--) {
-            $tag = $stack[$i];
+	public function getDocument() {
+		return $this->document;
+	}
 
-            if ($tag instanceof Group || $tag instanceof Document) {
-                return $tag;
-            }
-        }
+	/**
+	 * @return Group|null
+	 */
+	public function getParentGroup() {
+		$stack = $this->getDocument()->getStack();
+		for ( $i = count( $stack ) - 2; $i >= 0; $i-- ) {
+			$tag = $stack[ $i ];
 
-        return null;
-    }
+			if ( $tag instanceof Group || $tag instanceof Document ) {
+				return $tag;
+			}
+		}
 
-    public function handle($attributes)
-    {
-        $this->attributes = $attributes;
+		return null;
+	}
 
-        if (!$this->getDocument()->inDefs) {
-            $this->before($attributes);
-            $this->start($attributes);
-        }
-    }
+	public function handle( $attributes ) {
+		 $this->attributes = $attributes;
 
-    public function handleEnd()
-    {
-        if (!$this->getDocument()->inDefs) {
-            $this->end();
-            $this->after();
-        }
-    }
+		if ( ! $this->getDocument()->inDefs ) {
+			$this->before( $attributes );
+			$this->start( $attributes );
+		}
+	}
 
-    protected function before($attributes)
-    {
-    }
+	public function handleEnd() {
+		if ( ! $this->getDocument()->inDefs ) {
+			$this->end();
+			$this->after();
+		}
+	}
 
-    protected function start($attributes)
-    {
-    }
+	protected function before( $attributes ) {  }
 
-    protected function end()
-    {
-    }
+	protected function start( $attributes ) {   }
 
-    protected function after()
-    {
-    }
+	protected function end() {  }
 
-    public function getAttributes()
-    {
-        return $this->attributes;
-    }
+	protected function after() {    }
 
-    protected function setStyle(Style $style)
-    {
-        $this->style = $style;
+	public function getAttributes() {
+		return $this->attributes;
+	}
 
-        if ($style->display === "none") {
-            $this->hasShape = false;
-        }
-    }
+	protected function setStyle( Style $style ) {
+		$this->style = $style;
 
-    /**
-     * @return Style
-     */
-    public function getStyle()
-    {
-        return $this->style;
-    }
+		if ( $style->display === 'none' ) {
+			$this->hasShape = false;
+		}
+	}
 
-    /**
-     * Make a style object from the tag and its attributes
-     *
-     * @param array $attributes
-     *
-     * @return Style
-     */
-    protected function makeStyle($attributes) {
-        $style = new Style();
-        $style->inherit($this);
-        $style->fromStyleSheets($this, $attributes);
-        $style->fromAttributes($attributes);
+	/**
+	 * @return Style
+	 */
+	public function getStyle() {
+		return $this->style;
+	}
 
-        return $style;
-    }
+	/**
+	 * Make a style object from the tag and its attributes
+	 *
+	 * @param array $attributes
+	 *
+	 * @return Style
+	 */
+	protected function makeStyle( $attributes ) {
+		$style = new Style();
+		$style->inherit( $this );
+		$style->fromStyleSheets( $this, $attributes );
+		$style->fromAttributes( $attributes );
 
-    protected function applyTransform($attributes)
-    {
+		return $style;
+	}
 
-        if (isset($attributes["transform"])) {
-            $surface = $this->document->getSurface();
+	protected function applyTransform( $attributes ) {
+		if ( isset( $attributes['transform'] ) ) {
+			$surface = $this->document->getSurface();
 
-            $transform = $attributes["transform"];
+			$transform = $attributes['transform'];
 
-            $match = array();
-            preg_match_all(
-                '/(matrix|translate|scale|rotate|skewX|skewY)\((.*?)\)/is',
-                $transform,
-                $match,
-                PREG_SET_ORDER
-            );
+			$match = array();
+			preg_match_all(
+				'/(matrix|translate|scale|rotate|skewX|skewY)\((.*?)\)/is',
+				$transform,
+				$match,
+				PREG_SET_ORDER
+			);
 
-            $transformations = array();
-            if (count($match[0])) {
-                foreach ($match as $_match) {
-                    $arguments = preg_split('/[ ,]+/', $_match[2]);
-                    array_unshift($arguments, $_match[1]);
-                    $transformations[] = $arguments;
-                }
-            }
+			$transformations = array();
+			if ( count( $match[0] ) ) {
+				foreach ( $match as $_match ) {
+					$arguments = preg_split( '/[ ,]+/', $_match[2] );
+					array_unshift( $arguments, $_match[1] );
+					$transformations[] = $arguments;
+				}
+			}
 
-            foreach ($transformations as $t) {
-                switch ($t[0]) {
-                    case "matrix":
-                        $surface->transform($t[1], $t[2], $t[3], $t[4], $t[5], $t[6]);
-                        break;
+			foreach ( $transformations as $t ) {
+				switch ( $t[0] ) {
+					case 'matrix':
+						$surface->transform( $t[1], $t[2], $t[3], $t[4], $t[5], $t[6] );
+						break;
 
-                    case "translate":
-                        $surface->translate($t[1], isset($t[2]) ? $t[2] : 0);
-                        break;
+					case 'translate':
+						$surface->translate( $t[1], isset( $t[2] ) ? $t[2] : 0 );
+						break;
 
-                    case "scale":
-                        $surface->scale($t[1], isset($t[2]) ? $t[2] : $t[1]);
-                        break;
+					case 'scale':
+						$surface->scale( $t[1], isset( $t[2] ) ? $t[2] : $t[1] );
+						break;
 
-                    case "rotate":
-                        if (isset($t[2])) {
-                            $t[3] = isset($t[3]) ? $t[3] : 0;
-                            $surface->translate($t[2], $t[3]);
-                            $surface->rotate($t[1]);
-                            $surface->translate(-$t[2], -$t[3]);
-                        } else {
-                            $surface->rotate($t[1]);
-                        }
-                        break;
+					case 'rotate':
+						if ( isset( $t[2] ) ) {
+							$t[3] = isset( $t[3] ) ? $t[3] : 0;
+							$surface->translate( $t[2], $t[3] );
+							$surface->rotate( $t[1] );
+							$surface->translate( -$t[2], -$t[3] );
+						} else {
+							$surface->rotate( $t[1] );
+						}
+						break;
 
-                    case "skewX":
-                        $surface->skewX($t[1]);
-                        break;
+					case 'skewX':
+						$surface->skewX( $t[1] );
+						break;
 
-                    case "skewY":
-                        $surface->skewY($t[1]);
-                        break;
-                }
-            }
-        }
-    }
-} 
+					case 'skewY':
+						$surface->skewY( $t[1] );
+						break;
+				}
+			}
+		}
+	}
+}

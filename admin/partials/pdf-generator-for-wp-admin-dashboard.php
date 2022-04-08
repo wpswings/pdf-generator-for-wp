@@ -74,7 +74,7 @@ if ( $pgfw_save_check_flag ) {
 			?>
 		</ul>
 	</nav>
-	<?php 
+	<?php
 		$plugin_admin = new Pdf_Generator_For_Wp_Admin( 'pdf-generator-for-wp', '1.0.6' );
 		$count        = $plugin_admin->wps_wpg_get_count( 'settings' );
 	if ( ! empty( $count ) ) {
@@ -90,7 +90,7 @@ if ( $pgfw_save_check_flag ) {
 				});
 			}
 			triggerError();';
-			wp_register_script( 'wps_wpg_incompatible_css', false, array(), '', 'all' );
+			wp_register_script( 'wps_wpg_incompatible_css', false, array(), $this->version, 'all' );
 			wp_enqueue_script( 'wps_wpg_incompatible_css' );
 			wp_add_inline_script( 'wps_wpg_incompatible_css', $global_custom_css );
 	}

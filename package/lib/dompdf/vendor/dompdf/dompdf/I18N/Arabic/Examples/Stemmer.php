@@ -24,11 +24,11 @@
  * @link      http://www.ar-php.org
  */
 
-error_reporting(E_STRICT);
-$time_start = microtime(true);
+error_reporting( E_STRICT );
+$time_start = microtime( true );
 
 require '../../Arabic.php';
-$Arabic = new I18N_Arabic('Stemmer');
+$Arabic = new I18N_Arabic( 'Stemmer' );
 
 $examples = array();
 $examples[] = 'سيعرفونها من خلال العمل بالحاسوبين المستعملين لديهما';
@@ -36,20 +36,20 @@ $examples[] = 'الخيليات البرية المهددة بالإنقراض';
 $examples[] = 'تزايدت الحواسيب الشخصية بمساعدة التطبيقات الرئيسية';
 $examples[] = 'سيتعذر هذا على عمليات نشر المساعدات للجائعين بالطريقة الجديدة';
 $examples[] = 'ليس هذا بالحل المثالي انظر  كتبي وكتابك';
-foreach ($examples as $str) {
-    echo $str . ' <br />(';
-    
-    $words = preg_split('/\s+/', $str);
-    $stems = array();
+foreach ( $examples as $str ) {
+	echo $str . ' <br />(';
 
-    foreach ($words as $word) {
-        $stem = $Arabic->stem($word);
-        if ($stem) {
-            $stems[] = $stem; 
-        }
-    }
-    
-    echo implode('، ', $stems) . ')<br /><br />';
+	$words = preg_split( '/\s+/', $str );
+	$stems = array();
+
+	foreach ( $words as $word ) {
+		$stem = $Arabic->stem( $word );
+		if ( $stem ) {
+			$stems[] = $stem;
+		}
+	}
+
+	echo implode( '، ', $stems ) . ')<br /><br />';
 }
 ?>
 </div><br />
@@ -84,9 +84,9 @@ $code = <<< END
     }
 END;
 
-highlight_string($code);
+highlight_string( $code );
 
-$time_end = microtime(true);
+$time_end = microtime( true );
 $time = $time_end - $time_start;
 
 echo "<hr />Total execution time is $time seconds<br />\n";
@@ -95,8 +95,8 @@ echo 'Amount of memory allocated to this script is ' . memory_get_usage() . ' by
 $included_files = get_included_files();
 echo '<h4>Names of included or required files:</h4><ul>';
 
-foreach ($included_files as $filename) {
-    echo "<li>$filename</li>";
+foreach ( $included_files as $filename ) {
+	echo "<li>$filename</li>";
 }
 
 echo '</ul>';

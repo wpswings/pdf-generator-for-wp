@@ -15,107 +15,122 @@ use Dompdf\FrameDecorator\Table as TableFrameDecorator;
  *
  * @package dompdf
  */
-class TableCell extends Block
-{
-    /**
-     * TableCell constructor.
-     * @param BlockFrameDecorator $frame
-     */
-    function __construct(BlockFrameDecorator $frame)
-    {
-        parent::__construct($frame);
-    }
+class TableCell extends Block {
 
-    /**
-     * @param BlockFrameDecorator|null $block
-     */
-    function reflow(BlockFrameDecorator $block = null)
-    {
-        $style = $this->_frame->get_style();
+	/**
+	 * TableCell constructor.
+	 *
+	 * @param BlockFrameDecorator $frame
+	 */
+	function __construct( BlockFrameDecorator $frame ) {
+		parent::__construct( $frame );
+	}
 
-        $table = TableFrameDecorator::find_parent_table($this->_frame);
-        $cellmap = $table->get_cellmap();
+	/**
+	 * @param BlockFrameDecorator|null $block
+	 */
+	function reflow( BlockFrameDecorator $block = null ) {
+		$style = $this->_frame->get_style();
 
-        list($x, $y) = $cellmap->get_frame_position($this->_frame);
-        $this->_frame->set_position($x, $y);
+		$table = TableFrameDecorator::find_parent_table( $this->_frame );
+		$cellmap = $table->get_cellmap();
 
-        $cells = $cellmap->get_spanned_cells($this->_frame);
+		list($x, $y) = $cellmap->get_frame_position( $this->_frame );
+		$this->_frame->set_position( $x, $y );
 
-        $w = 0;
-        foreach ($cells["columns"] as $i) {
-            $col = $cellmap->get_column($i);
-            $w += $col["used-width"];
-        }
+		$cells = $cellmap->get_spanned_cells( $this->_frame );
 
-        //FIXME?
-        $h = $this->_frame->get_containing_block("h");
+		$w = 0;
+		foreach ( $cells['columns'] as $i ) {
+			$col = $cellmap->get_column( $i );
+			$w += $col['used-width'];
+		}
 
-        $left_space = (float)$style->length_in_pt([$style->margin_left,
-                $style->padding_left,
-                $style->border_left_width],
-            $w);
+		// FIXME?
+		$h = $this->_frame->get_containing_block( 'h' );
 
-        $right_space = (float)$style->length_in_pt([$style->padding_right,
-                $style->margin_right,
-                $style->border_right_width],
-            $w);
+		$left_space = (float) $style->length_in_pt(
+			array(
+				$style->margin_left,
+				$style->padding_left,
+				$style->border_left_width,
+			),
+			$w
+		);
 
-        $top_space = (float)$style->length_in_pt([$style->margin_top,
-                $style->padding_top,
-                $style->border_top_width],
-            $h);
-        $bottom_space = (float)$style->length_in_pt([$style->margin_bottom,
-                $style->padding_bottom,
-                $style->border_bottom_width],
-            $h);
+		$right_space = (float) $style->length_in_pt(
+			array(
+				$style->padding_right,
+				$style->margin_right,
+				$style->border_right_width,
+			),
+			$w
+		);
 
-        $style->width = $cb_w = $w - $left_space - $right_space;
+		$top_space = (float) $style->length_in_pt(
+			array(
+				$style->margin_top,
+				$style->padding_top,
+				$style->border_top_width,
+			),
+			$h
+		);
+		$bottom_space = (float) $style->length_in_pt(
+			array(
+				$style->margin_bottom,
+				$style->padding_bottom,
+				$style->border_bottom_width,
+			),
+			$h
+		);
 
-        $content_x = $x + $left_space;
-        $content_y = $line_y = $y + $top_space;
+		$style->width = $cb_w = $w - $left_space - $right_space;
 
-        // Adjust the first line based on the text-indent property
-        $indent = (float)$style->length_in_pt($style->text_indent, $w);
-        $this->_frame->increase_line_width($indent);
+		$content_x = $x + $left_space;
+		$content_y = $line_y = $y + $top_space;
 
-        $page = $this->_frame->get_root();
+		// Adjust the first line based on the text-indent property
+		$indent = (float) $style->length_in_pt( $style->text_indent, $w );
+		$this->_frame->increase_line_width( $indent );
 
-        // Set the y position of the first line in the cell
-        $line_box = $this->_frame->get_current_line_box();
-        $line_box->y = $line_y;
+		$page = $this->_frame->get_root();
 
-        // Set the containing blocks and reflow each child
-        foreach ($this->_frame->get_children() as $child) {
-            if ($page->is_full()) {
-                break;
-            }
+		// Set the y position of the first line in the cell
+		$line_box = $this->_frame->get_current_line_box();
+		$line_box->y = $line_y;
 
-            $child->set_containing_block($content_x, $content_y, $cb_w, $h);
-            $this->process_clear($child);
-            $child->reflow($this->_frame);
-            $this->process_float($child, $x + $left_space, $w - $right_space - $left_space);
-        }
+		// Set the containing blocks and reflow each child
+		foreach ( $this->_frame->get_children() as $child ) {
+			if ( $page->is_full() ) {
+				break;
+			}
 
-        // Determine our height
-        $style_height = (float)$style->length_in_pt($style->height, $h);
+			$child->set_containing_block( $content_x, $content_y, $cb_w, $h );
+			$this->process_clear( $child );
+			$child->reflow( $this->_frame );
+			$this->process_float( $child, $x + $left_space, $w - $right_space - $left_space );
+		}
 
-        $this->_frame->set_content_height($this->_calculate_content_height());
+		// Determine our height
+		$style_height = (float) $style->length_in_pt( $style->height, $h );
 
-        $height = max($style_height, (float)$this->_frame->get_content_height());
+		$this->_frame->set_content_height( $this->_calculate_content_height() );
 
-        // Let the cellmap know our height
-        $cell_height = $height / count($cells["rows"]);
+		$height = max( $style_height, (float) $this->_frame->get_content_height() );
 
-        if ($style_height <= $height) {
-            $cell_height += $top_space + $bottom_space;
-        }
+		// Let the cellmap know our height
+		$cell_height = $height / count( $cells['rows'] );
 
-        foreach ($cells["rows"] as $i) {
-            $cellmap->set_row_height($i, $cell_height);
-        }
+		if ( $style_height <= $height ) {
+			$cell_height += $top_space + $bottom_space;
+		}
 
-        $style->height = $height;
-        $this->_text_align();
-        $this->vertical_align();
-    }
+		foreach ( $cells['rows'] as $i ) {
+			$cellmap->set_row_height( $i, $cell_height );
+		}
+
+		$style->height = $height;
+		$this->_text_align();
+		$this->vertical_align();
+	}
 }

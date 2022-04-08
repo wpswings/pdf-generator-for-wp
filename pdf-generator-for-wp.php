@@ -231,7 +231,7 @@ if ( true === $old_pro_exists ) {
 			}
 			require_once $update_file;
 		}
-		if ( defined( 'WORDPRESS_PDF_GENERATOR_BASE_FILE' ) ) {	
+		if ( defined( 'WORDPRESS_PDF_GENERATOR_BASE_FILE' ) ) {
 
 				$wps_wpg_version_old_pro = new Mwb_WordPress_Pdf_Generator_Update();
 				$wps_wpg_version_old_pro->mwb_check_update();
@@ -320,14 +320,14 @@ add_action( 'after_plugin_row_' . plugin_basename( __FILE__ ), 'wps_wpg_pro_pdf_
 function wps_wpg_pro_pdf_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 	$plugin_admin = new Pdf_Generator_For_Wp_Admin( 'pdf-generator-for-wp', '1.0.6' );
 	$count        = $plugin_admin->wps_wpg_get_count( 'settings' );
-if ( ! empty( $count ) ) {
-	?>
+	if ( ! empty( $count ) ) {
+		?>
 
 		<tr class="plugin-update-tr active notice-warning notice-alt">
 			<td colspan="4" class="plugin-update colspanchange">
 				<div class="notice notice-error inline update-message notice-alt">
 					<p class='wps-notice-title wps-notice-section'>
-						<?php esc_html_e( 'The latest update includes some substantial changes across different areas of the plugin. Hence, if you are not a new user then', 'pdf-generator-for-wp-pro' ); ?><strong><?php esc_html_e( ' please migrate your old data and settings from ', 'pdf-generator-for-wp-pro' ); ?><a style="text-decoration:none;" href="<?php echo esc_url( admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ) ); ?>"><?php esc_html_e( 'Dashboard', 'pdf-generator-for-wp-pro' ); ?></strong></a><?php esc_html_e( ' page then Click On Start Import Button.', 'pdf-generator-for-wp-pro' ); ?>
+						<?php esc_html_e( 'The latest update includes some substantial changes across different areas of the plugin. Hence, if you are not a new user then', 'pdf-generator-for-wp-pro' ); ?><strong><?php esc_html_e( ' please migrate your old data and settings from ', 'pdf-generator-for-wp-pro' ); ?><a style="text-decoration:none;" href="<?php echo esc_url( admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ) ); ?>"><?php esc_html_e( 'Dashboard', 'pdf-generator-for-wp' ); ?></strong></a><?php esc_html_e( ' page then Click On Start Import Button.', 'pdf-generator-for-wp-pro' ); ?>
 					</p>
 				</div>
 			</td>
@@ -338,6 +338,6 @@ if ( ! empty( $count ) ) {
 			}
 		</style>
 
-	<?php
+		<?php
 	}
 }

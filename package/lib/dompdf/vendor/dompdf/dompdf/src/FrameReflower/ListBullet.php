@@ -15,31 +15,30 @@ use Dompdf\FrameDecorator\AbstractFrameDecorator;
  *
  * @package dompdf
  */
-class ListBullet extends AbstractFrameReflower
-{
+class ListBullet extends AbstractFrameReflower {
 
-    /**
-     * ListBullet constructor.
-     * @param AbstractFrameDecorator $frame
-     */
-    function __construct(AbstractFrameDecorator $frame)
-    {
-        parent::__construct($frame);
-    }
 
-    /**
-     * @param BlockFrameDecorator|null $block
-     */
-    function reflow(BlockFrameDecorator $block = null)
-    {
-        $style = $this->_frame->get_style();
+	/**
+	 * ListBullet constructor.
+	 *
+	 * @param AbstractFrameDecorator $frame
+	 */
+	function __construct( AbstractFrameDecorator $frame ) {
+		 parent::__construct( $frame );
+	}
 
-        $style->width = $this->_frame->get_width();
-        $this->_frame->position();
+	/**
+	 * @param BlockFrameDecorator|null $block
+	 */
+	function reflow( BlockFrameDecorator $block = null ) {
+		$style = $this->_frame->get_style();
 
-        if ($style->list_style_position === "inside") {
-            $p = $this->_frame->find_block_parent();
-            $p->add_frame_to_line($this->_frame);
-        }
-    }
+		$style->width = $this->_frame->get_width();
+		$this->_frame->position();
+
+		if ( $style->list_style_position === 'inside' ) {
+			$p = $this->_frame->find_block_parent();
+			$p->add_frame_to_line( $this->_frame );
+		}
+	}
 }

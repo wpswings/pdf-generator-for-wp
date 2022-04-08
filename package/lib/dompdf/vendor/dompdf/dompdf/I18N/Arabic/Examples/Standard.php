@@ -24,11 +24,11 @@
  * @link      http://www.ar-php.org
  */
 
-error_reporting(E_STRICT);
-$time_start = microtime(true);
+error_reporting( E_STRICT );
+$time_start = microtime( true );
 
 require '../../Arabic.php';
-$Arabic = new I18N_Arabic('Standard');
+$Arabic = new I18N_Arabic( 'Standard' );
 
 $content = <<<END
 هذا نص عربي ، و فيه علامات ترقيم بحاجة إلى ضبط و معايرة !و كذلك نصوص( بين 
@@ -38,15 +38,15 @@ $content = <<<END
 Kg أو مثلا MB 16 وسواها حتى النسب المؤية مثل 20% أو %50 وهكذا ...
 END;
 
-    $str = $Arabic->standard($content);
+	$str = $Arabic->standard( $content );
 
-    echo '<b>Origenal:</b>';
-    echo '<p dir="rtl" align="justify">';
-    echo $content . '</p>';
-    
-    echo '<b>Standard:</b>';
-    echo '<p dir="rtl" align="justify">';
-    echo $str . '</p>';
+	echo '<b>Origenal:</b>';
+	echo '<p dir="rtl" align="justify">';
+	echo $content . '</p>';
+
+	echo '<b>Standard:</b>';
+	echo '<p dir="rtl" align="justify">';
+	echo $str . '</p>';
 ?>
 
 </div><br />
@@ -77,9 +77,9 @@ END;
     echo \$str . '</p>';
 ENDALL;
 
-highlight_string($code);
+highlight_string( $code );
 
-$time_end = microtime(true);
+$time_end = microtime( true );
 $time = $time_end - $time_start;
 
 echo "<hr />Total execution time is $time seconds<br />\n";
@@ -88,8 +88,8 @@ echo 'Amount of memory allocated to this script is ' . memory_get_usage() . ' by
 $included_files = get_included_files();
 echo '<h4>Names of included or required files:</h4><ul>';
 
-foreach ($included_files as $filename) {
-    echo "<li>$filename</li>";
+foreach ( $included_files as $filename ) {
+	echo "<li>$filename</li>";
 }
 
 echo '</ul>';

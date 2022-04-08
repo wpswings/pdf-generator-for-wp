@@ -15,76 +15,76 @@ use Svg\Style;
  *
  * @package Svg
  */
-interface SurfaceInterface
-{
-    public function save();
+interface SurfaceInterface {
 
-    public function restore();
+	public function save();
 
-    // transformations (default transform is the identity matrix)
-    public function scale($x, $y);
+	public function restore();
 
-    public function rotate($angle);
+	// transformations (default transform is the identity matrix)
+	public function scale( $x, $y);
 
-    public function translate($x, $y);
+	public function rotate( $angle);
 
-    public function transform($a, $b, $c, $d, $e, $f);
+	public function translate( $x, $y);
 
-    // path ends
-    public function beginPath();
+	public function transform( $a, $b, $c, $d, $e, $f);
 
-    public function closePath();
+	// path ends
+	public function beginPath();
 
-    public function fill();
+	public function closePath();
 
-    public function stroke();
+	public function fill();
 
-    public function endPath();
+	public function stroke();
 
-    public function fillStroke();
+	public function endPath();
 
-    public function clip();
+	public function fillStroke();
 
-    // text (see also the CanvasDrawingStyles interface)
-    public function fillText($text, $x, $y, $maxWidth = null);
+	public function clip();
 
-    public function strokeText($text, $x, $y, $maxWidth = null);
+	// text (see also the CanvasDrawingStyles interface)
+	public function fillText( $text, $x, $y, $maxWidth = null);
 
-    public function measureText($text);
+	public function strokeText( $text, $x, $y, $maxWidth = null);
 
-    // drawing images
-    public function drawImage($image, $sx, $sy, $sw = null, $sh = null, $dx = null, $dy = null, $dw = null, $dh = null);
+	public function measureText( $text);
 
-    // paths
-    public function lineTo($x, $y);
+	// drawing images
+	public function drawImage( $image, $sx, $sy, $sw = null, $sh = null, $dx = null, $dy = null, $dw = null, $dh = null);
 
-    public function moveTo($x, $y);
+	// paths
+	public function lineTo( $x, $y);
 
-    public function quadraticCurveTo($cpx, $cpy, $x, $y);
+	public function moveTo( $x, $y);
 
-    public function bezierCurveTo($cp1x, $cp1y, $cp2x, $cp2y, $x, $y);
+	public function quadraticCurveTo( $cpx, $cpy, $x, $y);
 
-    public function arcTo($x1, $y1, $x2, $y2, $radius);
+	public function bezierCurveTo( $cp1x, $cp1y, $cp2x, $cp2y, $x, $y);
 
-    public function circle($x, $y, $radius);
+	public function arcTo( $x1, $y1, $x2, $y2, $radius);
 
-    public function arc($x, $y, $radius, $startAngle, $endAngle, $anticlockwise = false);
+	public function circle( $x, $y, $radius);
 
-    public function ellipse($x, $y, $radiusX, $radiusY, $rotation, $startAngle, $endAngle, $anticlockwise);
+	public function arc( $x, $y, $radius, $startAngle, $endAngle, $anticlockwise = false);
 
-    // Rectangle
-    public function rect($x, $y, $w, $h, $rx = 0, $ry = 0);
+	public function ellipse( $x, $y, $radiusX, $radiusY, $rotation, $startAngle, $endAngle, $anticlockwise);
 
-    public function fillRect($x, $y, $w, $h);
+	// Rectangle
+	public function rect( $x, $y, $w, $h, $rx = 0, $ry = 0);
 
-    public function strokeRect($x, $y, $w, $h);
+	public function fillRect( $x, $y, $w, $h);
 
-    public function setStyle(Style $style);
+	public function strokeRect( $x, $y, $w, $h);
 
-    /**
-     * @return Style
-     */
-    public function getStyle();
+	public function setStyle( Style $style);
 
-    public function setFont($family, $style, $weight);
+	/**
+	 * @return Style
+	 */
+	public function getStyle();
+
+	public function setFont( $family, $style, $weight);
 }

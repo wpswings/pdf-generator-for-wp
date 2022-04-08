@@ -8,26 +8,25 @@
 
 namespace Svg\Tag;
 
-class Polygon extends Shape
-{
-    public function start($attributes)
-    {
-        $tmp = array();
-        preg_match_all('/([\-]*[0-9\.]+)/', $attributes['points'], $tmp);
+class Polygon extends Shape {
 
-        $points = $tmp[0];
-        $count = count($points);
+	public function start( $attributes ) {
+		$tmp = array();
+		preg_match_all( '/([\-]*[0-9\.]+)/', $attributes['points'], $tmp );
 
-        $surface = $this->document->getSurface();
-        list($x, $y) = $points;
-        $surface->moveTo($x, $y);
+		$points = $tmp[0];
+		$count = count( $points );
 
-        for ($i = 2; $i < $count; $i += 2) {
-            $x = $points[$i];
-            $y = $points[$i + 1];
-            $surface->lineTo($x, $y);
-        }
+		$surface = $this->document->getSurface();
+		list($x, $y) = $points;
+		$surface->moveTo( $x, $y );
 
-        $surface->closePath();
-    }
-} 
+		for ( $i = 2; $i < $count; $i += 2 ) {
+			$x = $points[ $i ];
+			$y = $points[ $i + 1 ];
+			$surface->lineTo( $x, $y );
+		}
+
+		$surface->closePath();
+	}
+}

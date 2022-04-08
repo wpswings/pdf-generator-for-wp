@@ -8,76 +8,74 @@
 
 namespace Svg\Tag;
 
-
 use Svg\Gradient;
 use Svg\Style;
 
-class LinearGradient extends AbstractTag
-{
-    protected $x1;
-    protected $y1;
-    protected $x2;
-    protected $y2;
+class LinearGradient extends AbstractTag {
 
-    /** @var Gradient\Stop[] */
-    protected $stops = array();
+	protected $x1;
+	protected $y1;
+	protected $x2;
+	protected $y2;
 
-    public function start($attributes)
-    {
-        parent::start($attributes);
+	/** @var Gradient\Stop[] */
+	protected $stops = array();
 
-        if (isset($attributes['x1'])) {
-            $this->x1 = $attributes['x1'];
-        }
-        if (isset($attributes['y1'])) {
-            $this->y1 = $attributes['y1'];
-        }
-        if (isset($attributes['x2'])) {
-            $this->x2 = $attributes['x2'];
-        }
-        if (isset($attributes['y2'])) {
-            $this->y2 = $attributes['y2'];
-        }
-    }
+	public function start( $attributes ) {
+		parent::start( $attributes );
 
-    public function getStops() {
-        if (empty($this->stops)) {
-            foreach ($this->children as $_child) {
-                if ($_child->tagName != "stop") {
-                    continue;
-                }
+		if ( isset( $attributes['x1'] ) ) {
+			$this->x1 = $attributes['x1'];
+		}
+		if ( isset( $attributes['y1'] ) ) {
+			$this->y1 = $attributes['y1'];
+		}
+		if ( isset( $attributes['x2'] ) ) {
+			$this->x2 = $attributes['x2'];
+		}
+		if ( isset( $attributes['y2'] ) ) {
+			$this->y2 = $attributes['y2'];
+		}
+	}
 
-                $_stop = new Gradient\Stop();
-                $_attributes = $_child->attributes;
+	public function getStops() {
+		if ( empty( $this->stops ) ) {
+			foreach ( $this->children as $_child ) {
+				if ( $_child->tagName != 'stop' ) {
+					continue;
+				}
 
-                // Style
-                if (isset($_attributes["style"])) {
-                    $_style = Style::parseCssStyle($_attributes["style"]);
+				$_stop = new Gradient\Stop();
+				$_attributes = $_child->attributes;
 
-                    if (isset($_style["stop-color"])) {
-                        $_stop->color = Style::parseColor($_style["stop-color"]);
-                    }
+				// Style
+				if ( isset( $_attributes['style'] ) ) {
+					$_style = Style::parseCssStyle( $_attributes['style'] );
 
-                    if (isset($_style["stop-opacity"])) {
-                        $_stop->opacity = max(0, min(1.0, $_style["stop-opacity"]));
-                    }
-                }
+					if ( isset( $_style['stop-color'] ) ) {
+						$_stop->color = Style::parseColor( $_style['stop-color'] );
+					}
 
-                // Attributes
-                if (isset($_attributes["offset"])) {
-                    $_stop->offset = $_attributes["offset"];
-                }
-                if (isset($_attributes["stop-color"])) {
-                    $_stop->color = Style::parseColor($_attributes["stop-color"]);
-                }
-                if (isset($_attributes["stop-opacity"])) {
-                    $_stop->opacity = max(0, min(1.0, $_attributes["stop-opacity"]));
-                }
+					if ( isset( $_style['stop-opacity'] ) ) {
+						$_stop->opacity = max( 0, min( 1.0, $_style['stop-opacity'] ) );
+					}
+				}
 
-                $this->stops[] = $_stop;
-            }
-        }
+				// Attributes
+				if ( isset( $_attributes['offset'] ) ) {
+					$_stop->offset = $_attributes['offset'];
+				}
+				if ( isset( $_attributes['stop-color'] ) ) {
+					$_stop->color = Style::parseColor( $_attributes['stop-color'] );
+				}
+				if ( isset( $_attributes['stop-opacity'] ) ) {
+					$_stop->opacity = max( 0, min( 1.0, $_attributes['stop-opacity'] ) );
+				}
 
-        return $this->stops;
-    }
-} 
+				$this->stops[] = $_stop;
+			}
+		}
+
+		return $this->stops;
+	}
+}
