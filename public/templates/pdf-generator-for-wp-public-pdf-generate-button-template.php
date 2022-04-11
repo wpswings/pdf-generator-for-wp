@@ -32,9 +32,9 @@ function pgfw_pdf_download_button( $url_here, $id ) {
 	$pgfw_pdf_icon_width               = array_key_exists( 'pgfw_pdf_icon_width', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_pdf_icon_width'] : '';
 	$pgfw_pdf_icon_height              = array_key_exists( 'pgfw_pdf_icon_height', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_pdf_icon_height'] : '';
 
-	$html  = '<div style="text-align:' . esc_html( $pgfw_pdf_icon_alignment ) . '" class="mwb-pgfw-pdf-generate-icon__wrapper-frontend">
+	$html  = '<div style="text-align:' . esc_html( $pgfw_pdf_icon_alignment ) . '" class="wps-pgfw-pdf-generate-icon__wrapper-frontend">
 				<a href="' . esc_html( $url_here ) . '" class="pgfw-single-pdf-download-button" ' . esc_html( $mode ) . '><img src="' . esc_url( $pgfw_single_pdf_download_icon_src ) . '" title="' . esc_html__( 'Generate PDF', 'pdf-generator-for-wp' ) . '" style="width:' . esc_html( $pgfw_pdf_icon_width ) . 'px; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;"></a>';
-	$html  = apply_filters( 'mwb_pgfw_bulk_download_button_filter_hook', $html, $id );
+	$html  = apply_filters( 'wps_pgfw_bulk_download_button_filter_hook', $html, $id );
 	$html .= '</div>';
 	return $html;
 }

@@ -125,7 +125,7 @@ class Pdf_Generator_For_Wp_Common {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function mwb_pgfw_generate_pdf_single_and_mail() {
+	public function wps_pgfw_generate_pdf_single_and_mail() {
 		check_ajax_referer( 'pgfw_common_nonce', 'nonce' );
 		$email   = array_key_exists( 'email', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['email'] ) ) : '';
 		$post_id = array_key_exists( 'post_id', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) : '';
@@ -195,13 +195,13 @@ class Pdf_Generator_For_Wp_Common {
 		}
 		if ( 'continuous_on_same_page' === $mode ) {
 			$html = '';
-			$html = apply_filters( 'mwb_pgfw_add_cover_page_template_to_bulk_pdf', $html );
+			$html = apply_filters( 'wps_pgfw_add_cover_page_template_to_bulk_pdf', $html );
 			foreach ( $prod_id as $id ) {
 				$html .= return_ob_html( $id );
 			}
 		} else {
 			$html  = '';
-			$html  = apply_filters( 'mwb_pgfw_add_cover_page_template_to_single_pdf', $html );
+			$html  = apply_filters( 'wps_pgfw_add_cover_page_template_to_single_pdf', $html );
 			$html .= return_ob_html( $prod_id, $template_name );
 		}
 		$html        = str_replace( '[WORDPRESS_PDF]', '', $html );
@@ -269,7 +269,6 @@ class Pdf_Generator_For_Wp_Common {
 			$text         = $body_watermark_text;
 			$textheight   = $fontmetrices->getFontHeight( $font, 150 );
 			$textwidth    = $fontmetrices->getTextWidth( $text, $font, 40 );
-			$canvas->set_opacity( .2, 'Multiply' );
 			$x               = ( ( $w - $textwidth ) / 2 );
 			$y               = ( ( $h - $textheight ) / 2 );
 			$hex             = $body_watermark_color;
@@ -331,7 +330,7 @@ class Pdf_Generator_For_Wp_Common {
 			);
 			return;
 		}
-		do_action( 'mwb_pgfw_update_pdf_details_indb', $prod_id, $user_name, $email );
+		do_action( 'wps_pgfw_update_pdf_details_indb', $prod_id, $user_name, $email );
 	}
 	/**
 	 * Download button for posters as shortcode callback.

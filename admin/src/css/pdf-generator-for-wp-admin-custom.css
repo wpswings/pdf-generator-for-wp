@@ -1,7 +1,7 @@
-/* .toplevel_page_mwb-plugins a div img {
+/* .toplevel_page_wps-plugins a div img {
     width: 30px;
 } */
-.mwb-pgfw-go-pro-link-backend {
+.wps-pgfw-go-pro-link-backend {
     background: #2196f3;
     color: #fff;
     padding: 2px 5px;
@@ -9,7 +9,7 @@
     font-weight: 600;
     border: 1px solid #2196f3;
 }
-.mwb-pgfw-go-pro-link-backend:hover{
+.wps-pgfw-go-pro-link-backend:hover{
     background-color: #fff;
     color: #2196f3;
 }

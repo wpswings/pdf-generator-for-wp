@@ -141,5 +141,4 @@ class Pdf_Generator_For_Wp_Activator {
 			}
 		}
 	}
-
 }

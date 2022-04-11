@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string
  */
 function return_ob_html( $post_id, $template_name = '' ) {
-	do_action( 'mwb_pgfw_load_all_compatible_shortcode_converter' );
+	do_action( 'wps_pgfw_load_all_compatible_shortcode_converter' );
 	// advanced settings.
 	$pgfw_advanced_settings = get_option( 'pgfw_advanced_save_settings', array() );
 	$pgfw_ttf_font_upload   = array_key_exists( 'pgfw_ttf_font_upload', $pgfw_advanced_settings ) ? $pgfw_advanced_settings['pgfw_ttf_font_upload'] : '';
@@ -242,7 +242,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 					<div class="pgfw-pdf-body-content">
 					<h3>' . esc_html__( 'Description', 'pdf-generator-for-wp' ) . '</h3>
 					<div>
-						' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', apply_filters( 'the_content', apply_filters( 'mwb_wpg_customize_template_post_content', $post->post_content, $post ) ) ) ) . '
+						' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', apply_filters( 'the_content', apply_filters( 'wps_wpg_customize_template_post_content', $post->post_content, $post ) ) ) ) . '
 					</div>';
 		// taxonomies for posts.
 		$html1 = '';
@@ -253,26 +253,26 @@ function return_ob_html( $post_id, $template_name = '' ) {
 					$prod_cat = get_the_terms( $post, $taxonomy );
 					if ( is_array( $prod_cat ) ) {
 						$html1 .= '<div><b>' . strtoupper( str_replace( '_', ' ', $taxonomy ) ) . '</b></div>';
-						$html1 .= '<ul>';
+						$html1 .= '<ol>';
 						foreach ( $prod_cat as $category ) {
 							$html1 .= '<li>' . $category->name . '</li>';
 						}
-						$html1 .= '</ul>';
+						$html1 .= '</ol>';
 					}
 				}
 			}
 		}
-		$html .= apply_filters( 'mwb_pgfw_product_taxonomy_in_pdf_filter_hook', $html1, $post );
+		$html .= apply_filters( 'wps_pgfw_product_taxonomy_in_pdf_filter_hook', $html1, $post );
 		// category for posts.
 		if ( 'yes' === $pgfw_show_post_categories ) {
 			$categories = get_the_category( $post->ID );
 			if ( is_array( $categories ) && ! empty( $categories ) ) {
 				$html .= '<div><b>' . esc_html__( 'Category', 'pdf-generator-for-wp' ) . '</b></div>';
-				$html .= '<ul>';
+				$html .= '<ol>';
 				foreach ( $categories as $category ) {
 					$html .= '<li>' . $category->name . '</li>';
 				}
-				$html .= '</ul>';
+				$html .= '</ol>';
 			}
 		}
 		// tags for posts.
@@ -280,11 +280,11 @@ function return_ob_html( $post_id, $template_name = '' ) {
 			$tags = get_the_tags( $post );
 			if ( is_array( $tags ) ) {
 				$html .= '<div><b>' . __( 'Tags', 'pdf-generator-for-wp' ) . '</b></div>';
-				$html .= '<ul>';
+				$html .= '<ol>';
 				foreach ( $tags as $tag ) {
 					$html .= '<li>' . $tag->name . '</li> ';
 				}
-				$html .= '</ul>';
+				$html .= '</ol>';
 			}
 		}
 		// post created date.
@@ -317,7 +317,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 				}
 			}
 		}
-		$html .= apply_filters( 'mwb_pgfw_product_post_meta_in_pdf_filter_hook', $html2, $post );
+		$html .= apply_filters( 'wps_pgfw_product_post_meta_in_pdf_filter_hook', $html2, $post );
 		$html .= '</div></div><span style="page-break-after: always;overflow:hidden;"></span>';
 	}
 	return $html;
