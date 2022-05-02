@@ -12,7 +12,7 @@
  * @package           Pdf_Generator_For_Wp
  *
  * @wordpress-plugin
- * Plugin Name:       PDF Generator For Wp
+ * Plugin Name:       PDF Generator For WP
  * Plugin URI:        https://wordpress.org/plugins/pdf-generator-for-wp/
  * Description:       Let your users download pages, posts, and products in PDF format using this plugin allowing you to add technical and marketing utility for your WordPress site.
  * Version:           1.0.7
