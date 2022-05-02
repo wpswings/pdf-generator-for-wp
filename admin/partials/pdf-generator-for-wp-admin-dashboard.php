@@ -75,7 +75,7 @@ if ( $pgfw_save_check_flag ) {
 		</ul>
 	</nav>
 	<?php
-		$plugin_admin = new Pdf_Generator_For_Wp_Admin( 'pdf-generator-for-wp', '1.0.6' );
+		$plugin_admin = new Pdf_Generator_For_Wp_Admin( 'pdf-generator-for-wp', '1.0.7' );
 		$count        = $plugin_admin->wps_wpg_get_count( 'settings' );
 	if ( ! empty( $count ) ) {
 			$global_custom_css = 'const triggerError = () => {

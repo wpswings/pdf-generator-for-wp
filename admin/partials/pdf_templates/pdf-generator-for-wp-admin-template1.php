@@ -231,6 +231,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 						font-size   : ' . $pgfw_body_page_font_size . ';
 						color       : ' . $pgfw_body_page_font_color . ';
 					}
+					
 				</style>
 				<div class="pgfw-pdf-body">
 					<div class="pgfw-pdf-body-title-image">

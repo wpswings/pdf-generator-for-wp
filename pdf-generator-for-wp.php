@@ -15,17 +15,17 @@
  * Plugin Name:       PDF Generator For Wp
  * Plugin URI:        https://wordpress.org/plugins/pdf-generator-for-wp/
  * Description:       Let your users download pages, posts, and products in PDF format using this plugin allowing you to add technical and marketing utility for your WordPress site.
- * Version:           1.0.6
+ * Version:           1.0.7
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=pdf-org-backend&utm_campaign=official
  * Text Domain:       pdf-generator-for-wp
  * Domain Path:       /languages
  *
  * Requires at least:    4.6
- * Tested up to:         5.9.2
+ * Tested up to:         5.9.3
  * WC requires at least: 4.0.0
- * WC tested up to:      6.3.1
- * Stable tag:           1.0.6
+ * WC tested up to:      6.4.1
+ * Stable tag:           1.0.7
  * Requires PHP:         7.2
  *
  * License:           GNU General Public License v3.0
@@ -51,7 +51,7 @@ if ( isset( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php'] ) ) {
  * @since 1.0.0
  */
 function define_pdf_generator_for_wp_constants() {
-	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.0.6' );
+	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.0.7' );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_PATH', plugin_dir_path( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_URL', plugin_dir_url( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_SERVER_URL', 'https://wpswings.com' );
@@ -318,7 +318,7 @@ add_action( 'after_plugin_row_' . plugin_basename( __FILE__ ), 'wps_wpg_pro_pdf_
  * @param string $status Status filter currently applied to the plugin list.
  */
 function wps_wpg_pro_pdf_upgrade_notice( $plugin_file, $plugin_data, $status ) {
-	$plugin_admin = new Pdf_Generator_For_Wp_Admin( 'pdf-generator-for-wp', '1.0.6' );
+	$plugin_admin = new Pdf_Generator_For_Wp_Admin( 'pdf-generator-for-wp', '1.0.7' );
 	$count        = $plugin_admin->wps_wpg_get_count( 'settings' );
 	if ( ! empty( $count ) ) {
 		?>
