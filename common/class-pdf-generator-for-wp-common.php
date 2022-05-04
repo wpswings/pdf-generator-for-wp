@@ -254,7 +254,7 @@ class Pdf_Generator_For_Wp_Common {
 		);
 
 		$paper_size = array_key_exists( $body_page_size, $paper_sizes ) ? $paper_sizes[ $body_page_size ] : 'a4';
-
+	
 		header( 'Content-Type: application/pdf' );
 		$options = new Options();
 		$options->set( 'isRemoteEnabled', true );
@@ -301,7 +301,11 @@ class Pdf_Generator_For_Wp_Common {
 			$y               = ( ( $h - $textheight ) / 2 );
 			$hex             = $body_watermark_color;
 			list($r, $g, $b) = sscanf( $hex, '#%02x%02x%02x' );
-			$canvas->page_text( $x, $y, $text, $font, 40, array( $r / 255, $g / 255, $b / 255 ), 0.0, 0.0, -20.0 );
+			$pgno = "{PAGE_NUM}";
+			
+			if ( $pgno != 1 ) {
+				$canvas->page_text( $x, $y, $text, $font, 40, array( $r / 255, $g / 255, $b / 255 ), 0.0, 0.0, -20.0 );
+			}
 		}
 		$upload_dir     = wp_upload_dir();
 		$upload_basedir = $upload_dir['basedir'] . '/post_to_pdf/';
