@@ -1692,7 +1692,12 @@ class Pdf_Generator_For_Wp_Admin {
 		$result        = array();
 		foreach ( $option_result as $option_key => $option_value ) {
 
-			if ( ( similar_text( 'mwb_wpg', $option_key ) == 7 ) || ( similar_text( 'mwb_pgfw', $option_key ) == 8 ) || ( similar_text( 'mwb_all', $option_key ) == 7 ) ) {
+			if ( ( similar_text( 'mwb_pgfw_onboarding_data_skipped', $option_key ) == 32 ) || ( similar_text( 'mwb_all_plugins_active', $option_key ) == 22 ) || ( similar_text( 'mwb_pgfw_onboarding_data_sent', $option_key ) == 29 )
+			|| ( similar_text( 'mwb_wpg_check_license_daily', $option_key ) == 27 )
+			 || ( similar_text( 'mwb_wpg_activated_timestamp', $option_key ) == 27 ) || ( similar_text( 'mwb_wpg_plugin_update', $option_key ) == 21 )
+			 || ( similar_text( 'mwb_wpg_license_key', $option_key ) == 19 ) || ( similar_text( 'mwb_wpg_license_check', $option_key ) == 21 )
+			  || ( similar_text( 'mwb_wpg_meta_fields_in_page', $option_key ) == 27 ) || ( similar_text( 'mwb_wpg_meta_fields_in_post', $option_key ) == 27 )
+			  || ( similar_text( 'mwb_wpg_meta_fields_in_product', $option_key ) == 30 ) ) {
 
 				$array_val = array(
 					'option_name'  => $option_key,
@@ -1701,6 +1706,7 @@ class Pdf_Generator_For_Wp_Admin {
 				$result[]  = $array_val;
 			}
 		}
+	
 		if ( empty( $result ) ) {
 			return 0;
 		}
@@ -1708,6 +1714,7 @@ class Pdf_Generator_For_Wp_Admin {
 		if ( 'count' === $action ) {
 			$result = ! empty( $result ) ? count( $result ) : 0;
 		}
+
 		return $result;
 	}
 
