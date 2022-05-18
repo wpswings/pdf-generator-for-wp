@@ -77,7 +77,8 @@ if ( $pgfw_save_check_flag ) {
 	<?php
 		$plugin_admin = new Pdf_Generator_For_Wp_Admin( 'pdf-generator-for-wp', '1.0.7' );
 		$count        = $plugin_admin->wps_wpg_get_count( 'settings' );
-	if ( ! empty( $count ) ) {
+		$key3 = get_option( 'wps_wpg_activated_timestamp' );
+	if ( ! empty( $count ) && ( empty( $key3 ) ) ) {
 			$global_custom_css = 'const triggerError = () => {
 				swal({
 					title: "Attention Required!",
