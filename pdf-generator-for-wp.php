@@ -320,7 +320,8 @@ add_action( 'after_plugin_row_' . plugin_basename( __FILE__ ), 'wps_wpg_pro_pdf_
 function wps_wpg_pro_pdf_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 	$plugin_admin = new Pdf_Generator_For_Wp_Admin( 'pdf-generator-for-wp', '1.0.7' );
 	$count        = $plugin_admin->wps_wpg_get_count( 'settings' );
-	if ( ! empty( $count ) ) {
+	$key3 = get_option( 'wps_wpg_activated_timestamp' );
+	if ( ! empty( $count ) && ( empty( $key3 ) ) ) {
 		?>
 
 		<tr class="plugin-update-tr active notice-warning notice-alt">
