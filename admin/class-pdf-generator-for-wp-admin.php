@@ -1706,6 +1706,7 @@ class Pdf_Generator_For_Wp_Admin {
 				$result[]  = $array_val;
 			}
 		}
+	
 		if ( empty( $result ) ) {
 			return 0;
 		}

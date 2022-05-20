@@ -17,9 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $pgfw_wps_pgfw_obj, $wps_pgfw_gen_flag, $pgfw_save_check_flag;
 $pgfw_active_tab   = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw_tab'] ) : 'pdf-generator-for-wp-general'; // phpcs:ignore
-
 do_action( 'pgfw_license_activation_notice_on_dashboard' );
-
 $pgfw_default_tabs = $pgfw_wps_pgfw_obj->wps_pgfw_plug_default_tabs();
 ?>
 <header>
