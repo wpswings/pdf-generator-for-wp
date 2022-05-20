@@ -2,11 +2,11 @@
 Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress, WordPress pdf generator
-Requires at least: 4.6
-Tested up to: 5.9.2
-WC requires at least: 4.0.0
-WC tested up to: 6.3.1
-Stable tag: 1.0.6
+Requires at least: 5.0.0
+Tested up to: 6.0.0
+WC requires at least: 5.0.2
+WC tested up to: 6.5.1
+Stable tag: 1.0.7
 Requires PHP: 7.2
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -17,7 +17,7 @@ PDF Generator for WordPress allows you to convert posts into PDF files to share 
 **PDF GENERATOR FOR WORDPRESS PLUGIN LETS YOU CREATE PDF OF PAGES, PRODUCTS, AND POSTS FOR BETTER DISPERSAL OF BRAND INFORMATION WITH WPML COMPATIBILITY. YOU CAN MAKE OR CREATE PDF EASILY FOR YOUR WEBSITES.** 
 
 PDF Generator for WordPress provides the key support in portfolio building depending on your industry type. The PDF plugin for WordPress allows you to create PDF files for the pages to ensure the availability of information offline. It allows the admin to convert all the posts, pages, blogs, and products on their website into PDF files. 
-Users can download pdf from wordpress site or view them in a new tab. Also, the admin can authorize users to receive their PDFs on their email addresses. The WordPress PDF creator makes sharing information seamless across different channels. You can predefine the settings to customize the header, the body, and the footer.
+Users can download pdf from WordPress site or view them in a new tab. Also, the admin can authorize users to receive their PDFs on their email addresses. The WordPress PDF creator makes sharing information seamless across different channels. You can predefine the settings to customize the header, the body, and the footer.
 Users can non-commercially distribute the downloaded PDF files. The admin can customize the free wordpress pdf template to align with their brand. So, the distribution of PDFs provides an opportunity for brand promotion.
 
 ***
@@ -105,7 +105,13 @@ Check Out [**PDF Generator For WordPress Plugin Knowledge Base**](https://suppor
 
 == TAKE ADVANTAGE OF EXCLUSIVE FEATURES OF PDF GENERATOR FOR WP PLUGIN ==
 
+PDF Generator for WordPress Pro plugin generates PDF that can be read or shared anytime with an added feature of watermark & bulk generation.
+
 > Note:  Get [**WordPress PDF Generator**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=wpswings-org-page&utm_campaign=pdf-pro)
+
+== See What Quebec Preppers is Saying About PDF Generator For WordPress ==
+
+> PDF generator is a very good product that will facilitate the export of articles in pdf version. [**See PDF Generator Case Study**](https://wpswings.com/case-studies/quebec-preppers/?utm_source=wpswings-pdf-case-study&utm_medium=pdf-org-page&utm_campaign=pdf-case-study)
 
 == DOCUMENTATION OF PREMIUM VERSION ==
 
@@ -134,6 +140,9 @@ The manual installation method involves downloading our PDF Generator for WordPr
 Automatic updates should work like a charm; as always though, ensure you backup your site just in case.
 
 == FAQ ==
+
+= Can We Edit The Front/First Page Of The PDF By Itself? = 
+Yes, you can edit the front page for this go to the plugin setting>Pdf first-page setting>custom template here you can edit your template accordingly.
 
 = Can customers directly download the PDF on their local devices? =
 
@@ -170,6 +179,11 @@ You can rename the meta fields and taxonomies in the premium version of the PDF 
 15. WPML Setting
 
 == Changelog ==
+
+= 1.0.7 - Released on 20 May 2022 =
+
+* New : Minor Bug Fixes
+* New : Compatible with latest WP and WC
 
 = 1.0.6 - Released on 08 April 2022 =
 
@@ -212,10 +226,10 @@ You can rename the meta fields and taxonomies in the premium version of the PDF 
 
 == Upgrade Notice ==
 
-= 1.0.6 - Released on 08 April 2022 =
+= 1.0.7 - Released on 20 May 2022 =
 
-* New :  Some substantial changes across different areas of the plugin.
 * New : Minor Bug Fixes
 * New : Compatible with latest WP and WC
+
 
 

@@ -205,6 +205,7 @@ class Pdf_Generator_For_Wp_Common {
 			$html .= return_ob_html( $prod_id, $template_name );
 		}
 		$html        = str_replace( '[WORDPRESS_PDF]', '', $html );
+		// $html = $this->tablepress_shortcode_replace_with_actual_table( $html );
 		$paper_sizes = array(
 			'4a0'                      => array( 0, 0, 4767.87, 6740.79 ),
 			'2a0'                      => array( 0, 0, 3370.39, 4767.87 ),
@@ -253,9 +254,36 @@ class Pdf_Generator_For_Wp_Common {
 		);
 
 		$paper_size = array_key_exists( $body_page_size, $paper_sizes ) ? $paper_sizes[ $body_page_size ] : 'a4';
-		$dompdf     = new Dompdf( array( 'enable_remote' => true ) );
+
+		header( 'Content-Type: application/pdf' );
+		$options = new Options();
+		$options->set( 'isRemoteEnabled', true );
+		$dompdf = new Dompdf( $options );
+
+		$contxt = stream_context_create(
+			array(
+				'http' => array(
+					'header'     => "Content-type: application/x-www-form-urlencoded\r\n",
+					'method'     => 'GET',
+					'user_agent' => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)',
+				),
+				'ssl' => array(
+					'verify_peer'       => false,
+					'verify_peer_name'  => false,
+					'allow_self_signed' => true,
+				),
+			)
+		);
+
+		$dompdf->setHttpContext( $contxt );
+
 		$dompdf->loadHtml( $html );
+		$dompdf->set_option( 'isRemoteEnabled', true );
+
+		/* addedcode end */
+
 		$dompdf->setPaper( $paper_size, $page_orientation );
+
 		@ob_end_clean(); // phpcs:ignore
 		$dompdf->render();
 		if ( 'yes' === $body_add_watermark ) {
@@ -273,6 +301,7 @@ class Pdf_Generator_For_Wp_Common {
 			$y               = ( ( $h - $textheight ) / 2 );
 			$hex             = $body_watermark_color;
 			list($r, $g, $b) = sscanf( $hex, '#%02x%02x%02x' );
+
 			$canvas->page_text( $x, $y, $text, $font, 40, array( $r / 255, $g / 255, $b / 255 ), 0.0, 0.0, -20.0 );
 		}
 		$upload_dir     = wp_upload_dir();
@@ -294,6 +323,7 @@ class Pdf_Generator_For_Wp_Common {
 			);
 		} elseif ( 'open_window' === $pgfw_generate_mode ) {
 			$path = $upload_basedir . $document_name . '.pdf';
+					@ob_end_clean(); // phpcs:ignore
 			$dompdf->stream(
 				$document_name . '.pdf',
 				array(
@@ -321,6 +351,7 @@ class Pdf_Generator_For_Wp_Common {
 			}
 			return $document_name;
 		} elseif ( 'preview' === $pgfw_generate_mode ) {
+					 @ob_end_clean(); // phpcs:ignore
 			$dompdf->stream(
 				$document_name . '.pdf',
 				array(
@@ -374,4 +405,5 @@ class Pdf_Generator_For_Wp_Common {
 	public function pgfw_poster_download_shortcode() {
 		add_shortcode( 'PGFW_DOWNLOAD_POSTER', array( $this, 'pgfw_download_button_posters' ) );
 	}
+
 }

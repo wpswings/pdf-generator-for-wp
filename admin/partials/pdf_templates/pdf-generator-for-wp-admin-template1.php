@@ -25,7 +25,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string
  */
 function return_ob_html( $post_id, $template_name = '' ) {
+
 	do_action( 'wps_pgfw_load_all_compatible_shortcode_converter' );
+
 	// advanced settings.
 	$pgfw_advanced_settings = get_option( 'pgfw_advanced_save_settings', array() );
 	$pgfw_ttf_font_upload   = array_key_exists( 'pgfw_ttf_font_upload', $pgfw_advanced_settings ) ? $pgfw_advanced_settings['pgfw_ttf_font_upload'] : '';
@@ -231,6 +233,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 						font-size   : ' . $pgfw_body_page_font_size . ';
 						color       : ' . $pgfw_body_page_font_color . ';
 					}
+					
 				</style>
 				<div class="pgfw-pdf-body">
 					<div class="pgfw-pdf-body-title-image">

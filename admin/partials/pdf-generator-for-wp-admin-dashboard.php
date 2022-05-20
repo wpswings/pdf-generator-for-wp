@@ -17,7 +17,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $pgfw_wps_pgfw_obj, $wps_pgfw_gen_flag, $pgfw_save_check_flag;
 $pgfw_active_tab   = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw_tab'] ) : 'pdf-generator-for-wp-general'; // phpcs:ignore
+
 do_action( 'pgfw_license_activation_notice_on_dashboard' );
+
 $pgfw_default_tabs = $pgfw_wps_pgfw_obj->wps_pgfw_plug_default_tabs();
 ?>
 <header>
@@ -29,7 +31,7 @@ $pgfw_default_tabs = $pgfw_wps_pgfw_obj->wps_pgfw_plug_default_tabs();
 		<h1 class="wps-header-title"><?php echo esc_attr( strtoupper( str_replace( '-', ' ', apply_filters( 'wps_pgfw_update_plugin_name_dashboard', $pgfw_wps_pgfw_obj->pgfw_get_plugin_name() ) ) ) ); ?></h1>
 		<a href="https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-backend&utm_campaign=documentation" target="_blank" class="wps-link"><?php esc_html_e( 'Documentation', 'pdf-generator-for-wp' ); ?></a>
 		<span>|</span>
-		<a href="https://support.wpswings.com/?utm_source=wpswings-pdf-support&utm_medium=pdf-pro-backend&utm_campaign=support" target="_blank" class="wps-link"><?php esc_html_e( 'Support', 'pdf-generator-for-wp' ); ?></a>
+		<a href="https://wpswings.com/submit-query/?utm_source=wpswings-pdf-support&utm_medium=pdf-org-backend&utm_campaign=submit-query" target="_blank" class="wps-link"><?php esc_html_e( 'Support', 'pdf-generator-for-wp' ); ?></a>
 	</div>
 </header>
 <?php
@@ -75,9 +77,10 @@ if ( $pgfw_save_check_flag ) {
 		</ul>
 	</nav>
 	<?php
-		$plugin_admin = new Pdf_Generator_For_Wp_Admin( 'pdf-generator-for-wp', '1.0.6' );
+		$plugin_admin = new Pdf_Generator_For_Wp_Admin( 'pdf-generator-for-wp', '1.0.7' );
 		$count        = $plugin_admin->wps_wpg_get_count( 'settings' );
-	if ( ! empty( $count ) ) {
+		$key3 = get_option( 'wps_wpg_activated_timestamp' );
+	if ( ! empty( $count ) && ( empty( $key3 ) ) ) {
 			$global_custom_css = 'const triggerError = () => {
 				swal({
 					title: "Attention Required!",

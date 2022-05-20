@@ -8,8 +8,7 @@ jQuery(document).ready( function($) {
 
 
 	
-	const pending_settings_count  = 'undefined' != typeof pending_settings ? pending_settings.length : 0;
-
+	const pending_settings_count  = 'undefined' != typeof pending_settings ? pending_settings : 0;
 	/* Close Button Click */
 	jQuery( document ).on( 'click','.treat-button',function(e){
 		e.preventDefault();

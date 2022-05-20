@@ -141,7 +141,7 @@ class Pdf_Generator_For_Wp_Admin {
 					'ajaxurl'       => admin_url( 'admin-ajax.php' ),
 					'nonce'         => wp_create_nonce( 'wps_wpg_migrated_nonce' ),
 					'callback'      => 'wpg_ajax_callbacks',
-					'pending_settings' => $this->wps_wpg_get_count( 'settings' ),
+					'pending_settings' => $this->wps_wpg_get_count( 'settings', 'count' ),
 					'hide_import'   => $migration_success,
 				)
 			);
@@ -1683,40 +1683,37 @@ class Pdf_Generator_For_Wp_Admin {
 	 * This function is used to count pending post.
 	 *
 	 * @param string $type type.
+	 * @param string $action action.
 	 * @return int $result result.
 	 */
-	public function wps_wpg_get_count( $type = 'all' ) {
+	public function wps_wpg_get_count( $type = 'all', $action = 'count' ) {
 		global $wpdb;
+		$option_result = wp_load_alloptions();
+		$result        = array();
+		foreach ( $option_result as $option_key => $option_value ) {
 
-		switch ( $type ) {
-			case 'settings':
-				$table = $wpdb->prefix . 'options';
-				$sql = "SELECT `option_id`
-				FROM `$table`
-				WHERE `option_name` LIKE 'mwb_pgfw_onboarding_data_skipped' 
-				OR `option_name` LIKE 'mwb_all_plugins_active'
-				OR `option_name` LIKE 'mwb_pgfw_onboarding_data_sent'
-				OR `option_name` LIKE 'mwb_wpg_check_license_daily'
-				OR `option_name` LIKE 'mwb_wpg_activated_timestamp'
-				OR `option_name` LIKE 'mwb_wpg_plugin_update'
-				OR `option_name` LIKE 'mwb_wpg_license_key'
-				OR `option_name` LIKE 'mwb_wpg_license_check'
-				OR `option_name` LIKE 'mwb_wpg_meta_fields_in_page'
-				OR `option_name` LIKE 'mwb_wpg_meta_fields_in_post'
-				OR `option_name` LIKE 'mwb_wpg_meta_fields_in_product'";
+			if ( ( similar_text( 'mwb_pgfw_onboarding_data_skipped', $option_key ) == 32 ) || ( similar_text( 'mwb_all_plugins_active', $option_key ) == 22 ) || ( similar_text( 'mwb_pgfw_onboarding_data_sent', $option_key ) == 29 )
+			|| ( similar_text( 'mwb_wpg_check_license_daily', $option_key ) == 27 )
+			 || ( similar_text( 'mwb_wpg_activated_timestamp', $option_key ) == 27 ) || ( similar_text( 'mwb_wpg_plugin_update', $option_key ) == 21 )
+			 || ( similar_text( 'mwb_wpg_license_key', $option_key ) == 19 ) || ( similar_text( 'mwb_wpg_license_check', $option_key ) == 21 )
+			  || ( similar_text( 'mwb_wpg_meta_fields_in_page', $option_key ) == 27 ) || ( similar_text( 'mwb_wpg_meta_fields_in_post', $option_key ) == 27 )
+			  || ( similar_text( 'mwb_wpg_meta_fields_in_product', $option_key ) == 30 ) ) {
 
-				break;
-
-			default:
-				$sql = false;
-				break;
+				$array_val = array(
+					'option_name'  => $option_key,
+					'option_value' => $option_value,
+				);
+				$result[]  = $array_val;
+			}
 		}
-
-		if ( empty( $sql ) ) {
+		if ( empty( $result ) ) {
 			return 0;
 		}
 
-		$result = $wpdb->get_results( $sql, ARRAY_A ); // @codingStandardsIgnoreLine.
+		if ( 'count' === $action ) {
+			$result = ! empty( $result ) ? count( $result ) : 0;
+		}
+
 		return $result;
 	}
 
@@ -1774,11 +1771,11 @@ class Pdf_Generator_For_Wp_Admin {
 				}
 
 				update_option( $new_key, $arr_val );
-				update_option( 'copy_' . $key, $new_value );
+				update_option( 'copy_' . $new_key, $new_value );
 				delete_option( $key );
 			} else {
 				update_option( $new_key, $new_value );
-				update_option( 'copy_' . $key, $new_value );
+				update_option( 'copy_' . $new_key, $new_value );
 				delete_option( $key );
 			}
 		}
