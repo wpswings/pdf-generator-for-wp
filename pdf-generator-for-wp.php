@@ -14,16 +14,16 @@
  * @wordpress-plugin
  * Plugin Name:       PDF Generator For WP
  * Plugin URI:        https://wordpress.org/plugins/pdf-generator-for-wp/
- * Description:       Let your users download pages, posts, and products in PDF format using this plugin allowing you to add technical and marketing utility for your WordPress site.
+ * Description:       <code><strong>PDF Generator for WordPress</strong></code> plugin allows to generate and download PDF files from WordPress sites across multiple platforms in just one click. Elevate your eCommerce store by exploring more on WP Swings.<a href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-shop&utm_medium=pdf-org-backend&utm_campaign=shop-page" target="_blank"> Elevate your e-commerce store by exploring more on <strong> WP Swings </strong></a>
  * Version:           1.0.7
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=pdf-org-backend&utm_campaign=official
  * Text Domain:       pdf-generator-for-wp
  * Domain Path:       /languages
  *
- * Requires at least:    4.6
+ * Requires at least:    5.0.0
  * Tested up to:         6.0.0
- * WC requires at least: 4.0.0
+ * WC requires at least: 5.0.2
  * WC tested up to:      6.5.1
  * Stable tag:           1.0.7
  * Requires PHP:         7.2
@@ -184,7 +184,7 @@ function pdf_generator_for_wp_settings_link( $links ) {
 		'<a href="' . admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ) . '">' . __( 'Settings', 'pdf-generator-for-wp' ) . '</a>',
 	);
 	if ( ! in_array( 'wordpress-pdf-generator/wordpress-pdf-generator.php', get_option( 'active_plugins' ), true ) ) {
-		$my_link[] = '<a href="https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=pdf-org-backend&utm_campaign=go-pro" target="_blank" class="wps-pgfw-go-pro-link-backend">' . esc_html__( 'Go Pro', 'pdf-generator-for-wp' ) . '</a>';
+		$my_link[] = '<a href="https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=pdf-org-backend&utm_campaign=go-pro" target="_blank" class="wps-pgfw-go-pro-link-backend">' . esc_html__( 'GO PRO', 'pdf-generator-for-wp' ) . '</a>';
 	}
 	return array_merge( $my_link, $links );
 }
@@ -199,7 +199,7 @@ function pdf_generator_for_wp_custom_settings_at_plugin_tab( $links_array, $plug
 	if ( strpos( $plugin_file_name, basename( __FILE__ ) ) ) {
 		$links_array[] = '<a href="https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=wpswings-org-backend&utm_campaign=View-demo" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Demo.svg" class="wps-info-img" alt="Demo image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Demo', 'pdf-generator-for-wp' ) . '</a>';
 		$links_array[] = '<a href="https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-backend&utm_campaign=documentation" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Documentation.svg" class="wps-info-img" alt="documentation image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Documentation', 'pdf-generator-for-wp' ) . '</a>';
-		$links_array[] = '<a href="https://wpswings.com/?utm_source=wpswings-pdf-support&utm_medium=wpswings-org-backend&utm_campaign=support" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Support.svg" class="wps-info-img" alt="support image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Support', 'pdf-generator-for-wp' ) . '</a>';
+		$links_array[] = '<a href="https://wpswings.com/submit-query/?utm_source=wpswings-pdf-support&utm_medium=pdf-org-backend&utm_campaign=submit-query" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Support.svg" class="wps-info-img" alt="support image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Support', 'pdf-generator-for-wp' ) . '</a>';
 	}
 	return $links_array;
 }

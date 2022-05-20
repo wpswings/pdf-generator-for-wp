@@ -29,7 +29,7 @@ $pgfw_default_tabs = $pgfw_wps_pgfw_obj->wps_pgfw_plug_default_tabs();
 		<h1 class="wps-header-title"><?php echo esc_attr( strtoupper( str_replace( '-', ' ', apply_filters( 'wps_pgfw_update_plugin_name_dashboard', $pgfw_wps_pgfw_obj->pgfw_get_plugin_name() ) ) ) ); ?></h1>
 		<a href="https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-backend&utm_campaign=documentation" target="_blank" class="wps-link"><?php esc_html_e( 'Documentation', 'pdf-generator-for-wp' ); ?></a>
 		<span>|</span>
-		<a href="https://support.wpswings.com/?utm_source=wpswings-pdf-support&utm_medium=pdf-pro-backend&utm_campaign=support" target="_blank" class="wps-link"><?php esc_html_e( 'Support', 'pdf-generator-for-wp' ); ?></a>
+		<a href="https://wpswings.com/submit-query/?utm_source=wpswings-pdf-support&utm_medium=pdf-org-backend&utm_campaign=submit-query" target="_blank" class="wps-link"><?php esc_html_e( 'Support', 'pdf-generator-for-wp' ); ?></a>
 	</div>
 </header>
 <?php
