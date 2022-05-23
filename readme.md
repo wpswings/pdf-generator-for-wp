@@ -94,7 +94,7 @@ PDF Generator for WordPress Pro plugin generates PDF that can be read or shared 
 
 > Note:  Get [**WordPress PDF Generator Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=wpswings-github-page&utm_campaign=pro-plugin)
 
-## See What Quebec Preppers is Saying about PDF Generator For WordPress
+### See What Quebec Preppers is Saying about PDF Generator For WordPress
 
 > PDF generator is a very good product that will facilitate the export of articles in pdf version. [**See PDF Generator Case Study**](https://wpswings.com/case-studies/quebec-preppers/?utm_source=wpswings-pdf-case-study&utm_medium=pdf-github-page&utm_campaign=pdf-case-study)
 
