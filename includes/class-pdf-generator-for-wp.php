@@ -243,6 +243,7 @@ class Pdf_Generator_For_Wp {
 			$this->loader->add_action( 'wp_ajax_nopriv_wps_pgfw_ajax_for_single_pdf_mail', $pgfw_plugin_common, 'wps_pgfw_generate_pdf_single_and_mail' );
 			$this->loader->add_action( 'wp_ajax_wps_pgfw_ajax_for_single_pdf_mail', $pgfw_plugin_common, 'wps_pgfw_generate_pdf_single_and_mail' );
 
+			$this->loader->add_action( 'load-edit.php', $pgfw_plugin_common, 'mwb_aspose_pdf_exporter_bulk_action' );
 		}
 	}
 

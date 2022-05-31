@@ -187,7 +187,7 @@ class Pdf_Generator_For_Wp_Common {
 		$post                 = get_post( $post_id );
 		if ( 'custom' === $pdf_file_name ) {
 			$pdf_file_name_custom = array_key_exists( 'pgfw_custom_pdf_file_name', $general_settings_arr ) ? $general_settings_arr['pgfw_custom_pdf_file_name'] : '';
-			$document_name        = ( ( '' !== $pdf_file_name_custom ) && ( $post ) ) ? $pdf_file_name_custom . '_' . $post->ID : 'document';
+			$document_name        = ( ( '' !== $pdf_file_name_custom ) && ( $post ) ) ? $pdf_file_name_custom . '_' . get_the_title( $post->ID ) : 'document';
 		} elseif ( 'post_name' === $pdf_file_name ) {
 			$document_name = ( $post ) ? $post->post_title : 'document';
 		} else {
@@ -405,5 +405,121 @@ class Pdf_Generator_For_Wp_Common {
 	public function pgfw_poster_download_shortcode() {
 		add_shortcode( 'PGFW_DOWNLOAD_POSTER', array( $this, 'pgfw_download_button_posters' ) );
 	}
+	public function mwb_aspose_pdf_exporter_bulk_action() {
+		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
 
+		$upload_dir = wp_upload_dir();
+		$upload_path = $upload_dir['path'] . '/';
+
+		$html_file = $upload_path . 'outpuut.html';
+		$pdf_file = $upload_path . 'outpuut.pdf';
+
+		@unlink( $html_file );
+		@unlink( $pdf_file );
+
+		global $typenow;
+		$post_type = $typenow;
+
+		// get the action.
+		$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );  // depending on your resource type this could be WP_Users_List_Table, WP_Comments_List_Table, etc.
+		$action = $wp_list_table->current_action();
+
+		$allowed_actions = array( 'export' );
+
+		if ( ! in_array( $action, $allowed_actions ) ) {
+			return;
+		}
+
+		// security check.
+		check_admin_referer( 'bulk-posts' );
+
+		// make sure ids are submitted.  depending on the resource type, this may be 'media' or 'ids'.
+		if ( isset( $_REQUEST['post'] ) ) {
+			$post_ids = array_map( 'intval', $_REQUEST['post'] );
+		}
+
+		if ( empty( $post_ids ) ) {
+			return;
+		}
+
+		// this is based on wp-admin/edit.php.
+		$sendback = remove_query_arg( array( 'exported', 'untrashed', 'deleted', 'ids' ), wp_get_referer() );
+
+		if ( ! $sendback ) {
+			$sendback = admin_url( "edit.php?post_type=$post_type" );
+		}
+
+		$pagenum = $wp_list_table->get_pagenum();
+
+		$sendback = add_query_arg( 'paged', $pagenum, $sendback );
+
+		switch ( $action ) {
+			case 'export':
+				$exported = count( $post_ids );
+				$file_name = '';
+				if ( is_array( $post_ids ) && count( $post_ids ) > 0 ) {
+					// $dompdf = new DOMPDF();
+					
+					$file_name1 = $this->aspose_pdf_exporter_array_to_html( $post_ids );
+					$template_name = apply_filters( 'wps_pgfw_product_post_ids_in_pdf_filter_hook', $file_name1, $post_ids );
+					if ( $template_name == 'template1' ) {
+						$file_name .= apply_filters( 'wps_pgfw_add_cover_page_template_to_bulk_pdf', $html );
+						$file_name .= $this->aspose_pdf_exporter_array_to_html( $post_ids );
+					} else {
+						$file_name .= apply_filters( 'wps_pgfw_add_cover_page_template_to_bulk_pdf', $html );
+						$file_name .= apply_filters( 'wps_pgfw_product_post_ids_in_pdf_filter_hook', $file_name1, $post_ids );
+					}
+
+					 header( 'Content-Type: application/pdf' );
+					$options = new Options();
+					$options->set( 'isRemoteEnabled', true );
+					$dompdf = new Dompdf( $options );
+					$contxt = stream_context_create(
+						array(
+							'http' => array(
+								'header'     => "Content-type: application/x-www-form-urlencoded\r\n",
+								'method'     => 'GET',
+								'user_agent' => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)',
+							),
+							'ssl' => array(
+								'verify_peer'       => false,
+								'verify_peer_name'  => false,
+								'allow_self_signed' => true,
+							),
+						)
+					);
+					$dompdf->setHttpContext( $contxt );
+					$dompdf->loadHtml( $file_name );
+					$dompdf->set_option( 'isRemoteEnabled', true );
+
+					/* addedcode end */
+
+					@ob_end_clean(); // phpcs:ignore.
+					$dompdf->render();
+					$dompdf->stream(
+						'document_name.pdf',
+						array(
+							'compress'   => 0,
+							'Attachment' => 0,
+						)
+					);
+
+				}
+		}
+
+	}
+
+
+	public function aspose_pdf_exporter_array_to_html( $post_ids ) {
+
+		$ids = $post_ids;
+		$body_settings_arr       = get_option( 'pgfw_body_save_settings', array() );
+		$pgfw_body_page_template = array_key_exists( 'pgfw_body_page_template', $body_settings_arr ) ? $body_settings_arr['pgfw_body_page_template'] : 'template1';
+		$pgfw_body_post_template = array_key_exists( 'pgfw_body_post_template', $body_settings_arr ) ? $body_settings_arr['pgfw_body_post_template'] : 'template1';
+		$template_file_name = PDF_GENERATOR_FOR_WP_DIR_PATH . 'common/templates/bulk-pdf-template.php';
+		// $template_file_name = apply_filters( 'pgfw_load_templates_for_pdf_html_bulk', $template_file_name, $pgfw_body_post_template, $ids );
+		require_once $template_file_name;
+		return bulk_pdf_exporter_html( $ids );
+
+	}
 }

@@ -974,6 +974,7 @@ class Pdf_Generator_For_Wp_Admin {
 			'times-roman' => __( 'Times-Roman', 'pdf-generator-for-wp' ),
 			'symbol'      => __( 'Symbol', 'pdf-generator-for-wp' ),
 			'zapfdinbats' => __( 'Zapfdinbats', 'pdf-generator-for-wp' ),
+			'zapfdinbats' => __( 'Zapfdinbats', 'pdf-generator-for-wp' ),
 		);
 		$wps_pgfw_font_styles = apply_filters( 'wps_pgfw_font_styles_filter_hook', $wps_pgfw_font_styles );
 
