@@ -237,13 +237,16 @@ class Pdf_Generator_For_Wp {
 		$pgfw_enable_plugin       = array_key_exists( 'pgfw_enable_plugin', $pdf_general_settings_arr ) ? $pdf_general_settings_arr['pgfw_enable_plugin'] : '';
 		if ( 'yes' === $pgfw_enable_plugin ) {
 			// catching pdf generate link with $_GET.
-				// catching pdf generate link with $_GET.
 			$this->loader->add_action( 'init', $pgfw_plugin_common, 'pgfw_generate_pdf_link_catching_user', 20 );
 			$this->loader->add_action( 'plugins_loaded', $pgfw_plugin_common, 'pgfw_poster_download_shortcode' );
 			$this->loader->add_action( 'wp_ajax_nopriv_wps_pgfw_ajax_for_single_pdf_mail', $pgfw_plugin_common, 'wps_pgfw_generate_pdf_single_and_mail' );
 			$this->loader->add_action( 'wp_ajax_wps_pgfw_ajax_for_single_pdf_mail', $pgfw_plugin_common, 'wps_pgfw_generate_pdf_single_and_mail' );
 
-			$this->loader->add_action( 'load-edit.php', $pgfw_plugin_common, 'mwb_aspose_pdf_exporter_bulk_action' );
+			$this->loader->add_action( 'load-edit.php', $pgfw_plugin_common, 'pgfw_aspose_pdf_exporter_bulk_action' );
+			// Bulk pdf gentrate hook for the page post and producta.
+			$this->loader->add_filter( 'bulk_actions-edit-post', $pgfw_plugin_common, 'wpg_add_custom_bulk_action_post', 10, 2 );
+			$this->loader->add_filter( 'bulk_actions-edit-page', $pgfw_plugin_common, 'wpg_add_custom_bulk_actions_page', 10, 2 );
+			$this->loader->add_filter( 'bulk_actions-edit-product', $pgfw_plugin_common, 'wpg_add_custom_bulk_actionss_product', 10, 2 );
 		}
 	}
 

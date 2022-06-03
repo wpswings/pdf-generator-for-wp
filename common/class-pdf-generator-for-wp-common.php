@@ -187,7 +187,7 @@ class Pdf_Generator_For_Wp_Common {
 		$post                 = get_post( $post_id );
 		if ( 'custom' === $pdf_file_name ) {
 			$pdf_file_name_custom = array_key_exists( 'pgfw_custom_pdf_file_name', $general_settings_arr ) ? $general_settings_arr['pgfw_custom_pdf_file_name'] : '';
-			$document_name        = ( ( '' !== $pdf_file_name_custom ) && ( $post ) ) ? $pdf_file_name_custom . '_' . get_the_title( $post->ID ) : 'document';
+			$document_name        = ( ( '' !== $pdf_file_name_custom ) && ( $post ) ) ? $pdf_file_name_custom . '_' . $post->ID : 'document';
 		} elseif ( 'post_name' === $pdf_file_name ) {
 			$document_name = ( $post ) ? $post->post_title : 'document';
 		} else {
@@ -254,7 +254,6 @@ class Pdf_Generator_For_Wp_Common {
 		);
 
 		$paper_size = array_key_exists( $body_page_size, $paper_sizes ) ? $paper_sizes[ $body_page_size ] : 'a4';
-
 		header( 'Content-Type: application/pdf' );
 		$options = new Options();
 		$options->set( 'isRemoteEnabled', true );
@@ -405,7 +404,10 @@ class Pdf_Generator_For_Wp_Common {
 	public function pgfw_poster_download_shortcode() {
 		add_shortcode( 'PGFW_DOWNLOAD_POSTER', array( $this, 'pgfw_download_button_posters' ) );
 	}
-	public function mwb_aspose_pdf_exporter_bulk_action() {
+	/**
+	 * Export pdf in bulk.
+	 */
+	public function pgfw_aspose_pdf_exporter_bulk_action() {
 		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
 
 		$upload_dir = wp_upload_dir();
@@ -458,18 +460,15 @@ class Pdf_Generator_For_Wp_Common {
 				$exported = count( $post_ids );
 				$file_name = '';
 				if ( is_array( $post_ids ) && count( $post_ids ) > 0 ) {
-					// $dompdf = new DOMPDF();
-					
-					$file_name1 = $this->aspose_pdf_exporter_array_to_html( $post_ids );
+					$file_name1 = $this->pgfw_aspose_pdf_exporter_array_to_html( $post_ids );
 					$template_name = apply_filters( 'wps_pgfw_product_post_ids_in_pdf_filter_hook', $file_name1, $post_ids );
 					if ( $template_name == 'template1' ) {
 						$file_name .= apply_filters( 'wps_pgfw_add_cover_page_template_to_bulk_pdf', $html );
-						$file_name .= $this->aspose_pdf_exporter_array_to_html( $post_ids );
+						$file_name .= $this->pgfw_aspose_pdf_exporter_array_to_html( $post_ids );
 					} else {
 						$file_name .= apply_filters( 'wps_pgfw_add_cover_page_template_to_bulk_pdf', $html );
 						$file_name .= apply_filters( 'wps_pgfw_product_post_ids_in_pdf_filter_hook', $file_name1, $post_ids );
 					}
-
 					 header( 'Content-Type: application/pdf' );
 					$options = new Options();
 					$options->set( 'isRemoteEnabled', true );
@@ -508,16 +507,45 @@ class Pdf_Generator_For_Wp_Common {
 		}
 
 	}
-
-
-	public function aspose_pdf_exporter_array_to_html( $post_ids ) {
+	/**
+	 * Bulk export button for posts.
+	 *
+	 * @param string $bulk_actions $bulk_actions.
+	 */
+	public function wpg_add_custom_bulk_action_post( $bulk_actions ) {
+		$bulk_actions['export'] = __( 'Export', 'pdf-generator-for-wp' );
+		return $bulk_actions;
+	}
+	/**
+	 * Bulk export button for pages.
+	 *
+	 * @param string $bulk_actions $bulk_actions.
+	 */
+	public function wpg_add_custom_bulk_actions_page( $bulk_actions ) {
+		$bulk_actions['export'] = __( 'Export', 'pdf-generator-for-wp' );
+		return $bulk_actions;
+	}
+	/**
+	 * Bulk export button for products.
+	 *
+	 * @param string $bulk_actions $bulk_actions.
+	 */
+	public function wpg_add_custom_bulk_actionss_product( $bulk_actions ) {
+		$bulk_actions['export'] = __( 'Export', 'pdf-generator-for-wp' );
+		return $bulk_actions;
+	}
+	/**
+	 * Getting template data for post ids.
+	 *
+	 * @param array $post_ids postids.
+	 */
+	public function pgfw_aspose_pdf_exporter_array_to_html( $post_ids ) {
 
 		$ids = $post_ids;
 		$body_settings_arr       = get_option( 'pgfw_body_save_settings', array() );
 		$pgfw_body_page_template = array_key_exists( 'pgfw_body_page_template', $body_settings_arr ) ? $body_settings_arr['pgfw_body_page_template'] : 'template1';
 		$pgfw_body_post_template = array_key_exists( 'pgfw_body_post_template', $body_settings_arr ) ? $body_settings_arr['pgfw_body_post_template'] : 'template1';
 		$template_file_name = PDF_GENERATOR_FOR_WP_DIR_PATH . 'common/templates/bulk-pdf-template.php';
-		// $template_file_name = apply_filters( 'pgfw_load_templates_for_pdf_html_bulk', $template_file_name, $pgfw_body_post_template, $ids );
 		require_once $template_file_name;
 		return bulk_pdf_exporter_html( $ids );
 
