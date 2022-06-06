@@ -469,6 +469,7 @@ class Pdf_Generator_For_Wp_Common {
 						$file_name .= apply_filters( 'wps_pgfw_add_cover_page_template_to_bulk_pdf', $html );
 						$file_name .= apply_filters( 'wps_pgfw_product_post_ids_in_pdf_filter_hook', $file_name1, $post_ids );
 					}
+					
 					 header( 'Content-Type: application/pdf' );
 					$options = new Options();
 					$options->set( 'isRemoteEnabled', true );
@@ -492,11 +493,11 @@ class Pdf_Generator_For_Wp_Common {
 					$dompdf->set_option( 'isRemoteEnabled', true );
 
 					/* addedcode end */
-
+					$document_name = 'bulk_post_to_pdf_' . strtotime( gmdate( 'y-m-d H:i:s' ) );
 					@ob_end_clean(); // phpcs:ignore.
 					$dompdf->render();
 					$dompdf->stream(
-						'document_name.pdf',
+						$document_name . '.pdf',
 						array(
 							'compress'   => 0,
 							'Attachment' => 0,
