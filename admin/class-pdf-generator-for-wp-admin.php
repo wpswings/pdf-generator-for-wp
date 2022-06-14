@@ -833,6 +833,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_footer_font_style = array_key_exists( 'pgfw_footer_font_style', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_font_style'] : '';
 		$pgfw_footer_font_size  = array_key_exists( 'pgfw_footer_font_size', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_font_size'] : '';
 		$pgfw_footer_bottom     = array_key_exists( 'pgfw_footer_bottom', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_bottom'] : '';
+		$pgfw_footer_customization     = array_key_exists( 'pgfw_footer_customization_for_post_detail', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_customization_for_post_detail'] : array();
 		$wps_pgfw_font_styles   = array(
 			''            => __( 'Select option', 'pdf-generator-for-wp' ),
 			'helvetica'   => __( 'Helvetica', 'pdf-generator-for-wp' ),
@@ -919,6 +920,20 @@ class Pdf_Generator_For_Wp_Admin {
 				'min'          => -500,
 				'max'          => 500,
 			),
+			array(
+				'title'       => __( 'Show PDF Snippets on default template', 'pdf-generator-for-wp' ),
+				'type'        => 'multiselect',
+				'description' => __( '', 'pdf-generator-for-wp' ),
+				'id'          => 'pgfw_footer_customization_for_post_detail',
+				'value'       => $pgfw_footer_customization,
+				'class'       => 'pgfw-multiselect-class wps-defaut-multiselect pgfw_advanced_show_post_type_icons',
+				'name'        => 'pgfw_footer_customization_for_post_detail',
+				'options'     => array(
+					'author' => __( 'author name', 'pdf-generator-for-wp' ),
+					'post_title'      => __( 'post title', 'pdf-generator-for-wp' ),
+					'post_date'      => __( 'release date', 'pdf-generator-for-wp' ),
+				),
+			)
 		);
 		$pgfw_settings_footer_fields_html_arr   = apply_filters( 'pgfw_settings_footer_fields_html_arr_filter_hook', $pgfw_settings_footer_fields_html_arr );
 		$pgfw_settings_footer_fields_html_arr[] = array(
@@ -928,6 +943,7 @@ class Pdf_Generator_For_Wp_Admin {
 			'class'       => 'pgfw_footer_setting_submit',
 			'name'        => 'pgfw_footer_setting_submit',
 		);
+
 		return $pgfw_settings_footer_fields_html_arr;
 	}
 	/**
@@ -955,6 +971,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_body_margin_bottom     = array_key_exists( 'pgfw_body_margin_bottom', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_margin_bottom'] : '';
 		$pgfw_body_rtl_support       = array_key_exists( 'pgfw_body_rtl_support', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_rtl_support'] : '';
 		$pgfw_body_add_watermark     = array_key_exists( 'pgfw_body_add_watermark', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_add_watermark'] : '';
+		$pgfw_body_metafields_row_wise     = array_key_exists( 'pgfw_body_metafields_row_wise', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_metafields_row_wise'] : '';
 		$pgfw_body_watermark_text    = array_key_exists( 'pgfw_body_watermark_text', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_watermark_text'] : '';
 		$pgfw_body_watermark_color   = array_key_exists( 'pgfw_body_watermark_color', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_watermark_color'] : '';
 		$pgfw_body_page_template     = array_key_exists( 'pgfw_body_page_template', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_page_template'] : '';
@@ -964,7 +981,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_border_position_left   = array_key_exists( 'pgfw_border_position_left', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_left'] : '';
 		$pgfw_border_position_right  = array_key_exists( 'pgfw_border_position_right', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_right'] : '';
 		$pgfw_body_custom_css        = array_key_exists( 'pgfw_body_custom_css', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_css'] : '';
-
+		
 		$wps_pgfw_font_styles = array(
 			''            => __( 'Select option', 'pdf-generator-for-wp' ),
 			'helvetica'   => __( 'Helvetica', 'pdf-generator-for-wp' ),
@@ -1313,6 +1330,15 @@ class Pdf_Generator_For_Wp_Admin {
 				'class'       => 'pgfw_body_custom_css',
 				'name'        => 'pgfw_body_custom_css',
 				'placeholder' => __( 'custom css', 'pdf-generator-for-wp' ),
+			),
+			array(
+				'title'       => __( 'Show Meta fields row wise', 'pdf-generator-for-wp' ),
+				'type'        => 'checkbox',
+				'description' => __( 'Select this to display meta fields in row .', 'pdf-generator-for-wp' ),
+				'id'          => 'pgfw_body_metafields_row_wise',
+				'value'       => $pgfw_body_metafields_row_wise,
+				'class'       => 'pgfw_body_metafields_row_wise',
+				'name'        => 'pgfw_body_metafields_row_wise',
 			),
 		);
 		$pgfw_body_html_arr   = apply_filters( 'pgfw_settings_body_fields_html_arr_filter_hook', $pgfw_body_html_arr );
@@ -1706,7 +1732,6 @@ class Pdf_Generator_For_Wp_Admin {
 				$result[]  = $array_val;
 			}
 		}
-	
 		if ( empty( $result ) ) {
 			return 0;
 		}

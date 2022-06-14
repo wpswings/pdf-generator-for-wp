@@ -86,6 +86,21 @@ function return_ob_html( $post_id, $template_name = '' ) {
 	$pgfw_footer_font_style = ( 'custom' === $pgfw_footer_font_style ) ? 'My_font' : $pgfw_footer_font_style;
 	$pgfw_footer_font_size  = array_key_exists( 'pgfw_footer_font_size', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_font_size'] : '';
 	$pgfw_footer_bottom     = array_key_exists( 'pgfw_footer_bottom', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_bottom'] : '';
+	$pgfw_footer_customization     = array_key_exists( 'pgfw_footer_customization_for_post_detail', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_customization_for_post_detail'] : '';
+
+	if ( '' == $pgfw_footer_customization ) {
+		$pgfw_footer_customization = array();
+	}
+
+	$post = get_post( $post_id );
+	$author_id = get_post_field( 'post_author', $post_id );
+	$display_name = get_the_author_meta( 'display_name', $author_id );
+	$post_date = get_the_date( 'F Y', $post_id );
+	$post_title = get_the_title( $post_id );
+
+		$display_author_name = in_array( 'author', $pgfw_footer_customization ) ? $display_name : '';
+		$display_post_date = in_array( 'post_date', $pgfw_footer_customization ) ? $post_date : '';
+		$display_post_title = in_array( 'post_title', $pgfw_footer_customization ) ? $post_title : '';
 	if ( 'yes' === $pgfw_body_rtl_support ) {
 		$pgfw_header_font_style     = 'DejaVu Sans, sans-serif';
 		$pgfw_body_page_font_style  = 'DejaVu Sans, sans-serif';
@@ -174,6 +189,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 					</div>
 				</div>';
 	}
+
 	// footer for pdf.
 	if ( 'yes' === $pgfw_footer_use_in_pdf ) {
 		$html .= '<style>
@@ -181,26 +197,40 @@ function return_ob_html( $post_id, $template_name = '' ) {
 				position    : fixed;
 				left        : 0px;
 				bottom      : ' . $pgfw_footer_bottom . ';
-				height      : 150px;
+				height      : 18px;
 				border-top  : 2px solid gray;
 				padding     : ' . $pgfw_footer_width . 'px;
 				font-family : ' . $pgfw_footer_font_style . ';
 				font-size   : ' . $pgfw_footer_font_size . ';
+				width: 100%;
 			}
 			.pgfw-footer-tagline{
 				color      : ' . $pgfw_footer_color . ';
-				text-align : center;
+				text-align : center
+				;
 				overflow   : hidden;
 			}
 			.pgfw-footer-pageno:after {
 				content : "Page " counter(page);
 			}
+			.pgfw-footer-post-detail {
+				color      : ' . $pgfw_footer_color . ';
+				text-align : right;
+				overflow   : hidden;
+				margin-right : 15px;
+			}
 		</style>';
 		$html .= '<div class="pgfw-pdf-footer">
 					<span class="pgfw-footer-pageno"></span>
+					<div style="text-align:right; margin-top:-15px;">
+						<div> ' . esc_html( $display_author_name ) . '</div>
+						<div>' . esc_html( $display_post_date ) . '</div>
+						<div> ' . esc_html( $display_post_title ) . '</div>
+					</div>
 					<div class="pgfw-footer-tagline" >
 						<span>' . esc_html( $pgfw_footer_tagline ) . '</span>
 					</div>
+					
 				</div>';
 	}
 	// body for pdf.
@@ -233,6 +263,24 @@ function return_ob_html( $post_id, $template_name = '' ) {
 						font-size   : ' . $pgfw_body_page_font_size . ';
 						color       : ' . $pgfw_body_page_font_color . ';
 					}
+					img {
+						max-height : 680px;
+						max-width :68
+						0px;
+					}
+					.pgfw-pdf-body-content .wp-block-columns:after {
+						content: "";
+						display: block;
+						clear: both;
+					}
+					.pgfw-pdf-body-content .wp-block-column {
+						width: 33.333%;
+						float: left;
+					}
+					.wp-block-column img {
+						width: 100%;
+						height: auto;
+					}
 					
 				</style>
 				<div class="pgfw-pdf-body">
@@ -246,7 +294,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 					<h3>' . esc_html__( 'Description', 'pdf-generator-for-wp' ) . '</h3>
 					<div>
 						' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', apply_filters( 'the_content', apply_filters( 'wps_wpg_customize_template_post_content', $post->post_content, $post ) ) ) ) . '
-					</div>';
+				</div>';
 		// taxonomies for posts.
 		$html1 = '';
 		if ( 'yes' === $pgfw_show_post_taxonomy ) {
@@ -307,21 +355,47 @@ function return_ob_html( $post_id, $template_name = '' ) {
 		$post_type               = $post->post_type;
 		$pgfw_show_type_meta_val = array_key_exists( 'pgfw_meta_fields_' . $post_type . '_show', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_' . $post_type . '_show' ] : '';
 		$pgfw_show_type_meta_arr = array_key_exists( 'pgfw_meta_fields_' . $post_type . '_list', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_' . $post_type . '_list' ] : array();
+		$pgfw_body_metafields_row_wise     = array_key_exists( 'pgfw_body_metafields_row_wise', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_metafields_row_wise'] : '';
 		$html2                   = '';
 		if ( 'yes' === $pgfw_show_type_meta_val ) {
 			if ( is_array( $pgfw_show_type_meta_arr ) ) {
 				$html2 .= '<div><b>' . __( 'Meta Fields', 'pdf-generator-for-wp' ) . '</b></div>';
+				$html2 .= '<table><tr>';
 				foreach ( $pgfw_show_type_meta_arr as $meta_key ) {
 					$meta_val          = get_post_meta( $post->ID, $meta_key, true );
 					$wpg_meta_key_name = strtoupper( str_replace( '_', ' ', $meta_key ) );
 					if ( $meta_val ) {
-						$html2 .= '<div><b>' . $wpg_meta_key_name . ' : </b> ' . $meta_val . '</div>';
+						if ( '_product_image_gallery' == $meta_key ) {
+
+							$meta_val1 = explode( ',', $meta_val );
+
+							foreach ( $meta_val1 as $key => $val ) {
+
+								$thumbnail_url = get_the_guid( $val );
+								$thumbnail = '<img  src=' . $thumbnail_url . ' alt="post thumbnail" style="height:100px; width: 100px; margin:17px;" height=50 weight=50/>';
+								$html2 .= $thumbnail;
+							}
+							$html2 .= '<td><b> ' . $wpg_meta_key_name . '</b> </td>';
+						} else {
+							if ( 'yes' == $pgfw_body_metafields_row_wise ) {
+								$i++;
+								$html2 .= '<td><b>' . $wpg_meta_key_name . ':' . '</b></td>';
+								$html2 .= '<td>' . $meta_val . '</td>';
+								if ( $i % 3 == 0 ) {
+									$html2 .= '</tr><tr>';
+								}
+							} else {
+								$html2 .= '<div><b>' . $wpg_meta_key_name . ' : </b> ' . $meta_val . '</div>';
+							}
+						}
 					}
 				}
+				$html2 .= '</tr></table>';
 			}
 		}
 		$html .= apply_filters( 'wps_pgfw_product_post_meta_in_pdf_filter_hook', $html2, $post );
 		$html .= '</div></div><span style="page-break-after: always;overflow:hidden;"></span>';
 	}
+
 	return $html;
 }

@@ -254,7 +254,8 @@ class Pdf_Generator_For_Wp_Common {
 		);
 
 		$paper_size = array_key_exists( $body_page_size, $paper_sizes ) ? $paper_sizes[ $body_page_size ] : 'a4';
-
+// print_r($html);
+// die;
 		header( 'Content-Type: application/pdf' );
 		$options = new Options();
 		$options->set( 'isRemoteEnabled', true );
