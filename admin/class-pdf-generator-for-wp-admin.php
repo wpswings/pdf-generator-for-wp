@@ -921,9 +921,9 @@ class Pdf_Generator_For_Wp_Admin {
 				'max'          => 500,
 			),
 			array(
-				'title'       => __( 'Show PDF Snippets on default template', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Add Author, Post name and Date in Footer.', 'pdf-generator-for-wp' ),
 				'type'        => 'multiselect',
-				'description' => __( '', 'pdf-generator-for-wp' ),
+				'description' => __( 'you can customize the footer for author name, post name and date of publication.', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_footer_customization_for_post_detail',
 				'value'       => $pgfw_footer_customization,
 				'class'       => 'pgfw-multiselect-class wps-defaut-multiselect pgfw_advanced_show_post_type_icons',
@@ -976,6 +976,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_body_watermark_color   = array_key_exists( 'pgfw_body_watermark_color', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_watermark_color'] : '';
 		$pgfw_body_page_template     = array_key_exists( 'pgfw_body_page_template', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_page_template'] : '';
 		$pgfw_body_post_template     = array_key_exists( 'pgfw_body_post_template', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_post_template'] : '';
+		$pgfw_body_meta_field_column     = array_key_exists( 'pgfw_body_meta_field_column', $pgfw_body_settings ) ? intval( $pgfw_body_settings['pgfw_body_meta_field_column'] ) : '';
 		$pgfw_border_position_top    = array_key_exists( 'pgfw_border_position_top', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_top'] : '';
 		$pgfw_border_position_bottom = array_key_exists( 'pgfw_border_position_bottom', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_bottom'] : '';
 		$pgfw_border_position_left   = array_key_exists( 'pgfw_border_position_left', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_left'] : '';
@@ -1339,6 +1340,21 @@ class Pdf_Generator_For_Wp_Admin {
 				'value'       => $pgfw_body_metafields_row_wise,
 				'class'       => 'pgfw_body_metafields_row_wise',
 				'name'        => 'pgfw_body_metafields_row_wise',
+			),
+			array(
+				'title'       => __( 'Select Number of columns ', 'pdf-generator-for-wp' ),
+				'type'        => 'select',
+				'description' => __( 'You can choose number of columns needed in a row for your meta fields.', 'pdf-generator-for-wp' ),
+				'id'          => 'pgfw_body_meta_field_column',
+				'value'       => $pgfw_body_meta_field_column,
+				'class'       => 'pgfw_body_meta_field_column',
+				'name'        => 'pgfw_body_meta_field_column',
+				'options'     => array(
+					'1'          => __( '1', 'pdf-generator-for-wp' ),
+					'2' 		 => __( '2', 'pdf-generator-for-wp' ),
+					'3'          => __( '3', 'pdf-generator-for-wp' ),
+					'4' 		 => __( '4', 'pdf-generator-for-wp' ),
+				),
 			),
 		);
 		$pgfw_body_html_arr   = apply_filters( 'pgfw_settings_body_fields_html_arr_filter_hook', $pgfw_body_html_arr );

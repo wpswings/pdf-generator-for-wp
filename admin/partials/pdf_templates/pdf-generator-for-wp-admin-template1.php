@@ -26,6 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function return_ob_html( $post_id, $template_name = '' ) {
 
+
 	do_action( 'wps_pgfw_load_all_compatible_shortcode_converter' );
 
 	// advanced settings.
@@ -87,6 +88,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 	$pgfw_footer_font_size  = array_key_exists( 'pgfw_footer_font_size', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_font_size'] : '';
 	$pgfw_footer_bottom     = array_key_exists( 'pgfw_footer_bottom', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_bottom'] : '';
 	$pgfw_footer_customization     = array_key_exists( 'pgfw_footer_customization_for_post_detail', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_customization_for_post_detail'] : '';
+	$pgfw_body_meta_field_column     = array_key_exists( 'pgfw_body_meta_field_column', $pgfw_body_settings ) ? intval( $pgfw_body_settings['pgfw_body_meta_field_column'] ) : '';
 
 	if ( '' == $pgfw_footer_customization ) {
 		$pgfw_footer_customization = array();
@@ -190,47 +192,40 @@ function return_ob_html( $post_id, $template_name = '' ) {
 				</div>';
 	}
 
-	// footer for pdf.
+		// footer for pdf.
 	if ( 'yes' === $pgfw_footer_use_in_pdf ) {
 		$html .= '<style>
 			.pgfw-pdf-footer{
 				position    : fixed;
 				left        : 0px;
 				bottom      : ' . $pgfw_footer_bottom . ';
-				height      : 18px;
+				height      : 150px;
 				border-top  : 2px solid gray;
 				padding     : ' . $pgfw_footer_width . 'px;
 				font-family : ' . $pgfw_footer_font_style . ';
 				font-size   : ' . $pgfw_footer_font_size . ';
-				width: 100%;
 			}
 			.pgfw-footer-tagline{
 				color      : ' . $pgfw_footer_color . ';
-				text-align : center
-				;
+				text-align : center;
 				overflow   : hidden;
 			}
 			.pgfw-footer-pageno:after {
 				content : "Page " counter(page);
-			}
-			.pgfw-footer-post-detail {
-				color      : ' . $pgfw_footer_color . ';
-				text-align : right;
-				overflow   : hidden;
-				margin-right : 15px;
 			}
 		</style>';
 		$html .= '<div class="pgfw-pdf-footer">
 					<span class="pgfw-footer-pageno"></span>
 					<div style="text-align:right; margin-top:-15px;">
 						<div> ' . esc_html( $display_author_name ) . '</div>
-						<div>' . esc_html( $display_post_date ) . '</div>
-						<div> ' . esc_html( $display_post_title ) . '</div>
 					</div>
 					<div class="pgfw-footer-tagline" >
 						<span>' . esc_html( $pgfw_footer_tagline ) . '</span>
 					</div>
-					
+					<div style="text-align:right; margin-top:-15px;">
+					<div>' . esc_html( $display_post_date ) . '</div>
+					<div > ' . esc_html( $display_post_title ) . '</div>
+					</div>
 				</div>';
 	}
 	// body for pdf.
@@ -263,11 +258,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 						font-size   : ' . $pgfw_body_page_font_size . ';
 						color       : ' . $pgfw_body_page_font_color . ';
 					}
-					img {
-						max-height : 680px;
-						max-width :68
-						0px;
-					}
+					
 					.pgfw-pdf-body-content .wp-block-columns:after {
 						content: "";
 						display: block;
@@ -380,8 +371,8 @@ function return_ob_html( $post_id, $template_name = '' ) {
 							if ( 'yes' == $pgfw_body_metafields_row_wise ) {
 								$i++;
 								$html2 .= '<td><b>' . $wpg_meta_key_name . ':' . '</b></td>';
-								$html2 .= '<td>' . $meta_val . '</td>';
-								if ( $i % 3 == 0 ) {
+								$html2 .= '<td> ' . $meta_val . ' </td>';
+								if ( $i % $pgfw_body_meta_field_column == 0 ) {
 									$html2 .= '</tr><tr>';
 								}
 							} else {
