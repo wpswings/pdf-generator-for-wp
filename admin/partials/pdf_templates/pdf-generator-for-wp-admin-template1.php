@@ -25,8 +25,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string
  */
 function return_ob_html( $post_id, $template_name = '' ) {
-
-
 	do_action( 'wps_pgfw_load_all_compatible_shortcode_converter' );
 
 	// advanced settings.
@@ -89,17 +87,18 @@ function return_ob_html( $post_id, $template_name = '' ) {
 	$pgfw_footer_bottom     = array_key_exists( 'pgfw_footer_bottom', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_bottom'] : '';
 	$pgfw_footer_customization     = array_key_exists( 'pgfw_footer_customization_for_post_detail', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_customization_for_post_detail'] : '';
 	$pgfw_body_meta_field_column     = array_key_exists( 'pgfw_body_meta_field_column', $pgfw_body_settings ) ? intval( $pgfw_body_settings['pgfw_body_meta_field_column'] ) : '';
+	$status  = get_option( 'status' );
 
 	if ( '' == $pgfw_footer_customization ) {
 		$pgfw_footer_customization = array();
 	}
-
-	$post = get_post( $post_id );
-	$author_id = get_post_field( 'post_author', $post_id );
-	$display_name = get_the_author_meta( 'display_name', $author_id );
-	$post_date = get_the_date( 'F Y', $post_id );
-	$post_title = get_the_title( $post_id );
-
+	if ( '' == $status ) {
+		$post = get_post( $post_id );
+		$author_id = get_post_field( 'post_author', $post_id );
+		$display_name = get_the_author_meta( 'display_name', $author_id );
+		$post_date = get_the_date( 'd F Y', $post_id );
+		$post_title = get_the_title( $post );
+	}
 		$display_author_name = in_array( 'author', $pgfw_footer_customization ) ? $display_name : '';
 		$display_post_date = in_array( 'post_date', $pgfw_footer_customization ) ? $post_date : '';
 		$display_post_title = in_array( 'post_title', $pgfw_footer_customization ) ? $post_title : '';
@@ -272,6 +271,13 @@ function return_ob_html( $post_id, $template_name = '' ) {
 						width: 100%;
 						height: auto;
 					}
+					.pgfw-pdf-body-content img {
+						max-height : 680px;
+						max-width  : 680px;
+						width :100%
+						height :100%;
+					
+					}
 					
 				</style>
 				<div class="pgfw-pdf-body">
@@ -284,6 +290,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 					<div class="pgfw-pdf-body-content">
 					<h3>' . esc_html__( 'Description', 'pdf-generator-for-wp' ) . '</h3>
 					<div>
+					
 						' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', apply_filters( 'the_content', apply_filters( 'wps_wpg_customize_template_post_content', $post->post_content, $post ) ) ) ) . '
 				</div>';
 		// taxonomies for posts.
@@ -370,9 +377,9 @@ function return_ob_html( $post_id, $template_name = '' ) {
 						} else {
 							if ( 'yes' == $pgfw_body_metafields_row_wise ) {
 								$i++;
-								$html2 .= '<td><b>' . $wpg_meta_key_name . ':' . '</b></td>';
+								$html2 .= '<td><b>' . $wpg_meta_key_name . ' :</b></td>';
 								$html2 .= '<td> ' . $meta_val . ' </td>';
-								if ( $i % $pgfw_body_meta_field_column == 0 ) {
+								if ( 0 == $i % $pgfw_body_meta_field_column ) {
 									$html2 .= '</tr><tr>';
 								}
 							} else {

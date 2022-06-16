@@ -933,7 +933,7 @@ class Pdf_Generator_For_Wp_Admin {
 					'post_title'      => __( 'post title', 'pdf-generator-for-wp' ),
 					'post_date'      => __( 'release date', 'pdf-generator-for-wp' ),
 				),
-			)
+			),
 		);
 		$pgfw_settings_footer_fields_html_arr   = apply_filters( 'pgfw_settings_footer_fields_html_arr_filter_hook', $pgfw_settings_footer_fields_html_arr );
 		$pgfw_settings_footer_fields_html_arr[] = array(
@@ -982,7 +982,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_border_position_left   = array_key_exists( 'pgfw_border_position_left', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_left'] : '';
 		$pgfw_border_position_right  = array_key_exists( 'pgfw_border_position_right', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_right'] : '';
 		$pgfw_body_custom_css        = array_key_exists( 'pgfw_body_custom_css', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_css'] : '';
-		
+
 		$wps_pgfw_font_styles = array(
 			''            => __( 'Select option', 'pdf-generator-for-wp' ),
 			'helvetica'   => __( 'Helvetica', 'pdf-generator-for-wp' ),
@@ -1351,9 +1351,9 @@ class Pdf_Generator_For_Wp_Admin {
 				'name'        => 'pgfw_body_meta_field_column',
 				'options'     => array(
 					'1'          => __( '1', 'pdf-generator-for-wp' ),
-					'2' 		 => __( '2', 'pdf-generator-for-wp' ),
+					'2'          => __( '2', 'pdf-generator-for-wp' ),
 					'3'          => __( '3', 'pdf-generator-for-wp' ),
-					'4' 		 => __( '4', 'pdf-generator-for-wp' ),
+					'4'          => __( '4', 'pdf-generator-for-wp' ),
 				),
 			),
 		);
