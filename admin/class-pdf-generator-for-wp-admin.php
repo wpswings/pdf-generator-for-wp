@@ -931,7 +931,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'options'     => array(
 					'author' => __( 'author name', 'pdf-generator-for-wp' ),
 					'post_title'      => __( 'post title', 'pdf-generator-for-wp' ),
-					'post_date'      => __( 'release date', 'pdf-generator-for-wp' ),
+					'post_date'      => __( 'publish date', 'pdf-generator-for-wp' ),
 				),
 			),
 		);
