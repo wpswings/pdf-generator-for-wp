@@ -205,7 +205,6 @@ class Pdf_Generator_For_Wp_Common {
 			$html .= return_ob_html( $prod_id, $template_name );
 		}
 		$html        = str_replace( '[WORDPRESS_PDF]', '', $html );
-		// $html = $this->tablepress_shortcode_replace_with_actual_table( $html );
 		$paper_sizes = array(
 			'4a0'                      => array( 0, 0, 4767.87, 6740.79 ),
 			'2a0'                      => array( 0, 0, 3370.39, 4767.87 ),
@@ -252,10 +251,7 @@ class Pdf_Generator_For_Wp_Common {
 			'8.5x14'                   => array( 0, 0, 612.00, 1008.0 ),
 			'11x17'                    => array( 0, 0, 792.00, 1224.00 ),
 		);
-
 		$paper_size = array_key_exists( $body_page_size, $paper_sizes ) ? $paper_sizes[ $body_page_size ] : 'a4';
-// print_r($html);
-// die;
 		header( 'Content-Type: application/pdf' );
 		$options = new Options();
 		$options->set( 'isRemoteEnabled', true );

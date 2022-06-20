@@ -278,7 +278,26 @@ function return_ob_html( $post_id, $template_name = '' ) {
 						height :100%;
 					
 					}
-					
+					.pgfw-pdf-body-content .wp-block-gallery:after {
+						content: "";
+						display: block;
+						clear: both;
+					}
+					.pgfw-pdf-body-content .wp-block-gallery .wp-block-image {
+						margin-top: 30px !important;
+						width: 32.333%;
+						margin: 0;
+						padding:3px;
+						text-align: center;
+						display: inline-block;
+						vertical-align: middle;
+					}
+					.wp-block-gallery .wp-block-image img {
+						width: auto;
+						max-width: 100%;
+						height: auto;
+					}
+				
 				</style>
 				<div class="pgfw-pdf-body">
 					<div class="pgfw-pdf-body-title-image">
@@ -361,12 +380,11 @@ function return_ob_html( $post_id, $template_name = '' ) {
 				$html2 .= '<table><tr>';
 				foreach ( $pgfw_show_type_meta_arr as $meta_key ) {
 					$meta_val          = get_post_meta( $post->ID, $meta_key, true );
-					$wpg_meta_key_name = strtoupper( str_replace( '_', ' ', $meta_key ) );
+					$wpg_meta_key_name = ucwords( str_replace( '_', ' ', $meta_key ) );
 					if ( $meta_val ) {
 						if ( '_product_image_gallery' == $meta_key ) {
 
 							$meta_val1 = explode( ',', $meta_val );
-
 							foreach ( $meta_val1 as $key => $val ) {
 
 								$thumbnail_url = get_the_guid( $val );
@@ -374,6 +392,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 								$html2 .= $thumbnail;
 							}
 							$html2 .= '<td><b> ' . $wpg_meta_key_name . '</b> </td>';
+
 						} else {
 							if ( 'yes' == $pgfw_body_metafields_row_wise ) {
 								$i++;
@@ -383,7 +402,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 									$html2 .= '</tr><tr>';
 								}
 							} else {
-								$html2 .= '<div><b>' . $wpg_meta_key_name . ' : </b> ' . $meta_val . '</div>';
+									$html2 .= '<div><b>' . $wpg_meta_key_name . ' : </b> ' . $meta_val . '</div>';
 							}
 						}
 					}
