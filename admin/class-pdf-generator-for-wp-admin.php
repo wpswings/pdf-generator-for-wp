@@ -59,7 +59,7 @@ class Pdf_Generator_For_Wp_Admin {
 	 */
 	public function pgfw_admin_enqueue_styles( $hook ) {
 		$screen = get_current_screen();
-		if ( isset( $screen->id ) && 'wp-swings_page_pdf_generator_for_wp_menu' == $screen->id ) { // phpcs:ignore
+		if ( isset( $screen->id ) && 'wp-swings_page_pdf_generator_for_wp_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) { // phpcs:ignore
 
 			wp_enqueue_style( 'wps-pgfw-select2-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.css', array(), time(), 'all' );
 
@@ -75,8 +75,10 @@ class Pdf_Generator_For_Wp_Admin {
 			wp_enqueue_style( 'pgfw-admin-commomn-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-generator-for-wp-admin-common.css', array(), $this->version, 'all' );
 			wp_enqueue_style( 'pgfw-datatable-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/datatable/datatables.min.css', array(), $this->version, 'all' );
 			wp_enqueue_style( 'pgfw-overview-form-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/wps-admin.css', array(), $this->version, 'all' );
+			wp_enqueue_style( 'wps--admin--min-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-admin-home.min.css', array(), $this->version, 'all' );
 		}
 		wp_enqueue_style( 'pgfw-admin-custom-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-generator-for-wp-admin-custom.css', array(), $this->version, 'all' );
+	
 	}
 
 	/**
@@ -88,7 +90,7 @@ class Pdf_Generator_For_Wp_Admin {
 	public function pgfw_admin_enqueue_scripts( $hook ) {
 
 		$screen = get_current_screen();
-		if ( isset( $screen->id ) && 'wp-swings_page_pdf_generator_for_wp_menu' == $screen->id ) { // phpcs:ignore
+		if ( isset( $screen->id ) && 'wp-swings_page_pdf_generator_for_wp_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) { // phpcs:ignore
 			wp_enqueue_script( 'wps-pgfw-select2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.js', array( 'jquery' ), time(), false );
 
 			wp_enqueue_script( 'wps-pgfw-metarial-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-web.min.js', array(), time(), false );
@@ -157,6 +159,8 @@ class Pdf_Generator_For_Wp_Admin {
 		global $submenu;
 		if ( empty( $GLOBALS['admin_page_hooks']['wps-plugins'] ) ) {
 			add_menu_page( 'WP Swings', 'WP Swings', 'manage_options', 'wps-plugins', array( $this, 'wps_plugins_listing_page' ), PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/wpswings_logo.png', 15 );
+		
+			add_submenu_page( 'wps-plugins', 'Home', 'Home', 'manage_options', 'home', array( $this, 'wps_pgfw_welcome_callback_function' ), 1 );
 			$pgfw_menus = apply_filters( 'wps_add_plugins_menus_array', array() );
 			if ( is_array( $pgfw_menus ) && ! empty( $pgfw_menus ) ) {
 				foreach ( $pgfw_menus as $pgfw_key => $pgfw_value ) {
@@ -361,6 +365,11 @@ class Pdf_Generator_For_Wp_Admin {
 		if ( wp_doing_ajax() ) {
 			return;
 		}
+		if ( isset( $_POST['pgfw_tracking_save_button'] ) ) {
+
+			$enable_tracking = ! empty( $_POST['pgfw_enable_tracking'] ) ? sanitize_text_field( wp_unslash( $_POST['pgfw_enable_tracking'] ) ) : '';
+			update_option( 'pgfw_enable_tracking', $enable_tracking );
+		}
 		if ( isset( $_POST['pgfw_nonce_field'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['pgfw_nonce_field'] ) ), 'nonce_settings_save' ) ) {
 			if ( isset( $_POST['pgfw_general_settings_save'] ) ) {
 				$pgfw_genaral_settings = apply_filters( 'pgfw_general_settings_array', array() );
@@ -395,6 +404,8 @@ class Pdf_Generator_For_Wp_Admin {
 				$key                   = 'pgfw_pdf_upload_save_settings';
 				$pgfw_save_check_flag  = true;
 			}
+			
+			
 			if ( $pgfw_save_check_flag ) {
 				$wps_pgfw_gen_flag = false;
 				$pgfw_button_index = array_search( 'submit', array_column( $pgfw_genaral_settings, 'type' ), true );
@@ -1842,4 +1853,16 @@ class Pdf_Generator_For_Wp_Admin {
 		dbDelta( $sql );
 		$sql = $wpdb->get_results( $wpdb->prepare( 'INSERT INTO  ' . $wpdb->prefix . 'wps_pdflog select * from ' . $wpdb->prefix . 'mwb_pdflog' ) );
 	}
+	
+	/**
+	 *
+	 * Adding the default menu into the WordPress menu.
+	 *
+	 * @name wpswings_callback_function
+	 * @since 1.0.0
+	 */
+	public function wps_pgfw_welcome_callback_function() {
+		include_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/pdf-generator-for-wp-welcome.php';
+	}
+
 }
