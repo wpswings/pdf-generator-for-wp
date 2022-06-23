@@ -41,7 +41,6 @@ $pgfw_tab_key = '';
 					array(
 						'title'       => __( 'Enable Tracking', 'pdf-generator-for-wp' ),
 						'type'        => 'radio-switch',
-						'description' => __( 'This is switch field demo follow same structure for further use.', 'pdf-generator-for-wp' ),
 						'name'        => 'pgfw_enable_tracking',
 						'id'          => 'pgfw_enable_tracking',
 						'value'       => get_option( 'pgfw_enable_tracking' ),
