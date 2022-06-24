@@ -113,4 +113,4 @@ if ( $pgfw_save_check_flag ) {
 			do_action( 'wps_pgfw_after_general_settings_form' );
 			?>
 		</div>
-	</section>
+		</section>
