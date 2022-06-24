@@ -12,9 +12,6 @@
 Users can download these PDF files or view them in a new tab. Also, the admin can authorize users to receive their PDFs on their email addresses. The WordPress PDF creator makes sharing information seamless across different channels. You can predefine the settings to customize the header, the body, and the footer.
 Users can non-commercially distribute the downloaded PDF files with the [**WordPress PDF Generator**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=wpswings-github-page&utm_campaign=pdf-pro).The admin can customize the pdf template to align with their brand. So, the distribution of PDFs provides an opportunity for brand promotion.
 
->_**WP Swings is just our improvised and rebranded version with all quality solutions and help being the same, so no worries at your end. Please [**connect with us**](https://wpswings.com/contact-us/?utm_source=wpswings-pdf-contactus&utm_medium=pdf-github-page&utm_campaign=contact-us) for all setup, support, and update related queries without hesitation."**_
-***
-
 [**PDF Generator for WordPress: Convert Your Posts/Pages and Custom Posts Into Personalized PDFs**](https://www.youtube.com/watch?v=zj04gBgWX3E)
 
 ## WITH THE PDF GENERATOR FOR WORDPRESS PLUGIN YOU CAN:
