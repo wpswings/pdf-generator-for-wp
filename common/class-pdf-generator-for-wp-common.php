@@ -468,8 +468,8 @@ class Pdf_Generator_For_Wp_Common {
 						$file_name .= apply_filters( 'wps_pgfw_add_cover_page_template_to_bulk_pdf', $html );
 						$file_name .= apply_filters( 'wps_pgfw_product_post_ids_in_pdf_filter_hook', $file_name1, $post_ids );
 					}
-					
-					 header( 'Content-Type: application/pdf' );
+					print
+					header( 'Content-Type: application/pdf' );
 					$options = new Options();
 					$options->set( 'isRemoteEnabled', true );
 					$dompdf = new Dompdf( $options );
