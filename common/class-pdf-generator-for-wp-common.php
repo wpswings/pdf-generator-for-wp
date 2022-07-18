@@ -408,7 +408,9 @@ class Pdf_Generator_For_Wp_Common {
 	 */
 	public function pgfw_aspose_pdf_exporter_bulk_action() {
 		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
-
+		$general_settings_arr = get_option( 'pgfw_general_settings_save', array() );
+		$pgfw_generate_mode   = array_key_exists( 'pgfw_general_pdf_generate_mode', $general_settings_arr ) ? $general_settings_arr['pgfw_general_pdf_generate_mode'] : 'download_locally';
+		
 		$upload_dir = wp_upload_dir();
 		$upload_path = $upload_dir['path'] . '/';
 
@@ -495,13 +497,27 @@ class Pdf_Generator_For_Wp_Common {
 					$document_name = 'bulk_post_to_pdf_' . strtotime( gmdate( 'y-m-d H:i:s' ) );
 					@ob_end_clean(); // phpcs:ignore.
 					$dompdf->render();
-					$dompdf->stream(
-						$document_name . '.pdf',
-						array(
-							'compress'   => 0,
-							'Attachment' => 0,
-						)
-					);
+					if ( 'download_locally' === $pgfw_generate_mode ) {
+						@ob_end_clean(); // phpcs:ignore.
+						$dompdf->stream(
+							$document_name . '.pdf',
+							array(
+								'compress'   => 0,
+								'Attachment' => 1,
+							)
+						);
+					} elseif ( 'open_window' === $pgfw_generate_mode ) {
+			
+								@ob_end_clean(); // phpcs:ignore
+						$dompdf->stream(
+							$document_name . '.pdf',
+							array(
+								'compress'   => 0,
+								'Attachment' => 0,
+							)
+						);
+					}
+				
 
 				}
 		}
