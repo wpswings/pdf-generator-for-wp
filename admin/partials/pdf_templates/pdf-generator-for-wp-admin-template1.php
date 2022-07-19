@@ -264,10 +264,9 @@ function return_ob_html( $post_id, $template_name = '' ) {
 						display: block;
 						clear: both;
 					}
-					.pgfw-pdf-body-content .wp-block-column {
-						width: 33.333%;
-						float: left;
-					}
+			.pgfw-pdf-body-content .wp-block-column {
+ 						width: 50%;
+					float: left; 					}
 					.wp-block-column img {
 						width: 100%;
 						height: auto;

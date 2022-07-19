@@ -463,14 +463,13 @@ class Pdf_Generator_For_Wp_Common {
 				if ( is_array( $post_ids ) && count( $post_ids ) > 0 ) {
 					$file_name1 = $this->pgfw_aspose_pdf_exporter_array_to_html( $post_ids );
 					$template_name = apply_filters( 'wps_pgfw_product_post_ids_in_pdf_filter_hook', $file_name1, $post_ids );
-					if ( $template_name == 'template1' ) {
+					if ( 'template1' == $template_name ) {
 						$file_name .= apply_filters( 'wps_pgfw_add_cover_page_template_to_bulk_pdf', $html );
 						$file_name .= $this->pgfw_aspose_pdf_exporter_array_to_html( $post_ids );
 					} else {
 						$file_name .= apply_filters( 'wps_pgfw_add_cover_page_template_to_bulk_pdf', $html );
 						$file_name .= apply_filters( 'wps_pgfw_product_post_ids_in_pdf_filter_hook', $file_name1, $post_ids );
 					}
-					print
 					header( 'Content-Type: application/pdf' );
 					$options = new Options();
 					$options->set( 'isRemoteEnabled', true );

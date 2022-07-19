@@ -18,13 +18,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Function contains html for template 1;
  *
- * @param int    $post_id post id.
+ * @param int    $post_ids post ids.
  * @param string $template_name template name to be used.
  * @since 1.0.0
  *
  * @return string
  */
-function bulk_pdf_exporter_html( $post_ids , $template_name = '' ) {
+function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) {
 
 	do_action( 'wps_pgfw_load_all_compatible_shortcode_converter' );
 
@@ -228,22 +228,21 @@ function bulk_pdf_exporter_html( $post_ids , $template_name = '' ) {
 					</div>
 				</div>';
 	}
-	// body for pdf
+			// body for pdf.
 
+	foreach ( $post_ids as $post_id ) {
 
-foreach( $post_ids as $post_id )  {
-
-	if ( 'yes' == $pgfw_watermark_image_use_in_pdf ) {
-		$html = apply_filters( 'pgfw_customize_body_watermark_image_pdf', $html );
-	}
-	if ( '' !== $pgfw_body_custom_css ) {
-		$html .= '<style>
+		if ( 'yes' == $pgfw_watermark_image_use_in_pdf ) {
+			$html = apply_filters( 'pgfw_customize_body_watermark_image_pdf', $html );
+		}
+		if ( '' !== $pgfw_body_custom_css ) {
+			$html .= '<style>
 					' . $pgfw_body_custom_css . '
 				</style>';
-	}
-	$post = get_post( $post_id );
-	if ( is_object( $post ) ) {
-		$html .= '<style>
+		}
+		$post = get_post( $post_id );
+		if ( is_object( $post ) ) {
+			$html .= '<style>
 					.pgfw-pdf-body-title{
 						font-family : ' . $pgfw_body_title_font_style . ';
 						font-size   : ' . $pgfw_body_title_font_size . 'px;
@@ -321,108 +320,108 @@ foreach( $post_ids as $post_id )  {
 					
 						' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', apply_filters( 'the_content', apply_filters( 'wps_wpg_customize_template_post_content', $post->post_content, $post ) ) ) ) . '
 				</div>';
-		// taxonomies for posts.
-		$html1 = '';
-		if ( 'yes' === $pgfw_show_post_taxonomy ) {
-			$taxonomies = get_object_taxonomies( $post );
-			if ( is_array( $taxonomies ) ) {
-				foreach ( $taxonomies as $taxonomy ) {
-					$prod_cat = get_the_terms( $post, $taxonomy );
-					if ( is_array( $prod_cat ) ) {
-						$html1 .= '<div><b>' . strtoupper( str_replace( '_', ' ', $taxonomy ) ) . '</b></div>';
-						$html1 .= '<ol>';
-						foreach ( $prod_cat as $category ) {
-							$html1 .= '<li>' . $category->name . '</li>';
+			// taxonomies for posts.
+			$html1 = '';
+			if ( 'yes' === $pgfw_show_post_taxonomy ) {
+				$taxonomies = get_object_taxonomies( $post );
+				if ( is_array( $taxonomies ) ) {
+					foreach ( $taxonomies as $taxonomy ) {
+						$prod_cat = get_the_terms( $post, $taxonomy );
+						if ( is_array( $prod_cat ) ) {
+							$html1 .= '<div><b>' . strtoupper( str_replace( '_', ' ', $taxonomy ) ) . '</b></div>';
+							$html1 .= '<ol>';
+							foreach ( $prod_cat as $category ) {
+								$html1 .= '<li>' . $category->name . '</li>';
+							}
+							$html1 .= '</ol>';
 						}
-						$html1 .= '</ol>';
 					}
 				}
 			}
-		}
-		$html .= apply_filters( 'wps_pgfw_product_taxonomy_in_pdf_filter_hook', $html1, $post );
-		// category for posts.
-		
-		if ( 'yes' === $pgfw_show_post_categories ) {
-			$categories = get_the_category( $post->ID );
-			if ( is_array( $categories ) && ! empty( $categories ) ) {
-				$html .= '<div><b>' . esc_html__( 'Category', 'pdf-generator-for-wp' ) . '</b></div>';
-				$html .= '<ol>';
-				foreach ( $categories as $category ) {
-					$html .= '<li>' . $category->name . '</li>';
+			$html .= apply_filters( 'wps_pgfw_product_taxonomy_in_pdf_filter_hook', $html1, $post );
+			// category for posts.
+
+			if ( 'yes' === $pgfw_show_post_categories ) {
+				$categories = get_the_category( $post->ID );
+				if ( is_array( $categories ) && ! empty( $categories ) ) {
+					$html .= '<div><b>' . esc_html__( 'Category', 'pdf-generator-for-wp' ) . '</b></div>';
+					$html .= '<ol>';
+					foreach ( $categories as $category ) {
+						$html .= '<li>' . $category->name . '</li>';
+					}
+					$html .= '</ol>';
 				}
-				$html .= '</ol>';
 			}
-		}
-		// tags for posts.
-		if ( 'yes' === $pgfw_show_post_tags ) {
-			$tags = get_the_tags( $post );
-			if ( is_array( $tags ) ) {
-				$html .= '<div><b>' . __( 'Tags', 'pdf-generator-for-wp' ) . '</b></div>';
-				$html .= '<ol>';
-				foreach ( $tags as $tag ) {
-					$html .= '<li>' . $tag->name . '</li> ';
+			// tags for posts.
+			if ( 'yes' === $pgfw_show_post_tags ) {
+				$tags = get_the_tags( $post );
+				if ( is_array( $tags ) ) {
+					$html .= '<div><b>' . __( 'Tags', 'pdf-generator-for-wp' ) . '</b></div>';
+					$html .= '<ol>';
+					foreach ( $tags as $tag ) {
+						$html .= '<li>' . $tag->name . '</li> ';
+					}
+					$html .= '</ol>';
 				}
-				$html .= '</ol>';
 			}
-		}
-		// post created date.
-		if ( 'yes' === $pgfw_show_post_date ) {
-			$created_date = get_the_date( 'F Y', $post );
-			$html        .= '<div><b>' . __( 'Date Created', 'pdf-generator-for-wp' ) . '</b></div>';
-			$html        .= '<div>' . $created_date . '</div>';
-		}
-		// post author.
-		if ( 'yes' === $pgfw_show_post_author ) {
-			$author_id   = $post->post_author;
-			$author_name = get_the_author_meta( 'user_nicename', $author_id );
-			$html       .= '<div><b>' . __( 'Author', 'pdf-generator-for-wp' ) . '</b></div>';
-			$html       .= '<div>' . $author_name . '</div>';
-		}
-		// meta fields.
-		$post_type               = $post->post_type;
-		$pgfw_show_type_meta_val = array_key_exists( 'pgfw_meta_fields_' . $post_type . '_show', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_' . $post_type . '_show' ] : '';
-		$pgfw_show_type_meta_arr = array_key_exists( 'pgfw_meta_fields_' . $post_type . '_list', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_' . $post_type . '_list' ] : array();
-		$pgfw_body_metafields_row_wise     = array_key_exists( 'pgfw_body_metafields_row_wise', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_metafields_row_wise'] : '';
-		$html2                   = '';
-		if ( 'yes' === $pgfw_show_type_meta_val ) {
-			if ( is_array( $pgfw_show_type_meta_arr ) ) {
-				$html2 .= '<div><b>' . __( 'Meta Fields', 'pdf-generator-for-wp' ) . '</b></div>';
-				$html2 .= '<table><tr>';
-				foreach ( $pgfw_show_type_meta_arr as $meta_key ) {
-					$meta_val          = get_post_meta( $post->ID, $meta_key, true );
-					$wpg_meta_key_name = ucwords( str_replace( '_', ' ', $meta_key ) );
-					if ( $meta_val ) {
-						if ( '_product_image_gallery' == $meta_key ) {
+			// post created date.
+			if ( 'yes' === $pgfw_show_post_date ) {
+				$created_date = get_the_date( 'F Y', $post );
+				$html        .= '<div><b>' . __( 'Date Created', 'pdf-generator-for-wp' ) . '</b></div>';
+				$html        .= '<div>' . $created_date . '</div>';
+			}
+			// post author.
+			if ( 'yes' === $pgfw_show_post_author ) {
+				$author_id   = $post->post_author;
+				$author_name = get_the_author_meta( 'user_nicename', $author_id );
+				$html       .= '<div><b>' . __( 'Author', 'pdf-generator-for-wp' ) . '</b></div>';
+				$html       .= '<div>' . $author_name . '</div>';
+			}
+			// meta fields.
+			$post_type               = $post->post_type;
+			$pgfw_show_type_meta_val = array_key_exists( 'pgfw_meta_fields_' . $post_type . '_show', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_' . $post_type . '_show' ] : '';
+			$pgfw_show_type_meta_arr = array_key_exists( 'pgfw_meta_fields_' . $post_type . '_list', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_' . $post_type . '_list' ] : array();
+			$pgfw_body_metafields_row_wise     = array_key_exists( 'pgfw_body_metafields_row_wise', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_metafields_row_wise'] : '';
+			$html2                   = '';
+			if ( 'yes' === $pgfw_show_type_meta_val ) {
+				if ( is_array( $pgfw_show_type_meta_arr ) ) {
+					$html2 .= '<div><b>' . __( 'Meta Fields', 'pdf-generator-for-wp' ) . '</b></div>';
+					$html2 .= '<table><tr>';
+					foreach ( $pgfw_show_type_meta_arr as $meta_key ) {
+						$meta_val          = get_post_meta( $post->ID, $meta_key, true );
+						$wpg_meta_key_name = ucwords( str_replace( '_', ' ', $meta_key ) );
+						if ( $meta_val ) {
+							if ( '_product_image_gallery' == $meta_key ) {
 
-							$meta_val1 = explode( ',', $meta_val );
-							foreach ( $meta_val1 as $key => $val ) {
+								$meta_val1 = explode( ',', $meta_val );
+								foreach ( $meta_val1 as $key => $val ) {
 
-								$thumbnail_url = get_the_guid( $val );
-								$thumbnail = '<img  src=' . $thumbnail_url . ' alt="post thumbnail" style="height:100px; width: 100px; margin:17px;" height=50 weight=50/>';
-								$html2 .= $thumbnail;
-							}
-							$html2 .= '<div><b> ' . $wpg_meta_key_name . '</b> </div>';
-
-						} else {
-							if ( 'yes' == $pgfw_body_metafields_row_wise ) {
-								$i++;
-								$html2 .= '<td><b>' . $wpg_meta_key_name . ' :</b></td>';
-								$html2 .= '<td> ' . $meta_val . ' </td>';
-								if ( 0 == $i % $pgfw_body_meta_field_column ) {
-									$html2 .= '</tr><tr>';
+									$thumbnail_url = get_the_guid( $val );
+									$thumbnail = '<img  src=' . $thumbnail_url . ' alt="post thumbnail" style="height:100px; width: 100px; margin:17px;" height=50 weight=50/>';
+									$html2 .= $thumbnail;
 								}
+								$html2 .= '<div><b> ' . $wpg_meta_key_name . '</b> </div>';
+
 							} else {
+								if ( 'yes' == $pgfw_body_metafields_row_wise ) {
+									$i++;
+									$html2 .= '<td><b>' . $wpg_meta_key_name . ' :</b></td>';
+									$html2 .= '<td> ' . $meta_val . ' </td>';
+									if ( 0 == $i % $pgfw_body_meta_field_column ) {
+										$html2 .= '</tr><tr>';
+									}
+								} else {
 									$html2 .= '<div><b>' . $wpg_meta_key_name . ' : </b> ' . $meta_val . '</div>';
+								}
 							}
 						}
 					}
+					$html2 .= '</tr></table>';
 				}
-				$html2 .= '</tr></table>';
 			}
+			$html .= apply_filters( 'wps_pgfw_product_post_meta_in_pdf_filter_hook', $html2, $post );
+			$html .= '</div></div><span style="page-break-after: always;overflow:hidden;"></span>';
 		}
-		$html .= apply_filters( 'wps_pgfw_product_post_meta_in_pdf_filter_hook', $html2, $post );
-		$html .= '</div></div><span style="page-break-after: always;overflow:hidden;"></span>';
 	}
-}
 	return $html;
 }
