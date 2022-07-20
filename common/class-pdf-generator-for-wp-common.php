@@ -251,7 +251,7 @@ class Pdf_Generator_For_Wp_Common {
 			'8.5x14'                   => array( 0, 0, 612.00, 1008.0 ),
 			'11x17'                    => array( 0, 0, 792.00, 1224.00 ),
 		);
-		
+
 		$paper_size = array_key_exists( $body_page_size, $paper_sizes ) ? $paper_sizes[ $body_page_size ] : 'a4';
 		header( 'Content-Type: application/pdf' );
 		$options = new Options();
@@ -410,7 +410,7 @@ class Pdf_Generator_For_Wp_Common {
 		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
 		$general_settings_arr = get_option( 'pgfw_general_settings_save', array() );
 		$pgfw_generate_mode   = array_key_exists( 'pgfw_general_pdf_generate_mode', $general_settings_arr ) ? $general_settings_arr['pgfw_general_pdf_generate_mode'] : 'download_locally';
-		
+
 		$upload_dir = wp_upload_dir();
 		$upload_path = $upload_dir['path'] . '/';
 
@@ -506,7 +506,7 @@ class Pdf_Generator_For_Wp_Common {
 							)
 						);
 					} elseif ( 'open_window' === $pgfw_generate_mode ) {
-			
+
 								@ob_end_clean(); // phpcs:ignore
 						$dompdf->stream(
 							$document_name . '.pdf',
@@ -516,8 +516,6 @@ class Pdf_Generator_For_Wp_Common {
 							)
 						);
 					}
-				
-
 				}
 		}
 

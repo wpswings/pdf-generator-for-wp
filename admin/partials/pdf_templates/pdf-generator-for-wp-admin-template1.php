@@ -335,7 +335,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 		}
 		$html .= apply_filters( 'wps_pgfw_product_taxonomy_in_pdf_filter_hook', $html1, $post );
 		// category for posts.
-		
+
 		if ( 'yes' === $pgfw_show_post_categories ) {
 			$categories = get_the_category( $post->ID );
 			if ( is_array( $categories ) && ! empty( $categories ) ) {
