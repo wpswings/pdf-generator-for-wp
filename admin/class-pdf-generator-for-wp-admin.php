@@ -78,7 +78,7 @@ class Pdf_Generator_For_Wp_Admin {
 			wp_enqueue_style( 'wps--admin--min-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-admin-home.min.css', array(), $this->version, 'all' );
 		}
 		wp_enqueue_style( 'pgfw-admin-custom-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-generator-for-wp-admin-custom.css', array(), $this->version, 'all' );
-	
+
 	}
 
 	/**
@@ -159,7 +159,7 @@ class Pdf_Generator_For_Wp_Admin {
 		global $submenu;
 		if ( empty( $GLOBALS['admin_page_hooks']['wps-plugins'] ) ) {
 			add_menu_page( 'WP Swings', 'WP Swings', 'manage_options', 'wps-plugins', array( $this, 'wps_plugins_listing_page' ), PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/wpswings_logo.png', 15 );
-		
+
 			add_submenu_page( 'wps-plugins', 'Home', 'Home', 'manage_options', 'home', array( $this, 'wps_pgfw_welcome_callback_function' ), 1 );
 			$pgfw_menus = apply_filters( 'wps_add_plugins_menus_array', array() );
 			if ( is_array( $pgfw_menus ) && ! empty( $pgfw_menus ) ) {
@@ -404,8 +404,7 @@ class Pdf_Generator_For_Wp_Admin {
 				$key                   = 'pgfw_pdf_upload_save_settings';
 				$pgfw_save_check_flag  = true;
 			}
-			
-			
+
 			if ( $pgfw_save_check_flag ) {
 				$wps_pgfw_gen_flag = false;
 				$pgfw_button_index = array_search( 'submit', array_column( $pgfw_genaral_settings, 'type' ), true );
@@ -1002,6 +1001,7 @@ class Pdf_Generator_For_Wp_Admin {
 			'DejaVu Sans' => __( 'DejaVu Sans', 'pdf-generator-for-wp' ),
 			'times-roman' => __( 'Times-Roman', 'pdf-generator-for-wp' ),
 			'symbol'      => __( 'Symbol', 'pdf-generator-for-wp' ),
+			'zapfdinbats' => __( 'Zapfdinbats', 'pdf-generator-for-wp' ),
 			'zapfdinbats' => __( 'Zapfdinbats', 'pdf-generator-for-wp' ),
 		);
 		$wps_pgfw_font_styles = apply_filters( 'wps_pgfw_font_styles_filter_hook', $wps_pgfw_font_styles );
@@ -1853,7 +1853,7 @@ class Pdf_Generator_For_Wp_Admin {
 		dbDelta( $sql );
 		$sql = $wpdb->get_results( $wpdb->prepare( 'INSERT INTO  ' . $wpdb->prefix . 'wps_pdflog select * from ' . $wpdb->prefix . 'mwb_pdflog' ) );
 	}
-	
+
 	/**
 	 *
 	 * Adding the default menu into the WordPress menu.
