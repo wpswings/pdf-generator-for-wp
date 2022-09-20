@@ -300,7 +300,8 @@ class Pdf_Generator_For_Wp_Common {
 			$hex             = $body_watermark_color;
 			list($r, $g, $b) = sscanf( $hex, '#%02x%02x%02x' );
 
-			$canvas->page_text( $x, $y, $text, $font, 40, array( $r / 255, $g / 255, $b / 255 ), 0.0, 0.0, -20.0 );
+			$canvas->page_text( $x, $y, $text, $font, 30, array( $r / 255, $g / 255, $b / 255 ), 0.0,0.0);
+			$canvas->rotate(45,$x,$y);
 		}
 		$upload_dir     = wp_upload_dir();
 		$upload_basedir = $upload_dir['basedir'] . '/post_to_pdf/';

@@ -36,6 +36,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
+
 require_once ABSPATH . '/wp-admin/includes/plugin.php';
 $pgfw_old_plugin_exists = false;
 $plug           = get_plugins();
