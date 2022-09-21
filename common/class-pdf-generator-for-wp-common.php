@@ -275,7 +275,7 @@ class Pdf_Generator_For_Wp_Common {
 
 		$dompdf->setHttpContext( $contxt );
 
-		$dompdf->loadHtml( $html );
+		$dompdf->loadHtml( $html, 'UTF-8' );
 		$dompdf->set_option( 'isRemoteEnabled', true );
 
 		/* addedcode end */
