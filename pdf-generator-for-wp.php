@@ -15,17 +15,17 @@
  * Plugin Name:       PDF Generator For WP
  * Plugin URI:        https://wordpress.org/plugins/pdf-generator-for-wp/
  * Description:       <code><strong>PDF Generator for WordPress</strong></code> plugin allows to generate and download PDF files from WordPress sites across multiple platforms in just one click. Elevate your eCommerce store by exploring more on WP Swings.<a href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-shop&utm_medium=pdf-org-backend&utm_campaign=shop-page" target="_blank"> Elevate your e-commerce store by exploring more on <strong> WP Swings </strong></a>
- * Version:           1.0.9
+ * Version:           1.1.0
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=pdf-org-backend&utm_campaign=official
  * Text Domain:       pdf-generator-for-wp
  * Domain Path:       /languages
  *
- * Requires at least:    5.1.0
- * Tested up to:         6.0.1
- * WC requires at least: 5.1.0
- * WC tested up to:      6.7.0
- * Stable tag:           1.0.9
+ * Requires at least:    5.2.0
+ * Tested up to:         6.0.2
+ * WC requires at least: 5.2.0
+ * WC tested up to:      6.9.3
+ * Stable tag:           1.1.0
  * Requires PHP:         7.2
  *
  * License:           GNU General Public License v3.0
@@ -36,6 +36,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
+
 require_once ABSPATH . '/wp-admin/includes/plugin.php';
 $pgfw_old_plugin_exists = false;
 $plug           = get_plugins();
@@ -51,7 +52,7 @@ if ( isset( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php'] ) ) {
  * @since 1.0.0
  */
 function define_pdf_generator_for_wp_constants() {
-	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.0.9' );
+	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.1.0' );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_PATH', plugin_dir_path( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_URL', plugin_dir_url( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_SERVER_URL', 'https://wpswings.com' );
@@ -200,6 +201,7 @@ function pdf_generator_for_wp_custom_settings_at_plugin_tab( $links_array, $plug
 		$links_array[] = '<a href="https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=wpswings-org-backend&utm_campaign=View-demo" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Demo.svg" class="wps-info-img" alt="Demo image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Demo', 'pdf-generator-for-wp' ) . '</a>';
 		$links_array[] = '<a href="https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-backend&utm_campaign=documentation" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Documentation.svg" class="wps-info-img" alt="documentation image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Documentation', 'pdf-generator-for-wp' ) . '</a>';
 		$links_array[] = '<a href="https://wpswings.com/submit-query/?utm_source=wpswings-pdf-support&utm_medium=pdf-org-backend&utm_campaign=submit-query" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Support.svg" class="wps-info-img" alt="support image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Support', 'pdf-generator-for-wp' ) . '</a>';
+		$links_array[] = '<a href="https://wpswings.com/wordpress-woocommerce-solutions/?utm_source=wpswings-pdf-service&utm_medium=pdf-org-backend&utm_campaign=service-page" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Services.svg" class="wps-info-img" alt="support image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Services', 'pdf-generator-for-wp' ) . '</a>';
 	}
 	return $links_array;
 }

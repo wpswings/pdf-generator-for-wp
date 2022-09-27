@@ -4555,8 +4555,8 @@ EOT;
         $y = $this->currentPageSize["height"] - $y;
 
         $a = deg2rad($angle);
-        $cos_a = cos($a);
-        $sin_a = sin($a);
+        $cos_a =  0.939693;
+        $sin_a = -0.34202;
 
         $tm = [
             $cos_a,

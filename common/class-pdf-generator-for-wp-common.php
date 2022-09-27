@@ -189,7 +189,7 @@ class Pdf_Generator_For_Wp_Common {
 			$pdf_file_name_custom = array_key_exists( 'pgfw_custom_pdf_file_name', $general_settings_arr ) ? $general_settings_arr['pgfw_custom_pdf_file_name'] : '';
 			$document_name        = ( ( '' !== $pdf_file_name_custom ) && ( $post ) ) ? $pdf_file_name_custom . '_' . $post->ID : 'document';
 		} elseif ( 'post_name' === $pdf_file_name ) {
-			$document_name = ( $post ) ? $post->post_title : 'document';
+			$document_name = ( $post ) ? strip_tags( $post->post_title ) : 'document';
 		} else {
 			$document_name = ( $post ) ? 'document_' . $post->ID : 'document';
 		}
@@ -253,7 +253,6 @@ class Pdf_Generator_For_Wp_Common {
 		);
 
 		$paper_size = array_key_exists( $body_page_size, $paper_sizes ) ? $paper_sizes[ $body_page_size ] : 'a4';
-		header( 'Content-Type: application/pdf' );
 		$options = new Options();
 		$options->set( 'isRemoteEnabled', true );
 		$dompdf = new Dompdf( $options );
@@ -275,7 +274,7 @@ class Pdf_Generator_For_Wp_Common {
 
 		$dompdf->setHttpContext( $contxt );
 
-		$dompdf->loadHtml( $html );
+		$dompdf->loadHtml( $html, 'UTF-8' );
 		$dompdf->set_option( 'isRemoteEnabled', true );
 
 		/* addedcode end */
@@ -299,8 +298,9 @@ class Pdf_Generator_For_Wp_Common {
 			$y               = ( ( $h - $textheight ) / 2 );
 			$hex             = $body_watermark_color;
 			list($r, $g, $b) = sscanf( $hex, '#%02x%02x%02x' );
+			// $canvas->page_text( $x, $y, $text, $font, 40, array( $r / 255, $g / 255, $b / 255 ), 0.0,0.0);
 
-			$canvas->page_text( $x, $y, $text, $font, 40, array( $r / 255, $g / 255, $b / 255 ), 0.0, 0.0, -20.0 );
+			// $canvas->rotate(45,$x,$y);
 		}
 		$upload_dir     = wp_upload_dir();
 		$upload_basedir = $upload_dir['basedir'] . '/post_to_pdf/';

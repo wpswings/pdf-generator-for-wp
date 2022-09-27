@@ -1092,7 +1092,9 @@ class CPDF implements Canvas
     public function page_text($x, $y, $text, $font, $size, $color = [0, 0, 0], $word_space = 0.0, $char_space = 0.0, $angle = 0.0)
     {
         $_t = "text";
+
         $this->_page_text[] = compact("_t", "x", "y", "text", "font", "size", "color", "word_space", "char_space", "angle");
+        
     }
 
     /**

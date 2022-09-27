@@ -67,6 +67,10 @@ function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) {
 	$pgfw_border_position_left       = array_key_exists( 'pgfw_border_position_left', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_left'] : '';
 	$pgfw_border_position_right      = array_key_exists( 'pgfw_border_position_right', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_right'] : '';
 	$pgfw_body_custom_css            = array_key_exists( 'pgfw_body_custom_css', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_css'] : '';
+	$pgfw_body_watermark_text        = array_key_exists( 'pgfw_body_watermark_text', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_watermark_text'] : '';
+	$pgfw_body_add_watermark        = array_key_exists( 'pgfw_body_add_watermark', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_add_watermark'] : '';
+	$pgfw_body_watermark_color        = array_key_exists( 'pgfw_body_watermark_color', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_watermark_color'] : '';
+
 	// general settings.
 	$general_settings_data     = get_option( 'pgfw_general_settings_save', array() );
 	$pgfw_show_post_categories = array_key_exists( 'pgfw_general_pdf_show_categories', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_categories'] : '';
@@ -155,6 +159,11 @@ function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) {
 		</style>
 		<div class="pgfw-border-page" ></div>';
 	}
+	if ( 'yes' == $pgfw_body_add_watermark ) {
+		$watermark = $pgfw_body_watermark_text;
+	} else {
+		$watermark = '';
+	}
 	// Header for pdf.
 	if ( 'yes' === $pgfw_header_use_in_pdf ) {
 		$html .= '<style>
@@ -180,8 +189,25 @@ function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) {
 						text-align : right;
 						color      : ' . $pgfw_header_color . ';
 					}
+					#watermark {
+						position: fixed;
+						top: 35%;
+						left:-30px;
+						width: 100%;
+						text-align: center;
+						opacity: .3;
+						transform: rotate(15deg);
+						transform-origin: 50% 50%;
+						z-index: 1000;
+						font-size: 50px;
+						font-weight:600;
+						color : ' . $pgfw_body_watermark_color . ';
+					  }
 				</style>
 				<div class="pgfw-pdf-header-each-page">
+					<div id="watermark">
+					' . $watermark . '
+					</div>
 					<div class="pgfw-pdf-header">
 						<img src="' . esc_url( $pgfw_header_logo ) . '" alt="' . esc_html__( 'No image found', 'pdf-generator-for-wp' ) . '" class="pgfw-header-logo">
 						<div class="pgfw-header-tagline" >
