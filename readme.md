@@ -1,4 +1,4 @@
-[![Build Status](https://img.shields.io/travis/twbs/bootstrap/v4-dev.svg)](https://travis-ci.org/twbs/bootstrap) ![Active installs](https://img.shields.io/badge/Active-700%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.2.0-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-6.9.3-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.2-blue)
+[![Build Status](https://img.shields.io/travis/twbs/bootstrap/v4-dev.svg)](https://travis-ci.org/twbs/bootstrap) ![Active installs](https://img.shields.io/badge/Active-800%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.2.0-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-6.9.3-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.2-blue)
 # PDF Generator for WordPress - Create & Customize PDF for Post, Pages and WooCommerce Products
 ![PDF Generator for WordPress](https://ps.w.org/pdf-generator-for-wp/assets/banner-772x250.png?rev=2672197)
 * Contributors: WP Swings
@@ -110,7 +110,7 @@ PDF Generator for WordPress Pro plugin generates PDF that can be read or shared 
 ## SUPPORT
 If you need support or have any question then kindly use our online chat window [here](https://wpswings.com/?utm_source=wpswings-pdf-here&utm_medium=wpswings-github-page&utm_campaign=here) or  connect with us then [**Generate a Ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-pdf-query&utm_medium=wpswings-github-page&utm_campaign=generate-ticket)
 
-Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-pdf-services&utm_medium=pdf-github-page&utm_campaign=woocommerce-services )
+> Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-pdf-services&utm_medium=pdf-github-page&utm_campaign=woocommerce-services )
 
 
 ### **MORE ABOUT WP SWINGS**
@@ -120,7 +120,6 @@ Create and Revamp your eCommerce store with [**WooCommerce Services**](https://w
 - [**Tweet us on @WPSwings**](https://twitter.com/wpswings)
 - [**Visit our LinkedIn Account**](https://www.linkedin.com/company/wpswings)
 - [**Subscribe To Our YouTube Channel**](https://www.youtube.com/channel/UC7nYNf0JETOwW3GOD_EW2Ag)
-
 
 
 
