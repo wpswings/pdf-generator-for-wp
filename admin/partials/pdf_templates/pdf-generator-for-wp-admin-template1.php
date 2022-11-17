@@ -90,6 +90,8 @@ function return_ob_html( $post_id, $template_name = '' ) {
 	$pgfw_footer_bottom     = array_key_exists( 'pgfw_footer_bottom', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_bottom'] : '';
 	$pgfw_footer_customization     = array_key_exists( 'pgfw_footer_customization_for_post_detail', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_customization_for_post_detail'] : '';
 	$pgfw_body_meta_field_column     = array_key_exists( 'pgfw_body_meta_field_column', $pgfw_body_settings ) ? intval( $pgfw_body_settings['pgfw_body_meta_field_column'] ) : '';
+	$pgfw_body_images_row_wise     = array_key_exists( 'pgfw_body_images_row_wise', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_images_row_wise'] : '';
+
 	$status  = get_option( 'status' );
 
 	if ( '' == $pgfw_footer_customization ) {
@@ -283,51 +285,53 @@ function return_ob_html( $post_id, $template_name = '' ) {
 						font-size   : ' . $pgfw_body_page_font_size . ';
 						color       : ' . $pgfw_body_page_font_color . ';
 						
-					}
-					
-					.pgfw-pdf-body-content .wp-block-columns:after {
+					}';
+
+		if ( 'yes' == $pgfw_body_images_row_wise ) {
+
+			$html .= '	.pgfw-pdf-body-content .wp-block-columns:after {
 						content: "";
 						display: block;
 						clear: both;
 					}
-			.pgfw-pdf-body-content .wp-block-column {
- 						width: 33.333%;
-					float: left; 					}
-					.wp-block-column img {
-						width: 100%;
-						height: auto;
-					}
-					.pgfw-pdf-body-content img {
-						max-height : 680px;
-						max-width  : 680px;
-						width :100%
-						height :100%;
-					
-					}
-					.pgfw-pdf-body-content .wp-block-gallery:after {
-						content: "";
-						display: block;
-						clear: both;
-					}
-					.pgfw-pdf-body-content .wp-block-gallery .wp-block-image {
-						margin-top: 30px !important;
-						width: 31.333%;
-						margin: 0 ;
-						padding:3px;
-						text-align: center;
-						display: inline-block;
-						vertical-align: middle;
-						
-					}
-					.wp-block-gallery .wp-block-image img {
-						width: auto;
-						max-width: 100%;
-						height: auto;
-						
-					}
-					
-				
-				</style>
+						.pgfw-pdf-body-content .wp-block-column {
+									width: 33.333%;
+								float: left; 					}
+								.wp-block-column img {
+									width: 100%;
+									height: auto;
+								}
+								.pgfw-pdf-body-content img {
+									max-height : 680px;
+									max-width  : 680px;
+									width :100%
+									height :100%;
+								
+								}
+								.pgfw-pdf-body-content .wp-block-gallery:after {
+									content: "";
+									display: block;
+									clear: both;
+								}
+								.pgfw-pdf-body-content .wp-block-gallery .wp-block-image {
+									margin-top: 30px !important;
+									width: 31.333%;
+									margin: 0 ;
+									padding:3px;
+									text-align: center;
+									display: inline-block;
+									vertical-align: middle;
+									
+								}
+								.wp-block-gallery .wp-block-image img {
+									width: auto;
+									max-width: 100%;
+									height: auto;
+									
+								}';
+		}
+
+			$html   .= '</style>
 				<div class="pgfw-pdf-body">
 			
 					<div class="pgfw-pdf-body-title-image">
