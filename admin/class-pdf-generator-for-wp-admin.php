@@ -488,29 +488,26 @@ class Pdf_Generator_For_Wp_Admin {
 	 * @return array
 	 */
 	public function pgfw_admin_display_settings_page( $pgfw_settings_display_fields_html_arr ) {
-		$pgfw_display_settings            		 = get_option( 'pgfw_save_admin_display_settings', array() );
-		$pgfw_user_access                		 = array_key_exists( 'pgfw_user_access', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_user_access'] : '';
-		$pgfw_guest_access                		 = array_key_exists( 'pgfw_guest_access', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_guest_access'] : '';
-		$pgfw_guest_download_or_email     		 = array_key_exists( 'pgfw_guest_download_or_email', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_guest_download_or_email'] : '';
-		$pgfw_user_download_or_email     		 = array_key_exists( 'pgfw_user_download_or_email', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_user_download_or_email'] : '';
-		$pgfw_pdf_icon_after              		 = array_key_exists( 'pgfw_display_pdf_icon_after', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_display_pdf_icon_after'] : '';
-		$pgfw_pdf_icon_alignment         		 = array_key_exists( 'pgfw_display_pdf_icon_alignment', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_display_pdf_icon_alignment'] : '';
-		$sub_pgfw_pdf_single_download_icon 		 = array_key_exists( 'sub_pgfw_pdf_single_download_icon', $pgfw_display_settings ) ? $pgfw_display_settings['sub_pgfw_pdf_single_download_icon'] : '';
-		$pgfw_pdf_icon_width               		 = array_key_exists( 'pgfw_pdf_icon_width', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_pdf_icon_width'] : '';
-		$pgfw_pdf_icon_height             		 = array_key_exists( 'pgfw_pdf_icon_height', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_pdf_icon_height'] : '';
+		$pgfw_display_settings                   = get_option( 'pgfw_save_admin_display_settings', array() );
+		$pgfw_user_access                        = array_key_exists( 'pgfw_user_access', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_user_access'] : '';
+		$pgfw_guest_access                       = array_key_exists( 'pgfw_guest_access', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_guest_access'] : '';
+		$pgfw_guest_download_or_email            = array_key_exists( 'pgfw_guest_download_or_email', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_guest_download_or_email'] : '';
+		$pgfw_user_download_or_email             = array_key_exists( 'pgfw_user_download_or_email', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_user_download_or_email'] : '';
+		$pgfw_pdf_icon_after                     = array_key_exists( 'pgfw_display_pdf_icon_after', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_display_pdf_icon_after'] : '';
+		$pgfw_pdf_icon_alignment                 = array_key_exists( 'pgfw_display_pdf_icon_alignment', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_display_pdf_icon_alignment'] : '';
+		$sub_pgfw_pdf_single_download_icon       = array_key_exists( 'sub_pgfw_pdf_single_download_icon', $pgfw_display_settings ) ? $pgfw_display_settings['sub_pgfw_pdf_single_download_icon'] : '';
+		$pgfw_pdf_icon_width                     = array_key_exists( 'pgfw_pdf_icon_width', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_pdf_icon_width'] : '';
+		$pgfw_pdf_icon_height                    = array_key_exists( 'pgfw_pdf_icon_height', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_pdf_icon_height'] : '';
 		$pgfw_body_show_pdf_icon                 = array_key_exists( 'pgfw_body_show_pdf_icon', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_body_show_pdf_icon'] : '';
 		$pgfw_show_post_type_icons_for_user_role = array_key_exists( 'pgfw_show_post_type_icons_for_user_role', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_show_post_type_icons_for_user_role'] : '';
-	
+
 		global $wp_roles;
 		$all_roles = $wp_roles->roles;
 		$roles_array = array();
-		
+
 		foreach ( $all_roles as $role => $value ) {
-		
-			
-				$roles_array[$role] =$role;
-			
-		
+
+				$roles_array[ $role ] = $role;
 
 		}
 		$pgfw_pdf_icon_places              = array(
@@ -617,8 +614,7 @@ class Pdf_Generator_For_Wp_Admin {
 					'right'  => __( 'Right', 'pdf-generator-for-wp' ),
 				),
 			),
-		
-			 
+
 			array(
 				'title'        => __( 'Choose Single Download PDF Icon', 'pdf-generator-for-wp' ),
 				'type'         => 'upload-button',
@@ -683,8 +679,8 @@ class Pdf_Generator_For_Wp_Admin {
 				'value'       => $pgfw_body_show_pdf_icon,
 				'class'       => 'pgfw_body_show_pdf_icon',
 				'name'        => 'pgfw_body_show_pdf_icon',
-			 ),
-			 array(
+			),
+			array(
 				'title'       => __( 'Select User Role For Which You Want To Show The Pdf Icon', 'pdf-generator-for-wp' ),
 				'type'        => 'multiselect',
 				'description' => __( 'Select all user roles for which you want to sow the pdf download icon  ', 'pdf-generator-for-wp' ),
@@ -1018,6 +1014,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_body_rtl_support       = array_key_exists( 'pgfw_body_rtl_support', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_rtl_support'] : '';
 		$pgfw_body_add_watermark     = array_key_exists( 'pgfw_body_add_watermark', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_add_watermark'] : '';
 		$pgfw_body_metafields_row_wise     = array_key_exists( 'pgfw_body_metafields_row_wise', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_metafields_row_wise'] : '';
+		$pgfw_body_images_row_wise     = array_key_exists( 'pgfw_body_images_row_wise', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_images_row_wise'] : '';
 		$pgfw_body_watermark_text    = array_key_exists( 'pgfw_body_watermark_text', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_watermark_text'] : '';
 		$pgfw_body_watermark_color   = array_key_exists( 'pgfw_body_watermark_color', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_watermark_color'] : '';
 		$pgfw_body_page_template     = array_key_exists( 'pgfw_body_page_template', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_page_template'] : '';
@@ -1380,6 +1377,15 @@ class Pdf_Generator_For_Wp_Admin {
 				'placeholder' => __( 'custom css', 'pdf-generator-for-wp' ),
 			),
 			array(
+				'title'       => __( 'Show images row wise   ( Template1 )', 'pdf-generator-for-wp' ),
+				'type'        => 'checkbox',
+				'description' => __( 'Select this to display images in row wise .', 'pdf-generator-for-wp' ),
+				'id'          => 'pgfw_body_images_row_wise',
+				'value'       => $pgfw_body_images_row_wise,
+				'class'       => 'pgfw_body_images_row_wise',
+				'name'        => 'pgfw_body_images_row_wise',
+			),
+			array(
 				'title'       => __( 'Show Meta fields row wise', 'pdf-generator-for-wp' ),
 				'type'        => 'checkbox',
 				'description' => __( 'Select this to display meta fields in row .', 'pdf-generator-for-wp' ),
@@ -1424,7 +1430,7 @@ class Pdf_Generator_For_Wp_Admin {
 	public function pgfw_admin_advanced_settings_page( $pgfw_advanced_settings_html_arr ) {
 		$pgfw_advanced_settings  = get_option( 'pgfw_advanced_save_settings', array() );
 		$pgfw_advanced_icon_show = array_key_exists( 'pgfw_advanced_show_post_type_icons', $pgfw_advanced_settings ) ? $pgfw_advanced_settings['pgfw_advanced_show_post_type_icons'] : '';
-		
+
 		$post_types              = get_post_types( array( 'public' => true ) );
 		unset( $post_types['attachment'] );
 
@@ -1451,7 +1457,7 @@ class Pdf_Generator_For_Wp_Admin {
 			'name'        => 'pgfw_advanced_reset_settings',
 			'loader-id'   => 'pgfw_reset_setting_loader',
 		);
-		
+
 		$pgfw_advanced_settings_html_arr[] = array(
 			'type'        => 'button',
 			'id'          => 'pgfw_advanced_save_settings',
@@ -1459,7 +1465,7 @@ class Pdf_Generator_For_Wp_Admin {
 			'class'       => 'pgfw_advanced_save_settings',
 			'name'        => 'pgfw_advanced_save_settings',
 		);
-		
+
 		return $pgfw_advanced_settings_html_arr;
 	}
 	/**
