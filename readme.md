@@ -1,4 +1,4 @@
-[![Build Status](https://img.shields.io/travis/twbs/bootstrap/v4-dev.svg)](https://travis-ci.org/twbs/bootstrap) ![Active installs](https://img.shields.io/badge/Active-800%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.2.0-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-6.9.3-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.2-blue)
+[![Build Status](https://img.shields.io/travis/twbs/bootstrap/v4-dev.svg)](https://travis-ci.org/twbs/bootstrap) ![Active installs](https://img.shields.io/badge/Active-900%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.2.0-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-7.1.0-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.2-blue)
 # PDF Generator for WordPress - Create & Customize PDF for Post, Pages and WooCommerce Products
 ![PDF Generator for WordPress](https://ps.w.org/pdf-generator-for-wp/assets/banner-772x250.png?rev=2672197)
 * Contributors: WP Swings
@@ -17,6 +17,10 @@ Users can download pdf from WordPress site or view them in a new tab. Also, the 
 
 * Convert all the posts, pages, blogs, and products into PDF files.
 * Now update PDF icon visibility based on user roles.
+* Export posts, products, and pages into PDF format in bulk with the default PDF template.
+* Add footer customizations for post name, post date, and author name.
+* Display more than one images in a row.
+* Display more than one meta fields in a row as per requirement.
 * Display icon to both guest users and registered users.
 * Allow direct download of pdf files or send them to users’ email addresses. 
 * Get a Shortcode to add the PDF icon anywhere on the page.
@@ -26,7 +30,6 @@ Users can download pdf from WordPress site or view them in a new tab. Also, the 
 * Predefine header, footer, and body settings.
 * Include author details. 
 * Compatible with WPML, thus facilitating your multilingual audience.
-* Compatible with WordPress Multisite
 
 ### PLUGIN MEETS YOUR REQUIREMENT, SO 
 [**Download Now !!**](https://downloads.wordpress.org/plugin/pdf-generator-for-wp.zip) 
@@ -46,7 +49,7 @@ You can export PDF files for products, pages, and posts in bulk using the defaul
 Our latest plugin brings in the footer customization options for you. You can now add the post name, post date, and author name to the pages of your generated PDF files.
 
 **5) Display More Images in a Row**
-We have solved for displaying your post or product images in a better format in our latest update for the PDF creator plugin. You can now display more than one image in a row using the functionalities of this PDF plugin.
+We have solved for displaying your post or product images in a better format in our latest update for the PDF creator plugin. You can now display more than one image in a row using the functionalities of this PDF plugin by turning on the setting from the body settings tab.
 
 **6) Control The Display Of Functionality**
 From the display settings of the PDF icon, you can choose to display the PDF generator icon to either the registered users or the guest users or both. You can also opt to allow, both, the registered and guest users to either directly download the information in PDF format or e-mail the PDF file to the user.
@@ -107,10 +110,10 @@ PDF Generator for WordPress Pro plugin generates PDF that can be read or shared 
 
  [**PDF Generator For WP Pro Documentation**](https://docs.wpswings.com/pdf-generator-for-wp-pro?utm_source=wpswings-pdf-doc&utm_medium=pdf-github-page&utm_campaign=pro-doc)
 
-## SUPPORT
-If you need support or have any question then kindly use our online chat window [here](https://wpswings.com/?utm_source=wpswings-pdf-here&utm_medium=wpswings-github-page&utm_campaign=here) or  connect with us then [**Generate a Ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-pdf-query&utm_medium=wpswings-github-page&utm_campaign=generate-ticket)
 
-> Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-pdf-services&utm_medium=pdf-github-page&utm_campaign=woocommerce-services )
+If our documentation doesn’t contain the solution to your problem, you can visit the [**WP Swings Forums Community**](https://forums.wpswings.com/?utm_source=wpswings-forums&utm_medium=pdf-github-page&utm_campaign=forum)
+
+Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-pdf-services&utm_medium=pdf-github-page&utm_campaign=woocommerce-services )
 
 
 ### **MORE ABOUT WP SWINGS**
