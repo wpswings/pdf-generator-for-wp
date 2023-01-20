@@ -5,8 +5,8 @@ Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress pdf generator
 Requires at least: 5.2.0
 Tested up to: 6.1.1
 WC requires at least: 5.2.0
-WC tested up to: 7.1.0
-Stable tag: 1.1.1
+WC tested up to: 7.2.3
+Stable tag: 1.1.2
 Requires PHP: 7.2
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -18,9 +18,9 @@ PDF Generator for WordPress allows you to convert posts into PDF files to share 
 
 PDF Generator for WordPress provides the key support in portfolio building depending on your industry type. The PDF plugin for WordPress allows you to create PDF files for the pages to ensure the availability of information offline. It allows the admin to convert all the posts, pages, blogs, and products on their website into PDF files. 
 
-Users can download pdf from WordPress site or view them in a new tab. Also, the admin can authorize users to receive their PDFs on their email addresses. The WordPress PDF creator makes sharing information seamless across different channels. You can predefine the settings to customize the header, the body, and the footer. Users can non-commercially distribute the downloaded PDF files with [**WordPress PDF Generator**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=wpswings-org-page&utm_campaign=pdf-pro).The admin can customize the free wordpress pdf template to align with their brand. So, the distribution of PDFs provides an opportunity for brand promotion.
+Users can download PDFs from the WordPress site or view them in a new tab. Also, the admin can authorize users to receive their PDFs at their email addresses. The WordPress PDF creator makes sharing information seamless across different channels. You can predefine the settings to customize the header, the body, and the footer. Users can non-commercially distribute the downloaded PDF files with [**WordPress PDF Generator Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=wpswings-org-page&utm_campaign=pdf-pro) plugin. The admin can customize the free wordpress pdf template to align with their brand. So, the distribution of PDFs provides an opportunity for brand promotion.
 
-[youtube https://www.youtube.com/embed/RljECeP3JJk&rel=0]
+[youtube  https://www.youtube.com/watch?v=RljECeP3JJk&t=1362s]
 
 == WITH THE PDF GENERATOR FOR WORDPRESS PLUGIN YOU CAN: ==
 
@@ -28,8 +28,8 @@ Users can download pdf from WordPress site or view them in a new tab. Also, the 
 * Now update PDF icon visibility based on user roles.
 * Export posts, products, and pages into PDF format in bulk with the default PDF template.
 * Add footer customizations for post name, post date, and author name.
-* Display more than one images in a row.
-* Display more than one meta fields in a row as per requirement.
+* Display more than one image in a row.
+* Display more than one meta field in a row as per requirement.
 * Display icon to both guest users and registered users.
 * Allow direct download of pdf files or send them to users’ email addresses. 
 * Get a Shortcode to add the PDF icon anywhere on the page.
@@ -41,7 +41,7 @@ Users can download pdf from WordPress site or view them in a new tab. Also, the 
 * Compatible with WPML, thus facilitating your multilingual audience.
 * Compatible with WordPress Multisite
 
-== PLUGIN MEETS YOUR REQUIREMENT, SO ==
+== PDF GENERATOR PLUGIN MEETS YOUR REQUIREMENT, SO ==
 
 [**Download Now**](https://downloads.wordpress.org/plugin/pdf-generator-for-wp.zip)
 
@@ -51,7 +51,7 @@ Users can download pdf from WordPress site or view them in a new tab. Also, the 
 The General Settings in the PDF plugin allows you to include important information in the generated PDF files. The plugin lets you display the categories, tags, taxonomy, post date, and author name. 
 
 **2) Display PDF Icon Based on User Roles**
-With the help of our latest update in the WordPress PDF plugin, you can now restrict the visibility of the PDF icon on your website for different user roles such as administrator, author, editor and so on. This will assist you a great deal in increasing quality leads from your website itself. 
+With the help of our latest update in the WordPress PDF plugin, you can now restrict the visibility of the PDF icon on your website for different user roles such as administrator, author, editor, and so on. This will assist you a great deal in increasing quality leads from your website itself. 
 
 **3) Bulk Export**
 You can export PDF files for products, pages, and posts in bulk using the default template provided in our free WordPress PDF plugin generator.
@@ -59,8 +59,8 @@ You can export PDF files for products, pages, and posts in bulk using the defaul
 **4) Add Footer Customizations** 
 Our latest plugin brings in the footer customization options for you. You can now add the post name, post date, and author name to the pages of your generated PDF files.
 
-**5) Dispaly More Images In a Row**
-We have solved for displaying your post or product images in a better format in our latest update for the PDF creator plugin. You can now display more than one image in a row using the functionalities of this PDF plugin by turning on the setting from the body settings tab.
+**5) Display More Images In a Row**
+We have solved displaying your post or product images in a better format in our latest update for the PDF creator plugin. You can now display more than one image in a row using the functionalities of this PDF plugin by turning on the setting from the body settings tab.
 
 
 **6) Control The Display Of Functionality**
@@ -94,7 +94,7 @@ Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/
 
 == WHAT PREMIUM VERSION OF WORDPRESS PDF GENERATOR PLUGIN OFFERS ==
 
-* Display more than 1 meta fields in a row.
+* Display more than 1 meta field in a row.
 * Upload TTF font.
 * Allow admin to rename meta fields while listing in PDF.
 * Allow admin to choose taxonomy just like meta fields and rename keys.
@@ -122,11 +122,9 @@ PDF Generator for WordPress Pro plugin generates PDF that can be read or shared 
 
 If you need support or have any questions then kindly use our online chat window [**here**](https://wpswings.com/?utm_source=wpswings-pdf-here&utm_medium=wpswings-org-page&utm_campaign=here) or  connect with us then [**Generate a Ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-pdf-tickets&utm_medium=wpswings-org-page&utm_campaign=generate-tickets)
 
-Feel free to reach out to our [**support**](https://wordpress.org/support/plugin/pdf-generator-for-wp/). We will be happy to help!
+> If our documentation doesn’t contain the solution to your problem, you can visit the [**WP Swings Forums Community**](https://forums.wpswings.com/?utm_source=wpswings-forums&utm_medium=pdf-org-page&utm_campaign=forum)
 
-If our documentation doesn’t contain the solution to your problem, you can visit the [**WP Swings Forums Community**](https://forums.wpswings.com/?utm_source=wpswings-forums&utm_medium=pdf-org-page&utm_campaign=forum)
-
-Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-pdf-services&utm_medium=pdf-org-page&utm_campaign=woocommerce-services)
+> Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-services&utm_medium=pdf-org-page&utm_campaign=woocommerce-services)
 
 == Installation ==
 
@@ -158,7 +156,7 @@ We have already provided the shortcode. You can use that shortcode to place the 
 = How to place the PDF button appropriately for my uploaded document? =
 Go to WP Swings--> PDF Generator for WordPress--> PDF Upload. Click on the Upload Doc button to upload your PDF file. Click on the Save Settings button. The shortcode will be generated. Use this shortcode to place your PDF icon appropriately for your users.
 
-= Can I rename the meta fields for posts, pages and products? =
+= Can I rename the meta fields for posts, pages, and products? =
 You can rename the meta fields and taxonomies in the premium version of the PDF Generator plugin.
 
 = My Question Is Not Listed? =
@@ -184,68 +182,73 @@ Visit her [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wor
 
 == Changelog ==
 
+1.1.2 - Released on 13 January 2023 =
+
+* New: Compatible with the latest WP and WC
+* Fix: Security issue fixes
+
 = 1.1.1 - Released on 23 November 2022 =
 
-* New : Compatible with latest WP and WC
-* Fix : For showing gallery images row wise in default template you need to check the checkbox provided inside the body tab
+* New: Compatible with latest WP and WC
+* Fix: For showing gallery images row-wise in the default template you need to check the checkbox provided inside the body tab
 
 = 1.1.0 - Released on 27 September 2022 =
 
-* New : Compatible with latest WP and WC
-* New : Compatible with php8
-* New : Show pdf icon based on the selected user roles 
-* Fix : Minor bug fixes (font and template issue)
+* New: Compatible with latest WP and WC
+* New: Compatible with php8
+* New: Show pdf icon based on the selected user roles 
+* Fix: Minor bug fixes (font and template issues)
 
 = 1.0.9 - Released on 21 July 2022 = 
 
-* New : Export PDF( Post, Pages and Product) in  Bulk  from Admin Dashboard
-* Fix :  Minor Bug Fixes
+* New: Export PDF( Post, Pages and Product) in  Bulk  from Admin Dashboard
+* Fix:  Minor Bug Fixes
 
 = 1.0.8 - Released on 26 June 2022 =
 
-* New : Added Footer Customization (Author, Date and Title)
-* New : Added Show Multiple Images In A Single Row
-* New : Added Show Meta Fields Row Wise 
-* Fix : Minor Bug Fixes
+* New: Added Footer Customization (Author, Date and Title)
+* New: Added Show Multiple Images In A Single Row
+* New: Added Show Meta Fields Row Wise 
+* Fix: Minor Bug Fixes
 
 = 1.0.7 - Released on 20 May 2022 =
 
-* New : Minor Bug Fixes
-* New : Compatible with latest WP and WC
+* New: Minor Bug Fixes
+* New: Compatible with latest WP and WC
 
 = 1.0.6 - Released on 11 April 2022 =
 
-* New : Some substantial changes across different areas of the plugin.
-* New : Compatible with latest WP and WC
-* Fix : Minor Bug Fixes
+* New: Some substantial changes across different areas of the plugin.
+* New: Compatible with latest WP and WC
+* Fix: Minor Bug Fixes
 
 = 1.0.5 - Released on 03 February 2022 =
 
-* New : Change author from MakeWebBetter to WP Swings
+* New: Change author from MakeWebBetter to WP Swings
 * New : Notice display of current version for [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=pdf-org-page&utm_campaign=official).
-* New : Compatible with latest WP and WC
-* Fix : Minor bug fixes
+* New: Compatible with latest WP and WC
+* Fix: Minor bug fixes
 
 = 1.0.4 - Released on 26 November 2021 =
 
 * New : Compatibility with latest WP(5.8.2) and WC(5.9).
-* Fix : Minor bug fixes
+* Fix: Minor bug fixes
 
 = 1.0.3 - Released on 29 October 2021 =
 
-* New : Multisite Compatibility added
-* Fix : Minor bug fixes
+* New: Multisite Compatibility added
+* Fix: Minor bug fixes
 
 = 1.0.2 - Released on 21 September 2021 =
 
-* New : WPML Compatibility
-* Fix : Minor bug fixes
+* New: WPML Compatibility
+* Fix: Minor bug fixes
 
 = 1.0.1 - Released on 30 July 2021 =
 
-* New : Shortcode updated
-* Fix : Minor bug fixes
-* Fix : Content issue resolved while using shortcode.
+* New: Shortcode updated
+* Fix: Minor bug fixes
+* Fix: Content issue resolved while using shortcode.
 
 
 = 1.0.0 =
@@ -254,9 +257,8 @@ Visit her [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wor
 
 == Upgrade Notice ==
 
-= 1.1.1 - Released on 23 November 2022 =
+= 1.1.2 - Released on 13 January 2023 =
 
-* New : Compatible with latest WP and WC
-* Fix : For showing gallery images row wise in default template you need to check the checkbox provided inside the body tab
-
+* New: Compatible with the latest WP and WC
+* Fix: Security issue fixes
 
