@@ -10,6 +10,22 @@
                 $('.pgfw_custom_pdf_file_name').hide();
             }
         });
+        //////////////////////////custom page //////////////
+            // custom page name input box.
+            $('.pgfw_body_page_size').on('change',function(){
+                var val = $(this).val();
+                if ( val == 'custom_page' ) {
+                    $('.pgfw_body_custom_page_size_height').show();
+                    $('.pgfw_body_custom_page_size_width').show();
+                } else {
+                    $('.pgfw_body_custom_page_size_height').hide();
+                    $('.pgfw_body_custom_page_size_width').hide();
+                  
+                    
+                }
+            });
+
+        //////////////////////
         // colorpicker header and footer.
         $('.pgfw_color_picker').wpColorPicker();
         // remove logo header.
