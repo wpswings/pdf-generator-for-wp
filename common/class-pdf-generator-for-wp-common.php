@@ -159,13 +159,13 @@ class Pdf_Generator_For_Wp_Common {
 	 */
 	public function pgfw_generate_pdf_from_library( $prod_id, $pgfw_generate_mode, $mode = '', $email = '', $template = '', $template_name = '' ) {
 		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
-		////// footer ///////
+		// footer .
 		$pgfw_footer_settings   = get_option( 'pgfw_footer_setting_submit', array() );
 		$pgfw_general_pdf_show_pageno = array_key_exists( 'pgfw_general_pdf_show_pageno', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_general_pdf_show_pageno'] : '';
 		$pgfw_pageno_position_left    = array_key_exists( 'pgfw_pageno_position_left', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_pageno_position_left'] : '';
 		$pgfw_pageno_position_top    = array_key_exists( 'pgfw_pageno_position_top', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_pageno_position_top'] : '';
-		
-		///// end footer /////
+
+		// end footer .
 		$body_settings_arr       = get_option( 'pgfw_body_save_settings', array() );
 		$pgfw_body_custom_page_size_height        = array_key_exists( 'pgfw_body_custom_page_size_height', $body_settings_arr ) ? $body_settings_arr['pgfw_body_custom_page_size_height'] : '';
 		$pgfw_body_custom_page_size_width        = array_key_exists( 'pgfw_body_custom_page_size_width', $body_settings_arr ) ? $body_settings_arr['pgfw_body_custom_page_size_width'] : '';
@@ -261,9 +261,8 @@ class Pdf_Generator_For_Wp_Common {
 			'11x17'                    => array( 0, 0, 792.00, 1224.00 ),
 		);
 
-		
 		if ( 'custom_page' == $body_page_size ) {
-			$paper_size = array( 0, 0, $pgfw_body_custom_page_size_height*2.834, $pgfw_body_custom_page_size_width *2.834);
+			$paper_size = array( 0, 0, $pgfw_body_custom_page_size_height * 2.834, $pgfw_body_custom_page_size_width * 2.834 );
 		} else {
 			$paper_size = array_key_exists( $body_page_size, $paper_sizes ) ? $paper_sizes[ $body_page_size ] : 'a4';
 		}
@@ -313,12 +312,12 @@ class Pdf_Generator_For_Wp_Common {
 			$hex             = $body_watermark_color;
 			list($r, $g, $b) = sscanf( $hex, '#%02x%02x%02x' );
 			// $canvas->page_text( $x, $y, $text, $font, 40, array( $r / 255, $g / 255, $b / 255 ), 0.0,0.0);
-			 
+
 		}
-		
-		if ( 'yes' == $pgfw_general_pdf_show_pageno){
+
+		if ( 'yes' == $pgfw_general_pdf_show_pageno ) {
 			$canvas       = $dompdf->getCanvas();
-			$canvas->page_text( $pgfw_pageno_position_left, $pgfw_pageno_position_top, "{PAGE_NUM}/{PAGE_COUNT}",$font, 8, array(0,0,0)); 
+			$canvas->page_text( $pgfw_pageno_position_left, $pgfw_pageno_position_top, '{PAGE_NUM}/{PAGE_COUNT}', $font, 8, array( 0, 0, 0 ) );
 		}
 		$upload_dir     = wp_upload_dir();
 		$upload_basedir = $upload_dir['basedir'] . '/post_to_pdf/';

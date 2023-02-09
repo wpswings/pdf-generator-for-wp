@@ -25,7 +25,7 @@
  * Tested up to:         6.1.1
  * WC requires at least: 5.2.0
  * WC tested up to:      7.2.3
- * Stable tag:           1.1.2
+ * Stable tag:           1.1.3
  * Requires PHP:         7.2
  *
  * License:           GNU General Public License v3.0
@@ -52,7 +52,7 @@ if ( isset( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php'] ) ) {
  * @since 1.0.0
  */
 function define_pdf_generator_for_wp_constants() {
-	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.1.2' );
+	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.1.3' );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_PATH', plugin_dir_path( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_URL', plugin_dir_url( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_SERVER_URL', 'https://wpswings.com' );
