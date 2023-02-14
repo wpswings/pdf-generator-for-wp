@@ -262,7 +262,7 @@ class Pdf_Generator_For_Wp_Common {
 		);
 
 		if ( 'custom_page' == $body_page_size ) {
-			$paper_size = array( 0, 0, $pgfw_body_custom_page_size_height * 2.834, $pgfw_body_custom_page_size_width * 2.834 );
+			$paper_size = array( 0, 0, $pgfw_body_custom_page_size_width * 2.834, $pgfw_body_custom_page_size_height * 2.834 );
 		} else {
 			$paper_size = array_key_exists( $body_page_size, $paper_sizes ) ? $paper_sizes[ $body_page_size ] : 'a4';
 		}
