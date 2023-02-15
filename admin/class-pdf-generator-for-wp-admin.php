@@ -1025,6 +1025,9 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_border_position_left   = array_key_exists( 'pgfw_border_position_left', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_left'] : '';
 		$pgfw_border_position_right  = array_key_exists( 'pgfw_border_position_right', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_right'] : '';
 		$pgfw_body_custom_css        = array_key_exists( 'pgfw_body_custom_css', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_css'] : '';
+		/////
+		$pgfw_body_custom_page_size_height        = array_key_exists( 'pgfw_body_custom_page_size_height', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_page_size_height'] : '';
+		$pgfw_body_custom_page_size_width        = array_key_exists( 'pgfw_body_custom_page_size_width', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_page_size_width'] : '';
 
 		$wps_pgfw_font_styles = array(
 			''            => __( 'Select option', 'pdf-generator-for-wp' ),
@@ -1038,6 +1041,56 @@ class Pdf_Generator_For_Wp_Admin {
 			'zapfdinbats' => __( 'Zapfdinbats', 'pdf-generator-for-wp' ),
 		);
 		$wps_pgfw_font_styles = apply_filters( 'wps_pgfw_font_styles_filter_hook', $wps_pgfw_font_styles );
+
+
+		$wps_pgfw_custom_page_size = array(
+			''                         => __( 'Select option', 'pdf-generator-for-wp' ),
+			'4a0'                      => __( '4A0', 'pdf-generator-for-wp' ),
+			'2a0'                      => __( '2A0', 'pdf-generator-for-wp' ),
+			'a0'                       => __( 'A0', 'pdf-generator-for-wp' ),
+			'a1'                       => __( 'A1', 'pdf-generator-for-wp' ),
+			'a2'                       => __( 'A2', 'pdf-generator-for-wp' ),
+			'a3'                       => __( 'A3', 'pdf-generator-for-wp' ),
+			'a4'                       => __( 'A4', 'pdf-generator-for-wp' ),
+			'a5'                       => __( 'A5', 'pdf-generator-for-wp' ),
+			'a6'                       => __( 'A6', 'pdf-generator-for-wp' ),
+			'b0'                       => __( 'B0', 'pdf-generator-for-wp' ),
+			'b1'                       => __( 'B1', 'pdf-generator-for-wp' ),
+			'b2'                       => __( 'B2', 'pdf-generator-for-wp' ),
+			'b3'                       => __( 'B3', 'pdf-generator-for-wp' ),
+			'b4'                       => __( 'B4', 'pdf-generator-for-wp' ),
+			'b5'                       => __( 'B5', 'pdf-generator-for-wp' ),
+			'b6'                       => __( 'B6', 'pdf-generator-for-wp' ),
+			'c0'                       => __( 'C0', 'pdf-generator-for-wp' ),
+			'c1'                       => __( 'C1', 'pdf-generator-for-wp' ),
+			'c2'                       => __( 'C2', 'pdf-generator-for-wp' ),
+			'c3'                       => __( 'C3', 'pdf-generator-for-wp' ),
+			'c4'                       => __( 'C4', 'pdf-generator-for-wp' ),
+			'c5'                       => __( 'C5', 'pdf-generator-for-wp' ),
+			'c6'                       => __( 'C6', 'pdf-generator-for-wp' ),
+			'ra0'                      => __( 'RA0', 'pdf-generator-for-wp' ),
+			'ra1'                      => __( 'RA1', 'pdf-generator-for-wp' ),
+			'ra2'                      => __( 'RA2', 'pdf-generator-for-wp' ),
+			'ra3'                      => __( 'RA3', 'pdf-generator-for-wp' ),
+			'ra4'                      => __( 'RA4', 'pdf-generator-for-wp' ),
+			'sra0'                     => __( 'SRA0', 'pdf-generator-for-wp' ),
+			'sra1'                     => __( 'SRA1', 'pdf-generator-for-wp' ),
+			'sra2'                     => __( 'SRA2', 'pdf-generator-for-wp' ),
+			'sra3'                     => __( 'SRA3', 'pdf-generator-for-wp' ),
+			'sra4'                     => __( 'SRA4', 'pdf-generator-for-wp' ),
+			'letter'                   => __( 'Letter', 'pdf-generator-for-wp' ),
+			'legal'                    => __( 'Legal', 'pdf-generator-for-wp' ),
+			'executive'                => __( 'Executive', 'pdf-generator-for-wp' ),
+			'ledger'                   => __( 'Ledger', 'pdf-generator-for-wp' ),
+			'tabloid'                  => __( 'Tabloid', 'pdf-generator-for-wp' ),
+			'folio'                    => __( 'Folio', 'pdf-generator-for-wp' ),
+			'commercial #10 envelope'  => __( 'Commercial Envelope', 'pdf-generator-for-wp' ),
+			'catalog #10 1/2 envelope' => __( 'Catalog Envelope', 'pdf-generator-for-wp' ),
+			'8.5x11'                   => '8.5x11',
+			'8.5x14'                   => '8.5x14',
+			'11x17'                    => '11x17',
+		);
+		$wps_pgfw_custom_page_size = apply_filters( 'wps_pgfw_custom_page_size_filter_hook', $wps_pgfw_custom_page_size );
 
 		$pgfw_body_html_arr   = array(
 			array(
@@ -1083,54 +1136,34 @@ class Pdf_Generator_For_Wp_Admin {
 				'name'         => 'pgfw_body_page_size',
 				'parent-class' => 'wps_pgfw_setting_separate_border',
 				'placeholder'  => __( 'page size', 'pdf-generator-for-wp' ),
-				'options'      => array(
-					''                         => __( 'Select option', 'pdf-generator-for-wp' ),
-					'4a0'                      => __( '4A0', 'pdf-generator-for-wp' ),
-					'2a0'                      => __( '2A0', 'pdf-generator-for-wp' ),
-					'a0'                       => __( 'A0', 'pdf-generator-for-wp' ),
-					'a1'                       => __( 'A1', 'pdf-generator-for-wp' ),
-					'a2'                       => __( 'A2', 'pdf-generator-for-wp' ),
-					'a3'                       => __( 'A3', 'pdf-generator-for-wp' ),
-					'a4'                       => __( 'A4', 'pdf-generator-for-wp' ),
-					'a5'                       => __( 'A5', 'pdf-generator-for-wp' ),
-					'a6'                       => __( 'A6', 'pdf-generator-for-wp' ),
-					'b0'                       => __( 'B0', 'pdf-generator-for-wp' ),
-					'b1'                       => __( 'B1', 'pdf-generator-for-wp' ),
-					'b2'                       => __( 'B2', 'pdf-generator-for-wp' ),
-					'b3'                       => __( 'B3', 'pdf-generator-for-wp' ),
-					'b4'                       => __( 'B4', 'pdf-generator-for-wp' ),
-					'b5'                       => __( 'B5', 'pdf-generator-for-wp' ),
-					'b6'                       => __( 'B6', 'pdf-generator-for-wp' ),
-					'c0'                       => __( 'C0', 'pdf-generator-for-wp' ),
-					'c1'                       => __( 'C1', 'pdf-generator-for-wp' ),
-					'c2'                       => __( 'C2', 'pdf-generator-for-wp' ),
-					'c3'                       => __( 'C3', 'pdf-generator-for-wp' ),
-					'c4'                       => __( 'C4', 'pdf-generator-for-wp' ),
-					'c5'                       => __( 'C5', 'pdf-generator-for-wp' ),
-					'c6'                       => __( 'C6', 'pdf-generator-for-wp' ),
-					'ra0'                      => __( 'RA0', 'pdf-generator-for-wp' ),
-					'ra1'                      => __( 'RA1', 'pdf-generator-for-wp' ),
-					'ra2'                      => __( 'RA2', 'pdf-generator-for-wp' ),
-					'ra3'                      => __( 'RA3', 'pdf-generator-for-wp' ),
-					'ra4'                      => __( 'RA4', 'pdf-generator-for-wp' ),
-					'sra0'                     => __( 'SRA0', 'pdf-generator-for-wp' ),
-					'sra1'                     => __( 'SRA1', 'pdf-generator-for-wp' ),
-					'sra2'                     => __( 'SRA2', 'pdf-generator-for-wp' ),
-					'sra3'                     => __( 'SRA3', 'pdf-generator-for-wp' ),
-					'sra4'                     => __( 'SRA4', 'pdf-generator-for-wp' ),
-					'letter'                   => __( 'Letter', 'pdf-generator-for-wp' ),
-					'legal'                    => __( 'Legal', 'pdf-generator-for-wp' ),
-					'executive'                => __( 'Executive', 'pdf-generator-for-wp' ),
-					'ledger'                   => __( 'Ledger', 'pdf-generator-for-wp' ),
-					'tabloid'                  => __( 'Tabloid', 'pdf-generator-for-wp' ),
-					'folio'                    => __( 'Folio', 'pdf-generator-for-wp' ),
-					'commercial #10 envelope'  => __( 'Commercial Envelope', 'pdf-generator-for-wp' ),
-					'catalog #10 1/2 envelope' => __( 'Catalog Envelope', 'pdf-generator-for-wp' ),
-					'8.5x11'                   => '8.5x11',
-					'8.5x14'                   => '8.5x14',
-					'11x17'                    => '11x17',
-				),
+				'options'      => $wps_pgfw_custom_page_size,
 			),
+			///////////////////////////////////////////////////////////////////////////////////////
+			array(
+				'title'       => __( 'Height of the page ( in mm )', 'pdf-generator-for-wp' ),
+				'type'        => 'number',
+				'id'          => 'pgfw_body_custom_page_size_height',
+				'class'       => 'pgfw_body_custom_page_size_height',
+				'name'        => 'pgfw_body_custom_page_size_height',
+				'value'       => $pgfw_body_custom_page_size_height ,
+				'style'       => ( 'custom_page' !== $pgfw_body_page_size ) ? 'display:none;' : '',
+				'placeholder' => 'Height ( in mm )',
+			),
+			array(
+				'title'       => __( 'Width of the page ( in mm )', 'pdf-generator-for-wp' ),
+				'type'        => 'number',
+				'id'          => 'pgfw_body_custom_page_size_width',
+				'class'       => 'pgfw_body_custom_page_size_width',
+				'name'        => 'pgfw_body_custom_page_size_width',
+				'value'       => $pgfw_body_custom_page_size_width ,
+				'style'       => ( 'custom_page' !== $pgfw_body_page_size ) ? 'display:none;' : '',
+				'placeholder' => 'Width ( in mm )',
+			),
+			
+			
+
+
+			////////////////////////////////////////////////////////////////////////////////////////
 			array(
 				'title'       => __( 'Page Orientation', 'pdf-generator-for-wp' ),
 				'type'        => 'select',
