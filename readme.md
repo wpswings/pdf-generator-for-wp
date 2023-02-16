@@ -1,4 +1,4 @@
-[![Build Status](https://img.shields.io/travis/twbs/bootstrap/v4-dev.svg)](https://travis-ci.org/twbs/bootstrap) ![Active installs](https://img.shields.io/badge/Active-1000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.1.1-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-7.2.3-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.2-blue)
+[![Build Status](https://img.shields.io/travis/twbs/bootstrap/v4-dev.svg)](https://travis-ci.org/twbs/bootstrap) ![Active installs](https://img.shields.io/badge/Active-1000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.1.1-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-7.3.0-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.2-blue)
 # PDF Generator for WordPress - Create & Customize PDF for Post, Pages and WooCommerce Products
 ![PDF Generator for WordPress](https://ps.w.org/pdf-generator-for-wp/assets/banner-772x250.png?rev=2672197)
 * Contributors: WP Swings
@@ -7,7 +7,7 @@
 * License URI: http://www.gnu.org/licenses/gpl-3.0.html 
 
 # Description
-PDF GENERATOR FOR WORDPRESS PLUGIN LETS YOU CREATE PDFs OF PAGES, PRODUCTS, AND POSTS FOR BETTER DISPERSAL OF BRAND INFORMATION WITH WPML COMPATIBILITY. YOU CAN MAKE OR CREATE PDFs EASILY FOR YOUR WEBSITES.
+**PDF GENERATOR FOR WORDPRESS PLUGIN LETS YOU CREATE PDFs OF PAGES, PRODUCTS, AND POSTS FOR BETTER DISPERSAL OF BRAND INFORMATION WITH WPML COMPATIBILITY. YOU CAN MAKE OR CREATE PDFs EASILY FOR YOUR WEBSITES.**
 
 PDF Generator for WordPress Plugin provides the key support in portfolio building depending on your industry type. The PDF plugin for WordPress allows you to create PDF files for the pages to ensure the availability of information offline. It allows the admin to convert all the posts, pages, blogs, and products on their website into PDF files. 
 
@@ -87,15 +87,15 @@ Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/
 
 ## WHAT PREMIUM VERSION OF WORDPRESS PDF GENERATOR PLUGIN OFFERS
 
-- Display more than 1 meta fields in a row.
-- Upload TTF font.
-- Allow admin to rename metafields while listing in PDF.
-- Allow admin to choose taxonomy just like meta fields and rename keys.
-- Customization of header and footer from the editor.
-- Set content alignment position left or right.
-- Detailed Logging of PDFs generated.
-- Download PDF from the server or generate it every time.
-- Bulk download or email in continuation or in a zip folder.
+* Display more than 1 meta fields in a row.
+* Upload TTF font.
+* Allow admin to rename metafields while listing in PDF.
+* Allow admin to choose taxonomy just like meta fields and rename keys.
+* Customization of header and footer from the editor.
+* Set content alignment position left or right.
+* Detailed Logging of PDFs generated.
+* Download PDF from the server or generate it every time.
+* Bulk download or email in continuation or in a zip folder.
 
 
 
@@ -104,17 +104,17 @@ PDF Generator for WordPress Pro plugin generates PDF that can be read or shared 
 
 > Note:  Get [**WordPress PDF Generator Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=wpswings-github-page&utm_campaign=pro-plugin)
 
-### See What Quebec Preppers is Saying about PDF Generator For WordPress
+###  See What Quebec Preppers is Saying about PDF Generator For WordPress
 
 > PDF generator is a very good product that will facilitate the export of articles in pdf version. [**See PDF Generator Case Study**](https://wpswings.com/case-studies/quebec-preppers/?utm_source=wpswings-pdf-case-study&utm_medium=pdf-github-page&utm_campaign=pdf-case-study)
 
 
-### DOCUMENTATION OF PREMIUM VERSION
+###  DOCUMENTATION OF PREMIUM VERSION
 
  [**PDF Generator For WP Pro Documentation**](https://docs.wpswings.com/pdf-generator-for-wp-pro?utm_source=wpswings-pdf-doc&utm_medium=pdf-github-page&utm_campaign=pro-doc)
 
 ## SUPPORT
-If you need support or have any question then kindly use our online chat window [**here**](https://wpswings.com/?utm_source=wpswings-pdf-here&utm_medium=wpswings-github-page&utm_campaign=here) or  connect with us then [**Generate a Ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-pdf-query&utm_medium=wpswings-github-page&utm_campaign=generate-ticket)
+If you need support or have any question then kindly use our online chat window [here](https://wpswings.com/?utm_source=wpswings-pdf-here&utm_medium=wpswings-github-page&utm_campaign=here) or  connect with us then [**Generate a Ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-pdf-query&utm_medium=wpswings-github-page&utm_campaign=generate-ticket)
 
 > If our documentation doesn’t contain the solution to your problem, you can visit the [**WP Swings Forums Community**](https://forums.wpswings.com/?utm_source=wpswings-forums&utm_medium=pdf-github-page&utm_campaign=forum)
 
