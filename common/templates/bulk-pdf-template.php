@@ -169,6 +169,7 @@ function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) {
 		$html .= '<style>
 					.pgfw-pdf-header-each-page{
 						position : fixed;
+						right :0;
 						left     : 0px;
 						height   : 100px;
 						top      : ' . $pgfw_header_top . ';
@@ -223,6 +224,7 @@ function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) {
 		$html .= '<style>
 			.pgfw-pdf-footer{
 				position    : fixed;
+				right :0;
 				left        : 0px;
 				bottom      : ' . $pgfw_footer_bottom . ';
 				height      : 150px;

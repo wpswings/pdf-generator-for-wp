@@ -12,6 +12,10 @@
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Dompdf\FontMetrics;
+use Dompdf\HTML5;
+
+
+
 /**
  * The common functionality of the plugin.
  *
@@ -260,7 +264,8 @@ class Pdf_Generator_For_Wp_Common {
 			'8.5x14'                   => array( 0, 0, 612.00, 1008.0 ),
 			'11x17'                    => array( 0, 0, 792.00, 1224.00 ),
 		);
-
+// print_r($html);
+// die;
 		if ( 'custom_page' == $body_page_size ) {
 			$paper_size = array( 0, 0, $pgfw_body_custom_page_size_height * 2.834, $pgfw_body_custom_page_size_width * 2.834 );
 		} else {

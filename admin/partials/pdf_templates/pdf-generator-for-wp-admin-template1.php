@@ -168,12 +168,14 @@ function return_ob_html( $post_id, $template_name = '' ) {
 	if ( 'yes' === $pgfw_header_use_in_pdf ) {
 		$html .= '<style>
 					.pgfw-pdf-header-each-page{
+						right :0;
 						position : fixed;
 						left     : 0px;
 						height   : 100px;
 						top      : ' . $pgfw_header_top . ';
 					}
 					.pgfw-pdf-header{
+						
 						border-bottom  : 2px solid gray;
 						padding        : ' . $pgfw_header_width . 'px;
 						font-family    : ' . $pgfw_header_font_style . ';
@@ -225,6 +227,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 			.pgfw-pdf-footer{
 				position    : fixed;
 				left        : 0px;
+				right :0;
 				bottom      : ' . $pgfw_footer_bottom . ';
 				height      : 150px;
 				border-top  : 2px solid gray;
@@ -413,6 +416,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 			if ( is_array( $pgfw_show_type_meta_arr ) ) {
 				$html2 .= '<div><b>' . __( 'Meta Fields', 'pdf-generator-for-wp' ) . '</b></div>';
 				$html2 .= '<table><tr>';
+				$i = 0;
 				foreach ( $pgfw_show_type_meta_arr as $meta_key ) {
 					$meta_val          = get_post_meta( $post->ID, $meta_key, true );
 					$wpg_meta_key_name = ucwords( str_replace( '_', ' ', $meta_key ) );
