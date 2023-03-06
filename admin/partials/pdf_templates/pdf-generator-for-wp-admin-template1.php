@@ -78,6 +78,8 @@ function return_ob_html( $post_id, $template_name = '' ) {
 	$pgfw_show_post_author     = array_key_exists( 'pgfw_general_pdf_show_author_name', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_author_name'] : '';
 	// meta fields settings.
 	$pgfw_meta_settings = get_option( 'pgfw_meta_fields_save_settings', array() );
+	$pgfw_meta_fields_show_image_gallery = array_key_exists( 'pgfw_meta_fields_show_image_gallery', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_show_image_gallery' ] : '';
+	$pgfw_gallery_metafield_key = array_key_exists( 'pgfw_gallery_metafield_key', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_gallery_metafield_key' ] : '';
 	// footer settings.
 	$pgfw_footer_settings   = get_option( 'pgfw_footer_setting_submit', array() );
 	$pgfw_footer_use_in_pdf = array_key_exists( 'pgfw_footer_use_in_pdf', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_use_in_pdf'] : '';
@@ -417,7 +419,8 @@ function return_ob_html( $post_id, $template_name = '' ) {
 					$meta_val          = get_post_meta( $post->ID, $meta_key, true );
 					$wpg_meta_key_name = ucwords( str_replace( '_', ' ', $meta_key ) );
 					if ( $meta_val ) {
-						if ( '_product_image_gallery' == $meta_key ) {
+						if ( ('_product_image_gallery' == $meta_key ) || ( 'yes'==($pgfw_meta_fields_show_image_gallery) && !empty( $pgfw_gallery_metafield_key ) && ($pgfw_gallery_metafield_key == $meta_key) ) ) {
+						//if ( '_product_image_gallery' == $meta_key ) {
 
 							$meta_val1 = explode( ',', $meta_val );
 							foreach ( $meta_val1 as $key => $val ) {
