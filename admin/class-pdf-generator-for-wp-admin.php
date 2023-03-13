@@ -1577,7 +1577,7 @@ class Pdf_Generator_For_Wp_Admin {
 			$pgfw_meta_settings_html_arr[]= array(
 				'title'       => __( 'Gallery image meta field name', 'pdf-generator-for-wp' ),
 				'type'        => 'text',
-				'description' => __( 'Company name will be displayed in the right side of the header', 'pdf-generator-for-wp' ),
+				'description' => __( 'Enter your image gallery key .', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_gallery_metafield_key',
 				'value'       => $pgfw_gallery_metafield_key,
 				'class'       => 'pgfw_gallery_metafield_key',

@@ -580,4 +580,6 @@ class Pdf_Generator_For_Wp_Common {
 		return bulk_pdf_exporter_html( $ids );
 
 	}
+
+	
 }
