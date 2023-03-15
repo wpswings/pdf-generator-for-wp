@@ -419,9 +419,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 					$meta_val          = get_post_meta( $post->ID, $meta_key, true );
 					$wpg_meta_key_name = ucwords( str_replace( '_', ' ', $meta_key ) );
 					if ( $meta_val ) {
-						if ( ('_product_image_gallery' == $meta_key ) || ( 'yes'==($pgfw_meta_fields_show_image_gallery) && !empty( $pgfw_gallery_metafield_key ) && ($pgfw_gallery_metafield_key == $meta_key) ) ) {
-						//if ( '_product_image_gallery' == $meta_key ) {
-
+						if ( ( '_product_image_gallery' == $meta_key ) || ( 'yes'==($pgfw_meta_fields_show_image_gallery) && !empty( $pgfw_gallery_metafield_key ) && ($pgfw_gallery_metafield_key == $meta_key) ) ) {
 							$meta_val1 = explode( ',', $meta_val );
 							foreach ( $meta_val1 as $key => $val ) {
 
@@ -451,7 +449,6 @@ function return_ob_html( $post_id, $template_name = '' ) {
 		$html .= apply_filters( 'wps_pgfw_product_post_meta_in_pdf_filter_hook', $html2, $post );
 		$html .= '</div></div><span style="page-break-after: always;overflow:hidden;"></span>';
 	}
-    
 	return $html;
 }
 
