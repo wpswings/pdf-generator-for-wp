@@ -418,8 +418,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 				foreach ( $pgfw_show_type_meta_arr as $meta_key ) {
 					$meta_val          = get_post_meta( $post->ID, $meta_key, true );
 					$wpg_meta_key_name = ucwords( str_replace( '_', ' ', $meta_key ) );
-					echo $pgfw_gallery_metafield_key;
-					echo $meta_key;
+					
 					if ( $meta_val ) {
 						if ( ( '_product_image_gallery' == $meta_key ) || ( 'yes'==($pgfw_meta_fields_show_image_gallery) && !empty( $pgfw_gallery_metafield_key ) && ($pgfw_gallery_metafield_key == $meta_key) ) ) {
 							$meta_val1 = explode( ',', $meta_val );
