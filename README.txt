@@ -2,11 +2,11 @@
 Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress pdf generator
-Requires at least:  5.5.0
+Requires at least: 5.5.0
 Tested up to: 6.1.1
-WC requires at least:  5.5.0
-WC tested up to: 7.3.0
-Stable tag: 1.1.3
+WC requires at least: 5.2.0
+WC tested up to: 7.5.0
+Stable tag: 1.1.4
 Requires PHP: 7.2
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -18,7 +18,7 @@ PDF Generator for WordPress allows you to convert posts into PDF files to share 
 
 PDF Generator for WordPress provides the key support in portfolio building depending on your industry type. The PDF plugin for WordPress allows you to create PDF files for the pages to ensure the availability of information offline. It allows the admin to convert all the posts, pages, blogs, and products on their website into PDF files. 
 
-Users can download PDFs from the WordPress site or view them in a new tab. Also, the admin can authorize users to receive their PDFs at their email addresses. The WordPress PDF creator makes sharing information seamless across different channels. You can predefine the settings to customize the header, the body, and the footer. Users can non-commercially distribute the downloaded PDF files with [**WordPress PDF Generator Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=wpswings-org-page&utm_campaign=pdf-pro) plugin. The admin can customize the free wordpress pdf template to align with their brand. So, the distribution of PDFs provides an opportunity for brand promotion.
+Users can download PDFs from the WordPress site or view them in a new tab. Also, the admin can authorize users to receive their PDFs at their email addresses. The WordPress PDF creator makes sharing information seamlessly across different channels. You can predefine the settings to customize the header, the body, and the footer. Users can non-commercially distribute the downloaded PDF files with [**WordPress PDF Generator Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=wpswings-org-page&utm_campaign=pdf-pro) plugin. The admin can customize the free wordpress pdf template to align with their brand. So, the distribution of PDFs provides an opportunity for brand promotion.
 
 [youtube  https://www.youtube.com/watch?v=RljECeP3JJk&t=1362s]
 
@@ -81,6 +81,8 @@ You can set the size and width of the footer using the layout settings. It also 
 **11) Relevant Post Types And Appropriate Meta Fields**
 The plugin gives you the option to make the post visible only for relevant post types such as post, page, or product, depending on the utility of your content. The admin is also authorized to set the meta fields that you wish to display in the posts, pages or products, individually.
 
+Also, if your product images are different from your product image gallery then you can write the name in the box below and enable the setting and uncheck this in the metafield section. 
+
 **12) Upload Your PDF Files** 
 The plugin allows you to upload your own PDF files for download. You can also limit access to these files for registered users or guest users.
 
@@ -92,7 +94,7 @@ Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/
 
 * [**WordPress PDF Generator Backend demo**](https://demo.wpswings.com/pdf-generator-for-wp-pro/request-for-personal-demo/?utm_source=wpswings-pdf-demo&utm_medium=wpswings-org-page&utm_campaign=backend-demo)
 
-== WHAT PREMIUM VERSION OF WORDPRESS PDF GENERATOR PLUGIN OFFERS ==
+== WHAT PREMIUM VERSION OF THE WORDPRESS PDF GENERATOR PLUGIN OFFERS ==
 
 * Display more than 1 meta field in a row.
 * Upload TTF font.
@@ -182,36 +184,32 @@ Visit her [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wor
 
 == Changelog ==
 
+= 1.1.4 - Released on 17 March 2023 = 
+* New: Compatible with the latest WP (6.1.1) and WC (7.5.0)
+* Fix: Returning image id's issue if images are saved on different keys
 
 = 1.1.3 - Released on 14 February 2023 = 
-
 * New: Compatible with the latest WP and WC
-* Fix: dompdf library issue
 
 = 1.1.2 - Released on 13 January 2023 =
-
 * New: Compatible with the latest WP and WC
 * Fix: Security issue fixes
 
 = 1.1.1 - Released on 23 November 2022 =
-
-* New: Compatible with latest WP and WC
+* New: Compatible with the latest WP and WC
 * Fix: For showing gallery images row-wise in the default template you need to check the checkbox provided inside the body tab
 
 = 1.1.0 - Released on 27 September 2022 =
-
-* New: Compatible with latest WP and WC
+* New: Compatible with the latest WP and WC
 * New: Compatible with php8
 * New: Show pdf icon based on the selected user roles 
 * Fix: Minor bug fixes (font and template issues)
 
 = 1.0.9 - Released on 21 July 2022 = 
-
 * New: Export PDF( Post, Pages and Product) in  Bulk  from Admin Dashboard
 * Fix:  Minor Bug Fixes
 
 = 1.0.8 - Released on 26 June 2022 =
-
 * New: Added Footer Customization (Author, Date and Title)
 * New: Added Show Multiple Images In A Single Row
 * New: Added Show Meta Fields Row Wise 
@@ -220,38 +218,32 @@ Visit her [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wor
 = 1.0.7 - Released on 20 May 2022 =
 
 * New: Minor Bug Fixes
-* New: Compatible with latest WP and WC
+* New: Compatible with the latest WP and WC
 
 = 1.0.6 - Released on 11 April 2022 =
-
 * New: Some substantial changes across different areas of the plugin.
-* New: Compatible with latest WP and WC
+* New: Compatible with the latest WP and WC
 * Fix: Minor Bug Fixes
 
 = 1.0.5 - Released on 03 February 2022 =
-
 * New: Change author from MakeWebBetter to WP Swings
 * New : Notice display of current version for [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=pdf-org-page&utm_campaign=official).
-* New: Compatible with latest WP and WC
+* New: Compatible with the latest WP and WC
 * Fix: Minor bug fixes
 
 = 1.0.4 - Released on 26 November 2021 =
-
 * New : Compatibility with latest WP(5.8.2) and WC(5.9).
 * Fix: Minor bug fixes
 
 = 1.0.3 - Released on 29 October 2021 =
-
 * New: Multisite Compatibility added
 * Fix: Minor bug fixes
 
 = 1.0.2 - Released on 21 September 2021 =
-
 * New: WPML Compatibility
 * Fix: Minor bug fixes
 
 = 1.0.1 - Released on 30 July 2021 =
-
 * New: Shortcode updated
 * Fix: Minor bug fixes
 * Fix: Content issue resolved while using shortcode.
@@ -263,8 +255,9 @@ Visit her [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wor
 
 == Upgrade Notice ==
 
-= 1.1.3 - Released on 14 February 2023 = 
+= 1.1.4 - Released on 17 March 2023 = 
+* New: Compatible with the latest WP (6.1.1) and WC (7.5.0)
+* Fix: Returning image id's issue if images are saved on different keys
 
-* New: Compatible with the latest WP and WC
-* Fix: dompdf library issue
+
 

@@ -1536,7 +1536,8 @@ class Pdf_Generator_For_Wp_Admin {
 			}
 			$pgfw_show_type_meta_val = array_key_exists( 'pgfw_meta_fields_' . $post_type . '_show', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_' . $post_type . '_show' ] : '';
 			$pgfw_show_type_meta_arr = array_key_exists( 'pgfw_meta_fields_' . $post_type . '_list', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_' . $post_type . '_list' ] : array();
-
+			$pgfw_meta_fields_show_image_gallery = array_key_exists( 'pgfw_meta_fields_show_image_gallery', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_show_image_gallery' ] : '';
+			$pgfw_gallery_metafield_key = array_key_exists( 'pgfw_gallery_metafield_key', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_gallery_metafield_key' ] : '';
 			$pgfw_meta_settings_html_arr[] =
 			array(
 				'title'        => __( 'Show Meta Fields For ', 'pdf-generator-for-wp' ) . $post_type,
@@ -1562,6 +1563,27 @@ class Pdf_Generator_For_Wp_Admin {
 			$pgfw_meta_settings_html_arr   = apply_filters( 'pgfw_settings_meta_fields_html_arr_filter_hook', $pgfw_meta_settings_html_arr, $post_meta_field, $post_type );
 			$i++;
 		}
+		$pgfw_meta_settings_html_arr[] =
+			array(
+				'title'        => __( 'Show product gallery image  ', 'pdf-generator-for-wp' ) ,
+				'type'         => 'checkbox',
+				'description'  => __( 'If your gallery image meta field is different from "_product_image_gallery" then please write the name in below box and enable this setting and uncheck this in metafield section.', 'pdf-generator-for-wp' ),
+				'id'           => 'pgfw_meta_fields_show_image_gallery',
+				'value'        => $pgfw_meta_fields_show_image_gallery,
+				'class'        => 'pgfw_meta_fields_show_image_gallery',
+				'name'         => 'pgfw_meta_fields_show_image_gallery',
+				
+			);
+			$pgfw_meta_settings_html_arr[]= array(
+				'title'       => __( 'Gallery image meta field name', 'pdf-generator-for-wp' ),
+				'type'        => 'text',
+				'description' => __( 'Enter your image gallery key .', 'pdf-generator-for-wp' ),
+				'id'          => 'pgfw_gallery_metafield_key',
+				'value'       => $pgfw_gallery_metafield_key,
+				'class'       => 'pgfw_gallery_metafield_key',
+				'name'        => 'pgfw_gallery_metafield_key',
+				'placeholder' => __( 'Metafield key Name', 'pdf-generator-for-wp' ),
+			);
 		$pgfw_meta_settings_html_arr[] = array(
 			'type'        => 'button',
 			'id'          => 'pgfw_meta_fields_save_settings',
