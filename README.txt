@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress pdf generator
 Requires at least: 5.5.0
-Tested up to: 6.1.1
+Tested up to: 6.2.0
 WC requires at least: 5.2.0
-WC tested up to: 7.5.0
-Stable tag: 1.1.4
+WC tested up to: 7.5.1
+Stable tag: 1.2.0
 Requires PHP: 7.2
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -18,7 +18,7 @@ PDF Generator for WordPress allows you to convert posts into PDF files to share 
 
 PDF Generator for WordPress provides the key support in portfolio building depending on your industry type. The PDF plugin for WordPress allows you to create PDF files for the pages to ensure the availability of information offline. It allows the admin to convert all the posts, pages, blogs, and products on their website into PDF files. 
 
-Users can download PDFs from the WordPress site or view them in a new tab. Also, the admin can authorize users to receive their PDFs at their email addresses. The WordPress PDF creator makes sharing information seamlessly across different channels. You can predefine the settings to customize the header, the body, and the footer. Users can non-commercially distribute the downloaded PDF files with [**WordPress PDF Generator Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=wpswings-org-page&utm_campaign=pdf-pro) plugin. The admin can customize the free wordpress pdf template to align with their brand. So, the distribution of PDFs provides an opportunity for brand promotion.
+Users can download PDFs from the WordPress site or view them in a new tab. Also, the admin can authorize users to receive their PDFs at their email addresses. The WordPress PDF creator makes sharing information seamless across different channels. You can predefine the settings to customize the header, the body, and the footer. Users can non-commercially distribute the downloaded PDF files with [**WordPress PDF Generator Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=wpswings-org-page&utm_campaign=pdf-pro) plugin. The admin can customize the free wordpress pdf template to align with their brand. So, the distribution of PDFs provides an opportunity for brand promotion.
 
 [youtube  https://www.youtube.com/watch?v=RljECeP3JJk&t=1362s]
 
@@ -112,9 +112,9 @@ PDF Generator for WordPress Pro plugin generates PDF that can be read or shared 
 
 > Note:  Get [**PDF Generator For WP Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=wpswings-org-page&utm_campaign=pdf-pro)
 
-== See What Quebec Preppers is Saying about PDF Generator For WordPress ==
+== See What Hospicall  is Saying about PDF Generator For WordPress ==
 
-> PDF generator is a very good product that will facilitate the export of articles in pdf version. [**See PDF Generator Case Study**](https://wpswings.com/case-studies/quebec-preppers/?utm_source=wpswings-pdf-case-study&utm_medium=pdf-org-page&utm_campaign=pdf-case-study)
+> Yes! I really love the solution and would recommend it to other of my customers. Great tool [**See PDF Generator Case Study**](https://wpswings.com/case-studies/hospicall/?utm_source=wpswings-pdf-case-study&utm_medium=pdf-org-page&utm_campaign=pdf-case-study)
 
 == DOCUMENTATION OF PREMIUM VERSION ==
 
@@ -162,7 +162,7 @@ Go to WP Swings--> PDF Generator for WordPress--> PDF Upload. Click on the Uploa
 You can rename the meta fields and taxonomies in the premium version of the PDF Generator plugin.
 
 = My Question Is Not Listed? =
-Visit her [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/pdf-generator-for-wp/?utm_source=wpswings-pdf-kb&utm_medium=pdf-org-page&utm_campaign=kb)
+Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/pdf-generator-for-wp/?utm_source=wpswings-pdf-kb&utm_medium=pdf-org-page&utm_campaign=kb)
 
 == Screenshots ==
 
@@ -183,6 +183,10 @@ Visit her [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wor
 15. WPML Setting
 
 == Changelog ==
+
+= 1.2.0 - Released on 14 April  2023 = 
+* New: Compatible with the latest WP (6.2.0) and WC (7.5.1)
+* Enhancement: Dompdf library updated( 2.0.2 )
 
 = 1.1.4 - Released on 17 March 2023 = 
 * New: Compatible with the latest WP (6.1.1) and WC (7.5.0)
@@ -248,16 +252,12 @@ Visit her [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wor
 * Fix: Minor bug fixes
 * Fix: Content issue resolved while using shortcode.
 
-
 = 1.0.0 =
 * First version. 
 
 
 == Upgrade Notice ==
 
-= 1.1.4 - Released on 17 March 2023 = 
-* New: Compatible with the latest WP (6.1.1) and WC (7.5.0)
-* Fix: Returning image id's issue if images are saved on different keys
-
-
-
+= 1.2.0 - Released on 14 April  2023 = 
+* New: Compatible with the latest WP (6.2.0) and WC (7.5.1)
+* Enhancement: Dompdf library updated( 2.0.2 )

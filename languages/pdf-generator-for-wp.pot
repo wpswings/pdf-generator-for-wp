@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: PDF Generator For WP 1.1.4\n"
-"POT-Creation-Date: 2023-03-15 14:37+0530\n"
-"PO-Revision-Date: 2023-03-15 14:38+0530\n"
+"Project-Id-Version: PDF Generator For WP 1.2.0\n"
+"POT-Creation-Date: 2023-04-13 15:43+0530\n"
+"PO-Revision-Date: 2023-04-13 15:43+0530\n"
 "Last-Translator: \n"
 "Language-Team: WP Swings\n"
 "Language: en_US\n"
@@ -1330,37 +1330,37 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: admin/partials/pdf_templates/pdf-generator-for-wp-admin-template1.php:215
+#: admin/partials/pdf_templates/pdf-generator-for-wp-admin-template1.php:216
 #: common/templates/bulk-pdf-template.php:212
 msgid "No image found"
 msgstr ""
 
-#: admin/partials/pdf_templates/pdf-generator-for-wp-admin-template1.php:346
+#: admin/partials/pdf_templates/pdf-generator-for-wp-admin-template1.php:348
 #: common/templates/bulk-pdf-template.php:344
 msgid "Description"
 msgstr ""
 
-#: admin/partials/pdf_templates/pdf-generator-for-wp-admin-template1.php:375
+#: admin/partials/pdf_templates/pdf-generator-for-wp-admin-template1.php:377
 #: common/templates/bulk-pdf-template.php:373
 msgid "Category"
 msgstr ""
 
-#: admin/partials/pdf_templates/pdf-generator-for-wp-admin-template1.php:387
+#: admin/partials/pdf_templates/pdf-generator-for-wp-admin-template1.php:389
 #: common/templates/bulk-pdf-template.php:385
 msgid "Tags"
 msgstr ""
 
-#: admin/partials/pdf_templates/pdf-generator-for-wp-admin-template1.php:398
+#: admin/partials/pdf_templates/pdf-generator-for-wp-admin-template1.php:400
 #: common/templates/bulk-pdf-template.php:396
 msgid "Date Created"
 msgstr ""
 
-#: admin/partials/pdf_templates/pdf-generator-for-wp-admin-template1.php:405
+#: admin/partials/pdf_templates/pdf-generator-for-wp-admin-template1.php:407
 #: common/templates/bulk-pdf-template.php:403
 msgid "Author"
 msgstr ""
 
-#: admin/partials/pdf_templates/pdf-generator-for-wp-admin-template1.php:416
+#: admin/partials/pdf_templates/pdf-generator-for-wp-admin-template1.php:418
 #: common/templates/bulk-pdf-template.php:414
 msgid "Meta Fields"
 msgstr ""

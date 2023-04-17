@@ -172,6 +172,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 					.pgfw-pdf-header-each-page{
 						position : fixed;
 						left     : 0px;
+						right :0;
 						height   : 100px;
 						top      : ' . $pgfw_header_top . ';
 					}
@@ -227,6 +228,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 			.pgfw-pdf-footer{
 				position    : fixed;
 				left        : 0px;
+				right :0;
 				bottom      : ' . $pgfw_footer_bottom . ';
 				height      : 150px;
 				border-top  : 2px solid gray;
