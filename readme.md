@@ -1,4 +1,4 @@
-[![Build Status](https://img.shields.io/travis/twbs/bootstrap/v4-dev.svg)](https://travis-ci.org/twbs/bootstrap) ![Active installs](https://img.shields.io/badge/Active-1000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.1.1-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-7.5.0-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.2-blue)
+[![Build Status](https://img.shields.io/travis/twbs/bootstrap/v4-dev.svg)](https://travis-ci.org/twbs/bootstrap) ![Active installs](https://img.shields.io/badge/Active-1000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.2.0-brightgreen) ![WC tested](https://img.shields.io/badge/WC%20tested-7.5.1-brightgreen) ![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.2-blue)
 # PDF Generator for WordPress - Create & Customize PDF for Post, Pages and WooCommerce Products
 ![PDF Generator for WordPress](https://ps.w.org/pdf-generator-for-wp/assets/banner-772x250.png?rev=2672197)
 * Contributors: WP Swings
@@ -7,11 +7,11 @@
 * License URI: http://www.gnu.org/licenses/gpl-3.0.html 
 
 # Description
-PDF GENERATOR FOR WORDPRESS PLUGIN LETS YOU CREATE PDFs OF PAGES, PRODUCTS, AND POSTS FOR BETTER DISPERSAL OF BRAND INFORMATION WITH WPML COMPATIBILITY. YOU CAN MAKE OR CREATE PDFs EASILY FOR YOUR WEBSITES.
+**PDF GENERATOR FOR WORDPRESS PLUGIN LETS YOU CREATE PDFs OF PAGES, PRODUCTS, AND POSTS FOR BETTER DISPERSAL OF BRAND INFORMATION WITH WPML COMPATIBILITY. YOU CAN MAKE OR CREATE PDFs EASILY FOR YOUR WEBSITES.**
 
 PDF Generator for WordPress Plugin provides key support in portfolio building depending on your industry type. The PDF plugin for WordPress allows you to create PDF files for the pages to ensure the availability of information offline. It allows the admin to convert all the posts, pages, blogs, and products on their website into PDF files. 
 
-Users can download these PDF files or view them in a new tab. Also, the admin can authorize users to receive their PDFs at their email addresses. The WordPress PDF creator makes sharing information seamlessly across different channels. You can predefine the settings to customize the header, the body, and the footer.
+Users can download these PDF files or view them in a new tab. Also, the admin can authorize users to receive their PDFs at their email addresses. The WordPress PDF creator makes sharing information seamless across different channels. You can predefine the settings to customize the header, the body, and the footer.
 Users can non-commercially distribute the downloaded PDF files with the [**WordPress PDF Generator**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=wpswings-github-page&utm_campaign=pdf-pro). The admin can customize the pdf template to align with their brand. So, the distribution of PDFs provides an opportunity for brand promotion.
 
 [**PDF Generator for WordPress: Convert Your Posts/Pages and Custom Posts Into Personalized PDFs**](https://www.youtube.com/watch?v=zj04gBgWX3E)
@@ -43,7 +43,7 @@ Users can non-commercially distribute the downloaded PDF files with the [**WordP
 **1) Include Important Details**
 The General Settings in the PDF plugin allows you to include important information in the generated PDF files. The plugin lets you display the categories, tags, taxonomy, post date, and author name. 
 
-**2)Display PDF Icon Based on User Roles**
+**2) Display PDF Icon Based on User Roles**
 With the help of our latest update in the WordPress PDF plugin, you can now restrict the visibility of the PDF icon on your website for different user roles such as administrator, author, editor, and so on. This will assist you a great deal in increasing quality leads from your website itself. 
 
 **3) Bulk Export**
@@ -107,9 +107,9 @@ PDF Generator for WordPress Pro plugin generates PDF that can be read or shared 
 
 > Note:  Get [**WordPress PDF Generator Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=wpswings-github-page&utm_campaign=pro-plugin)
 
-###  See What Quebec Preppers is Saying about PDF Generator For WordPress 
+###  See What  What Hospicall  is Saying  about PDF Generator For WordPress 
 
-> PDF generator is a very good product that will facilitate the export of articles in pdf version. [**See PDF Generator Case Study**](https://wpswings.com/case-studies/quebec-preppers/?utm_source=wpswings-pdf-case-study&utm_medium=pdf-github-page&utm_campaign=pdf-case-study)
+>Yes! I really love the solution and would recommend it to other of my customers. Great tool. [**See PDF Generator Case Study**](https://wpswings.com/case-studies/hospicall/?utm_source=wpswings-pdf-case-study&utm_medium=pdf-github-page&utm_campaign=pdf-case-study)
 
 
 ###  DOCUMENTATION OF PREMIUM VERSION
@@ -131,9 +131,3 @@ If you need support or have any questions then kindly use our online chat window
 * [**Tweet us on @WPSwings**](https://twitter.com/wpswings)
 * [**Visit our LinkedIn Account**](https://www.linkedin.com/company/wpswings)
 * [**Subscribe To Our YouTube Channel**](https://www.youtube.com/channel/UC7nYNf0JETOwW3GOD_EW2Ag)
-
-
-
-
-
-
