@@ -117,16 +117,16 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 					<body>
 						<div id="wpg-pdf">
 							<h2 id="wpg-invoice-text">
-							' . __( 'INVOICE', 'invoice-system-for-woocommerce' ) . '
+							' . __( 'INVOICE', 'pdf-generator-for-wp' ) . '
 							</h2>
 							<div id="wpg-pdf-header">
 								<div id="wpg-invoice-title-left" class="wpg-invoice-inline">
 									<div>
-										<b>' . __( 'Invoice Number', 'invoice-system-for-woocommerce' ) . '</b><br/>
+										<b>' . __( 'Invoice Number', 'pdf-generator-for-wp' ) . '</b><br/>
 										' . $invoice_id . '
 									</div>
 									<div>
-										<b>' . __( 'Date', 'invoice-system-for-woocommerce' ) . '</b><br/>
+										<b>' . __( 'Date', 'pdf-generator-for-wp' ) . '</b><br/>
 										' . $billing_details['order_created_date'] . '
 									</div>
 								</div>
@@ -161,7 +161,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 		</div>';
 		if ( 'invoice' === $type ) {
 			$html .= '<div id="wpg-invoice-title-to" >
-						<b>' . __( 'Invoice to', 'invoice-system-for-woocommerce' ) . '</b><br/>
+						<b>' . __( 'Invoice to', 'pdf-generator-for-wp' ) . '</b><br/>
 						<div>
 							' . ucfirst( $billing_details['billing_first_name'] ) . ' ' . ucfirst( $billing_details['billing_last_name'] ) . '<br/>';
 			if ( $billing_details['billing_company'] ) {
@@ -189,7 +189,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 			</div>';
 		} else {
 			$html .= '<div id="wpg-invoice-title-to" >
-						<b>' . __( 'SHIP TO', 'invoice-system-for-woocommerce' ) . '</b><br/>
+						<b>' . __( 'SHIP TO', 'pdf-generator-for-wp' ) . '</b><br/>
 						<div>
 							' . ucfirst( $shipping_details['shipping_first_name'] ) . ' ' . ucfirst( $shipping_details['shipping_last_name'] ) . '<br/>';
 			if ( $shipping_details['shipping_company'] ) {
@@ -221,11 +221,11 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 						<table border = "0" cellpadding = "0" cellspacing = "0" id="wpg-prod-listing-table">
 							<thead>
 								<tr id="wpg-prod-listing-table-title">
-									<th id="wpg-table-items">' . __( 'Items', 'invoice-system-for-woocommerce' ) . '</th>
-									<th>' . __( 'Quantity', 'invoice-system-for-woocommerce' ) . '</th>
-									<th>' . __( 'Price', 'invoice-system-for-woocommerce' ) . '(' . $billing_details['order_currency'] . ')</th>
-									<th>' . __( 'Tax', 'invoice-system-for-woocommerce' ) . ' (%)</th>
-									<th>' . __( 'Amount', 'invoice-system-for-woocommerce' ) . '(' . $billing_details['order_currency'] . ')</th>
+									<th id="wpg-table-items">' . __( 'Items', 'pdf-generator-for-wp' ) . '</th>
+									<th>' . __( 'Quantity', 'pdf-generator-for-wp' ) . '</th>
+									<th>' . __( 'Price', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . ')</th>
+									<th>' . __( 'Tax', 'pdf-generator-for-wp' ) . ' (%)</th>
+									<th>' . __( 'Amount', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . ')</th>
 								</tr>
 							</thead>
 							<tbody id="wpg-pdf-prod-body">';
@@ -256,16 +256,16 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 										<div id="wpg-prod-total-calc">
 											<table border = "0" cellpadding = "0" cellspacing = "0">
 												<tr>
-													<td>' . __( 'Payment via', 'invoice-system-for-woocommerce' ) . ' : ' . $billing_details['payment_method'] . '</td>
+													<td>' . __( 'Payment via', 'pdf-generator-for-wp' ) . ' : ' . $billing_details['payment_method'] . '</td>
 												</tr>
 												<tr>
-													<td>' . __( 'Subtotal', 'invoice-system-for-woocommerce' ) . '(' . $billing_details['order_currency'] . '): ' . $billing_details['order_subtotal'] . '</td>
+													<td>' . __( 'Subtotal', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . '): ' . $billing_details['order_subtotal'] . '</td>
 												</tr>
 												<tr>
-													<td>' . __( 'Shipping', 'invoice-system-for-woocommerce' ) . '(' . $billing_details['order_currency'] . '): ' . $shipping_details['shipping_total'] . '</td>
+													<td>' . __( 'Shipping', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . '): ' . $shipping_details['shipping_total'] . '</td>
 												</tr>
 												<tr>
-													<td>' . __( 'Total tax', 'invoice-system-for-woocommerce' ) . '(' . $billing_details['order_currency'] . '): ' . $billing_details['tax_totals'] . '</td>
+													<td>' . __( 'Total tax', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . '): ' . $billing_details['tax_totals'] . '</td>
 												</tr>';
 			$wpg_coupon_details = $billing_details['coupon_details'];
 			foreach ( $wpg_coupon_details as $key => $price ) {
@@ -274,7 +274,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 						</tr>';
 			}
 			$html .= '<tr>
-								<td>' . __( 'Total', 'invoice-system-for-woocommerce' ) . '(' . $billing_details['order_currency'] . '): ' . $billing_details['cart_total'] . '</td>
+								<td>' . __( 'Total', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . '): ' . $billing_details['cart_total'] . '</td>
 							</tr>
 						</table>
 					</div>
@@ -288,5 +288,5 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 			</html>';
 		return $html;
 	}
-	return '<div>' . esc_html__( 'Looks like order is not found', 'invoice-system-for-woocommerce' ) . '</div>';
+	return '<div>' . esc_html__( 'Looks like order is not found', 'pdf-generator-for-wp' ) . '</div>';
 }

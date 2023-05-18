@@ -107,16 +107,16 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 						<tr>
 							<th colspan="2" class="wpg-invoice-background-color" style="padding: 10px;">
 								<h3 class="wpg-invoice-color" style="margin: 0;text-align:right;font-size:24px;">
-									' . __( 'Invoice', 'invoice-system-for-woocommerce' ) . '
+									' . __( 'Invoice', 'pdf-generator-for-wp' ) . '
 								</h3>
 							</th>
 						</tr>
 						<tr>
 							<th style="width: 70%;text-align: right;padding: 10px;">
-								' . __( 'Invoice', 'invoice-system-for-woocommerce' ) . '
+								' . __( 'Invoice', 'pdf-generator-for-wp' ) . '
 							</th>
 							<th style="width: 30%;text-align: right;padding: 10px;">
-								' . __( 'Date', 'invoice-system-for-woocommerce' ) . '
+								' . __( 'Date', 'pdf-generator-for-wp' ) . '
 							</th>
 						</tr>
 					</thead>
@@ -131,10 +131,10 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 					<thead>
 						<tr>
 							<th style="width: 70%;text-align: right;padding: 10px;">
-								' . __( 'Customer ID', 'invoice-system-for-woocommerce' ) . '
+								' . __( 'Customer ID', 'pdf-generator-for-wp' ) . '
 							</th>
 							<th style="width: 30%;text-align: right;padding: 10px;">
-								' . __( 'Status', 'invoice-system-for-woocommerce' ) . '
+								' . __( 'Status', 'pdf-generator-for-wp' ) . '
 							</th>
 						</tr>
 					</thead>
@@ -158,7 +158,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 							<thead>
 								<tr>
 									<th class="wpg-invoice-background-color wpg-invoice-color" style="text-align:left;padding:10px;font-size: 20px;">
-										' . __( 'BILL TO', 'invoice-system-for-woocommerce' ) . '
+										' . __( 'BILL TO', 'pdf-generator-for-wp' ) . '
 									</th>
 								</tr>
 							</thead>
@@ -204,7 +204,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 								<thead>
 									<tr>
 										<th class="wpg-invoice-background-color wpg-invoice-color" style="text-align:left;padding:10px;font-size:20px;">
-											' . __( 'SHIP TO', 'invoice-system-for-woocommerce' ) . '
+											' . __( 'SHIP TO', 'pdf-generator-for-wp' ) . '
 										</th>
 									</tr>
 								</thead>
@@ -249,19 +249,19 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 					<thead class="background-pdf-color-template">
 						<tr class="wpg-invoice-background-color">
 							<th style="text-align: left;padding: 10px;" class="wpg-invoice-color">
-								' . __( 'Name', 'invoice-system-for-woocommerce' ) . '
+								' . __( 'Name', 'pdf-generator-for-wp' ) . '
 							</th>
 							<th style="text-align: left;padding: 10px;" class="wpg-invoice-color">
-								' . __( 'Qty', 'invoice-system-for-woocommerce' ) . '
+								' . __( 'Qty', 'pdf-generator-for-wp' ) . '
 							</th>
 							<th style="text-align: left;padding: 10px;" class="wpg-invoice-color">
-								' . __( 'Price', 'invoice-system-for-woocommerce' ) . ' ( ' . $billing_details['order_currency'] . ' )
+								' . __( 'Price', 'pdf-generator-for-wp' ) . ' ( ' . $billing_details['order_currency'] . ' )
 							</th>
 							<th style="text-align: left;padding: 10px;" class="wpg-invoice-color">
-								' . __( 'Tax', 'invoice-system-for-woocommerce' ) . '( % )
+								' . __( 'Tax', 'pdf-generator-for-wp' ) . '( % )
 							</th>
 							<th style="text-align: left;padding: 10px;" class="wpg-invoice-color">
-								' . __( 'Total', 'invoice-system-for-woocommerce' ) . ' ( ' . $billing_details['order_currency'] . ' )
+								' . __( 'Total', 'pdf-generator-for-wp' ) . ' ( ' . $billing_details['order_currency'] . ' )
 							</th>
 						</tr>
 					</thead>
@@ -291,7 +291,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 										<td colspan="3" style="padding: 2px 10px;font-weight: bold;">
 										</td>
 										<td style="padding: 2px 10px;font-weight: bold;">
-											' . __( 'Payment via', 'invoice-system-for-woocommerce' ) . '
+											' . __( 'Payment via', 'pdf-generator-for-wp' ) . '
 										</td>
 										<td style="padding: 2px 10px;font-weight: bold;">
 											' . $billing_details['payment_method'] . '
@@ -301,7 +301,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 									<td colspan="3" style="padding: 2px 10px;font-weight: bold;">
 									</td>
 									<td style="padding: 2px 10px;font-weight: bold;">
-									' . __( 'Subtotal', 'invoice-system-for-woocommerce' ) . '</td>
+									' . __( 'Subtotal', 'pdf-generator-for-wp' ) . '</td>
 									<td style="padding: 2px 10px;font-weight: bold;">
 										' . $billing_details['order_subtotal'] . '
 									</td>
@@ -311,7 +311,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 
 									</td>
 									<td style="padding: 2px 10px;font-weight: bold;">
-										' . __( 'Shipping', 'invoice-system-for-woocommerce' ) . '
+										' . __( 'Shipping', 'pdf-generator-for-wp' ) . '
 									</td>
 									<td style="padding: 2px 10px;font-weight: bold;">
 										' . $shipping_details['shipping_total'] . '
@@ -322,7 +322,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 
 									</td>
 									<td style="padding: 2px 10px;font-weight: bold;">
-										' . __( 'Total Tax', 'invoice-system-for-woocommerce' ) . '
+										' . __( 'Total Tax', 'pdf-generator-for-wp' ) . '
 									</td>
 									<td style="padding: 2px 10px;font-weight: bold;">
 										' . $billing_details['tax_totals'] . '
@@ -347,7 +347,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 
 						</td>
 						<td style="padding: 2px 10px;font-weight: bold;">
-							' . __( 'Total', 'invoice-system-for-woocommerce' ) . ' ( ' . $billing_details['order_currency'] . ' ) 
+							' . __( 'Total', 'pdf-generator-for-wp' ) . ' ( ' . $billing_details['order_currency'] . ' ) 
 						</td>
 						<td style="padding: 2px 10px;font-weight: bold;">
 							' . $billing_details['cart_total'] . '
@@ -365,5 +365,5 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 		</html>';
 		return $html;
 	}
-	return '<div>' . esc_html__( 'Looks like order is not found', 'invoice-system-for-woocommerce' ) . '</div>';
+	return '<div>' . esc_html__( 'Looks like order is not found', 'pdf-generator-for-wp' ) . '</div>';
 }
