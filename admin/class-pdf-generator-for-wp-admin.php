@@ -927,6 +927,8 @@ class Pdf_Generator_For_Wp_Admin {
 				'class'       => 'pgfw_footer_width',
 				'name'        => 'pgfw_footer_width',
 				'placeholder' => __( 'width', 'pdf-generator-for-wp' ),
+				'min'         => 0,
+				'max'         => 300,
 			),
 			array(
 				'title'       => __( 'Choose Font Style', 'pdf-generator-for-wp' ),
@@ -1041,8 +1043,6 @@ class Pdf_Generator_For_Wp_Admin {
 			'zapfdinbats' => __( 'Zapfdinbats', 'pdf-generator-for-wp' ),
 		);
 		$wps_pgfw_font_styles = apply_filters( 'wps_pgfw_font_styles_filter_hook', $wps_pgfw_font_styles );
-
-
 		$wps_pgfw_custom_page_size = array(
 			''                         => __( 'Select option', 'pdf-generator-for-wp' ),
 			'4a0'                      => __( '4A0', 'pdf-generator-for-wp' ),
@@ -1159,10 +1159,6 @@ class Pdf_Generator_For_Wp_Admin {
 				'style'       => ( 'custom_page' !== $pgfw_body_page_size ) ? 'display:none;' : '',
 				'placeholder' => 'Width ( in mm )',
 			),
-			
-			
-
-
 			////////////////////////////////////////////////////////////////////////////////////////
 			array(
 				'title'       => __( 'Page Orientation', 'pdf-generator-for-wp' ),

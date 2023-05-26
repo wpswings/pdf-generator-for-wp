@@ -247,13 +247,11 @@ class Pdf_Generator_For_Wp {
 			$this->loader->add_filter( 'bulk_actions-edit-post', $pgfw_plugin_common, 'wpg_add_custom_bulk_action_post', 10, 2 );
 			$this->loader->add_filter( 'bulk_actions-edit-page', $pgfw_plugin_common, 'wpg_add_custom_bulk_actions_page', 10, 2 );
 			$this->loader->add_filter( 'bulk_actions-edit-product', $pgfw_plugin_common, 'wpg_add_custom_bulk_actionss_product', 10, 2 );
-		
-		/////////invoice
-
-				// adding shortcodes to fetch all order detials [ISFW_FETCH_ORDER].
-				$this->loader->add_action( 'plugins_loaded', $pgfw_plugin_common, 'wpg_fetch_order_details_shortcode' );
-				$this->loader->add_action( 'init', $pgfw_plugin_common, 'wpg_reset_invoice_number_schedular' );
-				$this->loader->add_action( 'wpg_reset_invoice_number_hook', $pgfw_plugin_common, 'wpg_reset_invoice_number' );
+			/////////invoice
+			// adding shortcodes to fetch all order detials [ISFW_FETCH_ORDER].
+			$this->loader->add_action( 'plugins_loaded', $pgfw_plugin_common, 'wpg_fetch_order_details_shortcode' );
+			$this->loader->add_action( 'init', $pgfw_plugin_common, 'wpg_reset_invoice_number_schedular' );
+			$this->loader->add_action( 'wpg_reset_invoice_number_hook', $pgfw_plugin_common, 'wpg_reset_invoice_number' );
 		}
 	}
 
