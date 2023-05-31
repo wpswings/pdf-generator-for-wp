@@ -260,7 +260,6 @@ class Pdf_Generator_For_Wp_Common {
 			'8.5x14'                   => array( 0, 0, 612.00, 1008.0 ),
 			'11x17'                    => array( 0, 0, 792.00, 1224.00 ),
 		);
-
 		if ( 'custom_page' == $body_page_size ) {
 			$paper_size = array( 0, 0, $pgfw_body_custom_page_size_width * 2.834, $pgfw_body_custom_page_size_height * 2.834 );
 		} else {
@@ -580,7 +579,7 @@ class Pdf_Generator_For_Wp_Common {
 		return bulk_pdf_exporter_html( $ids );
 
 	}
-//////////////////////////////////////////////////invoice
+	// invoice .
 
 	/**
 	 * Schedular for resetting invoice number.
@@ -715,8 +714,8 @@ class Pdf_Generator_For_Wp_Common {
 			}
 			$template_path = apply_filters( 'wpg_load_template_for_invoice_generation', $template_path );
 			require_once $template_path;
-			$html   =  return_ob_value( $order_id, $type, $invoice_id );
-			
+			$html   = return_ob_value( $order_id, $type, $invoice_id );
+
 			$dompdf = new Dompdf( array( 'enable_remote' => true ) );
 			$dompdf->loadHtml( $html );
 			$dompdf->setPaper( 'A4' );
@@ -725,7 +724,7 @@ class Pdf_Generator_For_Wp_Common {
 			if ( ! file_exists( $upload_basedir ) ) {
 				wp_mkdir_p( $upload_basedir );
 			}
-			
+
 			if ( 'download_locally' === $action ) {
 				$output = $dompdf->output();
 				if ( file_exists( $path ) ) {
@@ -871,5 +870,5 @@ class Pdf_Generator_For_Wp_Common {
 		}
 		return false;
 	}
-	
+
 }
