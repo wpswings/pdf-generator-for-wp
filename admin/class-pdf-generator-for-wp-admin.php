@@ -1138,7 +1138,6 @@ class Pdf_Generator_For_Wp_Admin {
 				'placeholder'  => __( 'page size', 'pdf-generator-for-wp' ),
 				'options'      => $wps_pgfw_custom_page_size,
 			),
-			///////////////////////////////////////////////////////////////////////////////////////
 			array(
 				'title'       => __( 'Height of the page ( in mm )', 'pdf-generator-for-wp' ),
 				'type'        => 'number',
@@ -1159,7 +1158,6 @@ class Pdf_Generator_For_Wp_Admin {
 				'style'       => ( 'custom_page' !== $pgfw_body_page_size ) ? 'display:none;' : '',
 				'placeholder' => 'Width ( in mm )',
 			),
-			////////////////////////////////////////////////////////////////////////////////////////
 			array(
 				'title'       => __( 'Page Orientation', 'pdf-generator-for-wp' ),
 				'type'        => 'select',

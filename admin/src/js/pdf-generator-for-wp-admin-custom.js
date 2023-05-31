@@ -25,7 +25,7 @@
                 }
             });
 
-        //////////////////////
+        
         // colorpicker header and footer.
         $('.pgfw_color_picker').wpColorPicker();
         // remove logo header.
