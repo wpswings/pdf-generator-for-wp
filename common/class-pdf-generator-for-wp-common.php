@@ -582,17 +582,6 @@ class Pdf_Generator_For_Wp_Common {
 	// invoice .
 
 	/**
-	 * Schedular for resetting invoice number.
-	 *
-	 * @since 1.0.1
-	 * @return void
-	 */
-	public function wpg_reset_invoice_number_schedular() {
-		if ( ! as_next_scheduled_action( 'wpg_reset_invoice_number_hook' ) ) {
-			as_schedule_recurring_action( strtotime( 'tomorrow' ), DAY_IN_SECONDS, 'wpg_reset_invoice_number_hook' );
-		}
-	}
-	/**
 	 * Reset invoice number.
 	 *
 	 * @since 1.0.1

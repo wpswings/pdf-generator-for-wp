@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress pdf generator
 Requires at least: 5.5.0
-Tested up to: 6.2.0
+Tested up to: 6.2.2
 WC requires at least: 5.2.0
-WC tested up to: 7.5.1
-Stable tag: 1.2.0
+WC tested up to: 7.7.1
+Stable tag: 1.2.1
 Requires PHP: 7.2
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -184,6 +184,9 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Changelog ==
 
+= 1.2.1 - Released on 01 June 2023 = 
+* New: Compatible with WP(6.2.2) and WC(7.7.1)
+
 = 1.2.0 - Released on 14 April  2023 = 
 * New: Compatible with the latest WP (6.2.0) and WC (7.5.1)
 * Enhancement: Dompdf library updated( 2.0.2 )
@@ -258,6 +261,5 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Upgrade Notice ==
 
-= 1.2.0 - Released on 14 April  2023 = 
-* New: Compatible with the latest WP (6.2.0) and WC (7.5.1)
-* Enhancement: Dompdf library updated( 2.0.2 )
+= 1.2.1 - Released on 01 June 2023 = 
+* New: Compatible with WP(6.2.2) and WC(7.7.1)
