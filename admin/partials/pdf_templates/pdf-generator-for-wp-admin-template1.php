@@ -69,6 +69,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 	$pgfw_body_watermark_text        = array_key_exists( 'pgfw_body_watermark_text', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_watermark_text'] : '';
 	$pgfw_body_add_watermark        = array_key_exists( 'pgfw_body_add_watermark', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_add_watermark'] : '';
 	$pgfw_body_watermark_color        = array_key_exists( 'pgfw_body_watermark_color', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_watermark_color'] : '';
+	$pgfw_body_customization     = array_key_exists( 'pgfw_body_customization_for_post_detail', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_customization_for_post_detail'] : '';
 	// general settings.
 	$general_settings_data     = get_option( 'pgfw_general_settings_save', array() );
 	$pgfw_show_post_categories = array_key_exists( 'pgfw_general_pdf_show_categories', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_categories'] : '';
@@ -78,8 +79,8 @@ function return_ob_html( $post_id, $template_name = '' ) {
 	$pgfw_show_post_author     = array_key_exists( 'pgfw_general_pdf_show_author_name', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_author_name'] : '';
 	// meta fields settings.
 	$pgfw_meta_settings = get_option( 'pgfw_meta_fields_save_settings', array() );
-	$pgfw_meta_fields_show_image_gallery = array_key_exists( 'pgfw_meta_fields_show_image_gallery', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_show_image_gallery' ] : '';
-	$pgfw_gallery_metafield_key = array_key_exists( 'pgfw_gallery_metafield_key', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_gallery_metafield_key' ] : '';
+	$pgfw_meta_fields_show_image_gallery = array_key_exists( 'pgfw_meta_fields_show_image_gallery', $pgfw_meta_settings ) ? $pgfw_meta_settings['pgfw_meta_fields_show_image_gallery'] : '';
+	$pgfw_gallery_metafield_key = array_key_exists( 'pgfw_gallery_metafield_key', $pgfw_meta_settings ) ? $pgfw_meta_settings['pgfw_gallery_metafield_key'] : '';
 	// footer settings.
 	$pgfw_footer_settings   = get_option( 'pgfw_footer_setting_submit', array() );
 	$pgfw_footer_use_in_pdf = array_key_exists( 'pgfw_footer_use_in_pdf', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_use_in_pdf'] : '';
@@ -335,21 +336,33 @@ function return_ob_html( $post_id, $template_name = '' ) {
 								}';
 		}
 
-			$html   .= '</style>
-				<div class="pgfw-pdf-body">
-			
-					<div class="pgfw-pdf-body-title-image">
-						<img src="' . get_the_post_thumbnail_url( $post ) . '">
-					</div>
-					<div class="pgfw-pdf-body-title">
-						' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', apply_filters( 'the_title', $post->post_title ) ) ) . '
-					</div>
-					<div class="pgfw-pdf-body-content">
-					<h3>' . esc_html__( 'Description', 'pdf-generator-for-wp' ) . '</h3>
-					<div>
-					
-						' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', apply_filters( 'the_content', apply_filters( 'wps_wpg_customize_template_post_content', $post->post_content, $post ) ) ) ) . '
+		$html   .= '</style>
+		<div class="pgfw-pdf-body">';
+		if ( ! empty( $pgfw_body_customization ) && in_array( 'post_thumb', $pgfw_body_customization ) ) {
+			$html .= '';
+		} else {
+			$html .= '<div class="pgfw-pdf-body-title-image">
+					<img src="' . get_the_post_thumbnail_url( $post ) . '">
 				</div>';
+		}
+		if ( ! empty( $pgfw_body_customization ) && in_array( 'title', $pgfw_body_customization ) ) {
+			$html .= '';
+		} else {
+			$html .= '<div class="pgfw-pdf-body-title">
+					' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', apply_filters( 'the_title', $post->post_title ) ) ) . '
+					</div>';
+		}
+
+		$html .= '	<div class="pgfw-pdf-body-content">';
+		if ( ! empty( $pgfw_body_customization ) && in_array( 'description', $pgfw_body_customization ) ) {
+			$html .= '';
+		} else {
+			$html .= '	<h3>' . esc_html__( 'Description', 'pdf-generator-for-wp' ) . '</h3>';
+		}
+			$html .= '<div>
+			
+				' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', apply_filters( 'the_content', apply_filters( 'wps_wpg_customize_template_post_content', $post->post_content, $post ) ) ) ) . '
+		</div>';
 		// taxonomies for posts.
 		$html1 = '';
 		if ( 'yes' === $pgfw_show_post_taxonomy ) {
@@ -420,9 +433,9 @@ function return_ob_html( $post_id, $template_name = '' ) {
 				foreach ( $pgfw_show_type_meta_arr as $meta_key ) {
 					$meta_val          = get_post_meta( $post->ID, $meta_key, true );
 					$wpg_meta_key_name = ucwords( str_replace( '_', ' ', $meta_key ) );
-					
+
 					if ( $meta_val ) {
-						if ( ( '_product_image_gallery' == $meta_key ) || ( 'yes'==($pgfw_meta_fields_show_image_gallery) && !empty( $pgfw_gallery_metafield_key ) && ($pgfw_gallery_metafield_key == $meta_key) ) ) {
+						if ( ( '_product_image_gallery' == $meta_key ) || ( 'yes' == ( $pgfw_meta_fields_show_image_gallery ) && ! empty( $pgfw_gallery_metafield_key ) && ( $pgfw_gallery_metafield_key == $meta_key ) ) ) {
 							$meta_val1 = explode( ',', $meta_val );
 							foreach ( $meta_val1 as $key => $val ) {
 
@@ -446,7 +459,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 						}
 					}
 				}
-				
+
 				$html2 .= '</tr></table>';
 			}
 		}
