@@ -1437,7 +1437,7 @@ class Pdf_Generator_For_Wp_Admin {
 				),
 			),
 			array(
-				'title'       => __( 'Hide featured image, title and Description(text)', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Hide featured image, title and Description(word)', 'pdf-generator-for-wp' ),
 				'type'        => 'multiselect',
 				'description' => __( 'you can customize the default template static text strings and thumbnail.', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_body_customization_for_post_detail',
