@@ -191,7 +191,7 @@ class Pdf_Generator_For_Wp_Admin {
 	 */
 	public function pgfw_admin_submenu_page( $menus = array() ) {
 		$menus[] = array(
-			'name'      => __( 'PDF Generator For Wp', 'pdf-generator-for-wp' ),
+			'name'      => __( 'PDF Generator For WP', 'pdf-generator-for-wp' ),
 			'slug'      => 'pdf_generator_for_wp_menu',
 			'menu_link' => 'pdf_generator_for_wp_menu',
 			'instance'  => $this,
