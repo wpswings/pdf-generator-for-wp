@@ -1446,8 +1446,8 @@ class Pdf_Generator_For_Wp_Admin {
 				'name'        => 'pgfw_body_customization_for_post_detail',
 				'options'     => array(
 					'title' => __( 'Post title', 'pdf-generator-for-wp' ),
-					'post_thumb'      => __( 'post thumbnail', 'pdf-generator-for-wp' ),
-					'description'      => __( 'post description', 'pdf-generator-for-wp' ),
+					'post_thumb'      => __( 'Post thumbnail', 'pdf-generator-for-wp' ),
+					'description'      => __( 'Post description', 'pdf-generator-for-wp' ),
 				),
 			),
 		);
