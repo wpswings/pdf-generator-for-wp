@@ -633,11 +633,11 @@ class Pdf_Generator_For_Wp_Common {
 	 * @return string
 	 */
 	public function wpg_invoice_name_for_file( $type, $order_id ) {
-		$invoice_name_option = get_option( 'mwb_wpiwps_invoice_name' );
+		$invoice_name_option = get_option( 'wps_wpg_invoice_name' );
 		$invoice_id          = $this->wpg_invoice_number( $order_id );
 		if ( 'invoice' === $type ) {
 			if ( 'custom' === $invoice_name_option ) {
-				$custom_invoice_name = get_option( 'mwb_wpiwps_custom_invoice_name' );
+				$custom_invoice_name = get_option( 'wps_wpg_custom_invoice_name' );
 				$invoice_name        = $custom_invoice_name . '_' . $order_id;
 			} elseif ( 'invoice_orderid' === $invoice_name_option ) {
 				$invoice_name = 'invoice_' . $order_id;
@@ -676,6 +676,7 @@ class Pdf_Generator_For_Wp_Common {
 	 */
 	public function wpg_common_generate_pdf( $order_id, $type, $action ) {
 		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
+	
 		$wpg_invoice_template            = get_option( 'wpg_invoice_template' );
 		$wpg_generate_invoice_from_cache = get_option( 'wpg_generate_invoice_from_cache' );
 		$invoice_id                       = $this->wpg_invoice_number( $order_id );
@@ -715,6 +716,7 @@ class Pdf_Generator_For_Wp_Common {
 			}
 
 			if ( 'download_locally' === $action ) {
+				
 				$output = $dompdf->output();
 				if ( file_exists( $path ) ) {
 					@unlink( $path ); // phpcs:ignore
@@ -722,6 +724,7 @@ class Pdf_Generator_For_Wp_Common {
 				if ( ! file_exists( $path ) ) {
 					@file_put_contents( $path, $output ); // phpcs:ignore
 				}
+			
 				if ( 'invoice' === $type ) {
 					do_action( 'mwb_wpg_upload_invoice_in_storage', $path, $file_url, $order_id, $invoice_name );
 				}
