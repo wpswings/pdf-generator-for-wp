@@ -37,6 +37,13 @@
 .pgfw-single-pdf-download-button:focus {
     outline:none;
 }
+a.pgfw-single-pdf-download-button {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap:5px;
+}
 
 /*Floating element CSS*/
 

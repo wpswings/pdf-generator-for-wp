@@ -680,6 +680,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'class'       => 'pgfw_body_show_pdf_icon',
 				'name'        => 'pgfw_body_show_pdf_icon',
 			),
+			
 			array(
 				'title'       => __( 'Select User Role For Which You Want To Show The Pdf Icon', 'pdf-generator-for-wp' ),
 				'type'        => 'multiselect',
