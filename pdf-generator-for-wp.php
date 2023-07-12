@@ -38,11 +38,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 require_once ABSPATH . '/wp-admin/includes/plugin.php';
-$is_pro_active = false;
 $pgfw_old_plugin_exists = false;
 $plug           = get_plugins();
 if ( isset( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php'] ) ) {
-	$is_pro_active = true;
 	if ( version_compare( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php']['Version'], '3.0.5', '<' ) ) {
 		$pgfw_old_plugin_exists = true;
 	}
