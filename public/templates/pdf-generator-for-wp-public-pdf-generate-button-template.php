@@ -79,3 +79,8 @@ function pgfw_pdf_download_button( $url_here, $id ) {
 
 }
 
+function generate_whatsapp_pdf_link($file_url) {
+    $whatsapp_url = 'https://api.whatsapp.com/send?';
+    $whatsapp_url .= 'text=' . urlencode('Check out this PDF file: ' . $file_url);
+    return $whatsapp_url;
+}
