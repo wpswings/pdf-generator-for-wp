@@ -228,7 +228,6 @@ class Pdf_Generator_For_Wp {
 			$this->loader->add_filter( 'pgfw_template_pdf_settings_array_dummy', $pgfw_plugin_admin, 'pgfw_template_pdf_settings_page_dummy', 10 );
 			$this->loader->add_filter( 'pgfw_template_invoice_settings_array_dummy', $pgfw_plugin_admin, 'pgfw_template_invoice_setting_html_fields_dummy' );
 			$this->loader->add_filter( 'pgfw_layout_cover_page_setting_html_array_dummy', $pgfw_plugin_admin, 'pgfw_cover_page_html_layout_fields_dummy' );
-			// $this->loader->add_action( 'pgfw_plugin_standard_admin_settings_sub_tabs_dummy', $pgfw_plugin_admin, 'wpg_add_custom_template_settings_tab' );
 		}
 	}
 
@@ -961,7 +960,7 @@ class Pdf_Generator_For_Wp {
 							break;
 							case 'temp-select':
                                 ?>
-                                <div class="wps-form-group wps-wpg-<?php echo esc_attr( array_key_exists( 'type', $pgfw_component ) ? $pgfw_component['type'] : '' ); ?>">
+                                <div class="wps-form-group wps_pgfw_pro_tag wps-wpg-<?php echo esc_attr( array_key_exists( 'type', $pgfw_component ) ? $pgfw_component['type'] : '' ); ?>">
                                     <div class="wps-form-group__label">
                                         <label for="<?php echo esc_attr( array_key_exists( 'id', $pgfw_component ) ? $pgfw_component['id'] : '' ); ?>" class="wps-form-label"><?php echo esc_html( array_key_exists( 'title', $pgfw_component ) ? $pgfw_component['title'] : '' ); ?></label>
                                     </div>

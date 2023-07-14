@@ -20,7 +20,7 @@ $pgfw_default_tabs      = $pgfw_wps_pgfw_obj->wps_pgfw_plug_layout_setting_sub_t
 
 $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', array() );
 ?>
-<main class="wps-main wps-bg-white wps-r-8">
+<main class="wps-main wps-bg-white wps-r-8 wps_pgfw_pro_tag">
 	<nav class="wps-navbar">
 		<ul class="wps-navbar__items">
 			<?php

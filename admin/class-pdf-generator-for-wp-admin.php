@@ -1713,7 +1713,16 @@ class Pdf_Generator_For_Wp_Admin {
 			'name'        => 'pgfw_advanced_show_post_type_icons',
 			'options'     => $post_types,
 		);
-
+		$pgfw_advanced_settings_html_arr[] = array(
+			'title'       => __( 'Upload Custom Font File', 'wordpress-pdf-generator' ),
+			'type'        => 'file',
+			'id'          => 'font_upload',
+			'value'       => '',
+			'class'       => 'wps_pgfw_pro_tag',
+			'name'        => 'font_upload',
+			'placeholder' => __( 'ttf file', 'wordpress-pdf-generator' ),
+			'description' => __( 'Choose .ttf file to add custom font, once uploaded all dropdowns of font will have this option to choose from.', 'wordpress-pdf-generator' ),
+		);
 		$pgfw_advanced_settings_html_arr   = apply_filters( 'pgfw_settings_advance_html_arr_filter_hook', $pgfw_advanced_settings_html_arr );
 		$pgfw_advanced_settings_html_arr[] = array(
 			'title'       => __( 'Reset Settings', 'pdf-generator-for-wp' ),
@@ -2529,7 +2538,7 @@ class Pdf_Generator_For_Wp_Admin {
 						'id'      => 'wpg_invoice_number_renew_month',
 						'title'   => __( 'Month', 'pdf-generator-for-wp' ),
 						'type'    => 'select',
-						'class'   => 'wpg_invoice_number_renew_month',
+						'class'   => 'wpg_invoice_number_renew_month wps_pgfw_pro_tag',
 						'name'    => 'wpg_invoice_number_renew_month',
 						'value'   => $pgfw_invoice_number_renew_month,
 						'options' => $pgfw_months,
@@ -2538,7 +2547,7 @@ class Pdf_Generator_For_Wp_Admin {
 						'id'      => 'wpg_invoice_number_renew_date',
 						'title'   => __( 'Date', 'pdf-generator-for-wp' ),
 						'type'    => 'select',
-						'class'   => 'wpg_invoice_number_renew_date',
+						'class'   => 'wpg_invoice_number_renew_date wps_pgfw_pro_tag',
 						'name'    => 'wpg_invoice_number_renew_date',
 						'value'   => get_option( 'wpg_invoice_number_renew_date' ),
 						'options' => $pgfw_date,

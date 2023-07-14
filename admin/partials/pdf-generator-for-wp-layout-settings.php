@@ -20,7 +20,7 @@ $pgfw_active_tab        = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw
 $pgfw_default_tabs      = $pgfw_wps_pgfw_obj->wps_pgfw_plug_layout_setting_sub_tabs_dummy();
 $pgfw_cover_setting_html = apply_filters( 'pgfw_plugin_standard_admin_settings_sub_tabs_dummy', array() );
 ?>
-<main class="wps-main wps-bg-white wps-r-8">
+<main class="wps-main wps-bg-white wps-r-8 wps_pgfw_pro_tag">
 	<nav class="wps-navbar">
 		<ul class="wps-navbar__items">
 			<?php
