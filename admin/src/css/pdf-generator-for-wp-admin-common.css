@@ -19,9 +19,11 @@
     padding-top: 10px;
     padding-left: 10px;
 }
+
 .wps-form-group__control .mdc-text-field-helper-line {
     padding: 10px;
 }
+
 .wps-form-group__label {
     color: #000000;
 }
@@ -123,20 +125,26 @@
     .wps-navbar__items li a {
         padding: 0px 0;
     }
-} 
+}
+
 #pgfw_poster_shortcode_listing_table {
     border-collapse: collapse;
 }
-#pgfw_poster_shortcode_listing_table th, #pgfw_poster_shortcode_listing_table td{
-    border:1px solid gray;
-    padding:5px 10px;
-}
-.pgfw-delete-poster-form-table{
-    background-color:#ff3d30;;
-    border-radius : 5px;
+
+#pgfw_poster_shortcode_listing_table th,
+#pgfw_poster_shortcode_listing_table td {
+    border: 1px solid gray;
     padding: 5px 10px;
 }
-.pgfw_advanced_reset_settings{
+
+.pgfw-delete-poster-form-table {
+    background-color: #ff3d30;
+    ;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.pgfw_advanced_reset_settings {
     border: none;
     padding: 8px;
     font-size: 12px;
@@ -147,3 +155,169 @@
     min-width: 100px;
     margin: 5px;
 }
+
+/* Pro tag styling Start */
+
+.wps_pgfw_pro_tag_lable.wps-form-group .wps-form-group__label {
+    position: relative;
+    overflow: hidden;
+    padding-left: 25px;
+    padding-bottom: 15px;
+}
+
+.wps_pgfw_pro_tag_lable .wps-form-group__control,
+.wps_pgfw_pro_tag_lable .wps-form-group__control input,
+.wps_pgfw_pro_tag_lable .wps-form-group__control select {
+    pointer-events: none;
+}
+
+.wps_pgfw_pro_tag_lable .wps-form-group__label:before {
+    align-items: center;
+    background: #0aa000;
+    bottom: 2px;
+    -webkit-clip-path: polygon(0 0, 100% 0, 66% 100%, 34% 100%);
+    clip-path: polygon(0 0, 100% 0, 66% 100%, 34% 100%);
+    color: #fff;
+    content: "PRO";
+    display: inline-flex;
+    font-size: 10px;
+    justify-content: center;
+    left: -18px;
+    padding: 0;
+    position: absolute;
+    transform: rotate(45deg);
+    width: 60px;
+}
+
+.wps_pgfw_pro_tag_lable .wps-form-group__label:after {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* Pro tag styling end */
+
+/* Issues on responsive fixing */
+.wps-section .wps-form-group .wps-form-group__control .select2 {
+    min-width: 200px;
+}
+
+@media screen and (max-width:768px) {
+    .wps-section .wps-form-group .wps-form-group__label {
+        max-width: 100%;
+    }
+
+    .wps-section .wps-form-group .wps-form-group__control {
+        max-width: 100%;
+        margin: 10px 0 0;
+    }
+
+    .wps-section .wps-form-group .wps-form-group__control label.mdl-textfield__label,
+    .wps-section .wps-form-group .wps-form-group__control .mdc-text-field-helper-line {
+        padding-left: 0;
+    }
+
+    .wps-section .wps-section,
+    .wps-section .wps-navbar {
+        padding: 0;
+    }
+
+}
+
+@media screen and (max-width:580px) {
+    .wps-main .wps-navbar .wps-navbar__items li {
+        margin-right: 10px;
+    }
+
+    .wps-main .wps-navbar .wps-navbar__items li a{
+        padding: 5px 0;
+    }
+
+}
+
+/*Pop Up For Pro Tag start */
+.wps-pdf__popup-for-pro-shadow {
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99998;
+    display: none;
+}
+
+span.wps-pdf__popup-for-pro-close {
+    display: inline-block;
+    line-height: 14px;
+    font-size: 24px;
+    font-weight: 400;
+    transform: rotate(45deg);
+    padding: 10px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+}
+
+.wps-pdf__popup-for-pro {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    padding: 32px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 99999;
+    transform: translate(-50%, -50%) scale(0);
+    width: 90%;
+    max-width: 600px;
+    opacity: 0;
+    transition: transform 0.8s ease;
+}
+
+.wps-pdf__popup-for-pro.active-pro {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+h2.wps-pdf__popup-for-pro-title {
+    font-size: 32px;
+    line-height: 1.25;
+    margin: 0 0 15px;
+    text-align: center;
+}
+
+p.wps-pdf__popup-for-pro-content {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    margin: 0 0 50px;
+    text-align: center;
+}
+
+.wps-pdf__popup-for-pro-link-wrap {
+    text-align: center;
+}
+
+a.wps-pdf__popup-for-pro-link {
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
+    background: #0aa000;
+    border: 1px solid #0aa000;
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 50px;
+    transition: all 0.4s;
+}
+
+a.wps-pdf__popup-for-pro-link:hover {
+    color: #0aa000;
+    background: transparent;
+}
+
+/*Pro Tag end */

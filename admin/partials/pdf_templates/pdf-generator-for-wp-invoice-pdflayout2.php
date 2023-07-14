@@ -267,8 +267,8 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 												<tr>
 													<td>' . __( 'Total tax', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . '): ' . $billing_details['tax_totals'] . '</td>
 												</tr>';
-			$wpg_coupon_details = $billing_details['coupon_details'];
-			foreach ( $wpg_coupon_details as $key => $price ) {
+			$pgfw_coupon_details = $billing_details['coupon_details'];
+			foreach ( $pgfw_coupon_details as $key => $price ) {
 				$html .= '<tr>
 							<td>' . $key . '(' . $billing_details['order_currency'] . '): ' . $price . '</td>
 						</tr>';

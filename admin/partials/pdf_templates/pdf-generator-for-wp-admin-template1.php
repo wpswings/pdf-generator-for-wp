@@ -432,7 +432,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 				$html2 .= '<table><tr>';
 				foreach ( $pgfw_show_type_meta_arr as $meta_key ) {
 					$meta_val          = get_post_meta( $post->ID, $meta_key, true );
-					$wpg_meta_key_name = ucwords( str_replace( '_', ' ', $meta_key ) );
+					$pgfw_meta_key_name = ucwords( str_replace( '_', ' ', $meta_key ) );
 
 					if ( $meta_val ) {
 						if ( ( '_product_image_gallery' == $meta_key ) || ( 'yes' == ( $pgfw_meta_fields_show_image_gallery ) && ! empty( $pgfw_gallery_metafield_key ) && ( $pgfw_gallery_metafield_key == $meta_key ) ) ) {
@@ -443,18 +443,18 @@ function return_ob_html( $post_id, $template_name = '' ) {
 								$thumbnail = '<img  src=' . $thumbnail_url . ' alt="post thumbnail" style="height:100px; width: 100px; margin:17px;" height=50 weight=50/>';
 								$html2 .= $thumbnail;
 							}
-							$html2 .= '<div><b> ' . $wpg_meta_key_name . '</b> </div>';
+							$html2 .= '<div><b> ' . $pgfw_meta_key_name . '</b> </div>';
 
 						} else {
 							if ( 'yes' == $pgfw_body_metafields_row_wise ) {
 								$i++;
-								$html2 .= '<td><b>' . $wpg_meta_key_name . ' :</b></td>';
+								$html2 .= '<td><b>' . $pgfw_meta_key_name . ' :</b></td>';
 								$html2 .= '<td> ' . $meta_val . ' </td>';
 								if ( 0 == $i % $pgfw_body_meta_field_column ) {
 									$html2 .= '</tr><tr>';
 								}
 							} else {
-									$html2 .= '<div><b>' . $wpg_meta_key_name . ' : </b> ' . $meta_val . '</div>';
+									$html2 .= '<div><b>' . $pgfw_meta_key_name . ' : </b> ' . $meta_val . '</div>';
 							}
 						}
 					}

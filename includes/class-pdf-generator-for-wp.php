@@ -220,6 +220,16 @@ class Pdf_Generator_For_Wp {
 		$this->loader->add_action( 'wp_ajax_pgfw_reset_default_settings', $pgfw_plugin_admin, 'pgfw_reset_default_settings' );
 		// $thi
 		$this->loader->add_action( 'wp_ajax_wpg_ajax_callbacks', $pgfw_plugin_admin, 'wps_wpg_ajax_callbacks' );
+		
+						////////////   PRO PLUGIN DUMMY CONTENT HTML FUNCTIONS  ////////////.
+		if ( !is_plugin_active('wordpress-pdf-generator/wordpress-pdf-generator.php') ) {
+			$this->loader->add_filter( 'pgfw_taxonomy_settings_array_dummy', $pgfw_plugin_admin, 'pgfw_setting_fields_for_customising_taxonomy_dummy' );
+			$this->loader->add_action( 'pgfw_plugin_standard_admin_settings_sub_tabs_dummy', $pgfw_plugin_admin, 'pgfw_add_custom_template_settings_tab_dummy' );
+			$this->loader->add_filter( 'pgfw_template_pdf_settings_array_dummy', $pgfw_plugin_admin, 'pgfw_template_pdf_settings_page_dummy', 10 );
+			$this->loader->add_filter( 'pgfw_template_invoice_settings_array_dummy', $pgfw_plugin_admin, 'pgfw_template_invoice_setting_html_fields_dummy' );
+			$this->loader->add_filter( 'pgfw_layout_cover_page_setting_html_array_dummy', $pgfw_plugin_admin, 'pgfw_cover_page_html_layout_fields_dummy' );
+			// $this->loader->add_action( 'pgfw_plugin_standard_admin_settings_sub_tabs_dummy', $pgfw_plugin_admin, 'wpg_add_custom_template_settings_tab' );
+		}
 	}
 
 	/**
@@ -248,8 +258,8 @@ class Pdf_Generator_For_Wp {
 			$this->loader->add_filter( 'bulk_actions-edit-page', $pgfw_plugin_common, 'wpg_add_custom_bulk_actions_page', 10, 2 );
 			$this->loader->add_filter( 'bulk_actions-edit-product', $pgfw_plugin_common, 'wpg_add_custom_bulk_actionss_product', 10, 2 );
 			/////////invoice.
-			$wpg_enable_plugin = get_option( 'wpg_enable_plugin' );
-			if ( 'yes' === $wpg_enable_plugin ) {
+			$pgfw_enable_plugin = get_option( 'wpg_enable_plugin' );
+			if ( 'yes' === $pgfw_enable_plugin ) {
 				// adding shortcodes to fetch all order detials [ISFW_FETCH_ORDER].
 				$this->loader->add_action( 'plugins_loaded', $pgfw_plugin_common, 'wpg_fetch_order_details_shortcode' );
 				$this->loader->add_action( 'wpg_reset_invoice_number_hook', $pgfw_plugin_common, 'wpg_reset_invoice_number' );
@@ -385,19 +395,49 @@ class Pdf_Generator_For_Wp {
 			'title' => esc_html__( 'Meta Fields Settings', 'pdf-generator-for-wp' ),
 			'name'  => 'pdf-generator-for-wp-meta-fields',
 		);
+							//// DUMMY PRO TABS ////.
 
-		$pgfw_default_tabs = apply_filters( 'wps_pgfw_plugin_standard_admin_settings_tabs', $pgfw_default_tabs );
+		// Check if the pro plugin is active
+		if ( !is_plugin_active('wordpress-pdf-generator/wordpress-pdf-generator.php') ) {
+			// Pro plugin is active
+			$pgfw_default_tabs['pdf-generator-for-wp-taxonomy'] = array(
+				'title' => esc_html__( 'Taxonomy Settings', 'pdf-generator-for-wp' ),
+				'name'  => 'pdf-generator-for-wp-taxonomy',
+			);
 
-		$pgfw_default_tabs['pdf-generator-for-wp-pdf-upload'] = array(
-			'title' => esc_html__( 'PDF Upload', 'pdf-generator-for-wp' ),
-			'name'  => 'pdf-generator-for-wp-pdf-upload',
-		);
+			$pgfw_default_tabs['pdf-generator-for-wp-layout-settings'] = array(
+				'title' => esc_html__( 'Layout Settings', 'pdf-generator-for-wp' ),
+				'name'  => 'pdf-generator-for-wp-layout-settings',
+			);
 
-		$pgfw_default_tabs['pdf-generator-for-wp-overview'] = array(
-			'title' => esc_html__( 'Overview', 'pdf-generator-for-wp' ),
-			'name'  => 'pdf-generator-for-wp-overview',
-		);
-		return $pgfw_default_tabs;
+			$pgfw_default_tabs['pdf-generator-for-wp-logs'] = array(
+				'title' => esc_html__( 'PDF Logs', 'pdf-generator-for-wp' ),
+				'name'  => 'pdf-generator-for-wp-logs',
+			);
+			// tabs for the invoice genration.
+			$pgfw_default_tabs['pdf-generator-for-wp-invoice-general'] = array(
+				'title' => esc_html__( 'Invoice settings', 'pdf-generator-for-wp' ),
+				'name'  => 'pdf-generator-for-wp-invoice-general',
+			);
+			// invoice main page setting tab.
+			$pgfw_default_tabs['pdf-generator-for-wp-invoice-page-setting'] = array(
+				'title' => esc_html__( 'Invoice page settings', 'pdf-generator-for-wp' ),
+				'name'  => 'pdf-generator-for-wp-invoice-page-setting',
+			);
+		} 
+						///////// END DUMMY CODE TABS ////////.
+			$pgfw_default_tabs = apply_filters( 'wps_pgfw_plugin_standard_admin_settings_tabs', $pgfw_default_tabs );
+
+			$pgfw_default_tabs['pdf-generator-for-wp-pdf-upload'] = array(
+				'title' => esc_html__( 'PDF Upload', 'pdf-generator-for-wp' ),
+				'name'  => 'pdf-generator-for-wp-pdf-upload',
+			);
+
+			$pgfw_default_tabs['pdf-generator-for-wp-overview'] = array(
+				'title' => esc_html__( 'Overview', 'pdf-generator-for-wp' ),
+				'name'  => 'pdf-generator-for-wp-overview',
+			);
+			return $pgfw_default_tabs;
 	}
 	/**
 	 * Customizations sub tabs.
@@ -438,6 +478,17 @@ class Pdf_Generator_For_Wp {
 	public function wps_pgfw_plug_layout_setting_sub_tabs() {
 		$pgfw_default_sub_tabs = array();
 		$pgfw_default_sub_tabs = apply_filters( 'wps_pgfw_plugin_standard_admin_settings_sub_tabs', $pgfw_default_sub_tabs );
+		return $pgfw_default_sub_tabs;
+	}
+	/**
+	 * Loading sub tabs for layout settings used by pro plugin.
+	 *
+	 * @since 1.0.0
+	 * @return array
+	 */
+	public function wps_pgfw_plug_layout_setting_sub_tabs_dummy() {
+		$pgfw_default_sub_tabs = array();
+		$pgfw_default_sub_tabs = apply_filters( 'pgfw_plugin_standard_admin_settings_sub_tabs_dummy', $pgfw_default_sub_tabs );
 		return $pgfw_default_sub_tabs;
 	}
 	/**
@@ -908,7 +959,33 @@ class Pdf_Generator_For_Wp {
 							</div>
 							<?php
 							break;
-
+							case 'temp-select':
+                                ?>
+                                <div class="wps-form-group wps-wpg-<?php echo esc_attr( array_key_exists( 'type', $pgfw_component ) ? $pgfw_component['type'] : '' ); ?>">
+                                    <div class="wps-form-group__label">
+                                        <label for="<?php echo esc_attr( array_key_exists( 'id', $pgfw_component ) ? $pgfw_component['id'] : '' ); ?>" class="wps-form-label"><?php echo esc_html( array_key_exists( 'title', $pgfw_component ) ? $pgfw_component['title'] : '' ); ?></label>
+                                    </div>
+                                    <div class="wps-form-group__control">
+                                        <?php
+                                        foreach ( $pgfw_component['value'] as $pgfw_subcomponent ) {
+                                            ?>
+                                            <img src="<?php echo ( isset( $pgfw_subcomponent['src'] ) ? esc_attr( $pgfw_subcomponent['src'] ) : '' ); ?>" width="100" height="100" alt="">
+                                            <input 
+                                            class="<?php echo esc_attr( array_key_exists( 'class', $pgfw_subcomponent ) ? $pgfw_subcomponent['class'] : '' ); ?>" 
+                                            name="<?php echo esc_attr( array_key_exists( 'name', $pgfw_subcomponent ) ? $pgfw_subcomponent['name'] : '' ); ?>"
+                                            id="<?php echo esc_attr( array_key_exists( 'id', $pgfw_subcomponent ) ? $pgfw_subcomponent['id'] : '' ); ?>"
+                                            type="<?php echo esc_attr( array_key_exists( 'type', $pgfw_subcomponent ) ? $pgfw_subcomponent['type'] : '' ); ?>"
+                                            value="<?php echo esc_attr( array_key_exists( 'value', $pgfw_subcomponent ) ? $pgfw_subcomponent['value'] : '' ); ?>"
+                                            <?php checked( $pgfw_component['selected'], $pgfw_subcomponent['value'] ); ?>
+                                            >
+                                        <?php } ?>
+                                        <div class="mdc-text-field-helper-line">
+                                            <div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo wp_kses_post( array_key_exists( 'description', $pgfw_component ) ? $pgfw_component['description'] : '' ); ?></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <?php
+                                break;
 						case 'submit':
 							?>
 						<tr valign="top">
@@ -1005,6 +1082,44 @@ class Pdf_Generator_For_Wp {
 						</div>
 							<?php
 							break;
+							   case 'date-picker':
+                                ?>
+                                <div class="wps-form-group">
+                                    <div class="wps-form-group__label">
+                                        <label class="wps-form-label" for="<?php echo esc_attr( array_key_exists( 'id', $pgfw_component ) ? $pgfw_component['id'] : '' ); ?>"><?php echo esc_attr( array_key_exists( 'title', $pgfw_component ) ? $pgfw_component['title'] : '' ); ?></label>
+                                    </div>
+                                    <div class="wps-form-group__control">
+                                        <?php
+                                        $sub_pgfw_component_value = $pgfw_component['value'];
+                                        ?>
+                                        <div class="wps-wpg-date-picker-group">
+                                            <span class="wps-wpg-month-selector"><?php echo esc_attr( $sub_pgfw_component_value['month']['title'] ); ?></span>
+                                            <select name="<?php echo esc_attr( $sub_pgfw_component_value['month']['name'] ); ?>" id="<?php echo esc_attr( $sub_pgfw_component_value['month']['id'] ); ?>" class="<?php echo esc_attr( $sub_pgfw_component_value['month']['class'] ); ?>">
+                                                <?php
+                                                $month_options = $sub_pgfw_component_value['month']['options'];
+                                                foreach ( $month_options as $key => $value ) {
+                                                    ?>
+                                                    <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $sub_pgfw_component_value['month']['value'], $key ); ?>><?php echo esc_attr( $value ); ?></option>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </select>
+                                            <span class="wps-wpg-date-selector"><?php echo esc_attr( $sub_pgfw_component_value['date']['title'] ); ?></span>
+                                            <select name="<?php echo esc_attr( $sub_pgfw_component_value['date']['name'] ); ?>" id="<?php echo esc_attr( $sub_pgfw_component_value['date']['id'] ); ?>" class="<?php echo esc_attr( $sub_pgfw_component_value['date']['class'] ); ?>">
+                                                <?php
+                                                $date_options = $sub_pgfw_component_value['date']['options'];
+                                                foreach ( $date_options as $key => $value ) {
+                                                    ?>
+                                                    <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $sub_pgfw_component_value['date']['value'], $key ); ?>><?php echo esc_attr( $value ); ?></option>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php
+                                break;
 						default:
 							break;
 					}

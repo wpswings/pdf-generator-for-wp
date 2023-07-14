@@ -52,12 +52,12 @@ function pgfw_pdf_download_button( $url_here, $id ) {
 		if ( isset( $pgfw_show_post_type_icons_for_user_role ) && ! empty( $pgfw_show_post_type_icons_for_user_role ) && array_intersect( $user->roles, $pgfw_show_post_type_icons_for_user_role ) ) {
 			
 			$html  = '<div style="text-align:' . esc_html( $pgfw_pdf_icon_alignment ) . '" class="wps-pgfw-pdf-generate-icon__wrapper-frontend">
-			<div> <a href="' . esc_html( $url_here ) . '" class="pgfw-single-pdf-download-button" ' . esc_html( $mode ) . '><img src="' . esc_url( $pgfw_single_pdf_download_icon_src ) . '" title="' . esc_html__( 'Generate PDF', 'pdf-generator-for-wp' ) . '" style="width:' . esc_html( $pgfw_pdf_icon_width ) . 'px; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;">'.$wps_wpg_single_pdf_icon_name .'</a>
+			<div> <a href="' . esc_html( $url_here ) . '" class="pgfw-single-pdf-download-button" ' . esc_html( $mode ) . '><img src="' . esc_url( $pgfw_single_pdf_download_icon_src ) . '" title="' . esc_html__( 'Generate PDF', 'pdf-generator-for-wp' ) . '" style="width:auto; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;"">'.$wps_wpg_single_pdf_icon_name .'</a>
 			';
 			$html  = apply_filters( 'wps_pgfw_bulk_download_button_filter_hook', $html, $id );
 
 			if ( $is_pro_active && 'yes' == $wps_wpg_whatsapp_sharing ) {
-				$html .= '<a href="' . $whatsapp_link . '"><img src="'.PDF_GENERATOR_FOR_WP_DIR_URL.'/admin/src/images/whatsapp.png" height=50; width=50; ></a>';
+				$html .= '<a class="wps_pgfw_whatsapp_share_icon" href="' . $whatsapp_link . '"><img src="'.PDF_GENERATOR_FOR_WP_DIR_URL.'/admin/src/images/WhatsappLogo-r.svg" style="width:' . esc_html( $pgfw_pdf_icon_width ) . 'px; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;" ></a>';
 			}
 		
 			$html .= '</div>';
@@ -65,12 +65,12 @@ function pgfw_pdf_download_button( $url_here, $id ) {
 		}
 	} else {
 		$html  = '<div style="text-align:' . esc_html( $pgfw_pdf_icon_alignment ) . '" class="wps-pgfw-pdf-generate-icon__wrapper-frontend">
-		<a href="' . esc_html( $url_here ) . '" class="pgfw-single-pdf-download-button" ' . esc_html( $mode ) . '><img src="' . esc_url( $pgfw_single_pdf_download_icon_src ) . '" title="' . esc_html__( 'Generate PDF', 'pdf-generator-for-wp' ) . '" style="width:' . esc_html( $pgfw_pdf_icon_width ) . 'px; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;">'.$wps_wpg_single_pdf_icon_name .'</a>
+		<a href="' . esc_html( $url_here ) . '" class="pgfw-single-pdf-download-button" ' . esc_html( $mode ) . '><img src="' . esc_url( $pgfw_single_pdf_download_icon_src ) . '" title="' . esc_html__( 'Generate PDF', 'pdf-generator-for-wp' ) . '" style="width:auto; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;">'.$wps_wpg_single_pdf_icon_name .'</a>
 		';
 		$html  = apply_filters( 'wps_pgfw_bulk_download_button_filter_hook', $html, $id );
 		if ( $is_pro_active  && 'yes' == $wps_wpg_whatsapp_sharing) {
 			
-			$html .= '<a href="' . $whatsapp_link . '"><img src="'.PDF_GENERATOR_FOR_WP_DIR_URL.'/admin/src/images/whatsapp.png" height=50; width=50; ></a>';
+			$html .= '<a class="wps_pgfw_whatsapp_share_icon" href="' . $whatsapp_link . '"><img src="'.PDF_GENERATOR_FOR_WP_DIR_URL.'/admin/src/images/WhatsappLogo-r.svg" style="width:auto; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;" ></a>';
 		}
 			$html .= '</div>';
 		return $html;

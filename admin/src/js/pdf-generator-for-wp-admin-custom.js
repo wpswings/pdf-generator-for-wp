@@ -187,4 +187,27 @@
             }
         });
     });
+
+//-------------------------------Pop-up For Pro Tags start -------------------------------------------//
+        $(document).on('click', '.wps_pgfw_pro_tag_lable', function() {
+            $('.wps-pdf__popup-for-pro-shadow').show();
+            $('.wps-pdf__popup-for-pro').addClass('active-pro');
+        })
+    
+        $(document).on('click', '.wps-pdf__popup-for-pro-close', function() {
+            $('.wps-pdf__popup-for-pro-shadow').hide();
+            $('.wps-pdf__popup-for-pro').removeClass('active-pro');
+        })
+    
+        $(document).on('click', '.wps-pdf__popup-for-pro-shadow', function() {
+            $(this).hide();
+            $('.wps-pdf__popup-for-pro').removeClass('active-pro');
+        })
+    
+        $(document).on('click', '.wps_go_pro_link', function(e) {
+            e.preventDefault();
+            $('.wps-pdf__popup-for-pro-shadow').show();
+            $('.wps-pdf__popup-for-pro').addClass('active-pro');
+        })
+//-------------------------------Pop-up For Pro Tags End -------------------------------------------//
 })( jQuery );

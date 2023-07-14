@@ -328,8 +328,8 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 										' . $billing_details['tax_totals'] . '
 									</td>
 								</tr>';
-			$wpg_coupon_details = $billing_details['coupon_details'];
-			foreach ( $wpg_coupon_details as $key => $price ) {
+			$pgfw_coupon_details = $billing_details['coupon_details'];
+			foreach ( $pgfw_coupon_details as $key => $price ) {
 				$html .= '<tr>
 					<td colspan="3" style="padding: 2px 10px;font-weight: bold;" class="no-border">
 

@@ -676,24 +676,23 @@ class Pdf_Generator_For_Wp_Common {
 	 */
 	public function wpg_common_generate_pdf( $order_id, $type, $action ) {
 		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
-	
-		$wpg_invoice_template            = get_option( 'wpg_invoice_template' );
-		$wpg_generate_invoice_from_cache = get_option( 'wpg_generate_invoice_from_cache' );
+		$pgfw_invoice_template            = get_option( 'wpg_invoice_template' );
+		$pgfw_generate_invoice_from_cache = get_option( 'wpg_generate_invoice_from_cache' );
 		$invoice_id                       = $this->wpg_invoice_number( $order_id );
 		$invoice_name                     = $this->wpg_invoice_name_for_file( $type, $order_id );
 		$upload_dir                       = wp_upload_dir();
 		$upload_basedir                   = $upload_dir['basedir'] . '/invoices/';
 		$path                             = $upload_basedir . $invoice_name . '.pdf';
 		$file_url                         = $upload_dir['baseurl'] . '/invoices/' . $invoice_name . '.pdf';
-		if ( ( 'yes' === $wpg_generate_invoice_from_cache ) && file_exists( $path ) ) {
+		if ( ( 'yes' === $pgfw_generate_invoice_from_cache ) && file_exists( $path ) ) {
 			if ( 'download_locally' === $action ) {
 				$this->wpg_download_already_existing_invoice_file( $file_url );
 			} elseif ( 'download_on_server' === $action ) {
 				return $path;
 			}
 		} else {
-			if ( $wpg_invoice_template ) {
-				$template = $wpg_invoice_template;
+			if ( $pgfw_invoice_template ) {
+				$template = $pgfw_invoice_template;
 			} else {
 				$template = 'one';
 			}
@@ -716,7 +715,6 @@ class Pdf_Generator_For_Wp_Common {
 			}
 
 			if ( 'download_locally' === $action ) {
-				
 				$output = $dompdf->output();
 				if ( file_exists( $path ) ) {
 					@unlink( $path ); // phpcs:ignore
@@ -724,7 +722,6 @@ class Pdf_Generator_For_Wp_Common {
 				if ( ! file_exists( $path ) ) {
 					@file_put_contents( $path, $output ); // phpcs:ignore
 				}
-			
 				if ( 'invoice' === $type ) {
 					do_action( 'mwb_wpg_upload_invoice_in_storage', $path, $file_url, $order_id, $invoice_name );
 				}
@@ -779,13 +776,13 @@ class Pdf_Generator_For_Wp_Common {
 			$decimal_separator  = wc_get_price_decimal_separator();
 			$thousand_separator = wc_get_price_thousand_separator();
 			$decimals           = wc_get_price_decimals();
-			$wpg_coupon_fee    = array();
+			$pgfw_coupon_fee    = array();
 			$coupon_fees        = $order->get_fees();
 			if ( is_array( $coupon_fees ) ) {
 				foreach ( $coupon_fees as $item_fee ) {
 					$fee_name                     = $item_fee->get_name();
 					$fee_total                    = $item_fee->get_total();
-					$wpg_coupon_fee[ $fee_name ] = $fee_total;
+					$pgfw_coupon_fee[ $fee_name ] = $fee_total;
 				}
 			}
 			$order_product_details = array();
@@ -831,7 +828,7 @@ class Pdf_Generator_For_Wp_Common {
 			$cart_total              = preg_replace( '/[^0-9,.]/', '', $order->get_total() );
 			$tax_total               = preg_replace( '/[^0-9,.]/', '', $order->get_total_tax() );
 			$billing_details         = array(
-				'coupon_details'     => $wpg_coupon_fee,
+				'coupon_details'     => $pgfw_coupon_fee,
 				'customer_id'        => $order->get_customer_id(),
 				'billing_email'      => $order->get_billing_email(),
 				'billing_phone'      => $order->get_billing_phone(),
