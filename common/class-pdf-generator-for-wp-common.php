@@ -292,9 +292,7 @@ class Pdf_Generator_For_Wp_Common {
 		/* addedcode end */
 
 		$dompdf->setPaper( $paper_size, $page_orientation );
-		$password = 'your_password_here';
-		$dompdf->getOptions()->set('isEncryptionEnabled', true);
-		$dompdf->getOptions()->set('encryptionPassword', $password);
+		
 		@ob_end_clean(); // phpcs:ignore
 		$dompdf->render();
 		if ( 'yes' === $body_add_watermark ) {
