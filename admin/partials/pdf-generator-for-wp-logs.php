@@ -28,11 +28,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</thead>
 
 	<tbody id="the-list">
-		<tr class="no-items"><td class="colspanchange" colspan="5">No items found.</td></tr>	</tbody>
+		<tr><th scope="row" class="check-column"><input type="checkbox" name="bulk-delete[]" value="31"></th><td class="id column-id has-row-actions column-primary hidden" data-colname="ID">31<button type="button" class="toggle-row"><span class="screen-reader-text">Show more details</span></button></td><td class="postid column-postid" data-colname="Post ID">31</td><td class="username column-username" data-colname="Username">admin</td><td class="email column-email" data-colname="Email">dev-email@wpengine.local</td><td class="time column-time" data-colname="Time">July 18, 2023 6:25 am</td></tr><tr><th scope="row" class="check-column"><input type="checkbox" name="bulk-delete[]" value="34"></th><td class="id column-id has-row-actions column-primary hidden" data-colname="ID">34<button type="button" class="toggle-row"><span class="screen-reader-text">Show more details</span></button></td><td class="postid column-postid" data-colname="Post ID">25</td><td class="username column-username" data-colname="Username">admin</td><td class="email column-email" data-colname="Email">dev-email@wpengine.local</td><td class="time column-time" data-colname="Time">July 18, 2023 9:50 am</td></tr>	</tbody>
 
 	<tfoot>
 	<tr>
 		<td class="manage-column column-cb check-column"><label class="screen-reader-text" for="cb-select-all-2">Select All</label><input id="cb-select-all-2" type="checkbox"></td><th scope="col" class="manage-column column-id hidden column-primary">ID</th><th scope="col" class="manage-column column-postid">Post ID</th><th scope="col" class="manage-column column-username sortable asc"><a href="#"><span>Username</span><span class="sorting-indicator"></span></a></th><th scope="col" class="manage-column column-email sortable asc"><a href=""><span>Email</span><span class="sorting-indicator"></span></a></th><th scope="col" class="manage-column column-time sortable asc"><a href="#"><span>Time</span><span class="sorting-indicator"></span></a></th>	</tr>
-</form>';
+</tfoot></table></form>';
 	?>
 </div>

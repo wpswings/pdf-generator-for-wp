@@ -37,7 +37,7 @@
 .pgfw-single-pdf-download-button:focus {
     outline:none;
 }
-a.pgfw-single-pdf-download-button {
+a.pgfw-single-pdf-download-button, .wps_pgfw_whatsapp_share_icon {
     display: inline-flex;
     flex-direction: column;
     align-items: center;

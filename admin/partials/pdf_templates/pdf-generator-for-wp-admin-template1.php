@@ -337,7 +337,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 		}
 
 		$html   .= '</style>
-		<div class="pgfw-pdf-body">';
+		<div class="pgfw-pdf-body" style="pointer-events:none;">';
 		if ( ! empty( $pgfw_body_customization ) && in_array( 'post_thumb', $pgfw_body_customization ) ) {
 			$html .= '';
 		} else {

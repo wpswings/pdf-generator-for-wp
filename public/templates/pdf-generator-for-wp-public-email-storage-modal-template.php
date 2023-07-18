@@ -36,7 +36,7 @@ function pgfw_modal_for_email_template( $url_here, $id ) {
 		$is_pro_active = false;
 	}
 	$html  = '<div style="text-align:' . esc_html( $pgfw_pdf_icon_alignment ) . '">
-				<a href="#TB_inline?height=300&width=400&inlineId=single-pdf-download" title="' . esc_html__( 'Please Enter Your Email ID', 'pdf-generator-for-wp' ) . '" class="pgfw-single-pdf-download-button thickbox"><img src="' . esc_url( $pgfw_single_pdf_download_icon_src ) . '" title="' . esc_html__( 'Generate PDF', 'pdf-generator-for-wp' ) . '" style="width:' . esc_html( $pgfw_pdf_icon_width ) . 'px; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;">'.$wps_wpg_single_pdf_icon_name .'</a>';
+				<a href="#TB_inline?height=300&width=400&inlineId=single-pdf-download" title="' . esc_html__( 'Please Enter Your Email ID', 'pdf-generator-for-wp' ) . '" class="pgfw-single-pdf-download-button thickbox"><img src="' . esc_url( $pgfw_single_pdf_download_icon_src ) . '" title="' . esc_html__( 'Generate PDF', 'pdf-generator-for-wp' ) . '" style="height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;">'.$wps_wpg_single_pdf_icon_name .'</a>';
 	$html  = apply_filters( 'wps_pgfw_bulk_download_button_filter_hook', $html, $id );
 	$html .= '</div>
 				<div id="single-pdf-download" style="display:none;">
