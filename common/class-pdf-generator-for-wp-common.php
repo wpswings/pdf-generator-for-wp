@@ -292,7 +292,7 @@ class Pdf_Generator_For_Wp_Common {
 		/* addedcode end */
 
 		$dompdf->setPaper( $paper_size, $page_orientation );
-		
+
 		@ob_end_clean(); // phpcs:ignore
 		$dompdf->render();
 		if ( 'yes' === $body_add_watermark ) {
@@ -365,7 +365,7 @@ class Pdf_Generator_For_Wp_Common {
 			}
 			return $document_name;
 		} elseif ( 'preview' === $pgfw_generate_mode ) {
-					 @ob_end_clean(); // phpcs:ignore
+			@ob_end_clean(); // phpcs:ignore
 			$dompdf->stream(
 				$document_name . '.pdf',
 				array(

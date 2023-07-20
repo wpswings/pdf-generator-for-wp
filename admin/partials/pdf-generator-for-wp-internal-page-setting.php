@@ -185,5 +185,5 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 	</div>
 </section>
 <?php
-echo __( 'Add [QR_CODE] shortcode anywhere on your Custom template to display QR Code on pdf.','pdf-generator-for-wp' );
+echo esc_html__( 'Add [QR_CODE] shortcode anywhere on your Custom template to display QR Code on pdf.', 'pdf-generator-for-wp' );
 ?>
