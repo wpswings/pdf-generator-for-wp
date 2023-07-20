@@ -638,6 +638,19 @@ class Pdf_Generator_For_Wp_Admin {
 				),
 			),
 			array(
+				'title'       => __( 'Enable whatsapp sharing icon', 'wordpress-pdf-generator' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Enable this to share pdf over whatsapp', 'wordpress-pdf-generator' ),
+				'id'          => 'wpg_whatsapp_sharing',
+				'value'       => '',
+				'class'       => 'wps_pgfw_pro_tag',
+				'name'        => 'wpg_whatsapp_sharing',
+				'options'     => array(
+					'yes' => __( 'YES', 'wordpress-pdf-generator' ),
+					'no'  => __( 'NO', 'wordpress-pdf-generator' ),
+				),
+			),
+			array(
 				'title'       => __( 'Choose Bulk Download PDF Icon', 'wordpress-pdf-generator' ),
 				'type'        => 'upload-button',
 				'button_text' => __( 'Upload Icon', 'wordpress-pdf-generator' ),
@@ -711,19 +724,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'name'        => 'single_pdf_icon_name',
 				'placeholder' => __( 'Icon Name', 'wordpress-pdf-generator' ),
 			),
-			array(
-				'title'       => __( 'Enable whatsapp sharing icon', 'wordpress-pdf-generator' ),
-				'type'        => 'radio-switch',
-				'description' => __( 'Enable this to share pdf over whatsapp', 'wordpress-pdf-generator' ),
-				'id'          => 'wpg_whatsapp_sharing',
-				'value'       => '',
-				'class'       => 'wps_pgfw_pro_tag',
-				'name'        => 'wpg_whatsapp_sharing',
-				'options'     => array(
-					'yes' => __( 'YES', 'wordpress-pdf-generator' ),
-					'no'  => __( 'NO', 'wordpress-pdf-generator' ),
-				),
-			),
+			
 			// .
 			array(
 				'title'       => __( 'Icon Size', 'pdf-generator-for-wp' ),
