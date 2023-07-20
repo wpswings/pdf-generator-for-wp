@@ -39,9 +39,7 @@
 		}else {
 			jQuery('.wps_pgfw_pro_tag').closest('.wps-form-group').addClass('wps_pgfw_pro_tag_lable').show();
 		}
-		if ( wps_wpg_licese_check == 1 ){
-			jQuery('.wps_pgfw_pro_tag').closest('.wps-form-group').addClass('wps_pgfw_pro_tag_lable').show();
-		}
+		
          
         
 		const MDCText = mdc.textField.MDCTextField;
