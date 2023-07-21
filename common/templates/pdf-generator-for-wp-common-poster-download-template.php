@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function pgfw_poster_download_button_for_shortcode( $poster_image_url ) {
 	$html = '<div id="pgfw-poster-dowload-url-link">
-				<a href="' . esc_url( $poster_image_url ) . '" download title="' . esc_html__( 'Download Poster', 'pdf-generator-for-wp' ) . '"><img src="' . esc_attr( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/postericon.png" alt="' . esc_attr__( 'Download Poster', 'pdf-generator-for-wp' ) . '" style="width:40px; height:50px;"/></a>
+				<a href="' . esc_url( $poster_image_url ) . '" download title="' . esc_html__( 'Download Poster', 'pdf-generator-for-wp' ) . '"><img src="' . esc_attr( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/postericon.png" alt="' . esc_attr__( 'Download Poster', 'pdf-generator-for-wp' ) . '" style="width: 40px !important;; height:50px;"/></a>
 			</div>';
 	return $html;
 }

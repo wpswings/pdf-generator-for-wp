@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress pdf generator
 Requires at least: 5.5.0
-Tested up to: 6.2.0
-WC requires at least: 5.2.0
-WC tested up to: 7.5.1
-Stable tag: 1.2.0
+Tested up to: 6.2.2
+WC requires at least: 5.2.2
+WC tested up to: 7.9.0
+Stable tag: 1.2.4
 Requires PHP: 7.2
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -100,6 +100,9 @@ Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/
 * Upload TTF font.
 * Allow admin to rename meta fields while listing in PDF.
 * Allow admin to choose taxonomy just like meta fields and rename keys.
+* WhatsApp PDF Sharing
+* Customizable PDF Download Button Text
+* Predefined or Custom Invoice Names
 * Customization of header and footer from the editor.
 * Set content alignment position left or right.
 * Detailed Logging of PDFs generated.
@@ -184,6 +187,20 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Changelog ==
 
+= 1.2.4 - Released on 21 July 2024 =
+* New : Compatibility with WP[6.2.2] and WC[7.9.0]
+* New : Added pro tag in org
+
+= 1.2.3 - Released on 23 June 2023 = 
+* New : Hide title , thumbnail image and description( word ) for default template
+* New: Compatible with latest wp[6.2.2] and wc[7.8.0]
+
+= 1.2.2 - Released on 05 June 2023 = 
+* Fix: Fetial Error 
+
+= 1.2.1 - Released on 01 June 2023 = 
+* New: Compatible with WP(6.2.2) and WC(7.7.1)
+
 = 1.2.0 - Released on 14 April  2023 = 
 * New: Compatible with the latest WP (6.2.0) and WC (7.5.1)
 * Enhancement: Dompdf library updated( 2.0.2 )
@@ -258,6 +275,7 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Upgrade Notice ==
 
-= 1.2.0 - Released on 14 April  2023 = 
-* New: Compatible with the latest WP (6.2.0) and WC (7.5.1)
-* Enhancement: Dompdf library updated( 2.0.2 )
+= 1.2.4 - Released on 21 July 2024 =
+* New : Compatibility with WP[6.2.2] and WC[7.9.0]
+* New : Added pro tag in org
+

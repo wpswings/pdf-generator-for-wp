@@ -43,6 +43,17 @@ if ( $pgfw_save_check_flag ) {
 	}
 }
 ?>
+<div class="wps-pdf__popup-for-pro-wrap">
+	<div class="wps-pdf__popup-for-pro-shadow"></div>
+	<div class="wps-pdf__popup-for-pro">
+		<span class="wps-pdf__popup-for-pro-close">+</span>
+		<h2 class="wps-pdf__popup-for-pro-title">Want More ? <b>Go Pro !</b></h2>
+		<p class="wps-pdf__popup-for-pro-content"><i>The Pro Version will unlock all of the feature<br>This will easily process event tickets, allow sharing of tickets, resend tickets, and QRCode generation, twilio integration, and email notifications feature making it the perfect event management system</i></p>
+		<div class="wps-pdf__popup-for-pro-link-wrap">
+			<a target="_blank" href="https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=pdf-org-backend&utm_campaign=go-pro" class="wps-pdf__popup-for-pro-link">Go pro now</a>
+		</div>
+	</div>
+</div>
 <main class="wps-main wps-bg-white wps-r-8">
 	<nav class="wps-navbar">
 		<ul class="wps-navbar__items">
@@ -59,8 +70,8 @@ if ( $pgfw_save_check_flag ) {
 						if ( 'pdf-generator-for-wp-pdf-setting' === $pgfw_tab_key ) {
 							$pgfw_tab_classes .= 'active';
 						}
-					} elseif ( ! empty( $pgfw_active_tab ) && in_array( $pgfw_active_tab, array( 'wordpress-pdf-generator-cover-page-setting', 'wordpress-pdf-generator-internal-page-setting' ), true ) ) {
-						if ( 'wordpress-pdf-generator-layout-settings' === $pgfw_tab_key ) {
+					} elseif ( ! empty( $pgfw_active_tab ) && in_array( $pgfw_active_tab, array( 'pdf-generator-for-wp-cover-page-setting', 'pdf-generator-for-wp-internal-page-setting' ), true ) ) {
+						if ( 'pdf-generator-for-wp-layout-settings' === $pgfw_tab_key ) {
 							$pgfw_tab_classes .= 'active';
 						}
 					}

@@ -30,7 +30,18 @@
 	 */
 
 	 $(document).ready(function() {
-
+		
+		var wps_wpg_pro_enable = pgfw_admin_param.is_pro_active
+		var wps_wpg_licese_check = pgfw_admin_param.license_check
+		
+		if ( wps_wpg_pro_enable ){
+			jQuery('.wps_pgfw_pro_tag').closest('.wps-form-group').addClass('wps_pgfw_pro_tag_lable').hide();
+		}else {
+			jQuery('.wps_pgfw_pro_tag').closest('.wps-form-group').addClass('wps_pgfw_pro_tag_lable').show();
+		}
+		
+         
+        
 		const MDCText = mdc.textField.MDCTextField;
         const textField = [].map.call(document.querySelectorAll('.mdc-text-field'), function(el) {
             return new MDCText(el);
