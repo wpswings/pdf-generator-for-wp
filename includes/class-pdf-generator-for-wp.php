@@ -394,8 +394,6 @@ class Pdf_Generator_For_Wp {
 			'title' => esc_html__( 'Meta Fields Settings', 'pdf-generator-for-wp' ),
 			'name'  => 'pdf-generator-for-wp-meta-fields',
 		);
-							/// DUMMY PRO TABS ////.
-
 		// Check if the pro plugin is active.
 		if ( ! is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
 			// Pro plugin is active.

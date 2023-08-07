@@ -724,8 +724,6 @@ class Pdf_Generator_For_Wp_Admin {
 				'name'        => 'single_pdf_icon_name',
 				'placeholder' => __( 'Icon Name', 'wordpress-pdf-generator' ),
 			),
-			
-			// .
 			array(
 				'title'       => __( 'Icon Size', 'pdf-generator-for-wp' ),
 				'type'        => 'multi',
