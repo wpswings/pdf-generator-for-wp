@@ -19,12 +19,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string
  */
 function return_ob_value( $order_id, $type, $invoice_id ) {
-	
-	
+
 	$order_details         = do_shortcode( '[WPG_FETCH_ORDER order_id ="' . $order_id . '"]' );
 
 	$order_details         = json_decode( $order_details, true );
-	
+
 	$shipping_details      = $order_details['shipping_details'];
 	$billing_details       = $order_details['billing_details'];
 	$order_product_details = $order_details['product_details'];
@@ -234,7 +233,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 				$item_data = ! empty( $product['item_meta'] ) ? $product['item_meta'] : array();
 				if ( ! empty( $item_data ) && is_array( $item_data ) ) {
 					foreach ( $item_data as $key => $item ) {
-						
+
 						if ( 'is_upsell_purchase' === $item['display_key'] ) {
 							continue;
 						}

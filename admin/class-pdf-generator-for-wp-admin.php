@@ -766,7 +766,7 @@ class Pdf_Generator_For_Wp_Admin {
 			array(
 				'title'       => __( 'Select User Role For Which You Want To Show The Pdf Icon', 'pdf-generator-for-wp' ),
 				'type'        => 'multiselect',
-				'description' => __( 'Select all user roles for which you want to sow the pdf download icon  ', 'pdf-generator-for-wp' ),
+				'description' => __( 'Select all user roles for which you want to show the pdf download icon  ', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_show_post_type_icons_for_user_role',
 				'value'       => $pgfw_show_post_type_icons_for_user_role,
 				'class'       => 'pgfw-multiselect-class wps-defaut-multiselect pgfw_show_post_type_icons_for_user_role',
@@ -1075,7 +1075,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'parent-class' => 'wps_pgfw_setting_separate_border',
 			);
 			$pgfw_settings_footer_fields_html_arr[] = array(
-				'title'       => __( 'page number Position', 'wordpress-pdf-generator' ),
+				'title'       => __( 'Page number position', 'wordpress-pdf-generator' ),
 				'type'        => 'multi',
 				'class'       => 'wps_pgfw_pro_tag',
 				'id'          => 'pgfw_wartermark_position',
