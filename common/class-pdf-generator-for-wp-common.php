@@ -77,7 +77,7 @@ class Pdf_Generator_For_Wp_Common {
 				'nonce'              => wp_create_nonce( 'pgfw_common_nonce' ),
 				'loader'             => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/loader.gif',
 				'processing_html'    => '<span style="color:#1e73be;">' . esc_html__( 'Please wait....', 'pdf-generator-for-wp' ) . '</span>',
-				'email_submit_error' => '<span style="color:#8e4b86;">' . esc_html__( 'Some unexpected error occured. Kindly Resubmit again', 'pdf-generator-for-wp' ) . '</span>',
+				'email_submit_error' => '<span style="color:#8e4b86;">' . esc_html__( 'Some unexpected error occurred. Kindly Resubmit again', 'pdf-generator-for-wp' ) . '</span>',
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . 'common' );
