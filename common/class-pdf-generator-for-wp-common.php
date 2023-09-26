@@ -607,7 +607,14 @@ class Pdf_Generator_For_Wp_Common {
 		$prefix = get_option( 'wpg_invoice_number_prefix' );
 		$suffix = get_option( 'wpg_invoice_number_suffix' );
 		$digit  = ( $digit ) ? $digit : 4;
-		$in_id  = get_post_meta( $order_id, 'wpg_order_invoice_id', true );
+	
+		///////////   get_post_meta
+		if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+			// HPOS usage is enabled.
+			$in_id = 	$order->get_meta('wpg_order_invoice_id', true );
+		} else {
+			$in_id  = get_post_meta( $order_id, 'wpg_order_invoice_id', true );
+		}
 		if ( $in_id ) {
 			$invoice_id = $in_id;
 		} else {
@@ -620,7 +627,16 @@ class Pdf_Generator_For_Wp_Common {
 			update_option( 'wpg_current_invoice_id', $curr_invoice_id );
 			$invoice_number = str_pad( $curr_invoice_id, $digit, '0', STR_PAD_LEFT );
 			$invoice_id     = $prefix . $invoice_number . $suffix;
-			update_post_meta( $order_id, 'wpg_order_invoice_id', $invoice_id );
+			
+			///////////   update_post_meta
+			if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+				// HPOS usage is enabled.
+				$order->update_meta_data( 'wpg_order_invoice_id', $invoice_id);
+				$order->save();
+
+			} else {
+				update_post_meta( $order_id, 'wpg_order_invoice_id', $invoice_id );
+			}
 		}
 		return $invoice_id;
 	}

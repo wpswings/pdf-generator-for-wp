@@ -248,7 +248,8 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_pdf_generate_mode    = array_key_exists( 'pgfw_general_pdf_generate_mode', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_generate_mode'] : '';
 		$pgfw_pdf_file_name        = array_key_exists( 'pgfw_general_pdf_file_name', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_file_name'] : '';
 		$pgfw_pdf_file_name_custom = array_key_exists( 'pgfw_custom_pdf_file_name', $general_settings_data ) ? $general_settings_data['pgfw_custom_pdf_file_name'] : '';
-
+		$pgfw_general_pdf_date_format    = array_key_exists( 'pgfw_general_pdf_date_format', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_date_format'] : '';
+		
 		$pgfw_settings_general_html_arr   = array(
 			array(
 				'title'       => __( 'Enable Plugin', 'pdf-generator-for-wp' ),
@@ -322,6 +323,25 @@ class Pdf_Generator_For_Wp_Admin {
 					''                 => __( 'Select option', 'pdf-generator-for-wp' ),
 					'download_locally' => __( 'Download Locally', 'pdf-generator-for-wp' ),
 					'open_window'      => __( 'Open Window', 'pdf-generator-for-wp' ),
+				),
+			),
+			array(
+				'title'        => __( 'Date format', 'pdf-generator-for-wp' ),
+				'type'         => 'select',
+				'description'  => __( 'Select date format for your dates on pdf template.', 'pdf-generator-for-wp' ),
+				'id'           => 'pgfw_general_pdf_date_format',
+				'value'        => $pgfw_general_pdf_date_format,
+				'class'        => 'pgfw_general_pdf_date_format',
+				'name'         => 'pgfw_general_pdf_date_format',
+				'parent-class' => 'wps_pgfw_setting_separate_border',
+				'options'      => array(
+					'Y/m/d' => 'yyyy/mm/dd',
+					'm/d/Y' => 'mm/dd/yyyy',
+					'd M Y' => 'd MM yyyy',
+					'l, d M Y' => 'DD, d MM yyyy',
+					'Y-m-d' => 'yyyy-mm-dd',
+					'd/m/Y' => 'dd/mm/yyyy',
+					'd.m.Y' => 'd.m.yyyy',
 				),
 			),
 			array(
@@ -940,6 +960,7 @@ class Pdf_Generator_For_Wp_Admin {
 		);
 		return $pgfw_settings_header_fields_html_arr;
 	}
+
 	/**
 	 * Html fields for footer custmization.
 	 *
@@ -1101,7 +1122,7 @@ class Pdf_Generator_For_Wp_Admin {
 					),
 				),
 			);
-
+		
 			$pgfw_settings_footer_fields_html_arr   = apply_filters( 'pgfw_settings_footer_fields_html_arr_filter_hook', $pgfw_settings_footer_fields_html_arr );
 			$pgfw_settings_footer_fields_html_arr[] = array(
 				'type'        => 'button',
@@ -2320,7 +2341,15 @@ class Pdf_Generator_For_Wp_Admin {
 		 * @return array
 		 */
 	public function pgfw_template_pdf_settings_page_dummy( $pgfw_template_pdf_settings ) {
-		$order_stat = wc_get_order_statuses();
+		if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins')))) {
+
+            $order_stat = wc_get_order_statuses();
+
+        } else {
+
+            $order_stat = array();
+
+        }
 		$temp       = array(
 			'wc-never' => __( 'Never', 'pdf-generator-for-wp' ),
 		);
@@ -2831,5 +2860,18 @@ class Pdf_Generator_For_Wp_Admin {
 			),
 		);
 		return $cover_page_html_arr;
+	}
+	/**
+	 * Add custom Page size in dropdown.
+	 *
+	 * @since 3.0.0
+	 * @param array $wpg_custom_page_size array containing font styles.
+	 * @return array
+	 */		
+	public function wpg_custom_page_size_in_dropdown( $wpg_custom_page_size ) {
+		
+		$wpg_custom_page_size['custom_page'] = 'Custom page size';
+		
+		return $wpg_custom_page_size;
 	}
 }

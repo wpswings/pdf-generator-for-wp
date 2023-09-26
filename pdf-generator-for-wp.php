@@ -36,7 +36,15 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
-
+// HPOS Compatibility.
+add_action(
+	'before_woocommerce_init',
+	function() {
+		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+		}
+	}
+);
 require_once ABSPATH . '/wp-admin/includes/plugin.php';
 $pgfw_old_plugin_exists = false;
 $plug           = get_plugins();
@@ -344,4 +352,14 @@ function wps_wpg_pro_pdf_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 
 		<?php
 	}
+}
+add_action( 'woocommerce_after_add_to_cart_button', 'add_content_after_addtocart_button_func' );
+/*
+ * Content below "Add to cart" Button.
+ */
+function add_content_after_addtocart_button_func() {
+
+        // Echo content.
+        echo '<div class="second_content"><a  href="javascript:void(0)" onclick="window.print()">print</a></div>';
+
 }

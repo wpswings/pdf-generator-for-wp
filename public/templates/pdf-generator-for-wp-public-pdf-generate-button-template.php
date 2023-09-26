@@ -35,6 +35,7 @@ function pgfw_pdf_download_button( $url_here, $id ) {
 	$pgfw_body_show_pdf_icon                 = array_key_exists( 'pgfw_body_show_pdf_icon', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_body_show_pdf_icon'] : '';
 	$pgfw_show_post_type_icons_for_user_role = array_key_exists( 'pgfw_show_post_type_icons_for_user_role', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_show_post_type_icons_for_user_role'] : array();
 	$wps_wpg_whatsapp_sharing          = array_key_exists( 'wps_wpg_whatsapp_sharing', $pgfw_display_settings ) ? $pgfw_display_settings['wps_wpg_whatsapp_sharing'] : '';
+	$pgfw_print_enable          = array_key_exists( 'pgfw_print_enable', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_print_enable'] : '';
 	$user = wp_get_current_user();
 	$whatsapp_link = generate_whatsapp_pdf_link( $url_here );
 
@@ -47,7 +48,7 @@ function pgfw_pdf_download_button( $url_here, $id ) {
 	}
 
 	if ( 'yes' == $pgfw_body_show_pdf_icon ) {
-
+		
 		if ( isset( $pgfw_show_post_type_icons_for_user_role ) && ! empty( $pgfw_show_post_type_icons_for_user_role ) && array_intersect( $user->roles, $pgfw_show_post_type_icons_for_user_role ) ) {
 
 			$html  = '<div style="text-align:' . esc_html( $pgfw_pdf_icon_alignment ) . '" class="wps-pgfw-pdf-generate-icon__wrapper-frontend">
@@ -57,6 +58,10 @@ function pgfw_pdf_download_button( $url_here, $id ) {
 
 			if ( $is_pro_active && 'yes' == $wps_wpg_whatsapp_sharing ) {
 				$html .= '<a class="wps_pgfw_whatsapp_share_icon" href="' . $whatsapp_link . '"><img src="' . PDF_GENERATOR_FOR_WP_DIR_URL . '/admin/src/images/whatsapp.png" style="width:' . esc_html( $pgfw_pdf_icon_width ) . 'px; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;" ></a>';
+			}
+			if ( $is_pro_active && 'yes' === $pgfw_print_enable  ) {
+			
+				$html .= '<span id="pgfw_print_button" class="pgfw-single-pdf-download-button" onclick="window.print()"><img  src="'.PDF_GENERATOR_FOR_WP_DIR_URL.'admin/src/images/print_icon.png" style="display:inline-block;width:auto; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;" ></span>';
 			}
 
 			$html .= '</div>';
@@ -71,6 +76,10 @@ function pgfw_pdf_download_button( $url_here, $id ) {
 		if ( $is_pro_active && 'yes' == $wps_wpg_whatsapp_sharing ) {
 
 			$html .= '<a class="wps_pgfw_whatsapp_share_icon" href="' . $whatsapp_link . '"><img src="' . PDF_GENERATOR_FOR_WP_DIR_URL . '/admin/src/images/whatsapp.png" style="width:auto; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;" ></a>';
+		}
+		if ( $is_pro_active && 'yes' === $pgfw_print_enable  ) {
+			
+			$html .= '<span id="pgfw_print_button" class="pgfw-single-pdf-download-button" onclick="window.print()"><img  src="'.PDF_GENERATOR_FOR_WP_DIR_URL.'admin/src/images/print_icon.png" style="padding-left:10px;display:inline-block;width:auto; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;" ></span>';
 		}
 			$html .= '</div>';
 		return $html;

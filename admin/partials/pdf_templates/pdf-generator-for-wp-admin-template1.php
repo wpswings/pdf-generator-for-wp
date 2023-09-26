@@ -77,6 +77,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 	$pgfw_show_post_taxonomy   = array_key_exists( 'pgfw_general_pdf_show_taxonomy', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_taxonomy'] : '';
 	$pgfw_show_post_date       = array_key_exists( 'pgfw_general_pdf_show_post_date', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_post_date'] : '';
 	$pgfw_show_post_author     = array_key_exists( 'pgfw_general_pdf_show_author_name', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_author_name'] : '';
+	$pgfw_general_pdf_date_format    = array_key_exists( 'pgfw_general_pdf_date_format', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_date_format'] : '';
 	// meta fields settings.
 	$pgfw_meta_settings = get_option( 'pgfw_meta_fields_save_settings', array() );
 	$pgfw_meta_fields_show_image_gallery = array_key_exists( 'pgfw_meta_fields_show_image_gallery', $pgfw_meta_settings ) ? $pgfw_meta_settings['pgfw_meta_fields_show_image_gallery'] : '';
@@ -104,7 +105,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 		$post = get_post( $post_id );
 		$author_id = get_post_field( 'post_author', $post_id );
 		$display_name = get_the_author_meta( 'display_name', $author_id );
-		$post_date = get_the_date( 'd F Y', $post_id );
+		$post_date = get_the_date( $pgfw_general_pdf_date_format, $post_id );
 		$post_title = get_the_title( $post );
 	}
 		$display_author_name = in_array( 'author', $pgfw_footer_customization ) ? $display_name : '';
@@ -407,9 +408,15 @@ function return_ob_html( $post_id, $template_name = '' ) {
 				$html .= '</ol>';
 			}
 		}
+		// post Dowloading date.
+		if ( 'yes' === $pgfw_show_post_date ) {
+			$current_date = gmdate($pgfw_general_pdf_date_format) ;
+			$html        .= '<div><b>' . __( 'Date', 'pdf-generator-for-wp' ) . '</b></div>';
+			$html        .= '<div>' . $current_date . '</div>';
+		}
 		// post created date.
 		if ( 'yes' === $pgfw_show_post_date ) {
-			$created_date = get_the_date( 'F Y', $post );
+			$created_date = get_the_date( $pgfw_general_pdf_date_format, $post );
 			$html        .= '<div><b>' . __( 'Date Created', 'pdf-generator-for-wp' ) . '</b></div>';
 			$html        .= '<div>' . $created_date . '</div>';
 		}
