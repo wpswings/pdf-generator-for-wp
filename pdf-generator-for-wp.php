@@ -353,13 +353,3 @@ function wps_wpg_pro_pdf_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 		<?php
 	}
 }
-add_action( 'woocommerce_after_add_to_cart_button', 'add_content_after_addtocart_button_func' );
-/*
- * Content below "Add to cart" Button.
- */
-function add_content_after_addtocart_button_func() {
-
-        // Echo content.
-        echo '<div class="second_content"><a  href="javascript:void(0)" onclick="window.print()">print</a></div>';
-
-}
