@@ -1180,8 +1180,8 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_border_position_left   = array_key_exists( 'pgfw_border_position_left', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_left'] : '';
 		$pgfw_border_position_right  = array_key_exists( 'pgfw_border_position_right', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_right'] : '';
 		$pgfw_body_custom_css        = array_key_exists( 'pgfw_body_custom_css', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_css'] : '';
-				$pgfw_body_custom_page_size_height        = array_key_exists( 'pgfw_body_custom_page_size_height', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_page_size_height'] : '';
-		$pgfw_body_custom_page_size_width        = array_key_exists( 'pgfw_body_custom_page_size_width', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_page_size_width'] : '';
+		$pgfw_body_custom_page_size_height        = array_key_exists( 'pgfw_body_custom_page_size_height', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_page_size_height'] : 150;
+		$pgfw_body_custom_page_size_width        = array_key_exists( 'pgfw_body_custom_page_size_width', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_page_size_width'] : 150;
 		$pgfw_body_customization                 = array_key_exists( 'pgfw_body_customization_for_post_detail', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_customization_for_post_detail'] : array();
 		$wps_pgfw_font_styles = array(
 			''            => __( 'Select option', 'pdf-generator-for-wp' ),
@@ -1297,6 +1297,8 @@ class Pdf_Generator_For_Wp_Admin {
 				'class'       => 'pgfw_body_custom_page_size_height',
 				'name'        => 'pgfw_body_custom_page_size_height',
 				'value'       => $pgfw_body_custom_page_size_height,
+				'min'         => 150,
+				'max'         => 1500,
 				'style'       => ( 'custom_page' !== $pgfw_body_page_size ) ? 'display:none;' : '',
 				'placeholder' => 'Height ( in mm )',
 			),
@@ -1307,6 +1309,8 @@ class Pdf_Generator_For_Wp_Admin {
 				'class'       => 'pgfw_body_custom_page_size_width',
 				'name'        => 'pgfw_body_custom_page_size_width',
 				'value'       => $pgfw_body_custom_page_size_width,
+				'min'         => 150,
+				'max'         => 1500,
 				'style'       => ( 'custom_page' !== $pgfw_body_page_size ) ? 'display:none;' : '',
 				'placeholder' => 'Width ( in mm )',
 			),
