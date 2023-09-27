@@ -76,6 +76,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 	$pgfw_show_post_tags       = array_key_exists( 'pgfw_general_pdf_show_tags', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_tags'] : '';
 	$pgfw_show_post_taxonomy   = array_key_exists( 'pgfw_general_pdf_show_taxonomy', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_taxonomy'] : '';
 	$pgfw_show_post_date       = array_key_exists( 'pgfw_general_pdf_show_post_date', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_post_date'] : '';
+	$pgfw_show_current_date       = array_key_exists( 'pgfw_general_pdf_show_current_date', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_current_date'] : '';
 	$pgfw_show_post_author     = array_key_exists( 'pgfw_general_pdf_show_author_name', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_author_name'] : '';
 	$pgfw_general_pdf_date_format    = array_key_exists( 'pgfw_general_pdf_date_format', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_date_format'] : '';
 	// meta fields settings.
@@ -409,7 +410,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 			}
 		}
 		// post Dowloading date.
-		if ( 'yes' === $pgfw_show_post_date ) {
+		if ( 'yes' === $pgfw_show_current_date ) {
 			$current_date = gmdate($pgfw_general_pdf_date_format) ;
 			$html        .= '<div><b>' . __( 'Date', 'pdf-generator-for-wp' ) . '</b></div>';
 			$html        .= '<div>' . $current_date . '</div>';

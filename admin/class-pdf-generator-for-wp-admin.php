@@ -249,7 +249,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_pdf_file_name        = array_key_exists( 'pgfw_general_pdf_file_name', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_file_name'] : '';
 		$pgfw_pdf_file_name_custom = array_key_exists( 'pgfw_custom_pdf_file_name', $general_settings_data ) ? $general_settings_data['pgfw_custom_pdf_file_name'] : '';
 		$pgfw_general_pdf_date_format    = array_key_exists( 'pgfw_general_pdf_date_format', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_date_format'] : '';
-		
+		$pgfw_show_current_date       = array_key_exists( 'pgfw_general_pdf_show_current_date', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_current_date'] : '';
 		$pgfw_settings_general_html_arr   = array(
 			array(
 				'title'       => __( 'Enable Plugin', 'pdf-generator-for-wp' ),
@@ -300,6 +300,15 @@ class Pdf_Generator_For_Wp_Admin {
 				'value'       => $pgfw_show_post_date,
 				'class'       => 'pgfw_general_pdf_show_post_date',
 				'name'        => 'pgfw_general_pdf_show_post_date',
+			),
+			array(
+				'title'       => __( 'Display Current Date', 'pdf-generator-for-wp' ),
+				'type'        => 'checkbox',
+				'description' => __( 'current date will be shown on PDF.', 'pdf-generator-for-wp' ),
+				'id'          => 'pgfw_general_pdf_show_current_date',
+				'value'       => $pgfw_show_current_date,
+				'class'       => 'pgfw_general_pdf_show_current_date',
+				'name'        => 'pgfw_general_pdf_show_current_date',
 			),
 			array(
 				'title'       => __( 'Display Author Name', 'pdf-generator-for-wp' ),
