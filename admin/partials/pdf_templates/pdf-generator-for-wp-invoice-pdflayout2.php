@@ -129,33 +129,49 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 								</div>
 								<div id="wpg-invoice-title-right" class="wpg-invoice-inline">
 									<div>';
-		if ( 'yes' === $is_add_logo && '' !== $logo ) {
-			$html .= '<img src="' . $logo . '" height="120" width="120"><br/>';
-		}
-		if ( $company_name ) {
-			$html .= '<b>' . ucfirst( $company_name ) . '</b><br/>';
-		}
-		if ( $company_address ) {
-			$html .= ucfirst( $company_address ) . ' ,';
-		}
-		if ( $company_city ) {
-			$html .= ucfirst( $company_city ) . '<br/>';
-		}
-		if ( $company_state ) {
-			$html .= ucfirst( $company_state );
-		}
-		if ( $company_pin ) {
-			$html .= '<br/> ' . $company_pin . '<br/>';
-		}
-		if ( $company_phone ) {
-			$html .= $company_phone . '<br/>';
-		}
-		if ( $company_email ) {
-			$html .= $company_email;
-		}
-		$html .= '</div>
-			</div>
-		</div>';
+									if ( 'yes' === $is_add_logo && '' !== $logo ) {
+										$html .= '<img src="' . $logo . '" height="120" width="120"><br/>';
+									}else{
+										$html .= '<img src="' . $logo . '" height="120" width="120"><br/>';
+									}
+									if ( $company_name ) {
+										$html .= '<b>' . ucfirst( $company_name ) . '</b><br/>';
+									}else {
+										$html .= '<b>Company Name</b><br/>';
+									}
+									if ( $company_address ) {
+										$html .= ucfirst( $company_address ) . ' ,';
+									}else {
+										$html .= ucfirst('Company Address' ) . ' ,';
+									}
+									if ( $company_city ) {
+										$html .= ucfirst( $company_city ) . '<br/>';
+									}else {
+										$html .= ucfirst( 'Company City' ) . '<br/>';
+									}
+									if ( $company_state ) {
+										$html .= ucfirst( $company_state );
+									}else {
+										$html .= ucfirst( 'Company State' );
+									}
+									if ( $company_pin ) {
+										$html .= '<br/> ' . $company_pin . '<br/>';
+									}else{
+										$html .= '<br/> Example pin 123456 <br/>';
+									}
+									if ( $company_phone ) {
+										$html .= $company_phone . '<br/>';
+									}else{
+										$html .= 'Company Number' . '<br/>';
+									}
+									if ( $company_email ) {
+										$html .= $company_email;
+									}else{
+										$html .= 'company@gmail.com';
+									}
+							$html .= '</div>
+						</div>
+					</div>';
 		if ( 'invoice' === $type ) {
 			$html .= '<div id="wpg-invoice-title-to" >
 						<b>' . __( 'Invoice to', 'pdf-generator-for-wp' ) . '</b><br/>
