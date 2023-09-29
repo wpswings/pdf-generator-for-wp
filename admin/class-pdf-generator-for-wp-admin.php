@@ -90,6 +90,13 @@ class Pdf_Generator_For_Wp_Admin {
 	public function pgfw_admin_enqueue_scripts( $hook ) {
 
 		$screen = get_current_screen();
+		$wps_wgm_notice = array(
+			'ajaxurl'       => admin_url( 'admin-ajax.php' ),
+			'wps_pgfw_nonce' => wp_create_nonce( 'wps-pgfw-verify-notice-nonce' ),
+		);
+		wp_register_script( $this->plugin_name . 'admin-notice', plugin_dir_url( __FILE__ ) . 'src/js/pdf-generator-for-wp-notices.js', array( 'jquery' ), $this->version, false );
+		wp_localize_script( $this->plugin_name . 'admin-notice', 'wps_pgfw_notice', $wps_wgm_notice );
+		wp_enqueue_script( $this->plugin_name . 'admin-notice' );
 		if ( isset( $screen->id ) && 'wp-swings_page_pdf_generator_for_wp_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) { // phpcs:ignore
 			wp_enqueue_script( 'wps-pgfw-select2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.js', array( 'jquery' ), time(), false );
 
@@ -2887,4 +2894,83 @@ class Pdf_Generator_For_Wp_Admin {
 		
 		return $wpg_custom_page_size;
 	}
+/**
+ * 
+ */
+	public function wps_pgfw_set_cron_for_plugin_notification() {   
+		$wps_sfw_offset = get_option( 'gmt_offset' );
+			  $wps_sfw_time   = time() + $wps_sfw_offset * 60 * 60;
+			  if ( ! wp_next_scheduled( 'wps_wgm_check_for_notification_update' ) ) {
+				  wp_schedule_event( $wps_sfw_time, 'daily', 'wps_wgm_check_for_notification_update' );
+			  }
+		  }
+		  /**
+		   * 
+		   */
+	public function wps_pgfw_save_notice_message() {
+			$wps_notification_data = $this->wps_sfw_get_update_notification_data();
+			if ( is_array( $wps_notification_data ) && ! empty( $wps_notification_data ) ) {
+				$banner_id      = array_key_exists( 'notification_id', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_id'] : '';
+				$banner_image = array_key_exists( 'notification_message', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_image'] : '';
+				$banner_url = array_key_exists( 'notification_message', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_url'] : '';
+				$banner_type = array_key_exists( 'notification_message', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_type'] : '';
+				update_option( 'wps_wgm_notify_new_banner_id', $banner_id );
+				update_option( 'wps_wgm_notify_new_banner_image', $banner_image );
+				update_option( 'wps_wgm_notify_new_banner_url', $banner_url );
+				if ( 'regular' == $banner_type ) {
+					update_option( 'wps_wgm_notify_hide_baneer_notification', '' );
+				}
+			}
+		}
+	 /**
+	  * 
+	  */
+	  public function wps_pgfw_get_update_notification_data() {
+		$wps_notification_data = array();
+		$url                   = 'https://demo.wpswings.com/client-notification/woo-gift-cards-lite/wps-client-notify.php';
+		$attr                  = array(
+			'action'         => 'wps_notification_fetch',
+			'plugin_version' => PDF_GENERATOR_FOR_WP_VERSION,
+		);
+		$query                 = esc_url_raw( add_query_arg( $attr, $url ) );
+		$response              = wp_remote_get(
+			$query,
+			array(
+				'timeout'   => 20,
+				'sslverify' => false,
+			)
+		);
+ 
+ 
+		if ( is_wp_error( $response ) ) {
+			$error_message = $response->get_error_message();
+			echo '<p><strong>Something went wrong: ' . esc_html( stripslashes( $error_message ) ) . '</strong></p>';
+		} else {
+			$wps_notification_data = json_decode( wp_remote_retrieve_body( $response ), true );
+		}
+		return $wps_notification_data;
+	}
+ 
+ 
+	public function wps_pgfw_dismiss_notice_banner_callback() {
+		
+		if ( isset( $_REQUEST['wps_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['wps_nonce'] ) ), 'wps-pgfw-verify-notice-nonce' ) ) {
+ 
+ 
+			$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
+ 
+ 
+			if ( isset( $banner_id ) && '' != $banner_id ) {
+				update_option( 'wps_wgm_notify_hide_baneer_notification', $banner_id );
+			}
+ 
+ 
+			wp_send_json_success();
+		}
+	}
+	 
+ 
+ 
+  
+			
 }

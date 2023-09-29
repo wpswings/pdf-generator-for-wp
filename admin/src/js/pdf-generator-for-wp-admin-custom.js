@@ -215,4 +215,5 @@
             $('.wps-pdf__popup-for-pro').addClass('active-pro');
         })
 //-------------------------------Pop-up For Pro Tags End -------------------------------------------//
+       
 })( jQuery );

@@ -147,7 +147,9 @@ function deactivate_pdf_generator_for_wp() {
 			}
 		}
 	}
+
 	update_option( 'wps_all_plugins_active', $wps_pgfw_deactive_plugin );
+	wp_clear_scheduled_hook( 'wps_wgm_check_for_notification_update' );
 }
 
 register_activation_hook( __FILE__, 'activate_pdf_generator_for_wp' );
@@ -355,6 +357,12 @@ function wps_wpg_pro_pdf_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 	}
 }
 
+
+
+function wps_sfw_remove_cron_for_notification_update() {
+       wp_clear_scheduled_hook( 'wps_wgm_check_for_notification_update' );
+   }
+
 add_action( 'admin_notices', 'wps_banner_notification_plugin_html' );
 
 if ( ! function_exists( 'wps_banner_notification_plugin_html' ) ) {
@@ -393,17 +401,17 @@ if ( ! function_exists( 'wps_banner_notification_plugin_html' ) ) {
 	}
 }
 
-add_action( 'admin_notices', 'wps_giftcard_notification_plugin_html' );
+add_action( 'admin_notices', 'wps_pgfw_notification_plugin_html' );
 /**
  * Notification html.
  */
-function wps_giftcard_notification_plugin_html() {
+function wps_pgfw_notification_plugin_html() {
 
 	$screen = get_current_screen();
 	if ( isset( $screen->id ) ) {
 		$pagescreen = $screen->id;
 	}
-	if ( ( isset( $_GET['page'] ) && 'wps-wgc-setting-lite' === $_GET['page'] ) || ( isset( $_GET['post_type'] ) && 'giftcard' === $_GET['post_type'] ) ) {
+	if ( ( isset( $_GET['page'] ) && 'pdf_generator_for_wp_menu' === $_GET['page'] )  ) {
 		$notification_id = get_option( 'wps_wgm_notify_new_msg_id', false );
 		$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
 		if ( isset( $banner_id ) && '' !== $banner_id ) {

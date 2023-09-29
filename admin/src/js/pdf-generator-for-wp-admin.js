@@ -71,5 +71,6 @@
 			$(document).find('.wps-defaut-multiselect').select2();
 		}
 	});
-
+	
+	 
 	})( jQuery );
