@@ -335,3 +335,13 @@ a.wps-pdf__popup-for-pro-link:hover {
 }
 
 /*Pro Tag end */
+.wps_proper_align .wps-form-group__control .mdc-text-field {
+    margin-bottom: 0;
+}
+.wps_proper_align .wps-form-group__control {
+    flex: 0 0 100%;
+    max-width: calc(100% - 200px);
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+}

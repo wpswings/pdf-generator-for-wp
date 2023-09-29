@@ -108,9 +108,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 								margin-top: -20px;
 								text-align: right;
 							}
-							#wpg-pdf{
-								font-family: DejaVu Sans !important;
-							}
+							
 						</style>
 					</head>
 					<body>

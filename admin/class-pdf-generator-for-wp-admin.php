@@ -1570,10 +1570,10 @@ class Pdf_Generator_For_Wp_Admin {
 				'title'       => __( 'Choose Watermark Image', 'pdf-generator-for-wp' ),
 				'type'        => 'upload-button',
 				'button_text' => __( 'Upload Image', 'pdf-generator-for-wp' ),
-				'sub_class'   => 'pgfw_watermark_image_upload',
-				'sub_id'      => 'pgfw_watermark_image_upload',
+				'sub_class'   => 'pgfw_watermark_image_upload1',
+				'sub_id'      => 'pgfw_watermark_image_upload1',
 				'id'          => 'sub_pgfw_watermark_image_upload_dummy',
-				'name'        => 'sub_pgfw_watermark_image_upload',
+				'name'        => 'sub_pgfw_watermark_image_upload1',
 				'class'       => 'wps_pgfw_pro_tag',
 				'value'       => '',
 				'sub_name'    => 'pgfw_watermark_image_upload',
@@ -1652,7 +1652,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'name'         => 'pgfw_body_page_template',
 				'parent-class' => 'wps_pgfw_setting_separate_border',
 				'options'      => array(
-					''          => __( 'Select option', 'pdf-generator-for-wp' ),
+					
 					'template1' => __( 'Template1', 'pdf-generator-for-wp' ),
 				),
 			),
@@ -1665,7 +1665,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'class'       => 'pgfw_body_post_template',
 				'name'        => 'pgfw_body_post_template',
 				'options'     => array(
-					''          => __( 'Select option', 'pdf-generator-for-wp' ),
+					
 					'template1' => __( 'Template1', 'pdf-generator-for-wp' ),
 				),
 			),
@@ -1869,12 +1869,12 @@ class Pdf_Generator_For_Wp_Admin {
 
 			);
 			$pgfw_meta_settings_html_arr[] = array(
-				'title'       => __( 'Gallery image meta field name', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Gallery image meta field name.', 'pdf-generator-for-wp' ),
 				'type'        => 'text',
 				'description' => __( 'Enter your image gallery key .', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_gallery_metafield_key',
 				'value'       => $pgfw_gallery_metafield_key,
-				'class'       => 'pgfw_gallery_metafield_key',
+				'class'       => 'pgfw_gallery_metafield_key wps_proper_align',
 				'name'        => 'pgfw_gallery_metafield_key',
 				'placeholder' => __( 'Metafield key Name', 'pdf-generator-for-wp' ),
 			);

@@ -47,9 +47,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 							.wpg-invoice-color{
 								color: ' . $color . ';
 							}
-							#mwb-pdf-form{
-								font-family: DejaVu Sans !important;
-							}
+							
 						</style>
 					</head>
 					<body>

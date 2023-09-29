@@ -12,6 +12,7 @@
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Dompdf\FontMetrics;
+use Automattic\WooCommerce\Utilities\OrderUtil;
 /**
  * The common functionality of the plugin.
  *
@@ -315,7 +316,12 @@ class Pdf_Generator_For_Wp_Common {
 
 		if ( 'yes' == $pgfw_general_pdf_show_pageno ) {
 			$canvas       = $dompdf->getCanvas();
-			$canvas->page_text( $pgfw_pageno_position_left, $pgfw_pageno_position_top, '{PAGE_NUM}/{PAGE_COUNT}', $font, 8, array( 0, 0, 0 ) );
+			if ( !empty($pgfw_pageno_position_left) && !empty($pgfw_pageno_position_top)){
+				$canvas->page_text( $pgfw_pageno_position_left, $pgfw_pageno_position_top, '{PAGE_NUM}/{PAGE_COUNT}', $font, 8, array( 0, 0, 0 ) );
+			}else{
+				$canvas->page_text(100 , 100, '{PAGE_NUM}/{PAGE_COUNT}', $font, 8, array( 0, 0, 0 ) );
+			}
+			
 		}
 		$upload_dir     = wp_upload_dir();
 		$upload_basedir = $upload_dir['basedir'] . '/post_to_pdf/';

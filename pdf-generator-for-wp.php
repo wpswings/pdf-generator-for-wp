@@ -36,6 +36,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
+use Automattic\WooCommerce\Utilities\OrderUtil;
 // HPOS Compatibility.
 add_action(
 	'before_woocommerce_init',
@@ -352,4 +353,79 @@ function wps_wpg_pro_pdf_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 
 		<?php
 	}
+}
+
+add_action( 'admin_notices', 'wps_banner_notification_plugin_html' );
+
+if ( ! function_exists( 'wps_banner_notification_plugin_html' ) ) {
+	/**
+	 * Notification.
+	 */
+	function wps_banner_notification_plugin_html() {
+		$screen = get_current_screen();
+		if ( isset( $screen->id ) ) {
+			$pagescreen = $screen->id;
+		}
+		if ( ( isset( $pagescreen ) && 'plugins' === $pagescreen ) || ( 'wp-swings_page_home' == $pagescreen ) ) {
+			$notification_id = get_option( 'wps_wgm_notify_new_msg_id', false );
+			$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
+			if ( isset( $banner_id ) && '' !== $banner_id ) {
+				$hidden_banner_id            = get_option( 'wps_wgm_notify_hide_baneer_notification', false );
+				$banner_image = get_option( 'wps_wgm_notify_new_banner_image', '' );
+				$banner_url = get_option( 'wps_wgm_notify_new_banner_url', '' );
+				if ( isset( $hidden_banner_id ) && $hidden_banner_id < $banner_id ) {
+
+					if ( '' !== $banner_image && '' !== $banner_url ) {
+
+						?>
+							<div class="wps-offer-notice notice notice-warning is-dismissible">
+								<div class="notice-container">
+									<a href="<?php echo esc_url( $banner_url ); ?>" target="_blank"><img src="<?php echo esc_url( $banner_image ); ?>" alt="Gift cards"/></a>
+								</div>
+								<button type="button" class="notice-dismiss dismiss_banner" id="dismiss-banner"><span class="screen-reader-text">Dismiss this notice.</span></button>
+							</div>
+							
+						<?php
+					}
+				}
+			}
+		}
+	}
+}
+
+add_action( 'admin_notices', 'wps_giftcard_notification_plugin_html' );
+/**
+ * Notification html.
+ */
+function wps_giftcard_notification_plugin_html() {
+
+	$screen = get_current_screen();
+	if ( isset( $screen->id ) ) {
+		$pagescreen = $screen->id;
+	}
+	if ( ( isset( $_GET['page'] ) && 'wps-wgc-setting-lite' === $_GET['page'] ) || ( isset( $_GET['post_type'] ) && 'giftcard' === $_GET['post_type'] ) ) {
+		$notification_id = get_option( 'wps_wgm_notify_new_msg_id', false );
+		$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
+		if ( isset( $banner_id ) && '' !== $banner_id ) {
+			$hidden_banner_id            = get_option( 'wps_wgm_notify_hide_baneer_notification', false );
+			$banner_image = get_option( 'wps_wgm_notify_new_banner_image', '' );
+			$banner_url = get_option( 'wps_wgm_notify_new_banner_url', '' );
+			if ( isset( $hidden_banner_id ) && $hidden_banner_id < $banner_id ) {
+
+				if ( '' !== $banner_image && '' !== $banner_url ) {
+
+					?>
+							<div class="wps-offer-notice notice notice-warning is-dismissible">
+								<div class="notice-container">
+									<a href="<?php echo esc_url( $banner_url ); ?>" target="_blank"><img src="<?php echo esc_url( $banner_image ); ?>" alt="Gift cards"/></a>
+								</div>
+								<button type="button" class="notice-dismiss dismiss_banner" id="dismiss-banner"><span class="screen-reader-text">Dismiss this notice.</span></button>
+							</div>
+							
+						<?php
+				}
+			}
+		}
+	}
+
 }
