@@ -2898,17 +2898,17 @@ class Pdf_Generator_For_Wp_Admin {
  * 
  */
 	public function wps_pgfw_set_cron_for_plugin_notification() {   
-		$wps_sfw_offset = get_option( 'gmt_offset' );
-			  $wps_sfw_time   = time() + $wps_sfw_offset * 60 * 60;
+		$wps_pgfw_offset = get_option( 'gmt_offset' );
+			  $wps_pgfw_time   = time() + $wps_pgfw_offset * 60 * 60;
 			  if ( ! wp_next_scheduled( 'wps_wgm_check_for_notification_update' ) ) {
-				  wp_schedule_event( $wps_sfw_time, 'daily', 'wps_wgm_check_for_notification_update' );
+				  wp_schedule_event( $wps_pgfw_time, 'daily', 'wps_wgm_check_for_notification_update' );
 			  }
 		  }
 		  /**
 		   * 
 		   */
 	public function wps_pgfw_save_notice_message() {
-			$wps_notification_data = $this->wps_sfw_get_update_notification_data();
+			$wps_notification_data = $this->wps_pgfw_get_update_notification_data();
 			if ( is_array( $wps_notification_data ) && ! empty( $wps_notification_data ) ) {
 				$banner_id      = array_key_exists( 'notification_id', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_id'] : '';
 				$banner_image = array_key_exists( 'notification_message', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_image'] : '';
