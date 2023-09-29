@@ -613,7 +613,7 @@ class Pdf_Generator_For_Wp_Common {
 		$prefix = get_option( 'wpg_invoice_number_prefix' );
 		$suffix = get_option( 'wpg_invoice_number_suffix' );
 		$digit  = ( $digit ) ? $digit : 4;
-	
+		$order = wc_get_order( $order_id );
 		///////////   get_post_meta
 		if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 			// HPOS usage is enabled.
