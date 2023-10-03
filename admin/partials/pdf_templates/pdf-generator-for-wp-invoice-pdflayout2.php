@@ -160,7 +160,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 									if ( $company_phone ) {
 										$html .= $company_phone . '<br/>';
 									}else{
-										$html .= 'Company Number' . '<br/>';
+										$html .= 'Company Number <br/>';
 									}
 									if ( $company_email ) {
 										$html .= $company_email;
