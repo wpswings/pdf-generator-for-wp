@@ -360,7 +360,6 @@ function wps_wpg_pro_pdf_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 /**
  * Notification update. 
  */
-
 function wps_sfw_remove_cron_for_notification_update() {
        wp_clear_scheduled_hook( 'wps_wgm_check_for_notification_update' );
    }
