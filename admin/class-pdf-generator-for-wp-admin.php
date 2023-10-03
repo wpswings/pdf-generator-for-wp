@@ -2889,7 +2889,7 @@ class Pdf_Generator_For_Wp_Admin {
 	 */
 	public function wpg_custom_page_size_in_dropdown( $wpg_custom_page_size ) {
 
-		$wpg_custom_page_size['custom_page'] = 'Custom page size';
+		$wpg_custom_page_size['custom_page'] = __( 'Custom page size', 'pdf-generator-for-wp' );
 
 		return $wpg_custom_page_size;
 	}
