@@ -131,8 +131,6 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 									<div>';
 									if ( 'yes' === $is_add_logo && '' !== $logo ) {
 										$html .= '<img src="' . $logo . '" height="120" width="120"><br/>';
-									}else{
-										$html .= '<img src="' . $logo . '" height="120" width="120"><br/>';
 									}
 									if ( $company_name ) {
 										$html .= '<b>' . ucfirst( $company_name ) . '</b><br/>';
