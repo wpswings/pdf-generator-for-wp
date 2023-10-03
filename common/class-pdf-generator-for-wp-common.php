@@ -261,7 +261,7 @@ class Pdf_Generator_For_Wp_Common {
 			'8.5x14'                   => array( 0, 0, 612.00, 1008.0 ),
 			'11x17'                    => array( 0, 0, 792.00, 1224.00 ),
 		);
-		if ( 'custom_page' == $body_page_size && !empty($pgfw_body_custom_page_size_width) && !empty($pgfw_body_custom_page_size_height)) {
+		if ( 'custom_page' == $body_page_size && ! empty( $pgfw_body_custom_page_size_width ) && ! empty( $pgfw_body_custom_page_size_height ) ) {
 			$paper_size = array( 0, 0, $pgfw_body_custom_page_size_width * 2.834, $pgfw_body_custom_page_size_height * 2.834 );
 		} else {
 			$paper_size = array_key_exists( $body_page_size, $paper_sizes ) ? $paper_sizes[ $body_page_size ] : 'a4';
@@ -316,12 +316,11 @@ class Pdf_Generator_For_Wp_Common {
 
 		if ( 'yes' == $pgfw_general_pdf_show_pageno ) {
 			$canvas       = $dompdf->getCanvas();
-			if ( !empty($pgfw_pageno_position_left) && !empty($pgfw_pageno_position_top)){
+			if ( ! empty( $pgfw_pageno_position_left ) && ! empty( $pgfw_pageno_position_top ) ) {
 				$canvas->page_text( $pgfw_pageno_position_left, $pgfw_pageno_position_top, '{PAGE_NUM}/{PAGE_COUNT}', $font, 8, array( 0, 0, 0 ) );
-			}else{
-				$canvas->page_text(100 , 100, '{PAGE_NUM}/{PAGE_COUNT}', $font, 8, array( 0, 0, 0 ) );
+			} else {
+				$canvas->page_text( 100, 100, '{PAGE_NUM}/{PAGE_COUNT}', $font, 8, array( 0, 0, 0 ) );
 			}
-			
 		}
 		$upload_dir     = wp_upload_dir();
 		$upload_basedir = $upload_dir['basedir'] . '/post_to_pdf/';
@@ -614,10 +613,10 @@ class Pdf_Generator_For_Wp_Common {
 		$suffix = get_option( 'wpg_invoice_number_suffix' );
 		$digit  = ( $digit ) ? $digit : 4;
 		$order = wc_get_order( $order_id );
-		///////////   get_post_meta
+		// get_post_meta.
 		if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 			// HPOS usage is enabled.
-			$in_id = 	$order->get_meta('wpg_order_invoice_id', true );
+			$in_id = $order->get_meta( 'wpg_order_invoice_id', true );
 		} else {
 			$in_id  = get_post_meta( $order_id, 'wpg_order_invoice_id', true );
 		}
@@ -633,11 +632,11 @@ class Pdf_Generator_For_Wp_Common {
 			update_option( 'wpg_current_invoice_id', $curr_invoice_id );
 			$invoice_number = str_pad( $curr_invoice_id, $digit, '0', STR_PAD_LEFT );
 			$invoice_id     = $prefix . $invoice_number . $suffix;
-			
-			///////////   update_post_meta
+
+			// update_post_meta.
 			if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
 				// HPOS usage is enabled.
-				$order->update_meta_data( 'wpg_order_invoice_id', $invoice_id);
+				$order->update_meta_data( 'wpg_order_invoice_id', $invoice_id );
 				$order->save();
 
 			} else {

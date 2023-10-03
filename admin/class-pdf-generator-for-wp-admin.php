@@ -1138,7 +1138,7 @@ class Pdf_Generator_For_Wp_Admin {
 					),
 				),
 			);
-		
+
 			$pgfw_settings_footer_fields_html_arr   = apply_filters( 'pgfw_settings_footer_fields_html_arr_filter_hook', $pgfw_settings_footer_fields_html_arr );
 			$pgfw_settings_footer_fields_html_arr[] = array(
 				'type'        => 'button',
@@ -1659,7 +1659,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'name'         => 'pgfw_body_page_template',
 				'parent-class' => 'wps_pgfw_setting_separate_border',
 				'options'      => array(
-					
+
 					'template1' => __( 'Template1', 'pdf-generator-for-wp' ),
 				),
 			),
@@ -1672,7 +1672,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'class'       => 'pgfw_body_post_template',
 				'name'        => 'pgfw_body_post_template',
 				'options'     => array(
-					
+
 					'template1' => __( 'Template1', 'pdf-generator-for-wp' ),
 				),
 			),
@@ -2361,15 +2361,15 @@ class Pdf_Generator_For_Wp_Admin {
 		 * @return array
 		 */
 	public function pgfw_template_pdf_settings_page_dummy( $pgfw_template_pdf_settings ) {
-		if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins')))) {
+		if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 
-            $order_stat = wc_get_order_statuses();
+			$order_stat = wc_get_order_statuses();
 
-        } else {
+		} else {
 
-            $order_stat = array();
+			$order_stat = array();
 
-        }
+		}
 		$temp       = array(
 			'wc-never' => __( 'Never', 'pdf-generator-for-wp' ),
 		);
@@ -2887,45 +2887,51 @@ class Pdf_Generator_For_Wp_Admin {
 	 * @since 3.0.0
 	 * @param array $wpg_custom_page_size array containing font styles.
 	 * @return array
-	 */		
+	 */
 	public function wpg_custom_page_size_in_dropdown( $wpg_custom_page_size ) {
-		
+
 		$wpg_custom_page_size['custom_page'] = 'Custom page size';
-		
+
 		return $wpg_custom_page_size;
 	}
-/**
- * 
- */
-	public function wps_pgfw_set_cron_for_plugin_notification() {   
+	/**
+	 * Set cron.
+	 *
+	 * @since 3.0.0
+	 */
+	public function wps_pgfw_set_cron_for_plugin_notification() {
 		$wps_pgfw_offset = get_option( 'gmt_offset' );
 			  $wps_pgfw_time   = time() + $wps_pgfw_offset * 60 * 60;
-			  if ( ! wp_next_scheduled( 'wps_wgm_check_for_notification_update' ) ) {
-				  wp_schedule_event( $wps_pgfw_time, 'daily', 'wps_wgm_check_for_notification_update' );
-			  }
-		  }
-		  /**
-		   * 
-		   */
+		if ( ! wp_next_scheduled( 'wps_wgm_check_for_notification_update' ) ) {
+			wp_schedule_event( $wps_pgfw_time, 'daily', 'wps_wgm_check_for_notification_update' );
+		}
+	}
+	/**
+	 * Add Notice.
+	 *
+	 * @since 3.0.0
+	 */
 	public function wps_pgfw_save_notice_message() {
 			$wps_notification_data = $this->wps_pgfw_get_update_notification_data();
-			if ( is_array( $wps_notification_data ) && ! empty( $wps_notification_data ) ) {
-				$banner_id      = array_key_exists( 'notification_id', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_id'] : '';
-				$banner_image = array_key_exists( 'notification_message', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_image'] : '';
-				$banner_url = array_key_exists( 'notification_message', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_url'] : '';
-				$banner_type = array_key_exists( 'notification_message', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_type'] : '';
-				update_option( 'wps_wgm_notify_new_banner_id', $banner_id );
-				update_option( 'wps_wgm_notify_new_banner_image', $banner_image );
-				update_option( 'wps_wgm_notify_new_banner_url', $banner_url );
-				if ( 'regular' == $banner_type ) {
-					update_option( 'wps_wgm_notify_hide_baneer_notification', '' );
-				}
+		if ( is_array( $wps_notification_data ) && ! empty( $wps_notification_data ) ) {
+			$banner_id      = array_key_exists( 'notification_id', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_id'] : '';
+			$banner_image = array_key_exists( 'notification_message', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_image'] : '';
+			$banner_url = array_key_exists( 'notification_message', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_url'] : '';
+			$banner_type = array_key_exists( 'notification_message', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_type'] : '';
+			update_option( 'wps_wgm_notify_new_banner_id', $banner_id );
+			update_option( 'wps_wgm_notify_new_banner_image', $banner_image );
+			update_option( 'wps_wgm_notify_new_banner_url', $banner_url );
+			if ( 'regular' == $banner_type ) {
+				update_option( 'wps_wgm_notify_hide_baneer_notification', '' );
 			}
 		}
+	}
 	 /**
-	  * 
+	  * Update notification data.
+	  *
+	  * @since 3.0.0
 	  */
-	  public function wps_pgfw_get_update_notification_data() {
+	public function wps_pgfw_get_update_notification_data() {
 		$wps_notification_data = array();
 		$url                   = 'https://demo.wpswings.com/client-notification/woo-gift-cards-lite/wps-client-notify.php';
 		$attr                  = array(
@@ -2940,8 +2946,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'sslverify' => false,
 			)
 		);
- 
- 
+
 		if ( is_wp_error( $response ) ) {
 			$error_message = $response->get_error_message();
 			echo '<p><strong>Something went wrong: ' . esc_html( stripslashes( $error_message ) ) . '</strong></p>';
@@ -2950,27 +2955,28 @@ class Pdf_Generator_For_Wp_Admin {
 		}
 		return $wps_notification_data;
 	}
- 
- 
+
+	/**
+	 * Display Notice.
+	 *
+	 * @since 3.0.0
+	 */
 	public function wps_pgfw_dismiss_notice_banner_callback() {
-		
+
 		if ( isset( $_REQUEST['wps_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['wps_nonce'] ) ), 'wps-pgfw-verify-notice-nonce' ) ) {
- 
- 
+
 			$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
- 
- 
+
 			if ( isset( $banner_id ) && '' != $banner_id ) {
 				update_option( 'wps_wgm_notify_hide_baneer_notification', $banner_id );
 			}
- 
- 
+
 			wp_send_json_success();
 		}
 	}
-	 
- 
- 
-  
-			
+
+
+
+
+
 }

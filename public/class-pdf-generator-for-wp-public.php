@@ -159,13 +159,6 @@ class Pdf_Generator_For_Wp_Public {
 				'id' => true,
 				'style'            => true,
 			),
-			'input' => array(
-				'type'      => array(),
-				'name'      => array(),
-				'value'     => array(),
-				'checked'   => array(),
-				'style'            => true,
-			),
 			'a' => array(
 				'href' => true,
 				'title' => true,
