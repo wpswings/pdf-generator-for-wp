@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress pdf generator
 Requires at least: 5.5.0
-Tested up to: 6.2.2
+Tested up to: 6.3.1
 WC requires at least: 5.2.2
-WC tested up to: 7.9.0
-Stable tag: 1.2.4
+WC tested up to: 8.1.1
+Stable tag: 1.2.6
 Requires PHP: 7.2
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -24,6 +24,9 @@ Users can download PDFs from the WordPress site or view them in a new tab. Also,
 
 == WITH THE PDF GENERATOR FOR WORDPRESS PLUGIN YOU CAN: ==
 
+* You can choose from various page sizes including A1, A2, A4, B2, B4, and so on.
+* Admin can choose from multiple date formats to show on PDF.
+* Merchants can enable the setting to show Post Created Date and Current Date in the PDF
 * Convert all the posts, pages, blogs, and products into PDF files.
 * Now update PDF icon visibility based on user roles.
 * Export posts, products, and pages into PDF format in bulk with the default PDF template.
@@ -40,6 +43,7 @@ Users can download PDFs from the WordPress site or view them in a new tab. Also,
 * Include author details. 
 * Compatible with WPML, thus facilitating your multilingual audience.
 * Compatible with WordPress Multisite
+* Compatible with WooCommerce HPOS
 
 == PDF GENERATOR PLUGIN MEETS YOUR REQUIREMENT, SO ==
 
@@ -93,6 +97,10 @@ Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/
 * [**WordPress PDF Generator Frontend demo**](https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=wpswings-org-page&utm_campaign=frontend-demo)
 
 * [**WordPress PDF Generator Backend demo**](https://demo.wpswings.com/pdf-generator-for-wp-pro/request-for-personal-demo/?utm_source=wpswings-pdf-demo&utm_medium=wpswings-org-page&utm_campaign=backend-demo)
+
+== WORDPRESS PDF GENERATOR COMPATIBILITIES == 
+
+* **WooCommerce HPOS:** PDF generator for WordPress is compatible with WooCommerce High-Performance Order Storage HPOS which allows you to store order data in custom order tables to maximize your eCommerce store performance.
 
 == WHAT PREMIUM VERSION OF THE WORDPRESS PDF GENERATOR PLUGIN OFFERS ==
 
@@ -187,7 +195,20 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Changelog ==
 
-= 1.2.4 - Released on 21 July 2024 =
+= 1.2.6 - Released on 03 October 2023 =
+* New : Compatibility with HPOS
+* New : Set custom page size option
+* New : Option to set date format
+* New : Added banner image in backend
+* New : Compatibility with WP[6.3.1] and WC[8.1.1]
+* Fix : Minor bug fixes related to order with invoice
+
+= 1.2.5 - Released on 08 August 2023 = 
+* New : Compatibility with WP[6.3.0] and WC[8.0.0]
+* Fix : Email popup content is not displayed as a popup
+* Fix : Pro tag added on internal page
+
+= 1.2.4 - Released on 21 July 2023 =
 * New : Compatibility with WP[6.2.2] and WC[7.9.0]
 * New : Added pro tag in org
 
@@ -275,7 +296,10 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Upgrade Notice ==
 
-= 1.2.4 - Released on 21 July 2024 =
-* New : Compatibility with WP[6.2.2] and WC[7.9.0]
-* New : Added pro tag in org
-
+= 1.2.6 - Released on 03 October 2023 =
+* New : Compatibility with HPOS
+* New : Set custom page size option
+* New : Option to set date format
+* New : Added banner image in backend
+* New : Compatibility with WP[6.3.1] and WC[8.1.1]
+* Fix : Minor bug fixes related to order with invoice

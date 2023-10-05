@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <!--  template file for admin settings. -->
 <div class="wpg-secion-wrap wps_pgfw_pro_tag">
 	<?php
-	
+
 	echo '<form method="POST" action=""><input type="hidden" name="delete_nonce" value="366a82202a"><input type="hidden" id="_wpnonce" name="_wpnonce" value="470d3c82fb"><input type="hidden" name="_wp_http_referer" value="/wp-admin/admin.php?page=pdf_generator_for_wp_menu&amp;pgfw_tab=pdf-generator-for-wp-logs">	<div class="tablenav top">
 
 	<table class="wp-list-table widefat fixed striped table-view-list wp-swings_page_pdf_generator_for_wp_menu">

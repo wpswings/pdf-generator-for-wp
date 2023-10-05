@@ -193,6 +193,11 @@
             $('.wps-pdf__popup-for-pro-shadow').show();
             $('.wps-pdf__popup-for-pro').addClass('active-pro');
         })
+
+        $(document).on('click', '.wps_pgfw_pro_tag .wps-pgfw-gen-section-form', function() {
+            $('.wps-pdf__popup-for-pro-shadow').show();
+            $('.wps-pdf__popup-for-pro').addClass('active-pro');
+        })
     
         $(document).on('click', '.wps-pdf__popup-for-pro-close', function() {
             $('.wps-pdf__popup-for-pro-shadow').hide();
@@ -210,4 +215,5 @@
             $('.wps-pdf__popup-for-pro').addClass('active-pro');
         })
 //-------------------------------Pop-up For Pro Tags End -------------------------------------------//
+       
 })( jQuery );

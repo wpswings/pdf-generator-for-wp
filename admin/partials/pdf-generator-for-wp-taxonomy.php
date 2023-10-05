@@ -21,7 +21,7 @@ $pgfw_taxonomy_settings_arr = apply_filters( 'pgfw_taxonomy_settings_array_dummy
 <form action="" method="POST" class="wps-wpg-gen-section-form">
 	<div class="wpg-secion-wrap">
 		<?php
-				wp_nonce_field( 'nonce_settings_save', 'wpg_nonce_field' );
+				wp_nonce_field('nonce_settings_save', 'wpg_nonce_field' );
 				$pgfw_wps_pgfw_obj->wps_pgfw_plug_generate_html($pgfw_taxonomy_settings_arr);
 		?>
 	</div>

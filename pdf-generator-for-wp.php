@@ -15,17 +15,17 @@
  * Plugin Name:       PDF Generator For WP
  * Plugin URI:        https://wordpress.org/plugins/pdf-generator-for-wp/
  * Description:       <code><strong>PDF Generator for WordPress</strong></code> plugin allows to generate and download PDF files from WordPress sites across multiple platforms in just one click. Elevate your eCommerce store by exploring more on WP Swings.<a href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-shop&utm_medium=pdf-org-backend&utm_campaign=shop-page" target="_blank"> Elevate your e-commerce store by exploring more on <strong> WP Swings </strong></a>
- * Version:           1.2.4
+ * Version:           1.2.6
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=pdf-org-backend&utm_campaign=official
  * Text Domain:       pdf-generator-for-wp
  * Domain Path:       /languages
  *
  * Requires at least:    5.5.0
- * Tested up to:         6.2.2
+ * Tested up to:         6.3.1
  * WC requires at least: 5.2.0
- * WC tested up to:      7.9.0
- * Stable tag:           1.2.4
+ * WC tested up to:      8.1.1
+ * Stable tag:           1.2.6
  * Requires PHP:         7.2
  *
  * License:           GNU General Public License v3.0
@@ -36,7 +36,16 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
-
+use Automattic\WooCommerce\Utilities\OrderUtil;
+// HPOS Compatibility.
+add_action(
+	'before_woocommerce_init',
+	function() {
+		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+		}
+	}
+);
 require_once ABSPATH . '/wp-admin/includes/plugin.php';
 $pgfw_old_plugin_exists = false;
 $plug           = get_plugins();
@@ -52,7 +61,7 @@ if ( isset( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php'] ) ) {
  * @since 1.0.0
  */
 function define_pdf_generator_for_wp_constants() {
-	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.2.4' );
+	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.2.6' );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_PATH', plugin_dir_path( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_URL', plugin_dir_url( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_SERVER_URL', 'https://wpswings.com' );
@@ -138,7 +147,9 @@ function deactivate_pdf_generator_for_wp() {
 			}
 		}
 	}
+
 	update_option( 'wps_all_plugins_active', $wps_pgfw_deactive_plugin );
+	wp_clear_scheduled_hook( 'wps_wgm_check_for_notification_update' );
 }
 
 register_activation_hook( __FILE__, 'activate_pdf_generator_for_wp' );
@@ -331,7 +342,7 @@ function wps_wpg_pro_pdf_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 			<td colspan="4" class="plugin-update colspanchange">
 				<div class="notice notice-error inline update-message notice-alt">
 					<p class='wps-notice-title wps-notice-section'>
-						<?php esc_html_e( 'The latest update includes some substantial changes across different areas of the plugin. Hence, if you are not a new user then', 'pdf-generator-for-wp' ); ?><strong><?php esc_html_e( ' please migrate your old data and settings from ', 'pdf-generator-for-wp' ); ?><a style="text-decoration:none;" href="<?php echo esc_url( admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ) ); ?>"><?php esc_html_e( 'Dashboard', 'pdf-generator-for-wp' ); ?></strong></a><?php esc_html_e( ' page then Click On Start Import Button.', 'pdf-generator-for-wp' ); ?>
+						<?php esc_html_e( 'The latest update includes some substantial changes across different areas of the plugin. Hence, if you are not a new user then', 'pdf-generator-for-wp' ); ?><strong><?php esc_html_e( ' Please migrate your old data and settings from ', 'pdf-generator-for-wp' ); ?><a style="text-decoration:none;" href="<?php echo esc_url( admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ) ); ?>"><?php esc_html_e( 'Dashboard', 'pdf-generator-for-wp' ); ?></strong></a><?php esc_html_e( ' page then Click On Start Import Button.', 'pdf-generator-for-wp' ); ?>
 					</p>
 				</div>
 			</td>
@@ -344,4 +355,86 @@ function wps_wpg_pro_pdf_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 
 		<?php
 	}
+}
+
+/**
+ * Notification update. 
+ */
+function wps_sfw_remove_cron_for_notification_update() {
+       wp_clear_scheduled_hook( 'wps_wgm_check_for_notification_update' );
+   }
+
+add_action( 'admin_notices', 'wps_banner_notification_plugin_html' );
+
+if ( ! function_exists( 'wps_banner_notification_plugin_html' ) ) {
+	/**
+	 * Notification.
+	 */
+	function wps_banner_notification_plugin_html() {
+		$screen = get_current_screen();
+		if ( isset( $screen->id ) ) {
+			$pagescreen = $screen->id;
+		}
+		if ( ( isset( $pagescreen ) && 'plugins' === $pagescreen ) || ( 'wp-swings_page_home' == $pagescreen ) ) {
+			$notification_id = get_option( 'wps_wgm_notify_new_msg_id', false );
+			$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
+			if ( isset( $banner_id ) && '' !== $banner_id ) {
+				$hidden_banner_id            = get_option( 'wps_wgm_notify_hide_baneer_notification', false );
+				$banner_image = get_option( 'wps_wgm_notify_new_banner_image', '' );
+				$banner_url = get_option( 'wps_wgm_notify_new_banner_url', '' );
+				if ( isset( $hidden_banner_id ) && $hidden_banner_id < $banner_id ) {
+
+					if ( '' !== $banner_image && '' !== $banner_url ) {
+
+						?>
+							<div class="wps-offer-notice notice notice-warning is-dismissible">
+								<div class="notice-container">
+									<a href="<?php echo esc_url( $banner_url ); ?>" target="_blank"><img src="<?php echo esc_url( $banner_image ); ?>" alt="Gift cards"/></a>
+								</div>
+								<button type="button" class="notice-dismiss dismiss_banner" id="dismiss-banner"><span class="screen-reader-text">Dismiss this notice.</span></button>
+							</div>
+							
+						<?php
+					}
+				}
+			}
+		}
+	}
+}
+
+add_action( 'admin_notices', 'wps_pgfw_notification_plugin_html' );
+/**
+ * Notification html.
+ */
+function wps_pgfw_notification_plugin_html() {
+
+	$screen = get_current_screen();
+	if ( isset( $screen->id ) ) {
+		$pagescreen = $screen->id;
+	}
+	if ( ( isset( $_GET['page'] ) && 'pdf_generator_for_wp_menu' === $_GET['page'] )  ) {
+		$notification_id = get_option( 'wps_wgm_notify_new_msg_id', false );
+		$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
+		if ( isset( $banner_id ) && '' !== $banner_id ) {
+			$hidden_banner_id            = get_option( 'wps_wgm_notify_hide_baneer_notification', false );
+			$banner_image = get_option( 'wps_wgm_notify_new_banner_image', '' );
+			$banner_url = get_option( 'wps_wgm_notify_new_banner_url', '' );
+			if ( isset( $hidden_banner_id ) && $hidden_banner_id < $banner_id ) {
+
+				if ( '' !== $banner_image && '' !== $banner_url ) {
+
+					?>
+							<div class="wps-offer-notice notice notice-warning is-dismissible">
+								<div class="notice-container">
+									<a href="<?php echo esc_url( $banner_url ); ?>" target="_blank"><img src="<?php echo esc_url( $banner_image ); ?>" alt="Gift cards"/></a>
+								</div>
+								<button type="button" class="notice-dismiss dismiss_banner" id="dismiss-banner"><span class="screen-reader-text">Dismiss this notice.</span></button>
+							</div>
+							
+						<?php
+				}
+			}
+		}
+	}
+
 }

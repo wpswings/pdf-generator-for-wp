@@ -151,21 +151,59 @@ class Pdf_Generator_For_Wp_Public {
 		$guest_access_pdf             = array_key_exists( 'pgfw_guest_access', $display_setings_arr ) ? $display_setings_arr['pgfw_guest_access'] : '';
 		$pgfw_guest_download_or_email = array_key_exists( 'pgfw_guest_download_or_email', $display_setings_arr ) ? $display_setings_arr['pgfw_guest_download_or_email'] : '';
 		$pgfw_user_download_or_email  = array_key_exists( 'pgfw_user_download_or_email', $display_setings_arr ) ? $display_setings_arr['pgfw_user_download_or_email'] : '';
+		$allowedposttags = array(
+			'div' => array(
+
+				'title' => array(),
+				'class' => array(),
+				'id' => true,
+				'style'            => true,
+			),
+			'a' => array(
+				'href' => true,
+				'title' => true,
+				'img' => true,
+				'class' => true,
+				'style' => array(),
+			),
+			'img' => array(
+				'src' => array(),
+				'class' => array(),
+				'alt' => array(),
+				'title' => array(),
+				'style' => array(),
+			),
+			'input'    => array(
+				'type'  => true,
+				'class' => true,
+				'name'  => true,
+				'value' => true,
+				'id'    => true,
+				'style' => true,
+				'checked'   => array(),
+			),
+			'button' => array(
+				'id' => true,
+			),
+
+		);
+
 		if ( is_array( $pgfw_show_icons_to_posts ) && in_array( get_post_type( $id ), $pgfw_show_icons_to_posts, true ) ) {
 			if ( ( 'yes' === $guest_access_pdf ) && ! is_user_logged_in() ) {
 				if ( 'email' === $pgfw_guest_download_or_email ) {
-					echo wp_kses_post( $this->pgfw_modal_for_email_storing_during_pdf_generation( $url_here, $id ) );
+					echo wp_kses( $this->pgfw_modal_for_email_storing_during_pdf_generation( $url_here, $id ), $allowedposttags );
 				} else {
 					echo wp_kses_post( $this->pgfw_download_pdf_button_show( $url_here, $id ) );
 				}
 			} elseif ( ( 'yes' === $user_access_pdf ) && is_user_logged_in() ) {
 				if ( 'email' === $pgfw_user_download_or_email ) {
-					echo wp_kses_post( $this->pgfw_modal_for_email_storing_during_pdf_generation( $url_here, $id ) );
+					echo wp_kses( $this->pgfw_modal_for_email_storing_during_pdf_generation( $url_here, $id ), $allowedposttags );
 				} else {
 					echo wp_kses_post( $this->pgfw_download_pdf_button_show( $url_here, $id ) );
 				}
 			}
 		}
+
 	}
 	/**
 	 * Show pdf download button.

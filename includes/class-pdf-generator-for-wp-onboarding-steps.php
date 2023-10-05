@@ -726,7 +726,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 		$response = wp_remote_post( $url, $request );
 		if ( is_wp_error( $response ) ) {
 			$status_code = 500;
-			$response    = esc_html__( 'Unexpected Error Occured', 'pdf-generator-for-wp' );
+			$response    = esc_html__( 'Unexpected Error Occurred', 'pdf-generator-for-wp' );
 			$curl_errors = $response;
 		} else {
 			$response    = wp_remote_retrieve_body( $response );

@@ -2,7 +2,8 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
- .pgfw-badge {
+
+.pgfw-badge {
     background-color: blue;
     color: white;
     border-radius: 10px;
@@ -226,6 +227,7 @@ a.pgfw-single-pdf-download-button, .wps_pgfw_whatsapp_share_icon {
 #pgfw-user-email-submittion-message {
     margin-top: 10px;
 }
+
 @media screen and (max-width: 480px) {
     #pgfw-user-email-submittion-message {
         width: 100%;

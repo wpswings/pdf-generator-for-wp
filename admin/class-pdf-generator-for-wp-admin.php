@@ -90,6 +90,13 @@ class Pdf_Generator_For_Wp_Admin {
 	public function pgfw_admin_enqueue_scripts( $hook ) {
 
 		$screen = get_current_screen();
+		$wps_wgm_notice = array(
+			'ajaxurl'       => admin_url( 'admin-ajax.php' ),
+			'wps_pgfw_nonce' => wp_create_nonce( 'wps-pgfw-verify-notice-nonce' ),
+		);
+		wp_register_script( $this->plugin_name . 'admin-notice', plugin_dir_url( __FILE__ ) . 'src/js/pdf-generator-for-wp-notices.js', array( 'jquery' ), $this->version, false );
+		wp_localize_script( $this->plugin_name . 'admin-notice', 'wps_pgfw_notice', $wps_wgm_notice );
+		wp_enqueue_script( $this->plugin_name . 'admin-notice' );
 		if ( isset( $screen->id ) && 'wp-swings_page_pdf_generator_for_wp_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) { // phpcs:ignore
 			wp_enqueue_script( 'wps-pgfw-select2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.js', array( 'jquery' ), time(), false );
 
@@ -248,7 +255,8 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_pdf_generate_mode    = array_key_exists( 'pgfw_general_pdf_generate_mode', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_generate_mode'] : '';
 		$pgfw_pdf_file_name        = array_key_exists( 'pgfw_general_pdf_file_name', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_file_name'] : '';
 		$pgfw_pdf_file_name_custom = array_key_exists( 'pgfw_custom_pdf_file_name', $general_settings_data ) ? $general_settings_data['pgfw_custom_pdf_file_name'] : '';
-
+		$pgfw_general_pdf_date_format    = array_key_exists( 'pgfw_general_pdf_date_format', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_date_format'] : '';
+		$pgfw_show_current_date       = array_key_exists( 'pgfw_general_pdf_show_current_date', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_current_date'] : '';
 		$pgfw_settings_general_html_arr   = array(
 			array(
 				'title'       => __( 'Enable Plugin', 'pdf-generator-for-wp' ),
@@ -301,6 +309,15 @@ class Pdf_Generator_For_Wp_Admin {
 				'name'        => 'pgfw_general_pdf_show_post_date',
 			),
 			array(
+				'title'       => __( 'Display Current Date', 'pdf-generator-for-wp' ),
+				'type'        => 'checkbox',
+				'description' => __( 'current date will be shown on PDF.', 'pdf-generator-for-wp' ),
+				'id'          => 'pgfw_general_pdf_show_current_date',
+				'value'       => $pgfw_show_current_date,
+				'class'       => 'pgfw_general_pdf_show_current_date',
+				'name'        => 'pgfw_general_pdf_show_current_date',
+			),
+			array(
 				'title'       => __( 'Display Author Name', 'pdf-generator-for-wp' ),
 				'type'        => 'checkbox',
 				'description' => __( 'Author name will be shown on PDF.', 'pdf-generator-for-wp' ),
@@ -322,6 +339,25 @@ class Pdf_Generator_For_Wp_Admin {
 					''                 => __( 'Select option', 'pdf-generator-for-wp' ),
 					'download_locally' => __( 'Download Locally', 'pdf-generator-for-wp' ),
 					'open_window'      => __( 'Open Window', 'pdf-generator-for-wp' ),
+				),
+			),
+			array(
+				'title'        => __( 'Date format', 'pdf-generator-for-wp' ),
+				'type'         => 'select',
+				'description'  => __( 'Select date format for your dates on pdf template.', 'pdf-generator-for-wp' ),
+				'id'           => 'pgfw_general_pdf_date_format',
+				'value'        => $pgfw_general_pdf_date_format,
+				'class'        => 'pgfw_general_pdf_date_format',
+				'name'         => 'pgfw_general_pdf_date_format',
+				'parent-class' => 'wps_pgfw_setting_separate_border',
+				'options'      => array(
+					'Y/m/d' => 'yyyy/mm/dd',
+					'm/d/Y' => 'mm/dd/yyyy',
+					'd M Y' => 'd MM yyyy',
+					'l, d M Y' => 'DD, d MM yyyy',
+					'Y-m-d' => 'yyyy-mm-dd',
+					'd/m/Y' => 'dd/mm/yyyy',
+					'd.m.Y' => 'd.m.yyyy',
 				),
 			),
 			array(
@@ -638,22 +674,22 @@ class Pdf_Generator_For_Wp_Admin {
 				),
 			),
 			array(
-				'title'       => __( 'Enable whatsapp sharing icon', 'wordpress-pdf-generator' ),
+				'title'       => __( 'Enable WhatsApp sharing icon', 'pdf-generator-for-wp' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'Enable this to share pdf over whatsapp', 'wordpress-pdf-generator' ),
+				'description' => __( 'Enable this to share pdf over WhatsApp', 'pdf-generator-for-wp' ),
 				'id'          => 'wpg_whatsapp_sharing',
 				'value'       => '',
 				'class'       => 'wps_pgfw_pro_tag',
 				'name'        => 'wpg_whatsapp_sharing',
 				'options'     => array(
-					'yes' => __( 'YES', 'wordpress-pdf-generator' ),
-					'no'  => __( 'NO', 'wordpress-pdf-generator' ),
+					'yes' => __( 'YES', 'pdf-generator-for-wp' ),
+					'no'  => __( 'NO', 'pdf-generator-for-wp' ),
 				),
 			),
 			array(
-				'title'       => __( 'Choose Bulk Download PDF Icon', 'wordpress-pdf-generator' ),
+				'title'       => __( 'Choose Bulk Download PDF Icon', 'pdf-generator-for-wp' ),
 				'type'        => 'upload-button',
-				'button_text' => __( 'Upload Icon', 'wordpress-pdf-generator' ),
+				'button_text' => __( 'Upload Icon', 'pdf-generator-for-wp' ),
 				'class'       => 'wps_pgfw_pro_tag',
 				'id'          => 'wps_pgfw_pdf_bulk_download_icon',
 				'value'       => '',
@@ -661,7 +697,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'sub_class'   => 'wps_pgfw_pdf_bulk_download_icon',
 				'sub_name'    => 'wps_pgfw_pdf_bulk_download_icon',
 				'name'        => 'wps_pgfw_pdf_bulk_download_icon',
-				'description' => __( 'If no icon is choosen default icon will be used', 'wordpress-pdf-generator' ),
+				'description' => __( 'If no icon is chosen default icon will be used', 'pdf-generator-for-wp' ),
 				'img-tag'     => array(
 					'img-class' => 'wps_bulk_pdf_icon_image',
 					'img-id'    => 'wps_bulk_pdf_icon_image',
@@ -671,8 +707,8 @@ class Pdf_Generator_For_Wp_Admin {
 				'img-remove'  => array(
 					'btn-class' => 'wps_bulk_pdf_icon_image_remove',
 					'btn-id'    => 'wps_bulk_pdf_icon_image_remove',
-					'btn-text'  => __( 'Remove Icon', 'wordpress-pdf-generator' ),
-					'btn-title' => __( 'Remove Icon', 'wordpress-pdf-generator' ),
+					'btn-text'  => __( 'Remove Icon', 'pdf-generator-for-wp' ),
+					'btn-title' => __( 'Remove Icon', 'pdf-generator-for-wp' ),
 					'btn-name'  => 'wps_bulk_pdf_icon_image_remove',
 					'btn-style' => ! ( '' ) ? 'display:none' : '',
 				),
@@ -690,7 +726,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'sub_name'     => 'pgfw_pdf_single_download_icon',
 				'name'         => 'sub_pgfw_pdf_single_download_icon',
 				'parent-class' => 'wps_pgfw_setting_separate_border',
-				'description'  => __( 'If no icon is choosen default icon will be used.', 'pdf-generator-for-wp' ),
+				'description'  => __( 'If no icon is chosen default icon will be used.', 'pdf-generator-for-wp' ),
 				'img-tag'      => array(
 					'img-class' => 'pgfw_single_pdf_icon_image',
 					'img-id'    => 'pgfw_single_pdf_icon_image',
@@ -707,25 +743,23 @@ class Pdf_Generator_For_Wp_Admin {
 				),
 			),
 			array(
-				'title'       => __( 'Bulk Download PDF Icon Name', 'wordpress-pdf-generator' ),
+				'title'       => __( 'Bulk Download PDF Icon Name', 'pdf-generator-for-wp' ),
 				'type'        => 'text',
 				'id'          => 'bulk_pdf_icon_name',
 				'value'       => 'bulk download name',
 				'class'       => 'wps_pgfw_pro_tag',
 				'name'        => 'bulk_pdf_icon_name',
-				'placeholder' => __( 'Icon Name', 'wordpress-pdf-generator' ),
+				'placeholder' => __( 'Icon Name', 'pdf-generator-for-wp' ),
 			),
 			array(
-				'title'       => __( 'Single Download PDF Icon Name ', 'wordpress-pdf-generator' ),
+				'title'       => __( 'Single Download PDF Icon Name ', 'pdf-generator-for-wp' ),
 				'type'        => 'text',
 				'id'          => 'single_pdf_icon_name',
 				'value'       => 'single pdf name',
 				'class'       => 'wps_pgfw_pro_tag',
 				'name'        => 'single_pdf_icon_name',
-				'placeholder' => __( 'Icon Name', 'wordpress-pdf-generator' ),
+				'placeholder' => __( 'Icon Name', 'pdf-generator-for-wp' ),
 			),
-			
-			// .
 			array(
 				'title'       => __( 'Icon Size', 'pdf-generator-for-wp' ),
 				'type'        => 'multi',
@@ -766,7 +800,7 @@ class Pdf_Generator_For_Wp_Admin {
 			array(
 				'title'       => __( 'Select User Role For Which You Want To Show The Pdf Icon', 'pdf-generator-for-wp' ),
 				'type'        => 'multiselect',
-				'description' => __( 'Select all user roles for which you want to sow the pdf download icon  ', 'pdf-generator-for-wp' ),
+				'description' => __( 'Select all user roles for which you want to show the pdf download icon  ', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_show_post_type_icons_for_user_role',
 				'value'       => $pgfw_show_post_type_icons_for_user_role,
 				'class'       => 'pgfw-multiselect-class wps-defaut-multiselect pgfw_show_post_type_icons_for_user_role',
@@ -856,7 +890,7 @@ class Pdf_Generator_For_Wp_Admin {
 			array(
 				'title'       => __( 'Company Name', 'pdf-generator-for-wp' ),
 				'type'        => 'text',
-				'description' => __( 'Company name will be displayed in the right side of the header', 'pdf-generator-for-wp' ),
+				'description' => __( 'Company name will be displayed on the right side of the header', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_header_company_name',
 				'value'       => $pgfw_header_comp_name,
 				'class'       => 'pgfw_header_company_name',
@@ -942,6 +976,7 @@ class Pdf_Generator_For_Wp_Admin {
 		);
 		return $pgfw_settings_header_fields_html_arr;
 	}
+
 	/**
 	 * Html fields for footer custmization.
 	 *
@@ -1065,9 +1100,9 @@ class Pdf_Generator_For_Wp_Admin {
 		);
 
 			$pgfw_settings_footer_fields_html_arr[] = array(
-				'title'        => __( 'Change page no format', 'wordpress-pdf-generator' ),
+				'title'        => __( 'Change page no format', 'pdf-generator-for-wp' ),
 				'type'         => 'checkbox',
-				'description'  => __( 'Check this if you want to show page no with total page count example ( 1 / 20 ).', 'wordpress-pdf-generator' ),
+				'description'  => __( 'Check this if you want to show page no with total page count example ( 1 / 20 ).', 'pdf-generator-for-wp' ),
 				'id'           => 'pgfw_general_pdf_show_pageno',
 				'value'        => '',
 				'class'        => 'wps_pgfw_pro_tag',
@@ -1075,18 +1110,18 @@ class Pdf_Generator_For_Wp_Admin {
 				'parent-class' => 'wps_pgfw_setting_separate_border',
 			);
 			$pgfw_settings_footer_fields_html_arr[] = array(
-				'title'       => __( 'page number Position', 'wordpress-pdf-generator' ),
+				'title'       => __( 'Page number position', 'pdf-generator-for-wp' ),
 				'type'        => 'multi',
 				'class'       => 'wps_pgfw_pro_tag',
 				'id'          => 'pgfw_wartermark_position',
-				'description' => __( 'Choose page number position left, top in px.', 'wordpress-pdf-generator' ),
+				'description' => __( 'Choose page number position left, top in px.', 'pdf-generator-for-wp' ),
 				'value'       => array(
 					array(
 						'type'        => 'number',
 						'id'          => 'pgfw_pageno_position_left',
 						'class'       => 'wps_pgfw_pro_tag',
 						'name'        => 'pgfw_pageno_position_left',
-						'placeholder' => __( 'left', 'wordpress-pdf-generator' ),
+						'placeholder' => __( 'left', 'pdf-generator-for-wp' ),
 						'value'       => 100,
 						'min'         => -5000,
 						'max'         => 5000,
@@ -1096,7 +1131,7 @@ class Pdf_Generator_For_Wp_Admin {
 						'id'          => 'pgfw_pageno_position_top',
 						'class'       => 'wps_pgfw_pro_tag',
 						'name'        => 'pgfw_pageno_position_top',
-						'placeholder' => __( 'top', 'wordpress-pdf-generator' ),
+						'placeholder' => __( 'top', 'wpdf-generator-for-wp' ),
 						'value'       => 100,
 						'min'         => -5000,
 						'max'         => 5000,
@@ -1152,8 +1187,8 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_border_position_left   = array_key_exists( 'pgfw_border_position_left', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_left'] : '';
 		$pgfw_border_position_right  = array_key_exists( 'pgfw_border_position_right', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_right'] : '';
 		$pgfw_body_custom_css        = array_key_exists( 'pgfw_body_custom_css', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_css'] : '';
-				$pgfw_body_custom_page_size_height        = array_key_exists( 'pgfw_body_custom_page_size_height', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_page_size_height'] : '';
-		$pgfw_body_custom_page_size_width        = array_key_exists( 'pgfw_body_custom_page_size_width', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_page_size_width'] : '';
+		$pgfw_body_custom_page_size_height        = array_key_exists( 'pgfw_body_custom_page_size_height', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_page_size_height'] : 150;
+		$pgfw_body_custom_page_size_width        = array_key_exists( 'pgfw_body_custom_page_size_width', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_page_size_width'] : 150;
 		$pgfw_body_customization                 = array_key_exists( 'pgfw_body_customization_for_post_detail', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_customization_for_post_detail'] : array();
 		$wps_pgfw_font_styles = array(
 			''            => __( 'Select option', 'pdf-generator-for-wp' ),
@@ -1163,7 +1198,6 @@ class Pdf_Generator_For_Wp_Admin {
 			'DejaVu Sans' => __( 'DejaVu Sans', 'pdf-generator-for-wp' ),
 			'times-roman' => __( 'Times-Roman', 'pdf-generator-for-wp' ),
 			'symbol'      => __( 'Symbol', 'pdf-generator-for-wp' ),
-			'zapfdinbats' => __( 'Zapfdinbats', 'pdf-generator-for-wp' ),
 			'zapfdinbats' => __( 'Zapfdinbats', 'pdf-generator-for-wp' ),
 		);
 		$wps_pgfw_font_styles = apply_filters( 'wps_pgfw_font_styles_filter_hook', $wps_pgfw_font_styles );
@@ -1269,6 +1303,8 @@ class Pdf_Generator_For_Wp_Admin {
 				'class'       => 'pgfw_body_custom_page_size_height',
 				'name'        => 'pgfw_body_custom_page_size_height',
 				'value'       => $pgfw_body_custom_page_size_height,
+				'min'         => 150,
+				'max'         => 1500,
 				'style'       => ( 'custom_page' !== $pgfw_body_page_size ) ? 'display:none;' : '',
 				'placeholder' => 'Height ( in mm )',
 			),
@@ -1279,6 +1315,8 @@ class Pdf_Generator_For_Wp_Admin {
 				'class'       => 'pgfw_body_custom_page_size_width',
 				'name'        => 'pgfw_body_custom_page_size_width',
 				'value'       => $pgfw_body_custom_page_size_width,
+				'min'         => 150,
+				'max'         => 1500,
 				'style'       => ( 'custom_page' !== $pgfw_body_page_size ) ? 'display:none;' : '',
 				'placeholder' => 'Width ( in mm )',
 			),
@@ -1472,9 +1510,9 @@ class Pdf_Generator_For_Wp_Admin {
 			),
 
 			array(
-				'title'        => __( 'Add Watermark Image', 'wordpress-pdf-generator' ),
+				'title'        => __( 'Add Watermark Image', 'pdf-generator-for-wp' ),
 				'type'         => 'checkbox',
-				'description'  => __( 'Select this to include watermark image in PDF.', 'wordpress-pdf-generator' ),
+				'description'  => __( 'Select this to include watermark image in PDF.', 'pdf-generator-for-wp' ),
 				'id'           => 'pgfw_watermark_image_use_in_pdf_dummy',
 				'value'        => 'no',
 				'class'        => 'wps_pgfw_pro_tag',
@@ -1482,9 +1520,9 @@ class Pdf_Generator_For_Wp_Admin {
 				'parent-class' => 'wps_pgfw_setting_separate_border',
 			),
 			array(
-				'title'       => __( 'Watermark Angle', 'wordpress-pdf-generator' ),
+				'title'       => __( 'Watermark Angle', 'pdf-generator-for-wp' ),
 				'type'        => 'number',
-				'description' => __( 'Please Choose Watermark Angle.', 'wordpress-pdf-generator' ),
+				'description' => __( 'Please Choose Watermark Angle.', 'wpdf-generator-for-wp' ),
 				'id'          => 'pgfw_watermark_angle_dummy',
 				'value'       => -45,
 				'class'       => 'wps_pgfw_pro_tag',
@@ -1493,18 +1531,18 @@ class Pdf_Generator_For_Wp_Admin {
 				'max'         => 180,
 			),
 			array(
-				'title'       => __( 'Watermark Position', 'wordpress-pdf-generator' ),
+				'title'       => __( 'Watermark Position', 'pdf-generator-for-wp' ),
 				'type'        => 'multi',
 				'class'       => 'wps_pgfw_pro_tag',
 				'id'          => 'pgfw_wartermark_position_dummy',
-				'description' => __( 'Choose watermark position left, top in px.', 'wordpress-pdf-generator' ),
+				'description' => __( 'Choose watermark position left, top in px.', 'pdf-generator-for-wp' ),
 				'value'       => array(
 					array(
 						'type'        => 'number',
 						'id'          => 'pgfw_watermark_position_left',
 						'class'       => 'wps_pgfw_pro_tag',
 						'name'        => 'pgfw_watermark_position_left',
-						'placeholder' => __( 'left', 'wordpress-pdf-generator' ),
+						'placeholder' => __( 'left', 'pdf-generator-for-wp' ),
 						'value'       => 120,
 						'min'         => -5000,
 						'max'         => 5000,
@@ -1514,7 +1552,7 @@ class Pdf_Generator_For_Wp_Admin {
 						'id'          => 'pgfw_watermark_position_top',
 						'class'       => 'wps_pgfw_pro_tag',
 						'name'        => 'pgfw_watermark_position_top',
-						'placeholder' => __( 'top', 'wordpress-pdf-generator' ),
+						'placeholder' => __( 'top', 'pdf-generator-for-wp' ),
 						'value'       => 80,
 						'min'         => -5000,
 						'max'         => 5000,
@@ -1522,26 +1560,26 @@ class Pdf_Generator_For_Wp_Admin {
 				),
 			),
 			array(
-				'title'       => __( 'Watermark Opacity', 'wordpress-pdf-generator' ),
+				'title'       => __( 'Watermark Opacity', 'pdf-generator-for-wp' ),
 				'type'        => 'number',
 				'id'          => 'pgfw_watermark_opacity_dummy',
 				'class'       => 'wps_pgfw_pro_tag',
 				'name'        => 'pgfw_watermark_opacity',
-				'placeholder' => __( 'opacity', 'wordpress-pdf-generator' ),
+				'placeholder' => __( 'opacity', 'pdf-generator-for-wp' ),
 				'value'       => 0.3,
 				'min'         => 0,
 				'max'         => 1,
 				'step'        => .1,
-				'description' => __( 'Choose this to add transparency to the image used as watermark, value should be greater then 0 and less then 1, accepted decimal values.', 'wordpress-pdf-generator' ),
+				'description' => __( 'Choose this to add transparency to the image used as watermark, value should be greater than 0 and less than 1, accepted decimal values.', 'pdf-generator-for-wp' ),
 			),
 			array(
-				'title'       => __( 'Choose Watermark Image', 'wordpress-pdf-generator' ),
+				'title'       => __( 'Choose Watermark Image', 'pdf-generator-for-wp' ),
 				'type'        => 'upload-button',
-				'button_text' => __( 'Upload Image', 'wordpress-pdf-generator' ),
-				'sub_class'   => 'pgfw_watermark_image_upload',
-				'sub_id'      => 'pgfw_watermark_image_upload',
+				'button_text' => __( 'Upload Image', 'pdf-generator-for-wp' ),
+				'sub_class'   => 'pgfw_watermark_image_upload1',
+				'sub_id'      => 'pgfw_watermark_image_upload1',
 				'id'          => 'sub_pgfw_watermark_image_upload_dummy',
-				'name'        => 'sub_pgfw_watermark_image_upload',
+				'name'        => 'sub_pgfw_watermark_image_upload1',
 				'class'       => 'wps_pgfw_pro_tag',
 				'value'       => '',
 				'sub_name'    => 'pgfw_watermark_image_upload',
@@ -1554,25 +1592,25 @@ class Pdf_Generator_For_Wp_Admin {
 				'img-remove'  => array(
 					'btn-class' => 'pgfw_watermark_image_remove',
 					'btn-id'    => 'pgfw_watermark_image_remove',
-					'btn-text'  => __( 'Remove image', 'wordpress-pdf-generator' ),
-					'btn-title' => __( 'Remove image', 'wordpress-pdf-generator' ),
+					'btn-text'  => __( 'Remove image', 'pdf-generator-for-wp' ),
+					'btn-title' => __( 'Remove image', 'pdf-generator-for-wp' ),
 					'btn-name'  => 'pgfw_watermark_image_remove',
 					'btn-style' => ! ( '' ) ? 'display:none' : '',
 				),
 			),
 			array(
-				'title'       => __( 'Watermark Image Size', 'wordpress-pdf-generator' ),
+				'title'       => __( 'Watermark Image Size', 'pdf-generator-for-wp' ),
 				'type'        => 'multi',
 				'class'       => 'wps_pgfw_pro_tag',
 				'id'          => 'pgfw_wartermark_size_dummy',
-				'description' => __( 'Choose watermark image width, height in px.', 'wordpress-pdf-generator' ),
+				'description' => __( 'Choose watermark image width, height in px.', 'pdf-generator-for-wp' ),
 				'value'       => array(
 					array(
 						'type'        => 'number',
 						'id'          => 'pgfw_watermark_image_width',
 						'class'       => 'wps_pgfw_pro_tag',
 						'name'        => 'pgfw_watermark_image_width',
-						'placeholder' => __( 'width', 'wordpress-pdf-generator' ),
+						'placeholder' => __( 'width', 'pdf-generator-for-wp' ),
 						'value'       => 100,
 						'min'         => -5000,
 						'max'         => 5000,
@@ -1582,7 +1620,7 @@ class Pdf_Generator_For_Wp_Admin {
 						'id'          => 'pgfw_watermark_image_height',
 						'class'       => 'wps_pgfw_pro_tag',
 						'name'        => 'pgfw_watermark_image_height',
-						'placeholder' => __( 'height', 'wordpress-pdf-generator' ),
+						'placeholder' => __( 'height', 'pdf-generator-for-wp' ),
 						'value'       => 100,
 						'min'         => -5000,
 						'max'         => 5000,
@@ -1620,7 +1658,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'name'         => 'pgfw_body_page_template',
 				'parent-class' => 'wps_pgfw_setting_separate_border',
 				'options'      => array(
-					''          => __( 'Select option', 'pdf-generator-for-wp' ),
+
 					'template1' => __( 'Template1', 'pdf-generator-for-wp' ),
 				),
 			),
@@ -1633,19 +1671,19 @@ class Pdf_Generator_For_Wp_Admin {
 				'class'       => 'pgfw_body_post_template',
 				'name'        => 'pgfw_body_post_template',
 				'options'     => array(
-					''          => __( 'Select option', 'pdf-generator-for-wp' ),
+
 					'template1' => __( 'Template1', 'pdf-generator-for-wp' ),
 				),
 			),
 			array(
 				'title'       => __( 'Custom CSS', 'pdf-generator-for-wp' ),
 				'type'        => 'textarea',
-				'description' => __( 'Add custom css for any html element this will be applied to the elements in the content.', 'pdf-generator-for-wp' ),
+				'description' => __( 'Add custom CSS for any HTML element this will be applied to the elements in the content.', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_body_custom_css',
 				'value'       => $pgfw_body_custom_css,
 				'class'       => 'pgfw_body_custom_css',
 				'name'        => 'pgfw_body_custom_css',
-				'placeholder' => __( 'custom css', 'pdf-generator-for-wp' ),
+				'placeholder' => __( 'custom CSS', 'pdf-generator-for-wp' ),
 			),
 			array(
 				'title'       => __( 'Show images row wise   ( Template1 )', 'pdf-generator-for-wp' ),
@@ -1732,14 +1770,14 @@ class Pdf_Generator_For_Wp_Admin {
 			'options'     => $post_types,
 		);
 		$pgfw_advanced_settings_html_arr[] = array(
-			'title'       => __( 'Upload Custom Font File', 'wordpress-pdf-generator' ),
+			'title'       => __( 'Upload Custom Font File', 'pdf-generator-for-wp' ),
 			'type'        => 'file',
 			'id'          => 'font_upload',
 			'value'       => '',
 			'class'       => 'wps_pgfw_pro_tag',
 			'name'        => 'font_upload',
-			'placeholder' => __( 'ttf file', 'wordpress-pdf-generator' ),
-			'description' => __( 'Choose .ttf file to add custom font, once uploaded all dropdowns of font will have this option to choose from.', 'wordpress-pdf-generator' ),
+			'placeholder' => __( 'ttf file', 'pdf-generator-for-wp' ),
+			'description' => __( 'Choose .ttf file to add custom font, once uploaded all dropdowns of font will have this option to choose from.', 'pdf-generator-for-wp' ),
 		);
 		$pgfw_advanced_settings_html_arr   = apply_filters( 'pgfw_settings_advance_html_arr_filter_hook', $pgfw_advanced_settings_html_arr );
 		$pgfw_advanced_settings_html_arr[] = array(
@@ -1837,12 +1875,12 @@ class Pdf_Generator_For_Wp_Admin {
 
 			);
 			$pgfw_meta_settings_html_arr[] = array(
-				'title'       => __( 'Gallery image meta field name', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Gallery image meta field name.', 'pdf-generator-for-wp' ),
 				'type'        => 'text',
 				'description' => __( 'Enter your image gallery key .', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_gallery_metafield_key',
 				'value'       => $pgfw_gallery_metafield_key,
-				'class'       => 'pgfw_gallery_metafield_key',
+				'class'       => 'pgfw_gallery_metafield_key wps_proper_align',
 				'name'        => 'pgfw_gallery_metafield_key',
 				'placeholder' => __( 'Metafield key Name', 'pdf-generator-for-wp' ),
 			);
@@ -2253,7 +2291,7 @@ class Pdf_Generator_For_Wp_Admin {
 			array(
 				'title'        => __( 'Show Taxonomy Fields for ', 'pdf-generator-for-wp' ) . $post_type,
 				'type'         => 'checkbox',
-				'description'  => __( 'selecting this will show the taxonomy fields on PDF.', 'pdf-generator-for-wp' ),
+				'description'  => __( 'Selecting this will show the taxonomy fields on PDF.', 'pdf-generator-for-wp' ),
 				'id'           => 'pgfw_taxonomy_fields_' . $post_type . '_show',
 				'value'        => $pgfw_show_type_taxonomy_val,
 				'class'        => 'wps_pgfw_pro_tag pgfw_taxonomy_fields_' . $post_type . '_show',
@@ -2322,7 +2360,15 @@ class Pdf_Generator_For_Wp_Admin {
 		 * @return array
 		 */
 	public function pgfw_template_pdf_settings_page_dummy( $pgfw_template_pdf_settings ) {
-		$order_stat = wc_get_order_statuses();
+		if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+
+			$order_stat = wc_get_order_statuses();
+
+		} else {
+
+			$order_stat = array();
+
+		}
 		$temp       = array(
 			'wc-never' => __( 'Never', 'pdf-generator-for-wp' ),
 		);
@@ -2552,7 +2598,7 @@ class Pdf_Generator_For_Wp_Admin {
 			array(
 				'title'       => __( 'Invoice Number Renew date', 'pdf-generator-for-wp' ),
 				'type'        => 'date-picker',
-				'description' => __( 'Please choose the invoice number renew date', 'pdf-generator-for-wp' ),
+				'description' => __( 'Please choose the invoice number to renew date', 'pdf-generator-for-wp' ),
 				'id'          => 'wpg_invoice_number_renew',
 				'class'       => 'wps_pgfw_pro_tag',
 				'name'        => 'wpg_invoice_number_renew',
@@ -2580,7 +2626,7 @@ class Pdf_Generator_For_Wp_Admin {
 			array(
 				'title'       => __( 'Disclaimer', 'pdf-generator-for-wp' ),
 				'type'        => 'textarea',
-				'description' => __( 'Please enter desclaimer of you choice', 'pdf-generator-for-wp' ),
+				'description' => __( 'Please enter desclaimer of your choice', 'pdf-generator-for-wp' ),
 				'id'          => 'wpg_invoice_disclaimer',
 				'class'       => 'wps_pgfw_pro_tag',
 				'value'       => get_option( 'wpg_invoice_disclaimer' ),
@@ -2811,7 +2857,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'class'       => 'wps_pgfw_pro_tag',
 				'name'        => 'pgfw_cover_page_company_url',
 				'value'       => $coverpage_company_url,
-				'description' => __( 'Add url at the cover page bottom.', 'pdf-generator-for-wp' ),
+				'description' => __( 'Add URL at the cover page bottom.', 'pdf-generator-for-wp' ),
 				'placeholder' => __( 'url', 'pdf-generator-for-wp' ),
 			),
 			array(
@@ -2834,4 +2880,102 @@ class Pdf_Generator_For_Wp_Admin {
 		);
 		return $cover_page_html_arr;
 	}
+	/**
+	 * Add custom Page size in dropdown.
+	 *
+	 * @since 3.0.0
+	 * @param array $wpg_custom_page_size array containing font styles.
+	 * @return array
+	 */
+	public function wpg_custom_page_size_in_dropdown( $wpg_custom_page_size ) {
+
+		$wpg_custom_page_size['custom_page'] = __( 'Custom page size', 'pdf-generator-for-wp' );
+
+		return $wpg_custom_page_size;
+	}
+	/**
+	 * Set cron.
+	 *
+	 * @since 3.0.0
+	 */
+	public function wps_pgfw_set_cron_for_plugin_notification() {
+		$wps_pgfw_offset = get_option( 'gmt_offset' );
+			  $wps_pgfw_time   = time() + $wps_pgfw_offset * 60 * 60;
+		if ( ! wp_next_scheduled( 'wps_wgm_check_for_notification_update' ) ) {
+			wp_schedule_event( $wps_pgfw_time, 'daily', 'wps_wgm_check_for_notification_update' );
+		}
+	}
+	/**
+	 * Add Notice.
+	 *
+	 * @since 3.0.0
+	 */
+	public function wps_pgfw_save_notice_message() {
+			$wps_notification_data = $this->wps_pgfw_get_update_notification_data();
+		if ( is_array( $wps_notification_data ) && ! empty( $wps_notification_data ) ) {
+			$banner_id      = array_key_exists( 'notification_id', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_id'] : '';
+			$banner_image = array_key_exists( 'notification_message', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_image'] : '';
+			$banner_url = array_key_exists( 'notification_message', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_url'] : '';
+			$banner_type = array_key_exists( 'notification_message', $wps_notification_data[0] ) ? $wps_notification_data[0]['wps_banner_type'] : '';
+			update_option( 'wps_wgm_notify_new_banner_id', $banner_id );
+			update_option( 'wps_wgm_notify_new_banner_image', $banner_image );
+			update_option( 'wps_wgm_notify_new_banner_url', $banner_url );
+			if ( 'regular' == $banner_type ) {
+				update_option( 'wps_wgm_notify_hide_baneer_notification', '' );
+			}
+		}
+	}
+	 /**
+	  * Update notification data.
+	  *
+	  * @since 3.0.0
+	  */
+	public function wps_pgfw_get_update_notification_data() {
+		$wps_notification_data = array();
+		$url                   = 'https://demo.wpswings.com/client-notification/woo-gift-cards-lite/wps-client-notify.php';
+		$attr                  = array(
+			'action'         => 'wps_notification_fetch',
+			'plugin_version' => PDF_GENERATOR_FOR_WP_VERSION,
+		);
+		$query                 = esc_url_raw( add_query_arg( $attr, $url ) );
+		$response              = wp_remote_get(
+			$query,
+			array(
+				'timeout'   => 20,
+				'sslverify' => false,
+			)
+		);
+
+		if ( is_wp_error( $response ) ) {
+			$error_message = $response->get_error_message();
+			echo '<p><strong>Something went wrong: ' . esc_html( stripslashes( $error_message ) ) . '</strong></p>';
+		} else {
+			$wps_notification_data = json_decode( wp_remote_retrieve_body( $response ), true );
+		}
+		return $wps_notification_data;
+	}
+
+	/**
+	 * Display Notice.
+	 *
+	 * @since 3.0.0
+	 */
+	public function wps_pgfw_dismiss_notice_banner_callback() {
+
+		if ( isset( $_REQUEST['wps_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['wps_nonce'] ) ), 'wps-pgfw-verify-notice-nonce' ) ) {
+
+			$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
+
+			if ( isset( $banner_id ) && '' != $banner_id ) {
+				update_option( 'wps_wgm_notify_hide_baneer_notification', $banner_id );
+			}
+
+			wp_send_json_success();
+		}
+	}
+
+
+
+
+
 }

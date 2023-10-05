@@ -220,6 +220,11 @@ class Pdf_Generator_For_Wp {
 		$this->loader->add_action( 'wp_ajax_pgfw_reset_default_settings', $pgfw_plugin_admin, 'pgfw_reset_default_settings' );
 		// $thi
 		$this->loader->add_action( 'wp_ajax_wpg_ajax_callbacks', $pgfw_plugin_admin, 'wps_wpg_ajax_callbacks' );
+		$this->loader->add_filter( 'wps_pgfw_custom_page_size_filter_hook', $pgfw_plugin_admin, 'wpg_custom_page_size_in_dropdown' );
+		///////////////
+		$this->loader->add_action( 'admin_init', $pgfw_plugin_admin, 'wps_pgfw_set_cron_for_plugin_notification' );
+		$this->loader->add_action( 'wps_wgm_check_for_notification_update', $pgfw_plugin_admin, 'wps_pgfw_save_notice_message' );
+		$this->loader->add_action( 'wp_ajax_wps_pgfw_dismiss_notice_banner', $pgfw_plugin_admin, 'wps_pgfw_dismiss_notice_banner_callback' );
 
 							// PRO PLUGIN DUMMY CONTENT HTML FUNCTIONS  ////////////.
 		if ( ! is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
@@ -394,8 +399,6 @@ class Pdf_Generator_For_Wp {
 			'title' => esc_html__( 'Meta Fields Settings', 'pdf-generator-for-wp' ),
 			'name'  => 'pdf-generator-for-wp-meta-fields',
 		);
-							/// DUMMY PRO TABS ////.
-
 		// Check if the pro plugin is active.
 		if ( ! is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
 			// Pro plugin is active.

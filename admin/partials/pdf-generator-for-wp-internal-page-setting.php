@@ -80,7 +80,7 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 				<div class="wpg-adding-notice-for-custom-template">
 					<?php
 					esc_html_e(
-						'To set the content on the page, If you see any Issue with top placement of header, just visit PDF Settings/Header tab, from that setting page change the value of Header top placement, If you see any issue with the footer placement just visit PDF Settings/Footer tab change the value of Footer bottom placement, Also these changes needs to be done in synchronisation with the setting at the PDF setting/ Body page for Page Margin, These will set the content on the PDF.',
+						'To set the content on the page, If you see any Issue with top placement of header, just visit PDF Settings/Header tab, from that setting page change the value of Header top placement, If you see any issue with the footer placement just visit PDF Settings/Footer tab change the value of Footer bottom placement, Also these changes need to be done in synchronisation with the setting at the PDF setting/ Body page for Page Margin, These will set the content on the PDF.',
 						'pdf-generator-for-wp'
 					);
 					?>

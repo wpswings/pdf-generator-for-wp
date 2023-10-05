@@ -12,6 +12,7 @@
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Dompdf\FontMetrics;
+use Automattic\WooCommerce\Utilities\OrderUtil;
 /**
  * The common functionality of the plugin.
  *
@@ -77,7 +78,7 @@ class Pdf_Generator_For_Wp_Common {
 				'nonce'              => wp_create_nonce( 'pgfw_common_nonce' ),
 				'loader'             => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/loader.gif',
 				'processing_html'    => '<span style="color:#1e73be;">' . esc_html__( 'Please wait....', 'pdf-generator-for-wp' ) . '</span>',
-				'email_submit_error' => '<span style="color:#8e4b86;">' . esc_html__( 'Some unexpected error occured. Kindly Resubmit again', 'pdf-generator-for-wp' ) . '</span>',
+				'email_submit_error' => '<span style="color:#8e4b86;">' . esc_html__( 'Some unexpected error occurred. Kindly Resubmit again', 'pdf-generator-for-wp' ) . '</span>',
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . 'common' );
@@ -260,7 +261,7 @@ class Pdf_Generator_For_Wp_Common {
 			'8.5x14'                   => array( 0, 0, 612.00, 1008.0 ),
 			'11x17'                    => array( 0, 0, 792.00, 1224.00 ),
 		);
-		if ( 'custom_page' == $body_page_size ) {
+		if ( 'custom_page' == $body_page_size && ! empty( $pgfw_body_custom_page_size_width ) && ! empty( $pgfw_body_custom_page_size_height ) ) {
 			$paper_size = array( 0, 0, $pgfw_body_custom_page_size_width * 2.834, $pgfw_body_custom_page_size_height * 2.834 );
 		} else {
 			$paper_size = array_key_exists( $body_page_size, $paper_sizes ) ? $paper_sizes[ $body_page_size ] : 'a4';
@@ -315,7 +316,11 @@ class Pdf_Generator_For_Wp_Common {
 
 		if ( 'yes' == $pgfw_general_pdf_show_pageno ) {
 			$canvas       = $dompdf->getCanvas();
-			$canvas->page_text( $pgfw_pageno_position_left, $pgfw_pageno_position_top, '{PAGE_NUM}/{PAGE_COUNT}', $font, 8, array( 0, 0, 0 ) );
+			if ( ! empty( $pgfw_pageno_position_left ) && ! empty( $pgfw_pageno_position_top ) ) {
+				$canvas->page_text( $pgfw_pageno_position_left, $pgfw_pageno_position_top, '{PAGE_NUM}/{PAGE_COUNT}', $font, 8, array( 0, 0, 0 ) );
+			} else {
+				$canvas->page_text( 100, 100, '{PAGE_NUM}/{PAGE_COUNT}', $font, 8, array( 0, 0, 0 ) );
+			}
 		}
 		$upload_dir     = wp_upload_dir();
 		$upload_basedir = $upload_dir['basedir'] . '/post_to_pdf/';
@@ -607,7 +612,14 @@ class Pdf_Generator_For_Wp_Common {
 		$prefix = get_option( 'wpg_invoice_number_prefix' );
 		$suffix = get_option( 'wpg_invoice_number_suffix' );
 		$digit  = ( $digit ) ? $digit : 4;
-		$in_id  = get_post_meta( $order_id, 'wpg_order_invoice_id', true );
+		$order = wc_get_order( $order_id );
+		// get_post_meta.
+		if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+			// HPOS usage is enabled.
+			$in_id = $order->get_meta( 'wpg_order_invoice_id', true );
+		} else {
+			$in_id  = get_post_meta( $order_id, 'wpg_order_invoice_id', true );
+		}
 		if ( $in_id ) {
 			$invoice_id = $in_id;
 		} else {
@@ -620,7 +632,16 @@ class Pdf_Generator_For_Wp_Common {
 			update_option( 'wpg_current_invoice_id', $curr_invoice_id );
 			$invoice_number = str_pad( $curr_invoice_id, $digit, '0', STR_PAD_LEFT );
 			$invoice_id     = $prefix . $invoice_number . $suffix;
-			update_post_meta( $order_id, 'wpg_order_invoice_id', $invoice_id );
+
+			// update_post_meta.
+			if ( OrderUtil::custom_orders_table_usage_is_enabled() ) {
+				// HPOS usage is enabled.
+				$order->update_meta_data( 'wpg_order_invoice_id', $invoice_id );
+				$order->save();
+
+			} else {
+				update_post_meta( $order_id, 'wpg_order_invoice_id', $invoice_id );
+			}
 		}
 		return $invoice_id;
 	}
