@@ -50,17 +50,10 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 					<head>
 						<title> INVOICE SYSTEM FOR WOOCOMMERCE </title>
 						<style>
-							#wpg-pdf-header {
-								margin-bottom: -80px;
-							}
-							#wpg-invoice-title-right {
-								margin-top: -20px;
+							#wpg-pdf-header{
+								width: 100%;
 							}
 					
-							.wpg-invoice-inline {
-								display: inline-block;
-								width: 50%;
-							}
 							table#wpg-prod-listing-table{
 								margin-top: 40px;
 								width: 100%;
@@ -105,7 +98,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 								margin-top: 40px;
 							}
 							#wpg-invoice-title-right {
-								margin-top: -20px;
+								
 								text-align: right;
 							}
 							
@@ -116,65 +109,35 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 							<h2 id="wpg-invoice-text">
 							' . __( 'INVOICE', 'pdf-generator-for-wp' ) . '
 							</h2>
-							<div id="wpg-pdf-header">
-								<div id="wpg-invoice-title-left" class="wpg-invoice-inline">
-									<div>
-										<b>' . __( 'Invoice Number', 'pdf-generator-for-wp' ) . '</b><br/>
-										' . $invoice_id . '
-									</div>
-									<div>
-										<b>' . __( 'Date', 'pdf-generator-for-wp' ) . '</b><br/>
-										' . $billing_details['order_created_date'] . '
-									</div>
-								</div>
-								<div id="wpg-invoice-title-right" class="wpg-invoice-inline">
-									<div>';
-									if ( 'yes' === $is_add_logo && '' !== $logo ) {
-										$html .= '<img src="' . $logo . '" height="120" width="120"><br/>';
-									}
-									if ( $company_name ) {
-										$html .= '<b>' . ucfirst( $company_name ) . '</b><br/>';
-									}else {
-										$html .= '<b>Company Name</b><br/>';
-									}
-									if ( $company_address ) {
-										$html .= ucfirst( $company_address ) . ' ,';
-									}else {
-										$html .= ucfirst('Company Address' ) . ' ,';
-									}
-									if ( $company_city ) {
-										$html .= ucfirst( $company_city ) . '<br/>';
-									}else {
-										$html .= ucfirst( 'Company City' ) . '<br/>';
-									}
-									if ( $company_state ) {
-										$html .= ucfirst( $company_state );
-									}else {
-										$html .= ucfirst( 'Company State' );
-									}
-									if ( $company_pin ) {
-										$html .= '<br/> ' . $company_pin . '<br/>';
-									}else{
-										$html .= '<br/> Example pin 123456 <br/>';
-									}
-									if ( $company_phone ) {
-										$html .= $company_phone . '<br/>';
-									}else{
-										$html .= 'Company Number <br/>';
-									}
-									if ( $company_email ) {
-										$html .= $company_email;
-									}else{
-										$html .= 'company@gmail.com';
-									}
-							$html .= '</div>
-						</div>
-					</div>';
+							<table id="wpg-pdf-header">
+								<tbody>
+								<tr>
+									<td id="wpg-invoice-title-left" class="wpg-invoice-inline">
+										<div>
+											<b>' . __( 'Invoice Number', 'pdf-generator-for-wp' ) . '</b><br/>
+											' . $invoice_id . '
+										</div>
+										<div>
+											<b>' . __( 'Date', 'pdf-generator-for-wp' ) . '</b><br/>
+											' . $billing_details['order_created_date'] . '
+										</div>
+									</td>
+									<td id="wpg-invoice-title-right" class="wpg-invoice-inline">
+												<div>';
+		if ( 'yes' === $is_add_logo && '' !== $logo ) {
+			$html .= '<img src="' . $logo . '" height="120" width="120"><br/>';
+		}
+
+										$html .= '</div>
+									</td>
+								</tr>
+								<tr>
+									<td id="wpg-invoice-title-left" class="wpg-invoice-inline">';
 		if ( 'invoice' === $type ) {
 			$html .= '<div id="wpg-invoice-title-to" >
-						<b>' . __( 'Invoice to', 'pdf-generator-for-wp' ) . '</b><br/>
-						<div>
-							' . ucfirst( $billing_details['billing_first_name'] ) . ' ' . ucfirst( $billing_details['billing_last_name'] ) . '<br/>';
+													<b>' . __( 'Invoice to', 'pdf-generator-for-wp' ) . '</b><br/>
+													<div>
+														' . ucfirst( $billing_details['billing_first_name'] ) . ' ' . ucfirst( $billing_details['billing_last_name'] ) . '<br/>';
 			if ( $billing_details['billing_company'] ) {
 				$html .= $billing_details['billing_company'] . '<br/>';
 			}
@@ -197,12 +160,12 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 				$html .= $billing_details['billing_email'] . '<br/>';
 			}
 			$html .= '</div>
-			</div>';
+										</div>';
 		} else {
 			$html .= '<div id="wpg-invoice-title-to" >
-						<b>' . __( 'SHIP TO', 'pdf-generator-for-wp' ) . '</b><br/>
-						<div>
-							' . ucfirst( $shipping_details['shipping_first_name'] ) . ' ' . ucfirst( $shipping_details['shipping_last_name'] ) . '<br/>';
+													<b>' . __( 'SHIP TO', 'pdf-generator-for-wp' ) . '</b><br/>
+													<div>
+														' . ucfirst( $shipping_details['shipping_first_name'] ) . ' ' . ucfirst( $shipping_details['shipping_last_name'] ) . '<br/>';
 			if ( $shipping_details['shipping_company'] ) {
 				$html .= $shipping_details['shipping_company'] . '<br/>';
 			}
@@ -225,8 +188,47 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 				$html .= $billing_details['billing_email'] . '<br/>';
 			}
 			$html .= '</div>
-					</div>';
+												</div>';
 		}
+
+								$html .= '	</td>
+									<td id="wpg-invoice-title-right" class="wpg-invoice-inline" style="vertical-align:top;">
+												<div>';
+
+		if ( $company_name ) {
+			$html .= '<b>' . ucfirst( $company_name ) . '</b><br/>';
+		}
+
+		if ( $company_address ) {
+			$html .= ucfirst( $company_address ) . ' ,';
+		}
+
+		if ( $company_city ) {
+			$html .= ucfirst( $company_city ) . '<br/>';
+		}
+
+		if ( $company_state ) {
+			$html .= ucfirst( $company_state );
+		}
+
+		if ( $company_pin ) {
+			$html .= '<br/> ' . $company_pin . '<br/>';
+		}
+
+		if ( $company_phone ) {
+			$html .= $company_phone . '<br/>';
+		}
+
+		if ( $company_email ) {
+			$html .= $company_email;
+		}
+
+										$html .= '</div>
+									</td>
+								</tr>
+						</tbody>
+					</table>';
+
 		if ( 'invoice' === $type ) {
 			$html .= '<div>
 						<table border = "0" cellpadding = "0" cellspacing = "0" id="wpg-prod-listing-table">
@@ -297,6 +299,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 		$html .= '</div>
 				</body>
 			</html>';
+
 		return $html;
 	}
 	return '<div>' . esc_html__( 'Looks like order is not found', 'pdf-generator-for-wp' ) . '</div>';
