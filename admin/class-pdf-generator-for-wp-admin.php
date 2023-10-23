@@ -713,7 +713,6 @@ class Pdf_Generator_For_Wp_Admin {
 					'btn-style' => ! ( '' ) ? 'display:none' : '',
 				),
 			),
-			// .
 			array(
 				'title'        => __( 'Choose Single Download PDF Icon', 'pdf-generator-for-wp' ),
 				'type'         => 'upload-button',
