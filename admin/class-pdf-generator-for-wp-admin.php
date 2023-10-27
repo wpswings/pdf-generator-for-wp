@@ -713,7 +713,6 @@ class Pdf_Generator_For_Wp_Admin {
 					'btn-style' => ! ( '' ) ? 'display:none' : '',
 				),
 			),
-			// .
 			array(
 				'title'        => __( 'Choose Single Download PDF Icon', 'pdf-generator-for-wp' ),
 				'type'         => 'upload-button',
@@ -2692,7 +2691,7 @@ class Pdf_Generator_For_Wp_Admin {
 						'title' => __( 'Template1', 'pdf-generator-for-wp' ),
 						'type'  => 'radio',
 						'id'    => 'wpg_invoice_template_one',
-						'class' => 'wpg_invoice_template_one',
+						'class' => 'wpg_invoice_preview wpg_invoice_template_one',
 						'name'  => 'wpg_invoice_template',
 						'value' => 'one',
 						'src'   => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/template1.png',
@@ -2701,7 +2700,7 @@ class Pdf_Generator_For_Wp_Admin {
 						'title' => __( 'Template2', 'pdf-generator-for-wp' ),
 						'type'  => 'radio',
 						'id'    => 'wpg_invoice_template_two',
-						'class' => 'wpg_invoice_template_two',
+						'class' => 'wpg_invoice_preview wpg_invoice_template_two',
 						'src'   => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/template2.png',
 						'name'  => 'wpg_invoice_template',
 						'value' => 'two',

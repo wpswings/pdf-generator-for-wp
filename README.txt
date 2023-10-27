@@ -1,12 +1,12 @@
-=== PDF Generator for WordPress - Create & Customize PDF for Post, Pages and WooCommerce Products ===
+=== PDF Generator for WordPress - Create & Customize PDF for Posts, Pages and WooCommerce Products ===
 Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress pdf generator
 Requires at least: 5.5.0
-Tested up to: 6.3.1
+Tested up to: 6.3.2
 WC requires at least: 5.2.2
-WC tested up to: 8.1.1
-Stable tag: 1.2.6
+WC tested up to: 8.2.1
+Stable tag: 1.2.7
 Requires PHP: 7.2
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -18,7 +18,7 @@ PDF Generator for WordPress allows you to convert posts into PDF files to share 
 
 PDF Generator for WordPress provides the key support in portfolio building depending on your industry type. The PDF plugin for WordPress allows you to create PDF files for the pages to ensure the availability of information offline. It allows the admin to convert all the posts, pages, blogs, and products on their website into PDF files. 
 
-Users can download PDFs from the WordPress site or view them in a new tab. Also, the admin can authorize users to receive their PDFs at their email addresses. The WordPress PDF creator makes sharing information seamless across different channels. You can predefine the settings to customize the header, the body, and the footer. Users can non-commercially distribute the downloaded PDF files with [**WordPress PDF Generator Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=wpswings-org-page&utm_campaign=pdf-pro) plugin. The admin can customize the free wordpress pdf template to align with their brand. So, the distribution of PDFs provides an opportunity for brand promotion.
+Users can download PDFs from the WordPress site or view them in a new tab. Also, the admin can authorize users to receive their PDFs at their email addresses. The WordPress PDF creator makes sharing information seamlessly across different channels. You can predefine the settings to customize the header, the body, and the footer. Users can non-commercially distribute the downloaded PDF files with [**WordPress PDF Generator Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=wpswings-org-page&utm_campaign=pdf-pro) plugin. The admin can customize the free wordpress pdf template to align with their brand. So, the distribution of PDFs provides an opportunity for brand promotion.
 
 [youtube  https://www.youtube.com/watch?v=RljECeP3JJk&t=1362s]
 
@@ -34,7 +34,7 @@ Users can download PDFs from the WordPress site or view them in a new tab. Also,
 * Display more than one image in a row.
 * Display more than one meta field in a row as per requirement.
 * Display icon to both guest users and registered users.
-* Allow direct download of pdf files or send them to users’ email addresses. 
+* Allow direct download of PDF files or send them to users’ email addresses. 
 * Get a Shortcode to add the PDF icon anywhere on the page.
 * Get a shortcode to insert your own pdf.
 * Set the PDF download button’s location. 
@@ -64,11 +64,11 @@ You can export PDF files for products, pages, and posts in bulk using the defaul
 Our latest plugin brings in the footer customization options for you. You can now add the post name, post date, and author name to the pages of your generated PDF files.
 
 **5) Display More Images In a Row**
-We have solved displaying your post or product images in a better format in our latest update for the PDF creator plugin. You can now display more than one image in a row using the functionalities of this PDF plugin by turning on the setting from the body settings tab.
+We have solved displaying your post or product images in a better format in our latest update for the PDF creator plugin. You can now display more than one image in a row using the functionalities of this PDF plugin by turning on the settings from the body settings tab.
 
 
 **6) Control The Display Of Functionality**
-From the display settings of the PDF icon, you can choose to display the PDF generator icon to either the registered users or the guest users or both. You can also opt to allow, both, the registered and guest users to either directly download the information in PDF format or e-mail the PDF file to the user.
+From the display settings of the PDF icon, you can choose to display the PDF generator icon to either the registered users, the guest users, or both. You can also opt to allow, both, the registered and guest users to either directly download the information in PDF format or e-mail the PDF file to the user.
 
 **7) Icon Settings**
 WordPress PDF Generator gives you a free hand to customize the plugin icon for the front end of your website. You can also set the size of the PDF generator icon as per the design and theme requirements of the WordPress site. Display settings in the plugin allow several positions to place the icon, also letting you set the alignment of the same to center, right, and left.
@@ -83,9 +83,9 @@ Body settings have many features to let you set the page orientation, page size,
 You can set the size and width of the footer using the layout settings. It also allows you to set the footer text font and size as well. 
 
 **11) Relevant Post Types And Appropriate Meta Fields**
-The plugin gives you the option to make the post visible only for relevant post types such as post, page, or product, depending on the utility of your content. The admin is also authorized to set the meta fields that you wish to display in the posts, pages or products, individually.
+The plugin gives you the option to make the post visible only for relevant post types such as post, page, or product, depending on the utility of your content. The admin is also authorized to set the meta fields that you wish to display in the posts, pages, or products, individually.
 
-Also, if your product images are different from your product image gallery then you can write the name in the box below and enable the setting and uncheck this in the metafield section. 
+Also, if your product images are different from your product image gallery then you can write the name in the box below, enable the setting, and uncheck this in the metafield section. 
 
 **12) Upload Your PDF Files** 
 The plugin allows you to upload your own PDF files for download. You can also limit access to these files for registered users or guest users.
@@ -133,11 +133,14 @@ PDF Generator for WordPress Pro plugin generates PDF that can be read or shared 
 
 == SUPPORT ==
 
-If you need support or have any questions then kindly use our online chat window [**here**](https://wpswings.com/?utm_source=wpswings-pdf-here&utm_medium=wpswings-org-page&utm_campaign=here) or  connect with us then [**Generate a Ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-pdf-tickets&utm_medium=wpswings-org-page&utm_campaign=generate-tickets)
+If you need support or have any questions then kindly use our online chat window [**here**](https://wpswings.com/?utm_source=wpswings-pdf-here&utm_medium=wpswings-org-page&utm_campaign=here) and discover all types of [**WooCommerce Extensions**](https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-shop&utm_medium=wpswings-org-page&utm_campaign=woocommerce-plugins) for your eCommerce store.
 
-> If our documentation doesn’t contain the solution to your problem, you can visit the [**WP Swings Forums Community**](https://forums.wpswings.com/?utm_source=wpswings-forums&utm_medium=pdf-org-page&utm_campaign=forum)
+> If our documentation doesn’t contain the solution to your problem, you can visit the [**Forums Community**](https://forums.wpswings.com/?utm_source=wpswings-forums&utm_medium=pdf-org-page&utm_campaign=forum) or [**Generate a Ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-pdf-tickets&utm_medium=wpswings-org-page&utm_campaign=generate-tickets)
 
 > Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-services&utm_medium=pdf-org-page&utm_campaign=woocommerce-services)
+
+> Get Huge Discounts on PDF Generator plugin during BFCM Sales 2023 - [**Get More Offers**](https://wpswings.com/offers/?utm_source=wpswings-pdf-offers&utm_medium=wpswings-org-page&utm_campaign=offers)
+
 
 == Installation ==
 
@@ -158,13 +161,13 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 == FAQ ==
 
 = Can We Edit The Front/First Page Of The PDF By Itself? = 
-Yes, you can edit the front page for this go to the plugin setting>Pdf first-page setting>custom template here you can edit your template accordingly.
+Yes, you can edit the front page for this go to the plugin setting> PDF first-page setting>custom template here you can edit your template accordingly.
 
 = Can customers directly download the PDF on their local devices? =
 Yes, customers can directly download the PDF on their local devices.
 
 = How can one add the PDF button on a single product page? =
-We have already provided the shortcode. You can use that shortcode to place the PDF button on a particular product page so you can generate PDF from the page.
+We have already provided the shortcode. You can use that shortcode to place the PDF button on a particular product page so you can generate a PDF from the page.
 
 = How to place the PDF button appropriately for my uploaded document? =
 Go to WP Swings--> PDF Generator for WordPress--> PDF Upload. Click on the Upload Doc button to upload your PDF file. Click on the Save Settings button. The shortcode will be generated. Use this shortcode to place your PDF icon appropriately for your users.
@@ -195,25 +198,29 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Changelog ==
 
+= 1.2.7 - Released on 26 October 2023 = 
+* New : Compatible with latest WP(6.3.2) and WC(8.2.1)
+* Fix: Banner image design issue fixed
+
 = 1.2.6 - Released on 03 October 2023 =
-* New : Compatibility with HPOS
-* New : Set custom page size option
-* New : Option to set date format
-* New : Added banner image in backend
-* New : Compatibility with WP[6.3.1] and WC[8.1.1]
-* Fix : Minor bug fixes related to order with invoice
+* New: Compatibility with HPOS
+* New: Set custom page size option
+* New: Option to set date format
+* New: Added banner image in backend
+* New: Compatibility with WP[6.3.1] and WC[8.1.1]
+* Fix: Minor bug fixes related to order with invoice
 
 = 1.2.5 - Released on 08 August 2023 = 
 * New : Compatibility with WP[6.3.0] and WC[8.0.0]
-* Fix : Email popup content is not displayed as a popup
-* Fix : Pro tag added on internal page
+* Fix: Email popup content is not displayed as a popup
+* Fix: Pro tag added on internal page
 
 = 1.2.4 - Released on 21 July 2023 =
 * New : Compatibility with WP[6.2.2] and WC[7.9.0]
-* New : Added pro tag in org
+* New: Added pro tag in org
 
 = 1.2.3 - Released on 23 June 2023 = 
-* New : Hide title , thumbnail image and description( word ) for default template
+* New: Hide title, thumbnail image, and description( word ) for default template
 * New: Compatible with latest wp[6.2.2] and wc[7.8.0]
 
 = 1.2.2 - Released on 05 June 2023 = 
@@ -228,7 +235,7 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 = 1.1.4 - Released on 17 March 2023 = 
 * New: Compatible with the latest WP (6.1.1) and WC (7.5.0)
-* Fix: Returning image id's issue if images are saved on different keys
+* Fix: Returning image ID's issue if images are saved on different keys
 
 = 1.1.3 - Released on 14 February 2023 = 
 * New: Compatible with the latest WP and WC
@@ -261,7 +268,7 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 * New: Minor Bug Fixes
 * New: Compatible with the latest WP and WC
-
+ 
 = 1.0.6 - Released on 11 April 2022 =
 * New: Some substantial changes across different areas of the plugin.
 * New: Compatible with the latest WP and WC
@@ -296,10 +303,9 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Upgrade Notice ==
 
-= 1.2.6 - Released on 03 October 2023 =
-* New : Compatibility with HPOS
-* New : Set custom page size option
-* New : Option to set date format
-* New : Added banner image in backend
-* New : Compatibility with WP[6.3.1] and WC[8.1.1]
-* Fix : Minor bug fixes related to order with invoice
+= 1.2.7 - Released on 26 October 2023 = 
+* New : Compatible with latest WP(6.3.2) and WC(8.2.1)
+* Fix: Banner image design issue fixed
+
+
+
