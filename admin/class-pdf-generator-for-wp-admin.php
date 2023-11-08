@@ -838,6 +838,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_header_font_style = array_key_exists( 'pgfw_header_font_style', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_font_style'] : '';
 		$pgfw_header_font_size  = array_key_exists( 'pgfw_header_font_size', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_font_size'] : '';
 		$pgfw_header_top        = array_key_exists( 'pgfw_header_top', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_top'] : '';
+		$pgfw_header_logo_size	= array_key_exists( 'pgfw_header_logo_size', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_logo_size'] : '30';
 		$wps_pgfw_font_styles   = array(
 			''            => __( 'Select option', 'pdf-generator-for-wp' ),
 			'helvetica'   => __( 'Helvetica', 'pdf-generator-for-wp' ),
@@ -885,6 +886,18 @@ class Pdf_Generator_For_Wp_Admin {
 					'btn-name'  => 'pgfw_header_image_remove',
 					'btn-style' => ! ( $pgfw_header_logo ) ? 'display:none' : '',
 				),
+			),
+			array(
+				'title'       => __( 'Logo Size', 'pdf-generator-for-wp' ),
+				'type'        => 'number',
+				'description' => __( 'Enter header logo width size in (px) . ', 'pdf-generator-for-wp' ),
+				'id'          => 'pgfw_header_logo_size',
+				'value'       => $pgfw_header_logo_size,
+				'class'       => 'pgfw_header_logo_size',
+				'name'        => 'pgfw_header_logo_size',
+				'placeholder' => __( 'width', 'pdf-generator-for-wp' ),
+				'min'         => 5,
+				'max'         => 150,
 			),
 			array(
 				'title'       => __( 'Company Name', 'pdf-generator-for-wp' ),
