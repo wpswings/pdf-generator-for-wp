@@ -384,7 +384,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'name'        => 'pgfw_custom_pdf_file_name',
 				'value'       => $pgfw_pdf_file_name_custom,
 				'style'       => ( 'custom' !== $pgfw_pdf_file_name ) ? 'display:none;' : '',
-				'placeholder' => 'File Name',
+				'placeholder' => __( 'File Name', 'pdf-generator-for-wp' ),
 			),
 		);
 		$pgfw_settings_general_html_arr   = apply_filters( 'pgfw_settings_general_html_arr_filter_hook', $pgfw_settings_general_html_arr );
