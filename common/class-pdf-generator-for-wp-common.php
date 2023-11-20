@@ -718,7 +718,9 @@ class Pdf_Generator_For_Wp_Common {
 			}
 			if ( 'one' === $template ) {
 				$template_path = PDF_GENERATOR_FOR_WP_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout1.php';
-			} else {
+			} elseif ('three' === $template) {
+				$template_path = PDF_GENERATOR_FOR_WP_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout3.php';
+			}else {
 				$template_path = PDF_GENERATOR_FOR_WP_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout2.php';
 			}
 			$template_path = apply_filters( 'wpg_load_template_for_invoice_generation', $template_path );

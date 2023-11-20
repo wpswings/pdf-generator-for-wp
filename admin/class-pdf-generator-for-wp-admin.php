@@ -2718,6 +2718,15 @@ class Pdf_Generator_For_Wp_Admin {
 						'name'  => 'wpg_invoice_template',
 						'value' => 'two',
 					),
+					array(
+						'title' => __( 'Template3', 'wordpress-pdf-generator' ),
+						'type'  => 'radio',
+						'id'    => 'wpg_invoice_template_three',
+						'class' => 'wpg_invoice_preview wpg_invoice_template_three',
+						'src'   => WORDPRESS_PDF_GENERATOR_DIR_URL . 'admin/src/images/template3.png',
+						'name'  => 'wpg_invoice_template',
+						'value' => 'three',
+					),
 				),
 			),
 		);
