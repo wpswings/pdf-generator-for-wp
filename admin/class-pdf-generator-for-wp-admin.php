@@ -2017,6 +2017,7 @@ class Pdf_Generator_For_Wp_Admin {
 			wp_schedule_event( time(), 'weekly', 'pgfw_cron_delete_pdf_from_server' );
 		}
 	}
+
 	/**
 	 * Deleting PDF from server.
 	 *
@@ -2985,8 +2986,6 @@ class Pdf_Generator_For_Wp_Admin {
 			wp_send_json_success();
 		}
 	}
-
-
 
 
 

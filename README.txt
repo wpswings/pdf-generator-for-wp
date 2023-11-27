@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress pdf generator
 Requires at least: 5.5.0
-Tested up to: 6.3.2
+Tested up to: 6.4
 WC requires at least: 5.2.2
-WC tested up to: 8.2.1
-Stable tag: 1.2.9
+WC tested up to: 8.2.2
+Stable tag: 1.2.8
 Requires PHP: 7.2
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -18,12 +18,13 @@ PDF Generator for WordPress allows you to convert posts into PDF files to share 
 
 PDF Generator for WordPress provides the key support in portfolio building depending on your industry type. The PDF plugin for WordPress allows you to create PDF files for the pages to ensure the availability of information offline. It allows the admin to convert all the posts, pages, blogs, and products on their website into PDF files. 
 
-Users can download PDFs from the WordPress site or view them in a new tab. Also, the admin can authorize users to receive their PDFs at their email addresses. The WordPress PDF creator makes sharing information seamlessly across different channels. You can predefine the settings to customize the header, the body, and the footer. Users can non-commercially distribute the downloaded PDF files with [**WordPress PDF Generator Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=wpswings-org-page&utm_campaign=pdf-pro) plugin. The admin can customize the free wordpress pdf template to align with their brand. So, the distribution of PDFs provides an opportunity for brand promotion.
+Users can download PDFs from the WordPress site or view them in a new tab. Also, the admin can authorize users to receive their PDFs at their email addresses. The WordPress PDF creator makes sharing information seamlessly across different channels. You can predefine the settings to customize the header, the body, and the footer. Users can non-commercially distribute the downloaded PDF files with [**WordPress PDF Generator Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=pdf-org-page&utm_campaign=pdf-pro) plugin. The admin can customize the free wordpress pdf template to align with their brand. So, the distribution of PDFs provides an opportunity for brand promotion.
 
 [youtube  https://www.youtube.com/watch?v=RljECeP3JJk&t=1362s]
 
 == WITH THE PDF GENERATOR FOR WORDPRESS PLUGIN YOU CAN: ==
 
+* You can choose and adjust the logo size as per your requirement in the default template header.
 * You can choose from various page sizes including A1, A2, A4, B2, B4, and so on.
 * Admin can choose from multiple date formats to show on PDF.
 * Merchants can enable the setting to show Post Created Date and Current Date in the PDF
@@ -90,13 +91,13 @@ Also, if your product images are different from your product image gallery then 
 **12) Upload Your PDF Files** 
 The plugin allows you to upload your own PDF files for download. You can also limit access to these files for registered users or guest users.
 
-Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-page&utm_campaign=documentation) and learn more about the features and working of the plugin.
+Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=pdf-org-page&utm_campaign=documentation) and learn more about the features and working of the plugin.
 
 == LIVE DEMO OF PDF GENERATOR PLUGIN ==
 
-* [**WordPress PDF Generator Frontend demo**](https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=wpswings-org-page&utm_campaign=frontend-demo)
+* [**WordPress PDF Generator Frontend demo**](https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=pdf-org-page&utm_campaign=frontend-demo)
 
-* [**WordPress PDF Generator Backend demo**](https://demo.wpswings.com/pdf-generator-for-wp-pro/request-for-personal-demo/?utm_source=wpswings-pdf-demo&utm_medium=wpswings-org-page&utm_campaign=backend-demo)
+* [**WordPress PDF Generator Backend demo**](https://demo.wpswings.com/pdf-generator-for-wp-pro/request-for-personal-demo/?utm_source=wpswings-pdf-demo&utm_medium=pdf-org-page&utm_campaign=backend-demo)
 
 == WORDPRESS PDF GENERATOR COMPATIBILITIES == 
 
@@ -121,7 +122,7 @@ Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/
 
 PDF Generator for WordPress Pro plugin generates PDF that can be read or shared anytime with an added feature of watermark & bulk generation.
 
-> Note:  Get [**PDF Generator For WP Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=wpswings-org-page&utm_campaign=pdf-pro)
+> Note:  Get [**PDF Generator For WP Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=pdf-org-page&utm_campaign=pdf-pro)
 
 == See What Hospicall  is Saying about PDF Generator For WordPress ==
 
@@ -133,13 +134,13 @@ PDF Generator for WordPress Pro plugin generates PDF that can be read or shared 
 
 == SUPPORT ==
 
-If you need support or have any questions then kindly use our online chat window [**here**](https://wpswings.com/?utm_source=wpswings-pdf-here&utm_medium=wpswings-org-page&utm_campaign=here) and discover all types of [**WooCommerce Extensions**](https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-shop&utm_medium=wpswings-org-page&utm_campaign=woocommerce-plugins) for your eCommerce store.
+If you need support or have any questions then kindly use our online chat window [**here**](https://wpswings.com/?utm_source=wpswings-pdf-here&utm_medium=pdf-org-page&utm_campaign=here) and discover all types of [**WooCommerce Extensions**](https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-shop&utm_medium=pdf-org-page&utm_campaign=woocommerce-plugins) for your eCommerce store.
 
-> If our documentation doesn’t contain the solution to your problem, you can visit the [**Forums Community**](https://forums.wpswings.com/?utm_source=wpswings-forums&utm_medium=pdf-org-page&utm_campaign=forum) or [**Generate a Ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-pdf-tickets&utm_medium=wpswings-org-page&utm_campaign=generate-tickets)
+> If our documentation doesn’t contain the solution to your problem, you can visit the [**Forums Community**](https://forums.wpswings.com/?utm_source=wpswings-forums&utm_medium=pdf-org-page&utm_campaign=forum) or [**Generate a Ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-pdf-tickets&utm_medium=pdf-org-page&utm_campaign=generate-tickets)
 
 > Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-services&utm_medium=pdf-org-page&utm_campaign=woocommerce-services)
 
-> Get Huge Discounts on PDF Generator plugin during BFCM Sales 2023 - [**Get More Offers**](https://wpswings.com/offers/?utm_source=wpswings-pdf-offers&utm_medium=wpswings-org-page&utm_campaign=offers)
+> Get Huge Discounts on PDF Generator plugin during BFCM Sales 2023 - [**Get More Offers**](https://wpswings.com/offers/?utm_source=wpswings-pdf-offers&utm_medium=pdf-org-page&utm_campaign=offers)
 
 
 == Installation ==
@@ -198,7 +199,11 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Changelog ==
 
-= 1.2.7 - Released on 26 October 2023 = 
+= 1.2.8 - Released on 10 November 2023 =
+* New : Compatible with latest WP(6.4) and WC(8.2.2)
+* New: Adjust logo size in default template header
+
+= 1.2.7 - Released on 27 October 2023 = 
 * New : Compatible with latest WP(6.3.2) and WC(8.2.1)
 * Fix: Banner image design issue fixed
 
@@ -303,9 +308,6 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Upgrade Notice ==
 
-= 1.2.7 - Released on 26 October 2023 = 
-* New : Compatible with latest WP(6.3.2) and WC(8.2.1)
-* Fix: Banner image design issue fixed
-
-
-
+= 1.2.8 - Released on 10 November 2023 =
+* New : Compatible with latest WP(6.4) and WC(8.2.2)
+* New: Adjust logo size in default template header

@@ -734,24 +734,9 @@ class Pdf_Generator_For_Wp_Common {
 				wp_mkdir_p( $upload_basedir );
 			}
 
-			if ( 'download_locally' === $action ) {
-				$output = $dompdf->output();
-				if ( file_exists( $path ) ) {
-					@unlink( $path ); // phpcs:ignore
-				}
-				if ( ! file_exists( $path ) ) {
-					@file_put_contents( $path, $output ); // phpcs:ignore
-				}
-				if ( 'invoice' === $type ) {
-					do_action( 'mwb_wpg_upload_invoice_in_storage', $path, $file_url, $order_id, $invoice_name );
-				}
-				$dompdf->stream( $invoice_name . '.pdf', array( 'Attachment' => 1 ) );
-			}
-			if ( 'open_window' === $action ) {
-				$output = $dompdf->output();
-				$dompdf->stream( $invoice_name . '.pdf', array( 'Attachment' => 0 ) );
-			}
-			if ( 'download_on_server' === $action ) {
+			
+			
+			if ( 'download_on_server' == $action ) {
 				$output = $dompdf->output();
 				if ( file_exists( $path ) ) {
 					@unlink( $path ); // phpcs:ignore
@@ -879,5 +864,113 @@ class Pdf_Generator_For_Wp_Common {
 		}
 		return false;
 	}
+	//////////////////////////////////////////////////////////////////////////////
+	public function wps_generate_pdf_with_cron_job(){
+		$action = 'custom_file';
 
+		if ( 'custom_file' == $action ) {
+			
+			$zip            = new ZipArchive();
+			$upload_dir     = wp_upload_dir();
+			$upload_basedir = $upload_dir['basedir'] . '/custom/';
+			$zip_path       = $upload_basedir . 'document.zip';
+			if ( ! file_exists( $upload_basedir ) ) {
+				wp_mkdir_p( $upload_basedir );
+			}
+			if ( file_exists( $zip_path ) ) {
+				@unlink( $zip_path ); // phpcs:ignore
+			}
+			$zip->open( $zip_path, ZipArchive::CREATE );
+			if ( 'custom_file' === $action ) {
+				$args = array(
+					'posts_per_page'   => -1,  // Get all posts
+					'post_type'        => 'any', // Get posts of any type (post, page, custom post types)
+					'post_status'      => 'publish', // Get only published posts
+					'fields'           => 'ids', // Only retrieve post IDs
+				);
+				// $common_class = new Pdf_Generator_For_Wp_Common( $this->plugin_name, $this->version );
+				// $file_path    = $common_class->cron_job_wpg_common_generate_pdf( $order_id, $type, $action);
+				$post_ids = get_posts($args);
+				
+				foreach ( $post_ids as $order_id ) {
+					
+					$file_path = $this->cron_job_wpg_common_generate_pdf( $order_id, $order_id, 'download' );
+					
+					$zip->addFile( $file_path, str_replace( $upload_dir['basedir'], '', $file_path ) );
+				}
+				@$zip->close(); // phpcs:ignore
+				$redirect_to = add_query_arg(
+					array(
+						'write_downloads' => true,
+					),
+					$redirect_to
+				);
+				
+
+				return $redirect_to;
+			}
+			
+		}
+		return $redirect_to;
+	}
+/**
+ * 
+ */
+	public function cron_job_wpg_common_generate_pdf( $order_id, $type, $action ) {
+		
+		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
+		
+		$invoice_name                     = $this->wpg_invoice_name_for_file( $type, $order_id );
+		$upload_dir                       = wp_upload_dir();
+		$upload_basedir                   = $upload_dir['basedir'] . '/custom/';
+	
+		$path                             = $upload_basedir . $invoice_name . '.pdf';
+		
+		$file_url                         = $upload_dir['baseurl'] . '/custom/' . $invoice_name . '.pdf';
+		
+		$body_settings_arr       = get_option( 'pgfw_body_save_settings', array() );
+		$pgfw_body_custom_page_size_height        = array_key_exists( 'pgfw_body_custom_page_size_height', $body_settings_arr ) ? $body_settings_arr['pgfw_body_custom_page_size_height'] : '';
+		$pgfw_body_custom_page_size_width        = array_key_exists( 'pgfw_body_custom_page_size_width', $body_settings_arr ) ? $body_settings_arr['pgfw_body_custom_page_size_width'] : '';
+		$pgfw_body_page_template = array_key_exists( 'pgfw_body_page_template', $body_settings_arr ) ? $body_settings_arr['pgfw_body_page_template'] : 'template1';
+		$pgfw_body_post_template = array_key_exists( 'pgfw_body_post_template', $body_settings_arr ) ? $body_settings_arr['pgfw_body_post_template'] : 'template1';
+		
+	
+			
+			if ( 'page' === get_post_type( $order_id ) ) {
+				$template_file_name = PDF_GENERATOR_FOR_WP_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wp-admin-' . $pgfw_body_page_template . '.php';
+				$template_file_name = apply_filters( 'pgfw_load_templates_for_pdf_html', $template_file_name, $pgfw_body_page_template, $order_id );
+				require_once $template_file_name;
+			} else {
+				$template_file_name = PDF_GENERATOR_FOR_WP_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wp-admin-' . $pgfw_body_post_template . '.php';
+				$template_file_name = apply_filters( 'pgfw_load_templates_for_pdf_html', $template_file_name, $pgfw_body_post_template, $order_id );
+				require_once $template_file_name;
+			}
+			
+			$html   = return_ob_html( $order_id, $template='' );
+			
+			$dompdf = new Dompdf( array( 'enable_remote' => true ) );
+			$dompdf->loadHtml( $html );
+			$dompdf->setPaper( 'A4' );
+			@ob_end_clean(); // phpcs:ignore
+			$dompdf->render();
+		
+			if ( ! file_exists( $upload_basedir ) ) {
+				wp_mkdir_p( $upload_basedir );
+			}
+
+			
+			//if ( 'download_on_server' === $action ) {
+				$output = $dompdf->output();
+				if ( file_exists( $path ) ) {
+					
+					@unlink( $path ); // phpcs:ignore
+				}
+				if ( ! file_exists( $path ) ) {
+					@file_put_contents( $path, $output ); // phpcs:ignore
+				}
+				
+				return $path;
+			//}
+		
+	 }
 }
