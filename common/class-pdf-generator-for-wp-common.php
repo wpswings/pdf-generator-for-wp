@@ -872,7 +872,7 @@ class Pdf_Generator_For_Wp_Common {
 			
 			$zip            = new ZipArchive();
 			$upload_dir     = wp_upload_dir();
-			$upload_basedir = $upload_dir['basedir'] . '/custom/';
+			$upload_basedir = $upload_dir['basedir'] . '/bulk_pdf/';
 			$zip_path       = $upload_basedir . 'document.zip';
 			if ( ! file_exists( $upload_basedir ) ) {
 				wp_mkdir_p( $upload_basedir );
@@ -913,30 +913,24 @@ class Pdf_Generator_For_Wp_Common {
 		}
 		return $redirect_to;
 	}
-/**
- * 
- */
-	public function cron_job_wpg_common_generate_pdf( $order_id, $type, $action ) {
+	/**
+	 * 
+	 */
+	public function cron_job_wpg_common_generate_pdf( $prod_id, $type, $action ) {
 		
 		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
-		
-		$invoice_name                     = $this->wpg_invoice_name_for_file( $type, $order_id );
 		$upload_dir                       = wp_upload_dir();
-		$upload_basedir                   = $upload_dir['basedir'] . '/custom/';
-	
-		$path                             = $upload_basedir . $invoice_name . '.pdf';
-		
-		$file_url                         = $upload_dir['baseurl'] . '/custom/' . $invoice_name . '.pdf';
+		$upload_basedir                   = $upload_dir['basedir'] . '/bulk_pdf/';
+		$path                             = $upload_basedir .  $prod_id . '.pdf';		
+		$file_url                         = $upload_dir['baseurl'] . '/bulk_pdf/' . $prod_id . '.pdf';
 		
 		$body_settings_arr       = get_option( 'pgfw_body_save_settings', array() );
 		$pgfw_body_custom_page_size_height        = array_key_exists( 'pgfw_body_custom_page_size_height', $body_settings_arr ) ? $body_settings_arr['pgfw_body_custom_page_size_height'] : '';
 		$pgfw_body_custom_page_size_width        = array_key_exists( 'pgfw_body_custom_page_size_width', $body_settings_arr ) ? $body_settings_arr['pgfw_body_custom_page_size_width'] : '';
 		$pgfw_body_page_template = array_key_exists( 'pgfw_body_page_template', $body_settings_arr ) ? $body_settings_arr['pgfw_body_page_template'] : 'template1';
 		$pgfw_body_post_template = array_key_exists( 'pgfw_body_post_template', $body_settings_arr ) ? $body_settings_arr['pgfw_body_post_template'] : 'template1';
-		
-	
-			
-			if ( 'page' === get_post_type( $order_id ) ) {
+				
+			if ( 'page' === get_post_type( $prod_id ) ) {
 				$template_file_name = PDF_GENERATOR_FOR_WP_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wp-admin-' . $pgfw_body_page_template . '.php';
 				$template_file_name = apply_filters( 'pgfw_load_templates_for_pdf_html', $template_file_name, $pgfw_body_page_template, $order_id );
 				require_once $template_file_name;
@@ -944,9 +938,29 @@ class Pdf_Generator_For_Wp_Common {
 				$template_file_name = PDF_GENERATOR_FOR_WP_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wp-admin-' . $pgfw_body_post_template . '.php';
 				$template_file_name = apply_filters( 'pgfw_load_templates_for_pdf_html', $template_file_name, $pgfw_body_post_template, $order_id );
 				require_once $template_file_name;
-			}
-			
-			$html   = return_ob_html( $order_id, $template='' );
+			}		
+		$general_settings_arr = get_option( 'pgfw_general_settings_save', array() );
+		$pdf_file_name        = array_key_exists( 'pgfw_general_pdf_file_name', $general_settings_arr ) ? $general_settings_arr['pgfw_general_pdf_file_name'] : 'post_name';
+		$body_add_watermark   = array_key_exists( 'pgfw_body_add_watermark', $body_settings_arr ) ? $body_settings_arr['pgfw_body_add_watermark'] : '#000000';
+		$body_watermark_color = array_key_exists( 'pgfw_body_watermark_color', $body_settings_arr ) ? $body_settings_arr['pgfw_body_watermark_color'] : '';
+		$body_watermark_text  = array_key_exists( 'pgfw_body_watermark_text', $body_settings_arr ) ? $body_settings_arr['pgfw_body_watermark_text'] : '';
+		$body_page_size       = array_key_exists( 'pgfw_body_page_size', $body_settings_arr ) ? $body_settings_arr['pgfw_body_page_size'] : 'a4';
+		$page_orientation     = array_key_exists( 'pgfw_body_page_orientation', $body_settings_arr ) ? $body_settings_arr['pgfw_body_page_orientation'] : 'portrait';
+		$document_name        = '';
+		$post                 = get_post( $prod_id );
+		if ( 'custom' === $pdf_file_name ) {
+			$pdf_file_name_custom = array_key_exists( 'pgfw_custom_pdf_file_name', $general_settings_arr ) ? $general_settings_arr['pgfw_custom_pdf_file_name'] : '';
+			$document_name        = ( ( '' !== $pdf_file_name_custom ) && ( $post ) ) ? $pdf_file_name_custom . '_' . $post->ID : 'document';
+		} elseif ( 'post_name' === $pdf_file_name ) {
+			$document_name = ( $post ) ? strip_tags( $post->post_title ) : 'document';
+		} else {
+			$document_name = ( $post ) ? 'document_' . $post->ID : 'document';
+		}
+		
+			$html  = '';
+			$html  .= apply_filters( 'wps_pgfw_add_cover_page_template_to_single_pdf', $html );
+			$html .= return_ob_html($prod_id,  $template='' );
+		
 			
 			$dompdf = new Dompdf( array( 'enable_remote' => true ) );
 			$dompdf->loadHtml( $html );
@@ -957,11 +971,10 @@ class Pdf_Generator_For_Wp_Common {
 			if ( ! file_exists( $upload_basedir ) ) {
 				wp_mkdir_p( $upload_basedir );
 			}
-
 			
-			//if ( 'download_on_server' === $action ) {
+			if ( 'download_on_server' === $action ) {
 				$output = $dompdf->output();
-				if ( file_exists( $path ) ) {
+				if ( !file_exists( $path ) ) {
 					
 					@unlink( $path ); // phpcs:ignore
 				}
@@ -970,7 +983,7 @@ class Pdf_Generator_For_Wp_Common {
 				}
 				
 				return $path;
-			//}
+			}
 		
 	 }
 }
