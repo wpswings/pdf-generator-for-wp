@@ -2723,7 +2723,7 @@ class Pdf_Generator_For_Wp_Admin {
 						'type'  => 'radio',
 						'id'    => 'wpg_invoice_template_three',
 						'class' => 'wpg_invoice_preview wpg_invoice_template_three',
-						'src'   => WORDPRESS_PDF_GENERATOR_DIR_URL . 'admin/src/images/template2.png',
+						'src'   => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/temp3.png',
 						'name'  => 'wpg_invoice_template',
 						'value' => 'three',
 					),
