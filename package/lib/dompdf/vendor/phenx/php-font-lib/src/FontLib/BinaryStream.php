@@ -281,8 +281,8 @@ class BinaryStream {
     if (is_string($date) || $date > PHP_INT_MAX || $date < $php_int_min) {
       $date = 0;
     }
-
-    return strftime("%Y-%m-%d %H:%M:%S", $date);
+    return date("Y-m-d H:i:s", $date);
+    //return strftime("%Y-%m-%d %H:%M:%S", $date);
   }
 
   public function writeLongDateTime($data) {
