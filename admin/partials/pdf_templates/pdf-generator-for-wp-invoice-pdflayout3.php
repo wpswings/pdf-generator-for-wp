@@ -252,9 +252,11 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 					</head>
 					<body>
 					<header class="clearfix">
-      <div id="logo">
-      <img src="' . $logo . '" >
-      </div>
+          <div id="logo">';
+          if ( 'yes' === $is_add_logo && '' !== $logo ) {
+             $html .=' <img src="' . $logo . '" >';
+          }
+         $html .=' </div>
       <div id="company">
         <h2 class="name"><b>' . ucfirst( $company_name ) . '</b></h2>
         <div>'.ucfirst( $company_address ).'</div>
