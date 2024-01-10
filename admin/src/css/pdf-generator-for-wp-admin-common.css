@@ -345,3 +345,28 @@ a.wps-pdf__popup-for-pro-link:hover {
     display: flex;
     align-items: center;
 }
+.wps-navbar .wps-navbar__items
+ li.wps_pgfw_pro_tag_lable_main a {
+    position: relative;
+    overflow: hidden;
+    padding-left: 25px;
+    padding-bottom: 15px;
+}
+.wps-navbar .wps-navbar__items li.wps_pgfw_pro_tag_lable_main a:before {
+    content: '';
+    align-items: center;
+    background: #0aa000;
+    bottom: 2px;
+    -webkit-clip-path: polygon(0 0, 100% 0, 66% 100%, 34% 100%);
+    clip-path: polygon(0 0, 100% 0, 66% 100%, 34% 100%);
+    color: #fff;
+    content: "PRO";
+    display: inline-flex;
+    font-size: 10px;
+    justify-content: center;
+    left: -18px;
+    padding: 0;
+    position: absolute;
+    transform: rotate(45deg);
+    width: 60px;
+}
