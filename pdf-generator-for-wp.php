@@ -219,8 +219,6 @@ function pdf_generator_for_wp_custom_settings_at_plugin_tab( $links_array, $plug
 }
 add_filter( 'plugin_row_meta', 'pdf_generator_for_wp_custom_settings_at_plugin_tab', 10, 2 );
 
-// Adding notice code ///////////////////////////////////// Upgrade notice. /////.
-
 
 // Update now link in pro.
 

@@ -1766,8 +1766,7 @@ class Pdf_Generator_For_Wp_Admin {
 	public function pgfw_admin_advanced_settings_page( $pgfw_advanced_settings_html_arr ) {
 		$pgfw_advanced_settings  = get_option( 'pgfw_advanced_save_settings', array() );
 		$pgfw_advanced_icon_show = array_key_exists( 'pgfw_advanced_show_post_type_icons', $pgfw_advanced_settings ) ? $pgfw_advanced_settings['pgfw_advanced_show_post_type_icons'] : '';
-		//$pgfw_advanced_post_types = array_key_exists( 'pgfw_advanced_post_type_to_save_on_server', $pgfw_advanced_settings ) ? $pgfw_advanced_settings['pgfw_advanced_post_type_to_save_on_server'] : '';
-
+		
 		$post_types              = get_post_types( array( 'public' => true ) );
 		unset( $post_types['attachment'] );
 

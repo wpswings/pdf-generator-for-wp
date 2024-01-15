@@ -894,8 +894,8 @@ class Pdf_Generator_For_Wp_Common {
 		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
 		$upload_dir                       = wp_upload_dir();
 		$upload_basedir                   = $upload_dir['basedir'] . '/bulk_pdf/';
-		$path                             = $upload_basedir .  $prod_id . '.pdf';		
-		$file_url                         = $upload_dir['baseurl'] . '/bulk_pdf/' . $prod_id . '.pdf';	
+		$path                             = $upload_basedir .  get_the_title($prod_id) . '.pdf';		
+		$file_url                         = $upload_dir['baseurl'] . '/bulk_pdf/' . get_the_title($prod_id) . '.pdf';	
 		$body_settings_arr       = get_option( 'pgfw_body_save_settings', array() );
 		$pgfw_body_custom_page_size_height        = array_key_exists( 'pgfw_body_custom_page_size_height', $body_settings_arr ) ? $body_settings_arr['pgfw_body_custom_page_size_height'] : '';
 		$pgfw_body_custom_page_size_width        = array_key_exists( 'pgfw_body_custom_page_size_width', $body_settings_arr ) ? $body_settings_arr['pgfw_body_custom_page_size_width'] : '';
