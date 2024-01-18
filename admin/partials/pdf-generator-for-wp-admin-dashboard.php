@@ -19,6 +19,13 @@ global $pgfw_wps_pgfw_obj, $wps_pgfw_gen_flag, $pgfw_save_check_flag;
 $pgfw_active_tab   = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw_tab'] ) : 'pdf-generator-for-wp-general'; // phpcs:ignore
 do_action( 'pgfw_license_activation_notice_on_dashboard' );
 $pgfw_default_tabs = $pgfw_wps_pgfw_obj->wps_pgfw_plug_default_tabs();
+
+$wps_wpg_plugin_list = get_option( 'active_plugins' );
+$wps_wpg_plugin = 'wordpress-pdf-generator/wordpress-pdf-generator.php';
+$wps_wpg_is_pro_active = false;
+if ( in_array( $wps_wpg_plugin, $wps_wpg_plugin_list ) ) {
+	$wps_wpg_is_pro_active = true;
+}
 ?>
 <header>
 	<?php
@@ -61,9 +68,10 @@ if ( $pgfw_save_check_flag ) {
 			if ( is_array( $pgfw_default_tabs ) && ! empty( $pgfw_default_tabs ) ) {
 
 				foreach ( $pgfw_default_tabs as $pgfw_tab_key => $pgfw_default_tabs ) {
-
+				
 					$pgfw_tab_classes = 'wps-link ';
 
+					$pgfw_tab_classe_pro = '';
 					if ( ! empty( $pgfw_active_tab ) && $pgfw_active_tab === $pgfw_tab_key ) {
 						$pgfw_tab_classes .= 'active';
 					} elseif ( ! empty( $pgfw_active_tab ) && in_array( $pgfw_active_tab, array( 'pdf-generator-for-wp-header', 'pdf-generator-for-wp-body', 'pdf-generator-for-wp-footer', 'pdf-generator-for-wp-pdf-icon-setting' ), true ) ) {
@@ -73,10 +81,18 @@ if ( $pgfw_save_check_flag ) {
 					} elseif ( ! empty( $pgfw_active_tab ) && in_array( $pgfw_active_tab, array( 'pdf-generator-for-wp-cover-page-setting', 'pdf-generator-for-wp-internal-page-setting' ), true ) ) {
 						if ( 'pdf-generator-for-wp-layout-settings' === $pgfw_tab_key ) {
 							$pgfw_tab_classes .= 'active';
+							
 						}
+						
+					} 
+					if( 'Taxonomy Settings' == $pgfw_default_tabs['title'] || 'Layout Settings' == $pgfw_default_tabs['title'] || 'PDF Logs' == $pgfw_default_tabs['title'] || 'Invoice settings' == $pgfw_default_tabs['title'] || 'Invoice page settings' == $pgfw_default_tabs['title'] ){
+						if (!$wps_wpg_is_pro_active ){
+							$pgfw_tab_classe_pro .= 'wps_pgfw_pro_tag_lable_main';	
+						}
+						
 					}
 					?>
-					<li>
+					<li class="<?php echo esc_attr($pgfw_tab_classe_pro); ?>">
 						<a id="<?php echo esc_attr( $pgfw_tab_key ); ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ) . '&pgfw_tab=' . esc_attr( $pgfw_tab_key ) ); ?>" class="<?php echo esc_attr( $pgfw_tab_classes ); ?>"><?php echo esc_html( $pgfw_default_tabs['title'] ); ?></a>
 					</li>
 					<?php

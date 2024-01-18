@@ -384,7 +384,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'name'        => 'pgfw_custom_pdf_file_name',
 				'value'       => $pgfw_pdf_file_name_custom,
 				'style'       => ( 'custom' !== $pgfw_pdf_file_name ) ? 'display:none;' : '',
-				'placeholder' => 'File Name',
+				'placeholder' => __( 'File Name', 'pdf-generator-for-wp' ),
 			),
 		);
 		$pgfw_settings_general_html_arr   = apply_filters( 'pgfw_settings_general_html_arr_filter_hook', $pgfw_settings_general_html_arr );
@@ -838,6 +838,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_header_font_style = array_key_exists( 'pgfw_header_font_style', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_font_style'] : '';
 		$pgfw_header_font_size  = array_key_exists( 'pgfw_header_font_size', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_font_size'] : '';
 		$pgfw_header_top        = array_key_exists( 'pgfw_header_top', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_top'] : '';
+		$pgfw_header_logo_size	= array_key_exists( 'pgfw_header_logo_size', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_logo_size'] : '30';
 		$wps_pgfw_font_styles   = array(
 			''            => __( 'Select option', 'pdf-generator-for-wp' ),
 			'helvetica'   => __( 'Helvetica', 'pdf-generator-for-wp' ),
@@ -885,6 +886,18 @@ class Pdf_Generator_For_Wp_Admin {
 					'btn-name'  => 'pgfw_header_image_remove',
 					'btn-style' => ! ( $pgfw_header_logo ) ? 'display:none' : '',
 				),
+			),
+			array(
+				'title'       => __( 'Logo Size', 'pdf-generator-for-wp' ),
+				'type'        => 'number',
+				'description' => __( 'Enter header logo width size in (px) . ', 'pdf-generator-for-wp' ),
+				'id'          => 'pgfw_header_logo_size',
+				'value'       => $pgfw_header_logo_size,
+				'class'       => 'pgfw_header_logo_size',
+				'name'        => 'pgfw_header_logo_size',
+				'placeholder' => __( 'width', 'pdf-generator-for-wp' ),
+				'min'         => 5,
+				'max'         => 150,
 			),
 			array(
 				'title'       => __( 'Company Name', 'pdf-generator-for-wp' ),
@@ -1753,7 +1766,7 @@ class Pdf_Generator_For_Wp_Admin {
 	public function pgfw_admin_advanced_settings_page( $pgfw_advanced_settings_html_arr ) {
 		$pgfw_advanced_settings  = get_option( 'pgfw_advanced_save_settings', array() );
 		$pgfw_advanced_icon_show = array_key_exists( 'pgfw_advanced_show_post_type_icons', $pgfw_advanced_settings ) ? $pgfw_advanced_settings['pgfw_advanced_show_post_type_icons'] : '';
-
+		
 		$post_types              = get_post_types( array( 'public' => true ) );
 		unset( $post_types['attachment'] );
 
@@ -1767,6 +1780,16 @@ class Pdf_Generator_For_Wp_Admin {
 			'class'       => 'pgfw-multiselect-class wps-defaut-multiselect pgfw_advanced_show_post_type_icons',
 			'name'        => 'pgfw_advanced_show_post_type_icons',
 			'options'     => $post_types,
+		);
+		$pgfw_advanced_settings_html_arr[] = array(
+			'title'       => __( 'Select Post Type', 'pdf-generator-for-wp' ),
+			'type'        => 'multiselect',
+			'description' => __( 'Select all post types that you want save as a pdf on server with weekly update.', 'pdf-generator-for-wp' ),
+			'id'          => 'pgfw_advanced_post_on_server',
+			'value'       => 'posts',
+			'class'       => 'pgfw-multiselect-class wps-defaut-multiselect  wps_pgfw_pro_tag',
+			'name'        => 'pgfw_advanced_post_on_server',
+			'options'     => '',
 		);
 		$pgfw_advanced_settings_html_arr[] = array(
 			'title'       => __( 'Upload Custom Font File', 'pdf-generator-for-wp' ),
@@ -2704,6 +2727,15 @@ class Pdf_Generator_For_Wp_Admin {
 						'src'   => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/template2.png',
 						'name'  => 'wpg_invoice_template',
 						'value' => 'two',
+					),
+					array(
+						'title' => __( 'Template3', 'wordpress-pdf-generator' ),
+						'type'  => 'radio',
+						'id'    => 'wpg_invoice_template_three',
+						'class' => 'wpg_invoice_preview wpg_invoice_template_three',
+						'src'   => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/temp3.png',
+						'name'  => 'wpg_invoice_template',
+						'value' => 'three',
 					),
 				),
 			),

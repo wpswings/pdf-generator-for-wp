@@ -171,6 +171,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 	}
 	// Header for pdf.
 	if ( 'yes' === $pgfw_header_use_in_pdf ) {
+		$pgfw_header_logo_size	= array_key_exists( 'pgfw_header_logo_size', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_logo_size'] : '30';
 		$html .= '<style>
 					.pgfw-pdf-header-each-page{
 						position : fixed;
@@ -187,8 +188,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 						padding-bottom : 25px;
 					}
 					.pgfw-header-logo{
-						width  : 50px;
-						height : 50px;
+						width : ' .$pgfw_header_logo_size . 'px;
 						float  : left;
 					}
 					.pgfw-header-tagline{

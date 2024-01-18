@@ -283,3 +283,6 @@ body.makewebbetter_page_pdf_generator_for_wp_menu  .wps-wpg-card__img {
     padding: 0;
 
 }
+.wps-info-img {
+    vertical-align: middle;
+}
