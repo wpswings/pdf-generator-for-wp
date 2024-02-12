@@ -3,7 +3,7 @@
  * included in this file.
  */
 
-.pgfw-badge {
+ .pgfw-badge {
     background-color: blue;
     color: white;
     border-radius: 10px;
@@ -19,14 +19,15 @@
 
 .pgfw-single-pdf-download-button img {
     display: inline;
-    width:auto;
-    height:25px;
+    width: auto;
+    height: 25px;
 }
 
 .pgfw-single-pdf-download-button {
     margin-right: 15px;
 }
-.pgfw-bulk-pdf-download-button{
+
+.pgfw-bulk-pdf-download-button {
     background-color: #2196F3;
     color: #ffffff;
     margin-right: 15px;
@@ -35,19 +36,24 @@
     padding: 2px 5px;
     border-radius: 3px;
 }
+
 .pgfw-single-pdf-download-button:focus {
-    outline:none;
+    outline: none;
 }
-a.pgfw-single-pdf-download-button, .wps_pgfw_whatsapp_share_icon {
+
+a.pgfw-single-pdf-download-button,
+.wps_pgfw_whatsapp_share_icon {
     display: inline-flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap:5px;
+    gap: 5px;
 }
+
 .wps_pgfw_whatsapp_share_icon img {
     display: inline-block;
 }
+
 /*Floating element CSS*/
 
 .wps_pgw-button_wrapper {
@@ -180,15 +186,18 @@ a.pgfw-single-pdf-download-button, .wps_pgfw_whatsapp_share_icon {
     margin: 0 !important;
     box-shadow: 0 0 0 5000px rgb(0 0 0 / 74%) !important;
 }
+
 #TB_ajaxContent {
     width: auto !important;
-    height:unset !important;
+    height: unset !important;
     min-height: 305px;
 }
+
 /*popup modal*/
 .wps_pgfw_email_input {
     display: flex;
     flex-direction: column;
+    margin: 15px 0 0;
 }
 
 .wps_pgfw_email_input label {
@@ -197,15 +206,22 @@ a.pgfw-single-pdf-download-button, .wps_pgfw_whatsapp_share_icon {
     color: #1a1a1a;
 }
 
-.wps_pgfw_email_input input {
+.wps_pgfw_email_input input[type=email] {
     border: 1px solid #333333 !important;
     box-shadow: none !important;
-    background-color: rgb(26 51 101 / 5%) !important;
+    background-color: transparent !important;
     margin-bottom: 10px;
 }
 
+.wps_pgfw_email_input input[type=email] {
+    width: 100%;
+    margin: 0 0 10px;
+    padding: 10px;
+    min-height: 40px;
+}
+
 .wps_pgfw_email_input input:focus {
-    outline:none;
+    outline: none;
     box-shadow: none;
 }
 
@@ -216,14 +232,20 @@ a.pgfw-single-pdf-download-button, .wps_pgfw_whatsapp_share_icon {
 .wps_pgfw_email_button button {
     background-color: #333333;
     color: #ffffff;
-    border:none;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    margin: 0;
+    line-height: 1.25;
+    cursor: pointer;
 }
 
 .wps_pgfw_email_button button:focus {
-    border:none;
-    outline:none;
-    color:#ffffff;
+    border: none;
+    outline: none;
+    color: #ffffff;
 }
+
 #pgfw-user-email-submittion-message {
     margin-top: 10px;
 }
@@ -234,4 +256,76 @@ a.pgfw-single-pdf-download-button, .wps_pgfw_whatsapp_share_icon {
         max-width: 275px;
         margin-top: 10px;
     }
-} 
+}
+
+
+/* Email Popup start */
+
+#single-pdf-download {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999999;
+    display: none;
+}
+
+#single-pdf-download.wps-pdf_email--show {
+    display: block;
+}
+
+.wps-pdf_email--shadow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.wps-pdf_email-content {
+    position: absolute;
+    max-width: 400px;
+    width: calc(100% - 30px);
+    background: #fff;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.wps_pgfw_email_input input[type=checkbox] {
+    margin: 0;
+}
+
+.wps_pgfw_email_input label[for=pgfw-user-email-from-account] {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.wps-pdf_email--close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.wps-pdf_email--close svg {
+    width: 18px;
+    height: 18px;
+    position: unset;
+}
+
+#single-pdf-download .wps-pdf_email-content h2 {
+    font-size: 20px;
+    font-weight: 400;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    padding: 0 0 5px;
+}
+
+/* Email Popup end */
