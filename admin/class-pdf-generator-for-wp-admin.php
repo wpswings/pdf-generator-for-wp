@@ -311,7 +311,7 @@ class Pdf_Generator_For_Wp_Admin {
 			array(
 				'title'       => __( 'Display Current Date', 'pdf-generator-for-wp' ),
 				'type'        => 'checkbox',
-				'description' => __( 'current date will be shown on PDF.', 'pdf-generator-for-wp' ),
+				'description' => __( 'Current date will be shown on PDF.', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_general_pdf_show_current_date',
 				'value'       => $pgfw_show_current_date,
 				'class'       => 'pgfw_general_pdf_show_current_date',
@@ -1098,7 +1098,7 @@ class Pdf_Generator_For_Wp_Admin {
 			array(
 				'title'       => __( 'Add Author, Post name and Date in Footer.', 'pdf-generator-for-wp' ),
 				'type'        => 'multiselect',
-				'description' => __( 'you can customize the footer for author name, post name and date of publication.', 'pdf-generator-for-wp' ),
+				'description' => __( 'You have the option to customize the footer to include the authors name, the post title, and the publication date.', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_footer_customization_for_post_detail',
 				'value'       => $pgfw_footer_customization,
 				'class'       => 'pgfw-multiselect-class wps-defaut-multiselect pgfw_advanced_show_post_type_icons',
@@ -1695,7 +1695,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'value'       => $pgfw_body_custom_css,
 				'class'       => 'pgfw_body_custom_css',
 				'name'        => 'pgfw_body_custom_css',
-				'placeholder' => __( 'custom CSS', 'pdf-generator-for-wp' ),
+				'placeholder' => __( 'Custom CSS', 'pdf-generator-for-wp' ),
 			),
 			array(
 				'title'       => __( 'Show images row wise   ( Template1 )', 'pdf-generator-for-wp' ),
@@ -1733,7 +1733,7 @@ class Pdf_Generator_For_Wp_Admin {
 			array(
 				'title'       => __( 'Hide featured image, title and Description(word)', 'pdf-generator-for-wp' ),
 				'type'        => 'multiselect',
-				'description' => __( 'you can customize the default template static text strings and thumbnail.', 'pdf-generator-for-wp' ),
+				'description' => __( 'You have the flexibility to customize the default template by editing static text strings and thumbnails to better suit your needs.', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_body_customization_for_post_detail',
 				'value'       => $pgfw_body_customization,
 				'class'       => 'pgfw-multiselect-class wps-defaut-multiselect pgfw_advanced_show_post_type_icons',
