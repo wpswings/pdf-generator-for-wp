@@ -37,7 +37,8 @@ function pgfw_modal_for_email_template($url_here, $id)
 		$wps_wpg_single_pdf_icon_name = '';
 		$is_pro_active = false;
 	}
-	$html  = '<div style="text-align:' . esc_html($pgfw_pdf_icon_alignment) . '">
+	
+	$html  = '<div style="display:flex;align-items:center;justify-content:' . esc_html($pgfw_pdf_icon_alignment) . '">
 				<a href="#" title="' . esc_html__('Please Enter Your Email ID', 'pdf-generator-for-wp') . '" class="pgfw-single-pdf-download-a"><img src="' . esc_url($pgfw_single_pdf_download_icon_src) . '" title="' . esc_html__('Generate PDF', 'pdf-generator-for-wp') . '" style="height:' . esc_html($pgfw_pdf_icon_height) . 'px;">' . $wps_wpg_single_pdf_icon_name . '</a>';
 	$html  = apply_filters('wps_pgfw_bulk_download_button_filter_hook', $html, $id);
 

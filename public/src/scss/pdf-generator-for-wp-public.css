@@ -329,3 +329,7 @@ a.pgfw-single-pdf-download-button,
 }
 
 /* Email Popup end */
+a.pgfw-single-pdf-download-a {
+    display: inline-block;
+    max-width: max-content;
+}

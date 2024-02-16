@@ -668,9 +668,9 @@ class Pdf_Generator_For_Wp_Admin {
 				'name'        => 'pgfw_display_pdf_icon_alignment',
 				'options'     => array(
 					''       => __( 'Please Choose', 'pdf-generator-for-wp' ),
-					'left'   => __( 'Left', 'pdf-generator-for-wp' ),
+					'flex-start'   => __( 'Left', 'pdf-generator-for-wp' ),
 					'center' => __( 'Center', 'pdf-generator-for-wp' ),
-					'right'  => __( 'Right', 'pdf-generator-for-wp' ),
+					'flex-end'  => __( 'Right', 'pdf-generator-for-wp' ),
 				),
 			),
 			array(
