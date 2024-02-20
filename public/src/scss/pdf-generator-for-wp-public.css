@@ -48,6 +48,7 @@ a.pgfw-single-pdf-download-button,
     align-items: center;
     text-align: center;
     gap: 5px;
+    
 }
 
 .wps_pgfw_whatsapp_share_icon img {
@@ -333,4 +334,7 @@ a.pgfw-single-pdf-download-a {
     display: inline-block;
     max-width: max-content;
     margin-right: 10px;
+}
+div.wps-pgfw-pdf-generate-icon__wrapper-frontend{
+    display: flex;
 }
