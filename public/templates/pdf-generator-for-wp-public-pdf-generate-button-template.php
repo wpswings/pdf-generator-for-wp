@@ -51,7 +51,7 @@ function pgfw_pdf_download_button( $url_here, $id ) {
 		
 		if ( isset( $pgfw_show_post_type_icons_for_user_role ) && ! empty( $pgfw_show_post_type_icons_for_user_role ) && array_intersect( $user->roles, $pgfw_show_post_type_icons_for_user_role ) ) {
 
-			$html  = '<div style="display:flex !important; gap:10px;justify-content:' . esc_html( $pgfw_pdf_icon_alignment ) . '" class="wps-pgfw-pdf-generate-icon__wrapper-frontend">
+			$html  = '<div style="display:flex; gap:10px;justify-content:' . esc_html( $pgfw_pdf_icon_alignment ) . '" class="wps-pgfw-pdf-generate-icon__wrapper-frontend">
 			<div> <a href="' . esc_html( $url_here ) . '" class="pgfw-single-pdf-download-button" ' . esc_html( $mode ) . '><img src="' . esc_url( $pgfw_single_pdf_download_icon_src ) . '" title="' . esc_html__( 'Generate PDF', 'pdf-generator-for-wp' ) . '" style="width:auto; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;"">' . $wps_wpg_single_pdf_icon_name . '</a>
 			';
 			$html  = apply_filters( 'wps_pgfw_bulk_download_button_filter_hook', $html, $id );
@@ -69,7 +69,7 @@ function pgfw_pdf_download_button( $url_here, $id ) {
 			return $html;
 		}
 	} else {
-		$html  = '<div style="display: flex !important; gap:10px;justify-content:' . esc_html( $pgfw_pdf_icon_alignment ) . '" class="wps-pgfw-pdf-generate-icon__wrapper-frontend">
+		$html  = '<div style="display:flex; gap:10px;justify-content:' . esc_html( $pgfw_pdf_icon_alignment ) . '" class="wps-pgfw-pdf-generate-icon__wrapper-frontend">
 		<a  href="' . esc_html( $url_here ) . '" class="pgfw-single-pdf-download-button" ' . esc_html( $mode ) . '><img src="' . esc_url( $pgfw_single_pdf_download_icon_src ) . '" title="' . esc_html__( 'Generate PDF', 'pdf-generator-for-wp' ) . '" style="width:auto; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;">' . $wps_wpg_single_pdf_icon_name . '</a>
 		';
 		$html  = apply_filters( 'wps_pgfw_bulk_download_button_filter_hook', $html, $id );

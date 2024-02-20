@@ -337,4 +337,11 @@ a.pgfw-single-pdf-download-a {
 }
 div.wps-pgfw-pdf-generate-icon__wrapper-frontend{
     display: flex;
-}
+    /* float: left;
+    width: 100%; */
+} 
+ div.pdf-icon-for-the-email{
+    display: flex;
+    /* float: left;
+    width: 100%; */
+} 
