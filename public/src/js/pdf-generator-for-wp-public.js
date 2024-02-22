@@ -1,4 +1,4 @@
-(function( $ ) {
+(function ($) {
 	'use strict';
 
 	/**
@@ -29,7 +29,16 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 
-	$(document).on('click','#pgfw_print_button',function(){
+	$(document).on('click', '#pgfw_print_button', function () {
 		window.print()
 	})
-})( jQuery );
+
+	$(document).on('click', '.pgfw-single-pdf-download-a', function (e) {
+		e.preventDefault();
+		$('#single-pdf-download').addClass('wps-pdf_email--show');
+	})
+
+	$(document).on('click', '.wps-pdf_email--close,.wps-pdf_email--shadow', function (e) {
+		$('#single-pdf-download').removeClass('wps-pdf_email--show');
+	})
+})(jQuery);
