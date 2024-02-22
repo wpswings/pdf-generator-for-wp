@@ -1,4 +1,4 @@
-[![Build Status](https://img.shields.io/travis/twbs/bootstrap/v4-dev.svg)](https://travis-ci.org/twbs/bootstrap)![Active installs](https://img.shields.io/badge/Active-1000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.4.2-brightgreen)![WC tested](https://img.shields.io/badge/WC%20tested-8.5.1-brightgreen)![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.2-blue)
+[![Build Status](https://img.shields.io/travis/twbs/bootstrap/v4-dev.svg)](https://travis-ci.org/twbs/bootstrap)![Active installs](https://img.shields.io/badge/Active-1000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.4.3-brightgreen)![WC tested](https://img.shields.io/badge/WC%20tested-8.6.1-brightgreen)![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.2-blue)
 # PDF Generator for WordPress - Create & Customize PDF for Post, Pages and WooCommerce Products
 ![PDF Generator for WordPress](https://ps.w.org/pdf-generator-for-wp/assets/banner-772x250.png?rev=2672197)
 * Contributors: WP Swings
@@ -132,7 +132,7 @@ If you need support or have any questions then kindly use our online chat window
 
 > Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-pdf-services&utm_medium=pdf-github-page&utm_campaign=woocommerce-services)
 
-> Get Huge Discounts on PDF Generator plugin during Republic Day Sales 2024 – [**Get More Offers**](https://wpswings.com/offers/?utm_source=wpswings-pdf-offers&utm_medium=pdf-github-page&utm_campaign=offers)
+> Get Huge Discounts on PDF Generator plugin – [**Get More Offers**](https://wpswings.com/offers/?utm_source=wpswings-pdf-offers&utm_medium=pdf-github-page&utm_campaign=offers)
 
 ### **MORE ABOUT WP SWINGS**
 
@@ -141,3 +141,8 @@ If you need support or have any questions then kindly use our online chat window
 * [**Tweet us on @WPSwings**](https://twitter.com/wpswings)
 * [**Visit our LinkedIn Account**](https://www.linkedin.com/company/wpswings)
 * [**Subscribe To Our YouTube Channel**](https://www.youtube.com/channel/UC7nYNf0JETOwW3GOD_EW2Ag)
+
+
+
+
+
