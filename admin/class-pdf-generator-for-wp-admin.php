@@ -616,7 +616,31 @@ class Pdf_Generator_For_Wp_Admin {
 					'no'  => __( 'NO', 'pdf-generator-for-wp' ),
 				),
 			),
-
+			array(
+				'title'       => __( 'Enable Print Option', 'pdf-generator-for-wp' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Enable this to print current window screen', 'pdf-generator-for-wp' ),
+				'id'          => 'pgfw_print_enable_org_tag',
+				'value'       => 'pgfw_print_enable_org_tag',
+				'class'       => 'wps_pgfw_pro_tag',
+				'options'     => array(
+					'yes' => __( 'YES', 'pdf-generator-for-wp' ),
+					'no'  => __( 'NO', 'pdf-generator-for-wp' ),
+				),
+			),
+			array(
+				'title'       => __( 'Enable WhatsApp sharing icon', 'pdf-generator-for-wp' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Enable this to share pdf over WhatsApp', 'pdf-generator-for-wp' ),
+				'id'          => 'wpg_whatsapp_sharing',
+				'value'       => '',
+				'class'       => 'wps_pgfw_pro_tag',
+				'name'        => 'wpg_whatsapp_sharing',
+				'options'     => array(
+					'yes' => __( 'YES', 'pdf-generator-for-wp' ),
+					'no'  => __( 'NO', 'pdf-generator-for-wp' ),
+				),
+			),
 			array(
 				'title'        => __( 'Direct Download or Email User', 'pdf-generator-for-wp' ),
 				'type'         => 'select',
@@ -673,19 +697,7 @@ class Pdf_Generator_For_Wp_Admin {
 					'flex-end'  => __( 'Right', 'pdf-generator-for-wp' ),
 				),
 			),
-			array(
-				'title'       => __( 'Enable WhatsApp sharing icon', 'pdf-generator-for-wp' ),
-				'type'        => 'radio-switch',
-				'description' => __( 'Enable this to share pdf over WhatsApp', 'pdf-generator-for-wp' ),
-				'id'          => 'wpg_whatsapp_sharing',
-				'value'       => '',
-				'class'       => 'wps_pgfw_pro_tag',
-				'name'        => 'wpg_whatsapp_sharing',
-				'options'     => array(
-					'yes' => __( 'YES', 'pdf-generator-for-wp' ),
-					'no'  => __( 'NO', 'pdf-generator-for-wp' ),
-				),
-			),
+			
 			array(
 				'title'       => __( 'Choose Bulk Download PDF Icon', 'pdf-generator-for-wp' ),
 				'type'        => 'upload-button',
@@ -713,34 +725,7 @@ class Pdf_Generator_For_Wp_Admin {
 					'btn-style' => ! ( '' ) ? 'display:none' : '',
 				),
 			),
-			array(
-				'title'        => __( 'Choose Single Download PDF Icon', 'pdf-generator-for-wp' ),
-				'type'         => 'upload-button',
-				'button_text'  => __( 'Upload Icon', 'pdf-generator-for-wp' ),
-				'class'        => 'sub_pgfw_pdf_single_download_icon',
-				'id'           => 'sub_pgfw_pdf_single_download_icon',
-				'value'        => $sub_pgfw_pdf_single_download_icon,
-				'sub_id'       => 'pgfw_pdf_single_download_icon',
-				'sub_class'    => 'pgfw_pdf_single_download_icon',
-				'sub_name'     => 'pgfw_pdf_single_download_icon',
-				'name'         => 'sub_pgfw_pdf_single_download_icon',
-				'parent-class' => 'wps_pgfw_setting_separate_border',
-				'description'  => __( 'If no icon is chosen default icon will be used.', 'pdf-generator-for-wp' ),
-				'img-tag'      => array(
-					'img-class' => 'pgfw_single_pdf_icon_image',
-					'img-id'    => 'pgfw_single_pdf_icon_image',
-					'img-style' => ( $sub_pgfw_pdf_single_download_icon ) ? 'margin:10px;height:45px;width:45px;' : 'display:none;margin:10px;height:45px;width:45px;',
-					'img-src'   => $sub_pgfw_pdf_single_download_icon,
-				),
-				'img-remove'   => array(
-					'btn-class' => 'pgfw_single_pdf_icon_image_remove',
-					'btn-id'    => 'pgfw_single_pdf_icon_image_remove',
-					'btn-text'  => __( 'Remove Icon', 'pdf-generator-for-wp' ),
-					'btn-title' => __( 'Remove Icon', 'pdf-generator-for-wp' ),
-					'btn-name'  => 'pgfw_single_pdf_icon_image_remove',
-					'btn-style' => ! ( $sub_pgfw_pdf_single_download_icon ) ? 'display:none' : '',
-				),
-			),
+			
 			array(
 				'title'       => __( 'Bulk Download PDF Icon Name', 'pdf-generator-for-wp' ),
 				'type'        => 'text',
@@ -805,6 +790,34 @@ class Pdf_Generator_For_Wp_Admin {
 				'class'       => 'pgfw-multiselect-class wps-defaut-multiselect pgfw_show_post_type_icons_for_user_role',
 				'name'        => 'pgfw_show_post_type_icons_for_user_role',
 				'options'     => $roles_array,
+			),
+			array(
+				'title'        => __( 'Choose Single Download PDF Icon', 'pdf-generator-for-wp' ),
+				'type'         => 'upload-button',
+				'button_text'  => __( 'Upload Icon', 'pdf-generator-for-wp' ),
+				'class'        => 'sub_pgfw_pdf_single_download_icon',
+				'id'           => 'sub_pgfw_pdf_single_download_icon',
+				'value'        => $sub_pgfw_pdf_single_download_icon,
+				'sub_id'       => 'pgfw_pdf_single_download_icon',
+				'sub_class'    => 'pgfw_pdf_single_download_icon',
+				'sub_name'     => 'pgfw_pdf_single_download_icon',
+				'name'         => 'sub_pgfw_pdf_single_download_icon',
+				'parent-class' => 'wps_pgfw_setting_separate_border',
+				'description'  => __( 'If no icon is chosen default icon will be used.', 'pdf-generator-for-wp' ),
+				'img-tag'      => array(
+					'img-class' => 'pgfw_single_pdf_icon_image',
+					'img-id'    => 'pgfw_single_pdf_icon_image',
+					'img-style' => ( $sub_pgfw_pdf_single_download_icon ) ? 'margin:10px;height:45px;width:45px;' : 'display:none;margin:10px;height:45px;width:45px;',
+					'img-src'   => $sub_pgfw_pdf_single_download_icon,
+				),
+				'img-remove'   => array(
+					'btn-class' => 'pgfw_single_pdf_icon_image_remove',
+					'btn-id'    => 'pgfw_single_pdf_icon_image_remove',
+					'btn-text'  => __( 'Remove Icon', 'pdf-generator-for-wp' ),
+					'btn-title' => __( 'Remove Icon', 'pdf-generator-for-wp' ),
+					'btn-name'  => 'pgfw_single_pdf_icon_image_remove',
+					'btn-style' => ! ( $sub_pgfw_pdf_single_download_icon ) ? 'display:none' : '',
+				),
 			),
 
 		);
@@ -2729,7 +2742,7 @@ class Pdf_Generator_For_Wp_Admin {
 						'value' => 'two',
 					),
 					array(
-						'title' => __( 'Template3', 'wordpress-pdf-generator' ),
+						'title' => __( 'Template3', 'pdf-generator-for-wp' ),
 						'type'  => 'radio',
 						'id'    => 'wpg_invoice_template_three',
 						'class' => 'wpg_invoice_preview wpg_invoice_template_three',
