@@ -14,6 +14,12 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+$secure_nonce      = wp_create_nonce( 'wps-pgfw-auth-nonce' );
+$id_nonce_verified = wp_verify_nonce( $secure_nonce, 'wps-pgfw-auth-nonce' );
+if ( ! $id_nonce_verified ) {
+		wp_die( esc_html__( 'Nonce Not verified', 'pdf-generator-for-wp' ) );
+}
 global $pgfw_wps_pgfw_obj;
 $pgfw_active_tab            = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw_tab'] ) : 'pdf-generator-for-wp-header';
 $pgfw_default_tabs          = $pgfw_wps_pgfw_obj->wps_pgfw_plug_default_sub_tabs();

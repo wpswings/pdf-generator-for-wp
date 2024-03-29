@@ -199,7 +199,7 @@ class Pdf_Generator_For_Wp_Common {
 			$pdf_file_name_custom = array_key_exists( 'pgfw_custom_pdf_file_name', $general_settings_arr ) ? $general_settings_arr['pgfw_custom_pdf_file_name'] : '';
 			$document_name        = ( ( '' !== $pdf_file_name_custom ) && ( $post ) ) ? $pdf_file_name_custom . '_' . $post->ID : 'document';
 		} elseif ( 'post_name' === $pdf_file_name ) {
-			$document_name = ( $post ) ? strip_tags( $post->post_title ) : 'document';
+			$document_name = ( $post ) ? wp_strip_all_tags( $post->post_title ) : 'document';
 		} else {
 			$document_name = ( $post ) ? 'document_' . $post->ID : 'document';
 		}
@@ -493,8 +493,8 @@ class Pdf_Generator_For_Wp_Common {
 		$html_file = $upload_path . 'outpuut.html';
 		$pdf_file = $upload_path . 'outpuut.pdf';
 
-		@unlink( $html_file );
-		@unlink( $pdf_file );
+		wp_delete_file( $html_file );
+		wp_delete_file( $pdf_file );
 
 		global $typenow;
 		$post_type = $typenow;
@@ -981,7 +981,7 @@ class Pdf_Generator_For_Wp_Common {
 			$pdf_file_name_custom = array_key_exists( 'pgfw_custom_pdf_file_name', $general_settings_arr ) ? $general_settings_arr['pgfw_custom_pdf_file_name'] : '';
 			$document_name        = ( ( '' !== $pdf_file_name_custom ) && ( $post ) ) ? $pdf_file_name_custom . '_' . $post->ID : 'document';
 		} elseif ( 'post_name' === $pdf_file_name ) {
-			$document_name = ( $post ) ? strip_tags( $post->post_title ) : 'document';
+			$document_name = ( $post ) ? wp_strip_all_tags( $post->post_title ) : 'document';
 		} else {
 			$document_name = ( $post ) ? 'document_' . $post->ID : 'document';
 		}
