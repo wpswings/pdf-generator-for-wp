@@ -493,9 +493,6 @@ class Pdf_Generator_For_Wp_Common {
 		$html_file = $upload_path . 'outpuut.html';
 		$pdf_file = $upload_path . 'outpuut.pdf';
 
-		wp_delete_file( $html_file );
-		wp_delete_file( $pdf_file );
-
 		global $typenow;
 		$post_type = $typenow;
 
