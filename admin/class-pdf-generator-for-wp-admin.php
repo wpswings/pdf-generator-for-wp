@@ -497,7 +497,7 @@ class Pdf_Generator_For_Wp_Admin {
 										$file_type   = strtolower( pathinfo( $target_file, PATHINFO_EXTENSION ) );
 										if ( 'ttf' === $file_type ) {
 											if ( ! file_exists( $target_file ) ) {
-												move_uploaded_file( $file_to_upload, $target_file );
+												copy( $file_to_upload, $target_file );
 											}
 											$settings_general_arr[ $pgfw_genaral_setting['id'] ] = $file_name_to_upload;
 										} else {
