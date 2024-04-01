@@ -274,17 +274,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 	$post = get_post( $post_id );
 	if ( is_object( $post ) ) {
 		$html .= '<style>
-		* {
-      color: white;
-    }
-    .pgfw-pdf-body {
-      position: fixed;
-      inset: -1in;
-      background-color: navy;
-      z-index: -1000;
-	  margin : 0px !important;
-	  padding:0px !important;
-    }
+		
 					.pgfw-pdf-body-title{
 						font-family : ' . $pgfw_body_title_font_style . ';
 						font-size   : ' . $pgfw_body_title_font_size . 'px;
