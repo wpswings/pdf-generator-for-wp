@@ -27,11 +27,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) {
 
 	do_action( 'wps_pgfw_load_all_compatible_shortcode_converter' );
-
+	$pgfw_display_settings                   = get_option( 'pgfw_save_admin_display_settings', array() );
 	// advanced settings.
 	$pgfw_advanced_settings = get_option( 'pgfw_advanced_save_settings', array() );
 	$pgfw_ttf_font_upload   = array_key_exists( 'pgfw_ttf_font_upload', $pgfw_advanced_settings ) ? $pgfw_advanced_settings['pgfw_ttf_font_upload'] : '';
-
+	$pgfw_template_color_option                 = array_key_exists( 'pgfw_template_color_option', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_template_color_option'] : '';
 	// header customisation settings.
 	$pgfw_header_settings   = get_option( 'pgfw_header_setting_submit', array() );
 	$pgfw_header_use_in_pdf = array_key_exists( 'pgfw_header_use_in_pdf', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_use_in_pdf'] : '';
@@ -70,7 +70,8 @@ function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) {
 	$pgfw_body_watermark_text        = array_key_exists( 'pgfw_body_watermark_text', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_watermark_text'] : '';
 	$pgfw_body_add_watermark        = array_key_exists( 'pgfw_body_add_watermark', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_add_watermark'] : '';
 	$pgfw_body_watermark_color        = array_key_exists( 'pgfw_body_watermark_color', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_watermark_color'] : '';
-
+	$pgfw_template_color               = array_key_exists( 'pgfw_template_color', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_template_color'] : '#FFFFFF';
+	$pgfw_template_text_color       = array_key_exists( 'pgfw_template_text_color', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_template_text_color'] : '#000000';
 	// general settings.
 	$general_settings_data     = get_option( 'pgfw_general_settings_save', array() );
 	$pgfw_show_post_categories = array_key_exists( 'pgfw_general_pdf_show_categories', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_categories'] : '';
@@ -287,9 +288,28 @@ function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) {
 						font-size   : ' . $pgfw_body_page_font_size . ';
 						color       : ' . $pgfw_body_page_font_color . ';
 						
+					}';
+
+					if ( 'yes' == $pgfw_template_color_option  ){
+						$html .= '
+						.pgfw-pdf-body {
+							position: fixed;
+							inset: -1in;
+							background-color: '.$pgfw_template_color .' ;
+							z-index: -1000;
+							margin : -100px !important;
+							padding:100px !important;
+							
+						}
+						.pgfw-pdf-body *, .pgfw-pdf-footer *, .pgfw-pdf-header * {
+							color:'.$pgfw_template_text_color.';
+						}
+						
+						';
 					}
 					
-					.pgfw-pdf-body-content .wp-block-columns:after {
+					
+					$html .='.pgfw-pdf-body-content .wp-block-columns:after {
 						content: "";
 						display: block;
 						clear: both;

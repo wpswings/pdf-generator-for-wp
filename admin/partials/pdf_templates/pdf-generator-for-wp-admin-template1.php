@@ -31,7 +31,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 	// advanced settings.
 	$pgfw_advanced_settings = get_option( 'pgfw_advanced_save_settings', array() );
 	$pgfw_ttf_font_upload   = array_key_exists( 'pgfw_ttf_font_upload', $pgfw_advanced_settings ) ? $pgfw_advanced_settings['pgfw_ttf_font_upload'] : '';
-
+	$pgfw_template_color_option                 = array_key_exists( 'pgfw_template_color_option', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_template_color_option'] : '';
 	// header customisation settings.
 	$pgfw_header_settings   = get_option( 'pgfw_header_setting_submit', array() );
 	$pgfw_header_use_in_pdf = array_key_exists( 'pgfw_header_use_in_pdf', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_use_in_pdf'] : '';
@@ -301,21 +301,25 @@ function return_ob_html( $post_id, $template_name = '' ) {
 					
 					
 					';
+					
+		if ( 'yes' == $pgfw_template_color_option ){
 			$html .= '
-			  .pgfw-pdf-body {
-				position: fixed;
-				inset: -1in;
-				background-color: '.$pgfw_template_color .' ;
-				z-index: -1000;
-				margin : -100px !important;
-				padding:100px !important;
-				
-			  }
-			  .pgfw-pdf-body *, .pgfw-pdf-footer *, .pgfw-pdf-header * {
-				color:'.$pgfw_template_text_color.';
-			  }
-			 
-			  ';
+			.pgfw-pdf-body {
+			  position: fixed;
+			  inset: -1in;
+			  background-color: '.$pgfw_template_color .' ;
+			  z-index: -1000;
+			  margin : -100px !important;
+			  padding:100px !important;
+			  
+			}
+			.pgfw-pdf-body *, .pgfw-pdf-footer *, .pgfw-pdf-header * {
+			  color:'.$pgfw_template_text_color.';
+			}
+		   
+			';
+		}
+			
 
 
 		if ( 'yes' == $pgfw_body_images_row_wise ) {

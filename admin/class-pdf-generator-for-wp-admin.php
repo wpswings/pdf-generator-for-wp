@@ -550,6 +550,8 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_body_show_pdf_icon                 = array_key_exists( 'pgfw_body_show_pdf_icon', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_body_show_pdf_icon'] : '';
 		$pgfw_show_post_type_icons_for_user_role = array_key_exists( 'pgfw_show_post_type_icons_for_user_role', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_show_post_type_icons_for_user_role'] : '';
 		
+		$pgfw_template_color_option                 = array_key_exists( 'pgfw_template_color_option', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_template_color_option'] : '';
+		
 		global $wp_roles;
 		$all_roles = $wp_roles->roles;
 		$roles_array = array();
@@ -822,6 +824,15 @@ class Pdf_Generator_For_Wp_Admin {
 					'btn-name'  => 'pgfw_single_pdf_icon_image_remove',
 					'btn-style' => ! ( $sub_pgfw_pdf_single_download_icon ) ? 'display:none' : '',
 				),
+			),
+			array(
+				'title'       => __( 'Pdf Template color ', 'pdf-generator-for-wp' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Enable this radio button if you want to change pdf template and text color.', 'pdf-generator-for-wp' ),
+				'id'          => 'pgfw_template_color_option',
+				'value'       => $pgfw_template_color_option,
+				'class'       => 'pgfw_template_color_option',
+				'name'        => 'pgfw_template_color_option',
 			),
 			array(
 				'title'        => __( 'Choose Pdf Template Colour', 'pdf-generator-for-wp' ),
