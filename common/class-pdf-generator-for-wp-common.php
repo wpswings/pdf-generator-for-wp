@@ -261,6 +261,60 @@ class Pdf_Generator_For_Wp_Common {
 			'8.5x14'                   => array( 0, 0, 612.00, 1008.0 ),
 			'11x17'                    => array( 0, 0, 792.00, 1224.00 ),
 		);
+
+		$upload_dir     = wp_upload_dir();
+
+		//////////////////////////////////////////// Webp Image Start Fixes ///////////////////////////////////////////////////////////
+		// Load HTML content into DOMDocument.
+		$dom = new DOMDocument();
+		$dom->loadHTML($html);
+
+		// Find all img tags
+		$imgs = $dom->getElementsByTagName('img');
+
+		// Loop through each img tag and modify the src attribute.
+		foreach ($imgs as $img) {
+
+			// Get the current src attribute value.
+			$src = $img->getAttribute('src');
+	
+			if (isset($src) && !empty($src) && pathinfo($src, PATHINFO_EXTENSION) === 'webp') {
+				$src = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $src);
+
+				// Path to the WebP image.
+				$webpImagePath = $src;
+
+				// Create image resource from WebP image.
+				$webpImage = imagecreatefromwebp($webpImagePath);
+
+				$parts = explode('.', $src);
+
+				// Modify the content after the dot.
+				$extension = end($parts);
+				$newExtension = 'jpeg';
+
+				$newSrc = str_replace('.' . $extension, '.' . $newExtension, $src);
+				// Path to save JPEG image.
+				$jpegImagePath = $newSrc;
+		
+				// Save JPEG image with 100% quality.
+				imagejpeg($webpImage, $jpegImagePath, 100);
+				$img_url = str_replace($upload_dir['basedir'], $upload_dir['baseurl'], $jpegImagePath);
+				$html = '<img src="' .  $img_url . '" alt="Converted Image">';
+
+				// Free up memory.
+				imagedestroy($webpImage);
+				$img->setAttribute('src', $img_url);
+			}
+		}
+
+		// Get the updated HTML content.
+		$updatedHtml = $dom->saveHTML();
+
+		// Output the updated HTML content.
+		$html =  $updatedHtml;
+		//////////////////////////////////////////// Webp Image End Fixes ///////////////////////////////////////////////////////////
+
 		if ( 'custom_page' == $body_page_size && ! empty( $pgfw_body_custom_page_size_width ) && ! empty( $pgfw_body_custom_page_size_height ) ) {
 			$paper_size = array( 0, 0, $pgfw_body_custom_page_size_width * 2.834, $pgfw_body_custom_page_size_height * 2.834 );
 		} else {
