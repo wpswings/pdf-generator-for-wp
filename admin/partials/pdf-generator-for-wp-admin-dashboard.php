@@ -55,7 +55,7 @@ if ( $pgfw_save_check_flag ) {
 	<div class="wps-pdf__popup-for-pro">
 		<span class="wps-pdf__popup-for-pro-close">+</span>
 		<h2 class="wps-pdf__popup-for-pro-title">Want More ? <b>Go Pro !</b></h2>
-		<p class="wps-pdf__popup-for-pro-content"><i>The Pro Version will unlock all of the feature<br>This will easily process event tickets, allow sharing of tickets, resend tickets, and QRCode generation, twilio integration, and email notifications feature making it the perfect event management system</i></p>
+		<p class="wps-pdf__popup-for-pro-content"><i>This will offer features like WhatsApp sharing, Multiple Customization options, Creation of Custom Templates, Downloading in Bulk, and Many more exciting features.</i></p>
 		<div class="wps-pdf__popup-for-pro-link-wrap">
 			<a target="_blank" href="https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=pdf-org-backend&utm_campaign=go-pro" class="wps-pdf__popup-for-pro-link">Go pro now</a>
 		</div>

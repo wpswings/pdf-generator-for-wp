@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress pdf generator
 Requires at least: 5.5.0
-Tested up to: 6.4.2
-WC requires at least: 5.2.2
-WC tested up to: 8.4.0
-Stable tag: 1.3.1
+Tested up to: 6.5.5
+WC requires at least: 6.5.0
+WC tested up to: 9.0.2
+Stable tag: 1.3.5
 Requires PHP: 7.2
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -16,9 +16,13 @@ PDF Generator for WordPress allows you to convert posts into PDF files to share 
 == Description ==
 **PDF GENERATOR FOR WORDPRESS PLUGIN LETS YOU CREATE PDFs OF PAGES, PRODUCTS, AND POSTS FOR BETTER DISPERSAL OF BRAND INFORMATION WITH WPML COMPATIBILITY. YOU CAN MAKE OR CREATE PDFs EASILY FOR YOUR WEBSITES.** 
 
-PDF Generator for WordPress provides the key support in portfolio building depending on your industry type. The PDF plugin for WordPress allows you to create PDF files for the pages to ensure the availability of information offline. It allows the admin to convert all the posts, pages, blogs, and products on their website into PDF files. 
+The PDF plugin for WordPress allows you to create PDF files for the pages to ensure the availability of information offline. It allows the admin to convert all the posts, pages, blogs, and products on their website into PDF files.
 
-Users can download PDFs from the WordPress site or view them in a new tab. Also, the admin can authorize users to receive their PDFs at their email addresses. The WordPress PDF creator makes sharing information seamlessly across different channels. You can predefine the settings to customize the header, the body, and the footer. Users can non-commercially distribute the downloaded PDF files with [**WordPress PDF Generator Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=pdf-org-page&utm_campaign=pdf-pro) plugin. The admin can customize the free wordpress pdf template to align with their brand. So, the distribution of PDFs provides an opportunity for brand promotion.
+The WordPress PDF creator plugin allows users to download PDFs from the WordPress site or view them in a new tab. Also, the admin can authorize users to receive their PDFs at their email addresses. 
+
+Users can non-commercially distribute the downloaded PDF files with the [**WordPress PDF Generator Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=pdf-org-page&utm_campaign=pdf-pro) plugin.
+
+[**WordPress PDF Generator Demo**](https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=pdf-org-page&utm_campaign=frontend-demo) | [**PDF Generator Documentation**](https://docs.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-doc&utm_medium=pdf-org-page&utm_campaign=documentation) | [**Contact Us**](https://wpswings.com/contact-us/?utm_source=wpswings-pdf&utm_medium=pdf-org-page&utm_campaign=contact-us).
 
 [youtube  https://www.youtube.com/watch?v=RljECeP3JJk&t=1362s]
 
@@ -52,43 +56,45 @@ Users can download PDFs from the WordPress site or view them in a new tab. Also,
 
 == WHAT’S INCLUDED IN OUR PDF GENERATOR FOR WORDPRESS PLUGIN == 
 
-**1) Include Important Details**
+**1) Customize Template Color and Text Color**
+With Our WordPress Generate PDF Plugin you can customize the overall color of your PDF, plus you’ll also get the option to customize the text color of your PDF. Customizing the color scheme and text color of your PDF can enhance brand consistency and professionalism.
+
+**2) Include Important Details**
 The General Settings in the PDF plugin allows you to include important information in the generated PDF files. The plugin lets you display the categories, tags, taxonomy, post date, and author name. 
 
-**2) Display PDF Icon Based on User Roles**
+**3) Display PDF Icon Based on User Roles**
 With the help of our latest update in the WordPress PDF plugin, you can now restrict the visibility of the PDF icon on your website for different user roles such as administrator, author, editor, and so on. This will assist you a great deal in increasing quality leads from your website itself. 
 
-**3) Bulk Export**
+**4) Bulk Export**
 You can export PDF files for products, pages, and posts in bulk using the default template provided in our free WordPress PDF plugin generator.
 
-**4) Add Footer Customizations** 
+**5) Add Footer Customizations** 
 Our latest plugin brings in the footer customization options for you. You can now add the post name, post date, and author name to the pages of your generated PDF files.
 
-**5) Display More Images In a Row**
+**6) Display More Images In a Row**
 We have solved displaying your post or product images in a better format in our latest update for the PDF creator plugin. You can now display more than one image in a row using the functionalities of this PDF plugin by turning on the settings from the body settings tab.
 
-
-**6) Control The Display Of Functionality**
+**7) Control The Display Of Functionality**
 From the display settings of the PDF icon, you can choose to display the PDF generator icon to either the registered users, the guest users, or both. You can also opt to allow, both, the registered and guest users to either directly download the information in PDF format or e-mail the PDF file to the user.
 
-**7) Icon Settings**
+**8) Icon Settings**
 WordPress PDF Generator gives you a free hand to customize the plugin icon for the front end of your website. You can also set the size of the PDF generator icon as per the design and theme requirements of the WordPress site. Display settings in the plugin allow several positions to place the icon, also letting you set the alignment of the same to center, right, and left.
 
-**8) Predefine Header Settings**
+**9) Predefine Header Settings**
 The layout settings authorize you to tailor-make the header settings. You can upload the company logo and details besides setting the header width. Layout settings also allow you to set the font and font size. 
 
-**9) Predefine Body Settings**
+**10) Predefine Body Settings**
 Body settings have many features to let you set the page orientation, page size, and title settings. You can also predefine the content font settings, font color, page margin, and border settings. This plugin also provides RTL support for Hebrew and Arabic languages. You can add a watermark to represent your brand in the layout settings.
 
-**10) Predefine Footer Settings**
+**11) Predefine Footer Settings**
 You can set the size and width of the footer using the layout settings. It also allows you to set the footer text font and size as well. 
 
-**11) Relevant Post Types And Appropriate Meta Fields**
+**12) Relevant Post Types And Appropriate Meta Fields**
 The plugin gives you the option to make the post visible only for relevant post types such as post, page, or product, depending on the utility of your content. The admin is also authorized to set the meta fields that you wish to display in the posts, pages, or products, individually.
 
 Also, if your product images are different from your product image gallery then you can write the name in the box below, enable the setting, and uncheck this in the metafield section. 
 
-**12) Upload Your PDF Files** 
+**13) Upload Your PDF Files** 
 The plugin allows you to upload your own PDF files for download. You can also limit access to these files for registered users or guest users.
 
 Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=pdf-org-page&utm_campaign=documentation) and learn more about the features and working of the plugin.
@@ -140,7 +146,7 @@ If you need support or have any questions then kindly use our online chat window
 
 > Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-services&utm_medium=pdf-org-page&utm_campaign=woocommerce-services)
 
-> Get Huge Discounts on PDF Generator plugin during Chirstmas/New Year Sales 2023 - [**Get More Offers**](https://wpswings.com/offers/?utm_source=wpswings-pdf-offers&utm_medium=pdf-org-page&utm_campaign=offers)
+> Get Huge Discounts on PDF Generator plugin - [**Get More Offers**](https://wpswings.com/offers/?utm_source=wpswings-pdf-offers&utm_medium=pdf-org-page&utm_campaign=offers)
 
 
 == Installation ==
@@ -199,7 +205,27 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Changelog ==
 
-= 1.3.1 - Released on 21 December 2023 = 
+= 1.3.5 - Released on 26 June 2024 = 
+* New: Now WebP Image Format is now supportable on PDF.
+* New: Compatible with latest WP(6.5.5) and WC(9.0.2)
+
+= 1.3.4 - Released on 30 April 2024 = 
+* New: Compatible with latest WP(6.5.2) and WC(8.8.2)
+* New: Add new option for changing the pdf template colour and text color.
+
+= 1.3.3 - Released on 02 April 2024 = 
+* New: Compatible with latest WP(6.4.3) and WC(8.7.0)
+* New: Provide option to set the page orientation for bulk pdf generation
+* New: Option to set the page size for bulk pdf generation from admin side
+
+= 1.3.2 - Released on 21 Febuary 2024 = 
+* New: Compatibility with latest WP(6.4.3) and WC(8.6.1)
+* Fix: Crash PDF issue is fixed on opening to new window
+
+= 1.3.1 - Released on 17 January 2024 = 
+* New: Compatible with latest WP(6.4.2) and WC(8.5.1)
+
+= 1.3.0 - Released on 21 December 2024 = 
 * New: Compatible with latest WP(6.4.2) and WC(8.4.0)
 
 = 1.2.9 - Released on 24 November 2023 = 
@@ -313,5 +339,6 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Upgrade Notice ==
 
-= 1.3.1 - Released on 21 December 2023 = 
-* New: Compatible with latest WP(6.4.2) and WC(8.4.0)
+= 1.3.5 - Released on 26 June 2024 = 
+* New: Now WebP Image Format is now supportable on PDF.
+* New: Compatible with latest WP(6.5.5) and WC(9.0.2)

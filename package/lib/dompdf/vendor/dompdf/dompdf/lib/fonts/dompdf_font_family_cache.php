@@ -78,7 +78,7 @@
     'normal' => $fontDir . '/DejaVuSerif',
   ),
   'my_font' => array(
-    'normal' => $fontDir . '/my_font_normal_85d621354b8f8e615dd98a4f51287447',
-    'bold' => $fontDir . '/my_font_bold_85d621354b8f8e615dd98a4f51287447',
+    'normal' => $fontDir . '/my_font_normal_d4ce065be8b47ef41adca6743e8d054c',
+    'bold' => $fontDir . '/my_font_bold_d4ce065be8b47ef41adca6743e8d054c',
   ),
 ) ?>

@@ -264,7 +264,7 @@ class Pdf_Generator_For_Wp {
 			// invoice.
 			$pgfw_enable_plugin = get_option( 'wpg_enable_plugin' );
 			if ( 'yes' === $pgfw_enable_plugin ) {
-				// adding shortcodes to fetch all order detials [ISFW_FETCH_ORDER].
+				//adding shortcodes to fetch all order detials [ISFW_FETCH_ORDER].
 				$this->loader->add_action( 'plugins_loaded', $pgfw_plugin_common, 'wpg_fetch_order_details_shortcode' );
 				$this->loader->add_action( 'wpg_reset_invoice_number_hook', $pgfw_plugin_common, 'wpg_reset_invoice_number' );
 			}

@@ -199,7 +199,7 @@ class Pdf_Generator_For_Wp_Common {
 			$pdf_file_name_custom = array_key_exists( 'pgfw_custom_pdf_file_name', $general_settings_arr ) ? $general_settings_arr['pgfw_custom_pdf_file_name'] : '';
 			$document_name        = ( ( '' !== $pdf_file_name_custom ) && ( $post ) ) ? $pdf_file_name_custom . '_' . $post->ID : 'document';
 		} elseif ( 'post_name' === $pdf_file_name ) {
-			$document_name = ( $post ) ? strip_tags( $post->post_title ) : 'document';
+			$document_name = ( $post ) ? wp_strip_all_tags( $post->post_title ) : 'document';
 		} else {
 			$document_name = ( $post ) ? 'document_' . $post->ID : 'document';
 		}
@@ -261,6 +261,60 @@ class Pdf_Generator_For_Wp_Common {
 			'8.5x14'                   => array( 0, 0, 612.00, 1008.0 ),
 			'11x17'                    => array( 0, 0, 792.00, 1224.00 ),
 		);
+
+		$upload_dir     = wp_upload_dir();
+
+		// Webp Image Start Fixes ///////////////////////////////////////////////////////////
+		// Load HTML content into DOMDocument.
+		$dom = new DOMDocument();
+		$dom->loadHTML( $html );
+
+		// Find all img tags.
+		$imgs = $dom->getElementsByTagName( 'img' );
+
+		// Loop through each img tag and modify the src attribute.
+		foreach ( $imgs as $img ) {
+
+			// Get the current src attribute value.
+			$src = $img->getAttribute( 'src' );
+
+			if ( isset( $src ) && ! empty( $src ) && pathinfo( $src, PATHINFO_EXTENSION ) === 'webp' ) {
+				$src = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $src );
+
+				// Path to the WebP image.
+				$webp_image_path = $src;
+
+				// Create image resource from WebP image.
+				$webp_image = imagecreatefromwebp( $webp_image_path );
+
+				$parts = explode( '.', $src );
+
+				// Modify the content after the dot.
+				$extension = end( $parts );
+				$new_extension = 'jpeg';
+
+				$new_src = str_replace( '.' . $extension, '.' . $new_extension, $src );
+				// Path to save JPEG image.
+				$jpeg_image_path = $new_src;
+
+				// Save JPEG image with 100% quality.
+				imagejpeg( $webp_image, $jpeg_image_path, 100 );
+				$img_url = str_replace( $upload_dir['basedir'], $upload_dir['baseurl'], $jpeg_image_path );
+				$html = '<img src="' . $img_url . '" alt="Converted Image">';
+
+				// Free up memory.
+				imagedestroy( $webp_image );
+				$img->setAttribute( 'src', $img_url );
+			}
+		}
+
+		// Get the updated HTML content.
+		$updated_html = $dom->saveHTML();
+
+		// Output the updated HTML content.
+		$html = $updated_html;
+		// Webp Image End Fixes.
+
 		if ( 'custom_page' == $body_page_size && ! empty( $pgfw_body_custom_page_size_width ) && ! empty( $pgfw_body_custom_page_size_height ) ) {
 			$paper_size = array( 0, 0, $pgfw_body_custom_page_size_width * 2.834, $pgfw_body_custom_page_size_height * 2.834 );
 		} else {
@@ -431,15 +485,67 @@ class Pdf_Generator_For_Wp_Common {
 		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
 		$general_settings_arr = get_option( 'pgfw_general_settings_save', array() );
 		$pgfw_generate_mode   = array_key_exists( 'pgfw_general_pdf_generate_mode', $general_settings_arr ) ? $general_settings_arr['pgfw_general_pdf_generate_mode'] : 'download_locally';
-
+		$body_settings_arr       = get_option( 'pgfw_body_save_settings', array() );
+		$pgfw_body_custom_page_size_height        = array_key_exists( 'pgfw_body_custom_page_size_height', $body_settings_arr ) ? $body_settings_arr['pgfw_body_custom_page_size_height'] : '';
+		$pgfw_body_custom_page_size_width        = array_key_exists( 'pgfw_body_custom_page_size_width', $body_settings_arr ) ? $body_settings_arr['pgfw_body_custom_page_size_width'] : '';
+		$page_orientation     = array_key_exists( 'pgfw_body_page_orientation', $body_settings_arr ) ? $body_settings_arr['pgfw_body_page_orientation'] : 'portrait';
+		$body_page_size       = array_key_exists( 'pgfw_body_page_size', $body_settings_arr ) ? $body_settings_arr['pgfw_body_page_size'] : 'a4';
+		$paper_sizes = array(
+			'4a0'                      => array( 0, 0, 4767.87, 6740.79 ),
+			'2a0'                      => array( 0, 0, 3370.39, 4767.87 ),
+			'a0'                       => array( 0, 0, 2383.94, 3370.39 ),
+			'a1'                       => array( 0, 0, 1683.78, 2383.94 ),
+			'a2'                       => array( 0, 0, 1190.55, 1683.78 ),
+			'a3'                       => array( 0, 0, 841.89, 1190.55 ),
+			'a4'                       => array( 0, 0, 595.28, 841.89 ),
+			'a5'                       => array( 0, 0, 419.53, 595.28 ),
+			'a6'                       => array( 0, 0, 297.64, 419.53 ),
+			'b0'                       => array( 0, 0, 2834.65, 4008.19 ),
+			'b1'                       => array( 0, 0, 2004.09, 2834.65 ),
+			'b2'                       => array( 0, 0, 1417.32, 2004.09 ),
+			'b3'                       => array( 0, 0, 1000.63, 1417.32 ),
+			'b4'                       => array( 0, 0, 708.66, 1000.63 ),
+			'b5'                       => array( 0, 0, 498.90, 708.66 ),
+			'b6'                       => array( 0, 0, 354.33, 498.90 ),
+			'c0'                       => array( 0, 0, 2599.37, 3676.54 ),
+			'c1'                       => array( 0, 0, 1836.85, 2599.37 ),
+			'c2'                       => array( 0, 0, 1298.27, 1836.85 ),
+			'c3'                       => array( 0, 0, 918.43, 1298.27 ),
+			'c4'                       => array( 0, 0, 649.13, 918.43 ),
+			'c5'                       => array( 0, 0, 459.21, 649.13 ),
+			'c6'                       => array( 0, 0, 323.15, 459.21 ),
+			'ra0'                      => array( 0, 0, 2437.80, 3458.27 ),
+			'ra1'                      => array( 0, 0, 1729.13, 2437.80 ),
+			'ra2'                      => array( 0, 0, 1218.90, 1729.13 ),
+			'ra3'                      => array( 0, 0, 864.57, 1218.90 ),
+			'ra4'                      => array( 0, 0, 609.45, 864.57 ),
+			'sra0'                     => array( 0, 0, 2551.18, 3628.35 ),
+			'sra1'                     => array( 0, 0, 1814.17, 2551.18 ),
+			'sra2'                     => array( 0, 0, 1275.59, 1814.17 ),
+			'sra3'                     => array( 0, 0, 907.09, 1275.59 ),
+			'sra4'                     => array( 0, 0, 637.80, 907.09 ),
+			'letter'                   => array( 0, 0, 612.00, 792.00 ),
+			'legal'                    => array( 0, 0, 612.00, 1008.00 ),
+			'ledger'                   => array( 0, 0, 1224.00, 792.00 ),
+			'tabloid'                  => array( 0, 0, 792.00, 1224.00 ),
+			'executive'                => array( 0, 0, 521.86, 756.00 ),
+			'folio'                    => array( 0, 0, 612.00, 936.00 ),
+			'commercial #10 envelope'  => array( 0, 0, 684, 297 ),
+			'catalog #10 1/2 envelope' => array( 0, 0, 648, 864 ),
+			'8.5x11'                   => array( 0, 0, 612.00, 792.00 ),
+			'8.5x14'                   => array( 0, 0, 612.00, 1008.0 ),
+			'11x17'                    => array( 0, 0, 792.00, 1224.00 ),
+		);
+		if ( 'custom_page' == $body_page_size && ! empty( $pgfw_body_custom_page_size_width ) && ! empty( $pgfw_body_custom_page_size_height ) ) {
+			$paper_size = array( 0, 0, $pgfw_body_custom_page_size_width * 2.834, $pgfw_body_custom_page_size_height * 2.834 );
+		} else {
+			$paper_size = array_key_exists( $body_page_size, $paper_sizes ) ? $paper_sizes[ $body_page_size ] : 'a4';
+		}
 		$upload_dir = wp_upload_dir();
 		$upload_path = $upload_dir['path'] . '/';
 
 		$html_file = $upload_path . 'outpuut.html';
 		$pdf_file = $upload_path . 'outpuut.pdf';
-
-		@unlink( $html_file );
-		@unlink( $pdf_file );
 
 		global $typenow;
 		$post_type = $typenow;
@@ -512,7 +618,7 @@ class Pdf_Generator_For_Wp_Common {
 					$dompdf->setHttpContext( $contxt );
 					$dompdf->loadHtml( $file_name );
 					$dompdf->set_option( 'isRemoteEnabled', true );
-
+					$dompdf->setPaper( $paper_size, $page_orientation );
 					/* addedcode end */
 					$document_name = 'bulk_post_to_pdf_' . strtotime( gmdate( 'y-m-d H:i:s' ) );
 					@ob_end_clean(); // phpcs:ignore.
@@ -719,9 +825,9 @@ class Pdf_Generator_For_Wp_Common {
 			}
 			if ( 'one' === $template ) {
 				$template_path = PDF_GENERATOR_FOR_WP_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout1.php';
-			} else if( 'two' === $template ) {
+			} else if ( 'two' === $template ) {
 				$template_path = PDF_GENERATOR_FOR_WP_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout2.php';
-			}else if( 'three' === $template ) {
+			} else if ( 'three' === $template ) {
 				$template_path = PDF_GENERATOR_FOR_WP_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout3.php';
 			}
 			$template_path = apply_filters( 'wpg_load_template_for_invoice_generation', $template_path );
@@ -729,6 +835,58 @@ class Pdf_Generator_For_Wp_Common {
 			$html   = return_ob_value( $order_id, $type, $invoice_id );
 
 			$dompdf = new Dompdf( array( 'enable_remote' => true ) );
+
+			// Webp Image Start Fixes ///////////////////////////////////////////////////////////
+			// Load HTML content into DOMDocument.
+			$dom = new DOMDocument();
+			$dom->loadHTML( $html );
+
+			// Find all img tags.
+			$imgs = $dom->getElementsByTagName( 'img' );
+
+			// Loop through each img tag and modify the src attribute.
+			foreach ( $imgs as $img ) {
+
+				// Get the current src attribute value.
+				$src = $img->getAttribute( 'src' );
+
+				if ( isset( $src ) && ! empty( $src ) && pathinfo( $src, PATHINFO_EXTENSION ) === 'webp' ) {
+					$src = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $src );
+
+					// Path to the WebP image.
+					$webp_image_path = $src;
+
+					// Create image resource from WebP image.
+					$webp_image = imagecreatefromwebp( $webp_image_path );
+
+					$parts = explode( '.', $src );
+
+					// Modify the content after the dot.
+					$extension = end( $parts );
+					$new_extension = 'jpeg';
+
+					$new_src = str_replace( '.' . $extension, '.' . $new_extension, $src );
+					// Path to save JPEG image.
+					$jpeg_image_path = $new_src;
+
+					// Save JPEG image with 100% quality.
+					imagejpeg( $webp_image, $jpeg_image_path, 100 );
+					$img_url = str_replace( $upload_dir['basedir'], $upload_dir['baseurl'], $jpeg_image_path );
+					$html = '<img src="' . $img_url . '" alt="Converted Image">';
+
+					// Free up memory.
+					imagedestroy( $webp_image );
+					$img->setAttribute( 'src', $img_url );
+				}
+			}
+
+			// Get the updated HTML content.
+			$updated_html = $dom->saveHTML();
+
+			// Output the updated HTML content.
+			$html = $updated_html;
+			// Webp Image End Fixes.
+
 			$dompdf->loadHtml( $html );
 			$dompdf->setPaper( 'A4' );
 			@ob_end_clean(); // phpcs:ignore
@@ -882,21 +1040,21 @@ class Pdf_Generator_For_Wp_Common {
 		}
 		return false;
 	}
-//////////////////////////////////////////////////////////////////////////////.
+	// .
 	/**
 	 * Function that generate the pdf url's when weekly cron runs.
-	 * 
-	 * @param int $prod_id $prod_id. 
+	 *
+	 * @param int    $prod_id $prod_id.
 	 * @param string $type $type.
 	 * @param string $action $action.
 	 */
 	public function cron_job_wpg_common_generate_pdf( $prod_id, $type, $action ) {
-		
+
 		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
 		$upload_dir                       = wp_upload_dir();
 		$upload_basedir                   = $upload_dir['basedir'] . '/bulk_pdf/';
-		$path                             = $upload_basedir .  get_the_title($prod_id) . '.pdf';		
-		$file_url                         = $upload_dir['baseurl'] . '/bulk_pdf/' . get_the_title($prod_id) . '.pdf';	
+		$path                             = $upload_basedir . get_the_title( $prod_id ) . '.pdf';
+		$file_url                         = $upload_dir['baseurl'] . '/bulk_pdf/' . get_the_title( $prod_id ) . '.pdf';
 		$body_settings_arr       = get_option( 'pgfw_body_save_settings', array() );
 		$pgfw_body_custom_page_size_height        = array_key_exists( 'pgfw_body_custom_page_size_height', $body_settings_arr ) ? $body_settings_arr['pgfw_body_custom_page_size_height'] : '';
 		$pgfw_body_custom_page_size_width        = array_key_exists( 'pgfw_body_custom_page_size_width', $body_settings_arr ) ? $body_settings_arr['pgfw_body_custom_page_size_width'] : '';
@@ -919,43 +1077,94 @@ class Pdf_Generator_For_Wp_Common {
 			$template_file_name = PDF_GENERATOR_FOR_WP_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wp-admin-' . $pgfw_body_post_template . '.php';
 			$template_file_name = apply_filters( 'pgfw_load_templates_for_pdf_html', $template_file_name, $pgfw_body_post_template, $prod_id );
 			require_once $template_file_name;
-		}		
+		}
 
 		$post                 = get_post( $prod_id );
 		if ( 'custom' === $pdf_file_name ) {
 			$pdf_file_name_custom = array_key_exists( 'pgfw_custom_pdf_file_name', $general_settings_arr ) ? $general_settings_arr['pgfw_custom_pdf_file_name'] : '';
 			$document_name        = ( ( '' !== $pdf_file_name_custom ) && ( $post ) ) ? $pdf_file_name_custom . '_' . $post->ID : 'document';
 		} elseif ( 'post_name' === $pdf_file_name ) {
-			$document_name = ( $post ) ? strip_tags( $post->post_title ) : 'document';
+			$document_name = ( $post ) ? wp_strip_all_tags( $post->post_title ) : 'document';
 		} else {
 			$document_name = ( $post ) ? 'document_' . $post->ID : 'document';
 		}
-		
+
 		$html  = '';
 		$html  .= apply_filters( 'wps_pgfw_add_cover_page_template_to_single_pdf', $html );
-		$html .= return_ob_html($prod_id,  $template='' );
-		
-			
+		$html .= return_ob_html( $prod_id, $template = '' );
+
 		$dompdf = new Dompdf( array( 'enable_remote' => true ) );
+
+		// Webp Image Start Fixes. ///////////////////////////////////////////////////////////
+		// Load HTML content into DOMDocument.
+		$dom = new DOMDocument();
+		$dom->loadHTML( $html );
+
+		// Find all img tags.
+		$imgs = $dom->getElementsByTagName( 'img' );
+
+		// Loop through each img tag and modify the src attribute.
+		foreach ( $imgs as $img ) {
+
+			// Get the current src attribute value.
+			$src = $img->getAttribute( 'src' );
+
+			if ( isset( $src ) && ! empty( $src ) && pathinfo( $src, PATHINFO_EXTENSION ) === 'webp' ) {
+				$src = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $src );
+
+				// Path to the WebP image.
+				$webp_image_path = $src;
+
+				// Create image resource from WebP image.
+				$webp_image = imagecreatefromwebp( $webp_image_path );
+
+				$parts = explode( '.', $src );
+
+				// Modify the content after the dot.
+				$extension = end( $parts );
+				$new_extension = 'jpeg';
+
+				$new_src = str_replace( '.' . $extension, '.' . $new_extension, $src );
+				// Path to save JPEG image.
+				$jpeg_image_path = $new_src;
+
+				// Save JPEG image with 100% quality.
+				imagejpeg( $webp_image, $jpeg_image_path, 100 );
+				$img_url = str_replace( $upload_dir['basedir'], $upload_dir['baseurl'], $jpeg_image_path );
+				$html = '<img src="' . $img_url . '" alt="Converted Image">';
+
+				// Free up memory.
+				imagedestroy( $webp_image );
+				$img->setAttribute( 'src', $img_url );
+			}
+		}
+
+		// Get the updated HTML content.
+		$updated_html = $dom->saveHTML();
+
+		// Output the updated HTML content.
+		$html = $updated_html;
+		// Webp Image End Fixes.
+
 		$dompdf->loadHtml( $html );
 		$dompdf->setPaper( 'A4' );
 		@ob_end_clean(); // phpcs:ignore
 		$dompdf->render();
-		
+
 		if ( ! file_exists( $upload_basedir ) ) {
 			wp_mkdir_p( $upload_basedir );
 		}
-			
+
 		if ( 'download_on_server' === $action ) {
 			$output = $dompdf->output();
-			if ( !file_exists( $path ) ) {	
+			if ( ! file_exists( $path ) ) {
 				@unlink( $path ); // phpcs:ignore
 			}
 			if ( ! file_exists( $path ) ) {
 				@file_put_contents( $path, $output ); // phpcs:ignore
 			}
-				
+
 			return $path;
 		}
-	 }
+	}
 }
