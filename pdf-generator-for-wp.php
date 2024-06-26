@@ -21,7 +21,6 @@
  * Text Domain:       pdf-generator-for-wp
  * Domain Path:       /languages
  *
- * Requires Plugins: woocommerce
  * Requires at least:    5.5.0
  * Tested up to:         6.5.2
  * WC requires at least: 5.2.0
