@@ -264,56 +264,56 @@ class Pdf_Generator_For_Wp_Common {
 
 		$upload_dir     = wp_upload_dir();
 
-		//////////////////////////////////////////// Webp Image Start Fixes ///////////////////////////////////////////////////////////
+		// Webp Image Start Fixes ///////////////////////////////////////////////////////////
 		// Load HTML content into DOMDocument.
 		$dom = new DOMDocument();
-		$dom->loadHTML($html);
+		$dom->loadHTML( $html );
 
-		// Find all img tags
-		$imgs = $dom->getElementsByTagName('img');
+		// Find all img tags.
+		$imgs = $dom->getElementsByTagName( 'img' );
 
 		// Loop through each img tag and modify the src attribute.
-		foreach ($imgs as $img) {
+		foreach ( $imgs as $img ) {
 
 			// Get the current src attribute value.
-			$src = $img->getAttribute('src');
-	
-			if (isset($src) && !empty($src) && pathinfo($src, PATHINFO_EXTENSION) === 'webp') {
-				$src = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $src);
+			$src = $img->getAttribute( 'src' );
+
+			if ( isset( $src ) && ! empty( $src ) && pathinfo( $src, PATHINFO_EXTENSION ) === 'webp' ) {
+				$src = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $src );
 
 				// Path to the WebP image.
-				$webpImagePath = $src;
+				$webp_image_path = $src;
 
 				// Create image resource from WebP image.
-				$webpImage = imagecreatefromwebp($webpImagePath);
+				$webp_image = imagecreatefromwebp( $webp_image_path );
 
-				$parts = explode('.', $src);
+				$parts = explode( '.', $src );
 
 				// Modify the content after the dot.
-				$extension = end($parts);
-				$newExtension = 'jpeg';
+				$extension = end( $parts );
+				$new_extension = 'jpeg';
 
-				$newSrc = str_replace('.' . $extension, '.' . $newExtension, $src);
+				$new_src = str_replace( '.' . $extension, '.' . $new_extension, $src );
 				// Path to save JPEG image.
-				$jpegImagePath = $newSrc;
-		
+				$jpeg_image_path = $new_src;
+
 				// Save JPEG image with 100% quality.
-				imagejpeg($webpImage, $jpegImagePath, 100);
-				$img_url = str_replace($upload_dir['basedir'], $upload_dir['baseurl'], $jpegImagePath);
-				$html = '<img src="' .  $img_url . '" alt="Converted Image">';
+				imagejpeg( $webp_image, $jpeg_image_path, 100 );
+				$img_url = str_replace( $upload_dir['basedir'], $upload_dir['baseurl'], $jpeg_image_path );
+				$html = '<img src="' . $img_url . '" alt="Converted Image">';
 
 				// Free up memory.
-				imagedestroy($webpImage);
-				$img->setAttribute('src', $img_url);
+				imagedestroy( $webp_image );
+				$img->setAttribute( 'src', $img_url );
 			}
 		}
 
 		// Get the updated HTML content.
-		$updatedHtml = $dom->saveHTML();
+		$updated_html = $dom->saveHTML();
 
 		// Output the updated HTML content.
-		$html =  $updatedHtml;
-		//////////////////////////////////////////// Webp Image End Fixes ///////////////////////////////////////////////////////////
+		$html = $updated_html;
+		// Webp Image End Fixes.
 
 		if ( 'custom_page' == $body_page_size && ! empty( $pgfw_body_custom_page_size_width ) && ! empty( $pgfw_body_custom_page_size_height ) ) {
 			$paper_size = array( 0, 0, $pgfw_body_custom_page_size_width * 2.834, $pgfw_body_custom_page_size_height * 2.834 );
@@ -825,9 +825,9 @@ class Pdf_Generator_For_Wp_Common {
 			}
 			if ( 'one' === $template ) {
 				$template_path = PDF_GENERATOR_FOR_WP_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout1.php';
-			} else if( 'two' === $template ) {
+			} else if ( 'two' === $template ) {
 				$template_path = PDF_GENERATOR_FOR_WP_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout2.php';
-			}else if( 'three' === $template ) {
+			} else if ( 'three' === $template ) {
 				$template_path = PDF_GENERATOR_FOR_WP_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout3.php';
 			}
 			$template_path = apply_filters( 'wpg_load_template_for_invoice_generation', $template_path );
@@ -836,57 +836,56 @@ class Pdf_Generator_For_Wp_Common {
 
 			$dompdf = new Dompdf( array( 'enable_remote' => true ) );
 
+			// Webp Image Start Fixes ///////////////////////////////////////////////////////////
+			// Load HTML content into DOMDocument.
+			$dom = new DOMDocument();
+			$dom->loadHTML( $html );
 
-		//////////////////////////////////////////// Webp Image Start Fixes ///////////////////////////////////////////////////////////
-		// Load HTML content into DOMDocument.
-		$dom = new DOMDocument();
-		$dom->loadHTML($html);
+			// Find all img tags.
+			$imgs = $dom->getElementsByTagName( 'img' );
 
-		// Find all img tags
-		$imgs = $dom->getElementsByTagName('img');
+			// Loop through each img tag and modify the src attribute.
+			foreach ( $imgs as $img ) {
 
-		// Loop through each img tag and modify the src attribute.
-		foreach ($imgs as $img) {
+				// Get the current src attribute value.
+				$src = $img->getAttribute( 'src' );
 
-			// Get the current src attribute value.
-			$src = $img->getAttribute('src');
-	
-			if (isset($src) && !empty($src) && pathinfo($src, PATHINFO_EXTENSION) === 'webp') {
-				$src = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $src);
+				if ( isset( $src ) && ! empty( $src ) && pathinfo( $src, PATHINFO_EXTENSION ) === 'webp' ) {
+					$src = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $src );
 
-				// Path to the WebP image.
-				$webpImagePath = $src;
+					// Path to the WebP image.
+					$webp_image_path = $src;
 
-				// Create image resource from WebP image.
-				$webpImage = imagecreatefromwebp($webpImagePath);
+					// Create image resource from WebP image.
+					$webp_image = imagecreatefromwebp( $webp_image_path );
 
-				$parts = explode('.', $src);
+					$parts = explode( '.', $src );
 
-				// Modify the content after the dot.
-				$extension = end($parts);
-				$newExtension = 'jpeg';
+					// Modify the content after the dot.
+					$extension = end( $parts );
+					$new_extension = 'jpeg';
 
-				$newSrc = str_replace('.' . $extension, '.' . $newExtension, $src);
-				// Path to save JPEG image.
-				$jpegImagePath = $newSrc;
-		
-				// Save JPEG image with 100% quality.
-				imagejpeg($webpImage, $jpegImagePath, 100);
-				$img_url = str_replace($upload_dir['basedir'], $upload_dir['baseurl'], $jpegImagePath);
-				$html = '<img src="' .  $img_url . '" alt="Converted Image">';
+					$new_src = str_replace( '.' . $extension, '.' . $new_extension, $src );
+					// Path to save JPEG image.
+					$jpeg_image_path = $new_src;
 
-				// Free up memory.
-				imagedestroy($webpImage);
-				$img->setAttribute('src', $img_url);
+					// Save JPEG image with 100% quality.
+					imagejpeg( $webp_image, $jpeg_image_path, 100 );
+					$img_url = str_replace( $upload_dir['basedir'], $upload_dir['baseurl'], $jpeg_image_path );
+					$html = '<img src="' . $img_url . '" alt="Converted Image">';
+
+					// Free up memory.
+					imagedestroy( $webp_image );
+					$img->setAttribute( 'src', $img_url );
+				}
 			}
-		}
 
-		// Get the updated HTML content.
-		$updatedHtml = $dom->saveHTML();
+			// Get the updated HTML content.
+			$updated_html = $dom->saveHTML();
 
-		// Output the updated HTML content.
-		$html =  $updatedHtml;
-		//////////////////////////////////////////// Webp Image End Fixes ///////////////////////////////////////////////////////////
+			// Output the updated HTML content.
+			$html = $updated_html;
+			// Webp Image End Fixes.
 
 			$dompdf->loadHtml( $html );
 			$dompdf->setPaper( 'A4' );
@@ -1041,21 +1040,21 @@ class Pdf_Generator_For_Wp_Common {
 		}
 		return false;
 	}
-//////////////////////////////////////////////////////////////////////////////.
+	// .
 	/**
 	 * Function that generate the pdf url's when weekly cron runs.
-	 * 
-	 * @param int $prod_id $prod_id. 
+	 *
+	 * @param int    $prod_id $prod_id.
 	 * @param string $type $type.
 	 * @param string $action $action.
 	 */
 	public function cron_job_wpg_common_generate_pdf( $prod_id, $type, $action ) {
-		
+
 		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
 		$upload_dir                       = wp_upload_dir();
 		$upload_basedir                   = $upload_dir['basedir'] . '/bulk_pdf/';
-		$path                             = $upload_basedir .  get_the_title($prod_id) . '.pdf';		
-		$file_url                         = $upload_dir['baseurl'] . '/bulk_pdf/' . get_the_title($prod_id) . '.pdf';	
+		$path                             = $upload_basedir . get_the_title( $prod_id ) . '.pdf';
+		$file_url                         = $upload_dir['baseurl'] . '/bulk_pdf/' . get_the_title( $prod_id ) . '.pdf';
 		$body_settings_arr       = get_option( 'pgfw_body_save_settings', array() );
 		$pgfw_body_custom_page_size_height        = array_key_exists( 'pgfw_body_custom_page_size_height', $body_settings_arr ) ? $body_settings_arr['pgfw_body_custom_page_size_height'] : '';
 		$pgfw_body_custom_page_size_width        = array_key_exists( 'pgfw_body_custom_page_size_width', $body_settings_arr ) ? $body_settings_arr['pgfw_body_custom_page_size_width'] : '';
@@ -1078,7 +1077,7 @@ class Pdf_Generator_For_Wp_Common {
 			$template_file_name = PDF_GENERATOR_FOR_WP_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wp-admin-' . $pgfw_body_post_template . '.php';
 			$template_file_name = apply_filters( 'pgfw_load_templates_for_pdf_html', $template_file_name, $pgfw_body_post_template, $prod_id );
 			require_once $template_file_name;
-		}		
+		}
 
 		$post                 = get_post( $prod_id );
 		if ( 'custom' === $pdf_file_name ) {
@@ -1089,84 +1088,83 @@ class Pdf_Generator_For_Wp_Common {
 		} else {
 			$document_name = ( $post ) ? 'document_' . $post->ID : 'document';
 		}
-		
+
 		$html  = '';
 		$html  .= apply_filters( 'wps_pgfw_add_cover_page_template_to_single_pdf', $html );
-		$html .= return_ob_html($prod_id,  $template='' );
-		
-			
+		$html .= return_ob_html( $prod_id, $template = '' );
+
 		$dompdf = new Dompdf( array( 'enable_remote' => true ) );
 
-		//////////////////////////////////////////// Webp Image Start Fixes ///////////////////////////////////////////////////////////
+		// Webp Image Start Fixes. ///////////////////////////////////////////////////////////
 		// Load HTML content into DOMDocument.
 		$dom = new DOMDocument();
-		$dom->loadHTML($html);
+		$dom->loadHTML( $html );
 
-		// Find all img tags
-		$imgs = $dom->getElementsByTagName('img');
+		// Find all img tags.
+		$imgs = $dom->getElementsByTagName( 'img' );
 
 		// Loop through each img tag and modify the src attribute.
-		foreach ($imgs as $img) {
+		foreach ( $imgs as $img ) {
 
 			// Get the current src attribute value.
-			$src = $img->getAttribute('src');
-	
-			if (isset($src) && !empty($src) && pathinfo($src, PATHINFO_EXTENSION) === 'webp') {
-				$src = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $src);
+			$src = $img->getAttribute( 'src' );
+
+			if ( isset( $src ) && ! empty( $src ) && pathinfo( $src, PATHINFO_EXTENSION ) === 'webp' ) {
+				$src = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $src );
 
 				// Path to the WebP image.
-				$webpImagePath = $src;
+				$webp_image_path = $src;
 
 				// Create image resource from WebP image.
-				$webpImage = imagecreatefromwebp($webpImagePath);
+				$webp_image = imagecreatefromwebp( $webp_image_path );
 
-				$parts = explode('.', $src);
+				$parts = explode( '.', $src );
 
 				// Modify the content after the dot.
-				$extension = end($parts);
-				$newExtension = 'jpeg';
+				$extension = end( $parts );
+				$new_extension = 'jpeg';
 
-				$newSrc = str_replace('.' . $extension, '.' . $newExtension, $src);
+				$new_src = str_replace( '.' . $extension, '.' . $new_extension, $src );
 				// Path to save JPEG image.
-				$jpegImagePath = $newSrc;
-		
+				$jpeg_image_path = $new_src;
+
 				// Save JPEG image with 100% quality.
-				imagejpeg($webpImage, $jpegImagePath, 100);
-				$img_url = str_replace($upload_dir['basedir'], $upload_dir['baseurl'], $jpegImagePath);
-				$html = '<img src="' .  $img_url . '" alt="Converted Image">';
+				imagejpeg( $webp_image, $jpeg_image_path, 100 );
+				$img_url = str_replace( $upload_dir['basedir'], $upload_dir['baseurl'], $jpeg_image_path );
+				$html = '<img src="' . $img_url . '" alt="Converted Image">';
 
 				// Free up memory.
-				imagedestroy($webpImage);
-				$img->setAttribute('src', $img_url);
+				imagedestroy( $webp_image );
+				$img->setAttribute( 'src', $img_url );
 			}
 		}
 
 		// Get the updated HTML content.
-		$updatedHtml = $dom->saveHTML();
+		$updated_html = $dom->saveHTML();
 
 		// Output the updated HTML content.
-		$html =  $updatedHtml;
-		//////////////////////////////////////////// Webp Image End Fixes ///////////////////////////////////////////////////////////
-		
+		$html = $updated_html;
+		// Webp Image End Fixes.
+
 		$dompdf->loadHtml( $html );
 		$dompdf->setPaper( 'A4' );
 		@ob_end_clean(); // phpcs:ignore
 		$dompdf->render();
-		
+
 		if ( ! file_exists( $upload_basedir ) ) {
 			wp_mkdir_p( $upload_basedir );
 		}
-			
+
 		if ( 'download_on_server' === $action ) {
 			$output = $dompdf->output();
-			if ( !file_exists( $path ) ) {	
+			if ( ! file_exists( $path ) ) {
 				@unlink( $path ); // phpcs:ignore
 			}
 			if ( ! file_exists( $path ) ) {
 				@file_put_contents( $path, $output ); // phpcs:ignore
 			}
-				
+
 			return $path;
 		}
-	 }
+	}
 }
