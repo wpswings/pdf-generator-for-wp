@@ -22,10 +22,10 @@
  * Domain Path:       /languages
  *
  * Requires at least:    5.5.0
- * Tested up to:         6.5.5
+ * Tested up to:         6.6.1
  * WC requires at least: 5.2.0
- * WC tested up to:      9.0.2
- * Stable tag:           1.3.3
+ * WC tested up to:      9.1.2
+ * Stable tag:           1.3.6
  * Requires PHP:         7.2
  *
  * License:           GNU General Public License v3.0
@@ -61,7 +61,7 @@ if ( isset( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php'] ) ) {
  * @since 1.0.0
  */
 function define_pdf_generator_for_wp_constants() {
-	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.3.3' );
+	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.3.6' );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_PATH', plugin_dir_path( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_URL', plugin_dir_url( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_SERVER_URL', 'https://wpswings.com' );

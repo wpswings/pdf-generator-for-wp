@@ -342,9 +342,9 @@ class Pdf_Generator_For_Wp_Admin {
 				),
 			),
 			array(
-				'title'        => __( 'Date format', 'pdf-generator-for-wp' ),
+				'title'        => __( 'Date Format', 'pdf-generator-for-wp' ),
 				'type'         => 'select',
-				'description'  => __( 'Select date format for your dates on pdf template.', 'pdf-generator-for-wp' ),
+				'description'  => __( 'Select date format for your dates on PDF template.', 'pdf-generator-for-wp' ),
 				'id'           => 'pgfw_general_pdf_date_format',
 				'value'        => $pgfw_general_pdf_date_format,
 				'class'        => 'pgfw_general_pdf_date_format',
@@ -635,9 +635,9 @@ class Pdf_Generator_For_Wp_Admin {
 				),
 			),
 			array(
-				'title'       => __( 'Enable WhatsApp sharing icon', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Enable WhatsApp Sharing Icon', 'pdf-generator-for-wp' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'Enable this to share pdf over WhatsApp', 'pdf-generator-for-wp' ),
+				'description' => __( 'Enable this to share PDF over WhatsApp', 'pdf-generator-for-wp' ),
 				'id'          => 'wpg_whatsapp_sharing',
 				'value'       => '',
 				'class'       => 'wps_pgfw_pro_tag',
@@ -826,7 +826,7 @@ class Pdf_Generator_For_Wp_Admin {
 				),
 			),
 			array(
-				'title'       => __( 'Pdf Template color ', 'pdf-generator-for-wp' ),
+				'title'       => __( 'PDF Template Color ', 'pdf-generator-for-wp' ),
 				'type'        => 'radio-switch',
 				'description' => __( 'Enable this radio button if you want to change pdf template and text color.', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_template_color_option',
@@ -835,7 +835,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'name'        => 'pgfw_template_color_option',
 			),
 			array(
-				'title'        => __( 'Choose Pdf Template Colour', 'pdf-generator-for-wp' ),
+				'title'        => __( 'Choose PDF Template Colour', 'pdf-generator-for-wp' ),
 				'type'         => 'color',
 				'description'  => __( 'Choose color to display Pdf Template.', 'pdf-generator-for-wp' ),
 				'id'           => 'pgfw_template_color',
@@ -846,7 +846,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'parent-class' => 'wps_pgfw_setting_separate_border',
 			),
 			array(
-				'title'        => __( 'Choose Pdf Template Text Colour', 'pdf-generator-for-wp' ),
+				'title'        => __( 'Choose PDF Template Text Colour', 'pdf-generator-for-wp' ),
 				'type'         => 'color',
 				'description'  => __( 'Choose color to display Pdf Template Text.', 'pdf-generator-for-wp' ),
 				'id'           => 'pgfw_template_text_color',
@@ -1162,7 +1162,7 @@ class Pdf_Generator_For_Wp_Admin {
 		);
 
 			$pgfw_settings_footer_fields_html_arr[] = array(
-				'title'        => __( 'Change page no format', 'pdf-generator-for-wp' ),
+				'title'        => __( 'Change Page No Format', 'pdf-generator-for-wp' ),
 				'type'         => 'checkbox',
 				'description'  => __( 'Check this if you want to show page no with total page count example ( 1 / 20 ).', 'pdf-generator-for-wp' ),
 				'id'           => 'pgfw_general_pdf_show_pageno',
@@ -1834,7 +1834,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_advanced_settings_html_arr[] = array(
 			'title'       => __( 'Select Post Type', 'pdf-generator-for-wp' ),
 			'type'        => 'multiselect',
-			'description' => __( 'Select all post types that you want save as a pdf on server with weekly update.', 'pdf-generator-for-wp' ),
+			'description' => __( 'Select all post types that you want save as a PDF on server with weekly update.', 'pdf-generator-for-wp' ),
 			'id'          => 'pgfw_advanced_post_on_server',
 			'value'       => 'posts',
 			'class'       => 'pgfw-multiselect-class wps-defaut-multiselect  wps_pgfw_pro_tag',
@@ -1937,7 +1937,7 @@ class Pdf_Generator_For_Wp_Admin {
 		}
 		$pgfw_meta_settings_html_arr[] =
 			array(
-				'title'        => __( 'Show product gallery image  ', 'pdf-generator-for-wp' ),
+				'title'        => __( 'Show Product Gallery Image  ', 'pdf-generator-for-wp' ),
 				'type'         => 'checkbox',
 				'description'  => __( 'If your gallery image meta field is different from "_product_image_gallery" then please write the name in below box and enable this setting and uncheck this in metafield section.', 'pdf-generator-for-wp' ),
 				'id'           => 'pgfw_meta_fields_show_image_gallery',
@@ -1947,7 +1947,7 @@ class Pdf_Generator_For_Wp_Admin {
 
 			);
 			$pgfw_meta_settings_html_arr[] = array(
-				'title'       => __( 'Gallery image meta field name.', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Gallery Image Meta Field Name.', 'pdf-generator-for-wp' ),
 				'type'        => 'text',
 				'description' => __( 'Enter your image gallery key .', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_gallery_metafield_key',
@@ -2449,7 +2449,7 @@ class Pdf_Generator_For_Wp_Admin {
 		// array of html for pdf setting fields.
 		$pgfw_template_pdf_settings   = array(
 			array(
-				'title'       => __( 'Enable Invoice feature', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Enable Invoice Feature', 'pdf-generator-for-wp' ),
 				'type'        => 'radio-switch',
 				'description' => __( 'Enable this to start the plugin functionality for users.', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_enable_plugin',
@@ -2458,7 +2458,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'name'        => 'pgfw_enable_plugin',
 			),
 			array(
-				'title'       => __( 'Automatically Attach invoice', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Automatically Attach Invoice', 'pdf-generator-for-wp' ),
 				'type'        => 'radio-switch',
 				'description' => __( 'Enable this to attach invoices with woocommerce mails.', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_send_invoice_automatically',
@@ -2467,7 +2467,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'name'        => 'pgfw_send_invoice_automatically',
 			),
 			array(
-				'title'       => __( 'Order Status to Send Invoice for', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Order Status to Send Invoice For', 'pdf-generator-for-wp' ),
 				'type'        => 'select',
 				'description' => __( 'Please choose the status of orders to send invoice for. If you do not want to send invoice please choose never.', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_send_invoice_for',
@@ -2478,7 +2478,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'options'     => $order_statuses,
 			),
 			array(
-				'title'       => __( 'Download invoice for users at Order Status', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Download Invoice for Users at Order Status', 'pdf-generator-for-wp' ),
 				'type'        => 'multiselect',
 				'description' => __( 'Please choose the status of orders to allow invoice download for users.', 'pdf-generator-for-wp' ),
 				'id'          => 'wpg_allow_invoice_generation_for_orders',
@@ -2489,7 +2489,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'options'     => $order_statuses,
 			),
 			array(
-				'title'       => __( 'Generate invoice from cache', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Generate Invoice from Cache', 'pdf-generator-for-wp' ),
 				'type'        => 'radio-switch',
 				'description' => __( 'Enable this to generate invoices from cache( invoices once downloaded will be stored in the preferred location and will be used later ), please note that once this is enabled changes after invoice generation will not reflect for earlier invoices, however changes will work for new order invoice downloads.', 'pdf-generator-for-wp' ),
 				'id'          => 'wpg_generate_invoice_from_cache',
@@ -2498,7 +2498,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'name'        => 'wpg_generate_invoice_from_cache',
 			),
 			array(
-				'title' => __( 'How do you want to view PDF?', 'pdf-generator-for-wp' ),
+				'title' => __( 'How Do You Want To View PDF?', 'pdf-generator-for-wp' ),
 				'type'  => 'select',
 				'description'  => __( 'Choose if You want to  view in new tab or you want to download.', 'pdf-generator-for-wp' ),
 				'id'    => 'wpg_view_pdf',
@@ -2668,7 +2668,7 @@ class Pdf_Generator_For_Wp_Admin {
 				),
 			),
 			array(
-				'title'       => __( 'Invoice Number Renew date', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Invoice Number Renew Date', 'pdf-generator-for-wp' ),
 				'type'        => 'date-picker',
 				'description' => __( 'Please choose the invoice number to renew date', 'pdf-generator-for-wp' ),
 				'id'          => 'wpg_invoice_number_renew',
@@ -2716,7 +2716,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'name'        => 'wpg_invoice_color',
 			),
 			array(
-				'title'        => __( 'Choose company logo', 'pdf-generator-for-wp' ),
+				'title'        => __( 'Choose Company Logo', 'pdf-generator-for-wp' ),
 				'type'         => 'upload-button',
 				'button_text'  => __( 'Upload Logo', 'pdf-generator-for-wp' ),
 				'class'        => 'wps_pgfw_pro_tag',
@@ -2744,7 +2744,7 @@ class Pdf_Generator_For_Wp_Admin {
 				),
 			),
 			array(
-				'title'       => __( 'Add logo on invoice', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Add Logo On Invoice', 'pdf-generator-for-wp' ),
 				'type'        => 'checkbox',
 				'description' => __( 'Please select if you want the above selected image to be used on invoice.', 'pdf-generator-for-wp' ),
 				'id'          => 'wpg_is_add_logo_invoice',
