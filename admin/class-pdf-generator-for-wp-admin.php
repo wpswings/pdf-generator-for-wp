@@ -781,16 +781,16 @@ class Pdf_Generator_For_Wp_Admin {
 			array(
 				'title'       => __( 'Show Pdf Icon According To User Roles', 'pdf-generator-for-wp' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'Check this if you want to show download pdf icon according to the user roles .', 'pdf-generator-for-wp' ),
+				'description' => __( 'Check this if you want to show download PDF icon according to the user roles .', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_body_show_pdf_icon',
 				'value'       => $pgfw_body_show_pdf_icon,
 				'class'       => 'pgfw_body_show_pdf_icon',
 				'name'        => 'pgfw_body_show_pdf_icon',
 			),
 			array(
-				'title'       => __( 'Select User Role For Which You Want To Show The Pdf Icon', 'pdf-generator-for-wp' ),
+				'title'       => __( 'Select User Role For Which You Want To Show The PDF Icon', 'pdf-generator-for-wp' ),
 				'type'        => 'multiselect',
-				'description' => __( 'Select all user roles for which you want to show the pdf download icon  ', 'pdf-generator-for-wp' ),
+				'description' => __( 'Select all user roles for which you want to show the PDF download icon  ', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_show_post_type_icons_for_user_role',
 				'value'       => $pgfw_show_post_type_icons_for_user_role,
 				'class'       => 'pgfw-multiselect-class wps-defaut-multiselect pgfw_show_post_type_icons_for_user_role',
@@ -828,7 +828,7 @@ class Pdf_Generator_For_Wp_Admin {
 			array(
 				'title'       => __( 'PDF Template Color ', 'pdf-generator-for-wp' ),
 				'type'        => 'radio-switch',
-				'description' => __( 'Enable this radio button if you want to change pdf template and text color.', 'pdf-generator-for-wp' ),
+				'description' => __( 'Enable this radio button if you want to change PDF template and text color.', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_template_color_option',
 				'value'       => $pgfw_template_color_option,
 				'class'       => 'pgfw_template_color_option',
@@ -837,7 +837,7 @@ class Pdf_Generator_For_Wp_Admin {
 			array(
 				'title'        => __( 'Choose PDF Template Colour', 'pdf-generator-for-wp' ),
 				'type'         => 'color',
-				'description'  => __( 'Choose color to display Pdf Template.', 'pdf-generator-for-wp' ),
+				'description'  => __( 'Choose color to display PDF Template.', 'pdf-generator-for-wp' ),
 				'id'           => 'pgfw_template_color',
 				'value'        => $pgfw_template_color,
 				'class'        => 'pgfw_color_picker pgfw_body_font_color',
@@ -848,7 +848,7 @@ class Pdf_Generator_For_Wp_Admin {
 			array(
 				'title'        => __( 'Choose PDF Template Text Colour', 'pdf-generator-for-wp' ),
 				'type'         => 'color',
-				'description'  => __( 'Choose color to display Pdf Template Text.', 'pdf-generator-for-wp' ),
+				'description'  => __( 'Choose color to display PDF Template Text.', 'pdf-generator-for-wp' ),
 				'id'           => 'pgfw_template_text_color',
 				'value'        => $pgfw_template_text_color,
 				'class'        => 'pgfw_color_picker pgfw_body_font_color',
