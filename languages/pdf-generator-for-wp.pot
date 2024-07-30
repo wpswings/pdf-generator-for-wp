@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PDF Generator For WP 1.3.5\n"
-"POT-Creation-Date: 2024-06-26 15:28+0530\n"
+"Project-Id-Version: PDF Generator For WP 1.3.6\n"
+"POT-Creation-Date: 2024-07-29 17:25+0530\n"
 "PO-Revision-Date: 2023-10-03 16:14+0530\n"
 "Last-Translator: \n"
 "Language-Team: WP Swings\n"
@@ -168,11 +168,11 @@ msgid "Open Window"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:345
-msgid "Date format"
+msgid "Date Format"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:347
-msgid "Select date format for your dates on pdf template."
+msgid "Select date format for your dates on PDF template."
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:364
@@ -294,11 +294,11 @@ msgid "Enable this to print current window screen"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:638
-msgid "Enable WhatsApp sharing icon"
+msgid "Enable WhatsApp Sharing Icon"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:640
-msgid "Enable this to share pdf over WhatsApp"
+msgid "Enable this to share PDF over WhatsApp"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:651
@@ -425,17 +425,17 @@ msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:784
 msgid ""
-"Check this if you want to show download pdf icon according to the user "
+"Check this if you want to show download PDF icon according to the user "
 "roles ."
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:791
-msgid "Select User Role For Which You Want To Show The Pdf Icon"
+msgid "Select User Role For Which You Want To Show The PDF Icon"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:793
 msgid ""
-"Select all user roles for which you want to show the pdf download icon  "
+"Select all user roles for which you want to show the PDF download icon  "
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:801
@@ -447,20 +447,20 @@ msgid "If no icon is chosen default icon will be used."
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:829
-msgid "Pdf Template color "
+msgid "PDF Template Color "
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:831
 msgid ""
-"Enable this radio button if you want to change pdf template and text color."
+"Enable this radio button if you want to change PDF template and text color."
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:838
-msgid "Choose Pdf Template Colour"
+msgid "Choose PDF Template Colour"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:840
-msgid "Choose color to display Pdf Template."
+msgid "Choose color to display PDF Template."
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:845
@@ -474,11 +474,11 @@ msgid "color"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:849
-msgid "Choose Pdf Template Text Colour"
+msgid "Choose PDF Template Text Colour"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:851
-msgid "Choose color to display Pdf Template Text."
+msgid "Choose color to display PDF Template Text."
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:894
@@ -723,7 +723,7 @@ msgid "publish date"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:1165
-msgid "Change page no format"
+msgid "Change Page No Format"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:1167
@@ -1255,7 +1255,7 @@ msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:1837
 msgid ""
-"Select all post types that you want save as a pdf on server with weekly "
+"Select all post types that you want save as a PDF on server with weekly "
 "update."
 msgstr ""
 
@@ -1302,7 +1302,7 @@ msgid "These meta fields will be shown on PDF."
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:1940
-msgid "Show product gallery image  "
+msgid "Show Product Gallery Image  "
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:1942
@@ -1313,7 +1313,7 @@ msgid ""
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:1950
-msgid "Gallery image meta field name."
+msgid "Gallery Image Meta Field Name."
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:1952
@@ -1379,7 +1379,7 @@ msgid "Never"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:2452
-msgid "Enable Invoice feature"
+msgid "Enable Invoice Feature"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:2454
@@ -1387,7 +1387,7 @@ msgid "Enable this to start the plugin functionality for users."
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:2461
-msgid "Automatically Attach invoice"
+msgid "Automatically Attach Invoice"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:2463
@@ -1395,7 +1395,7 @@ msgid "Enable this to attach invoices with woocommerce mails."
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:2470
-msgid "Order Status to Send Invoice for"
+msgid "Order Status to Send Invoice For"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:2472
@@ -1405,7 +1405,7 @@ msgid ""
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:2481
-msgid "Download invoice for users at Order Status"
+msgid "Download Invoice for Users at Order Status"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:2483
@@ -1413,7 +1413,7 @@ msgid "Please choose the status of orders to allow invoice download for users."
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:2492
-msgid "Generate invoice from cache"
+msgid "Generate Invoice from Cache"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:2494
@@ -1426,7 +1426,7 @@ msgid ""
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:2501
-msgid "How do you want to view PDF?"
+msgid "How Do You Want To View PDF?"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:2503
@@ -1593,7 +1593,7 @@ msgid "suffix"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:2671
-msgid "Invoice Number Renew date"
+msgid "Invoice Number Renew Date"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:2673
@@ -1632,7 +1632,7 @@ msgid "Choose color of your choice for invoices"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:2719
-msgid "Choose company logo"
+msgid "Choose Company Logo"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:2721
@@ -1645,7 +1645,7 @@ msgid "Remove Logo"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:2747
-msgid "Add logo on invoice"
+msgid "Add Logo On Invoice"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:2749
@@ -1758,21 +1758,22 @@ msgstr ""
 msgid "Custom page size"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-admin-dashboard.php:37
+#: admin/partials/pdf-generator-for-wp-admin-dashboard.php:38
+#: admin/partials/pdf-generator-for-wp-admin-dashboard.php:40
 #: pdf-generator-for-wp.php:213
 msgid "Documentation"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-admin-dashboard.php:39
+#: admin/partials/pdf-generator-for-wp-admin-dashboard.php:43
 #: pdf-generator-for-wp.php:215
 msgid "Support"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-admin-dashboard.php:45
+#: admin/partials/pdf-generator-for-wp-admin-dashboard.php:49
 msgid "Settings saved successfully !"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-admin-dashboard.php:48
+#: admin/partials/pdf-generator-for-wp-admin-dashboard.php:52
 msgid "There might be some error, Please reload the page and try again."
 msgstr ""
 
@@ -1905,11 +1906,11 @@ msgstr ""
 msgid "Activated"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:26
+#: admin/partials/pdf-generator-for-wp-overview.php:34
 msgid "What is PDF Generator?"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:30
+#: admin/partials/pdf-generator-for-wp-overview.php:38
 msgid ""
 "PDF Generator allows you to share the content on your website in more than "
 "one way. You can convert your posts, product pages, and blogs into PDF files "
@@ -1923,53 +1924,53 @@ msgid ""
 "to equip you with better control of the feature on your WordPress site."
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:36
+#: admin/partials/pdf-generator-for-wp-overview.php:44
 msgid "With our PDF Generator for WordPress plugin, you can:"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:39
+#: admin/partials/pdf-generator-for-wp-overview.php:47
 msgid ""
 "Create PDF files to build your company portfolio as per your industry best "
 "practices."
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:40
+#: admin/partials/pdf-generator-for-wp-overview.php:48
 msgid "Allow users to download products and content from your website."
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:41
+#: admin/partials/pdf-generator-for-wp-overview.php:49
 msgid ""
 "Allow users to share the PDF files on different channels or access them "
 "offline."
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:42
+#: admin/partials/pdf-generator-for-wp-overview.php:50
 msgid "Upload PDF files in advance to let your customers download them."
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:43
+#: admin/partials/pdf-generator-for-wp-overview.php:51
 msgid "Request the users’ email id in exchange for information."
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:44
+#: admin/partials/pdf-generator-for-wp-overview.php:52
 msgid ""
 "Disperse your branding effectively with the useful information you have to "
 "sell."
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:51
+#: admin/partials/pdf-generator-for-wp-overview.php:59
 msgid "The Free Plugin Benefits"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:56
+#: admin/partials/pdf-generator-for-wp-overview.php:64
 msgid "admin/src/images/includedetails.jpg"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:59
+#: admin/partials/pdf-generator-for-wp-overview.php:67
 msgid "Include Details"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:63
+#: admin/partials/pdf-generator-for-wp-overview.php:71
 msgid ""
 "The general features in the PDF generator plugin allow you to set the name "
 "for your generated PDF. Also, the general settings in the PDF generator "
@@ -1977,15 +1978,15 @@ msgid ""
 "publication, and different download options."
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:74
+#: admin/partials/pdf-generator-for-wp-overview.php:82
 msgid "admin/src/images/seticonalignment.jpg"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:77
+#: admin/partials/pdf-generator-for-wp-overview.php:85
 msgid "Set Icon Alignment"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:78
+#: admin/partials/pdf-generator-for-wp-overview.php:86
 msgid ""
 "By using the display settings, the PDF generator plugin provides flexibility "
 "to choose if users and guest users will be able to see the icon. It has the "
@@ -1993,15 +1994,15 @@ msgid ""
 "and if you want to send the PDF to the user’s e-mail."
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:85
+#: admin/partials/pdf-generator-for-wp-overview.php:93
 msgid "admin/src/images/customizepdf.jpg"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:88
+#: admin/partials/pdf-generator-for-wp-overview.php:96
 msgid "Customize Your PDF"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:92
+#: admin/partials/pdf-generator-for-wp-overview.php:100
 msgid ""
 "The plugin allows you for the individual customization of the header, "
 "footer, and PDF body. You can set your desired margins, watermarks, custom "
@@ -2009,15 +2010,15 @@ msgid ""
 "generator is compatibility with Arabic languages and RTL support."
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:103
+#: admin/partials/pdf-generator-for-wp-overview.php:111
 msgid "admin/src/images/releventplacement.jpg"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:106
+#: admin/partials/pdf-generator-for-wp-overview.php:114
 msgid "Relevant Placement"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:110
+#: admin/partials/pdf-generator-for-wp-overview.php:118
 msgid ""
 "The advanced settings of the PDF generator plugin allow you to place the PDF "
 "icon on the relevant pages only. So, you can select the relevant post types "
@@ -2025,15 +2026,15 @@ msgid ""
 "files for products, pages, or posts."
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:121
+#: admin/partials/pdf-generator-for-wp-overview.php:129
 msgid "admin/src/images/metafields.jpg"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:124
+#: admin/partials/pdf-generator-for-wp-overview.php:132
 msgid "Select Appropriate Metafields"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:128
+#: admin/partials/pdf-generator-for-wp-overview.php:136
 msgid ""
 "Depending upon the purpose of your PDF file, you can select the appropriate "
 "meta fields. The plugin lets you select the meta fields specifically for "
@@ -2041,15 +2042,15 @@ msgid ""
 "per your target audience, be it a potential client or a new supplier. "
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:139
+#: admin/partials/pdf-generator-for-wp-overview.php:147
 msgid "admin/src/images/uploadyourpdf.jpg"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:142
+#: admin/partials/pdf-generator-for-wp-overview.php:150
 msgid "Upload Your Own PDF"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-overview.php:146
+#: admin/partials/pdf-generator-for-wp-overview.php:154
 msgid ""
 "Another chic feature in the plugin to serve your purpose of generating PDF "
 "files is allowing you to upload your own PDF files. This lets you sell your "
