@@ -364,6 +364,20 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 							<td>' . $key . '(' . $billing_details['order_currency'] . '): ' . $price . '</td>
 						</tr>';
 			}
+      $order = wc_get_order($order_id);
+			// Get applied coupons.
+			$coupons = $order->get_coupon_codes();
+      
+			// Check if any coupons are applied.
+			if (!empty($coupons)) {
+      $html .='   <tr>
+      <td ></td>
+        <td ></td>
+        <td ></td>
+        <td ></td>
+              <td>' . __( 'Discount', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . '): ' .  $order->get_discount_total() . '</td>
+            </tr>';
+      }
      $html .='   <tr>
         <td ></td>
           <td ></td>
