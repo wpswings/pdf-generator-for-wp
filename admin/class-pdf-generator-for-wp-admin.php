@@ -2474,6 +2474,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$temp       = array(
 			'wc-never' => __( 'Never', 'pdf-generator-for-wp' ),
 		);
+		$sub_pgfw_pdf_single_download_icon = '';
 		// appending the default value.
 		$order_statuses = is_array( $order_stat ) ? $temp + $order_stat : $temp;
 		// array of html for pdf setting fields.
