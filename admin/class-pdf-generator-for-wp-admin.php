@@ -658,7 +658,6 @@ class Pdf_Generator_For_Wp_Admin {
 				'sub_id'       => 'pgfw_pdf_invoice_single_download_icon',
 				'sub_class'    => 'pgfw_pdf_invoice_single_download_icon',
 				'sub_name'     => 'pgfw_pdf_invoice_single_download_icon',
-				'name'         => 'sub_pgfw_pdf_invoice_single_download_icon',
 				'parent-class' => 'wps_pgfw_setting_separate_border',
 				'description'  => __( 'If no icon is chosen default icon will be used.', 'pdf-generator-for-wp' ),
 				'img-tag'      => array(
@@ -666,15 +665,7 @@ class Pdf_Generator_For_Wp_Admin {
 					'img-id'    => 'pgfw_single_pdf_icon_image',
 					'img-style' => ( '' ) ? 'margin:10px;height:45px;width:45px;' : 'display:none;margin:10px;height:45px;width:45px;',
 					'img-src'   => '',
-				),
-				'img-remove'   => array(
-					'btn-class' => 'pgfw_single_pdf_icon_image_remove',
-					'btn-id'    => 'pgfw_single_pdf_invoice_icon_image_remove',
-					'btn-text'  => __( 'Remove Icon', 'pdf-generator-for-wp' ),
-					'btn-title' => __( 'Remove Icon', 'pdf-generator-for-wp' ),
-					'btn-name'  => 'pgfw_single_pdf_icon_image_remove',
-					'btn-style' => ! ( '' ) ? 'display:none;color:red;' : '',
-				),
+				)
 			),
 			array(
 				'title'        => __( 'Direct Download or Email User', 'pdf-generator-for-wp' ),
