@@ -665,7 +665,15 @@ class Pdf_Generator_For_Wp_Admin {
 					'img-id'    => 'pgfw_single_pdf_icon_image',
 					'img-style' => ( '' ) ? 'margin:10px;height:45px;width:45px;' : 'display:none;margin:10px;height:45px;width:45px;',
 					'img-src'   => '',
-				)
+				),
+				'img-remove'   => array(
+					'btn-class' => '',
+					'btn-id'    => 'pgfw_single_pdf_invoice_icon_image_remove',
+					'btn-text'  => __( 'Remove Icon', 'pdf-generator-for-wp' ),
+					'btn-title' => __( 'Remove Icon', 'pdf-generator-for-wp' ),
+					'btn-name'  => 'e',
+					'btn-style' => '',
+				),
 			),
 			array(
 				'title'        => __( 'Direct Download or Email User', 'pdf-generator-for-wp' ),
