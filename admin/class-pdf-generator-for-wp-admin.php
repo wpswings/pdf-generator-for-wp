@@ -649,7 +649,7 @@ class Pdf_Generator_For_Wp_Admin {
 				),
 			),
 			array(
-				'title'        => __( "Download Invoice image change option", 'pdf-generator-for-wp' ),
+				'title'        => __( "Download Invoice icon change option", 'pdf-generator-for-wp' ),
 				'type'         => 'upload-button',
 				'button_text'  => __( 'Upload Icon', 'pdf-generator-for-wp' ),
 				'class'        => 'wps_pgfw_pro_tag',
