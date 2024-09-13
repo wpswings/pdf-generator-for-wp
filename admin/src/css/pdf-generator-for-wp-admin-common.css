@@ -370,3 +370,9 @@ a.wps-pdf__popup-for-pro-link:hover {
     transform: rotate(45deg);
     width: 60px;
 }
+#pgfw_pdf_invoice_single_download_icon {
+    background-color:#11aa33;
+}
+#pgfw_single_pdf_invoice_icon_image_remove {
+    background-color: #ff3d30;
+}

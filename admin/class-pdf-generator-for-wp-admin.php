@@ -1253,6 +1253,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_body_custom_page_size_height        = array_key_exists( 'pgfw_body_custom_page_size_height', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_page_size_height'] : 150;
 		$pgfw_body_custom_page_size_width        = array_key_exists( 'pgfw_body_custom_page_size_width', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_page_size_width'] : 150;
 		$pgfw_body_customization                 = array_key_exists( 'pgfw_body_customization_for_post_detail', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_customization_for_post_detail'] : array();
+
 		$wps_pgfw_font_styles = array(
 			''            => __( 'Select option', 'pdf-generator-for-wp' ),
 			'helvetica'   => __( 'Helvetica', 'pdf-generator-for-wp' ),
@@ -1263,6 +1264,7 @@ class Pdf_Generator_For_Wp_Admin {
 			'symbol'      => __( 'Symbol', 'pdf-generator-for-wp' ),
 			'zapfdinbats' => __( 'Zapfdinbats', 'pdf-generator-for-wp' ),
 		);
+
 		$wps_pgfw_font_styles = apply_filters( 'wps_pgfw_font_styles_filter_hook', $wps_pgfw_font_styles );
 		$wps_pgfw_custom_page_size = array(
 			''                         => __( 'Select option', 'pdf-generator-for-wp' ),
