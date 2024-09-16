@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress pdf generator
 Requires at least: 5.5.0
-Tested up to: 6.5.5
+Tested up to: 6.6.2
 WC requires at least: 6.5.0
-WC tested up to: 9.0.2
-Stable tag: 1.3.5
+WC tested up to: 9.3.1
+Stable tag: 1.3.7
 Requires PHP: 7.2
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -20,9 +20,9 @@ The PDF plugin for WordPress allows you to create PDF files for the pages to ens
 
 The WordPress PDF creator plugin allows users to download PDFs from the WordPress site or view them in a new tab. Also, the admin can authorize users to receive their PDFs at their email addresses. 
 
-Users can non-commercially distribute the downloaded PDF files with the [**WordPress PDF Generator Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=pdf-org-page&utm_campaign=pdf-pro) plugin.
+Users can non-commercially distribute the downloaded PDF files with the [**WordPress PDF Generator Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=referral&utm_campaign=pdf-pro) plugin.
 
-[**WordPress PDF Generator Demo**](https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=pdf-org-page&utm_campaign=frontend-demo) | [**PDF Generator Documentation**](https://docs.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-doc&utm_medium=pdf-org-page&utm_campaign=documentation) | [**Contact Us**](https://wpswings.com/contact-us/?utm_source=wpswings-pdf&utm_medium=pdf-org-page&utm_campaign=contact-us).
+[**WordPress PDF Generator Demo**](https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=referral&utm_campaign=frontend-demo) | [**PDF Generator Documentation**](https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-doc&utm_medium=referral&utm_campaign=documentation) | [**Contact Us**](https://wpswings.com/contact-us/?utm_source=wpswings-pdf&utm_medium=referral&utm_campaign=contact-us).
 
 [youtube  https://www.youtube.com/watch?v=RljECeP3JJk&t=1362s]
 
@@ -97,13 +97,13 @@ Also, if your product images are different from your product image gallery then 
 **13) Upload Your PDF Files** 
 The plugin allows you to upload your own PDF files for download. You can also limit access to these files for registered users or guest users.
 
-Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=pdf-org-page&utm_campaign=documentation) and learn more about the features and working of the plugin.
+Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=referral&utm_campaign=documentation) and learn more about the features and working of the plugin.
 
 == LIVE DEMO OF PDF GENERATOR PLUGIN ==
 
-* [**WordPress PDF Generator Frontend demo**](https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=pdf-org-page&utm_campaign=frontend-demo)
+* [**WordPress PDF Generator Frontend demo**](https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=referral&utm_campaign=frontend-demo)
 
-* [**WordPress PDF Generator Backend demo**](https://demo.wpswings.com/pdf-generator-for-wp-pro/request-for-personal-demo/?utm_source=wpswings-pdf-demo&utm_medium=pdf-org-page&utm_campaign=backend-demo)
+* [**WordPress PDF Generator Backend demo**](https://demo.wpswings.com/pdf-generator-for-wp-pro/request-for-personal-demo/?utm_source=wpswings-pdf-demo&utm_medium=referral&utm_campaign=backend-demo)
 
 == WORDPRESS PDF GENERATOR COMPATIBILITIES == 
 
@@ -128,25 +128,25 @@ Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/
 
 PDF Generator for WordPress Pro plugin generates PDF that can be read or shared anytime with an added feature of watermark & bulk generation.
 
-> Note:  Get [**PDF Generator For WP Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=pdf-org-page&utm_campaign=pdf-pro)
+> Note:  Get [**PDF Generator For WP Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=referral&utm_campaign=pdf-pro)
 
 == See What Hospicall  is Saying about PDF Generator For WordPress ==
 
-> Yes! I really love the solution and would recommend it to other of my customers. Great tool [**See PDF Generator Case Study**](https://wpswings.com/case-studies/hospicall/?utm_source=wpswings-pdf-case-study&utm_medium=pdf-org-page&utm_campaign=pdf-case-study)
+> Yes! I really love the solution and would recommend it to other of my customers. Great tool [**See PDF Generator Case Study**](https://wpswings.com/case-studies/hospicall/?utm_source=wpswings-pdf-case-study&utm_medium=referral&utm_campaign=pdf-case-study)
 
 == DOCUMENTATION OF PREMIUM VERSION ==
 
-* [**PDF Generator For WP Pro Documentation**](https://docs.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-doc&utm_medium=pdf-org-page&utm_campaign=pro-doc)
+* [**PDF Generator For WP Pro Documentation**](https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-doc&utm_medium=referral&utm_campaign=pro-doc)
 
 == SUPPORT ==
 
-If you need support or have any questions then kindly use our online chat window [**here**](https://wpswings.com/?utm_source=wpswings-pdf-here&utm_medium=pdf-org-page&utm_campaign=here) and discover all types of [**WooCommerce Extensions**](https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-shop&utm_medium=pdf-org-page&utm_campaign=woocommerce-plugins) for your eCommerce store.
+If you need support or have any questions then kindly use our online chat window [**here**](https://wpswings.com/?utm_source=wpswings-pdf-here&utm_medium=referral&utm_campaign=here) and discover all types of [**WooCommerce Extensions**](https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-shop&utm_medium=pdf-org-page&utm_campaign=woocommerce-plugins) for your eCommerce store.
 
-> If our documentation doesn’t contain the solution to your problem, you can visit the [**Forums Community**](https://forums.wpswings.com/?utm_source=wpswings-forums&utm_medium=pdf-org-page&utm_campaign=forum) or [**Generate a Ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-pdf-tickets&utm_medium=pdf-org-page&utm_campaign=generate-tickets)
+> If our documentation doesn’t contain the solution to your problem, you can visit the [**Forums Community**](https://forums.wpswings.com/?utm_source=wpswings-forums&utm_medium=referral&utm_campaign=forum) or [**Generate a Ticket**](https://wpswings.com/submit-query/?utm_source=wpswings-pdf-tickets&utm_medium=pdf-org-page&utm_campaign=generate-tickets)
 
-> Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-services&utm_medium=pdf-org-page&utm_campaign=woocommerce-services)
+> Create and Revamp your eCommerce store with [**WooCommerce Services**](https://wpswings.com/woocommerce-services/?utm_source=wpswings-services&utm_medium=referral&utm_campaign=woocommerce-services)
 
-> Get Huge Discounts on PDF Generator plugin - [**Get More Offers**](https://wpswings.com/offers/?utm_source=wpswings-pdf-offers&utm_medium=pdf-org-page&utm_campaign=offers)
+> Get Huge Discounts on PDF Generator plugin - [**Get More Offers**](https://wpswings.com/offers/?utm_source=wpswings-pdf-offers&utm_medium=referral&utm_campaign=offers)
 
 
 == Installation ==
@@ -183,7 +183,7 @@ Go to WP Swings--> PDF Generator for WordPress--> PDF Upload. Click on the Uploa
 You can rename the meta fields and taxonomies in the premium version of the PDF Generator plugin.
 
 = My Question Is Not Listed? =
-Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/pdf-generator-for-wp/?utm_source=wpswings-pdf-kb&utm_medium=pdf-org-page&utm_campaign=kb)
+Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/pdf-generator-for-wp/?utm_source=wpswings-pdf-kb&utm_medium=referral&utm_campaign=kb)
 
 == Screenshots ==
 
@@ -204,6 +204,13 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 15. WPML Setting
 
 == Changelog ==
+
+= 1.3.7 - Released on 16 September 2024 =
+* New: Compatible with latest WP(6.6.2) and WC(9.3.1)
+
+= 1.3.6 - Released on 30 July 2024 = 
+* Fix : Font issue for special character.
+* New: Compatible with latest WP(6.6.1) and WC(9.1.4)
 
 = 1.3.5 - Released on 26 June 2024 = 
 * New: Now WebP Image Format is now supportable on PDF.
@@ -339,6 +346,5 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Upgrade Notice ==
 
-= 1.3.5 - Released on 26 June 2024 = 
-* New: Now WebP Image Format is now supportable on PDF.
-* New: Compatible with latest WP(6.5.5) and WC(9.0.2)
+= 1.3.7 - Released on 16 September 2024 =
+* New: Compatible with latest WP(6.6.2) and WC(9.2.3)

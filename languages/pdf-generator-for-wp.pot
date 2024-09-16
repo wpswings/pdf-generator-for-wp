@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PDF Generator For WP 1.3.6\n"
-"POT-Creation-Date: 2024-07-29 17:25+0530\n"
+"Project-Id-Version: PDF Generator For WP 1.3.7\n"
+"POT-Creation-Date: 2024-09-13 19:01+0530\n"
 "PO-Revision-Date: 2023-10-03 16:14+0530\n"
 "Last-Translator: \n"
 "Language-Team: WP Swings\n"
@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.4.3\n"
+"X-Generator: Poedit 3.5\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n;_x;_ex;_nx;esc_attr__;esc_attr_e;esc_attr_x;"
@@ -23,7 +23,7 @@ msgid "Deleting...."
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:140
-#: admin/class-pdf-generator-for-wp-admin.php:2012
+#: admin/class-pdf-generator-for-wp-admin.php:2042
 msgid "Upload Doc"
 msgstr ""
 
@@ -32,47 +32,39 @@ msgid "Use Doc"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:142
-#: admin/class-pdf-generator-for-wp-admin.php:917
-#: admin/class-pdf-generator-for-wp-admin.php:1640
-#: admin/class-pdf-generator-for-wp-admin.php:2855
-#: admin/class-pdf-generator-for-wp-admin.php:2881
+#: admin/class-pdf-generator-for-wp-admin.php:945
+#: admin/class-pdf-generator-for-wp-admin.php:1670
+#: admin/class-pdf-generator-for-wp-admin.php:2914
+#: admin/class-pdf-generator-for-wp-admin.php:2940
 msgid "Upload Image"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:143
-msgid "Use Image"
+msgid "Upload Invoice Image"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:144
-msgid "Are you sure you want to delete Doc ?"
+msgid "Use Image"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:145
+msgid "Are you sure you want to delete Doc ?"
+msgstr ""
+
+#: admin/class-pdf-generator-for-wp-admin.php:146
 msgid "Are you sure you want to reset all the settings to default ?"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:210
+#: admin/class-pdf-generator-for-wp-admin.php:211
 msgid "PDF Generator For WP"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:262
+#: admin/class-pdf-generator-for-wp-admin.php:263
 msgid "Enable Plugin"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:264
+#: admin/class-pdf-generator-for-wp-admin.php:265
 msgid "Enable plugin to start the functionality."
-msgstr ""
-
-#: admin/class-pdf-generator-for-wp-admin.php:270
-#: admin/class-pdf-generator-for-wp-admin.php:595
-#: admin/class-pdf-generator-for-wp-admin.php:608
-#: admin/class-pdf-generator-for-wp-admin.php:621
-#: admin/class-pdf-generator-for-wp-admin.php:633
-#: admin/class-pdf-generator-for-wp-admin.php:646
-#: admin/class-pdf-generator-for-wp-admin.php:1992
-#: admin/class-pdf-generator-for-wp-admin.php:2005
-#: admin/partials/pdf-generator-for-wp-welcome.php:49
-msgid "YES"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:271
@@ -81,614 +73,639 @@ msgstr ""
 #: admin/class-pdf-generator-for-wp-admin.php:622
 #: admin/class-pdf-generator-for-wp-admin.php:634
 #: admin/class-pdf-generator-for-wp-admin.php:647
-#: admin/class-pdf-generator-for-wp-admin.php:1993
-#: admin/class-pdf-generator-for-wp-admin.php:2006
+#: admin/class-pdf-generator-for-wp-admin.php:2022
+#: admin/class-pdf-generator-for-wp-admin.php:2035
+#: admin/partials/pdf-generator-for-wp-welcome.php:49
+msgid "YES"
+msgstr ""
+
+#: admin/class-pdf-generator-for-wp-admin.php:272
+#: admin/class-pdf-generator-for-wp-admin.php:597
+#: admin/class-pdf-generator-for-wp-admin.php:610
+#: admin/class-pdf-generator-for-wp-admin.php:623
+#: admin/class-pdf-generator-for-wp-admin.php:635
+#: admin/class-pdf-generator-for-wp-admin.php:648
+#: admin/class-pdf-generator-for-wp-admin.php:2023
+#: admin/class-pdf-generator-for-wp-admin.php:2036
 #: admin/partials/pdf-generator-for-wp-welcome.php:50
 msgid "NO"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:275
+#: admin/class-pdf-generator-for-wp-admin.php:276
 msgid "Include Categories"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:277
+#: admin/class-pdf-generator-for-wp-admin.php:278
 msgid "Categories will be shown on PDF( for post )."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:285
+#: admin/class-pdf-generator-for-wp-admin.php:286
 msgid "Include Tag"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:287
+#: admin/class-pdf-generator-for-wp-admin.php:288
 msgid "Tags will be shown on PDF( for post )."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:294
+#: admin/class-pdf-generator-for-wp-admin.php:295
 msgid "Include Taxonomy"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:296
+#: admin/class-pdf-generator-for-wp-admin.php:297
 msgid ""
 "Taxonomy will be shown on PDF( works for all post types ) this also includes "
 "category and tags for posts."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:303
+#: admin/class-pdf-generator-for-wp-admin.php:304
 msgid "Display Post Date"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:305
+#: admin/class-pdf-generator-for-wp-admin.php:306
 msgid "Post date will be shown on PDF."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:312
+#: admin/class-pdf-generator-for-wp-admin.php:313
 msgid "Display Current Date"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:314
+#: admin/class-pdf-generator-for-wp-admin.php:315
 msgid "Current date will be shown on PDF."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:321
+#: admin/class-pdf-generator-for-wp-admin.php:322
 msgid "Display Author Name"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:323
+#: admin/class-pdf-generator-for-wp-admin.php:324
 msgid "Author name will be shown on PDF."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:330
+#: admin/class-pdf-generator-for-wp-admin.php:331
 msgid "PDF Download Option"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:332
+#: admin/class-pdf-generator-for-wp-admin.php:333
 msgid "Please choose either to download or open window."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:339
-#: admin/class-pdf-generator-for-wp-admin.php:372
-#: admin/class-pdf-generator-for-wp-admin.php:565
-#: admin/class-pdf-generator-for-wp-admin.php:660
-#: admin/class-pdf-generator-for-wp-admin.php:675
-#: admin/class-pdf-generator-for-wp-admin.php:893
-#: admin/class-pdf-generator-for-wp-admin.php:1061
-#: admin/class-pdf-generator-for-wp-admin.php:1256
-#: admin/class-pdf-generator-for-wp-admin.php:1267
-#: admin/class-pdf-generator-for-wp-admin.php:1395
-#: admin/class-pdf-generator-for-wp-admin.php:2510
+#: admin/class-pdf-generator-for-wp-admin.php:340
+#: admin/class-pdf-generator-for-wp-admin.php:373
+#: admin/class-pdf-generator-for-wp-admin.php:566
+#: admin/class-pdf-generator-for-wp-admin.php:688
+#: admin/class-pdf-generator-for-wp-admin.php:703
+#: admin/class-pdf-generator-for-wp-admin.php:921
+#: admin/class-pdf-generator-for-wp-admin.php:1089
+#: admin/class-pdf-generator-for-wp-admin.php:1285
+#: admin/class-pdf-generator-for-wp-admin.php:1297
+#: admin/class-pdf-generator-for-wp-admin.php:1425
+#: admin/class-pdf-generator-for-wp-admin.php:2569
 msgid "Select option"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:340
+#: admin/class-pdf-generator-for-wp-admin.php:341
 msgid "Download Locally"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:341
+#: admin/class-pdf-generator-for-wp-admin.php:342
 msgid "Open Window"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:345
+#: admin/class-pdf-generator-for-wp-admin.php:346
 msgid "Date Format"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:347
+#: admin/class-pdf-generator-for-wp-admin.php:348
 msgid "Select date format for your dates on PDF template."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:364
+#: admin/class-pdf-generator-for-wp-admin.php:365
 msgid "Default File Name"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:366
+#: admin/class-pdf-generator-for-wp-admin.php:367
 msgid "File name will be used as the name of the PDF generated."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:373
+#: admin/class-pdf-generator-for-wp-admin.php:374
 msgid "Post Name"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:374
+#: admin/class-pdf-generator-for-wp-admin.php:375
 msgid "Document_ProductID"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:375
+#: admin/class-pdf-generator-for-wp-admin.php:376
 msgid "Custom"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:379
+#: admin/class-pdf-generator-for-wp-admin.php:380
 msgid "Please Enter the Custom File Name"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:381
+#: admin/class-pdf-generator-for-wp-admin.php:382
 msgid "For custom file name, product/page/post id will be used as suffix."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:387
+#: admin/class-pdf-generator-for-wp-admin.php:388
 #: admin/partials/pdf-generator-for-wp-pdf-upload.php:39
 msgid "File Name"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:394
-#: admin/class-pdf-generator-for-wp-admin.php:865
-#: admin/class-pdf-generator-for-wp-admin.php:1035
-#: admin/class-pdf-generator-for-wp-admin.php:1208
-#: admin/class-pdf-generator-for-wp-admin.php:1803
-#: admin/class-pdf-generator-for-wp-admin.php:1869
-#: admin/class-pdf-generator-for-wp-admin.php:1962
-#: admin/class-pdf-generator-for-wp-admin.php:2039
-#: admin/class-pdf-generator-for-wp-admin.php:2403
-#: admin/class-pdf-generator-for-wp-admin.php:2957
+#: admin/class-pdf-generator-for-wp-admin.php:395
+#: admin/class-pdf-generator-for-wp-admin.php:893
+#: admin/class-pdf-generator-for-wp-admin.php:1063
+#: admin/class-pdf-generator-for-wp-admin.php:1236
+#: admin/class-pdf-generator-for-wp-admin.php:1833
+#: admin/class-pdf-generator-for-wp-admin.php:1899
+#: admin/class-pdf-generator-for-wp-admin.php:1992
+#: admin/class-pdf-generator-for-wp-admin.php:2069
+#: admin/class-pdf-generator-for-wp-admin.php:2433
+#: admin/class-pdf-generator-for-wp-admin.php:3016
 msgid "Save Settings"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:566
+#: admin/class-pdf-generator-for-wp-admin.php:567
 msgid "Before Content"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:567
+#: admin/class-pdf-generator-for-wp-admin.php:568
 msgid "After Content"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:571
+#: admin/class-pdf-generator-for-wp-admin.php:572
 msgid "Before Add to Cart Form"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:572
+#: admin/class-pdf-generator-for-wp-admin.php:573
 msgid "Before Product Meta Start"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:573
+#: admin/class-pdf-generator-for-wp-admin.php:574
 msgid "After Add to Cart Form"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:574
+#: admin/class-pdf-generator-for-wp-admin.php:575
 msgid "After Single Product Summary"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:575
+#: admin/class-pdf-generator-for-wp-admin.php:576
 msgid "Before Single Product Summary"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:576
+#: admin/class-pdf-generator-for-wp-admin.php:577
 msgid "After Single Product"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:577
+#: admin/class-pdf-generator-for-wp-admin.php:578
 msgid "Before Single Product"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:578
+#: admin/class-pdf-generator-for-wp-admin.php:579
 msgid "After Share Button"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:587
+#: admin/class-pdf-generator-for-wp-admin.php:588
 msgid "Logged in Users"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:589
+#: admin/class-pdf-generator-for-wp-admin.php:590
 msgid "Enable this to give access to logged in users to download PDF."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:600
+#: admin/class-pdf-generator-for-wp-admin.php:601
 msgid "Guest"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:602
+#: admin/class-pdf-generator-for-wp-admin.php:603
 msgid "Enable this to give access to guest users to download PDF."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:614
+#: admin/class-pdf-generator-for-wp-admin.php:615
 msgid "Enable Bulk Download"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:616
+#: admin/class-pdf-generator-for-wp-admin.php:617
 msgid "Enable this to give access to bulk download PDF"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:626
+#: admin/class-pdf-generator-for-wp-admin.php:627
 msgid "Enable Print Option"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:628
+#: admin/class-pdf-generator-for-wp-admin.php:629
 msgid "Enable this to print current window screen"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:638
+#: admin/class-pdf-generator-for-wp-admin.php:639
 msgid "Enable WhatsApp Sharing Icon"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:640
+#: admin/class-pdf-generator-for-wp-admin.php:641
 msgid "Enable this to share PDF over WhatsApp"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:651
-msgid "Direct Download or Email User"
+#: admin/class-pdf-generator-for-wp-admin.php:652
+msgid "Download Invoice icon change option"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:653
-msgid "Please choose either to direct download or to email user."
-msgstr ""
-
-#: admin/class-pdf-generator-for-wp-admin.php:661
-#: admin/class-pdf-generator-for-wp-admin.php:676
-msgid "Direct Download"
+#: admin/class-pdf-generator-for-wp-admin.php:654
+#: admin/class-pdf-generator-for-wp-admin.php:738
+#: admin/class-pdf-generator-for-wp-admin.php:831
+#: admin/class-pdf-generator-for-wp-admin.php:2503
+msgid "Upload Icon"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:662
-#: admin/class-pdf-generator-for-wp-admin.php:677
-#: admin/class-pdf-generator-for-wp-admin.php:2623
+#: admin/class-pdf-generator-for-wp-admin.php:840
+#: admin/class-pdf-generator-for-wp-admin.php:2512
+msgid "If no icon is chosen default icon will be used."
+msgstr ""
+
+#: admin/class-pdf-generator-for-wp-admin.php:672
+#: admin/class-pdf-generator-for-wp-admin.php:673
+#: admin/class-pdf-generator-for-wp-admin.php:756
+#: admin/class-pdf-generator-for-wp-admin.php:757
+#: admin/class-pdf-generator-for-wp-admin.php:850
+#: admin/class-pdf-generator-for-wp-admin.php:851
+#: admin/class-pdf-generator-for-wp-admin.php:2522
+#: admin/class-pdf-generator-for-wp-admin.php:2523
+msgid "Remove Icon"
+msgstr ""
+
+#: admin/class-pdf-generator-for-wp-admin.php:679
+msgid "Direct Download or Email User"
+msgstr ""
+
+#: admin/class-pdf-generator-for-wp-admin.php:681
+msgid "Please choose either to direct download or to email user."
+msgstr ""
+
+#: admin/class-pdf-generator-for-wp-admin.php:689
+#: admin/class-pdf-generator-for-wp-admin.php:704
+msgid "Direct Download"
+msgstr ""
+
+#: admin/class-pdf-generator-for-wp-admin.php:690
+#: admin/class-pdf-generator-for-wp-admin.php:705
+#: admin/class-pdf-generator-for-wp-admin.php:2682
 #: includes/class-pdf-generator-for-wp-onboarding-steps.php:359
 msgid "Email"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:666
+#: admin/class-pdf-generator-for-wp-admin.php:694
 msgid "Direct Download or Email Guest"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:668
+#: admin/class-pdf-generator-for-wp-admin.php:696
 msgid "Please choose either to direct download or to email guest."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:681
+#: admin/class-pdf-generator-for-wp-admin.php:709
 msgid "Show PDF Icon"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:683
+#: admin/class-pdf-generator-for-wp-admin.php:711
 msgid "PDF Icon will be shown after selected space."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:692
+#: admin/class-pdf-generator-for-wp-admin.php:720
 msgid "PDF Icon Alignment"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:694
+#: admin/class-pdf-generator-for-wp-admin.php:722
 msgid "PDF Icon will be aligned according to the selected value."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:700
+#: admin/class-pdf-generator-for-wp-admin.php:728
 msgid "Please Choose"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:701
-#: admin/class-pdf-generator-for-wp-admin.php:1479
-#: admin/class-pdf-generator-for-wp-admin.php:1527
+#: admin/class-pdf-generator-for-wp-admin.php:729
+#: admin/class-pdf-generator-for-wp-admin.php:1509
+#: admin/class-pdf-generator-for-wp-admin.php:1557
 msgid "Left"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:702
+#: admin/class-pdf-generator-for-wp-admin.php:730
 msgid "Center"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:703
-#: admin/class-pdf-generator-for-wp-admin.php:1489
-#: admin/class-pdf-generator-for-wp-admin.php:1537
+#: admin/class-pdf-generator-for-wp-admin.php:731
+#: admin/class-pdf-generator-for-wp-admin.php:1519
+#: admin/class-pdf-generator-for-wp-admin.php:1567
 msgid "Right"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:708
+#: admin/class-pdf-generator-for-wp-admin.php:736
 msgid "Choose Bulk Download PDF Icon"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:710
-#: admin/class-pdf-generator-for-wp-admin.php:803
-msgid "Upload Icon"
-msgstr ""
-
-#: admin/class-pdf-generator-for-wp-admin.php:718
+#: admin/class-pdf-generator-for-wp-admin.php:746
 msgid "If no icon is chosen default icon will be used"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:728
-#: admin/class-pdf-generator-for-wp-admin.php:729
-#: admin/class-pdf-generator-for-wp-admin.php:822
-#: admin/class-pdf-generator-for-wp-admin.php:823
-msgid "Remove Icon"
-msgstr ""
-
-#: admin/class-pdf-generator-for-wp-admin.php:736
+#: admin/class-pdf-generator-for-wp-admin.php:764
 msgid "Bulk Download PDF Icon Name"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:742
-#: admin/class-pdf-generator-for-wp-admin.php:751
+#: admin/class-pdf-generator-for-wp-admin.php:770
+#: admin/class-pdf-generator-for-wp-admin.php:779
 msgid "Icon Name"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:745
+#: admin/class-pdf-generator-for-wp-admin.php:773
 msgid "Single Download PDF Icon Name "
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:754
+#: admin/class-pdf-generator-for-wp-admin.php:782
 msgid "Icon Size"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:757
+#: admin/class-pdf-generator-for-wp-admin.php:785
 msgid "Enter icon width and height in pixels."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:764
-#: admin/class-pdf-generator-for-wp-admin.php:948
-#: admin/class-pdf-generator-for-wp-admin.php:990
-#: admin/class-pdf-generator-for-wp-admin.php:1110
-#: admin/class-pdf-generator-for-wp-admin.php:1675
+#: admin/class-pdf-generator-for-wp-admin.php:792
+#: admin/class-pdf-generator-for-wp-admin.php:976
+#: admin/class-pdf-generator-for-wp-admin.php:1018
+#: admin/class-pdf-generator-for-wp-admin.php:1138
+#: admin/class-pdf-generator-for-wp-admin.php:1705
 msgid "width"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:774
-#: admin/class-pdf-generator-for-wp-admin.php:1685
+#: admin/class-pdf-generator-for-wp-admin.php:802
+#: admin/class-pdf-generator-for-wp-admin.php:1715
 msgid "height"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:782
+#: admin/class-pdf-generator-for-wp-admin.php:810
 msgid "Show Pdf Icon According To User Roles"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:784
+#: admin/class-pdf-generator-for-wp-admin.php:812
 msgid ""
 "Check this if you want to show download PDF icon according to the user "
 "roles ."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:791
+#: admin/class-pdf-generator-for-wp-admin.php:819
 msgid "Select User Role For Which You Want To Show The PDF Icon"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:793
+#: admin/class-pdf-generator-for-wp-admin.php:821
 msgid ""
 "Select all user roles for which you want to show the PDF download icon  "
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:801
+#: admin/class-pdf-generator-for-wp-admin.php:829
+#: admin/class-pdf-generator-for-wp-admin.php:2501
 msgid "Choose Single Download PDF Icon"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:812
-msgid "If no icon is chosen default icon will be used."
-msgstr ""
-
-#: admin/class-pdf-generator-for-wp-admin.php:829
+#: admin/class-pdf-generator-for-wp-admin.php:857
 msgid "PDF Template Color "
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:831
+#: admin/class-pdf-generator-for-wp-admin.php:859
 msgid ""
 "Enable this radio button if you want to change PDF template and text color."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:838
+#: admin/class-pdf-generator-for-wp-admin.php:866
 msgid "Choose PDF Template Colour"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:840
+#: admin/class-pdf-generator-for-wp-admin.php:868
 msgid "Choose color to display PDF Template."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:845
-#: admin/class-pdf-generator-for-wp-admin.php:856
-#: admin/class-pdf-generator-for-wp-admin.php:980
-#: admin/class-pdf-generator-for-wp-admin.php:1100
-#: admin/class-pdf-generator-for-wp-admin.php:1347
-#: admin/class-pdf-generator-for-wp-admin.php:1429
-#: admin/class-pdf-generator-for-wp-admin.php:1711
+#: admin/class-pdf-generator-for-wp-admin.php:873
+#: admin/class-pdf-generator-for-wp-admin.php:884
+#: admin/class-pdf-generator-for-wp-admin.php:1008
+#: admin/class-pdf-generator-for-wp-admin.php:1128
+#: admin/class-pdf-generator-for-wp-admin.php:1377
+#: admin/class-pdf-generator-for-wp-admin.php:1459
+#: admin/class-pdf-generator-for-wp-admin.php:1741
 msgid "color"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:849
+#: admin/class-pdf-generator-for-wp-admin.php:877
 msgid "Choose PDF Template Text Colour"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:851
+#: admin/class-pdf-generator-for-wp-admin.php:879
 msgid "Choose color to display PDF Template Text."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:894
-#: admin/class-pdf-generator-for-wp-admin.php:1062
-#: admin/class-pdf-generator-for-wp-admin.php:1257
+#: admin/class-pdf-generator-for-wp-admin.php:922
+#: admin/class-pdf-generator-for-wp-admin.php:1090
+#: admin/class-pdf-generator-for-wp-admin.php:1286
 msgid "Helvetica"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:895
-#: admin/class-pdf-generator-for-wp-admin.php:1063
-#: admin/class-pdf-generator-for-wp-admin.php:1258
+#: admin/class-pdf-generator-for-wp-admin.php:923
+#: admin/class-pdf-generator-for-wp-admin.php:1091
+#: admin/class-pdf-generator-for-wp-admin.php:1287
 msgid "Courier"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:896
-#: admin/class-pdf-generator-for-wp-admin.php:1064
-#: admin/class-pdf-generator-for-wp-admin.php:1259
+#: admin/class-pdf-generator-for-wp-admin.php:924
+#: admin/class-pdf-generator-for-wp-admin.php:1092
+#: admin/class-pdf-generator-for-wp-admin.php:1288
 msgid "Sans Serif"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:897
-#: admin/class-pdf-generator-for-wp-admin.php:1065
-#: admin/class-pdf-generator-for-wp-admin.php:1260
+#: admin/class-pdf-generator-for-wp-admin.php:925
+#: admin/class-pdf-generator-for-wp-admin.php:1093
+#: admin/class-pdf-generator-for-wp-admin.php:1289
 msgid "DejaVu Sans"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:898
-#: admin/class-pdf-generator-for-wp-admin.php:1066
-#: admin/class-pdf-generator-for-wp-admin.php:1261
+#: admin/class-pdf-generator-for-wp-admin.php:926
+#: admin/class-pdf-generator-for-wp-admin.php:1094
+#: admin/class-pdf-generator-for-wp-admin.php:1290
 msgid "Times-Roman"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:899
-#: admin/class-pdf-generator-for-wp-admin.php:1067
-#: admin/class-pdf-generator-for-wp-admin.php:1262
+#: admin/class-pdf-generator-for-wp-admin.php:927
+#: admin/class-pdf-generator-for-wp-admin.php:1095
+#: admin/class-pdf-generator-for-wp-admin.php:1291
 msgid "Symbol"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:900
-#: admin/class-pdf-generator-for-wp-admin.php:1068
-#: admin/class-pdf-generator-for-wp-admin.php:1263
+#: admin/class-pdf-generator-for-wp-admin.php:928
+#: admin/class-pdf-generator-for-wp-admin.php:1096
+#: admin/class-pdf-generator-for-wp-admin.php:1292
 msgid "Zapfdinbats"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:906
+#: admin/class-pdf-generator-for-wp-admin.php:934
 msgid "Include Header"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:908
+#: admin/class-pdf-generator-for-wp-admin.php:936
 msgid "Select this to include header on the page."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:915
+#: admin/class-pdf-generator-for-wp-admin.php:943
 msgid "Choose Logo"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:934
-#: admin/class-pdf-generator-for-wp-admin.php:935
-#: admin/class-pdf-generator-for-wp-admin.php:1657
-#: admin/class-pdf-generator-for-wp-admin.php:1658
-#: admin/class-pdf-generator-for-wp-admin.php:2898
-#: admin/class-pdf-generator-for-wp-admin.php:2899
+#: admin/class-pdf-generator-for-wp-admin.php:962
+#: admin/class-pdf-generator-for-wp-admin.php:963
+#: admin/class-pdf-generator-for-wp-admin.php:1687
+#: admin/class-pdf-generator-for-wp-admin.php:1688
+#: admin/class-pdf-generator-for-wp-admin.php:2957
+#: admin/class-pdf-generator-for-wp-admin.php:2958
 msgid "Remove image"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:941
+#: admin/class-pdf-generator-for-wp-admin.php:969
 msgid "Logo Size"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:943
+#: admin/class-pdf-generator-for-wp-admin.php:971
 msgid "Enter header logo width size in (px) . "
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:953
-#: admin/class-pdf-generator-for-wp-admin.php:2843
+#: admin/class-pdf-generator-for-wp-admin.php:981
+#: admin/class-pdf-generator-for-wp-admin.php:2902
 msgid "Company Name"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:955
+#: admin/class-pdf-generator-for-wp-admin.php:983
 msgid "Company name will be displayed on the right side of the header"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:960
-#: admin/class-pdf-generator-for-wp-admin.php:2850
+#: admin/class-pdf-generator-for-wp-admin.php:988
+#: admin/class-pdf-generator-for-wp-admin.php:2909
 msgid "company name"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:963
+#: admin/class-pdf-generator-for-wp-admin.php:991
 msgid "Tagline or Address"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:968
+#: admin/class-pdf-generator-for-wp-admin.php:996
 msgid "Enter the tagline or address to show in header"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:969
+#: admin/class-pdf-generator-for-wp-admin.php:997
 msgid "tagline or address"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:973
-#: admin/class-pdf-generator-for-wp-admin.php:1093
+#: admin/class-pdf-generator-for-wp-admin.php:1001
+#: admin/class-pdf-generator-for-wp-admin.php:1121
 msgid "Choose Color"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:975
+#: admin/class-pdf-generator-for-wp-admin.php:1003
 msgid "Please choose text color to display in the header"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:983
+#: admin/class-pdf-generator-for-wp-admin.php:1011
 msgid "Header Width"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:985
+#: admin/class-pdf-generator-for-wp-admin.php:1013
 msgid ""
 "Please enter width to display in the header accepted values are in px, "
 "please enter number only"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:995
-#: admin/class-pdf-generator-for-wp-admin.php:1115
+#: admin/class-pdf-generator-for-wp-admin.php:1023
+#: admin/class-pdf-generator-for-wp-admin.php:1143
 msgid "Choose Font Style"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:997
+#: admin/class-pdf-generator-for-wp-admin.php:1025
 msgid "Please choose font style to display in the header"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1002
-#: admin/class-pdf-generator-for-wp-admin.php:1122
+#: admin/class-pdf-generator-for-wp-admin.php:1030
+#: admin/class-pdf-generator-for-wp-admin.php:1150
 msgid "font style"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1006
-#: admin/class-pdf-generator-for-wp-admin.php:1126
+#: admin/class-pdf-generator-for-wp-admin.php:1034
+#: admin/class-pdf-generator-for-wp-admin.php:1154
 msgid "Choose Font Size"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1008
+#: admin/class-pdf-generator-for-wp-admin.php:1036
 msgid "Please choose font size to display in the header"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1013
-#: admin/class-pdf-generator-for-wp-admin.php:1133
+#: admin/class-pdf-generator-for-wp-admin.php:1041
+#: admin/class-pdf-generator-for-wp-admin.php:1161
 msgid "font size"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1018
+#: admin/class-pdf-generator-for-wp-admin.php:1046
 msgid "Header Top Placement"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1020
+#: admin/class-pdf-generator-for-wp-admin.php:1048
 msgid ""
 "The greater the value in the Header Top, more will be the header length down "
 "from the top. Accepted values are positive and negative. If there exists an "
 "issue with the header placement, the header top value should be changed."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1026
-#: admin/class-pdf-generator-for-wp-admin.php:1196
-#: admin/class-pdf-generator-for-wp-admin.php:1617
+#: admin/class-pdf-generator-for-wp-admin.php:1054
+#: admin/class-pdf-generator-for-wp-admin.php:1224
+#: admin/class-pdf-generator-for-wp-admin.php:1647
 msgid "top"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1074
+#: admin/class-pdf-generator-for-wp-admin.php:1102
 msgid "Include Footer"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1076
+#: admin/class-pdf-generator-for-wp-admin.php:1104
 msgid "Select this include footer on the page."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1083
+#: admin/class-pdf-generator-for-wp-admin.php:1111
 msgid "Tagline"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1088
+#: admin/class-pdf-generator-for-wp-admin.php:1116
 msgid "Enter the tagline to show in footer"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1089
+#: admin/class-pdf-generator-for-wp-admin.php:1117
 msgid "tagline"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1095
+#: admin/class-pdf-generator-for-wp-admin.php:1123
 msgid "Please choose color to display in the footer text."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1103
+#: admin/class-pdf-generator-for-wp-admin.php:1131
 msgid "Choose Width"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1105
+#: admin/class-pdf-generator-for-wp-admin.php:1133
 msgid ""
 "Please choose width to display in the footer accepted values are in px, "
 "please enter number only."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1117
+#: admin/class-pdf-generator-for-wp-admin.php:1145
 msgid "Please choose font style to display in the footer."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1128
+#: admin/class-pdf-generator-for-wp-admin.php:1156
 msgid "Please choose font size to display in the footer."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1136
+#: admin/class-pdf-generator-for-wp-admin.php:1164
 msgid "Footer Bottom Placement"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1138
+#: admin/class-pdf-generator-for-wp-admin.php:1166
 msgid ""
 "The greater the value in the Footer Bottom, more will be the footer length "
 "up from the bottom. Accepted values are positive and negative. If there "
@@ -696,360 +713,360 @@ msgid ""
 "changed."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1144
+#: admin/class-pdf-generator-for-wp-admin.php:1172
 msgid "bottom"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1149
+#: admin/class-pdf-generator-for-wp-admin.php:1177
 msgid "Add Author, Post name and Date in Footer."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1151
+#: admin/class-pdf-generator-for-wp-admin.php:1179
 msgid ""
 "You have the option to customize the footer to include the authors name, the "
 "post title, and the publication date."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1157
+#: admin/class-pdf-generator-for-wp-admin.php:1185
 msgid "author name"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1158
+#: admin/class-pdf-generator-for-wp-admin.php:1186
 msgid "post title"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1159
+#: admin/class-pdf-generator-for-wp-admin.php:1187
 msgid "publish date"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1165
+#: admin/class-pdf-generator-for-wp-admin.php:1193
 msgid "Change Page No Format"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1167
+#: admin/class-pdf-generator-for-wp-admin.php:1195
 msgid ""
 "Check this if you want to show page no with total page count example ( 1 / "
 "20 )."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1175
+#: admin/class-pdf-generator-for-wp-admin.php:1203
 msgid "Page number position"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1179
+#: admin/class-pdf-generator-for-wp-admin.php:1207
 msgid "Choose page number position left, top in px."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1186
-#: admin/class-pdf-generator-for-wp-admin.php:1607
+#: admin/class-pdf-generator-for-wp-admin.php:1214
+#: admin/class-pdf-generator-for-wp-admin.php:1637
 msgid "left"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1268
+#: admin/class-pdf-generator-for-wp-admin.php:1298
 msgid "4A0"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1269
+#: admin/class-pdf-generator-for-wp-admin.php:1299
 msgid "2A0"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1270
+#: admin/class-pdf-generator-for-wp-admin.php:1300
 msgid "A0"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1271
+#: admin/class-pdf-generator-for-wp-admin.php:1301
 msgid "A1"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1272
+#: admin/class-pdf-generator-for-wp-admin.php:1302
 msgid "A2"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1273
+#: admin/class-pdf-generator-for-wp-admin.php:1303
 msgid "A3"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1274
+#: admin/class-pdf-generator-for-wp-admin.php:1304
 msgid "A4"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1275
+#: admin/class-pdf-generator-for-wp-admin.php:1305
 msgid "A5"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1276
+#: admin/class-pdf-generator-for-wp-admin.php:1306
 msgid "A6"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1277
+#: admin/class-pdf-generator-for-wp-admin.php:1307
 msgid "B0"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1278
+#: admin/class-pdf-generator-for-wp-admin.php:1308
 msgid "B1"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1279
+#: admin/class-pdf-generator-for-wp-admin.php:1309
 msgid "B2"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1280
+#: admin/class-pdf-generator-for-wp-admin.php:1310
 msgid "B3"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1281
+#: admin/class-pdf-generator-for-wp-admin.php:1311
 msgid "B4"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1282
+#: admin/class-pdf-generator-for-wp-admin.php:1312
 msgid "B5"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1283
+#: admin/class-pdf-generator-for-wp-admin.php:1313
 msgid "B6"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1284
+#: admin/class-pdf-generator-for-wp-admin.php:1314
 msgid "C0"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1285
+#: admin/class-pdf-generator-for-wp-admin.php:1315
 msgid "C1"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1286
+#: admin/class-pdf-generator-for-wp-admin.php:1316
 msgid "C2"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1287
+#: admin/class-pdf-generator-for-wp-admin.php:1317
 msgid "C3"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1288
+#: admin/class-pdf-generator-for-wp-admin.php:1318
 msgid "C4"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1289
+#: admin/class-pdf-generator-for-wp-admin.php:1319
 msgid "C5"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1290
+#: admin/class-pdf-generator-for-wp-admin.php:1320
 msgid "C6"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1291
+#: admin/class-pdf-generator-for-wp-admin.php:1321
 msgid "RA0"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1292
+#: admin/class-pdf-generator-for-wp-admin.php:1322
 msgid "RA1"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1293
+#: admin/class-pdf-generator-for-wp-admin.php:1323
 msgid "RA2"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1294
+#: admin/class-pdf-generator-for-wp-admin.php:1324
 msgid "RA3"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1295
+#: admin/class-pdf-generator-for-wp-admin.php:1325
 msgid "RA4"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1296
+#: admin/class-pdf-generator-for-wp-admin.php:1326
 msgid "SRA0"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1297
+#: admin/class-pdf-generator-for-wp-admin.php:1327
 msgid "SRA1"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1298
+#: admin/class-pdf-generator-for-wp-admin.php:1328
 msgid "SRA2"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1299
+#: admin/class-pdf-generator-for-wp-admin.php:1329
 msgid "SRA3"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1300
+#: admin/class-pdf-generator-for-wp-admin.php:1330
 msgid "SRA4"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1301
+#: admin/class-pdf-generator-for-wp-admin.php:1331
 msgid "Letter"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1302
+#: admin/class-pdf-generator-for-wp-admin.php:1332
 msgid "Legal"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1303
+#: admin/class-pdf-generator-for-wp-admin.php:1333
 msgid "Executive"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1304
+#: admin/class-pdf-generator-for-wp-admin.php:1334
 msgid "Ledger"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1305
+#: admin/class-pdf-generator-for-wp-admin.php:1335
 msgid "Tabloid"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1306
+#: admin/class-pdf-generator-for-wp-admin.php:1336
 msgid "Folio"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1307
+#: admin/class-pdf-generator-for-wp-admin.php:1337
 msgid "Commercial Envelope"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1308
+#: admin/class-pdf-generator-for-wp-admin.php:1338
 msgid "Catalog Envelope"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1317
+#: admin/class-pdf-generator-for-wp-admin.php:1347
 msgid "Title Font Style"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1319
+#: admin/class-pdf-generator-for-wp-admin.php:1349
 msgid "Please choose title font style."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1324
+#: admin/class-pdf-generator-for-wp-admin.php:1354
 msgid "title font_style"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1328
+#: admin/class-pdf-generator-for-wp-admin.php:1358
 msgid "Title Font Size."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1330
+#: admin/class-pdf-generator-for-wp-admin.php:1360
 msgid "This will be the font size of the title."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1335
+#: admin/class-pdf-generator-for-wp-admin.php:1365
 msgid "title font size"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1340
+#: admin/class-pdf-generator-for-wp-admin.php:1370
 msgid "Choose Title Color"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1342
+#: admin/class-pdf-generator-for-wp-admin.php:1372
 msgid "Please choose color to display the title text."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1350
+#: admin/class-pdf-generator-for-wp-admin.php:1380
 msgid "Page Size"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1352
+#: admin/class-pdf-generator-for-wp-admin.php:1382
 msgid "Please choose page size to generate PDF."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1358
+#: admin/class-pdf-generator-for-wp-admin.php:1388
 msgid "page size"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1362
+#: admin/class-pdf-generator-for-wp-admin.php:1392
 msgid "Height of the page ( in mm )"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1374
+#: admin/class-pdf-generator-for-wp-admin.php:1404
 msgid "Width of the page ( in mm )"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1386
+#: admin/class-pdf-generator-for-wp-admin.php:1416
 msgid "Page Orientation"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1388
+#: admin/class-pdf-generator-for-wp-admin.php:1418
 msgid "Choose page orientation to generate PDF."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1393
+#: admin/class-pdf-generator-for-wp-admin.php:1423
 msgid "page orientation"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1396
+#: admin/class-pdf-generator-for-wp-admin.php:1426
 msgid "Landscape"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1397
+#: admin/class-pdf-generator-for-wp-admin.php:1427
 msgid "Portrait"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1401
+#: admin/class-pdf-generator-for-wp-admin.php:1431
 msgid "Content Font Style"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1403
+#: admin/class-pdf-generator-for-wp-admin.php:1433
 msgid "Choose page font to generate PDF."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1408
+#: admin/class-pdf-generator-for-wp-admin.php:1438
 msgid "page font"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1413
+#: admin/class-pdf-generator-for-wp-admin.php:1443
 msgid "Content Font Size"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1415
+#: admin/class-pdf-generator-for-wp-admin.php:1445
 msgid "Choose content font size to generate PDF."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1422
+#: admin/class-pdf-generator-for-wp-admin.php:1452
 msgid "Choose Body Text Color"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1424
+#: admin/class-pdf-generator-for-wp-admin.php:1454
 msgid "Choose color to display body text."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1433
+#: admin/class-pdf-generator-for-wp-admin.php:1463
 msgid "Border"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1436
+#: admin/class-pdf-generator-for-wp-admin.php:1466
 msgid "Choose border: size in px and color."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1443
+#: admin/class-pdf-generator-for-wp-admin.php:1473
 msgid "border size"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1453
+#: admin/class-pdf-generator-for-wp-admin.php:1483
 msgid "border color"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1459
+#: admin/class-pdf-generator-for-wp-admin.php:1489
 msgid "PDF Border Position"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1462
+#: admin/class-pdf-generator-for-wp-admin.php:1492
 msgid ""
 "Enter Border margin : top, left, right, bottom, accepted values are positive "
 "and negative, this will decide the position of border on the page."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1469
-#: admin/class-pdf-generator-for-wp-admin.php:1517
+#: admin/class-pdf-generator-for-wp-admin.php:1499
+#: admin/class-pdf-generator-for-wp-admin.php:1547
 msgid "Top"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1499
-#: admin/class-pdf-generator-for-wp-admin.php:1547
+#: admin/class-pdf-generator-for-wp-admin.php:1529
+#: admin/class-pdf-generator-for-wp-admin.php:1577
 msgid "Bottom"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1507
+#: admin/class-pdf-generator-for-wp-admin.php:1537
 msgid "Page Margin"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1510
+#: admin/class-pdf-generator-for-wp-admin.php:1540
 msgid ""
 "Enter page margin : top, left, right, bottom, set top and bottom values if "
 "any issue with content placement, while changing the header and footer "
@@ -1057,366 +1074,366 @@ msgid ""
 "correctly on the page."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1555
+#: admin/class-pdf-generator-for-wp-admin.php:1585
 msgid "RTL Support"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1557
+#: admin/class-pdf-generator-for-wp-admin.php:1587
 msgid ""
 "Select this to enable RTL support ( enabling this will enable, font-style : "
 "DejaVu Sans, sans-serif globally ) and will support right to left text "
 "alignment."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1565
+#: admin/class-pdf-generator-for-wp-admin.php:1595
 msgid "Add Watermark Text"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1567
+#: admin/class-pdf-generator-for-wp-admin.php:1597
 msgid "Select this to add watermark text on the created PDF."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1575
+#: admin/class-pdf-generator-for-wp-admin.php:1605
 msgid "Add Watermark Image"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1577
+#: admin/class-pdf-generator-for-wp-admin.php:1607
 msgid "Select this to include watermark image in PDF."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1585
+#: admin/class-pdf-generator-for-wp-admin.php:1615
 msgid "Watermark Angle"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1587
+#: admin/class-pdf-generator-for-wp-admin.php:1617
 msgid "Please Choose Watermark Angle."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1596
+#: admin/class-pdf-generator-for-wp-admin.php:1626
 msgid "Watermark Position"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1600
+#: admin/class-pdf-generator-for-wp-admin.php:1630
 msgid "Choose watermark position left, top in px."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1625
+#: admin/class-pdf-generator-for-wp-admin.php:1655
 msgid "Watermark Opacity"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1630
+#: admin/class-pdf-generator-for-wp-admin.php:1660
 msgid "opacity"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1635
+#: admin/class-pdf-generator-for-wp-admin.php:1665
 msgid ""
 "Choose this to add transparency to the image used as watermark, value should "
 "be greater than 0 and less than 1, accepted decimal values."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1638
+#: admin/class-pdf-generator-for-wp-admin.php:1668
 msgid "Choose Watermark Image"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1664
+#: admin/class-pdf-generator-for-wp-admin.php:1694
 msgid "Watermark Image Size"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1668
+#: admin/class-pdf-generator-for-wp-admin.php:1698
 msgid "Choose watermark image width, height in px."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1694
+#: admin/class-pdf-generator-for-wp-admin.php:1724
 msgid "Watermark Text"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1696
+#: admin/class-pdf-generator-for-wp-admin.php:1726
 msgid "Enter text to be used as watermark."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1701
+#: admin/class-pdf-generator-for-wp-admin.php:1731
 msgid "Watermark text"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1704
+#: admin/class-pdf-generator-for-wp-admin.php:1734
 msgid "Choose Watermark Text Color"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1706
+#: admin/class-pdf-generator-for-wp-admin.php:1736
 msgid "Please choose color to display the text of watermark."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1714
+#: admin/class-pdf-generator-for-wp-admin.php:1744
 msgid "Page Template"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1716
+#: admin/class-pdf-generator-for-wp-admin.php:1746
 msgid "This will be used as the page template."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1724
-#: admin/class-pdf-generator-for-wp-admin.php:1737
-#: admin/class-pdf-generator-for-wp-admin.php:2764
+#: admin/class-pdf-generator-for-wp-admin.php:1754
+#: admin/class-pdf-generator-for-wp-admin.php:1767
+#: admin/class-pdf-generator-for-wp-admin.php:2823
 msgid "Template1"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1728
+#: admin/class-pdf-generator-for-wp-admin.php:1758
 msgid "Post Template"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1730
+#: admin/class-pdf-generator-for-wp-admin.php:1760
 msgid "This will be used as the post template."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1741
-#: admin/class-pdf-generator-for-wp-admin.php:1748
+#: admin/class-pdf-generator-for-wp-admin.php:1771
+#: admin/class-pdf-generator-for-wp-admin.php:1778
 msgid "Custom CSS"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1743
+#: admin/class-pdf-generator-for-wp-admin.php:1773
 msgid ""
 "Add custom CSS for any HTML element this will be applied to the elements in "
 "the content."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1751
+#: admin/class-pdf-generator-for-wp-admin.php:1781
 msgid "Show images row wise   ( Template1 )"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1753
+#: admin/class-pdf-generator-for-wp-admin.php:1783
 msgid "Select this to display images in row wise ."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1760
+#: admin/class-pdf-generator-for-wp-admin.php:1790
 msgid "Show Meta fields row wise"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1762
+#: admin/class-pdf-generator-for-wp-admin.php:1792
 msgid "Select this to display meta fields in row ."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1769
+#: admin/class-pdf-generator-for-wp-admin.php:1799
 msgid "Select Number of columns "
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1771
+#: admin/class-pdf-generator-for-wp-admin.php:1801
 msgid "You can choose number of columns needed in a row for your meta fields."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1777
+#: admin/class-pdf-generator-for-wp-admin.php:1807
 msgid "1"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1778
+#: admin/class-pdf-generator-for-wp-admin.php:1808
 msgid "2"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1779
+#: admin/class-pdf-generator-for-wp-admin.php:1809
 msgid "3"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1780
+#: admin/class-pdf-generator-for-wp-admin.php:1810
 msgid "4"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1784
+#: admin/class-pdf-generator-for-wp-admin.php:1814
 msgid "Hide featured image, title and Description(word)"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1786
+#: admin/class-pdf-generator-for-wp-admin.php:1816
 msgid ""
 "You have the flexibility to customize the default template by editing static "
 "text strings and thumbnails to better suit your needs."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1792
+#: admin/class-pdf-generator-for-wp-admin.php:1822
 msgid "Post title"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1793
+#: admin/class-pdf-generator-for-wp-admin.php:1823
 msgid "Post thumbnail"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1794
+#: admin/class-pdf-generator-for-wp-admin.php:1824
 msgid "Post description"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1825
+#: admin/class-pdf-generator-for-wp-admin.php:1855
 msgid "Show Icons for Post Type"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1827
+#: admin/class-pdf-generator-for-wp-admin.php:1857
 msgid "PDF generate icons will be visible to selected post type."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1835
+#: admin/class-pdf-generator-for-wp-admin.php:1865
 msgid "Select Post Type"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1837
+#: admin/class-pdf-generator-for-wp-admin.php:1867
 msgid ""
 "Select all post types that you want save as a PDF on server with weekly "
 "update."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1845
+#: admin/class-pdf-generator-for-wp-admin.php:1875
 msgid "Upload Custom Font File"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1851
+#: admin/class-pdf-generator-for-wp-admin.php:1881
 msgid "ttf file"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1852
+#: admin/class-pdf-generator-for-wp-admin.php:1882
 msgid ""
 "Choose .ttf file to add custom font, once uploaded all dropdowns of font "
 "will have this option to choose from."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1856
+#: admin/class-pdf-generator-for-wp-admin.php:1886
 msgid "Reset Settings"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1857
+#: admin/class-pdf-generator-for-wp-admin.php:1887
 msgid "This will reset all the settings to default."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1860
+#: admin/class-pdf-generator-for-wp-admin.php:1890
 msgid "Reset settings"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1915
+#: admin/class-pdf-generator-for-wp-admin.php:1945
 msgid "Show Meta Fields For "
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1917
+#: admin/class-pdf-generator-for-wp-admin.php:1947
 msgid "selecting this will show the meta fields on PDF."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1925
+#: admin/class-pdf-generator-for-wp-admin.php:1955
 msgid "Meta Fields in "
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1927
+#: admin/class-pdf-generator-for-wp-admin.php:1957
 msgid "These meta fields will be shown on PDF."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1940
+#: admin/class-pdf-generator-for-wp-admin.php:1970
 msgid "Show Product Gallery Image  "
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1942
+#: admin/class-pdf-generator-for-wp-admin.php:1972
 msgid ""
 "If your gallery image meta field is different from \"_product_image_gallery"
 "\" then please write the name in below box and enable this setting and "
 "uncheck this in metafield section."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1950
+#: admin/class-pdf-generator-for-wp-admin.php:1980
 msgid "Gallery Image Meta Field Name."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1952
+#: admin/class-pdf-generator-for-wp-admin.php:1982
 msgid "Enter your image gallery key ."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1957
+#: admin/class-pdf-generator-for-wp-admin.php:1987
 msgid "Metafield key Name"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1984
+#: admin/class-pdf-generator-for-wp-admin.php:2014
 msgid "Access to Users"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1986
+#: admin/class-pdf-generator-for-wp-admin.php:2016
 msgid "Enable this to give access to Logged in users to download Posters."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1997
+#: admin/class-pdf-generator-for-wp-admin.php:2027
 msgid "Access to Guests"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:1999
+#: admin/class-pdf-generator-for-wp-admin.php:2029
 msgid "Enable this to give access to Guests to Download Posters."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2010
+#: admin/class-pdf-generator-for-wp-admin.php:2040
 msgid "Choose Poster(s)"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2030
-#: admin/class-pdf-generator-for-wp-admin.php:2031
+#: admin/class-pdf-generator-for-wp-admin.php:2060
+#: admin/class-pdf-generator-for-wp-admin.php:2061
 msgid "Remove Doc"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2255
+#: admin/class-pdf-generator-for-wp-admin.php:2285
 msgid "method not found"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2364
+#: admin/class-pdf-generator-for-wp-admin.php:2394
 msgid "Show Taxonomy Fields for "
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2366
+#: admin/class-pdf-generator-for-wp-admin.php:2396
 msgid "Selecting this will show the taxonomy fields on PDF."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2392
+#: admin/class-pdf-generator-for-wp-admin.php:2422
 msgid "Rename Taxonomy Fields"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2418
+#: admin/class-pdf-generator-for-wp-admin.php:2448
 msgid "Cover Page"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2423
+#: admin/class-pdf-generator-for-wp-admin.php:2453
 msgid "Internal Page"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2445
-#: admin/class-pdf-generator-for-wp-admin.php:2539
+#: admin/class-pdf-generator-for-wp-admin.php:2475
+#: admin/class-pdf-generator-for-wp-admin.php:2598
 msgid "Never"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2452
+#: admin/class-pdf-generator-for-wp-admin.php:2483
 msgid "Enable Invoice Feature"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2454
+#: admin/class-pdf-generator-for-wp-admin.php:2485
 msgid "Enable this to start the plugin functionality for users."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2461
+#: admin/class-pdf-generator-for-wp-admin.php:2492
 msgid "Automatically Attach Invoice"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2463
+#: admin/class-pdf-generator-for-wp-admin.php:2494
 msgid "Enable this to attach invoices with woocommerce mails."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2470
+#: admin/class-pdf-generator-for-wp-admin.php:2529
 msgid "Order Status to Send Invoice For"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2472
+#: admin/class-pdf-generator-for-wp-admin.php:2531
 msgid ""
 "Please choose the status of orders to send invoice for. If you do not want "
 "to send invoice please choose never."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2481
+#: admin/class-pdf-generator-for-wp-admin.php:2540
 msgid "Download Invoice for Users at Order Status"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2483
+#: admin/class-pdf-generator-for-wp-admin.php:2542
 msgid "Please choose the status of orders to allow invoice download for users."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2492
+#: admin/class-pdf-generator-for-wp-admin.php:2551
 msgid "Generate Invoice from Cache"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2494
+#: admin/class-pdf-generator-for-wp-admin.php:2553
 msgid ""
 "Enable this to generate invoices from cache( invoices once downloaded will "
 "be stored in the preferred location and will be used later ), please note "
@@ -1425,336 +1442,336 @@ msgid ""
 "downloads."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2501
+#: admin/class-pdf-generator-for-wp-admin.php:2560
 msgid "How Do You Want To View PDF?"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2503
+#: admin/class-pdf-generator-for-wp-admin.php:2562
 msgid "Choose if You want to  view in new tab or you want to download."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2508
+#: admin/class-pdf-generator-for-wp-admin.php:2567
 msgid "Select"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2511
+#: admin/class-pdf-generator-for-wp-admin.php:2570
 msgid "View in new tab"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2512
+#: admin/class-pdf-generator-for-wp-admin.php:2571
 msgid "Download"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2521
-#: admin/class-pdf-generator-for-wp-admin.php:2797
+#: admin/class-pdf-generator-for-wp-admin.php:2580
+#: admin/class-pdf-generator-for-wp-admin.php:2856
 msgid "Save settings"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2540
+#: admin/class-pdf-generator-for-wp-admin.php:2599
 msgid "January"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2541
+#: admin/class-pdf-generator-for-wp-admin.php:2600
 msgid "February"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2542
+#: admin/class-pdf-generator-for-wp-admin.php:2601
 msgid "March"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2543
+#: admin/class-pdf-generator-for-wp-admin.php:2602
 msgid "April"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2544
+#: admin/class-pdf-generator-for-wp-admin.php:2603
 msgid "May"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2545
+#: admin/class-pdf-generator-for-wp-admin.php:2604
 msgid "June"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2546
+#: admin/class-pdf-generator-for-wp-admin.php:2605
 msgid "July"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2547
+#: admin/class-pdf-generator-for-wp-admin.php:2606
 msgid "August"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2548
+#: admin/class-pdf-generator-for-wp-admin.php:2607
 msgid "September"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2549
+#: admin/class-pdf-generator-for-wp-admin.php:2608
 msgid "October"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2550
+#: admin/class-pdf-generator-for-wp-admin.php:2609
 msgid "November"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2551
+#: admin/class-pdf-generator-for-wp-admin.php:2610
 msgid "December"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2564
+#: admin/class-pdf-generator-for-wp-admin.php:2623
 msgid "Company Details"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2569
+#: admin/class-pdf-generator-for-wp-admin.php:2628
 #: admin/partials/pdf-generator-for-wp-internal-page-setting.php:92
 #: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout1.php:249
 msgid "Name"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2575
+#: admin/class-pdf-generator-for-wp-admin.php:2634
 msgid "name"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2578
+#: admin/class-pdf-generator-for-wp-admin.php:2637
 msgid "Address"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2584
-#: admin/class-pdf-generator-for-wp-admin.php:2932
+#: admin/class-pdf-generator-for-wp-admin.php:2643
+#: admin/class-pdf-generator-for-wp-admin.php:2991
 msgid "address"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2587
+#: admin/class-pdf-generator-for-wp-admin.php:2646
 msgid "City"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2593
+#: admin/class-pdf-generator-for-wp-admin.php:2652
 msgid "city"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2596
+#: admin/class-pdf-generator-for-wp-admin.php:2655
 msgid "State"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2602
+#: admin/class-pdf-generator-for-wp-admin.php:2661
 msgid "state"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2605
+#: admin/class-pdf-generator-for-wp-admin.php:2664
 msgid "Pin"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2611
+#: admin/class-pdf-generator-for-wp-admin.php:2670
 msgid "pin"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2614
+#: admin/class-pdf-generator-for-wp-admin.php:2673
 msgid "Phone"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2620
+#: admin/class-pdf-generator-for-wp-admin.php:2679
 msgid "phone"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2629
-#: admin/class-pdf-generator-for-wp-admin.php:2922
+#: admin/class-pdf-generator-for-wp-admin.php:2688
+#: admin/class-pdf-generator-for-wp-admin.php:2981
 #: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:60
 #: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:89
 msgid "email"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2634
+#: admin/class-pdf-generator-for-wp-admin.php:2693
 #: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout2.php:117
 msgid "Invoice Number"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2637
+#: admin/class-pdf-generator-for-wp-admin.php:2696
 msgid ""
 "This combination will be used as the invoice ID : prefix + number of digits "
 "+ suffix."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2640
-#: admin/class-pdf-generator-for-wp-admin.php:2646
+#: admin/class-pdf-generator-for-wp-admin.php:2699
+#: admin/class-pdf-generator-for-wp-admin.php:2705
 msgid "Prefix"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2649
+#: admin/class-pdf-generator-for-wp-admin.php:2708
 msgid "Digit"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2655
+#: admin/class-pdf-generator-for-wp-admin.php:2714
 msgid "digit"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2660
+#: admin/class-pdf-generator-for-wp-admin.php:2719
 msgid "Suffix"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2666
+#: admin/class-pdf-generator-for-wp-admin.php:2725
 msgid "suffix"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2671
+#: admin/class-pdf-generator-for-wp-admin.php:2730
 msgid "Invoice Number Renew Date"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2673
+#: admin/class-pdf-generator-for-wp-admin.php:2732
 msgid "Please choose the invoice number to renew date"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2680
+#: admin/class-pdf-generator-for-wp-admin.php:2739
 msgid "Month"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2689
+#: admin/class-pdf-generator-for-wp-admin.php:2748
 #: admin/partials/pdf_templates/pdf-generator-for-wp-admin-template1.php:443
 #: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout1.php:116
 #: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout2.php:121
 msgid "Date"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2699
+#: admin/class-pdf-generator-for-wp-admin.php:2758
 msgid "Disclaimer"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2701
+#: admin/class-pdf-generator-for-wp-admin.php:2760
 msgid "Please enter desclaimer of your choice"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2705
+#: admin/class-pdf-generator-for-wp-admin.php:2764
 msgid "disclaimer"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2710
+#: admin/class-pdf-generator-for-wp-admin.php:2769
 msgid "Color"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2714
+#: admin/class-pdf-generator-for-wp-admin.php:2773
 msgid "Choose color of your choice for invoices"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2719
+#: admin/class-pdf-generator-for-wp-admin.php:2778
 msgid "Choose Company Logo"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2721
+#: admin/class-pdf-generator-for-wp-admin.php:2780
 msgid "Upload Logo"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2740
-#: admin/class-pdf-generator-for-wp-admin.php:2741
+#: admin/class-pdf-generator-for-wp-admin.php:2799
+#: admin/class-pdf-generator-for-wp-admin.php:2800
 msgid "Remove Logo"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2747
+#: admin/class-pdf-generator-for-wp-admin.php:2806
 msgid "Add Logo On Invoice"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2749
+#: admin/class-pdf-generator-for-wp-admin.php:2808
 msgid ""
 "Please select if you want the above selected image to be used on invoice."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2756
+#: admin/class-pdf-generator-for-wp-admin.php:2815
 msgid "Choose Template"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2760
+#: admin/class-pdf-generator-for-wp-admin.php:2819
 msgid "This template will be used as the invoice and packing slip"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2773
+#: admin/class-pdf-generator-for-wp-admin.php:2832
 msgid "Template2"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2782
+#: admin/class-pdf-generator-for-wp-admin.php:2841
 msgid "Template3"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2825
+#: admin/class-pdf-generator-for-wp-admin.php:2884
 msgid "Add Cover Page to Single PDF"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2831
+#: admin/class-pdf-generator-for-wp-admin.php:2890
 msgid "Selecting this will add cover page to generated single PDFs"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2834
+#: admin/class-pdf-generator-for-wp-admin.php:2893
 msgid "Add Cover Page to Bulk PDF"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2840
+#: admin/class-pdf-generator-for-wp-admin.php:2899
 msgid "Selecting this will add cover page to generated bulk continuation PDFs"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2849
+#: admin/class-pdf-generator-for-wp-admin.php:2908
 msgid "Add company name at the cover page."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2853
+#: admin/class-pdf-generator-for-wp-admin.php:2912
 msgid "Company Logo"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2872
-#: admin/class-pdf-generator-for-wp-admin.php:2873
+#: admin/class-pdf-generator-for-wp-admin.php:2931
+#: admin/class-pdf-generator-for-wp-admin.php:2932
 msgid "Remove logo"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2879
+#: admin/class-pdf-generator-for-wp-admin.php:2938
 msgid "Cover Page Image"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2905
+#: admin/class-pdf-generator-for-wp-admin.php:2964
 msgid "Company Tagline"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2911
+#: admin/class-pdf-generator-for-wp-admin.php:2970
 msgid "Add company tagline at the cover page."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2912
+#: admin/class-pdf-generator-for-wp-admin.php:2971
 msgid "company tagline"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2915
+#: admin/class-pdf-generator-for-wp-admin.php:2974
 msgid "Company Email"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2921
+#: admin/class-pdf-generator-for-wp-admin.php:2980
 msgid "Add email at the cover page bottom."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2925
+#: admin/class-pdf-generator-for-wp-admin.php:2984
 msgid "Company Address"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2931
+#: admin/class-pdf-generator-for-wp-admin.php:2990
 msgid "Add address at the cover page bottom."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2935
+#: admin/class-pdf-generator-for-wp-admin.php:2994
 msgid "Company URL"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2941
+#: admin/class-pdf-generator-for-wp-admin.php:3000
 msgid "Add URL at the cover page bottom."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2942
+#: admin/class-pdf-generator-for-wp-admin.php:3001
 msgid "url"
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2945
+#: admin/class-pdf-generator-for-wp-admin.php:3004
 msgid "Company Phone No."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2951
+#: admin/class-pdf-generator-for-wp-admin.php:3010
 msgid "Add Phone at the cover page bottom."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2952
+#: admin/class-pdf-generator-for-wp-admin.php:3011
 msgid "phone no."
 msgstr ""
 
-#: admin/class-pdf-generator-for-wp-admin.php:2973
+#: admin/class-pdf-generator-for-wp-admin.php:3032
 msgid "Custom page size"
 msgstr ""
 
@@ -2170,9 +2187,9 @@ msgid "Tax"
 msgstr ""
 
 #: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout1.php:261
-#: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout1.php:347
-#: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout2.php:290
-#: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout3.php:372
+#: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout1.php:368
+#: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout2.php:303
+#: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout3.php:386
 msgid "Total"
 msgstr ""
 
@@ -2198,9 +2215,15 @@ msgstr ""
 msgid "Total Tax"
 msgstr ""
 
-#: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout1.php:367
-#: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout2.php:305
-#: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout3.php:392
+#: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout1.php:354
+#: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout2.php:298
+#: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout3.php:378
+msgid "Discount"
+msgstr ""
+
+#: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout1.php:388
+#: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout2.php:318
+#: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout3.php:406
 msgid "Looks like order is not found"
 msgstr ""
 
