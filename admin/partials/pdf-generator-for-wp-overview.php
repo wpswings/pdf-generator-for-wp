@@ -15,6 +15,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 do_action( 'wps_pgfw_pro_overview_content' );
+$wps_wpg_plugin_list = get_option( 'active_plugins' );
+$wps_wpg_plugin = 'wordpress-pdf-generator/wordpress-pdf-generator.php';
+$wps_wpg_is_pro_active = false;
+if ( in_array( $wps_wpg_plugin, $wps_wpg_plugin_list ) ) {
+	$wps_wpg_is_pro_active = true;
+}
+
+if(true != $wps_wpg_is_pro_active){
 ?>
 <div class="wps-overview__wrapper">
 	<?php do_action( 'pgfw_overview_content_top' ); ?>
@@ -155,3 +163,5 @@ do_action( 'wps_pgfw_pro_overview_content' );
 	</div>
 	<?php do_action( 'pgfw_overview_content_bottom' ); ?>
 </div>
+<?php
+}

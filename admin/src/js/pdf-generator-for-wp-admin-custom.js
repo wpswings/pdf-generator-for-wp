@@ -90,6 +90,39 @@
             return false;
         });
 
+
+        //////////Invlice logo changer start/////////
+        $('#pgfw_single_pdf_invoice_icon_image_remove').click(function(e){
+            e.preventDefault();
+            $('.pgfw_single_pdf_icon_image').attr('src', '');
+            $('.pgfw_single_pdf_icon_image').hide();
+            $('#sub_pgfw_pdf_invoice_single_download_icon').val('');
+            $(this).hide();
+        });
+        // insert single pdf download icon.
+        $('#pgfw_pdf_invoice_single_download_icon').click(function(e) {
+            e.preventDefault();
+            if (this.window === undefined) {
+                this.window = wp.media({
+                    title    : pgfw_admin_custom_param.upload_image,
+                    library  : {type: 'image'},
+                    multiple : false,
+                    button   : {text: pgfw_admin_custom_param.use_image}
+                });
+                var self = this;
+                this.window.on('select', function() {
+                    var response = self.window.state().get('selection').first().toJSON();
+                    $('.pgfw_single_pdf_icon_image').attr('src', response.url);
+                    $('.pgfw_single_pdf_icon_image').show();
+                    $('#pgfw_pdf_invoice_single_download_icon').show();
+                    $('#sub_pgfw_pdf_invoice_single_download_icon').val( response.url );
+                });
+            }
+            this.window.open();
+            return false;
+        });
+        //////////Invoice logo Changer end//////////
+
         // remove poster.
         $('#pgfw_poster_image_remove').click(function(e){
             e.preventDefault();
