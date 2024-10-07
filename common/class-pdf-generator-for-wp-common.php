@@ -264,8 +264,7 @@ class Pdf_Generator_For_Wp_Common {
 		);
 
 		$upload_dir     = wp_upload_dir();
-		if ( 'yes' != $pgfw_body_spcl_char_support ) {
-			$html = mb_convert_encoding( $html, 'HTML-ENTITIES', 'UTF-8' );
+		$html = mb_convert_encoding( $html, 'HTML-ENTITIES', 'UTF-8' );
 			// Webp Image Start Fixes ///////////////////////////////////////////////////////////
 			// Load HTML content into DOMDocument.
 			$dom = new DOMDocument();
@@ -316,7 +315,7 @@ class Pdf_Generator_For_Wp_Common {
 			// Output the updated HTML content.
 			$html = $updated_html;
 			// Webp Image End Fixes.
-		}
+
 		if ( 'custom_page' == $body_page_size && ! empty( $pgfw_body_custom_page_size_width ) && ! empty( $pgfw_body_custom_page_size_height ) ) {
 			$paper_size = array( 0, 0, $pgfw_body_custom_page_size_width * 2.834, $pgfw_body_custom_page_size_height * 2.834 );
 		} else {
