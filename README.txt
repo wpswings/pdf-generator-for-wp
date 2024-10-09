@@ -6,7 +6,7 @@ Requires at least: 5.5.0
 Tested up to: 6.6.2
 WC requires at least: 6.5.0
 WC tested up to: 9.3.1
-Stable tag: 1.3.7
+Stable tag: 1.3.8
 Requires PHP: 7.2
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -205,6 +205,9 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Changelog ==
 
+= 1.3.8 - Released on 09 October 2024 = 
+* New: Special Character Setting.
+
 = 1.3.7 - Released on 16 September 2024 =
 * New: Compatible with latest WP(6.6.2) and WC(9.3.1)
 
@@ -346,5 +349,5 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Upgrade Notice ==
 
-= 1.3.7 - Released on 16 September 2024 =
-* New: Compatible with latest WP(6.6.2) and WC(9.2.3)
+= 1.3.8 - Released on 09 October 2024 = 
+* New: Special Character Setting.
