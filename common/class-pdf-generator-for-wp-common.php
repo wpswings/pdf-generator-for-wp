@@ -160,6 +160,10 @@ class Pdf_Generator_For_Wp_Common {
 	 */
 	public function pgfw_generate_pdf_from_library( $prod_id, $pgfw_generate_mode, $mode = '', $email = '', $template = '', $template_name = '' ) {
 		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
+		
+		$pgfw_meta_settings = get_option( 'pgfw_meta_fields_save_settings', array() );
+         //unknow image file handler.
+		$pgfw_meta_fields_show_unknown_image_format = array_key_exists( 'pgfw_meta_fields_show_unknown_image_format', $pgfw_meta_settings ) ? $pgfw_meta_settings['pgfw_meta_fields_show_unknown_image_format'] : '';
 		// footer .
 		$pgfw_footer_settings   = get_option( 'pgfw_footer_setting_submit', array() );
 		$pgfw_general_pdf_show_pageno = array_key_exists( 'pgfw_general_pdf_show_pageno', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_general_pdf_show_pageno'] : '';
@@ -321,6 +325,25 @@ class Pdf_Generator_For_Wp_Common {
 		} else {
 			$paper_size = array_key_exists( $body_page_size, $paper_sizes ) ? $paper_sizes[ $body_page_size ] : 'a4';
 		}
+		if('yes' == $pgfw_meta_fields_show_unknown_image_format){
+			$options = new Options();
+			$options->set( 'isRemoteEnabled', true );
+			$options->set( 'isHtml5ParserEnabled', true );
+			$dompdf = new Dompdf( $options );
+	
+			
+	
+			$contxt = stream_context_create([ 
+				'ssl' => [
+					'verify_peer' => FALSE,
+					'verify_peer_name' => FALSE,
+					'allow_self_signed'=> TRUE
+				]
+			]);
+	
+	
+			$dompdf->setHttpContext( $contxt );
+		} else {
 		$options = new Options();
 		$options->set( 'isRemoteEnabled', true );
 		$dompdf = new Dompdf( $options );
@@ -341,7 +364,7 @@ class Pdf_Generator_For_Wp_Common {
 		);
 
 		$dompdf->setHttpContext( $contxt );
-
+	}
 		$dompdf->loadHtml( $html, 'UTF-8' );
 		$dompdf->set_option( 'isRemoteEnabled', true );
 

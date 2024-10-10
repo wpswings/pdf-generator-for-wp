@@ -1948,6 +1948,7 @@ class Pdf_Generator_For_Wp_Admin {
 			$pgfw_show_type_meta_val = array_key_exists( 'pgfw_meta_fields_' . $post_type . '_show', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_' . $post_type . '_show' ] : '';
 			$pgfw_show_type_meta_arr = array_key_exists( 'pgfw_meta_fields_' . $post_type . '_list', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_' . $post_type . '_list' ] : array();
 			$pgfw_meta_fields_show_image_gallery = array_key_exists( 'pgfw_meta_fields_show_image_gallery', $pgfw_meta_settings ) ? $pgfw_meta_settings['pgfw_meta_fields_show_image_gallery'] : '';
+			$pgfw_meta_fields_show_unknown_image_format = array_key_exists( 'pgfw_meta_fields_show_unknown_image_format', $pgfw_meta_settings ) ? $pgfw_meta_settings['pgfw_meta_fields_show_unknown_image_format'] : '';
 			$pgfw_gallery_metafield_key = array_key_exists( 'pgfw_gallery_metafield_key', $pgfw_meta_settings ) ? $pgfw_meta_settings['pgfw_gallery_metafield_key'] : '';
 			$pgfw_meta_settings_html_arr[] =
 			array(
@@ -1983,6 +1984,17 @@ class Pdf_Generator_For_Wp_Admin {
 				'value'        => $pgfw_meta_fields_show_image_gallery,
 				'class'        => 'pgfw_meta_fields_show_image_gallery',
 				'name'         => 'pgfw_meta_fields_show_image_gallery',
+
+			);
+			$pgfw_meta_settings_html_arr[] =
+			array(
+				'title'        => __( 'Unknown Image Format Handler ', 'pdf-generator-for-wp' ),
+				'type'         => 'checkbox',
+				'description'  => __( 'If your image type is unknown or not rendering in the PDF, please enable this setting.', 'pdf-generator-for-wp' ),
+				'id'           => 'pgfw_meta_fields_show_unknown_image_format',
+				'value'        => $pgfw_meta_fields_show_unknown_image_format,
+				'class'        => 'pgfw_meta_fields_show_unknown_image_format',
+				'name'         => 'pgfw_meta_fields_show_unknown_image_format',
 
 			);
 			$pgfw_meta_settings_html_arr[] = array(

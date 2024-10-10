@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class = 'wps-wpg-card__wrapper'>
 	<ul class = 'wps-wpg-card__wrapper-list'>
 	<?php $pgfw_use_template = get_option( 'wpg_use_cover_page_template' ); ?>
-	<?php for ( $i = 1; $i < 5; $i++ ) { ?>
+	<?php for ( $i = 1; $i < 6; $i++ ) { ?>
 		<li class = 'wps-wpg-card__wrapper-list-item<?php echo ( $i === (int) $pgfw_use_template ) ? esc_attr( ' wpg-active' ) : ''; ?>'>
 			<div class = 'wps-wpg-card__item-img-wrapper'>
 				<img height="100" width="100" src ="<?php echo esc_attr( PDF_GENERATOR_FOR_WP_DIR_URL ); ?>admin/src/images/temp<?php echo esc_attr( $i ); ?>_screenshot.png" alt = ''>
