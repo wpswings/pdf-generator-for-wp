@@ -59,7 +59,7 @@ class Pdf_Generator_For_Wp_Admin {
 	 */
 	public function pgfw_admin_enqueue_styles( $hook ) {
 		$screen = get_current_screen();
-		if ( isset( $screen->id ) && 'wp-swings_page_pdf_generator_for_wp_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) { // phpcs:ignore
+		if ( isset( $screen->id ) && ( 'wp-swings_page_pdf_generator_for_wp_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) ) { // phpcs:ignore
 
 			wp_enqueue_style( 'wps-pgfw-select2-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.css', array(), time(), 'all' );
 
@@ -97,7 +97,7 @@ class Pdf_Generator_For_Wp_Admin {
 		wp_register_script( $this->plugin_name . 'admin-notice', plugin_dir_url( __FILE__ ) . 'src/js/pdf-generator-for-wp-notices.js', array( 'jquery' ), $this->version, false );
 		wp_localize_script( $this->plugin_name . 'admin-notice', 'wps_pgfw_notice', $wps_wgm_notice );
 		wp_enqueue_script( $this->plugin_name . 'admin-notice' );
-		if ( isset( $screen->id ) && 'wp-swings_page_pdf_generator_for_wp_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) { // phpcs:ignore
+		if ( isset( $screen->id ) && ( 'wp-swings_page_pdf_generator_for_wp_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) ) { // phpcs:ignore
 			wp_enqueue_script( 'wps-pgfw-select2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.js', array( 'jquery' ), time(), false );
 
 			wp_enqueue_script( 'wps-pgfw-metarial-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-web.min.js', array(), time(), false );
