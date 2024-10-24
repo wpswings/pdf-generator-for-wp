@@ -46,6 +46,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 	$pgfw_header_top        = array_key_exists( 'pgfw_header_top', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_top'] : '';
 	// body customisation settings.
 	$pgfw_body_settings              = get_option( 'pgfw_body_save_settings', array() );
+	$pgfw_body_spcl_char_support      = array_key_exists( 'pgfw_body_spcl_char_support', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_spcl_char_support'] : '';
 	$pgfw_body_title_font_style      = array_key_exists( 'pgfw_body_title_font_style', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_title_font_style'] : '';
 	$pgfw_body_title_font_style      = ( 'custom' === $pgfw_body_title_font_style ) ? 'My_font' : $pgfw_body_title_font_style;
 	$pgfw_body_title_font_size       = array_key_exists( 'pgfw_body_title_font_size', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_title_font_size'] : '';
@@ -80,7 +81,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 	$pgfw_show_current_date       = array_key_exists( 'pgfw_general_pdf_show_current_date', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_current_date'] : '';
 	$pgfw_show_post_author     = array_key_exists( 'pgfw_general_pdf_show_author_name', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_author_name'] : '';
 	$pgfw_general_pdf_date_format    = array_key_exists( 'pgfw_general_pdf_date_format', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_date_format'] : '';
-	
+
 	$pgfw_template_color               = array_key_exists( 'pgfw_template_color', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_template_color'] : '#FFFFFF';
 	$pgfw_template_text_color       = array_key_exists( 'pgfw_template_text_color', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_template_text_color'] : '#000000';
 	// meta fields settings.
@@ -147,6 +148,15 @@ function return_ob_html( $post_id, $template_name = '' ) {
 				</style>';
 		}
 	}
+	if ( 'yes' != $pgfw_body_spcl_char_support ) {
+		$html .= '<style>
+		<meta charset="UTF-8">
+		<style>
+		body {
+			font-family : "DejaVu Sans, sans-serif";
+		}</style>';
+	}
+
 	$html .= '<style>
 			@page {
 				margin-top    : ' . $pgfw_body_margin_top . ';
@@ -175,7 +185,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 	}
 	// Header for pdf.
 	if ( 'yes' === $pgfw_header_use_in_pdf ) {
-		$pgfw_header_logo_size	= array_key_exists( 'pgfw_header_logo_size', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_logo_size'] : '30';
+		$pgfw_header_logo_size  = array_key_exists( 'pgfw_header_logo_size', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_logo_size'] : '30';
 		$html .= '<style>
 					.pgfw-pdf-header-each-page{
 						position : fixed;
@@ -192,7 +202,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 						padding-bottom : 25px;
 					}
 					.pgfw-header-logo{
-						width : ' .$pgfw_header_logo_size . 'px;
+						width : ' . $pgfw_header_logo_size . 'px;
 						float  : left;
 					}
 					.pgfw-header-tagline{
@@ -301,26 +311,24 @@ function return_ob_html( $post_id, $template_name = '' ) {
 					
 					
 					';
-					
-		if ( 'yes' == $pgfw_template_color_option ){
+
+		if ( 'yes' == $pgfw_template_color_option ) {
 			$html .= '
 			.pgfw-pdf-body {
 			  position: fixed;
 			  inset: -1in;
-			  background-color: '.$pgfw_template_color .' ;
+			  background-color: ' . $pgfw_template_color . ' ;
 			  z-index: -1000;
 			  margin : -100px !important;
 			  padding:100px !important;
 			  
 			}
 			.pgfw-pdf-body *, .pgfw-pdf-footer *, .pgfw-pdf-header * {
-			  color:'.$pgfw_template_text_color.';
+			  color:' . $pgfw_template_text_color . ';
 			}
 		   
 			';
 		}
-			
-
 
 		if ( 'yes' == $pgfw_body_images_row_wise ) {
 
@@ -439,7 +447,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 		}
 		// post Dowloading date.
 		if ( 'yes' === $pgfw_show_current_date ) {
-			$current_date = gmdate($pgfw_general_pdf_date_format) ;
+			$current_date = gmdate( $pgfw_general_pdf_date_format );
 			$html        .= '<div><b>' . __( 'Date', 'pdf-generator-for-wp' ) . '</b></div>';
 			$html        .= '<div>' . $current_date . '</div>';
 		}
@@ -494,16 +502,14 @@ function return_ob_html( $post_id, $template_name = '' ) {
 							}
 						}
 					}
-				}	
-							
+				}
+
 				$html2 .= '</tr></table>';
 			}
 		}
 		$html .= apply_filters( 'wps_pgfw_product_post_meta_in_pdf_filter_hook', $html2, $post );
 		$html .= '</div></div><span style="page-break-after: always;overflow:hidden;"></span>';
 	}
-
-
 
 	return $html;
 }

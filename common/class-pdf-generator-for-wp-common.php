@@ -160,6 +160,10 @@ class Pdf_Generator_For_Wp_Common {
 	 */
 	public function pgfw_generate_pdf_from_library( $prod_id, $pgfw_generate_mode, $mode = '', $email = '', $template = '', $template_name = '' ) {
 		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
+		
+		$pgfw_meta_settings = get_option( 'pgfw_meta_fields_save_settings', array() );
+         //unknow image file handler.
+		$pgfw_meta_fields_show_unknown_image_format = array_key_exists( 'pgfw_meta_fields_show_unknown_image_format', $pgfw_meta_settings ) ? $pgfw_meta_settings['pgfw_meta_fields_show_unknown_image_format'] : '';
 		// footer .
 		$pgfw_footer_settings   = get_option( 'pgfw_footer_setting_submit', array() );
 		$pgfw_general_pdf_show_pageno = array_key_exists( 'pgfw_general_pdf_show_pageno', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_general_pdf_show_pageno'] : '';
@@ -172,6 +176,7 @@ class Pdf_Generator_For_Wp_Common {
 		$pgfw_body_custom_page_size_width        = array_key_exists( 'pgfw_body_custom_page_size_width', $body_settings_arr ) ? $body_settings_arr['pgfw_body_custom_page_size_width'] : '';
 		$pgfw_body_page_template = array_key_exists( 'pgfw_body_page_template', $body_settings_arr ) ? $body_settings_arr['pgfw_body_page_template'] : 'template1';
 		$pgfw_body_post_template = array_key_exists( 'pgfw_body_post_template', $body_settings_arr ) ? $body_settings_arr['pgfw_body_post_template'] : 'template1';
+		$pgfw_body_spcl_char_support = array_key_exists( 'pgfw_body_spcl_char_support', $body_settings_arr ) ? $body_settings_arr['pgfw_body_spcl_char_support'] : '';
 		$post_id                 = is_array( $prod_id ) ? $prod_id[0] : $prod_id;
 		if ( 'preview' === $pgfw_generate_mode ) {
 			require_once $template;
@@ -263,63 +268,82 @@ class Pdf_Generator_For_Wp_Common {
 		);
 
 		$upload_dir     = wp_upload_dir();
+		$html = mb_convert_encoding( $html, 'HTML-ENTITIES', 'UTF-8' );
+			// Webp Image Start Fixes ///////////////////////////////////////////////////////////
+			// Load HTML content into DOMDocument.
+			$dom = new DOMDocument();
+			$dom->loadHTML( $html );
 
-		// Webp Image Start Fixes ///////////////////////////////////////////////////////////
-		// Load HTML content into DOMDocument.
-		$dom = new DOMDocument();
-		$dom->loadHTML( $html );
+			// Find all img tags.
+			$imgs = $dom->getElementsByTagName( 'img' );
 
-		// Find all img tags.
-		$imgs = $dom->getElementsByTagName( 'img' );
+			// Loop through each img tag and modify the src attribute.
+			foreach ( $imgs as $img ) {
 
-		// Loop through each img tag and modify the src attribute.
-		foreach ( $imgs as $img ) {
+				// Get the current src attribute value.
+				$src = $img->getAttribute( 'src' );
 
-			// Get the current src attribute value.
-			$src = $img->getAttribute( 'src' );
+				if ( isset( $src ) && ! empty( $src ) && pathinfo( $src, PATHINFO_EXTENSION ) === 'webp' ) {
+					$src = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $src );
 
-			if ( isset( $src ) && ! empty( $src ) && pathinfo( $src, PATHINFO_EXTENSION ) === 'webp' ) {
-				$src = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $src );
+					// Path to the WebP image.
+					$webp_image_path = $src;
 
-				// Path to the WebP image.
-				$webp_image_path = $src;
+					// Create image resource from WebP image.
+					$webp_image = imagecreatefromwebp( $webp_image_path );
 
-				// Create image resource from WebP image.
-				$webp_image = imagecreatefromwebp( $webp_image_path );
+					$parts = explode( '.', $src );
 
-				$parts = explode( '.', $src );
+					// Modify the content after the dot.
+					$extension = end( $parts );
+					$new_extension = 'jpeg';
 
-				// Modify the content after the dot.
-				$extension = end( $parts );
-				$new_extension = 'jpeg';
+					$new_src = str_replace( '.' . $extension, '.' . $new_extension, $src );
+					// Path to save JPEG image.
+					$jpeg_image_path = $new_src;
 
-				$new_src = str_replace( '.' . $extension, '.' . $new_extension, $src );
-				// Path to save JPEG image.
-				$jpeg_image_path = $new_src;
+					// Save JPEG image with 100% quality.
+					imagejpeg( $webp_image, $jpeg_image_path, 100 );
+					$img_url = str_replace( $upload_dir['basedir'], $upload_dir['baseurl'], $jpeg_image_path );
+					$html = '<img src="' . $img_url . '" alt="Converted Image">';
 
-				// Save JPEG image with 100% quality.
-				imagejpeg( $webp_image, $jpeg_image_path, 100 );
-				$img_url = str_replace( $upload_dir['basedir'], $upload_dir['baseurl'], $jpeg_image_path );
-				$html = '<img src="' . $img_url . '" alt="Converted Image">';
-
-				// Free up memory.
-				imagedestroy( $webp_image );
-				$img->setAttribute( 'src', $img_url );
+					// Free up memory.
+					imagedestroy( $webp_image );
+					$img->setAttribute( 'src', $img_url );
+				}
 			}
-		}
 
-		// Get the updated HTML content.
-		$updated_html = $dom->saveHTML();
+			// Get the updated HTML content.
+			$updated_html = $dom->saveHTML();
 
-		// Output the updated HTML content.
-		$html = $updated_html;
-		// Webp Image End Fixes.
+			// Output the updated HTML content.
+			$html = $updated_html;
+			// Webp Image End Fixes.
 
 		if ( 'custom_page' == $body_page_size && ! empty( $pgfw_body_custom_page_size_width ) && ! empty( $pgfw_body_custom_page_size_height ) ) {
 			$paper_size = array( 0, 0, $pgfw_body_custom_page_size_width * 2.834, $pgfw_body_custom_page_size_height * 2.834 );
 		} else {
 			$paper_size = array_key_exists( $body_page_size, $paper_sizes ) ? $paper_sizes[ $body_page_size ] : 'a4';
 		}
+		if('yes' == $pgfw_meta_fields_show_unknown_image_format){
+			$options = new Options();
+			$options->set( 'isRemoteEnabled', true );
+			$options->set( 'isHtml5ParserEnabled', true );
+			$dompdf = new Dompdf( $options );
+	
+			
+	
+			$contxt = stream_context_create([ 
+				'ssl' => [
+					'verify_peer' => FALSE,
+					'verify_peer_name' => FALSE,
+					'allow_self_signed'=> TRUE
+				]
+			]);
+	
+	
+			$dompdf->setHttpContext( $contxt );
+		} else {
 		$options = new Options();
 		$options->set( 'isRemoteEnabled', true );
 		$dompdf = new Dompdf( $options );
@@ -340,7 +364,7 @@ class Pdf_Generator_For_Wp_Common {
 		);
 
 		$dompdf->setHttpContext( $contxt );
-
+	}
 		$dompdf->loadHtml( $html, 'UTF-8' );
 		$dompdf->set_option( 'isRemoteEnabled', true );
 
