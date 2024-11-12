@@ -235,8 +235,9 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 							<thead>
 								<tr id="wpg-prod-listing-table-title">
 									<th id="wpg-table-items">' . __( 'Items', 'pdf-generator-for-wp' ) . '</th>
-									<th>' . __( 'Quantity', 'pdf-generator-for-wp' ) . '</th>
-									<th>' . __( 'Price', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . ')</th>
+									<th>' . __( 'Quantity', 'pdf-generator-for-wp' ) . '</th>';
+									$html .= '<th>'.apply_filters( 'wps_custom_column_html_column_head', '', $order_id, $type, $invoice_id ).'</th>';
+									$html .='<th>' . __( 'Price', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . ')</th>
 									<th>' . __( 'Tax', 'pdf-generator-for-wp' ) . ' (%)</th>
 									<th>' . __( 'Amount', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . ')</th>
 								</tr>
@@ -257,8 +258,9 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 				}
 				$html .= '<tr>
 						<td class="wpg-product-name">' . $product['product_name'] . $meta_data . '</td>
-						<td>' . $product['product_quantity'] . '</td>
-						<td>' . $product['product_price'] . '</td>
+						<td>' . $product['product_quantity'] . '</td>';
+						$html .= '<td>'.apply_filters( 'wps_custom_column_html_column_data', '', $order_id, $type, $invoice_id ) . '</td>';
+						$html .= '<td>' . $product['product_price'] . '</td>
 						<td>' . $product['tax_percent'] . '</td>
 						<td>' . $product['product_total'] . '</td>
 					</tr>';
@@ -312,7 +314,6 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 		$html .= '</div>
 				</body>
 			</html>';
-
 		return $html;
 	}
 	return '<div>' . esc_html__( 'Looks like order is not found', 'pdf-generator-for-wp' ) . '</div>';

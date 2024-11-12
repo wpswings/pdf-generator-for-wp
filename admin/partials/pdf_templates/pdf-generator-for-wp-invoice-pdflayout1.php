@@ -250,8 +250,11 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 							</th>
 							<th style="text-align: left;padding: 10px;" class="wpg-invoice-color">
 								' . __( 'Qty', 'pdf-generator-for-wp' ) . '
-							</th>
-							<th style="text-align: left;padding: 10px;" class="wpg-invoice-color">
+							</th>';
+
+							$html .= '<th style="text-align: left;padding: 10px;" class="wpg-invoice-color">'.apply_filters( 'wps_custom_column_html_column_head', '', $order_id, $type, $invoice_id ).'</th>';
+
+							$html .='<th style="text-align: left;padding: 10px;" class="wpg-invoice-color">
 								' . __( 'Price', 'pdf-generator-for-wp' ) . ' ( ' . $billing_details['order_currency'] . ' )
 							</th>
 							<th style="text-align: left;padding: 10px;" class="wpg-invoice-color">
@@ -278,8 +281,9 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 				}
 				$html .= '<tr>
 								<td style="text-align: left;padding: 10px;">' . $product['product_name'] . $meta_data . '</td>
-								<td style="text-align: left;padding: 10px;">' . $product['product_quantity'] . '</td>
-								<td style="text-align: left;padding: 10px;">' . $product['product_price'] . '</td>
+								<td style="text-align: left;padding: 10px;">' . $product['product_quantity'] . '</td>';
+								$html .= '<td style="text-align: left;padding: 10px;">' .apply_filters( 'wps_custom_column_html_column_data', '', $order_id, $type, $invoice_id ).'</td>';
+								$html .='<td style="text-align: left;padding: 10px;">' . $product['product_price'] . '</td>
 								<td style="text-align: left;padding: 10px;">' . $product['tax_percent'] . '</td>
 								<td style="text-align: left;padding: 10px;">' . $product['product_total'] . '</td>
 							</tr>';
