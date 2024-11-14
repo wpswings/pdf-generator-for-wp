@@ -254,14 +254,15 @@ class Pdf_Generator_For_Wp_Public {
 	 */
 	public function pgfw_shortcode_to_generate_pdf() {
 		add_shortcode( 'WORDPRESS_PDF', array( $this, 'pgfw_callback_for_generating_pdf' ) );
-		add_shortcode( 'WPS_SINGLE_IMAGE',  array( $this,'wps_display_uploaded_image_shortcode' ));
-		add_shortcode( 'WPS_POST_GALLERY', array( $this , 'wps_product_gallery_shortcode' ));
+		add_shortcode( 'WPS_SINGLE_IMAGE', array( $this, 'wps_display_uploaded_image_shortcode' ) );
+		add_shortcode( 'WPS_POST_GALLERY', array( $this, 'wps_product_gallery_shortcode' ) );
 	}
 
 	/**
 	 * Callback function for shortcode.
 	 *
 	 * @since 1.0.0
+	 * @param array $atts post id to print PDF for.
 	 * @return string
 	 */
 	public function wps_display_uploaded_image_shortcode( $atts ) {
@@ -272,24 +273,24 @@ class Pdf_Generator_For_Wp_Public {
 				'url' => '',    // Image URL if no ID is given.
 				'alt' => 'Image', // Alt text for accessibility.
 				'width'  => '100%', // Width of the image.
-				'height' => 'auto'  // Height of the image.
-			), 
-			$atts, 
+				'height' => 'auto',  // Height of the image.
+			),
+			$atts,
 			'wps_image'
 		);
-	
+
 		// Get image URL from attachment ID if provided.
 		if ( ! empty( $atts['id'] ) ) {
 			$image_src = wp_get_attachment_image_url( $atts['id'], 'full' );
 		} else {
 			$image_src = esc_url( $atts['url'] );
 		}
-	
+
 		// Check if image source exists.
 		if ( empty( $image_src ) ) {
 			return '<p>No image found.</p>';
 		}
-	
+
 		// Return the image HTML.
 		return '<img src="' . esc_url( $image_src ) . '" alt="' . esc_attr( $atts['alt'] ) . '" style="width: ' . esc_attr( $atts['width'] ) . '; height: ' . esc_attr( $atts['height'] ) . ';">';
 	}
@@ -300,56 +301,57 @@ class Pdf_Generator_For_Wp_Public {
 	 * Callback function for shortcode.
 	 *
 	 * @since 1.0.0
+	 * @param array $atts post id to print PDF for.
 	 * @return string
 	 */
 	public function wps_product_gallery_shortcode( $atts ) {
-		// Set default attributes for the shortcode
+		// Set default attributes for the shortcode.
 		$atts = shortcode_atts(
 			array(
-				'product_id' => '', // Product ID (optional; defaults to current product if on a product page)
-				'columns'    => 3,  // Number of columns for the grid display
-				'size'       => 'thumbnail', // Image size: 'thumbnail', 'medium', 'large', or custom size
-			), 
-			$atts, 
+				'product_id' => '', // Product ID (optional; defaults to current product if on a product page).
+				'columns'    => 3,  // Number of columns for the grid display.
+				'size'       => 'thumbnail', // Image size: 'thumbnail', 'medium', 'large', or custom size.
+			),
+			$atts,
 			'wps_product_gallery'
 		);
-	
-		// Get the product ID (fallback to current product if empty and on a product page)
+
+		// Get the product ID (fallback to current product if empty and on a product page).
 		$product_id = get_the_ID();
-		
+
 		if ( ! $product_id ) {
 			return '<p>No product found.</p>';
 		}
-	
-		// Get the gallery images
-		$product = wc_get_product(140);
-	
-		$gallery_image_ids = $product ? $product->get_gallery_image_ids() : [];
 
-		// Check if gallery images exist
+		// Get the gallery images.
+		$product = wc_get_product( 140 );
+
+		$gallery_image_ids = $product ? $product->get_gallery_image_ids() : array();
+
+		// Check if gallery images exist.
 		if ( empty( $gallery_image_ids ) ) {
 			return '<p>No gallery images found for this product.</p>';
 		}
-	
-		// Start the gallery output
+
+		// Start the gallery output.
 		$output = '<div class="wps-product-gallery-grid" style="display: grid; grid-template-columns: repeat(' . esc_attr( $atts['columns'] ) . ', 1fr); gap: 10px;">';
-	
-		// Loop through gallery images and generate HTML for each
+
+		// Loop through gallery images and generate HTML for each.
 		foreach ( $gallery_image_ids as $image_id ) {
 			$image_url = wp_get_attachment_image_url( $image_id, $atts['size'] );
-	
-			// Check if the image URL is valid
+
+			// Check if the image URL is valid.
 			if ( ! $image_url ) {
 				continue;
 			}
-	
+
 			$output .= '<div class="wps-gallery-item">';
 			$output .= '<img src="' . esc_url( $image_url ) . '" alt="' . esc_attr( get_post_meta( $image_id, '_wp_attachment_image_alt', true ) ) . '" style="width: 100%; height: auto;">';
 			$output .= '</div>';
 		}
-	
+
 		$output .= '</div>';
-	
+
 		return $output;
 	}
 

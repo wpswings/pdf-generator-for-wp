@@ -358,25 +358,26 @@ function wps_wpg_pro_pdf_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 /**
  * Adding shortcode to show create pdf icon anywhere on the page.
  */
-add_shortcode( 'WPS_SINGLE_IMAGE',  'wps_display_uploaded_image_shortcode');
+add_shortcode( 'WPS_SINGLE_IMAGE', 'wps_display_uploaded_image_shortcode' );
 
 /**
-* Callback function for shortcode.
+ * Callback function for shortcode.
  *
  * @since 1.0.0
+ * @param array $atts An array of shortcode.
  * @return string
  */
 function wps_display_uploaded_image_shortcode( $atts ) {
-	// Set default attributes for the shortcode
+	// Set default attributes for the shortcode.
 	$atts = shortcode_atts(
 		array(
 			'id'  => '',    // Attachment ID.
 			'url' => '',    // Image URL if no ID is given.
 			'alt' => 'Image', // Alt text for accessibility.
 			'width'  => '100%', // Width of the image.
-			'height' => 'auto'  // Height of the image.
-		), 
-		$atts, 
+			'height' => 'auto',  // Height of the image.
+		),
+		$atts,
 		'wps_image'
 	);
 
@@ -398,11 +399,11 @@ function wps_display_uploaded_image_shortcode( $atts ) {
 
 
 /**
- * Notification update. 
+ * Notification update.
  */
 function wps_pgfw_remove_cron_for_notification_update() {
-       wp_clear_scheduled_hook( 'wps_wgm_check_for_notification_update' );
-   }
+	   wp_clear_scheduled_hook( 'wps_wgm_check_for_notification_update' );
+}
 
 add_action( 'admin_notices', 'wps_banner_notification_plugin_html' );
 
@@ -452,7 +453,7 @@ function wps_pgfw_notification_plugin_html() {
 	if ( isset( $screen->id ) ) {
 		$pagescreen = $screen->id;
 	}
-	if ( ( isset( $_GET['page'] ) && 'pdf_generator_for_wp_menu' === $_GET['page'] )  ) {
+	if ( ( isset( $_GET['page'] ) && 'pdf_generator_for_wp_menu' === $_GET['page'] ) ) {
 		$notification_id = get_option( 'wps_wgm_notify_new_msg_id', false );
 		$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
 		if ( isset( $banner_id ) && '' !== $banner_id ) {
