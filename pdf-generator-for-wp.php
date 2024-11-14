@@ -24,7 +24,7 @@
  * Requires at least:    5.5.0
  * Tested up to:         6.7.0
  * WC requires at least: 5.2.0
- * WC tested up to:      9.4.0
+ * WC tested up to:      9.4.1
  * Stable tag:           1.4.0
  * Requires PHP:         7.4
  *
@@ -354,6 +354,48 @@ function wps_wpg_pro_pdf_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 		<?php
 	}
 }
+
+/**
+ * Adding shortcode to show create pdf icon anywhere on the page.
+ */
+add_shortcode( 'WPS_SINGLE_IMAGE',  'wps_display_uploaded_image_shortcode');
+
+/**
+* Callback function for shortcode.
+ *
+ * @since 1.0.0
+ * @return string
+ */
+function wps_display_uploaded_image_shortcode( $atts ) {
+	// Set default attributes for the shortcode
+	$atts = shortcode_atts(
+		array(
+			'id'  => '',    // Attachment ID.
+			'url' => '',    // Image URL if no ID is given.
+			'alt' => 'Image', // Alt text for accessibility.
+			'width'  => '100%', // Width of the image.
+			'height' => 'auto'  // Height of the image.
+		), 
+		$atts, 
+		'wps_image'
+	);
+
+	// Get image URL from attachment ID if provided.
+	if ( ! empty( $atts['id'] ) ) {
+		$image_src = wp_get_attachment_image_url( $atts['id'], 'full' );
+	} else {
+		$image_src = esc_url( $atts['url'] );
+	}
+
+	// Check if image source exists.
+	if ( empty( $image_src ) ) {
+		return '<p>No image found.</p>';
+	}
+
+	// Return the image HTML.
+	return '<img src="' . esc_url( $image_src ) . '" alt="' . esc_attr( $atts['alt'] ) . '" style="width: ' . esc_attr( $atts['width'] ) . '; height: ' . esc_attr( $atts['height'] ) . ';">';
+}
+
 
 /**
  * Notification update. 
