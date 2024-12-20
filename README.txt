@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress pdf generator
 Requires at least: 5.5.0
-Tested up to: 6.6.2
+Tested up to: 6.7.1
 WC requires at least: 6.5.0
-WC tested up to: 9.3.3
-Stable tag: 1.3.9
+WC tested up to: 9.5.1
+Stable tag: 1.4.0
 Requires PHP: 7.2
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -16,15 +16,17 @@ PDF Generator for WordPress allows you to convert posts into PDF files to share 
 == Description ==
 **PDF GENERATOR FOR WORDPRESS PLUGIN LETS YOU CREATE PDFs OF PAGES, PRODUCTS, AND POSTS FOR BETTER DISPERSAL OF BRAND INFORMATION WITH WPML COMPATIBILITY. YOU CAN MAKE OR CREATE PDFs EASILY FOR YOUR WEBSITES.** 
 
-The PDF plugin for WordPress allows you to create PDF files for the pages to ensure the availability of information offline. It allows the admin to convert all the posts, pages, blogs, and products on their website into PDF files.
+The [**PDF plugin for WordPress**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=referral&utm_campaign=hpdf-pro)) allows you to create PDF files for the pages to ensure the availability of information offline. It allows the admin to convert all the posts, pages, blogs, and products on their website into PDF files.
 
 The WordPress PDF creator plugin allows users to download PDFs from the WordPress site or view them in a new tab. Also, the admin can authorize users to receive their PDFs at their email addresses. 
 
-Users can non-commercially distribute the downloaded PDF files with the [**WordPress PDF Generator Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=referral&utm_campaign=pdf-pro) plugin.
+Users can non-commercially distribute the downloaded PDF files with the PDF Generator Pro.
 
 [**WordPress PDF Generator Demo**](https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=referral&utm_campaign=frontend-demo) | [**PDF Generator Documentation**](https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-doc&utm_medium=referral&utm_campaign=documentation) | [**Contact Us**](https://wpswings.com/contact-us/?utm_source=wpswings-pdf&utm_medium=referral&utm_campaign=contact-us).
 
 [youtube  https://www.youtube.com/watch?v=RljECeP3JJk&t=1362s]
+
+Don’t miss our New Year Sale—grab the [**PDF Generator for WordPress PRO**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=referral&utm_campaign=hpdf-pro) today at 25% Off! 🎉👻
 
 == WITH THE PDF GENERATOR FOR WORDPRESS PLUGIN YOU CAN: ==
 
@@ -111,18 +113,17 @@ Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/
 
 == WHAT PREMIUM VERSION OF THE WORDPRESS PDF GENERATOR PLUGIN OFFERS ==
 
-* Display more than 1 meta field in a row.
-* Upload TTF font.
-* Allow admin to rename meta fields while listing in PDF.
-* Allow admin to choose taxonomy just like meta fields and rename keys.
-* WhatsApp PDF Sharing
-* Customizable PDF Download Button Text
-* Predefined or Custom Invoice Names
-* Customization of header and footer from the editor.
-* Set content alignment position left or right.
-* Detailed Logging of PDFs generated.
-* Download PDF from the server or generate it every time.
-* Bulk download or email in the continuation or in a zip folder.
+**1) Placement of Meta Fields**: PDF Generator for WordPress now lets you place and organize different meta fields in your customized WordPress PDF templates exactly how you want.
+
+**2) Taxonomy Settings**: WordPress PDF Creator Plugin now allows you to add taxonomies to your PDF files effortlessly.
+
+**3) Bulk Download**: The WordPress PDF Creator Plugin allows users to download multiple PDFs in bulk with a single click.
+
+**4) Custom CSS**: The WordPress PDF Creator Plugin also lets you use custom CSS to further personalize the look and feel of your PDF templates. 
+
+**5) Custom Template**: WordPress PDF Generator Plugin allows admins to upload a custom image for the cover page, in addition to using predefined templates. 
+
+**6) Layout Customization**: WordPress PDF Generator Plugin offers layout customization options, allowing you to adjust the arrangement of elements in your PDFs. 
 
 == TAKE ADVANTAGE OF EXCLUSIVE FEATURES OF PDF GENERATOR FOR WP PLUGIN ==
 
@@ -205,8 +206,12 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Changelog ==
 
+= 1.4.0 - Released on 02 January 2025 = 
+* Fix : added the CSS to control the blank spaces
+* New: Compatible with the latest WP (6.7.1) and WC (9.5.1)
+
 = 1.3.9 - Released on 16 October 2024 = 
-* New: Core update in code for new cover page.
+* New: Core update in code for new cover page
 
 = 1.3.8 - Released on 09 October 2024 = 
 * New: Special Character setting added.
@@ -353,5 +358,6 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Upgrade Notice ==
 
-= 1.3.9 - Released on 16 October 2024 = 
-* New: Core update in code for new cover page.
+= 1.4.0 - Released on 02 January 2025 = 
+* Fix : added the CSS to control the blank spaces
+* New: Compatible with the latest WP (6.7.1) and WC (9.5.1)

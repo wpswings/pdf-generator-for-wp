@@ -22,9 +22,9 @@
  * Domain Path:       /languages
  *
  * Requires at least:    5.5.0
- * Tested up to:         6.7.0
+ * Tested up to:         6.7.1
  * WC requires at least: 5.2.0
- * WC tested up to:      9.4.1
+ * WC tested up to:      9.5.1
  * Stable tag:           1.4.0
  * Requires PHP:         7.4
  *
