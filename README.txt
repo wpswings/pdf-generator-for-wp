@@ -206,7 +206,7 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Changelog ==
 
-= 1.4.0 - Released on 02 January 2025 = 
+= 1.4.0 - Released on 03 January 2025 = 
 * Fix : added the CSS to control the blank spaces
 * New: Compatible with the latest WP (6.7.1) and WC (9.5.1)
 
@@ -358,6 +358,6 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Upgrade Notice ==
 
-= 1.4.0 - Released on 02 January 2025 = 
+= 1.4.0 - Released on 03 January 2025 = 
 * Fix : added the CSS to control the blank spaces
 * New: Compatible with the latest WP (6.7.1) and WC (9.5.1)
