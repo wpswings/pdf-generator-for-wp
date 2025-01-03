@@ -659,8 +659,8 @@ class Pdf_Generator_For_Wp_Admin {
 				'parent-class' => 'wps_pgfw_setting_separate_border',
 				'description'  => __( 'If no icon is chosen default icon will be used.', 'pdf-generator-for-wp' ),
 				'img-tag'      => array(
-					'img-class' => 'pgfw_single_pdf_icon_image',
-					'img-id'    => 'pgfw_single_pdf_icon_image',
+					'img-class' => 'pgfw_single_pdf_icon_image_invoice',
+					'img-id'    => 'pgfw_single_pdf_icon_image_invoice',
 					'img-style' => ( '' ) ? 'margin:10px;height:45px;width:45px;' : 'display:none;margin:10px;height:45px;width:45px;',
 					'img-src'   => '',
 				),

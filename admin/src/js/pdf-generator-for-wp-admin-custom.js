@@ -94,13 +94,14 @@
         //////////Invlice logo changer start/////////
         $('#pgfw_single_pdf_invoice_icon_image_remove').click(function(e){
             e.preventDefault();
-            $('.pgfw_single_pdf_icon_image').attr('src', '');
-            $('.pgfw_single_pdf_icon_image').hide();
+            $('.pgfw_single_pdf_icon_image_invoice').attr('src', '');
+            $('.pgfw_single_pdf_icon_image_invoice').hide();
             $('#sub_pgfw_pdf_invoice_single_download_icon').val('');
             $(this).hide();
         });
         // insert single pdf download icon.
-        $('#pgfw_pdf_invoice_single_download_icon').click(function(e) {
+        $('#pgfw_pdf_invoice_single_download_icon').click(function (e) {
+            // alert('CLICK');
             e.preventDefault();
             if (this.window === undefined) {
                 this.window = wp.media({
@@ -112,10 +113,11 @@
                 var self = this;
                 this.window.on('select', function() {
                     var response = self.window.state().get('selection').first().toJSON();
-                    $('.pgfw_single_pdf_icon_image').attr('src', response.url);
-                    $('.pgfw_single_pdf_icon_image').show();
-                    $('#pgfw_pdf_invoice_single_download_icon').show();
-                    $('#sub_pgfw_pdf_invoice_single_download_icon').val( response.url );
+                    $('.pgfw_single_pdf_icon_image_invoice').attr('src', response.url);
+                    $('.pgfw_single_pdf_icon_image_invoice').show();
+                    $('#pgfw_single_pdf_invoice_icon_image_remove').show();
+                    $('#sub_pgfw_pdf_invoice_single_download_icon').val(response.url);
+                    $('#sub_pgfw_pdf_invoice_single_download_icon').show();
                 });
             }
             this.window.open();

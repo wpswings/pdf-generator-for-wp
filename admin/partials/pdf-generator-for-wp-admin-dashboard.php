@@ -37,7 +37,7 @@ if ( in_array( $wps_wpg_plugin, $wps_wpg_plugin_list ) ) {
 		<?php if ( ! $wps_wpg_is_pro_active ) { ?>
 		<a href="https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-backend&utm_campaign=documentation" target="_blank" class="wps-link"><?php esc_html_e( 'Documentation', 'pdf-generator-for-wp' ); ?></a>
 		<?php } else { ?>
-		<a href="https://docs.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-docs&utm_medium=pdf-pro-page&utm_campaign=documentation" target="_blank" class="wps-link"><?php esc_html_e( 'Documentation', 'pdf-generator-for-wp' ); ?></a>	
+		<a href="https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-backend&utm_campaign=documentation" target="_blank" class="wps-link"><?php esc_html_e( 'Documentation', 'pdf-generator-for-wp' ); ?></a>	
 		<?php } ?>
 		<span>|</span>
 		<a href="https://wpswings.com/submit-query/?utm_source=wpswings-pdf-support&utm_medium=pdf-org-backend&utm_campaign=submit-query" target="_blank" class="wps-link"><?php esc_html_e( 'Support', 'pdf-generator-for-wp' ); ?></a>
