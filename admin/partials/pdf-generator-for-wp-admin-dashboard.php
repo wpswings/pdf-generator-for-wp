@@ -72,7 +72,7 @@ if ( $pgfw_save_check_flag ) {
 			if ( is_array( $pgfw_default_tabs ) && ! empty( $pgfw_default_tabs ) ) {
 
 				foreach ( $pgfw_default_tabs as $pgfw_tab_key => $pgfw_default_tabs ) {
-				
+
 					$pgfw_tab_classes = 'wps-link ';
 
 					$pgfw_tab_classe_pro = '';
@@ -85,18 +85,16 @@ if ( $pgfw_save_check_flag ) {
 					} elseif ( ! empty( $pgfw_active_tab ) && in_array( $pgfw_active_tab, array( 'pdf-generator-for-wp-cover-page-setting', 'pdf-generator-for-wp-internal-page-setting' ), true ) ) {
 						if ( 'pdf-generator-for-wp-layout-settings' === $pgfw_tab_key ) {
 							$pgfw_tab_classes .= 'active';
-							
+
 						}
-						
-					} 
-					if( 'Taxonomy Settings' == $pgfw_default_tabs['title'] || 'Layout Settings' == $pgfw_default_tabs['title'] || 'PDF Logs' == $pgfw_default_tabs['title'] || 'Invoice settings' == $pgfw_default_tabs['title'] || 'Invoice page settings' == $pgfw_default_tabs['title'] ){
-						if (!$wps_wpg_is_pro_active ){
-							$pgfw_tab_classe_pro .= 'wps_pgfw_pro_tag_lable_main';	
+					}
+					if ( 'Taxonomy Settings' == $pgfw_default_tabs['title'] || 'Layout Settings' == $pgfw_default_tabs['title'] || 'PDF Logs' == $pgfw_default_tabs['title'] || 'Invoice settings' == $pgfw_default_tabs['title'] || 'Invoice page settings' == $pgfw_default_tabs['title'] ) {
+						if ( ! $wps_wpg_is_pro_active ) {
+							$pgfw_tab_classe_pro .= 'wps_pgfw_pro_tag_lable_main';
 						}
-						
 					}
 					?>
-					<li class="<?php echo esc_attr($pgfw_tab_classe_pro); ?>">
+					<li class="<?php echo esc_attr( $pgfw_tab_classe_pro ); ?>">
 						<a id="<?php echo esc_attr( $pgfw_tab_key ); ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ) . '&pgfw_tab=' . esc_attr( $pgfw_tab_key ) ); ?>" class="<?php echo esc_attr( $pgfw_tab_classes ); ?>"><?php echo esc_html( $pgfw_default_tabs['title'] ); ?></a>
 					</li>
 					<?php

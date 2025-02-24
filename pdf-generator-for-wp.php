@@ -68,7 +68,6 @@ function define_pdf_generator_for_wp_constants() {
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_ITEM_REFERENCE', 'PDF Generator For Wp' );
 }
 
-
 /**
  * Callable function for defining plugin constants.
  *
@@ -392,7 +391,6 @@ function wps_display_uploaded_image_shortcode( $atts ) {
 	if ( empty( $image_src ) ) {
 		return '<p>No image found.</p>';
 	}
-
 	// Return the image HTML.
 	return '<img src="' . esc_url( $image_src ) . '" alt="' . esc_attr( $atts['alt'] ) . '" style="width: ' . esc_attr( $atts['width'] ) . '; height: ' . esc_attr( $atts['height'] ) . ';">';
 }

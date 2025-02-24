@@ -1,0 +1,8 @@
+.history
+.history/
+vendor
+vendor/
+composer.json
+composer.json/
+composer.lock
+composer.lock/

@@ -22,8 +22,8 @@ if ( in_array( $wps_wpg_plugin, $wps_wpg_plugin_list ) ) {
 	$wps_wpg_is_pro_active = true;
 }
 
-if(true != $wps_wpg_is_pro_active){
-?>
+if ( true != $wps_wpg_is_pro_active ) {
+	?>
 <div class="wps-overview__wrapper">
 	<?php do_action( 'pgfw_overview_content_top' ); ?>
 	<div class="wps-overview__banner">
@@ -163,5 +163,5 @@ if(true != $wps_wpg_is_pro_active){
 	</div>
 	<?php do_action( 'pgfw_overview_content_bottom' ); ?>
 </div>
-<?php
+	<?php
 }

@@ -272,8 +272,8 @@ class Pdf_Generator_For_Wp_Public {
 				'id'  => '',    // Attachment ID.
 				'url' => '',    // Image URL if no ID is given.
 				'alt' => 'Image', // Alt text for accessibility.
-				'width'  => '100%', // Width of the image.
-				'height' => 'auto',  // Height of the image.
+				'width'  => $atts['width'], // Width of the image.
+				'height' => $atts['height'],  // Height of the image.
 			),
 			$atts,
 			'wps_image'
@@ -324,10 +324,10 @@ class Pdf_Generator_For_Wp_Public {
 		}
 
 		// Get the gallery images.
-		$product = wc_get_product( 140 );
+		$product = wc_get_product( $atts['product_id'] );
 
 		$gallery_image_ids = $product ? $product->get_gallery_image_ids() : array();
-
+ 
 		// Check if gallery images exist.
 		if ( empty( $gallery_image_ids ) ) {
 			return '<p>No gallery images found for this product.</p>';
@@ -391,3 +391,4 @@ class Pdf_Generator_For_Wp_Public {
 		return $html;
 	}
 }
+

@@ -236,8 +236,8 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 								<tr id="wpg-prod-listing-table-title">
 									<th id="wpg-table-items">' . __( 'Items', 'pdf-generator-for-wp' ) . '</th>
 									<th>' . __( 'Quantity', 'pdf-generator-for-wp' ) . '</th>';
-									$html .= '<th>'.apply_filters( 'wps_custom_column_html_column_head', '', $order_id, $type, $invoice_id ).'</th>';
-									$html .='<th>' . __( 'Price', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . ')</th>
+									$html .= '<th>' . apply_filters( 'wps_custom_column_html_column_head', '', $order_id, $type, $invoice_id ) . '</th>';
+									$html .= '<th>' . __( 'Price', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . ')</th>
 									<th>' . __( 'Tax', 'pdf-generator-for-wp' ) . ' (%)</th>
 									<th>' . __( 'Amount', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . ')</th>
 								</tr>
@@ -259,7 +259,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 				$html .= '<tr>
 						<td class="wpg-product-name">' . $product['product_name'] . $meta_data . '</td>
 						<td>' . $product['product_quantity'] . '</td>';
-						$html .= '<td>'.apply_filters( 'wps_custom_column_html_column_data', '', $order_id, $type, $invoice_id ) . '</td>';
+						$html .= '<td>' . apply_filters( 'wps_custom_column_html_column_data', '', $order_id, $type, $invoice_id ) . '</td>';
 						$html .= '<td>' . $product['product_price'] . '</td>
 						<td>' . $product['tax_percent'] . '</td>
 						<td>' . $product['product_total'] . '</td>
@@ -289,18 +289,18 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 						</tr>';
 			}
 
-			$order = wc_get_order($order_id);
+			$order = wc_get_order( $order_id );
 			// Get applied coupons.
 			$coupons = $order->get_coupon_codes();
 
 			// Check if any coupons are applied.
-			if (!empty($coupons)) {
-			$html .= '
+			if ( ! empty( $coupons ) ) {
+				$html .= '
 			<tr>
 			<td>' . __( 'Discount', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . '): ' . $order->get_discount_total() . '</td>
 			</tr>';
 			}
-			
+
 			$html .= '<tr>
 								<td>' . __( 'Total', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . '): ' . $billing_details['cart_total'] . '</td>
 							</tr>
