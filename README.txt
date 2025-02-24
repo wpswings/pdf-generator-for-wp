@@ -6,7 +6,7 @@ Requires at least: 5.5.0
 Tested up to: 6.7.1
 WC requires at least: 6.5.0
 WC tested up to: 9.5.1
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 Requires PHP: 7.2
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -206,7 +206,7 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Changelog ==
 
-= 1.4.0 - Released on 03 January 2025 = 
+= 1.4.1 - Released on 03 January 2025 = 
 * Fix : added the CSS to control the blank spaces
 * New: Compatible with the latest WP (6.7.1) and WC (9.5.1)
 
@@ -358,6 +358,6 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Upgrade Notice ==
 
-= 1.4.0 - Released on 03 January 2025 = 
+= 1.4.1 - Released on 03 January 2025 = 
 * Fix : added the CSS to control the blank spaces
 * New: Compatible with the latest WP (6.7.1) and WC (9.5.1)

@@ -77,7 +77,7 @@ class Pdf_Generator_For_Wp {
 			$this->version = PDF_GENERATOR_FOR_WP_VERSION;
 		} else {
 
-			$this->version = '1.0.0';
+			$this->version = '1.4.1';
 		}
 
 		$this->plugin_name = 'pdf-generator-for-wp';
@@ -228,9 +228,6 @@ class Pdf_Generator_For_Wp {
 		
 		$this->loader->add_action( 'init', $pgfw_plugin_admin, 'register_google_embed_blocks' );
 	
-
-
-
 							// PRO PLUGIN DUMMY CONTENT HTML FUNCTIONS  ////////////.
 		if ( ! is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
 			$this->loader->add_filter( 'pgfw_taxonomy_settings_array_dummy', $pgfw_plugin_admin, 'pgfw_setting_fields_for_customising_taxonomy_dummy' );
