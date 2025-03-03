@@ -269,11 +269,11 @@ class Pdf_Generator_For_Wp_Public {
 		// Set default attributes for the shortcode.
 		$atts = shortcode_atts(
 			array(
-				'id'  => '',    // Attachment ID.
+				'id'  => $atts['id'],    // Attachment ID.
 				'url' => '',    // Image URL if no ID is given.
 				'alt' => 'Image', // Alt text for accessibility.
-				'width'  => $atts['width'], // Width of the image.
-				'height' => $atts['height'],  // Height of the image.
+				'width'  => isset( $atts['width'] ) ? $atts['width'] : 10, // Width of the image.
+				'height' => isset( $atts['height'] ) ? $atts['height'] : 10,  // Height of the image.
 			),
 			$atts,
 			'wps_image'
@@ -308,7 +308,7 @@ class Pdf_Generator_For_Wp_Public {
 		// Set default attributes for the shortcode.
 		$atts = shortcode_atts(
 			array(
-				'product_id' => '', // Product ID (optional; defaults to current product if on a product page).
+				'product_id' => $atts['product_id'], // Product ID (optional; defaults to current product if on a product page).
 				'columns'    => 3,  // Number of columns for the grid display.
 				'size'       => 'thumbnail', // Image size: 'thumbnail', 'medium', 'large', or custom size.
 			),
@@ -317,7 +317,7 @@ class Pdf_Generator_For_Wp_Public {
 		);
 
 		// Get the product ID (fallback to current product if empty and on a product page).
-		$product_id = get_the_ID();
+		$product_id = !empty( $atts['product_id'] ) ? $atts['product_id'] : get_the_ID();
 
 		if ( ! $product_id ) {
 			return '<p>No product found.</p>';

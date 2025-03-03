@@ -3,8 +3,50 @@ const { TextControl, PanelBody } = wp.components;
 const { useState } = wp.element;
 const getSlidesEmbedUrl = (url) => {
     if (!url) return '';
-    
-    return url.includes('docs.google.com/presentation') ? url.replace('/pub', '/embed') : url;
+
+            if (url.includes('docs.google.com/presentation')) {
+               // return url.replace('/pub', '/embed');
+               let embedUrl = new URL(url);
+               embedUrl.pathname = embedUrl.pathname.replace('/pub', '/embed');
+
+               return embedUrl.toString();
+            } 
+            if (url.includes('docs.google.com/document')) {
+                return url.replace('/edit', '/preview');
+            }
+            if (url.includes('docs.google.com/spreadsheets')) {
+                return url.replace('/edit', '/pubhtml');
+            }
+           
+            if (url.includes('docs.google.com/forms')) {
+                return url.replace('/viewform', '/viewform?embedded=true');
+            }
+            
+            if (url.includes('www.google.com/maps')) {
+               // return url.replace('/maps/', '/maps/embed/');
+               const match = url.match(/@([-.\d]+),([-.\d]+)/);
+               let lat = '';
+               let lng = '';
+               if (match) {
+                   lat = match[1];
+                   lng = match[2];
+               }
+       
+               // Extract the place name from the URL
+               const placeMatch = url.match(/place\/([^/@]+)/);
+               let place = placeMatch ? placeMatch[1].replace(/\+/g, ' ') : '';
+       
+               // Construct the embed URL
+               return `https://maps.google.com/maps?hl=en&ie=UTF8&ll=${lat},${lng}&spn=${lat},${lng}&q=${place}&t=m&z=17&output=embed&iwloc`;
+          
+            }
+            if (url.includes('calendar.google.com/calendar')) {
+                return url;
+            }
+            if (url.includes('www.youtube.com/watch')) {
+                return url.replace('watch?v=', 'embed/');
+            }
+            return url;
 };
 registerBlockType('wpswings/google-embed', {
     title: 'WPSwings Google Embed',
@@ -35,8 +77,24 @@ registerBlockType('wpswings/google-embed', {
             if (url.includes('docs.google.com/forms')) {
                 return url.replace('/viewform', '/viewform?embedded=true');
             }
+            
             if (url.includes('www.google.com/maps')) {
-                return url.replace('/maps/', '/maps/embed/');
+               // return url.replace('/maps/', '/maps/embed/');
+               const match = url.match(/@([-.\d]+),([-.\d]+)/);
+               let lat = '';
+               let lng = '';
+               if (match) {
+                   lat = match[1];
+                   lng = match[2];
+               }
+       
+               // Extract the place name from the URL
+               const placeMatch = url.match(/place\/([^/@]+)/);
+               let place = placeMatch ? placeMatch[1].replace(/\+/g, ' ') : '';
+       
+               // Construct the embed URL
+               return `https://maps.google.com/maps?hl=en&ie=UTF8&ll=${lat},${lng}&spn=${lat},${lng}&q=${place}&t=m&z=17&output=embed&iwloc`;
+          
             }
             if (url.includes('calendar.google.com/calendar')) {
                 return url;
@@ -56,27 +114,44 @@ registerBlockType('wpswings/google-embed', {
                     placeholder: 'Paste Google Docs, Sheets, Slides, Forms, etc. URL'
                 }),
                 attributes.url &&
-                wp.element.createElement('iframe', {
+            (attributes.url.includes('docs.google.com/drawings')
+                ? wp.element.createElement('img', {
                     src: getEmbedUrl(attributes.url),
+                    width: '800',
+                    height: '500',
+                    style: { border: '1px solid #ddd' }
+                })
+                : wp.element.createElement('iframe', {
+                    src:getEmbedUrl(attributes.url),
                     width: '800',
                     height: '500',
                     allowFullScreen: true,
                     style: { border: '1px solid #ddd' }
                 })
             )
+        )
         );
     },
 
     save: ({ attributes }) => {
-        return attributes.url ? (
-            wp.element.createElement('iframe', {
+        return (attributes.url.includes('docs.google.com/drawings') 
+            ? wp.element.createElement('img', {
+                src: getSlidesEmbedUrl(attributes.url),
+                width: '800',
+                height: '500',
+                style: { border: '1px solid #ddd' }
+            })
+            : wp.element.createElement('iframe', {
                 src: getSlidesEmbedUrl(attributes.url),
                 width: '800',
                 height: '500',
                 allowFullScreen: true,
                 style: { border: '1px solid #ddd' }
             })
-        ) : null;
+    )
+
+
+
     }
 });
 

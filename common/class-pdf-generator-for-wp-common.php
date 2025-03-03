@@ -273,7 +273,7 @@ class Pdf_Generator_For_Wp_Common {
 			// Load HTML content into DOMDocument.
 			$dom = new DOMDocument();
 			$dom->loadHTML( $html );
-
+	
 			// Find all img tags.
 			$imgs = $dom->getElementsByTagName( 'img' );
 
@@ -834,6 +834,7 @@ class Pdf_Generator_For_Wp_Common {
 		$upload_basedir                   = $upload_dir['basedir'] . '/invoices/';
 		$path                             = $upload_basedir . $invoice_name . '.pdf';
 		$file_url                         = $upload_dir['baseurl'] . '/invoices/' . $invoice_name . '.pdf';
+
 		if ( ( 'yes' === $pgfw_generate_invoice_from_cache ) && file_exists( $path ) ) {
 			if ( 'download_locally' === $action ) {
 				$this->wpg_download_already_existing_invoice_file( $file_url );

@@ -81,4 +81,13 @@
     'normal' => $fontDir . '/my_font_normal_d4ce065be8b47ef41adca6743e8d054c',
     'bold' => $fontDir . '/my_font_bold_d4ce065be8b47ef41adca6743e8d054c',
   ),
+  'century gothic' => array(
+    'normal' => $fontDir . '/century_gothic_normal_31e8cfb57d385cc54a5843ce0eb24f5b',
+  ),
+  'poppins' => array(
+    'normal' => $fontDir . '/poppins_normal_3d49d1d76725631914bb3e30dab83a34',
+  ),
+  'roboto' => array(
+    'normal' => $fontDir . '/roboto_normal_47e9ad42759e1eb6042adeb31497c665',
+  ),
 ) ?>
