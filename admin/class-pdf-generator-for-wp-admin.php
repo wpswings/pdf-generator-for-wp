@@ -3108,26 +3108,40 @@ class Pdf_Generator_For_Wp_Admin {
 	}
 
 
-    public function register_google_embed_blocks() {
-  
-        wp_register_script(
-            'google-embed-block',
-            plugins_url('src/js/pdf-google-embed-block.js', __FILE__),
-            array('wp-blocks', 'wp-editor', 'wp-element', 'wp-components'),
-            filemtime(plugin_dir_path(__FILE__) . '/src/js/pdf-google-embed-block.js')
-        );
-    
-        register_block_type('wpswings/google-embed', array(
-            'editor_script' => 'google-embed-block',
-        ));
-    }
+	/**
+	 * Register google embed block.
+	 *
+	 * @return void
+	 */
+	public function register_google_embed_blocks() {
 
-    public static function render_google_embed_block($attributes) {
-        if (empty($attributes['url'])) {
-            return '<p>Please provide a valid Google embed URL.</p>';
-        }
-        return '<iframe src="' . esc_url($attributes['url']) . '" width="800" height="600" frameborder="0" allowfullscreen></iframe>';
-    }
+		wp_register_script(
+			'google-embed-block',
+			plugins_url( 'src/js/pdf-google-embed-block.js', __FILE__ ),
+			array( 'wp-blocks', 'wp-editor', 'wp-element', 'wp-components' ),
+			filemtime( plugin_dir_path( __FILE__ ) . '/src/js/pdf-google-embed-block.js' )
+		);
+
+		register_block_type(
+			'wpswings/google-embed',
+			array(
+				'editor_script' => 'google-embed-block',
+			)
+		);
+	}
+
+	/**
+	 * Render Google embed.
+	 *
+	 * @param [type] $attributes are the attributes.
+	 * @return string
+	 */
+	public static function render_google_embed_block( $attributes ) {
+		if ( empty( $attributes['url'] ) ) {
+			return '<p>Please provide a valid Google embed URL.</p>';
+		}
+		return '<iframe src="' . esc_url( $attributes['url'] ) . '" width="800" height="600" frameborder="0" allowfullscreen></iframe>';
+	}
 
 
 

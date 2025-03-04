@@ -317,7 +317,7 @@ class Pdf_Generator_For_Wp_Public {
 		);
 
 		// Get the product ID (fallback to current product if empty and on a product page).
-		$product_id = !empty( $atts['product_id'] ) ? $atts['product_id'] : get_the_ID();
+		$product_id = ! empty( $atts['product_id'] ) ? $atts['product_id'] : get_the_ID();
 
 		if ( ! $product_id ) {
 			return '<p>No product found.</p>';
@@ -327,7 +327,7 @@ class Pdf_Generator_For_Wp_Public {
 		$product = wc_get_product( $atts['product_id'] );
 
 		$gallery_image_ids = $product ? $product->get_gallery_image_ids() : array();
- 
+
 		// Check if gallery images exist.
 		if ( empty( $gallery_image_ids ) ) {
 			return '<p>No gallery images found for this product.</p>';

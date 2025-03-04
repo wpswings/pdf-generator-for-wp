@@ -273,7 +273,7 @@ class Pdf_Generator_For_Wp_Common {
 			// Load HTML content into DOMDocument.
 			$dom = new DOMDocument();
 			$dom->loadHTML( $html );
-	
+
 			// Find all img tags.
 			$imgs = $dom->getElementsByTagName( 'img' );
 
