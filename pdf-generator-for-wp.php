@@ -380,6 +380,7 @@ function wps_display_uploaded_image_shortcode( $atts ) {
 		'wps_image'
 	);
 
+
 	// Get image URL from attachment ID if provided.
 	if ( ! empty( $atts['id'] ) ) {
 		$image_src = wp_get_attachment_image_url( $atts['id'], 'full' );

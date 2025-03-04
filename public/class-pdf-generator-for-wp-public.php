@@ -285,14 +285,13 @@ class Pdf_Generator_For_Wp_Public {
 		} else {
 			$image_src = esc_url( $atts['url'] );
 		}
-
 		// Check if image source exists.
 		if ( empty( $image_src ) ) {
 			return '<p>No image found.</p>';
 		}
-
+		
 		// Return the image HTML.
-		return '<img src="' . esc_url( $image_src ) . '" alt="' . esc_attr( $atts['alt'] ) . '" style="width: ' . esc_attr( $atts['width'] ) . '; height: ' . esc_attr( $atts['height'] ) . ';">';
+		return '<img src="' . esc_url( $image_src ) . '" alt="' . esc_attr( $atts['alt'] ) . '" style="display:block;width: ' . esc_attr( $atts['width'] ) . '; height: ' . esc_attr( $atts['height'] ) . ';">';
 	}
 
 

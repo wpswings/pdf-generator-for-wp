@@ -193,8 +193,8 @@ registerBlockType('custom/image-shortcode', {
     category: 'widgets',
     attributes: {
         id: { type: 'string', default: 'Image ID' },
-        width: { type: 'string', default: '10%' },
-        height: { type: 'string', default: '10%' }
+        width: { type: 'string', default: '50' },
+        height: { type: 'string', default: '50' }
     },
     edit: function(props) {
         return wp.element.createElement('div', useBlockProps(),
@@ -208,13 +208,13 @@ registerBlockType('custom/image-shortcode', {
                 label: 'Width',
                 value: props.attributes.width,
                 onChange: function(width) { props.setAttributes({ width: width }) },
-                placeholder: 'Enter Width (e.g., 10%)'
+                placeholder: 'Enter Width (e.g., 50)'
             }),
             wp.element.createElement(TextControl, {
                 label: 'Height',
                 value: props.attributes.height,
                 onChange: function(height) { props.setAttributes({ height: height }) },
-                placeholder: 'Enter Height (e.g., 10%)'
+                placeholder: 'Enter Height (e.g., 50)'
             }),
             wp.element.createElement('p', {}, `Shortcode Output: [WPS_SINGLE_IMAGE id="${props.attributes.id}" width="${props.attributes.width}" height="${props.attributes.height}"]`)
         );
