@@ -1219,7 +1219,7 @@ class Pdf_Generator_For_Wp_Admin {
 						'id'          => 'pgfw_pageno_position_top',
 						'class'       => 'wps_pgfw_pro_tag',
 						'name'        => 'pgfw_pageno_position_top',
-						'placeholder' => __( 'top', 'wpdf-generator-for-wp' ),
+						'placeholder' => __( 'top', 'pdf-generator-for-wp' ),
 						'value'       => 100,
 						'min'         => -5000,
 						'max'         => 5000,
@@ -1623,7 +1623,7 @@ class Pdf_Generator_For_Wp_Admin {
 			array(
 				'title'       => __( 'Watermark Angle', 'pdf-generator-for-wp' ),
 				'type'        => 'number',
-				'description' => __( 'Please Choose Watermark Angle.', 'wpdf-generator-for-wp' ),
+				'description' => __( 'Please Choose Watermark Angle.', 'pdf-generator-for-wp' ),
 				'id'          => 'pgfw_watermark_angle_dummy',
 				'value'       => -45,
 				'class'       => 'wps_pgfw_pro_tag',
