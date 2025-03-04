@@ -3130,20 +3130,4 @@ class Pdf_Generator_For_Wp_Admin {
 		);
 	}
 
-	/**
-	 * Render Google embed.
-	 *
-	 * @param [type] $attributes are the attributes.
-	 * @return string
-	 */
-	public static function render_google_embed_block( $attributes ) {
-		if ( empty( $attributes['url'] ) ) {
-			return '<p>Please provide a valid Google embed URL.</p>';
-		}
-		return '<iframe src="' . esc_url( $attributes['url'] ) . '" width="800" height="600" frameborder="0" allowfullscreen></iframe>';
-	}
-
-
-
-
 }
