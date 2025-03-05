@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PDF Generator For WP 1.4.1\n"
-"POT-Creation-Date: 2025-01-03 13:14+0530\n"
+"POT-Creation-Date: 2025-03-04 19:07+0530\n"
 "PO-Revision-Date: 2023-10-03 16:14+0530\n"
 "Last-Translator: \n"
 "Language-Team: WP Swings\n"
@@ -1588,8 +1588,8 @@ msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:2681
 #: admin/class-pdf-generator-for-wp-admin.php:2974
-#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:60
-#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:89
+#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:59
+#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:88
 msgid "email"
 msgstr ""
 
@@ -1793,12 +1793,12 @@ msgstr ""
 
 #: admin/partials/pdf-generator-for-wp-admin-dashboard.php:38
 #: admin/partials/pdf-generator-for-wp-admin-dashboard.php:40
-#: pdf-generator-for-wp.php:213
+#: pdf-generator-for-wp.php:212
 msgid "Documentation"
 msgstr ""
 
 #: admin/partials/pdf-generator-for-wp-admin-dashboard.php:43
-#: pdf-generator-for-wp.php:215
+#: pdf-generator-for-wp.php:214
 msgid "Support"
 msgstr ""
 
@@ -1902,17 +1902,17 @@ msgid "not allowed"
 msgstr ""
 
 #: admin/partials/pdf-generator-for-wp-internal-page-setting.php:124
-#: includes/class-pdf-generator-for-wp.php:458
+#: includes/class-pdf-generator-for-wp.php:460
 msgid "Header"
 msgstr ""
 
 #: admin/partials/pdf-generator-for-wp-internal-page-setting.php:125
-#: includes/class-pdf-generator-for-wp.php:463
+#: includes/class-pdf-generator-for-wp.php:465
 msgid "Body"
 msgstr ""
 
 #: admin/partials/pdf-generator-for-wp-internal-page-setting.php:126
-#: includes/class-pdf-generator-for-wp.php:468
+#: includes/class-pdf-generator-for-wp.php:470
 msgid "Footer"
 msgstr ""
 
@@ -2121,10 +2121,6 @@ msgstr ""
 msgid "[PGFW_DOWNLOAD_POSTER id="
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-welcome.php:27
-msgid "WP Swings"
-msgstr ""
-
 #: admin/partials/pdf-generator-for-wp-welcome.php:42
 msgid "Enable Tracking"
 msgstr ""
@@ -2139,32 +2135,32 @@ msgid "No image found"
 msgstr ""
 
 #: admin/partials/pdf_templates/pdf-generator-for-wp-admin-template1.php:398
-#: common/templates/bulk-pdf-template.php:364
+#: common/templates/bulk-pdf-template.php:363
 msgid "Description"
 msgstr ""
 
 #: admin/partials/pdf_templates/pdf-generator-for-wp-admin-template1.php:428
-#: common/templates/bulk-pdf-template.php:393
+#: common/templates/bulk-pdf-template.php:392
 msgid "Category"
 msgstr ""
 
 #: admin/partials/pdf_templates/pdf-generator-for-wp-admin-template1.php:440
-#: common/templates/bulk-pdf-template.php:405
+#: common/templates/bulk-pdf-template.php:404
 msgid "Tags"
 msgstr ""
 
 #: admin/partials/pdf_templates/pdf-generator-for-wp-admin-template1.php:457
-#: common/templates/bulk-pdf-template.php:416
+#: common/templates/bulk-pdf-template.php:415
 msgid "Date Created"
 msgstr ""
 
 #: admin/partials/pdf_templates/pdf-generator-for-wp-admin-template1.php:464
-#: common/templates/bulk-pdf-template.php:423
+#: common/templates/bulk-pdf-template.php:422
 msgid "Author"
 msgstr ""
 
 #: admin/partials/pdf_templates/pdf-generator-for-wp-admin-template1.php:475
-#: common/templates/bulk-pdf-template.php:434
+#: common/templates/bulk-pdf-template.php:433
 msgid "Meta Fields"
 msgstr ""
 
@@ -2287,17 +2283,17 @@ msgstr ""
 msgid "Email Submitted Successfully."
 msgstr ""
 
-#: common/class-pdf-generator-for-wp-common.php:438
+#: common/class-pdf-generator-for-wp-common.php:437
 msgid "document form site"
 msgstr ""
 
-#: common/class-pdf-generator-for-wp-common.php:438
+#: common/class-pdf-generator-for-wp-common.php:437
 msgid "Please find these attachment"
 msgstr ""
 
-#: common/class-pdf-generator-for-wp-common.php:680
-#: common/class-pdf-generator-for-wp-common.php:689
-#: common/class-pdf-generator-for-wp-common.php:698
+#: common/class-pdf-generator-for-wp-common.php:679
+#: common/class-pdf-generator-for-wp-common.php:688
+#: common/class-pdf-generator-for-wp-common.php:697
 msgid "Export"
 msgstr ""
 
@@ -2342,85 +2338,85 @@ msgstr ""
 msgid "Unexpected Error Occurred"
 msgstr ""
 
-#: includes/class-pdf-generator-for-wp.php:384
+#: includes/class-pdf-generator-for-wp.php:386
 msgid "General Settings"
 msgstr ""
 
-#: includes/class-pdf-generator-for-wp.php:389
+#: includes/class-pdf-generator-for-wp.php:391
 msgid "PDF Settings"
 msgstr ""
 
-#: includes/class-pdf-generator-for-wp.php:394
+#: includes/class-pdf-generator-for-wp.php:396
 msgid "Advanced Settings"
 msgstr ""
 
-#: includes/class-pdf-generator-for-wp.php:399
+#: includes/class-pdf-generator-for-wp.php:401
 msgid "Meta Fields Settings"
 msgstr ""
 
-#: includes/class-pdf-generator-for-wp.php:406
+#: includes/class-pdf-generator-for-wp.php:408
 msgid "Taxonomy Settings"
 msgstr ""
 
-#: includes/class-pdf-generator-for-wp.php:411
+#: includes/class-pdf-generator-for-wp.php:413
 msgid "Layout Settings"
 msgstr ""
 
-#: includes/class-pdf-generator-for-wp.php:416
+#: includes/class-pdf-generator-for-wp.php:418
 msgid "PDF Logs"
 msgstr ""
 
-#: includes/class-pdf-generator-for-wp.php:421
+#: includes/class-pdf-generator-for-wp.php:423
 msgid "Invoice settings"
 msgstr ""
 
-#: includes/class-pdf-generator-for-wp.php:426
+#: includes/class-pdf-generator-for-wp.php:428
 msgid "Invoice page settings"
 msgstr ""
 
-#: includes/class-pdf-generator-for-wp.php:434
+#: includes/class-pdf-generator-for-wp.php:436
 msgid "PDF Upload"
 msgstr ""
 
-#: includes/class-pdf-generator-for-wp.php:439
+#: includes/class-pdf-generator-for-wp.php:441
 msgid "Overview"
 msgstr ""
 
-#: includes/class-pdf-generator-for-wp.php:453
+#: includes/class-pdf-generator-for-wp.php:455
 msgid "Icon Display"
 msgstr ""
 
-#: includes/class-pdf-generator-for-wp.php:510
+#: includes/class-pdf-generator-for-wp.php:512
 #, php-format
 msgid ""
 "Unable to locate file at location \"%s\". Some features may not work "
 "properly in this plugin. Please contact us!"
 msgstr ""
 
-#: includes/class-pdf-generator-for-wp.php:529
+#: includes/class-pdf-generator-for-wp.php:531
 #, php-format
 msgid ""
 "Unable to locate file at location %s. Some features may not work properly in "
 "this plugin. Please contact us!"
 msgstr ""
 
-#: includes/class-pdf-generator-for-wp.php:608
-#: includes/class-pdf-generator-for-wp.php:1074
+#: includes/class-pdf-generator-for-wp.php:610
+#: includes/class-pdf-generator-for-wp.php:1076
 msgid "min="
 msgstr ""
 
-#: includes/class-pdf-generator-for-wp.php:609
-#: includes/class-pdf-generator-for-wp.php:952
-#: includes/class-pdf-generator-for-wp.php:1075
+#: includes/class-pdf-generator-for-wp.php:611
+#: includes/class-pdf-generator-for-wp.php:954
+#: includes/class-pdf-generator-for-wp.php:1077
 msgid "max="
 msgstr ""
 
-#: includes/class-pdf-generator-for-wp.php:610
-#: includes/class-pdf-generator-for-wp.php:1076
+#: includes/class-pdf-generator-for-wp.php:612
+#: includes/class-pdf-generator-for-wp.php:1078
 msgid "step="
 msgstr ""
 
-#: includes/class-pdf-generator-for-wp.php:804
+#: includes/class-pdf-generator-for-wp.php:806
 msgid "yes"
 msgstr ""
 
@@ -2447,97 +2443,97 @@ msgstr ""
 msgid "Skip For Now"
 msgstr ""
 
-#: pdf-generator-for-wp.php:100 pdf-generator-for-wp.php:124
+#: pdf-generator-for-wp.php:99 pdf-generator-for-wp.php:123
 msgid "PDF Generator For WordPress"
 msgstr ""
 
-#: pdf-generator-for-wp.php:196
+#: pdf-generator-for-wp.php:195
 msgid "Settings"
 msgstr ""
 
-#: pdf-generator-for-wp.php:199
+#: pdf-generator-for-wp.php:198
 msgid "GO PRO"
 msgstr ""
 
-#: pdf-generator-for-wp.php:212
+#: pdf-generator-for-wp.php:211
 msgid "Demo"
 msgstr ""
 
-#: pdf-generator-for-wp.php:214
+#: pdf-generator-for-wp.php:213
 msgid "Video"
 msgstr ""
 
-#: pdf-generator-for-wp.php:216
+#: pdf-generator-for-wp.php:215
 msgid "Services"
 msgstr ""
 
-#: pdf-generator-for-wp.php:273
+#: pdf-generator-for-wp.php:272
 msgid "This plugin will not work anymore correctly."
 msgstr ""
 
-#: pdf-generator-for-wp.php:274
+#: pdf-generator-for-wp.php:273
 msgid ""
 "We highly recommend to update to latest pro version and once installed "
 "please migrate the existing settings."
 msgstr ""
 
-#: pdf-generator-for-wp.php:275
+#: pdf-generator-for-wp.php:274
 msgid ""
 "If you are not getting automatic update now button here, then don't worry "
 "you will get in within 24 hours. If you still not get it please visit to "
 "your account dashboard and install it manually or connect to our support."
 msgstr ""
 
-#: pdf-generator-for-wp.php:309
+#: pdf-generator-for-wp.php:308
 msgid ""
 "If You are using Premium Version of PDF plugin then please update Pro plugin "
 "from plugin page by "
 msgstr ""
 
-#: pdf-generator-for-wp.php:309
+#: pdf-generator-for-wp.php:308
 msgid "Click Here"
 msgstr ""
 
-#: pdf-generator-for-wp.php:343
+#: pdf-generator-for-wp.php:342
 msgid ""
 "The latest update includes some substantial changes across different areas "
 "of the plugin. Hence, if you are not a new user then"
 msgstr ""
 
-#: pdf-generator-for-wp.php:343
+#: pdf-generator-for-wp.php:342
 msgid " Please migrate your old data and settings from "
 msgstr ""
 
-#: pdf-generator-for-wp.php:343
+#: pdf-generator-for-wp.php:342
 msgid "Dashboard"
 msgstr ""
 
-#: pdf-generator-for-wp.php:343
+#: pdf-generator-for-wp.php:342
 msgid " page then Click On Start Import Button."
 msgstr ""
 
-#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:41
-#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:54
-#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:83
+#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:40
+#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:53
+#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:82
 msgid "Please Enter Your Email ID"
 msgstr ""
 
-#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:41
+#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:40
 #: public/templates/pdf-generator-for-wp-public-pdf-generate-button-template.php:55
-#: public/templates/pdf-generator-for-wp-public-pdf-generate-button-template.php:73
+#: public/templates/pdf-generator-for-wp-public-pdf-generate-button-template.php:72
 msgid "Generate PDF"
 msgstr ""
 
-#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:58
-#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:87
+#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:57
+#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:86
 msgid "Email ID"
 msgstr ""
 
-#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:65
+#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:64
 msgid "Use account Email ID instead."
 msgstr ""
 
-#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:68
-#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:93
+#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:67
+#: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:92
 msgid "Submit"
 msgstr ""
