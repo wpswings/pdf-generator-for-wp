@@ -184,10 +184,6 @@ registerBlockType('custom/pdf-shortcode', {
 
 
 
-
-
-
-
 registerBlockType('custom/image-shortcode', {
     title: 'WPSwings Single Image',
     icon: 'format-image',
@@ -247,7 +243,8 @@ registerBlockType('custom/image-shortcode', {
                             'wpswings/canva-embed',
                             'wpswings/reddit-embed',
                             'wpswings/loom-embed',
-                            'wpswings/x-embed'
+                            'wpswings/x-embed',
+                            'wpswings/pdf-embed',
                         ]
                     })
                 )
@@ -642,3 +639,65 @@ registerBlockType('custom/image-shortcode', {
     });
 })(window.wp);
  
+/* PDF Embed */
+(function (wp) {
+    const { registerBlockType } = wp.blocks;
+    const { MediaUpload, MediaUploadCheck } = wp.blockEditor;
+    const { Button } = wp.components;
+    const { useState } = wp.element;
+   
+    if (embed_block_param.is_pro_active) {
+    registerBlockType('wpswings/pdf-embed', {
+        title: 'WPS PDF Embed',
+        icon: 'book',
+        category: 'wpswings-embeds',
+        attributes: {
+            pdfUrl: { type: 'string', default: '' }
+        },
+
+        edit: ({ attributes, setAttributes }) => {
+            const [preview, setPreview] = useState(attributes.pdfUrl);
+
+            return (
+                wp.element.createElement('div', { className: 'wps-pdf-upload' },
+                    wp.element.createElement(MediaUploadCheck, {},
+                        wp.element.createElement(MediaUpload, {
+                            allowedTypes: ['application/pdf'],
+                            value: attributes.pdfUrl,
+                            onSelect: (media) => {
+                                setAttributes({ pdfUrl: media.url });
+                                setPreview(media.url);
+                            },
+                            render: ({ open }) => (
+                                wp.element.createElement(Button, {
+                                    onClick: open,
+                                    isPrimary: true
+                                }, 'Upload PDF')
+                            )
+                        })
+                    ),
+                    preview && wp.element.createElement('iframe', {
+                        src: preview,
+                        width: '100%',
+                        height: '500px',
+                        style: { border: '1px solid #ddd', marginTop: '10px' }
+                    })
+                )
+            );
+        },
+
+        save: ({ attributes }) => {
+            return attributes.pdfUrl ? (
+                wp.element.createElement('div', {},
+                    wp.element.createElement('iframe', {
+                        src: attributes.pdfUrl,
+                        width: '100%',
+                        height: '500px',
+                        style: { border: '1px solid #ddd' }
+                    })
+                )
+            ) : null;
+        }
+    });
+}
+})(window.wp);

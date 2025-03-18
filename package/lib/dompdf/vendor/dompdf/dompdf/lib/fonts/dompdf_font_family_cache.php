@@ -78,8 +78,8 @@
     'normal' => $fontDir . '/DejaVuSerif',
   ),
   'my_font' => array(
-    'normal' => $fontDir . '/my_font_normal_d4ce065be8b47ef41adca6743e8d054c',
-    'bold' => $fontDir . '/my_font_bold_d4ce065be8b47ef41adca6743e8d054c',
+    'normal' => $fontDir . '/my_font_normal_3bcc83c9dcb33d06bdc7ec7d042fb3b8',
+    'bold' => $fontDir . '/my_font_bold_3bcc83c9dcb33d06bdc7ec7d042fb3b8',
   ),
   'century gothic' => array(
     'normal' => $fontDir . '/century_gothic_normal_31e8cfb57d385cc54a5843ce0eb24f5b',

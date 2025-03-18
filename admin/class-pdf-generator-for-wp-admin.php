@@ -3115,6 +3115,14 @@ class Pdf_Generator_For_Wp_Admin {
 	 */
 	public function register_google_embed_blocks() {
 
+		$wps_wpg_is_pro_active = false;
+		$wps_wpg_plugin_list = get_option( 'active_plugins' );
+			$wps_wpg_plugin = 'wordpress-pdf-generator/wordpress-pdf-generator.php';
+			if ( in_array( $wps_wpg_plugin, $wps_wpg_plugin_list ) ) {
+				$wps_wpg_is_pro_active = true;
+			}
+			$license_check = get_option( 'wps_wpg_license_check', 0 );
+
 		wp_register_script(
 			'google-embed-block',
 			plugins_url( 'src/js/pdf-google-embed-block.js', __FILE__ ),
@@ -3126,6 +3134,17 @@ class Pdf_Generator_For_Wp_Admin {
 			'wpswings/google-embed',
 			array(
 				'editor_script' => 'google-embed-block',
+			)
+		);
+
+		wp_localize_script(
+			'google-embed-block',
+			'embed_block_param',
+			array(
+				'ajaxurl'             => admin_url( 'admin-ajax.php' ),
+				'reloadurl'           => admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ),
+				'is_pro_active' => $wps_wpg_is_pro_active,
+				'license_check' => $license_check,
 			)
 		);
 	}
