@@ -278,7 +278,7 @@ registerBlockType('custom/image-shortcode', {
         category: 'wpswings-embeds',
         attributes: {
             postId: { type: 'string', default: '' },
-            redirectUrl: { type: 'string', default: '' }
+            redirectUrl: { type: 'string', default: 'https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-doc&utm_medium=referral&utm_campaign=documentation' }
         },
 
         edit: ({ attributes, setAttributes }) => {
@@ -348,7 +348,7 @@ registerBlockType('custom/image-shortcode', {
         ),
         category: 'wpswings-embeds',
         attributes: {
-            canvaUrl: { type: 'string', default: '' },
+            canvaUrl: { type: 'string', default: 'https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-doc&utm_medium=referral&utm_campaign=documentation' },
         },
 
         edit: ({ attributes, setAttributes }) => {
@@ -448,7 +448,7 @@ registerBlockType('custom/image-shortcode', {
         ),     
         category: 'wpswings-embeds',
         attributes: {
-            redditUrl: { type: 'string', default: '' }
+            redditUrl: { type: 'string', default: 'https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-doc&utm_medium=referral&utm_campaign=documentation' }
         },
 
         edit: ({ attributes, setAttributes }) => {
@@ -515,7 +515,7 @@ registerBlockType('custom/image-shortcode', {
         icon: 'video-alt3',
         category: 'wpswings-embeds',
         attributes: {
-            loomUrl: { type: 'string', default: '' }
+            loomUrl: { type: 'string', default: 'https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-doc&utm_medium=referral&utm_campaign=documentation' }
         },
 
         edit: ({ attributes, setAttributes }) => {
@@ -586,7 +586,7 @@ registerBlockType('custom/image-shortcode', {
         category: 'wpswings-embeds',    
         attributes: {
             postUrl: { type: 'string', default: '' },
-            redirectUrl: { type: 'string', default: 'https://help-page-url.com' }
+            redirectUrl: { type: 'string', default: 'https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-doc&utm_medium=referral&utm_campaign=documentation' }
         },
 
         edit: ({ attributes, setAttributes }) => {
@@ -652,7 +652,7 @@ registerBlockType('custom/image-shortcode', {
         icon: 'book',
         category: 'wpswings-embeds',
         attributes: {
-            pdfUrl: { type: 'string', default: '' }
+            pdfUrl: { type: 'string', default: 'https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-doc&utm_medium=referral&utm_campaign=documentation' }
         },
 
         edit: ({ attributes, setAttributes }) => {
