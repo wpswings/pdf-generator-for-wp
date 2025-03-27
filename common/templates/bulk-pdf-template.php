@@ -357,7 +357,7 @@ function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) {
 						<img src="' . get_the_post_thumbnail_url( $post ) . '">
 					</div>
 					<div class="pgfw-pdf-body-title">
-						' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', apply_filters( 'the_title', $post->post_title ) ) ) . '
+						' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', apply_filters( 'the_title', $post->post_title, $post->ID ) ) ) . '
 					</div>
 					<div class="pgfw-pdf-body-content">
 					<h3>' . esc_html__( 'Description', 'pdf-generator-for-wp' ) . '</h3>

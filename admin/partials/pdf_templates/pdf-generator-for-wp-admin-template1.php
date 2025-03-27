@@ -387,7 +387,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 			$html .= '';
 		} else {
 			$html .= '<div class="pgfw-pdf-body-title">
-					' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', apply_filters( 'the_title', $post->post_title ) ) ) . '
+					' . do_shortcode( str_replace( '[WORDPRESS_PDF]', '', apply_filters( 'the_title', $post->post_title, $post->ID ) ) ) . '
 					</div>';
 		}
 
