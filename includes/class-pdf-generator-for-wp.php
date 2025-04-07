@@ -437,6 +437,11 @@ class Pdf_Generator_For_Wp {
 				'name'  => 'pdf-generator-for-wp-pdf-upload',
 			);
 
+			$pgfw_default_tabs['pdf-generator-for-wp-shortcode'] = array(
+				'title' => esc_html__( 'Shortcodes', 'pdf-generator-for-wp' ),
+				'name'  => 'pdf-generator-for-wp-shortcode',
+			);
+
 			$pgfw_default_tabs['pdf-generator-for-wp-overview'] = array(
 				'title' => esc_html__( 'Overview', 'pdf-generator-for-wp' ),
 				'name'  => 'pdf-generator-for-wp-overview',

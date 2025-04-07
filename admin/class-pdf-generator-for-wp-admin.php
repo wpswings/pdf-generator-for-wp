@@ -3137,6 +3137,17 @@ class Pdf_Generator_For_Wp_Admin {
 			)
 		);
 
+		register_block_type('custom/calendly-embed', array(
+			'editor_script' => 'google-embed-block',
+			'render_callback' => 'wps_render_calendly_block' ,
+			'attributes' => array(
+				'url' => array(
+					'type' => 'string',
+					'default' => 'https://calendly.com/princekumaryadav-wpswings/new-meeting-2'
+				)
+			)
+		));
+
 		wp_localize_script(
 			'google-embed-block',
 			'embed_block_param',
@@ -3147,6 +3158,16 @@ class Pdf_Generator_For_Wp_Admin {
 				'license_check' => $license_check,
 			)
 		);
+	}
+
+	/**
+	 * Callback of calendly Block.
+	 *
+	 * @return string
+	 */
+	function wps_render_calendly_block($attributes) {
+		$url = esc_url($attributes['url']);
+		return '<iframe src="' . $url . '" width="100%" height="600px" style="border: none;color : red;" ></iframe>';
 	}
 
 }

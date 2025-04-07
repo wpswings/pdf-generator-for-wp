@@ -15,7 +15,7 @@
  * Plugin Name:       PDF Generator For WP
  * Plugin URI:        https://wordpress.org/plugins/pdf-generator-for-wp/
  * Description:       <code><strong>PDF Generator for WordPress</strong></code> plugin allows to generate and download PDF files from WordPress sites across multiple platforms in just one click. Elevate your eCommerce store by exploring more on WP Swings.<a href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-shop&utm_medium=pdf-org-backend&utm_campaign=shop-page" target="_blank"> Elevate your e-commerce store by exploring more on <strong> WP Swings </strong></a>
- * Version:           1.4.3
+ * Version:           1.5.0
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=pdf-org-backend&utm_campaign=official
  * Text Domain:       pdf-generator-for-wp
@@ -25,7 +25,7 @@
  * Tested up to:         6.7.2
  * WC requires at least: 5.2.0
  * WC tested up to:      9.7.1
- * Stable tag:           1.4.3
+ * Stable tag:           1.5.0
  * Requires PHP:         7.4
  *
  * License:           GNU General Public License v3.0
@@ -61,7 +61,7 @@ if ( isset( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php'] ) ) {
  * @since 1.0.0
  */
 function define_pdf_generator_for_wp_constants() {
-	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.4.3' );
+	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.5.0' );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_PATH', plugin_dir_path( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_URL', plugin_dir_url( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_SERVER_URL', 'https://wpswings.com' );
@@ -355,6 +355,333 @@ function wps_wpg_pro_pdf_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 }
 
 /**
+ * Description: Embeds a Calendly Meeting.
+ *
+ * @param array $atts post id to print PDF for.
+ */
+function wps_calendly_embed_shortcode( $atts ) {
+	$atts = shortcode_atts(
+		array(
+			'url' => '',
+		),
+		$atts,
+		'wps_calendly'
+	);
+
+	return '<iframe src="' . esc_url( $atts['url'] ) . '" width="100%" height="600px" style="border: none;"></iframe>';
+}
+
+/**
+ * Adding shortcode to show calendly Events anywhere on the page.
+ */
+add_shortcode( 'wps_calendly', 'wps_calendly_embed_shortcode' );
+add_shortcode( 'wps_twitch', 'wps_twitch_stream_with_chat_shortcode' );
+add_shortcode( 'wps_strava', 'wps_strava_embed_shortcode' );
+if ( is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
+add_shortcode( 'wps_ai_chatbot', 'wps_chatbot_ai_shortcode' );
+add_shortcode( 'wps_rssapp_feed', 'wps_rssapp_feed_shortcode' );
+}
+
+/**
+ * Shortcode: [wps_twitch].
+ * Description: Embeds a Twitch stream with optional live chat side-by-side.
+ *
+ * @param array $atts post id to print PDF for.
+ *
+ * Attributes:
+ * - channel: (string) Twitch channel username (required).
+ * - width: (string) Width of the Twitch player iframe (default: '100%').
+ * - height: (string|int) Height of the Twitch player iframe (default: '480').
+ * - chat_width: (string) Width of the chat iframe (default: '100%').
+ * - chat_height: (string|int) Height of the chat iframe (default: '480').
+ * - show_chat: (string) Whether to show chat iframe (yes/no, default: 'yes').
+ *
+ * Example usage:
+ * [wps_twitch channel="your_channel" width="70%" chat_width="30%" show_chat="yes"].
+ */
+function wps_twitch_stream_with_chat_shortcode( $atts ) {
+	// Set default attributes and merge with user-provided values.
+	$atts = shortcode_atts(
+		array(
+			'channel'     => '',          // Twitch channel name.
+			'width'       => '100%',      // Player width.
+			'height'      => '480',       // Player height.
+			'chat_width'  => '100%',      // Chat width.
+			'chat_height' => '480',       // Chat height.
+			'show_chat'   => 'yes',       // Show chat? 'yes' or 'no'.
+		),
+		$atts,
+		'wps_twitch'
+	);
+
+	// Return error if no channel provided.
+	if ( empty( $atts['channel'] ) ) {
+		return '<p>Please provide a Twitch channel name.</p>';
+	}
+
+	// Set the parent domain (required by Twitch embed policy).
+	$host = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : '';
+	$parent = esc_attr( $host );
+
+	// Start building output.
+	$output = '<div class="wps-twitch-embed" style="display: flex; flex-wrap: wrap; gap: 20px;">';
+
+	// Twitch video stream.
+	$output .= '<iframe
+        src="https://player.twitch.tv/?channel=' . esc_attr( $atts['channel'] ) . '&parent=' . $parent . '"
+        frameborder="0"
+        allowfullscreen="true"
+        scrolling="no"
+        height="' . esc_attr( $atts['height'] ) . '"
+        width="' . esc_attr( $atts['width'] ) . '">
+    </iframe>';
+
+	// Twitch live chat (optional).
+	if ( 'yes' === $atts['show_chat'] ) {
+		$output .= '<iframe
+            src="https://www.twitch.tv/embed/' . esc_attr( $atts['channel'] ) . '/chat?parent=' . $parent . '"
+            frameborder="0"
+            scrolling="no"
+            height="' . esc_attr( $atts['chat_height'] ) . '"
+            width="' . esc_attr( $atts['chat_width'] ) . '">
+        </iframe>';
+	}
+
+	$output .= '</div>';
+
+	return $output;
+}
+
+// [wps_twitch channel="twitch_username"].
+// [wps_twitch channel="twitch_username" width="700" height="400" chat_width="350" chat_height="400" show_chat="no"].
+
+
+/**
+ * Shortcode: [wps_strava].
+ * Description: Embeds a Strava activity or segment using Strava Embeds service.
+ *
+ * @param array $atts post id to print PDF for.
+ * Attributes:
+ * - id: (string) The Strava activity or segment ID (required).
+ * - type: (string) Type of embed: 'activity', 'segment', etc. (default: 'activity').
+ * - style: (string) Display style, e.g., 'standard' (default: 'standard').
+ * - from_embed: (string) Optional flag for embed source, e.g., 'true' or 'false' (default: 'false').
+ *
+ * Example usage:
+ * [wps_strava id="1234567890" type="activity" style="standard"].
+ */
+function wps_strava_embed_shortcode( $atts ) {
+	// Merge user-provided attributes with defaults.
+	$atts = shortcode_atts(
+		array(
+			'id' => '', // Strava Activity or Segment ID.
+			'type' => 'activity', // Type of embed (activity, segment, etc.).
+			'style' => 'standard', // Visual style of embed.
+			'from_embed' => 'false', // Optional flag for embed behavior.
+		),
+		$atts,
+		'wps_strava'
+	);
+
+	// If no ID is provided, return an error message.
+	if ( empty( $atts['id'] ) ) {
+		return '<p>Please provide a valid Strava activity ID.</p>';
+	}
+
+	// Start capturing output.
+	ob_start();
+	?>
+	<!-- Strava Embed Placeholder -->
+	<div class="strava-embed-placeholder"
+		 data-embed-type="<?php echo esc_attr( $atts['type'] ); ?>"
+		 data-embed-id="<?php echo esc_attr( $atts['id'] ); ?>"
+		 data-style="<?php echo esc_attr( $atts['style'] ); ?>"
+		 data-from-embed="<?php echo esc_attr( $atts['from_embed'] ); ?>">
+	</div>
+
+	<!-- Strava Embed Script -->
+	<?php
+	if ( ! wp_script_is( 'strava-embed', 'enqueued' ) ) {
+		wp_enqueue_script( 'strava-embed', 'https://strava-embeds.com/embed.js', array(), time(), true );
+	}
+	// Return the buffered output.
+	return ob_get_clean();
+}
+
+/**
+ * Shortcode: [wps_ai_chatbot].
+ * Description: Embeds a customizable AI chatbot iframe widget.
+ *
+ * @param array $atts Post ID to print PDF for.
+ * Attributes:
+ * - url: (string) The chatbot URL to be embedded (required).
+ * - height: (string) Height of the chatbot iframe (default: 700px).
+ * - header_color: (string) Background color or gradient of the chatbot header (default: #4e54c8).
+ * - header_title: (string) Title text shown in the header (default: "AI Chat Assistant").
+ *
+ * Example:
+ * [wps_ai_chatbot url="https://yourbot.com/chat" height="600px" header_title="Support Bot"].
+ */
+function wps_chatbot_ai_shortcode( $atts ) {
+	// Set default values and merge with user-supplied attributes.
+	$atts = shortcode_atts(
+		array(
+			'url' => '',
+			'height' => '700px',
+			'header_color' => '#4e54c8',
+			'header_title' => 'AI Chat Assistant',
+		),
+		$atts
+	);
+
+	// Show an error message if the required URL is missing.
+	if ( empty( $atts['url'] ) ) {
+		return '<div style="color: red; font-weight: bold;">Chatbot URL is missing.</div>';
+	}
+
+	// Start output buffering to return generated HTML.
+	ob_start();
+	?>
+	<style>
+		/* Main chatbot wrapper styling */
+		.wps-chatbot-wrapper {
+			max-width: 960px;
+			margin: 40px auto;
+			border-radius: 16px;
+			overflow: hidden;
+			box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+			background: #fff;
+			animation: fadeIn 1s ease-in-out;
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		}
+
+		/* Header styling with dynamic background color */
+		.wps-chatbot-header {
+			background: <?php echo esc_attr( $atts['header_color'] ); ?>;
+			color: #fff;
+			padding: 20px 30px;
+			font-size: 20px;
+			font-weight: bold;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		/* Optional icon style */
+		.wps-chatbot-header svg {
+			width: 24px;
+			height: 24px;
+			fill: #fff;
+		}
+
+		/* Iframe container */
+		.wps-chatbot-iframe-container iframe {
+			width: 100%;
+			min-height: <?php echo esc_attr( $atts['height'] ); ?>;
+			border: none;
+			display: block;
+		}
+
+		/* Simple fade-in animation */
+		@keyframes fadeIn {
+			from { opacity: 0; transform: translateY(20px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+	</style>
+
+	<!-- Chatbot Embed Structure -->
+	<div class="wps-chatbot-wrapper">
+		<!-- Header with title and optional icon -->
+		<div class="wps-chatbot-header">
+			<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-10 10 9.99 9.99 0 0 0 5.29 8.75c-.1.75-.32 1.84-.79 3.01 0 0-.04.09.01.14.05.05.13.02.13.02 1.72-.24 3.05-.99 3.58-1.33A10.01 10.01 0 0 0 22 12 10 10 0 0 0 12 2z"/></svg>
+			<?php echo esc_html( $atts['header_title'] ); ?>
+		</div>
+
+		<!-- Embedded chatbot iframe -->
+		<div class="wps-chatbot-iframe-container">
+			<iframe src="<?php echo esc_url( $atts['url'] ); ?>" style="min-height: <?php echo esc_attr( $atts['height'] ); ?>;"></iframe>
+		</div>
+	</div>
+	<?php
+	// Return the output buffer content.
+	return ob_get_clean();
+}
+
+/**
+ * Shortcode: [wps_rssapp_feed].
+ * Description: Embeds an RSS.app widget feed with customizable styles via shortcode attributes.
+ *
+ * @param array $atts array.
+ *
+ * Attributes:
+ * - url: (string) The RSS.app embed URL (required).
+ * - height: (string) Height of the embedded iframe (default: 600px).
+ * - title: (string) Title displayed above the feed (default: "📰 Latest News").
+ * - bg_color: (string) Background color of the header (default: #ffffff).
+ * - text_color: (string) Text color of the header and content (default: #333333).
+ * - border_color: (string) Border color for the widget container (default: #eeeeee).
+ *
+ * Usage:
+ * [wps_rssapp_feed url="https://rss.app/embed/your-widget" height="500px" title="My Feed"].
+ */
+function wps_rssapp_feed_shortcode( $atts ) {
+	// Define default attribute values and merge with user-supplied attributes.
+	$atts = shortcode_atts(
+		array(
+			'url' => '',
+			'height' => '600px',
+			'title' => '📰 Latest News',
+			'bg_color' => '#ffffff',
+			'text_color' => '#333333',
+			'border_color' => '#eeeeee',
+		),
+		$atts
+	);
+
+	// If URL is missing, show a helpful message.
+	if ( empty( $atts['url'] ) ) {
+		return '<p>Please provide a valid RSS.app widget URL.</p>';
+	}
+
+	// Start output buffering to return HTML content as a string.
+	ob_start();
+	?>
+	<div class="wps-rssapp-news-wrapper" style="
+		color: <?php echo esc_attr( $atts['text_color'] ); ?>;
+		border: 1px solid <?php echo esc_attr( $atts['border_color'] ); ?>;
+		border-radius: 12px;
+		overflow: hidden;
+		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
+		margin: 30px auto;
+		max-width: 1000px;
+	">
+		<!-- Feed Header -->
+		<div class="wps-rssapp-header" style="
+			padding: 16px 24px;
+			font-size: 22px;
+			font-weight: bold;
+			border-bottom: 1px solid <?php echo esc_attr( $atts['border_color'] ); ?>;
+			background-color: <?php echo esc_attr( $atts['bg_color'] ); ?>;
+			color: <?php echo esc_attr( $atts['text_color'] ); ?>;
+		">
+			<?php echo esc_html( $atts['title'] ); ?>
+		</div>
+
+		<!-- RSS App Iframe -->
+		<iframe
+			src="<?php echo esc_url( $atts['url'] ); ?>"
+			width="100%"
+			height="<?php echo esc_attr( $atts['height'] ); ?>"
+			style="border: none; overflow-y: auto;"
+			scrolling="yes"
+		></iframe>
+	</div>
+	<?php
+	// Return the buffered content.
+	return ob_get_clean();
+}
+
+/**
  * Adding shortcode to show create pdf icon anywhere on the page.
  */
 add_shortcode( 'WPS_SINGLE_IMAGE', 'wps_display_uploaded_image_shortcode' );
@@ -379,7 +706,6 @@ function wps_display_uploaded_image_shortcode( $atts ) {
 		$atts,
 		'wps_image'
 	);
-
 
 	// Get image URL from attachment ID if provided.
 	if ( ! empty( $atts['id'] ) ) {

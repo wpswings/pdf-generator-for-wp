@@ -221,6 +221,291 @@ registerBlockType('custom/image-shortcode', {
     }
 });
 
+
+
+(function (wp) {
+    const { registerBlockType } = wp.blocks;
+    const { TextControl } = wp.components;
+    const { useBlockProps } = wp.blockEditor;
+
+    registerBlockType('custom/calendly-embed', {
+        title: 'WPSwings Calendly Embed',
+        icon: 'calendar-alt',
+        category: 'widgets',
+        attributes: {
+            url: { type: 'string', default: 'https://calendly.com/princekumaryadav-wpswings/new-meeting-2' }
+        },
+        edit: function(props) {
+            return wp.element.createElement('div', useBlockProps(),
+                wp.element.createElement(wp.components.TextControl, {
+                    label: 'Calendly URL',
+                    value: props.attributes.url,
+                    onChange: function(url) { props.setAttributes({ url: url }) },
+                    placeholder: 'Enter Calendly URL'
+                }),
+                wp.element.createElement('p', {}, `Shortcode Output: [wps_calendly url="${props.attributes.url}"]`)
+            );
+        },
+        save: function(props) {
+            return wp.element.createElement('div', useBlockProps.save(), `[wps_calendly url="${props.attributes.url}"]`);
+        }
+    });
+})(window.wp);
+
+(function (wp) {
+    const { registerBlockType } = wp.blocks;
+    const { TextControl, ToggleControl } = wp.components;
+    const { useBlockProps } = wp.blockEditor;
+
+    registerBlockType('custom/twitch-embed', {
+        title: 'WPSwings Twitch Embed',
+        icon: 'video-alt3',
+        category: 'widgets',
+        attributes: {
+            channel: { type: 'string', default: '' },
+            height: { type: 'string', default: '480' },
+            width: { type: 'string', default: '100%' },
+            chatHeight: { type: 'string', default: '480' },
+            chatWidth: { type: 'string', default: '100%' },
+            showChat: { type: 'boolean', default: true }
+        },
+
+        edit: function (props) {
+            const { attributes, setAttributes } = props;
+
+            return wp.element.createElement('div', useBlockProps(),
+                wp.element.createElement(TextControl, {
+                    label: 'Twitch Channel Name',
+                    value: attributes.channel,
+                    onChange: (val) => setAttributes({ channel: val }),
+                    placeholder: 'e.g., twitch_username'
+                }),
+                wp.element.createElement(TextControl, {
+                    label: 'Player Width',
+                    value: attributes.width,
+                    onChange: (val) => setAttributes({ width: val }),
+                    placeholder: 'e.g., 100%'
+                }),
+                wp.element.createElement(TextControl, {
+                    label: 'Player Height',
+                    value: attributes.height,
+                    onChange: (val) => setAttributes({ height: val }),
+                    placeholder: 'e.g., 480'
+                }),
+                wp.element.createElement(ToggleControl, {
+                    label: 'Show Chat',
+                    checked: attributes.showChat,
+                    onChange: (val) => setAttributes({ showChat: val })
+                }),
+                attributes.showChat && wp.element.createElement(TextControl, {
+                    label: 'Chat Width',
+                    value: attributes.chatWidth,
+                    onChange: (val) => setAttributes({ chatWidth: val }),
+                    placeholder: 'e.g., 100%'
+                }),
+                attributes.showChat && wp.element.createElement(TextControl, {
+                    label: 'Chat Height',
+                    value: attributes.chatHeight,
+                    onChange: (val) => setAttributes({ chatHeight: val }),
+                    placeholder: 'e.g., 480'
+                }),
+                wp.element.createElement('p', {}, `[wps_twitch channel="${attributes.channel}" width="${attributes.width}" height="${attributes.height}" show_chat="${attributes.showChat ? 'yes' : 'no'}" chat_width="${attributes.chatWidth}" chat_height="${attributes.chatHeight}"]`)
+            );
+        },
+
+        save: function (props) {
+            const attrs = props.attributes;
+            return wp.element.createElement('div', useBlockProps.save(),
+                `[wps_twitch channel="${attrs.channel}" width="${attrs.width}" height="${attrs.height}" show_chat="${attrs.showChat ? 'yes' : 'no'}" chat_width="${attrs.chatWidth}" chat_height="${attrs.chatHeight}"]`
+            );
+        }
+    });
+})(window.wp);
+
+(function (wp) {
+    const { registerBlockType } = wp.blocks;
+    const { TextControl } = wp.components;
+    const { useBlockProps } = wp.blockEditor;
+
+    registerBlockType('custom/strava-embed', {
+        title: 'WPSwings Strava Embed',
+        icon: 'location-alt',
+        category: 'widgets',
+        attributes: {
+            id: { type: 'string', default: '' }
+        },
+
+        edit: function (props) {
+            const { attributes, setAttributes } = props;
+
+            return wp.element.createElement('div', useBlockProps(),
+                wp.element.createElement(TextControl, {
+                    label: 'Strava Activity ID',
+                    value: attributes.id,
+                    onChange: (val) => setAttributes({ id: val }),
+                    placeholder: 'e.g., 14077587098'
+                }),
+                wp.element.createElement('p', {}, `[wps_strava id="${attributes.id}"]`)
+            );
+        },
+
+        save: function (props) {
+            const a = props.attributes;
+            return wp.element.createElement('div', useBlockProps.save(), `[wps_strava id="${a.id}"]`);
+        }
+    });
+})(window.wp);
+
+(function (wp) {
+    const { registerBlockType } = wp.blocks;
+    const { TextControl, ColorPicker } = wp.components;
+    const { useBlockProps } = wp.blockEditor;
+    const { Fragment } = wp.element;
+
+    registerBlockType('custom/ai-chatbot-embed', {
+        title: 'WPSwings AI Chatbot',
+        icon: 'format-chat',
+        category: 'widgets',
+        attributes: {
+            url: { type: 'string', default: '' },
+            height: { type: 'string', default: '700px' },
+            header_color: { type: 'string', default: '#4e54c8' },
+            header_title: { type: 'string', default: 'AI Chat Assistant' }
+        },
+
+        edit: function (props) {
+            const { attributes, setAttributes } = props;
+
+            return wp.element.createElement(Fragment, {},
+                wp.element.createElement('div', useBlockProps(), [
+                    wp.element.createElement(TextControl, {
+                        label: 'Chatbot URL',
+                        value: attributes.url,
+                        onChange: (val) => setAttributes({ url: val }),
+                        placeholder: 'https://your-chatbot-url.com'
+                    }),
+                    wp.element.createElement(TextControl, {
+                        label: 'Chatbot Height (e.g. 700px)',
+                        value: attributes.height,
+                        onChange: (val) => setAttributes({ height: val })
+                    }),
+                    wp.element.createElement(TextControl, {
+                        label: 'Header Title',
+                        value: attributes.header_title,
+                        onChange: (val) => setAttributes({ header_title: val }),
+                        placeholder: 'AI Chat Assistant'
+                    }),
+                    wp.element.createElement('div', { style: { marginTop: '20px', marginBottom: '10px' } },
+                        wp.element.createElement('strong', null, 'Header Background Color')
+                    ),
+                    wp.element.createElement(ColorPicker, {
+                        color: attributes.header_color,
+                        onChangeComplete: (value) => setAttributes({ header_color: value.hex }),
+                        disableAlpha: true
+                    }),
+                    wp.element.createElement('div', { style: { marginTop: '20px' } },
+                        wp.element.createElement('code', null,
+                            `[wps_ai_chatbot url="${attributes.url}" height="${attributes.height}" header_color="${attributes.header_color}" header_title="${attributes.header_title}"]`
+                        )
+                    )
+                ])
+            );
+        },
+
+        save: function (props) {
+            const { url, height, header_color, header_title } = props.attributes;
+            return wp.element.createElement('div', useBlockProps.save(), `[wps_ai_chatbot url="${url}" height="${height}" header_color="${header_color}" header_title="${header_title}"]`);
+        }
+    });
+})(window.wp);
+
+
+(function (wp) {
+    const { registerBlockType } = wp.blocks;
+    const { TextControl, ColorPicker } = wp.components;
+    const { useBlockProps } = wp.blockEditor;
+    const { Fragment } = wp.element;
+
+    registerBlockType('custom/rssapp-embed', {
+        title: 'WPSwings RSS Feed Embed',
+        icon: 'rss',
+        category: 'widgets',
+        attributes: {
+            url: { type: 'string', default: '' },
+            height: { type: 'string', default: '600px' },
+            title: { type: 'string', default: '📰 Latest News' },
+            bg_color: { type: 'string', default: '#ffffff' },
+            text_color: { type: 'string', default: '#333333' },
+            border_color: { type: 'string', default: '#eeeeee' }
+        },
+
+        edit: function (props) {
+            const { attributes, setAttributes } = props;
+
+            return wp.element.createElement(Fragment, {},
+                wp.element.createElement('div', useBlockProps(), [
+                    wp.element.createElement(TextControl, {
+                        label: 'RSS Widget URL',
+                        value: attributes.url,
+                        onChange: (val) => setAttributes({ url: val }),
+                        placeholder: 'https://rss.app/embed/your-widget'
+                    }),
+                    wp.element.createElement(TextControl, {
+                        label: 'Widget Height (e.g. 600px)',
+                        value: attributes.height,
+                        onChange: (val) => setAttributes({ height: val })
+                    }),
+                    wp.element.createElement(TextControl, {
+                        label: 'Widget Title',
+                        value: attributes.title,
+                        onChange: (val) => setAttributes({ title: val })
+                    }),
+
+                    // Color pickers
+                    wp.element.createElement('div', { style: { marginTop: '20px' } },
+                        wp.element.createElement('strong', null, 'Background Color')
+                    ),
+                    wp.element.createElement(ColorPicker, {
+                        color: attributes.bg_color,
+                        onChangeComplete: (value) => setAttributes({ bg_color: value.hex }),
+                        disableAlpha: true
+                    }),
+
+                    wp.element.createElement('div', { style: { marginTop: '20px' } },
+                        wp.element.createElement('strong', null, 'Text Color')
+                    ),
+                    wp.element.createElement(ColorPicker, {
+                        color: attributes.text_color,
+                        onChangeComplete: (value) => setAttributes({ text_color: value.hex }),
+                        disableAlpha: true
+                    }),
+
+                    wp.element.createElement('div', { style: { marginTop: '20px' } },
+                        wp.element.createElement('strong', null, 'Border Color')
+                    ),
+                    wp.element.createElement(ColorPicker, {
+                        color: attributes.border_color,
+                        onChangeComplete: (value) => setAttributes({ border_color: value.hex }),
+                        disableAlpha: true
+                    }),
+
+                    wp.element.createElement('div', { style: { marginTop: '20px' } },
+                        wp.element.createElement('code', null,
+                            `[wps_rssapp_feed url="${attributes.url}" height="${attributes.height}" title="${attributes.title}" bg_color="${attributes.bg_color}" text_color="${attributes.text_color}" border_color="${attributes.border_color}"]`
+                        )
+                    )
+                ])
+            );
+        },
+
+        save: function (props) {
+            const { url, height, title, bg_color, text_color, border_color } = props.attributes;
+            return wp.element.createElement('div', useBlockProps.save(), `[wps_rssapp_feed url="${url}" height="${height}" title="${title}" bg_color="${bg_color}" text_color="${text_color}" border_color="${border_color}"]`);
+        }
+    });
+})(window.wp);
+
+
 (function (wp) {
     const { registerBlockType } = wp.blocks;
     const { InnerBlocks } = wp.blockEditor;
