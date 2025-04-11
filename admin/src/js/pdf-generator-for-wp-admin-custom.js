@@ -249,6 +249,11 @@
             $('.wps-pdf__popup-for-pro-shadow').show();
             $('.wps-pdf__popup-for-pro').addClass('active-pro');
         })
+    
+    $(document).on('click', '.disabled-item', function () {
+        $('.wps-pdf__popup-for-pro-shadow').show();
+        $('.wps-pdf__popup-for-pro').addClass('active-pro');
+    });
 //-------------------------------Pop-up For Pro Tags End -------------------------------------------//
        
 })( jQuery );
