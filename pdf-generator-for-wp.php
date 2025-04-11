@@ -374,12 +374,24 @@ function wps_calendly_embed_shortcode( $atts ) {
 /**
  * Adding shortcode to show calendly Events anywhere on the page.
  */
+if('on' === get_option( 'wps_embed_source_calendly' , '')){
 add_shortcode( 'wps_calendly', 'wps_calendly_embed_shortcode' );
+}
+if('on' === get_option( 'wps_embed_source_twitch' , '')){
 add_shortcode( 'wps_twitch', 'wps_twitch_stream_with_chat_shortcode' );
+}
+
+if('on' === get_option( 'wps_embed_source_strava' , '')){
 add_shortcode( 'wps_strava', 'wps_strava_embed_shortcode' );
+}
+
 if ( is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
+	if('on' === get_option( 'wps_embed_source_ai_chatbot' , '')){
 add_shortcode( 'wps_ai_chatbot', 'wps_chatbot_ai_shortcode' );
+	}
+if('on' === get_option( 'wps_embed_source_rss_feed' , '')){
 add_shortcode( 'wps_rssapp_feed', 'wps_rssapp_feed_shortcode' );
+}
 }
 
 /**
@@ -646,7 +658,7 @@ function wps_rssapp_feed_shortcode( $atts ) {
 	// Start output buffering to return HTML content as a string.
 	ob_start();
 	?>
-	<div class="wps-rssapp-news-wrapper" style="
+	<div class="wps-rssapp-news-wrapper wps-no-print" style="
 		color: <?php echo esc_attr( $atts['text_color'] ); ?>;
 		border: 1px solid <?php echo esc_attr( $atts['border_color'] ); ?>;
 		border-radius: 12px;
@@ -656,7 +668,7 @@ function wps_rssapp_feed_shortcode( $atts ) {
 		max-width: 1000px;
 	">
 		<!-- Feed Header -->
-		<div class="wps-rssapp-header" style="
+		<div class="wps-rssapp-header wps-no-print" style="
 			padding: 16px 24px;
 			font-size: 22px;
 			font-weight: bold;

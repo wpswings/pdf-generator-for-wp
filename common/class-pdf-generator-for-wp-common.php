@@ -320,6 +320,12 @@ class Pdf_Generator_For_Wp_Common {
 			$html = $updated_html;
 			// Webp Image End Fixes.
 
+			$html .= '<style>
+				.wps-no-print {
+					display: none !important;
+				}
+			</style>';
+
 		if ( 'custom_page' == $body_page_size && ! empty( $pgfw_body_custom_page_size_width ) && ! empty( $pgfw_body_custom_page_size_height ) ) {
 			$paper_size = array( 0, 0, $pgfw_body_custom_page_size_width * 2.834, $pgfw_body_custom_page_size_height * 2.834 );
 		} else {
