@@ -3160,12 +3160,12 @@ class Pdf_Generator_For_Wp_Admin {
 				'is_ai_chatbot_active' => get_option( 'wps_embed_source_ai_chatbot', '' ),
 				'is_canva_active' => get_option( 'wps_embed_source_canva', '' ),
 				'is_reddit_active' => get_option( 'wps_embed_source_reddit', '' ),
-				'is_google_active' => get_option( 'wps_embed_source_google', '' ),
+				'is_google_active' => get_option( 'wps_embed_source_google_elements', '' ),
 				'is_calendly_active' => get_option( 'wps_embed_source_calendly', '' ),
 				'is_strava_active' => get_option( 'wps_embed_source_strava', '' ),
 				'is_rss_feed_active' => get_option( 'wps_embed_source_rss_feed', '' ),
 				'is_x_active' => get_option( 'wps_embed_source_x', '' ),
-				'is_view_pdf_active' => get_option( 'wps_embed_source_view_pdf', '' ),
+				'is_view_pdf_active' => get_option( 'wps_embed_source_pdf_embed', '' ),
 			)
 		);
 	}

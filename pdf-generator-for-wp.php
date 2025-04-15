@@ -24,7 +24,7 @@
  * Requires at least:    5.5.0
  * Tested up to:         6.7.2
  * WC requires at least: 5.2.0
- * WC tested up to:      9.7.1
+ * WC tested up to:      9.8.1
  * Stable tag:           1.5.0
  * Requires PHP:         7.4
  *
@@ -602,7 +602,7 @@ function wps_chatbot_ai_shortcode( $atts ) {
 	</style>
 
 	<!-- Chatbot Embed Structure -->
-	<div class="wps-chatbot-wrapper">
+	<div class="wps-chatbot-wrapper wps-no-print">
 		<!-- Header with title and optional icon -->
 		<div class="wps-chatbot-header">
 			<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-10 10 9.99 9.99 0 0 0 5.29 8.75c-.1.75-.32 1.84-.79 3.01 0 0-.04.09.01.14.05.05.13.02.13.02 1.72-.24 3.05-.99 3.58-1.33A10.01 10.01 0 0 0 22 12 10 10 0 0 0 12 2z"/></svg>

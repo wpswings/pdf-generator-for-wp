@@ -143,4 +143,15 @@
 	});
 	
 	 
-	})( jQuery );
+})(jQuery);
+
+document.addEventListener("DOMContentLoaded", function () {
+	document.querySelectorAll('span.wps_shortcode_pro').forEach(span => {
+		const tr = span.closest('tr');
+		if (tr) {
+			tr.classList.add('wps-highlight-tr');
+			console.log('Added class to:', tr);
+		}
+	});
+});
+

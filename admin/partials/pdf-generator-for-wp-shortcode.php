@@ -35,21 +35,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</tr>
 				<tr>
 					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[WPS_POST_METAVALUE key='wps_field' {shortcode-postid}]"><code>[WPS_POST_METAVALUE key='wps_field' {shortcode-postid}]</code></span></td>
-					<td><?php echo esc_html__( 'The selected meta fields will be added to the PDF, but all at the same place ( one after the other ), If you want the individual meta fields to be added at your desired place you can use this shortcode just replace the wps_field with your desired meta key and place at your desired place in the custom template it will fetch the respective meta field data. (PRO)', 'pdf-generator-for-wp' ); ?></td>
+					<td><?php echo esc_html__( 'The selected meta fields will be added to the PDF, but all at the same place ( one after the other ), If you want the individual meta fields to be added at your desired place you can use this shortcode just replace the wps_field with your desired meta key and place at your desired place in the custom template it will fetch the respective meta field data.', 'pdf-generator-for-wp' ); ?><?php if( !is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' )) { ?><span class="wps_shortcode_pro">(PRO)</span><?php } ?></td>
 					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[WPS_POST_METAVALUE key='post_content' {shortcode-postid}]"><code>[WPS_POST_METAVALUE key='post_content' {shortcode-postid}]</code></span></td>
 				</tr>
 
 				<tr>
 					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[QR_CODE]"><code>[QR_CODE]</code></span></td>
-					<td><?php echo esc_html__( 'Add [QR_CODE] shortcode anywhere on your Custom template to display QR Code on pdf. (PRO)', 'pdf-generator-for-wp' ); ?></td>
+					<td><?php echo esc_html__( 'Add [QR_CODE] shortcode anywhere on your Custom template to display QR Code on pdf.', 'pdf-generator-for-wp' ); ?>
+					<?php if( !is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' )) { ?><span class="wps_shortcode_pro">(PRO)</span><?php } ?></td>
 					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[QR_CODE]"><code>[QR_CODE]</code></span></td>
 				</tr>
 
 
 				<tr>
-					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[WPS_SINGLE_IMAGE id = “any image id” Height = 100 widths = 200 ]"><code>[WPS_SINGLE_IMAGE id = “any image id” Height = 100 widths = 200 ]</code></span></td>
-					<td><?php echo esc_html__( 'Use [WPS_SINGLE_IMAGE id = “any image id” Height = 100 widths = 200 ] To add an image to the pdf via image id. (PRO)', 'pdf-generator-for-wp' ); ?></td>
-					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[WPS_SINGLE_IMAGE id = “21” Height = 100 widths = 200 ]"><code>[WPS_SINGLE_IMAGE id = “21” Height = 100 widths = 200 ]</code></span></td>
+					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[WPS_SINGLE_IMAGE id='Image ID' width='50' height='50']"><code>[WPS_SINGLE_IMAGE id='Image ID' width='50' height='50']</code></span></td>
+					<td><?php echo esc_html__( 'Use [WPS_SINGLE_IMAGE id="Image ID" width="50" height="50"] To add an image to the pdf via image id.', 'pdf-generator-for-wp' ); ?><?php if( !is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' )) { ?><span class="wps_shortcode_pro">(PRO)</span><?php } ?></td>
+					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[WPS_SINGLE_IMAGE id='473' width='50' height='50']"><code>[WPS_SINGLE_IMAGE id='473' width='50' height='50']</code></span></td>
 				</tr>
 			</tbody>
 		</table>

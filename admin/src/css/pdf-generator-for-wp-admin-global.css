@@ -422,3 +422,11 @@ select {
     font-size: 1.17em;
     font-weight: bold;
 }
+.wps_shortcode_pro {
+    background-color: green;
+    color: white;
+}
+.wps-highlight-tr{
+    user-select: none;
+    pointer-events: none;
+}
