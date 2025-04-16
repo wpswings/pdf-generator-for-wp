@@ -49,7 +49,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 				<tr>
 					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[WPS_SINGLE_IMAGE id='Image ID' width='50' height='50']"><code>[WPS_SINGLE_IMAGE id='Image ID' width='50' height='50']</code></span></td>
-					<td><?php echo esc_html__( 'Use [WPS_SINGLE_IMAGE id="Image ID" width="50" height="50"] To add an image to the pdf via image id.', 'pdf-generator-for-wp' ); ?><?php if( !is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' )) { ?><span class="wps_shortcode_pro">(PRO)</span><?php } ?></td>
+					<td><?php echo esc_html__( 'Use [WPS_SINGLE_IMAGE id="Image ID" width="50" height="50"] To add an image to the pdf via image id.', 'pdf-generator-for-wp' ); ?><?php if( !is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' )) { ?><span class=""></span><?php } ?></td>
 					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[WPS_SINGLE_IMAGE id='473' width='50' height='50']"><code>[WPS_SINGLE_IMAGE id='473' width='50' height='50']</code></span></td>
 				</tr>
 			</tbody>
