@@ -20,7 +20,7 @@ wps_embed_sources_page();
  */
 function wps_embed_sources_page() {
 	 $sources = array( 'linkedin', 'loom', 'twitch', 'ai_chatbot', 'canva', 'reddit', 'google_elements', 'calendly', 'strava', 'rss_feed', 'x', 'pdf_embed' );
-	
+
 	?>
 	<div class="wrap">
 		<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
@@ -32,7 +32,7 @@ function wps_embed_sources_page() {
 			foreach ( $sources as $source ) :
 				$value = get_option( "wps_embed_source_{$source}", 'off' );
 				$label = ucfirst( str_replace( '_', ' ', $source ) );
-				$pro_sources = array( 'rss_feed', 'ai_chatbot' , 'pdf_embed');
+				$pro_sources = array( 'rss_feed', 'ai_chatbot', 'pdf_embed' );
 				$is_pro = in_array( $source, $pro_sources, true ); // you can customize this condition.
 				$is_disabled = $is_pro && ( ! is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) );
 				?>
@@ -40,22 +40,25 @@ function wps_embed_sources_page() {
 					<?php if ( $is_disabled ) : ?>
 						<div class="wps-pro-strip-embed">PRO</div>
 					<?php endif; ?>
-					<img width="30" height="30" src=<?php echo esc_url( PDF_GENERATOR_FOR_WP_DIR_URL . "admin/src/images/{$source}.png"); ?> alt="linkedin"/>
+					<img width="30" height="30" src=<?php echo esc_url( PDF_GENERATOR_FOR_WP_DIR_URL . "admin/src/images/{$source}.png" ); ?> alt="linkedin"/>
 					<span style="display: block; margin-bottom: 10px; font-weight: bold; font-size: 14px;">
 						<?php echo esc_html( $label ); ?>
 					</span>
 
 					<div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
-						<?php 
+						<?php
 						// translators: %s is a dynamic label like "generate PDF" or a feature name.
-						$title_one = sprintf( esc_html__( 'Enable this to %s on your posts, pages, or custom post types', 'pdf-generator-for-wp' ), $label ); 
-						$title_two = sprintf( esc_html__( 'Enable this to embed %s on your posts, pages, or custom post types', 'pdf-generator-for-wp' ), $label );
+						$title_one = esc_html( sprintf( __( 'Enable this to %s on your posts, pages, or custom post types', 'pdf-generator-for-wp' ), $label ) );
+
+						// translators: %s is a label like "PDF" or "iframe".
+						$title_two = esc_html( sprintf( __( 'Enable this to embed %s on your posts, pages, or custom post types', 'pdf-generator-for-wp' ), $label ) );
+
 						?>
-						<?php if('pdf_embed' === $source){ ?>
+						<?php if ( 'pdf_embed' === $source ) { ?>
 						<span 
 						title="<?php echo esc_html( $title_one ); ?>"
 						style="cursor: help; color: #888; font-size: 13px;">?</span>
-<?php } else {?>
+<?php } else { ?>
 						<span 
 						title="<?php echo esc_html( $title_two ); ?>"
 						style="cursor: help; color: #888; font-size: 13px;">?</span>
