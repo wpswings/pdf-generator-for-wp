@@ -20,6 +20,7 @@ wps_embed_sources_page();
  */
 function wps_embed_sources_page() {
 	 $sources = array( 'linkedin', 'loom', 'twitch', 'ai_chatbot', 'canva', 'reddit', 'google_elements', 'calendly', 'strava', 'rss_feed', 'x', 'pdf_embed' );
+	
 	?>
 	<div class="wrap">
 		<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
@@ -45,14 +46,19 @@ function wps_embed_sources_page() {
 					</span>
 
 					<div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+						<?php 
+						// translators: %s is a dynamic label like "generate PDF" or a feature name.
+						$title_one = sprintf( esc_html__( 'Enable this to %s on your posts, pages, or custom post types', 'pdf-generator-for-wp' ), $label ); 
+						$title_two = sprintf( esc_html__( 'Enable this to embed %s on your posts, pages, or custom post types', 'pdf-generator-for-wp' ), $label );
+						?>
 						<?php if('pdf_embed' === $source){ ?>
-							<span
-							title="<?php echo esc_html__("Enable this to " .$label. " on your posts, pages, or custom post types", 'pdf-generator-for-wp') ?>"
-							style="cursor: help; color: #888; font-size: 13px;">?</span>
+						<span 
+						title="<?php echo esc_html( $title_one ); ?>"
+						style="cursor: help; color: #888; font-size: 13px;">?</span>
 <?php } else {?>
-	<span
-							title="<?php echo esc_html__("Enable this to embed " .$label. " on your posts, pages, or custom post types", 'pdf-generator-for-wp') ?>"
-							style="cursor: help; color: #888; font-size: 13px;">?</span>
+						<span 
+						title="<?php echo esc_html( $title_two ); ?>"
+						style="cursor: help; color: #888; font-size: 13px;">?</span>
 <?php } ?>
 
 
