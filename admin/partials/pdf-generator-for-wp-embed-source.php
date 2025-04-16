@@ -47,11 +47,11 @@ function wps_embed_sources_page() {
 					<div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
 						<?php if('pdf_embed' === $source){ ?>
 							<span
-							title="Enable this to <?php echo esc_attr( $label ); ?> on your posts, pages, or custom post types"
+							title="<?php echo esc_html__("Enable this to " .$label. " on your posts, pages, or custom post types", 'pdf-generator-for-wp') ?>"
 							style="cursor: help; color: #888; font-size: 13px;">?</span>
 <?php } else {?>
 	<span
-							title="Enable this to embed <?php echo esc_attr( $label ); ?> on your posts, pages, or custom post types"
+							title="<?php echo esc_html__("Enable this to embed " .$label. " on your posts, pages, or custom post types", 'pdf-generator-for-wp') ?>"
 							style="cursor: help; color: #888; font-size: 13px;">?</span>
 <?php } ?>
 
