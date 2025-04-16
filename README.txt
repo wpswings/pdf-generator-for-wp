@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress pdf generator
 Requires at least: 5.5.0
-Tested up to: 6.7.2
+Tested up to: 6.8
 WC requires at least: 6.5.0
-WC tested up to: 9.7.1
-Stable tag: 1.4.3
+WC tested up to: 9.8.1
+Stable tag: 1.5.0
 Requires PHP: 7.2
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -58,7 +58,7 @@ Users can non-commercially distribute the downloaded PDF files with the PDF Gene
 == WHAT’S INCLUDED IN OUR PDF GENERATOR FOR WORDPRESS PLUGIN == 
 
 **1) Embed Multiple Third-Party Services**
-Our PDF plugin has the feature to embed multiple third-party services like LinkedIn Post, Reddit Post, Canva embed, and Loom Video Embed, and the best thing is that all these services are in the form of Gutenberg blocks. Hence, you just need to add the respective block on your page and paste the embedding link. You are good to go!
+Our PDF embed plugin has the feature to embed multiple third-party services like LinkedIn Post, Reddit Post, Canva embed, Loom Video Embed, Calendly Calendar, Twitch Streams, and Strava, and the best thing is that all these services are in the form of Gutenberg blocks. Hence, you just need to add the respective block on your page and paste the embedding link. You are good to go!
 
 **2) Gutenberg Block to Embed All Google Services**
 Our free pdf creator plugin allows you to embed Google services like Forms, Slides, Sheets, and Docs into your posts using the intuitive WPSwings Gutenberg blocks. Just search for it, add your Google URL, and it’s done. 
@@ -210,10 +210,16 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 13. PDF Meta-field setting
 14. PDF Upload setting
 15. WPML Setting
+16. Embed multiple third-party services
 
 == Changelog ==
-= 1.4.3 - Released on 28 March 2025 = 
-* Fixes: Critical error fixes dur to  JS Composer Pluign.
+
+= 1.5.0 - Released on 16 April 2025 =
+* New: WPSwings Calendly Embedd
+* New: WPSwings Twitch Embed
+* New: WPSwings Strava Embed
+* Enhancement: Addition of  Shortcode tabs
+* New: Compatibility with the latest WC(9.8.1) and WP(6.8)
 
 = 1.4.2 - Released on 26 March 2025 = 
 * New: LinkedIn Post Embed
@@ -380,5 +386,9 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Upgrade Notice ==
 
-= 1.4.3 - Released on 28 March 2025 = 
-* Fixes: Critical error fixes dur to  JS Composer Pluign.
+= 1.5.0 - Released on 16 April 2025 =
+* New: WPSwings Calendly Embedd
+* New: WPSwings Twitch Embed
+* New: WPSwings Strava Embed
+* Enhancement: Addition of  Shortcode tabs
+* New: Compatibility with the latest WC(9.8.1) and WP(6.8)
