@@ -1,4 +1,4 @@
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://travis-ci.org/twbs/bootstrap)![Active installs](https://img.shields.io/badge/Active-1000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.7.2-brightgreen)![WC tested](https://img.shields.io/badge/WC%20tested-9.6.2-brightgreen)![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.2-blue)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://travis-ci.org/twbs/bootstrap)![Active installs](https://img.shields.io/badge/Active-1000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.8-brightgreen)![WC tested](https://img.shields.io/badge/WC%20tested-9.8.1-brightgreen)![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.2-blue)
 # PDF Generator for WordPress - Create & Customize PDF for Post, Pages and WooCommerce Products
 ![PDF Generator for WordPress](https://ps.w.org/pdf-generator-for-wp/assets/banner-772x250.png?rev=2672197)
 * Contributors: WP Swings
@@ -49,7 +49,7 @@ Users can non-commercially distribute the downloaded PDF files with the plugin.
 ## WHAT’S INCLUDED IN OUR PDF GENERATOR FOR WORDPRESS PLUGIN
 
 **1) Embed Multiple Third-Party Services** 
-Our PDF plugin has the feature to embed multiple third-party services like LinkedIn Post, Reddit Post, Canva embed, and Loom Video Embed, and the best thing is that all these services are in the form of Gutenberg blocks. Hence, you just need to add the respective block on your page and paste the embedding link. You are good to go!
+Our PDF plugin has the feature to embed multiple third-party services like LinkedIn Post, Reddit Post, Canva embed, Loom Video Embed, Calendly Calendar, Twitch Streams, and Strava, and the best thing is that all these services are in the form of Gutenberg blocks. Hence, you just need to add the respective block on your page and paste the embedding link. You are good to go!
 
 **2) Gutenberg Block to Embed All Google Services**
 Our free pdf creator plugin allows you to embed Google services like Forms, Slides, Sheets, and Docs into your posts using the intuitive WPSwings Gutenberg blocks. Just search for it, add your Google URL, and it’s done. 
