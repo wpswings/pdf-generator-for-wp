@@ -290,26 +290,25 @@ function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) {
 						
 					}';
 
-					if ( 'yes' == $pgfw_template_color_option  ){
-						$html .= '
+			if ( 'yes' == $pgfw_template_color_option ) {
+				$html .= '
 						.pgfw-pdf-body {
 							position: fixed;
 							inset: -1in;
-							background-color: '.$pgfw_template_color .' ;
+							background-color: ' . $pgfw_template_color . ' ;
 							z-index: -1000;
 							margin : -100px !important;
 							padding:100px !important;
 							
 						}
 						.pgfw-pdf-body *, .pgfw-pdf-footer *, .pgfw-pdf-header * {
-							color:'.$pgfw_template_text_color.';
+							color:' . $pgfw_template_text_color . ';
 						}
 						
 						';
-					}
-					
-					
-					$html .='.pgfw-pdf-body-content .wp-block-columns:after {
+			}
+
+					$html .= '.pgfw-pdf-body-content .wp-block-columns:after {
 						content: "";
 						display: block;
 						clear: both;

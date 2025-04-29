@@ -253,15 +253,15 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 					<body>
 					<header class="clearfix">
           <div id="logo">';
-          if ( 'yes' === $is_add_logo && '' !== $logo ) {
-             $html .=' <img src="' . $logo . '" >';
-          }
-         $html .=' </div>
+		if ( 'yes' === $is_add_logo && '' !== $logo ) {
+			$html .= ' <img src="' . $logo . '" >';
+		}
+		 $html .= ' </div>
       <div id="company">
         <h2 class="name"><b>' . ucfirst( $company_name ) . '</b></h2>
-        <div>'.ucfirst( $company_address ).'</div>
-        <div>'.$company_phone.'</div>
-        <div><a href="mailto:company@example.com">'.$company_email.'</a></div>
+        <div>' . ucfirst( $company_address ) . '</div>
+        <div>' . $company_phone . '</div>
+        <div><a href="mailto:company@example.com">' . $company_email . '</a></div>
       </div>
       </div>
     </header>
@@ -269,62 +269,66 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
       <div id="details" class="clearfix">
         <div id="client">
           <div class="to">INVOICE TO:</div>
-          <h2 class="name">'.$billing_details['billing_company'].'</h2>
-          <div class="address">'.$billing_details['billing_address_1'].',' .$billing_details['billing_city'].','.$billing_details['billing_state'].','.$billing_details['billing_postcode'].'</div>
-          <div>'. $billing_details['billing_phone'].'</div>
-          <div class="email"><a href="mailto:john@example.com">'.$billing_details['billing_email'].'</a></div>
+          <h2 class="name">' . $billing_details['billing_company'] . '</h2>
+          <div class="address">' . $billing_details['billing_address_1'] . ',' . $billing_details['billing_city'] . ',' . $billing_details['billing_state'] . ',' . $billing_details['billing_postcode'] . '</div>
+          <div>' . $billing_details['billing_phone'] . '</div>
+          <div class="email"><a href="mailto:john@example.com">' . $billing_details['billing_email'] . '</a></div>
         </div>
         <div id="invoice">
-          <h1>'. $invoice_id.'</h1>
-          <div class="date">Date of Invoice: '.$billing_details['order_created_date'].'</div>
+          <h1>' . $invoice_id . '</h1>
+          <div class="date">Date of Invoice: ' . $billing_details['order_created_date'] . '</div>
           <div class="date">Due Date: 30/06/2014</div>
         </div>
       </div>';
-      if ( 'invoice' === $type ) {
-     $html .=' <table style ="text-align:center;" border="0" cellspacing="0" cellpadding="0">
+		if ( 'invoice' === $type ) {
+			$html .= ' <table style ="text-align:center;" border="0" cellspacing="0" cellpadding="0">
         <thead>
         <tr id="wpg-prod-listing-table-title">
         <th id="wpg-table-items">' . __( 'Items', 'pdf-generator-for-wp' ) . '</th>
-        <th>' . __( 'Quantity', 'pdf-generator-for-wp' ) . '</th>
-        <th>' . __( 'Price', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . ')</th>
+        <th>' . __( 'Quantity', 'pdf-generator-for-wp' ) . '</th>';
+
+			$html .= '<th>' . apply_filters( 'wps_custom_column_html_column_head', '', $order_id, $type, $invoice_id ) . '</th>';
+
+			$html .= '<th>' . __( 'Price', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . ')</th>
         <th>' . __( 'Tax', 'pdf-generator-for-wp' ) . ' (%)</th>
         <th>' . __( 'Amount', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . ')</th>
       </tr>
         </thead>
         <tbody>
         ';
-        $meta_data = '';
-        $i = 1;
-        $total = 0;
-        
-        foreach ( $order_product_details as $product ) {
-           
-            $item_data = ! empty( $product['item_meta'] ) ? $product['item_meta'] : array();
-            if ( ! empty( $item_data ) && is_array( $item_data ) ) {
-                foreach ( $item_data as $key => $item ) {
+			$meta_data = '';
+			$i = 1;
+			$total = 0;
 
-                    if ( 'is_upsell_purchase' === $item['display_key'] ) {
-                        continue;
-                    }
+			foreach ( $order_product_details as $product ) {
 
-                    $meta_data .= '<br/>' . $item['display_key'] . ':' . $item['display_value'];
-                }
-            }
-            $html .= '
+				$item_data = ! empty( $product['item_meta'] ) ? $product['item_meta'] : array();
+				if ( ! empty( $item_data ) && is_array( $item_data ) ) {
+					foreach ( $item_data as $key => $item ) {
+
+						if ( 'is_upsell_purchase' === $item['display_key'] ) {
+							continue;
+						}
+
+						$meta_data .= '<br/>' . $item['display_key'] . ':' . $item['display_value'];
+					}
+				}
+				$html .= '
             <tr>
 						<td class="wpg-product-name no">' . $product['product_name'] . $meta_data . '</td>
-						<td class="desc"> ' . $product['product_quantity'] . '</td>
-						<td class="unit">' . $product['product_price'] . '</td>
+						<td class="desc"> ' . $product['product_quantity'] . '</td>';
+				$html .= '<td class="desc">' . apply_filters( 'wps_custom_column_html_column_data', '', $order_id, $type, $invoice_id ) . '</td>';
+						$html .= '<td class="unit">' . $product['product_price'] . '</td>
 						<td class="qty" >' . $product['tax_percent'] . '</td>
 						<td class="total">' . $product['product_total'] . '</td>
 					</tr>
             
          ';
-         $i++;
-         $total += $product['product_price']* $product['product_quantity'];
-        }
-      
-     $html .=' </tbody>
+				$i++;
+				$total += $product['product_price'] * $product['product_quantity'];
+			}
+
+			$html .= ' </tbody>
         <tfoot>
           <tr>
           <td ></td>
@@ -354,7 +358,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
           <td ></td>
           <td>' . __( 'Total tax', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . '): ' . $billing_details['tax_totals'] . '</td>
         </tr>';
-        $pgfw_coupon_details = $billing_details['coupon_details'];
+			$pgfw_coupon_details = $billing_details['coupon_details'];
 			foreach ( $pgfw_coupon_details as $key => $price ) {
 				$html .= '<tr>
         <td ></td>
@@ -364,21 +368,21 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 							<td>' . $key . '(' . $billing_details['order_currency'] . '): ' . $price . '</td>
 						</tr>';
 			}
-      $order = wc_get_order($order_id);
+			$order = wc_get_order( $order_id );
 			// Get applied coupons.
 			$coupons = $order->get_coupon_codes();
-      
+
 			// Check if any coupons are applied.
-			if (!empty($coupons)) {
-      $html .='   <tr>
+			if ( ! empty( $coupons ) ) {
+				$html .= '   <tr>
       <td ></td>
         <td ></td>
         <td ></td>
         <td ></td>
-              <td>' . __( 'Discount', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . '): ' .  $order->get_discount_total() . '</td>
+              <td>' . __( 'Discount', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . '): ' . $order->get_discount_total() . '</td>
             </tr>';
-      }
-     $html .='   <tr>
+			}
+			$html .= '   <tr>
         <td ></td>
           <td ></td>
           <td ></td>
@@ -393,14 +397,13 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
         <div class="notice"><b>' . $disclaimer . '</b></div>
       </div>
     </main>';
-      }
- $html .='   <footer>
+		}
+		$html .= '   <footer>
       Invoice was created on a computer and is valid without the signature and seal.
     </footer>	
 	
 				</body>
 			</html>';
-
 		return $html;
 	}
 	return '<div>' . esc_html__( 'Looks like order is not found', 'pdf-generator-for-wp' ) . '</div>';

@@ -160,9 +160,9 @@ class Pdf_Generator_For_Wp_Common {
 	 */
 	public function pgfw_generate_pdf_from_library( $prod_id, $pgfw_generate_mode, $mode = '', $email = '', $template = '', $template_name = '' ) {
 		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
-		
+
 		$pgfw_meta_settings = get_option( 'pgfw_meta_fields_save_settings', array() );
-         //unknow image file handler.
+		 // unknow image file handler.
 		$pgfw_meta_fields_show_unknown_image_format = array_key_exists( 'pgfw_meta_fields_show_unknown_image_format', $pgfw_meta_settings ) ? $pgfw_meta_settings['pgfw_meta_fields_show_unknown_image_format'] : '';
 		// footer .
 		$pgfw_footer_settings   = get_option( 'pgfw_footer_setting_submit', array() );
@@ -278,40 +278,40 @@ class Pdf_Generator_For_Wp_Common {
 			$imgs = $dom->getElementsByTagName( 'img' );
 
 			// Loop through each img tag and modify the src attribute.
-			foreach ( $imgs as $img ) {
+		foreach ( $imgs as $img ) {
 
-				// Get the current src attribute value.
-				$src = $img->getAttribute( 'src' );
+			// Get the current src attribute value.
+			$src = $img->getAttribute( 'src' );
 
-				if ( isset( $src ) && ! empty( $src ) && pathinfo( $src, PATHINFO_EXTENSION ) === 'webp' ) {
-					$src = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $src );
+			if ( isset( $src ) && ! empty( $src ) && pathinfo( $src, PATHINFO_EXTENSION ) === 'webp' ) {
+				$src = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $src );
 
-					// Path to the WebP image.
-					$webp_image_path = $src;
+				// Path to the WebP image.
+				$webp_image_path = $src;
 
-					// Create image resource from WebP image.
-					$webp_image = imagecreatefromwebp( $webp_image_path );
+				// Create image resource from WebP image.
+				$webp_image = imagecreatefromwebp( $webp_image_path );
 
-					$parts = explode( '.', $src );
+				$parts = explode( '.', $src );
 
-					// Modify the content after the dot.
-					$extension = end( $parts );
-					$new_extension = 'jpeg';
+				// Modify the content after the dot.
+				$extension = end( $parts );
+				$new_extension = 'jpeg';
 
-					$new_src = str_replace( '.' . $extension, '.' . $new_extension, $src );
-					// Path to save JPEG image.
-					$jpeg_image_path = $new_src;
+				$new_src = str_replace( '.' . $extension, '.' . $new_extension, $src );
+				// Path to save JPEG image.
+				$jpeg_image_path = $new_src;
 
-					// Save JPEG image with 100% quality.
-					imagejpeg( $webp_image, $jpeg_image_path, 100 );
-					$img_url = str_replace( $upload_dir['basedir'], $upload_dir['baseurl'], $jpeg_image_path );
-					$html = '<img src="' . $img_url . '" alt="Converted Image">';
+				// Save JPEG image with 100% quality.
+				imagejpeg( $webp_image, $jpeg_image_path, 100 );
+				$img_url = str_replace( $upload_dir['basedir'], $upload_dir['baseurl'], $jpeg_image_path );
+				$html = '<img src="' . $img_url . '" alt="Converted Image">';
 
-					// Free up memory.
-					imagedestroy( $webp_image );
-					$img->setAttribute( 'src', $img_url );
-				}
+				// Free up memory.
+				imagedestroy( $webp_image );
+				$img->setAttribute( 'src', $img_url );
 			}
+		}
 
 			// Get the updated HTML content.
 			$updated_html = $dom->saveHTML();
@@ -320,51 +320,56 @@ class Pdf_Generator_For_Wp_Common {
 			$html = $updated_html;
 			// Webp Image End Fixes.
 
+			$html .= '<style>
+				.wps-no-print {
+					display: none !important;
+				}
+			</style>';
+
 		if ( 'custom_page' == $body_page_size && ! empty( $pgfw_body_custom_page_size_width ) && ! empty( $pgfw_body_custom_page_size_height ) ) {
 			$paper_size = array( 0, 0, $pgfw_body_custom_page_size_width * 2.834, $pgfw_body_custom_page_size_height * 2.834 );
 		} else {
 			$paper_size = array_key_exists( $body_page_size, $paper_sizes ) ? $paper_sizes[ $body_page_size ] : 'a4';
 		}
-		if('yes' == $pgfw_meta_fields_show_unknown_image_format){
+		if ( 'yes' == $pgfw_meta_fields_show_unknown_image_format ) {
 			$options = new Options();
 			$options->set( 'isRemoteEnabled', true );
 			$options->set( 'isHtml5ParserEnabled', true );
 			$dompdf = new Dompdf( $options );
-	
-			
-	
-			$contxt = stream_context_create([ 
-				'ssl' => [
-					'verify_peer' => FALSE,
-					'verify_peer_name' => FALSE,
-					'allow_self_signed'=> TRUE
-				]
-			]);
-	
-	
+
+			$contxt = stream_context_create(
+				array(
+					'ssl' => array(
+						'verify_peer' => false,
+						'verify_peer_name' => false,
+						'allow_self_signed' => true,
+					),
+				)
+			);
+
 			$dompdf->setHttpContext( $contxt );
 		} else {
-		$options = new Options();
-		$options->set( 'isRemoteEnabled', true );
-		$dompdf = new Dompdf( $options );
+			$options = new Options();
+			$options->set( 'isRemoteEnabled', true );
+			$dompdf = new Dompdf( $options );
 
-		$contxt = stream_context_create(
-			array(
-				'http' => array(
-					'header'     => "Content-type: application/x-www-form-urlencoded\r\n",
-					'method'     => 'GET',
-					'user_agent' => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)',
-				),
-				'ssl' => array(
-					'verify_peer'       => false,
-					'verify_peer_name'  => false,
-					'allow_self_signed' => true,
-				),
-			)
-		);
+			$contxt = stream_context_create(
+				array(
+					'http' => array(
+						'header'     => "Content-type: application/x-www-form-urlencoded\r\n",
+						'method'     => 'GET',
+						'user_agent' => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)',
+					),
+					'ssl' => array(
+						'verify_peer'       => false,
+						'verify_peer_name'  => false,
+						'allow_self_signed' => true,
+					),
+				)
+			);
 
-		$dompdf->setHttpContext( $contxt );
-	}
+			$dompdf->setHttpContext( $contxt );
+		}
 		$dompdf->loadHtml( $html, 'UTF-8' );
 		$dompdf->set_option( 'isRemoteEnabled', true );
 
@@ -835,6 +840,7 @@ class Pdf_Generator_For_Wp_Common {
 		$upload_basedir                   = $upload_dir['basedir'] . '/invoices/';
 		$path                             = $upload_basedir . $invoice_name . '.pdf';
 		$file_url                         = $upload_dir['baseurl'] . '/invoices/' . $invoice_name . '.pdf';
+
 		if ( ( 'yes' === $pgfw_generate_invoice_from_cache ) && file_exists( $path ) ) {
 			if ( 'download_locally' === $action ) {
 				$this->wpg_download_already_existing_invoice_file( $file_url );
@@ -1192,3 +1198,4 @@ class Pdf_Generator_For_Wp_Common {
 		}
 	}
 }
+

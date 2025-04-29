@@ -508,7 +508,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 			}
 		}
 		$html .= apply_filters( 'wps_pgfw_product_post_meta_in_pdf_filter_hook', $html2, $post );
-		$html .= '</div></div><span style="page-break-after: always;overflow:hidden;"></span>';
+		$html .= '</div></div><span id = "wps_page_break_point" style="page-break-after: always;overflow:hidden;"></span>';
 	}
 
 	return $html;
