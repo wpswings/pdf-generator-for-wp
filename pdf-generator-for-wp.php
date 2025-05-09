@@ -15,17 +15,17 @@
  * Plugin Name:       PDF Generator For WP
  * Plugin URI:        https://wordpress.org/plugins/pdf-generator-for-wp/
  * Description:       <code><strong>PDF Generator for WordPress</strong></code> plugin allows to generate and download PDF files from WordPress sites across multiple platforms in just one click. Elevate your eCommerce store by exploring more on WP Swings.<a href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-shop&utm_medium=pdf-org-backend&utm_campaign=shop-page" target="_blank"> Elevate your e-commerce store by exploring more on <strong> WP Swings </strong></a>
- * Version:           1.5.0
+ * Version:           1.5.1
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=pdf-org-backend&utm_campaign=official
  * Text Domain:       pdf-generator-for-wp
  * Domain Path:       /languages
  *
  * Requires at least:    5.5.0
- * Tested up to:         6.8.0
+ * Tested up to:         6.8.1
  * WC requires at least: 5.2.0
- * WC tested up to:      9.8.1
- * Stable tag:           1.5.0
+ * WC tested up to:      9.8.4
+ * Stable tag:           1.5.1
  * Requires PHP:         7.4
  *
  * License:           GNU General Public License v3.0
@@ -61,7 +61,7 @@ if ( isset( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php'] ) ) {
  * @since 1.0.0
  */
 function define_pdf_generator_for_wp_constants() {
-	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.5.0' );
+	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.5.1' );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_PATH', plugin_dir_path( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_URL', plugin_dir_url( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_SERVER_URL', 'https://wpswings.com' );
@@ -159,6 +159,41 @@ register_deactivation_hook( __FILE__, 'deactivate_pdf_generator_for_wp' );
  * admin-specific hooks, and public-facing site hooks.
  */
 require plugin_dir_path( __FILE__ ) . 'includes/class-pdf-generator-for-wp.php';
+
+
+/**
+ * Register new Elementor widgets.
+ *
+ * @param \Elementor\Widgets_Manager $widgets_manager Elementor widgets manager.
+ * @return void
+ */
+function register_new_widgets( $widgets_manager ) {
+	$sources = array( 'wps_pdf_shortcode','wps_single_image','wps_calendly','wps_linkedln', 'wps_loom', 'wps_twitch', 'wps_ai_chatbot', 'wps_canva', 'wps_reddit', 'wps_google_elements', 'wps_strava', 'wps_rss_feed', 'wps_x', 'wps_pdf_embed'  );
+	foreach ( $sources as $source ) {
+	$wps_source = str_replace( '_', '-', $source );
+	$wps_sources_class = strtoupper( strtok( $source, '_' ) ) . '_' . ucfirst( substr( $source, strpos( $source, '_' ) + 1 ) );
+	$file = plugin_dir_path(__FILE__) . "Elementor/elementor-{$wps_source}-widget.php";
+
+	if ( file_exists( $file ) ) {
+		require_once( $file );
+	}
+	$class_name = "Elementor_Widget_{$wps_sources_class}";
+		if ( class_exists( $class_name ) ) {
+			$widgets_manager->register( new $class_name );
+		}
+	}
+	}
+
+add_action( 'elementor/widgets/register', 'register_new_widgets' );
+add_action('elementor/elements/categories_registered', function($elements_manager) {
+    $elements_manager->add_category(
+        'wps_pdf_widgets',
+        [
+            'title' => __('WPSwings PDF Widgets', 'textdomain'),
+            'icon'  => 'eicon-file-download',
+        ]
+    );
+});
 
 
 /**

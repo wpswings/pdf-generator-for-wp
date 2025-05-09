@@ -58,12 +58,6 @@ $pgfw_settings_display_fields = apply_filters( 'pgfw_display_settings_array', ar
 			wp_nonce_field( 'nonce_settings_save', 'pgfw_nonce_field' );
 			$pgfw_wps_pgfw_obj->wps_pgfw_plug_generate_html( $pgfw_settings_display_fields );
 			?>
-			<div>
-				<?php
-				/* translators: shortcode name. */
-				printf( esc_html__( 'Add %s shortcode anywhere on your page or posts to display PDF generating icon.', 'pdf-generator-for-wp' ), '[WORDPRESS_PDF]' );
-				?>
-			</div>
 		</div>
 	</form>
 </section>
