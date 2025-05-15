@@ -11,7 +11,7 @@ class Elementor_Widget_WPS_Linkedln extends Widget_Base {
     }
 
     public function get_title() {
-        return __('Linkedln Embed', 'textdomain');
+        return __('WPSwings Linkedln Embed', 'textdomain');
     }
 
     public function get_icon() {

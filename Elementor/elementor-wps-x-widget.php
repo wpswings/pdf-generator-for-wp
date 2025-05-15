@@ -11,7 +11,7 @@ class Elementor_Widget_WPS_X extends Widget_Base {
 	}
 
 	public function get_title() {
-		return __('X (Twitter) Post Embed', 'textdomain');
+		return __('WPSwings X (Twitter) Post Embed', 'textdomain');
 	}
 
 	public function get_icon() {

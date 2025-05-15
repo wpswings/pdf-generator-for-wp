@@ -11,7 +11,7 @@ class Elementor_Widget_WPS_Twitch extends Widget_Base {
     }
 
     public function get_title() {
-        return __('Twitch Stream with Chat', 'textdomain');
+        return __('WPSwings Twitch Stream with Chat', 'textdomain');
     }
 
     public function get_icon() {

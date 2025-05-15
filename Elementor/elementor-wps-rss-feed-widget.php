@@ -11,7 +11,7 @@ class Elementor_Widget_WPS_Rss_Feed extends Widget_Base {
 	}
 
 	public function get_title() {
-		return __('RSS App Feed', 'textdomain');
+		return __('WPSwings RSS App Feed', 'textdomain');
 	}
 
 	public function get_icon() {

@@ -11,7 +11,7 @@ class Elementor_Widget_WPS_Ai_Chatbot extends Widget_Base {
 	}
 
 	public function get_title() {
-		return __('AI Chatbot (Shortcode)', 'textdomain');
+		return __('WPSwings AI Chatbot', 'textdomain');
 	}
 
 	public function get_icon() {

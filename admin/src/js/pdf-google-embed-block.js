@@ -222,6 +222,37 @@ registerBlockType('custom/image-shortcode', {
     }
 });
 
+if ('on' === embed_block_param.is_wps_track_order_active) {
+    registerBlockType('custom/tracking-info-shortcode', {
+        title: 'WPSwings Order Tracking Info',
+        icon: 'location-alt',
+        category: 'widgets',
+        attributes: {
+            id: { type: 'string', default: 'Order ID' },
+            alig: { type: 'string', default: 'right' },
+        },
+        edit: function (props) {
+            return wp.element.createElement('div', useBlockProps(),
+                wp.element.createElement(TextControl, {
+                    label: 'Order ID',
+                    value: props.attributes.id,
+                    onChange: function (id) { props.setAttributes({ id: id }) },
+                    placeholder: 'Enter Order ID'
+                }),
+                wp.element.createElement(TextControl, {
+                    label: 'Alignment',
+                    value: props.attributes.alig,
+                    onChange: function (alig) { props.setAttributes({ alig: alig }) },
+                    placeholder: 'Enter Alignment (e.g., right)'
+                }),
+                wp.element.createElement('p', {}, `Shortcode Output: [wps_tracking_info order_id="${props.attributes.id}" align="${props.attributes.alig}"]`)
+            );
+        },
+        save: function (props) {
+            return wp.element.createElement('div', useBlockProps.save(), `[wps_tracking_info order_id="${props.attributes.id}" align="${props.attributes.alig}"]`);
+        }
+    });
+}
 
 if ('on' === embed_block_param.is_calendly_active) {
 (function (wp) {

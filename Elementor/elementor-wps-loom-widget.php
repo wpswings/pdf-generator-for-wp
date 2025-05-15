@@ -11,7 +11,7 @@ class Elementor_Widget_WPS_Loom extends Widget_Base {
 	}
 
 	public function get_title() {
-		return __('Loom Video Embed', 'textdomain');
+		return __('WPSwings Loom Video Embed', 'textdomain');
 	}
 
 	public function get_icon() {

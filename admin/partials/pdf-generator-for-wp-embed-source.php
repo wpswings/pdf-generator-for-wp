@@ -19,7 +19,7 @@ wps_embed_sources_page();
  * Description: Embeds a source Meeting.
  */
 function wps_embed_sources_page() {
-	 $sources = array( 'linkedin', 'loom', 'twitch', 'ai_chatbot', 'canva', 'reddit', 'google_elements', 'calendly', 'strava', 'rss_feed', 'x', 'pdf_embed' );
+	 $sources = array( 'linkedin', 'loom', 'twitch', 'ai_chatbot', 'canva', 'reddit', 'google_elements', 'calendly', 'strava', 'rss_feed', 'x', 'pdf_embed' , 'wps_track_order' );
 
 	?>
 	<div class="wrap">
@@ -76,6 +76,10 @@ function wps_embed_sources_page() {
 		<p style="margin-top: 15px; font-style: italic; color: #666;">
 			🔹<?php echo esc_html__( 'Prefer a quick guide ? ', 'pdf-generator-for-wp' ); ?><a href="https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-doc&utm_medium=referral&utm_campaign=documentation" target="_blank"><?php echo esc_html__( 'Check out our documentation to understand how these settings work.', 'pdf-generator-for-wp' ); ?></a>
 		</p>
+		<p style="margin-top:5px; font-style: italic; color: #666;">
+			🔹<?php echo esc_html__( 'Need to know more about Wps track order ? ', 'pdf-generator-for-wp' ); ?><a href="https://docs.wpswings.com/track-orders-for-woocommerce/?utm_source=ot-org-page&utm_medium=referral&utm_campaign=ot-doc-free" target="_blank"><?php echo esc_html__( 'Check out our documentation to understand how WPS Track Order Work.', 'pdf-generator-for-wp' ); ?></a>
+		</p>
+		
 	</div>
 
 	<style>

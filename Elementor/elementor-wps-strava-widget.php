@@ -11,7 +11,7 @@ class Elementor_Widget_WPS_Strava extends Widget_Base {
     }
 
     public function get_title() {
-        return __('Strava Embed', 'textdomain');
+        return __('WPSwings Strava Embed', 'textdomain');
     }
 
     public function get_icon() {

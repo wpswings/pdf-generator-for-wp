@@ -11,7 +11,7 @@ class Elementor_Widget_WPS_Reddit extends Widget_Base {
 	}
 
 	public function get_title() {
-		return __('Reddit Embed', 'textdomain');
+		return __('WPSwings Reddit Embed', 'textdomain');
 	}
 
 	public function get_icon() {

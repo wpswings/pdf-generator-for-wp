@@ -3166,6 +3166,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'is_rss_feed_active' => get_option( 'wps_embed_source_rss_feed', '' ),
 				'is_x_active' => get_option( 'wps_embed_source_x', '' ),
 				'is_view_pdf_active' => get_option( 'wps_embed_source_pdf_embed', '' ),
+				'is_wps_track_order_active' => get_option( 'wps_embed_source_wps_track_order', '' ),
 			)
 		);
 	}

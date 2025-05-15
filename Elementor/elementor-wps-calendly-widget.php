@@ -11,7 +11,7 @@ class Elementor_Widget_WPS_Calendly extends Widget_Base {
     }
 
     public function get_title() {
-        return __('Calendly Embed', 'textdomain');
+        return __('WPSwings Calendly Embed', 'textdomain');
     }
 
     public function get_icon() {
