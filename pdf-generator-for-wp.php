@@ -429,6 +429,46 @@ add_shortcode( 'wps_rssapp_feed', 'wps_rssapp_feed_shortcode' );
 }
 }
 
+add_shortcode( 'wps_tracking_info', 'wps_tracking_info_shortcode' );
+function wps_tracking_info_shortcode($atts){
+    $atts = shortcode_atts(array(
+        'order_id' => '',
+        'align'    => 'center', // default alignment
+    ), $atts, 'wps_tracking_info');
+
+    if (empty($atts['order_id'])) {
+        return '<div style="color:red;">Order ID is missing.</div>';
+    }
+
+    $order_id = intval($atts['order_id']);
+    $order = wc_get_order($order_id);
+
+    if (!$order) {
+        return '<div style="color:red;">Invalid Order ID.</div>';
+    }
+
+    $url = esc_url(home_url('/track-your-order/?' . $order_id));
+    $status = wc_get_order_status_name($order->get_status());
+
+    // Sanitize and set text alignment
+    $allowed_alignments = ['left', 'center', 'right'];
+    $text_align = in_array(strtolower($atts['align']), $allowed_alignments) ? strtolower($atts['align']) : 'center';
+
+    ob_start();
+    ?>
+    <div style="max-width: 500px; margin: 20px auto; padding: 20px; border-radius: 12px; background: #f8f9fa; box-shadow: 0 4px 12px rgba(0,0,0,0.1); font-family: Arial, sans-serif; float: <?php echo $text_align; ?>;">
+        <h2 style="margin-top: 0; color: #333;">Order Tracking Information</h2>
+        <p><strong>Order ID:</strong> <?php echo $order_id; ?></p>
+        <p><strong>Order Status:</strong> <span style="color: green;"><?php echo $status; ?></span></p>
+        <p><strong>Tracking Link:</strong> <a href="<?php echo $url; ?>" style="color: #0073aa;"><?php echo $url; ?></a></p>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
+
+
+
 /**
  * Shortcode: [wps_twitch].
  * Description: Embeds a Twitch stream with optional live chat side-by-side.
