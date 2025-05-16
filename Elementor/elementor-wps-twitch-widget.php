@@ -15,7 +15,7 @@ class Elementor_Widget_WPS_Twitch extends Widget_Base {
     }
 
     public function get_icon() {
-        return 'eicon-video-camera'; // You can change this to another icon
+        return 'eicon-video-playlist'; // You can change this to another icon
     }
 
     public function get_categories() {

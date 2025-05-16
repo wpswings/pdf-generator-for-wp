@@ -15,7 +15,7 @@ class Elementor_Widget_WPS_Linkedln extends Widget_Base {
     }
 
     public function get_icon() {
-        return 'eicon-linkedln';
+        return 'eicon-social-icons';
     }
 
     public function get_categories() {

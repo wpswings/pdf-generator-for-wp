@@ -15,7 +15,7 @@ class Elementor_Widget_WPS_Tracking_Info extends Widget_Base {
     }
 
     public function get_icon() {
-        return 'eicon-document';
+        return 'eicon-kit-upload-alt';
     }
 
     public function get_categories() {

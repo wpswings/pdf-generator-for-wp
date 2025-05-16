@@ -15,7 +15,7 @@ class Elementor_Widget_WPS_Ai_Chatbot extends Widget_Base {
 	}
 
 	public function get_icon() {
-		return 'eicon-shortcode';
+		return 'eicon-comments';
 	}
 
 	public function get_categories() {
