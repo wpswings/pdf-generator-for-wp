@@ -3154,7 +3154,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'reloadurl'           => admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ),
 				'is_pro_active' => $wps_wpg_is_pro_active,
 				'license_check' => $license_check,
-				'is_linkedln_active' => get_option( 'wps_embed_source_linkedin', '' ),
+				'is_linkedln_active' => get_option( 'wps_embed_source_linkedln', '' ),
 				'is_loom_active' => get_option( 'wps_embed_source_loom', '' ),
 				'is_twitch_active' => get_option( 'wps_embed_source_twitch', '' ),
 				'is_ai_chatbot_active' => get_option( 'wps_embed_source_ai_chatbot', '' ),
@@ -3166,7 +3166,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'is_rss_feed_active' => get_option( 'wps_embed_source_rss_feed', '' ),
 				'is_x_active' => get_option( 'wps_embed_source_x', '' ),
 				'is_view_pdf_active' => get_option( 'wps_embed_source_pdf_embed', '' ),
-				'is_wps_track_order_active' => get_option( 'wps_embed_source_wps_track_order', '' ),
+				'is_wps_track_order_active' => get_option( 'wps_embed_source_tracking_info', '' ),
 			)
 		);
 	}

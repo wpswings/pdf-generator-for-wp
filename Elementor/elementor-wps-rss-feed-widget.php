@@ -1,49 +1,56 @@
 <?php
+
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if (! defined('ABSPATH')) exit;
 
-class Elementor_Widget_WPS_Rss_Feed extends Widget_Base {
+class Elementor_Widget_WPS_Rss_Feed extends Widget_Base
+{
 
-	public function get_name() {
+	public function get_name()
+	{
 		return 'wps_rssapp_feed';
 	}
 
-	public function get_title() {
-		return __('WPSwings RSS App Feed', 'textdomain');
+	public function get_title()
+	{
+		return __('WPSwings RSS App Feed', 'pdf-generator-for-wp');
 	}
 
-	public function get_icon() {
+	public function get_icon()
+	{
 		return 'eicon-post-list';
 	}
 
-	public function get_categories() {
+	public function get_categories()
+	{
 		return ['wps_pdf_widgets']; // Use 'general' if you're not registering custom categories
 	}
 
-	protected function _register_controls() {
+	protected function _register_controls()
+	{
 
 		$this->start_controls_section(
 			'section_content',
 			[
-				'label' => __('Feed Settings', 'textdomain'),
+				'label' => __('Feed Settings', 'pdf-generator-for-wp'),
 			]
 		);
 
 		$this->add_control(
 			'url',
 			[
-				'label'       => __('RSS Widget URL', 'textdomain'),
+				'label'       => __('RSS Widget URL', 'pdf-generator-for-wp'),
 				'type'        => Controls_Manager::TEXT,
-				'placeholder' => __('https://widget.rss.app/v1/list.html?widget=xxxx', 'textdomain'),
+				'placeholder' => __('https://widget.rss.app/v1/list.html?widget=xxxx', 'pdf-generator-for-wp'),
 			]
 		);
 
 		$this->add_control(
 			'title',
 			[
-				'label'   => __('Header Title', 'textdomain'),
+				'label'   => __('Header Title', 'pdf-generator-for-wp'),
 				'type'    => Controls_Manager::TEXT,
 				'default' => '📰 Latest News',
 			]
@@ -52,7 +59,7 @@ class Elementor_Widget_WPS_Rss_Feed extends Widget_Base {
 		$this->add_control(
 			'height',
 			[
-				'label'   => __('Iframe Height', 'textdomain'),
+				'label'   => __('Iframe Height', 'pdf-generator-for-wp'),
 				'type'    => Controls_Manager::TEXT,
 				'default' => '600px',
 			]
@@ -61,7 +68,7 @@ class Elementor_Widget_WPS_Rss_Feed extends Widget_Base {
 		$this->add_control(
 			'bg_color',
 			[
-				'label'   => __('Background Color', 'textdomain'),
+				'label'   => __('Background Color', 'pdf-generator-for-wp'),
 				'type'    => Controls_Manager::COLOR,
 				'default' => '#ffffff',
 			]
@@ -70,7 +77,7 @@ class Elementor_Widget_WPS_Rss_Feed extends Widget_Base {
 		$this->add_control(
 			'text_color',
 			[
-				'label'   => __('Text Color', 'textdomain'),
+				'label'   => __('Text Color', 'pdf-generator-for-wp'),
 				'type'    => Controls_Manager::COLOR,
 				'default' => '#333333',
 			]
@@ -79,7 +86,7 @@ class Elementor_Widget_WPS_Rss_Feed extends Widget_Base {
 		$this->add_control(
 			'border_color',
 			[
-				'label'   => __('Border Color', 'textdomain'),
+				'label'   => __('Border Color', 'pdf-generator-for-wp'),
 				'type'    => Controls_Manager::COLOR,
 				'default' => '#eeeeee',
 			]
@@ -88,7 +95,8 @@ class Elementor_Widget_WPS_Rss_Feed extends Widget_Base {
 		$this->end_controls_section();
 	}
 
-	protected function render() {
+	protected function render()
+	{
 		$atts = [
 			'url'          => $this->get_settings_for_display('url'),
 			'title'        => $this->get_settings_for_display('title'),
@@ -99,14 +107,14 @@ class Elementor_Widget_WPS_Rss_Feed extends Widget_Base {
 		];
 
 		// Render the shortcode
-		echo do_shortcode( sprintf(
+		echo do_shortcode(sprintf(
 			'[wps_rssapp_feed url="%s" title="%s" height="%s" bg_color="%s" text_color="%s" border_color="%s"]',
-			esc_attr( $atts['url'] ),
-			esc_attr( $atts['title'] ),
-			esc_attr( $atts['height'] ),
-			esc_attr( $atts['bg_color'] ),
-			esc_attr( $atts['text_color'] ),
-			esc_attr( $atts['border_color'] )
-		) );
+			esc_attr($atts['url']),
+			esc_attr($atts['title']),
+			esc_attr($atts['height']),
+			esc_attr($atts['bg_color']),
+			esc_attr($atts['text_color']),
+			esc_attr($atts['border_color'])
+		));
 	}
 }

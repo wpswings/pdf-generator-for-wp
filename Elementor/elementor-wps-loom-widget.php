@@ -1,41 +1,48 @@
 <?php
+
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if (! defined('ABSPATH')) exit;
 
-class Elementor_Widget_WPS_Loom extends Widget_Base {
+class Elementor_Widget_WPS_Loom extends Widget_Base
+{
 
-	public function get_name() {
+	public function get_name()
+	{
 		return 'wps_loom_embed';
 	}
 
-	public function get_title() {
-		return __('WPSwings Loom Video Embed', 'textdomain');
+	public function get_title()
+	{
+		return __('WPSwings Loom Video Embed', 'pdf-generator-for-wp');
 	}
 
-	public function get_icon() {
+	public function get_icon()
+	{
 		return 'eicon-video-camera';
 	}
 
-	public function get_categories() {
+	public function get_categories()
+	{
 		return ['wps_pdf_widgets']; // Use 'general' or your custom category
 	}
 
-	protected function _register_controls() {
+	protected function _register_controls()
+	{
 		$this->start_controls_section(
 			'section_content',
 			[
-				'label' => __('Embed Settings', 'textdomain'),
+				'label' => __('Embed Settings', 'pdf-generator-for-wp'),
 			]
 		);
 
 		$this->add_control(
 			'loom_url',
 			[
-				'label'       => __('Loom Share URL', 'textdomain'),
+				'label'       => __('Loom Share URL', 'pdf-generator-for-wp'),
 				'type'        => Controls_Manager::TEXT,
-				'placeholder' => __('https://www.loom.com/share/your-video-id', 'textdomain'),
+				'placeholder' => __('https://www.loom.com/share/your-video-id', 'pdf-generator-for-wp'),
 				'default'     => 'https://www.loom.com/share/your-video-id',
 			]
 		);
@@ -43,7 +50,8 @@ class Elementor_Widget_WPS_Loom extends Widget_Base {
 		$this->end_controls_section();
 	}
 
-	protected function render() {
+	protected function render()
+	{
 		$loom_url = $this->get_settings_for_display('loom_url');
 		$embed_url = '';
 

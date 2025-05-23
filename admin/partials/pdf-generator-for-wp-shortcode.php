@@ -52,6 +52,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<td><?php echo esc_html__( 'Use [WPS_SINGLE_IMAGE id="Image ID" width="50" height="50"] To add an image to the pdf via image id.', 'pdf-generator-for-wp' ); ?><?php if( !is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' )) { ?><span class=""></span><?php } ?></td>
 					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[WPS_SINGLE_IMAGE id='473' width='50' height='50']"><code>[WPS_SINGLE_IMAGE id='473' width='50' height='50']</code></span></td>
 				</tr>
+				<tr>
+					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[wps_tracking_info order_id='12345' align='left']"><code>[wps_tracking_info order_id="12345" align="left"]</code></span></td>
+					<td><?php echo esc_html__( 'Use [wps_tracking_info order_id="12345" align="left"] To add an tracking info to the pdf via order id.', 'pdf-generator-for-wp' ); ?><?php if( !is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' )) { ?><span class=""></span><?php } ?></td>
+					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[wps_tracking_info order_id='12345' align='left']"><code>[wps_tracking_info order_id='12345' align='left']</code></span></td>
+				</tr>
 			</tbody>
 		</table>
 

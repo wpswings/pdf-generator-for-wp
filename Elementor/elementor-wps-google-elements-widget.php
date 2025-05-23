@@ -1,33 +1,40 @@
 <?php
+
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if (! defined('ABSPATH')) exit;
 
-class Elementor_Widget_WPS_Google_Elements extends Widget_Base {
+class Elementor_Widget_WPS_Google_Elements extends Widget_Base
+{
 
-    public function get_name() {
+    public function get_name()
+    {
         return 'wps_google_embed';
     }
 
-    public function get_title() {
-        return __('WPSwings Google Embed', 'textdomain');
+    public function get_title()
+    {
+        return __('WPSwings Google Embed', 'pdf-generator-for-wp');
     }
 
-    public function get_icon() {
+    public function get_icon()
+    {
         return 'eicon-google-maps';
     }
 
-    public function get_categories() {
+    public function get_categories()
+    {
         return ['wps_pdf_widgets'];
     }
 
-    protected function _register_controls() {
+    protected function _register_controls()
+    {
 
         $this->start_controls_section(
             'content_section',
             [
-                'label' => __('Google Embed Settings', 'textdomain'),
+                'label' => __('Google Embed Settings', 'pdf-generator-for-wp'),
                 'tab' => Controls_Manager::TAB_CONTENT,
             ]
         );
@@ -35,9 +42,9 @@ class Elementor_Widget_WPS_Google_Elements extends Widget_Base {
         $this->add_control(
             'google_url',
             [
-                'label' => __('Google Service Embed URL', 'textdomain'),
+                'label' => __('Google Service Embed URL', 'pdf-generator-for-wp'),
                 'type' => Controls_Manager::TEXT,
-                'placeholder' => __('Paste Google Docs, Sheets, Slides, Forms, etc. URL', 'textdomain'),
+                'placeholder' => __('Paste Google Docs, Sheets, Slides, Forms, etc. URL', 'pdf-generator-for-wp'),
                 'default' => '',
             ]
         );
@@ -45,7 +52,8 @@ class Elementor_Widget_WPS_Google_Elements extends Widget_Base {
         $this->end_controls_section();
     }
 
-    private function get_embed_url($url) {
+    private function get_embed_url($url)
+    {
         if (!$url) return '';
 
         if (strpos($url, 'docs.google.com/presentation') !== false) {
@@ -89,7 +97,8 @@ class Elementor_Widget_WPS_Google_Elements extends Widget_Base {
         return $url;
     }
 
-    protected function render() {
+    protected function render()
+    {
         $settings = $this->get_settings_for_display();
         $url = $settings['google_url'];
         $embedUrl = esc_url($this->get_embed_url($url));
