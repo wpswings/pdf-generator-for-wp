@@ -604,16 +604,12 @@ function wps_pgfw_tracking_info_shortcode( $atts ) {
 		<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;">
 			<?php if ( is_plugin_active( 'track-orders-for-woocommerce-pro/track-orders-for-woocommerce-pro.php' ) ) { ?>
 				<?php if ( $wps_pgfw_tracking_link ) { ?>
-					<a href="<?php echo esc_url( $wps_pgfw_tracking_link ); ?>" class="button wc-forward" target="_blank" style="flex: 1; text-align: center; background-color: #0071a1; color: #fff; padding: 10px 15px; border-radius: 6px; text-decoration: none;">
-						Track with Carrier
-					</a>
+					<a href="<?php echo esc_url( $wps_pgfw_tracking_link ); ?>" class="button wc-forward" target="_blank" style="flex: 1; text-align: center; background-color: #0071a1; color: #fff; padding: 10px 15px; border-radius: 6px; text-decoration: none;">Track with Carrier</a>
 					<?php
 				}
 			}
 			?>
-			<a href="<?php echo esc_url( home_url( '/track-your-order/?' . $wps_pgfw_order_id ) ); ?>" class="button wc-forward" style="flex: 1; text-align: center; background-color: #28a745; color: #fff; padding: 10px 15px; border-radius: 6px; text-decoration: none;">
-				Track Your Order
-			</a>
+			<a href="<?php echo esc_url( home_url( '/track-your-order/?' . $wps_pgfw_order_id ) ); ?>" class="button wc-forward" style="flex: 1; text-align: center; background-color: #28a745; color: #fff; padding: 10px 15px; border-radius: 6px; text-decoration: none;">Track Your Order</a>
 		</div>
 	</div>
 	<?php

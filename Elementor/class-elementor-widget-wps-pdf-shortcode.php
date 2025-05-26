@@ -1,10 +1,15 @@
 <?php
+/**
+ * Elementor Widget for embedding PDF files
+ *
+ * @package PDF Generator for WP
+ */
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 /**
