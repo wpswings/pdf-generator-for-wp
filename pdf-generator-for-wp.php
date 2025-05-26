@@ -228,7 +228,7 @@ function wps_register_new_widgets( $widgets_manager ) {
 
 		$wps_source = str_replace( '_', '-', $source );
 		$wps_sources_class = strtoupper( strtok( $source, '_' ) ) . '_' . ucfirst( substr( $source, strpos( $source, '_' ) + 1 ) );
-		$wps_widget_file = plugin_dir_path( __FILE__ ) . "Elementor/elementor-{$wps_source}-widget.php";
+		$wps_widget_file = plugin_dir_path( __FILE__ ) . "Elementor/class-elementor-widget-{$wps_source}.php";
 
 		if ( file_exists( $wps_widget_file ) ) {
 			require_once( $wps_widget_file );
@@ -570,12 +570,12 @@ function wps_pgfw_tracking_info_shortcode( $atts ) {
 	}
 	?>
 	<div style="<?php echo esc_attr( $wps_pgfw_container_style ); ?>">
-		<h2 style="margin-top: 0; color: #333;"><?php echo __( 'Order Tracking Information', 'pdf-generator-for-wp' ); ?></h2>
-		<p><strong><?php echo __( 'Order ID:', 'pdf-generator-for-wp' ); ?></strong> <?php echo esc_html( $wps_pgfw_order_id ); ?></p>
-		<p><strong><?php echo __( 'Order Status:', 'pdf-generator-for-wp' ); ?></strong> <span style="color: green;"><?php echo esc_html( $wps_pgfw_status ); ?></span></p>
+		<h2 style="margin-top: 0; color: #333;"><?php echo esc_html__( 'Order Tracking Information', 'pdf-generator-for-wp' ); ?></h2>
+		<p><strong><?php echo esc_html__( 'Order ID:', 'pdf-generator-for-wp' ); ?></strong> <?php echo esc_html( $wps_pgfw_order_id ); ?></p>
+		<p><strong><?php echo esc_html__( 'Order Status:', 'pdf-generator-for-wp' ); ?></strong> <span style="color: green;"><?php echo esc_html( $wps_pgfw_status ); ?></span></p>
 		<?php if ( is_plugin_active( 'track-orders-for-woocommerce-pro/track-orders-for-woocommerce-pro.php' ) ) { ?>
 			<?php if ( $wps_pgfw_estimated_date || $wps_pgfw_estimated_time ) : ?>
-				<p><strong><?php echo __( 'Estimated Delivery:', 'pdf-generator-for-wp' ); ?></strong><br>
+				<p><strong><?php echo esc_html__( 'Estimated Delivery:', 'pdf-generator-for-wp' ); ?></strong><br>
 					<?php if ( $wps_pgfw_estimated_date ) : ?>
 						📅 <?php echo esc_html( $wps_pgfw_estimated_date ); ?><br>
 					<?php endif; ?>
@@ -588,7 +588,7 @@ function wps_pgfw_tracking_info_shortcode( $atts ) {
 
 			<?php if ( $wps_pgfw_tracking_link ) : ?>
 				<div style="margin-top: 15px;">
-					<strong><?php echo __( 'Carrier Tracking:', 'pdf-generator-for-wp' ); ?></strong>
+					<strong><?php echo esc_html__( 'Carrier Tracking:', 'pdf-generator-for-wp' ); ?></strong>
 					<div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
 						<?php if ( $wps_pgfw_icon_url ) : ?>
 							<img src="<?php echo esc_url( $wps_pgfw_icon_url ); ?>" alt="<?php echo esc_attr( $wps_pgfw_matched_carrier_name ); ?>" style="height: 35px;">
@@ -604,7 +604,7 @@ function wps_pgfw_tracking_info_shortcode( $atts ) {
 		<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;">
 			<?php if ( is_plugin_active( 'track-orders-for-woocommerce-pro/track-orders-for-woocommerce-pro.php' ) ) { ?>
 				<?php if ( $wps_pgfw_tracking_link ) { ?>
-					<a href="<?php echo $wps_pgfw_tracking_link; ?>" class="button wc-forward" target="_blank" style="flex: 1; text-align: center; background-color: #0071a1; color: #fff; padding: 10px 15px; border-radius: 6px; text-decoration: none;">
+					<a href="<?php echo esc_url( $wps_pgfw_tracking_link ); ?>" class="button wc-forward" target="_blank" style="flex: 1; text-align: center; background-color: #0071a1; color: #fff; padding: 10px 15px; border-radius: 6px; text-decoration: none;">
 						Track with Carrier
 					</a>
 					<?php

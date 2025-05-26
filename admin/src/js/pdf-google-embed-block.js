@@ -222,7 +222,7 @@ registerBlockType('custom/image-shortcode', {
     }
 });
 
-if ('on' === embed_block_param.is_wps_track_order_active) {
+if ('on' === embed_block_param.is_wps_track_order_active && (embed_block_param.is_tofw_is_active)) {
     registerBlockType('custom/tracking-info-shortcode', {
         title: 'WPSwings Order Tracking Info',
         icon: 'location-alt',

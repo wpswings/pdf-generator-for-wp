@@ -3111,10 +3111,16 @@ class Pdf_Generator_For_Wp_Admin {
 	 */
 	public function register_google_embed_blocks() {
 		$wps_wpg_is_pro_active = false;
+		$wps_tofw_is_pro_active = false;
 		$wps_wpg_plugin_list = get_option( 'active_plugins' );
 		$wps_wpg_plugin = 'wordpress-pdf-generator/wordpress-pdf-generator.php';
 		if ( in_array( $wps_wpg_plugin, $wps_wpg_plugin_list ) ) {
 			$wps_wpg_is_pro_active = true;
+		}
+
+		$wps_tofw_plugin = 'track-orders-for-woocommerce/track-orders-for-woocommerce.php';
+		if ( in_array( $wps_tofw_plugin, $wps_wpg_plugin_list ) ) {
+			$wps_tofw_is_pro_active = true;
 		}
 		$license_check = get_option( 'wps_wpg_license_check', 0 );
 
@@ -3154,6 +3160,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'reloadurl'           => admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ),
 				'is_pro_active' => $wps_wpg_is_pro_active,
 				'license_check' => $license_check,
+				'is_tofw_is_active'=>$wps_tofw_is_pro_active,
 				'is_linkedln_active' => get_option( 'wps_embed_source_linkedln', '' ),
 				'is_loom_active' => get_option( 'wps_embed_source_loom', '' ),
 				'is_twitch_active' => get_option( 'wps_embed_source_twitch', '' ),
