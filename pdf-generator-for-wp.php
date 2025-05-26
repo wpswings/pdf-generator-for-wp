@@ -188,10 +188,12 @@ function wps_register_new_widgets( $widgets_manager ) {
 
 	$always_include = array( 'wps_pdf_shortcode', 'wps_single_image' );
 	$pro_only_widgets = array( 'wps_ai_chatbot', 'wps_pdf_embed', 'wps_rss_feed' );
+	$tofw_only_widgets = array( 'wps_tracking_info' );
 
 	// Check if Pro plugin is active.
 	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-	$is_pro_plugin_active = is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' );
+	$pdf_is_pro_plugin_active = is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' );
+	$tofw_is_pro_plugin_active = is_plugin_active( 'track-orders-for-woocommerce/track-orders-for-woocommerce.php' );
 
 	foreach ( $wps_pgfw_sources as $source ) {
 		$should_load = false;
@@ -202,7 +204,14 @@ function wps_register_new_widgets( $widgets_manager ) {
 			$option_key = str_replace( 'wps_', '', $source );
 			$option_key = "wps_embed_source_{$option_key}";
 
-			if ( 'on' === get_option( $option_key, '' ) && $is_pro_plugin_active ) {
+			if ( 'on' === get_option( $option_key, '' ) && $pdf_is_pro_plugin_active ) {
+				$should_load = true;
+			}
+		} elseif ( in_array( $source, $tofw_only_widgets ) ) {
+			$option_key = str_replace( 'wps_', '', $source );
+			$option_key = "wps_embed_source_{$option_key}";
+
+			if ( 'on' === get_option( $option_key, '' ) && $tofw_is_pro_plugin_active ) {
 				$should_load = true;
 			}
 		} else {
@@ -479,7 +488,7 @@ if ( is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) )
 	}
 }
 
-if ( 'on' === get_option( 'wps_embed_source_wps_track_order', '' ) ) {
+if ( 'on' === get_option( 'wps_embed_source_wps_track_order', '' ) && is_plugin_active( 'track-orders-for-woocommerce/track-orders-for-woocommerce.php' ) ) {
 	add_shortcode( 'wps_tracking_info', 'wps_pgfw_tracking_info_shortcode' );
 }
 
@@ -561,12 +570,12 @@ function wps_pgfw_tracking_info_shortcode( $atts ) {
 	}
 	?>
 	<div style="<?php echo esc_attr( $wps_pgfw_container_style ); ?>">
-		<h2 style="margin-top: 0; color: #333;"><?php echo __('Order Tracking Information','pdf-generator-for-wp');?></h2>
-		<p><strong><?php echo __('Order ID:','pdf-generator-for-wp');?></strong> <?php echo esc_html( $wps_pgfw_order_id ); ?></p>
-		<p><strong><?php echo __('Order Status:','pdf-generator-for-wp');?></strong> <span style="color: green;"><?php echo esc_html( $wps_pgfw_status ); ?></span></p>
+		<h2 style="margin-top: 0; color: #333;"><?php echo __( 'Order Tracking Information', 'pdf-generator-for-wp' ); ?></h2>
+		<p><strong><?php echo __( 'Order ID:', 'pdf-generator-for-wp' ); ?></strong> <?php echo esc_html( $wps_pgfw_order_id ); ?></p>
+		<p><strong><?php echo __( 'Order Status:', 'pdf-generator-for-wp' ); ?></strong> <span style="color: green;"><?php echo esc_html( $wps_pgfw_status ); ?></span></p>
 		<?php if ( is_plugin_active( 'track-orders-for-woocommerce-pro/track-orders-for-woocommerce-pro.php' ) ) { ?>
 			<?php if ( $wps_pgfw_estimated_date || $wps_pgfw_estimated_time ) : ?>
-				<p><strong><?php echo __('Estimated Delivery:','pdf-generator-for-wp');?></strong><br>
+				<p><strong><?php echo __( 'Estimated Delivery:', 'pdf-generator-for-wp' ); ?></strong><br>
 					<?php if ( $wps_pgfw_estimated_date ) : ?>
 						📅 <?php echo esc_html( $wps_pgfw_estimated_date ); ?><br>
 					<?php endif; ?>
@@ -579,7 +588,7 @@ function wps_pgfw_tracking_info_shortcode( $atts ) {
 
 			<?php if ( $wps_pgfw_tracking_link ) : ?>
 				<div style="margin-top: 15px;">
-					<strong><?php echo __('Carrier Tracking:','pdf-generator-for-wp');?></strong>
+					<strong><?php echo __( 'Carrier Tracking:', 'pdf-generator-for-wp' ); ?></strong>
 					<div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
 						<?php if ( $wps_pgfw_icon_url ) : ?>
 							<img src="<?php echo esc_url( $wps_pgfw_icon_url ); ?>" alt="<?php echo esc_attr( $wps_pgfw_matched_carrier_name ); ?>" style="height: 35px;">
