@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PDF Generator For WP 1.5.0\n"
-"POT-Creation-Date: 2025-04-16 15:44+0530\n"
+"Project-Id-Version: PDF Generator For WP 1.5.1\n"
+"POT-Creation-Date: 2025-05-26 19:22+0530\n"
 "PO-Revision-Date: 2023-10-03 16:14+0530\n"
 "Last-Translator: \n"
 "Language-Team: WP Swings\n"
@@ -17,6 +17,393 @@ msgstr ""
 "esc_html;esc_html__;esc_html_e;esc_html_x;_n_noop;_nx_noop;"
 "translate_nooped_plural\n"
 "X-Poedit-SearchPath-0: .\n"
+
+#: Elementor/Elementor/class-elementor-widget-wps-x.php:41
+msgid "WPSwings X (Twitter) Post Embed"
+msgstr ""
+
+#: Elementor/Elementor/class-elementor-widget-wps-x.php:73
+#: Elementor/class-elementor-widget-wps-loom.php:55
+msgid "Embed Settings"
+msgstr ""
+
+#: Elementor/Elementor/class-elementor-widget-wps-x.php:80
+msgid "Post URL"
+msgstr ""
+
+#: Elementor/Elementor/class-elementor-widget-wps-x.php:82
+msgid "https://twitter.com/user/status/123456789"
+msgstr ""
+
+#: Elementor/Elementor/class-elementor-widget-wps-x.php:127
+msgid "Please enter a valid X (Twitter) post URL."
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-ai-chatbot.php:37
+msgid "WPSwings AI Chatbot"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-ai-chatbot.php:66
+msgid "Chatbot Settings"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-ai-chatbot.php:73
+msgid "Chatbot URL"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-ai-chatbot.php:76
+msgid "https://your-chatbot.com"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-ai-chatbot.php:83
+msgid "Height"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-ai-chatbot.php:92
+msgid "Header Color"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-ai-chatbot.php:101
+#: Elementor/class-elementor-widget-wps-rss-feed.php:86
+msgid "Header Title"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-calendly.php:37
+msgid "WPSwings Calendly Embed"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-calendly.php:65
+msgid "Calendly Settings"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-calendly.php:73
+msgid "Calendly URL"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-calendly.php:75
+msgid "https://calendly.com/your-link"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-calendly.php:97
+msgid "Please set a Calendly URL in the widget settings."
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-canva.php:37
+msgid "WPSwings Canva Embed"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-canva.php:65
+msgid "Canva Settings"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-canva.php:73
+msgid "Canva URL"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-canva.php:75
+msgid "https://www.canva.com/design/your-design-id/watch"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-canva.php:101
+msgid "Need help?"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-canva.php:106
+msgid "How to use this block?"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-canva.php:111
+msgid "Please provide a Canva URL in the widget settings."
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-google-elements.php:31
+msgid "WPSwings Google Embed"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-google-elements.php:55
+msgid "Google Embed Settings"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-google-elements.php:63
+msgid "Google Service Embed URL"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-google-elements.php:65
+msgid "Paste Google Docs, Sheets, Slides, Forms, etc. URL"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-google-elements.php:139
+msgid "Invalid or unsupported Google embed URL."
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-linkedin.php:31
+msgid "WPSwings LinkedIn Embed"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-linkedin.php:55
+msgid "LinkedIn Settings"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-linkedin.php:63
+msgid "LinkedIn Post ID"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-linkedin.php:86
+msgid "Please enter a LinkedIn Post ID in the widget settings."
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-loom.php:31
+msgid "WPSwings Loom Video Embed"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-loom.php:62
+msgid "Loom Share URL"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-loom.php:64
+msgid "https://www.loom.com/share/your-video-id"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-loom.php:93
+msgid "Please enter a valid Loom share URL."
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-pdf-embed.php:31
+msgid "WPSwings PDF Embed"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-pdf-embed.php:55
+#: includes/class-pdf-generator-for-wp.php:393
+msgid "PDF Settings"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-pdf-embed.php:62
+msgid "PDF File"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-pdf-embed.php:65
+msgid "Upload a PDF file to embed."
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-pdf-embed.php:85
+msgid "Please upload a valid PDF file."
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-pdf-shortcode.php:35
+msgid "WPSwings PDF Shortcode"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-pdf-shortcode.php:65
+msgid "PDF Shortcode"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-pdf-shortcode.php:73
+msgid "Enter Shortcode"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-pdf-shortcode.php:95
+msgid "Please enter a valid shortcode."
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-reddit.php:37
+msgid "WPSwings Reddit Embed"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-reddit.php:67
+msgid "Reddit Embed Settings"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-reddit.php:74
+msgid "Reddit Post URL"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-reddit.php:76
+msgid "Enter Reddit post URL"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-reddit.php:94
+msgid "Please enter a valid Reddit post URL."
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-reddit.php:100
+msgid "View Reddit Post"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-rss-feed.php:39
+msgid "WPSwings RSS App Feed"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-rss-feed.php:70
+msgid "Feed Settings"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-rss-feed.php:77
+msgid "RSS Widget URL"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-rss-feed.php:79
+msgid "https://widget.rss.app/v1/list.html?widget=xxxx"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-rss-feed.php:95
+msgid "Iframe Height"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-rss-feed.php:104
+msgid "Background Color"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-rss-feed.php:113
+msgid "Text Color"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-rss-feed.php:122
+msgid "Border Color"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-single-image.php:39
+msgid "WPSwings Single Image"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-single-image.php:72
+msgid "Image Settings"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-single-image.php:80
+msgid "Image ID"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-single-image.php:82
+msgid "Enter Image ID"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-single-image.php:90
+msgid "Width (px)"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-single-image.php:92
+#: Elementor/class-elementor-widget-wps-single-image.php:102
+msgid "50"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-single-image.php:100
+msgid "Height (px)"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-single-image.php:128
+msgid "Please provide an Image ID in the widget settings."
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-strava.php:39
+msgid "WPSwings Strava Embed"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-strava.php:72
+msgid "Strava Settings"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-strava.php:80
+msgid "Strava Activity ID"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-strava.php:82
+msgid "e.g. 123456789"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-strava.php:105
+msgid "Please enter a Strava Activity ID in the widget settings."
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-tracking-info.php:39
+msgid "WPSwings Tracking Info"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-tracking-info.php:72
+msgid "Tracking Info Settings"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-tracking-info.php:80
+msgid "Order ID"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-tracking-info.php:82
+msgid "Enter Order ID"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-tracking-info.php:90
+msgid "Order Alignment"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-tracking-info.php:93
+#: admin/class-pdf-generator-for-wp-admin.php:726
+#: admin/class-pdf-generator-for-wp-admin.php:1506
+#: admin/class-pdf-generator-for-wp-admin.php:1554
+msgid "Left"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-tracking-info.php:94
+#: admin/class-pdf-generator-for-wp-admin.php:727
+msgid "Center"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-tracking-info.php:95
+#: admin/class-pdf-generator-for-wp-admin.php:728
+#: admin/class-pdf-generator-for-wp-admin.php:1516
+#: admin/class-pdf-generator-for-wp-admin.php:1564
+msgid "Right"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-tracking-info.php:120
+msgid "Please provide an Order ID in the widget settings."
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-twitch.php:42
+msgid "WPSwings Twitch Stream with Chat"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-twitch.php:74
+msgid "Twitch Stream Settings"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-twitch.php:82
+msgid "Twitch Channel"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-twitch.php:84
+msgid "Enter Twitch channel name"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-twitch.php:92
+msgid "Stream Width"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-twitch.php:101
+msgid "Stream Height"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-twitch.php:110
+msgid "Chat Width"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-twitch.php:119
+msgid "Chat Height"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-twitch.php:128
+msgid "Show Chat?"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-twitch.php:132
+msgid "Yes"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-twitch.php:133
+msgid "No"
+msgstr ""
+
+#: Elementor/class-elementor-widget-wps-twitch.php:159
+msgid "Please provide a Twitch channel name."
+msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:137
 msgid "Deleting...."
@@ -375,22 +762,6 @@ msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:725
 msgid "Please Choose"
-msgstr ""
-
-#: admin/class-pdf-generator-for-wp-admin.php:726
-#: admin/class-pdf-generator-for-wp-admin.php:1506
-#: admin/class-pdf-generator-for-wp-admin.php:1554
-msgid "Left"
-msgstr ""
-
-#: admin/class-pdf-generator-for-wp-admin.php:727
-msgid "Center"
-msgstr ""
-
-#: admin/class-pdf-generator-for-wp-admin.php:728
-#: admin/class-pdf-generator-for-wp-admin.php:1516
-#: admin/class-pdf-generator-for-wp-admin.php:1564
-msgid "Right"
 msgstr ""
 
 #: admin/class-pdf-generator-for-wp-admin.php:733
@@ -1793,12 +2164,12 @@ msgstr ""
 
 #: admin/partials/pdf-generator-for-wp-admin-dashboard.php:38
 #: admin/partials/pdf-generator-for-wp-admin-dashboard.php:40
-#: pdf-generator-for-wp.php:212
+#: pdf-generator-for-wp.php:309
 msgid "Documentation"
 msgstr ""
 
 #: admin/partials/pdf-generator-for-wp-admin-dashboard.php:43
-#: pdf-generator-for-wp.php:214
+#: pdf-generator-for-wp.php:311
 msgid "Support"
 msgstr ""
 
@@ -1834,6 +2205,14 @@ msgstr ""
 
 #: admin/partials/pdf-generator-for-wp-embed-source.php:77
 msgid "Check out our documentation to understand how these settings work."
+msgstr ""
+
+#: admin/partials/pdf-generator-for-wp-embed-source.php:80
+msgid "Need to know more about Wps track order ? "
+msgstr ""
+
+#: admin/partials/pdf-generator-for-wp-embed-source.php:80
+msgid "Check out our documentation to understand how WPS Track Order Work."
 msgstr ""
 
 #: admin/partials/pdf-generator-for-wp-footer.php:21
@@ -2118,7 +2497,6 @@ msgid ""
 msgstr ""
 
 #: admin/partials/pdf-generator-for-wp-pdf-icon-setting.php:57
-#: admin/partials/pdf-generator-for-wp-pdf-setting.php:64
 #, php-format
 msgid ""
 "Add %s shortcode anywhere on your page or posts to display PDF generating "
@@ -2187,7 +2565,13 @@ msgid ""
 "image to the pdf via image id."
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-shortcode.php:59
+#: admin/partials/pdf-generator-for-wp-shortcode.php:57
+msgid ""
+"Use [wps_tracking_info order_id=\"12345\" align=\"left\"] To add an tracking "
+"info to the pdf via order id."
+msgstr ""
+
+#: admin/partials/pdf-generator-for-wp-shortcode.php:64
 msgid "Click any shortcode to copy it."
 msgstr ""
 
@@ -2298,9 +2682,9 @@ msgstr ""
 msgid "Discount"
 msgstr ""
 
-#: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout1.php:392
-#: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout2.php:319
-#: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout3.php:409
+#: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout1.php:395
+#: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout2.php:320
+#: admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout3.php:411
 msgid "Looks like order is not found"
 msgstr ""
 
@@ -2405,10 +2789,6 @@ msgstr ""
 
 #: includes/class-pdf-generator-for-wp.php:388
 msgid "General Settings"
-msgstr ""
-
-#: includes/class-pdf-generator-for-wp.php:393
-msgid "PDF Settings"
 msgstr ""
 
 #: includes/class-pdf-generator-for-wp.php:398
@@ -2516,73 +2896,97 @@ msgstr ""
 msgid "Skip For Now"
 msgstr ""
 
-#: pdf-generator-for-wp.php:99 pdf-generator-for-wp.php:123
+#: pdf-generator-for-wp.php:100 pdf-generator-for-wp.php:124
 msgid "PDF Generator For WordPress"
 msgstr ""
 
-#: pdf-generator-for-wp.php:195
+#: pdf-generator-for-wp.php:253
+msgid "WPSwings PDF Widgets"
+msgstr ""
+
+#: pdf-generator-for-wp.php:292
 msgid "Settings"
 msgstr ""
 
-#: pdf-generator-for-wp.php:198
+#: pdf-generator-for-wp.php:295
 msgid "GO PRO"
 msgstr ""
 
-#: pdf-generator-for-wp.php:211
+#: pdf-generator-for-wp.php:308
 msgid "Demo"
 msgstr ""
 
-#: pdf-generator-for-wp.php:213
+#: pdf-generator-for-wp.php:310
 msgid "Video"
 msgstr ""
 
-#: pdf-generator-for-wp.php:215
+#: pdf-generator-for-wp.php:312
 msgid "Services"
 msgstr ""
 
-#: pdf-generator-for-wp.php:272
+#: pdf-generator-for-wp.php:367
 msgid "This plugin will not work anymore correctly."
 msgstr ""
 
-#: pdf-generator-for-wp.php:273
+#: pdf-generator-for-wp.php:368
 msgid ""
 "We highly recommend to update to latest pro version and once installed "
 "please migrate the existing settings."
 msgstr ""
 
-#: pdf-generator-for-wp.php:274
+#: pdf-generator-for-wp.php:369
 msgid ""
 "If you are not getting automatic update now button here, then don't worry "
 "you will get in within 24 hours. If you still not get it please visit to "
 "your account dashboard and install it manually or connect to our support."
 msgstr ""
 
-#: pdf-generator-for-wp.php:308
+#: pdf-generator-for-wp.php:402
 msgid ""
 "If You are using Premium Version of PDF plugin then please update Pro plugin "
 "from plugin page by "
 msgstr ""
 
-#: pdf-generator-for-wp.php:308
+#: pdf-generator-for-wp.php:402
 msgid "Click Here"
 msgstr ""
 
-#: pdf-generator-for-wp.php:342
+#: pdf-generator-for-wp.php:436
 msgid ""
 "The latest update includes some substantial changes across different areas "
 "of the plugin. Hence, if you are not a new user then"
 msgstr ""
 
-#: pdf-generator-for-wp.php:342
+#: pdf-generator-for-wp.php:436
 msgid " Please migrate your old data and settings from "
 msgstr ""
 
-#: pdf-generator-for-wp.php:342
+#: pdf-generator-for-wp.php:436
 msgid "Dashboard"
 msgstr ""
 
-#: pdf-generator-for-wp.php:342
+#: pdf-generator-for-wp.php:436
 msgid " page then Click On Start Import Button."
+msgstr ""
+
+#: pdf-generator-for-wp.php:573
+msgid "Order Tracking Information"
+msgstr ""
+
+#: pdf-generator-for-wp.php:574
+msgid "Order ID:"
+msgstr ""
+
+#: pdf-generator-for-wp.php:575
+msgid "Order Status:"
+msgstr ""
+
+#: pdf-generator-for-wp.php:578
+msgid "Estimated Delivery:"
+msgstr ""
+
+#: pdf-generator-for-wp.php:591
+msgid "Carrier Tracking:"
 msgstr ""
 
 #: public/templates/pdf-generator-for-wp-public-email-storage-modal-template.php:40
