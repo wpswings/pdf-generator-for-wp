@@ -155,3 +155,14 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 });
 
+jQuery(document).ready(function ($) {
+	const $selects = $('.wpg-select2');
+
+	// Initialize Select2
+	$selects.select2({
+		placeholder: "Select unique items",
+		allowClear: true,
+		width: 'resolve'
+	});
+});
+

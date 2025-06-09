@@ -103,7 +103,7 @@ class Pdf_Generator_For_Wp_Admin {
 			wp_enqueue_script( 'wps-pgfw-metarial-js2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.js', array(), time(), false );
 			wp_enqueue_script( 'wps-pgfw-metarial-lite', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-lite.min.js', array(), time(), false );
 
-			wp_register_script( $this->plugin_name . 'admin-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/js/pdf-generator-for-wp-admin.js', array( 'jquery', 'wps-pgfw-select2', 'wps-pgfw-metarial-js', 'wps-pgfw-metarial-js2', 'wps-pgfw-metarial-lite' ), $this->version, false );
+			wp_register_script( $this->plugin_name . 'admin-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/js/pdf-generator-for-wp-admin.js', array( 'jquery', 'wps-pgfw-select2', 'wps-pgfw-metarial-js', 'wps-pgfw-metarial-js2', 'wps-pgfw-metarial-lite' ), time(), false );
 			$wps_wpg_plugin_list = get_option( 'active_plugins' );
 			$wps_wpg_is_pro_active = false;
 			$wps_wpg_plugin = 'wordpress-pdf-generator/wordpress-pdf-generator.php';

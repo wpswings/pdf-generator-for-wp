@@ -52,7 +52,7 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 			<div class="pgfw-secion-wrap">
 				<?php
 				$custom_template_data             = get_option( 'wpg_custom_templates_list', array() );
-				$pgfw_use_template_to_generate_pdf = get_option( 'wpg_use_template_to_generate_pdf' );
+				$pgfw_use_template_to_generate_pdf = get_option( 'wpg_use_template_to_generate_pdf' , array());
 				$preview_output_href              = add_query_arg(
 					array(
 						'action'   => 'previewpdf',
@@ -103,7 +103,7 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 							<td><?php esc_html_e( 'Template 1', 'pdf-generator-for-wp' ); ?></td>
 							<td><?php esc_html_e( 'All Posts', 'pdf-generator-for-wp' ); ?></td>
 							<td>
-								<input type="radio" name="wpg_use_template_current_status" class="wpg_use_template_current_status" value="template1" <?php checked( $pgfw_use_template_to_generate_pdf, 'template1' ); ?>>
+						<input type="checkbox" name="wpg_use_template_current_status[]" class="wpg_use_template_current_status" value="template1" <?php checked( in_array( 'template1', (array) $pgfw_use_template_to_generate_pdf ), true ); ?>>
 								<span><?php esc_html_e( 'Activate', 'pdf-generator-for-wp' ); ?></span>
 							</td>
 							<td>
@@ -142,10 +142,39 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 									<?php if ( 0 === $i ) { ?>
 										<td rowspan="3"><?php echo esc_html( str_replace( 'customtemplate', __( 'Custom Template ', 'pdf-generator-for-wp' ), $template ) ); ?></td>
 										<td rowspan="3">
-											<span><?php esc_html_e( 'All Posts', 'pdf-generator-for-wp' ); ?></span>
+										<span><select name="wpg_template_items[<?php echo esc_attr( $template ); ?>][]" class="wpg-select2" multiple style="width: 300px;">
+										<?php
+										$selected_items = get_option( 'wpg_template_items_' . $template, array() ); //need to get the selected items for this template.
+										$post_types = get_post_types( array( 'public' => true ), 'objects' );
+
+										foreach ( $post_types as $post_type ) {
+											$posts = get_posts( array(
+												'post_type'      => $post_type->name,
+												'posts_per_page' => -1,
+												'post_status'    => 'publish',
+											) );
+
+											if ( ! empty( $posts ) ) {
+												echo '<optgroup label="' . esc_html( $post_type->labels->singular_name ) . '">';
+												foreach ( $posts as $post ) {
+													$selected = in_array( $post->ID, $selected_items ) ? 'selected' : '';
+													echo '<option value="' . esc_attr( $post->ID ) . '" ' . $selected . '>' . esc_html( $post->post_title ) . '</option>';
+												}
+												echo '</optgroup>';
+											}
+										}
+										?>
+									</select>
+									</span>
 										</td>
 										<td rowspan="3">
-											<input type="radio" name="wpg_use_template_current_status" class="wpg_use_template_current_status" value="<?php echo esc_html( $template ); ?>" <?php checked( $pgfw_use_template_to_generate_pdf, $template ); ?>>
+
+
+											<input type="checkbox" name="wpg_use_template_current_status" class="wpg_use_template_current_status" value="<?php echo esc_html( $template ); ?>" <?php checked( $pgfw_use_template_to_generate_pdf, $template ); ?>>
+
+
+
+
 											<span><?php esc_html_e( 'Activate', 'pdf-generator-for-wp' ); ?></span>
 										</td>
 										<td rowspan="3"><?php echo esc_html( ( $availability ) ? get_the_modified_date( '', $template_id ) : __( 'Not Found', 'pdf-generator-for-wp' ) ); ?></td>
