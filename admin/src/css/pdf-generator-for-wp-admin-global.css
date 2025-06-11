@@ -430,3 +430,16 @@ select {
     user-select: none;
     pointer-events: none;
 }
+
+.wps-form-group:has(button.mdc-button.wps-pgfw-save-setting) {
+    position: sticky;
+    bottom: 0;
+    background: #fff;
+    padding: 15px 0;
+}
+.wps-form-group:has(button.mdc-button.wps-pgfw-save-setting) {
+    position: sticky;
+    bottom: 0;
+    background: #fff;
+    padding: 15px 0;
+}

@@ -833,7 +833,7 @@ class Pdf_Generator_For_Wp {
 						<div class="wps-form-group">
 							<div class="wps-form-group__label"></div>
 							<div class="wps-form-group__control">
-								<button type="submit" class="mdc-button mdc-button--raised" name= "<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
+								<button type="submit" class="mdc-button mdc-button--raised wps-pgfw-save-setting" name= "<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
 									id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"> <span class="mdc-button__ripple"></span>
 									<span class="mdc-button__label <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"><?php echo ( isset( $pgfw_component['button_text'] ) ? esc_html( $pgfw_component['button_text'] ) : '' ); ?></span>
 								</button>
