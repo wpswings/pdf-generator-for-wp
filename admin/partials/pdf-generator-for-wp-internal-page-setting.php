@@ -52,7 +52,7 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 			<div class="pgfw-secion-wrap">
 				<?php
 				$custom_template_data             = get_option( 'wpg_custom_templates_list', array() );
-				$pgfw_use_template_to_generate_pdf = get_option( 'wpg_use_template_to_generate_pdf' , array());
+				$pgfw_use_template_to_generate_pdf = get_option( 'wpg_use_template_to_generate_pdf', array() );
 				$preview_output_href              = add_query_arg(
 					array(
 						'action'   => 'previewpdf',
@@ -144,15 +144,17 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 										<td rowspan="3">
 										<span><select name="wpg_template_items[<?php echo esc_attr( $template ); ?>][]" class="wpg-select2" multiple style="width: 300px;">
 										<?php
-										$selected_items = get_option( 'wpg_template_items_' . $template, array() ); //need to get the selected items for this template.
+										$selected_items = get_option( 'wpg_template_items_' . $template, array() ); // need to get the selected items for this template.
 										$post_types = get_post_types( array( 'public' => true ), 'objects' );
 
 										foreach ( $post_types as $post_type ) {
-											$posts = get_posts( array(
-												'post_type'      => $post_type->name,
-												'posts_per_page' => -1,
-												'post_status'    => 'publish',
-											) );
+											$posts = get_posts(
+												array(
+													'post_type'      => $post_type->name,
+													'posts_per_page' => -1,
+													'post_status'    => 'publish',
+												)
+											);
 
 											if ( ! empty( $posts ) ) {
 												echo '<optgroup label="' . esc_html( $post_type->labels->singular_name ) . '">';
@@ -170,8 +172,11 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 										<td rowspan="3">
 
 
-											<input type="checkbox" name="wpg_use_template_current_status" class="wpg_use_template_current_status" value="<?php echo esc_html( $template ); ?>" <?php checked( in_array( $template, (array) $pgfw_use_template_to_generate_pdf, true ) );
- ?>>
+											<input type="checkbox" name="wpg_use_template_current_status" class="wpg_use_template_current_status" value="<?php echo esc_html( $template ); ?>" 
+																																									<?php
+																																									checked( in_array( $template, (array) $pgfw_use_template_to_generate_pdf, true ) );
+																																									?>
+ >
 
 
 											<span><?php esc_html_e( 'Activate', 'pdf-generator-for-wp' ); ?></span>
