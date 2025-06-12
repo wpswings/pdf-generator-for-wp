@@ -170,9 +170,8 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 										<td rowspan="3">
 
 
-											<input type="checkbox" name="wpg_use_template_current_status" class="wpg_use_template_current_status" value="<?php echo esc_html( $template ); ?>" <?php checked( $pgfw_use_template_to_generate_pdf, $template ); ?>>
-
-
+											<input type="checkbox" name="wpg_use_template_current_status" class="wpg_use_template_current_status" value="<?php echo esc_html( $template ); ?>" <?php checked( in_array( $template, (array) $pgfw_use_template_to_generate_pdf, true ) );
+ ?>>
 
 
 											<span><?php esc_html_e( 'Activate', 'pdf-generator-for-wp' ); ?></span>
