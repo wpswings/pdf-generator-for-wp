@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: PDF Generator For WP 1.5.1\n"
-"POT-Creation-Date: 2025-05-26 19:22+0530\n"
-"PO-Revision-Date: 2025-05-26 19:22+0530\n"
+"Project-Id-Version: PDF Generator For WP 1.5.2\n"
+"POT-Creation-Date: 2025-06-12 18:51+0530\n"
+"PO-Revision-Date: 2025-06-12 18:53+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -2261,7 +2261,7 @@ msgstr ""
 
 #: admin/partials/pdf-generator-for-wp-internal-page-setting.php:96
 #: admin/partials/pdf-generator-for-wp-internal-page-setting.php:113
-#: admin/partials/pdf-generator-for-wp-internal-page-setting.php:155
+#: admin/partials/pdf-generator-for-wp-internal-page-setting.php:188
 msgid "Preview"
 msgstr ""
 
@@ -2270,7 +2270,7 @@ msgid "Template Editing Link"
 msgstr ""
 
 #: admin/partials/pdf-generator-for-wp-internal-page-setting.php:98
-#: admin/partials/pdf-generator-for-wp-internal-page-setting.php:169
+#: admin/partials/pdf-generator-for-wp-internal-page-setting.php:202
 #: admin/partials/pdf-generator-for-wp-pdf-upload.php:58
 msgid "Delete"
 msgstr ""
@@ -2280,19 +2280,18 @@ msgid "Template 1"
 msgstr ""
 
 #: admin/partials/pdf-generator-for-wp-internal-page-setting.php:104
-#: admin/partials/pdf-generator-for-wp-internal-page-setting.php:145
 msgid "All Posts"
 msgstr ""
 
 #: admin/partials/pdf-generator-for-wp-internal-page-setting.php:107
-#: admin/partials/pdf-generator-for-wp-internal-page-setting.php:149
+#: admin/partials/pdf-generator-for-wp-internal-page-setting.php:182
 #: admin/partials/pdf-generator-for-wp-layout-table.php:37
 msgid "Activate"
 msgstr ""
 
 #: admin/partials/pdf-generator-for-wp-internal-page-setting.php:116
-#: admin/partials/pdf-generator-for-wp-internal-page-setting.php:151
-#: admin/partials/pdf-generator-for-wp-internal-page-setting.php:162
+#: admin/partials/pdf-generator-for-wp-internal-page-setting.php:184
+#: admin/partials/pdf-generator-for-wp-internal-page-setting.php:195
 msgid "Not Found"
 msgstr ""
 
@@ -2319,11 +2318,11 @@ msgstr ""
 msgid "Custom Template "
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-internal-page-setting.php:181
+#: admin/partials/pdf-generator-for-wp-internal-page-setting.php:214
 msgid "Save Setting"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-internal-page-setting.php:188
+#: admin/partials/pdf-generator-for-wp-internal-page-setting.php:221
 #: admin/partials/pdf-generator-for-wp-shortcode.php:44
 msgid ""
 "Add [QR_CODE] shortcode anywhere on your Custom template to display QR Code "
@@ -2726,17 +2725,17 @@ msgstr ""
 msgid "Email Submitted Successfully."
 msgstr ""
 
-#: common/class-pdf-generator-for-wp-common.php:443
+#: common/class-pdf-generator-for-wp-common.php:445
 msgid "document form site"
 msgstr ""
 
-#: common/class-pdf-generator-for-wp-common.php:443
+#: common/class-pdf-generator-for-wp-common.php:445
 msgid "Please find these attachment"
 msgstr ""
 
-#: common/class-pdf-generator-for-wp-common.php:685
-#: common/class-pdf-generator-for-wp-common.php:694
-#: common/class-pdf-generator-for-wp-common.php:703
+#: common/class-pdf-generator-for-wp-common.php:687
+#: common/class-pdf-generator-for-wp-common.php:696
+#: common/class-pdf-generator-for-wp-common.php:705
 msgid "Export"
 msgstr ""
 

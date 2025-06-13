@@ -5,8 +5,8 @@ Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress pdf generator
 Requires at least: 5.5.0
 Tested up to: 6.8.1
 WC requires at least: 6.5.0
-WC tested up to: 9.8.5
-Stable tag: 1.5.1
+WC tested up to: 9.9.3
+Stable tag: 1.5.2
 Requires PHP: 7.2
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -17,7 +17,7 @@ PDF Generator for WordPress allows you to convert posts into PDF files to share 
 
 **PDF GENERATOR FOR WORDPRESS PLUGIN LETS YOU CREATE PDFs OF PAGES, PRODUCTS, AND POSTS FOR BETTER DISPERSAL OF BRAND INFORMATION WITH WPML COMPATIBILITY. YOU CAN MAKE OR CREATE PDFs EASILY FOR YOUR WEBSITES.** 
 
-The [**PDF plugin for WordPress**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=referral&utm_campaign=hpdf-pro)) allows you to create PDF files for the pages to ensure the availability of information offline. It allows the admin to convert all the posts, pages, blogs, and products on their website into PDF files.
+The [**PDF plugin for WordPress**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=referral&utm_campaign=hpdf-pro) allows you to create PDF files for the pages to ensure the availability of information offline. It allows the admin to convert all the posts, pages, blogs, and products on their website into PDF files.
 
 The WordPress PDF embedder plugin allows users to download PDFs from the WordPress site or view them in a new tab. Also, the admin can authorize users to receive their PDFs at their email addresses. 
 
@@ -219,7 +219,12 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Changelog ==
 
-= 1.5.1 - Released on 27 May 2025 = 
+= 1.5.2 - Released on 13 June 2025 =
+* New: Compatibility with the latest versions of WordPress  (6.8.1) and WooCommerce (9.9.3).
+* Enhancement: Improved custom table rendering to support larger and more complex table content in PDFs.
+* Enhancement: Enhanced admin settings structure to support flexible and longer layout configurations.
+
+= 1.5.1 - Released on 28 May 2025 = 
 * New: Elementor widget support for all existing shortcodes/blocks, enabling easy drag-and-drop usage in the Elementor builder.
 * New: Integration with Track Order For Woocommerce for enhanced compatibility and feature expansion.
 * New: Ability to embed tracking information inside posts, pages, and generated PDFs via Elementor widgets.
@@ -397,8 +402,7 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Upgrade Notice ==
 
-= 1.5.1 - Released on 27 May 2025 = 
-* New: Elementor widget support for all existing shortcodes/blocks, enabling easy drag-and-drop usage in the Elementor builder.
-* New: Integration with Track Order For Woocommerce for enhanced compatibility and feature expansion.
-* New: Ability to embed tracking information inside posts, pages, and generated PDFs via Elementor widgets.
-* New: Compatibility with the latest WC(9.8.5) and WP(6.8.1)
+= 1.5.2 - Released on 13 June 2025 =
+* New: Compatibility with the latest versions of WordPress  (6.8.1) and WooCommerce (9.9.3).
+* Enhancement: Improved custom table rendering to support larger and more complex table content in PDFs.
+* Enhancement: Enhanced admin settings structure to support flexible and longer layout configurations.

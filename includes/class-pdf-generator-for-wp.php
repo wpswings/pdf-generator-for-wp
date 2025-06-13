@@ -77,7 +77,7 @@ class Pdf_Generator_For_Wp {
 			$this->version = PDF_GENERATOR_FOR_WP_VERSION;
 		} else {
 
-			$this->version = '1.4.1';
+			$this->version = '1.5.2';
 		}
 
 		$this->plugin_name = 'pdf-generator-for-wp';
