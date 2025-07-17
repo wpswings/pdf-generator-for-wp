@@ -223,7 +223,7 @@ class Pdf_Generator_For_Wp_Public {
 			$url_here
 		);
 		$html     = pgfw_pdf_download_button( $url_here, $id );
-		return $html;
+		return apply_filters( 'pgfw_pdf_download_button_filter', $html, $id );
 	}
 	/**
 	 * Modal for email during pdf generation.

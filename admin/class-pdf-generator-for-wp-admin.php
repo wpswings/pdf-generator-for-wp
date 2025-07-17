@@ -92,6 +92,8 @@ class Pdf_Generator_For_Wp_Admin {
 		$wps_wgm_notice = array(
 			'ajaxurl'       => admin_url( 'admin-ajax.php' ),
 			'wps_pgfw_nonce' => wp_create_nonce( 'wps-pgfw-verify-notice-nonce' ),
+			'check_pro_activate'     => ! wps_pgfw_is_pdf_pro_plugin_active(),
+
 		);
 		wp_register_script( $this->plugin_name . 'admin-notice', plugin_dir_url( __FILE__ ) . 'src/js/pdf-generator-for-wp-notices.js', array( 'jquery' ), $this->version, false );
 		wp_localize_script( $this->plugin_name . 'admin-notice', 'wps_pgfw_notice', $wps_wgm_notice );
@@ -3051,7 +3053,7 @@ class Pdf_Generator_For_Wp_Admin {
 			update_option( 'wps_wgm_notify_new_banner_image', $banner_image );
 			update_option( 'wps_wgm_notify_new_banner_url', $banner_url );
 			if ( 'regular' == $banner_type ) {
-				update_option( 'wps_wgm_notify_hide_baneer_notification', '' );
+				update_option( 'wps_wgm_notify_hide_baneer_notification', 0 );
 			}
 		}
 	}
@@ -3083,24 +3085,6 @@ class Pdf_Generator_For_Wp_Admin {
 			$wps_notification_data = json_decode( wp_remote_retrieve_body( $response ), true );
 		}
 		return $wps_notification_data;
-	}
-
-	/**
-	 * Display Notice.
-	 *
-	 * @since 3.0.0
-	 */
-	public function wps_pgfw_dismiss_notice_banner_callback() {
-		if ( isset( $_REQUEST['wps_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['wps_nonce'] ) ), 'wps-pgfw-verify-notice-nonce' ) ) {
-
-			$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
-
-			if ( isset( $banner_id ) && '' != $banner_id ) {
-				update_option( 'wps_wgm_notify_hide_baneer_notification', $banner_id );
-			}
-
-			wp_send_json_success();
-		}
 	}
 
 
@@ -3160,7 +3144,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'reloadurl'           => admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ),
 				'is_pro_active' => $wps_wpg_is_pro_active,
 				'license_check' => $license_check,
-				'is_tofw_is_active'=>$wps_tofw_is_pro_active,
+				'is_tofw_is_active' => $wps_tofw_is_pro_active,
 				'is_linkedln_active' => get_option( 'wps_embed_source_linkedln', '' ),
 				'is_loom_active' => get_option( 'wps_embed_source_loom', '' ),
 				'is_twitch_active' => get_option( 'wps_embed_source_twitch', '' ),
