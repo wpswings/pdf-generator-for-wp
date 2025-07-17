@@ -3195,4 +3195,22 @@ class Pdf_Generator_For_Wp_Admin {
 
 		wp_die();
 	}
+
+	/**
+	 * Display Notice.
+	 *
+	 * @since 3.0.0
+	 */
+	public function wps_pgfw_dismiss_notice_banner_callback() {
+		if ( isset( $_REQUEST['wps_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['wps_nonce'] ) ), 'wps-pgfw-verify-notice-nonce' ) ) {
+
+			$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
+
+			if ( isset( $banner_id ) && '' != $banner_id ) {
+				update_option( 'wps_wgm_notify_hide_baneer_notification', $banner_id );
+			}
+
+			wp_send_json_success();
+		}
+	}
 }
