@@ -2,12 +2,12 @@
 Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress pdf generator
-Requires at least: 5.5.0
-Tested up to: 6.8.1
+Requires at least: 6.7.0
+Tested up to: 6.8.2
 WC requires at least: 6.5.0
-WC tested up to: 9.9.3
-Stable tag: 1.5.2
-Requires PHP: 7.2
+WC tested up to: 10.0.2
+Stable tag: 1.5.3
+Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -44,7 +44,7 @@ Users can non-commercially distribute the downloaded PDF files with the PDF Gene
 * Get a Shortcode to add the PDF icon anywhere on the page.
 * Get a shortcode to insert your own pdf.
 * Set the PDF download button’s location. 
-* Create custom PDF download icon.
+* Create a custom PDF download icon.
 * Predefined header, footer, and body settings.
 * Include author details. 
 * Compatible with WPML, thus facilitating your multilingual audience.
@@ -121,7 +121,7 @@ Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/
 
 * **Track Order For WooCommerce:** WordPress PDF plugin is compatible with our track order plugin. You can show the order tracking card in the generated invoices, so your users can directly track their orders from the generated invoices.
 
-* **WooCommerce HPOS:** PDF generator for WordPress is compatible with WooCommerce High-Performance Order Storage HPOS which allows you to store order data in custom order tables to maximize your eCommerce store performance.
+* **WooCommerce HPOS:** The PDF generator for WordPress is compatible with WooCommerce High-Performance Order Storage HPOS which allows you to store order data in custom order tables to maximize your eCommerce store performance.
 
 == WHAT PREMIUM VERSION OF THE WORDPRESS PDF GENERATOR PLUGIN OFFERS ==
 
@@ -218,6 +218,11 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 16. Embed multiple third-party services
 
 == Changelog ==
+
+= 1.5.3 - Released on 18 July 2025 =
+* New: Compatibility with the latest versions of WordPress(6.8.2) and WooCommerce (10.0.2)
+* Enhancement: Upgraded the Dompdf library to the latest stable version.
+* Fix: Replaced deprecated functions with their latest stable alternatives.
 
 = 1.5.2 - Released on 13 June 2025 =
 * New: Compatibility with the latest versions of WordPress  (6.8.1) and WooCommerce (9.9.3).
@@ -402,7 +407,7 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Upgrade Notice ==
 
-= 1.5.2 - Released on 13 June 2025 =
-* New: Compatibility with the latest versions of WordPress  (6.8.1) and WooCommerce (9.9.3).
-* Enhancement: Improved custom table rendering to support larger and more complex table content in PDFs.
-* Enhancement: Enhanced admin settings structure to support flexible and longer layout configurations.
+= 1.5.3 - Released on 18 July 2025 =
+* New: Compatibility with the latest versions of WordPress(6.8.2) and WooCommerce (10.0.2)
+* Enhancement: Upgraded the Dompdf library to the latest stable version.
+* Fix: Replaced deprecated functions with their latest stable alternatives
