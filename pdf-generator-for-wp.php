@@ -256,8 +256,6 @@ function wps_register_new_widgets( $widgets_manager ) {
 	}
 }
 
-
-
 add_action( 'elementor/widgets/register', 'wps_register_new_widgets' );
 add_action(
 	'elementor/elements/categories_registered',
@@ -332,7 +330,6 @@ add_filter( 'plugin_row_meta', 'pdf_generator_for_wp_custom_settings_at_plugin_t
 
 
 // Update now link in pro.
-
 if ( true === $pgfw_old_plugin_exists ) {
 
 	add_action( 'admin_notices', 'wps_wpg_check_and_inform_update' );
@@ -408,7 +405,6 @@ function wps_wpg_migrate_notice() {     // phpcs:disable WordPress.Security.Nonc
 		<input type="hidden" class="treat-button">
 		<?php
 		if ( $pgfw_old_plugin_exists ) {
-
 			?>
 			<tr class="plugin-update-tr active notice-warning notice-alt">
 				<td colspan="4" class="plugin-update colspanchange">
