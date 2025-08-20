@@ -1,7 +1,7 @@
 .history
 .history/
-vendor
-vendor/
+# vendor
+# vendor/
 composer.json
 composer.json/
 composer.lock
