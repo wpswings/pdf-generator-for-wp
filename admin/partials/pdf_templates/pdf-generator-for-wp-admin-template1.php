@@ -176,7 +176,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 				border        : ' . $pgfw_body_border_size . 'px solid ' . $pgfw_body_border_color . ';
 			}
 		</style>
-		<div class="pgfw-border-page" ></div>';
+		<div class="pgfw-border-page" >';
 	}
 	if ( 'yes' == $pgfw_body_add_watermark ) {
 		$watermark = $pgfw_body_watermark_text;
@@ -508,7 +508,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 			}
 		}
 		$html .= apply_filters( 'wps_pgfw_product_post_meta_in_pdf_filter_hook', $html2, $post );
-		$html .= '</div></div><span id = "wps_page_break_point" style="page-break-after: always;overflow:hidden;"></span>';
+		$html .= '</div></div></div><span id = "wps_page_break_point" style="page-break-after: always;overflow:hidden;"></span>';
 	}
 
 	return $html;
