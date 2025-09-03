@@ -700,7 +700,8 @@ class Pdf_Generator_For_Wp {
 								<div class="wps-form-select">
 									<select id="<?php echo esc_attr( $pgfw_component['id'] ); ?>" name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : '' ); ?><?php echo ( 'multiselect' === $pgfw_component['type'] ) ? '[]' : ''; ?>" id="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="mdl-textfield__input <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>" <?php echo 'multiselect' === $pgfw_component['type'] ? 'multiple="multiple"' : ''; ?> >
 										<?php
-										foreach ( $pgfw_component['options'] as $pgfw_key => $pgfw_val ) {
+										if ( ! empty( $pgfw_component['options'] ) && is_array( $pgfw_component['options'] ) ) {
+									foreach ( $pgfw_component['options'] as $pgfw_key => $pgfw_val ) {
 											?>
 											<option value="<?php echo esc_attr( $pgfw_key ); ?>"
 												<?php
@@ -715,6 +716,7 @@ class Pdf_Generator_For_Wp {
 											</option>
 											<?php
 										}
+									}
 										?>
 									</select>
 									<label class="mdl-textfield__label" for="octane"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></label>
