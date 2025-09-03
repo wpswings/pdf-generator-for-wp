@@ -319,14 +319,12 @@ function return_ob_html( $post_id, $template_name = '' ) {
 			  inset: -1in;
 			  background-color: ' . $pgfw_template_color . ' ;
 			  z-index: -1000;
-			  margin : -100px !important;
 			  padding:100px !important;
 			  
 			}
 			.pgfw-pdf-body *, .pgfw-pdf-footer *, .pgfw-pdf-header * {
 			  color:' . $pgfw_template_text_color . ';
 			}
-		   
 			';
 		}
 
