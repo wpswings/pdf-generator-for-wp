@@ -389,5 +389,140 @@ class Pdf_Generator_For_Wp_Public {
 		}
 		return $html;
 	}
+
+public function wps_pgfw_flipbook_shortcode_callback(){
+	add_shortcode('flipbook', [$this, 'wps_pgfw_flipbook_shortcode_html']);
+}
+
+public function wps_pgfw_flipbook_shortcode_html($atts){
+	$atts = shortcode_atts(['id' => 0], $atts);
+    $post_id = (int) $atts['id'];
+
+    if (!$post_id) return '<p>No flipbook ID provided.</p>';
+
+    $post     = get_post($post_id);
+    if (!$post || $post->post_type !== 'flipbook' ||  get_post_status( $post->ID ) != 'publish') return '<p>Invalid flipbook ID.</p>';
+
+    $width    = get_post_meta($post_id, '_fb_width', true) ?: 400;
+    $height   = get_post_meta($post_id, '_fb_height', true) ?: 300;
+    $pdf_html = get_post_meta($post_id, '_fb_pdf_html', true);
+    $cover_image = get_post_meta($post_id, '_fb_cover_image', true);
+    $back_image  = get_post_meta($post_id, '_fb_back_image', true);
+    $wps_tool_btn = get_post_meta($post->ID, '_fb_tool_btn', true);
+    $wps_add_cover_page = get_post_meta($post->ID, '_fb_show_cover', true);
+    $flip_sound_url = get_post_meta($post->ID, '_fb_flip_sound_url', true);
+    $flip_sound_volume = get_post_meta($post->ID, '_fb_flip_sound_volume', true);
+
+    $mobileScrollSupport = get_post_meta($post->ID, '_fb_mobileScrollSupport', true);
+    $maxShadowOpacity    = get_post_meta($post->ID, '_fb_maxShadowOpacity', true);
+    $flippingTime        = get_post_meta($post->ID, '_fb_flippingTime', true);
+    $startPage           = get_post_meta($post->ID, '_fb_startPage', true);
+    $swipeDistance       = get_post_meta($post->ID, '_fb_swipeDistance', true);
+    $useMouseEvents      = get_post_meta($post->ID, '_fb_useMouseEvents', true);
+    $size                = get_post_meta($post->ID, '_fb_size', true);
+    $popup_enabled       = get_post_meta($post->ID, '_fb_popup_enabled', true);
+    $image_urls_json     = get_post_meta($post->ID, '_fb_image_urls', true);
+
+
+    $image_urls = [];
+    $from_images = false;
+    if ($image_urls_json) {
+        $decoded = json_decode($image_urls_json, true);
+        if (is_array($decoded) && count($decoded) > 0) {
+            $image_urls = array_values(array_map('esc_url', $decoded));
+            $from_images = true;
+        }
+    }
+    if (!$from_images) {
+        preg_match_all('/<img[^>]+src=["\']([^"\']+)["\']/i', $pdf_html, $m);
+        $image_urls = $m[1] ?? [];
+    }
+
+    if( (int)$wps_add_cover_page == 1 ) {
+       
+    if ($cover_image) {
+        array_unshift($image_urls, $cover_image);
+    }
+    if ($back_image) {
+        $image_urls[] = $back_image;
+    }
+    }
+    $uid = 'flipbook_' . wp_unique_id();
+
+    ob_start();
+    if ((int)$popup_enabled === 1) {
+        $modal_id = $uid . '__modal';
+        ?>
+        <button type="button" class="flipbook-open-btn is-icon" data-target="#<?php echo esc_attr($modal_id); ?>" aria-haspopup="dialog" aria-controls="<?php echo esc_attr($modal_id); ?>" aria-label="Open Flipbook">
+            <span class="fb-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 6.5c-2.5-1.6-5.5-1.8-8-.8v12.1c2.5-1 5.5-.8 8 .8m0-12.1c2.5-1.6 5.5-1.8 8-.8v12.1c-2.5-1-5.5-.8-8 .8M12 6.5v12.1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+            <span class="sr-only">Open Flipbook</span>
+        </button>
+        <div class="flipbook-modal" id="<?php echo esc_attr($modal_id); ?>" aria-hidden="true" role="dialog" aria-modal="true">
+            <div class="flipbook-modal-backdrop" data-close="true"></div>
+            <div class="flipbook-modal-dialog" role="document">
+                <button type="button" class="flipbook-modal-close" aria-label="Close" data-close="true">×</button>
+                <div class="flipbook-wrap" id="<?php echo esc_attr($uid); ?>" data-init-on-open="1">
+                    <?php if('1' === $wps_tool_btn) : ?>
+                    <div class="flipbook-toolbar">
+                        <button type="button" class="btn-prev">⬅ Prev</button>
+                        <span>Page <span class="page-current">1</span> of <span class="page-total">-</span></span>
+                        <button type="button" class="btn-next">Next ➡</button>
+                        <input type="number" class="page-jump" min="1" value="1" /> 
+                        <button type="button" class="btn-go">Go</button>
+                    </div>
+                    <?php endif; ?>
+                    <div class="flip-book"
+                        id="<?php echo esc_attr($uid); ?>__book"
+                        data-images='<?php echo esc_attr(wp_json_encode($image_urls)); ?>'
+                        data-width="<?php echo (int) $width; ?>"
+                        data-height="<?php echo (int) $height; ?>"
+                        data-flip-sound="<?php echo esc_url($flip_sound_url); ?>"
+                        data-flip-sound-volume="<?php echo esc_attr($flip_sound_volume !== '' ? $flip_sound_volume : 1); ?>"
+                        data-mobile-scroll="<?php echo esc_attr($mobileScrollSupport); ?>"
+                        data-max-shadow-opacity="<?php echo esc_attr($maxShadowOpacity); ?>"
+                        data-flipping-time="<?php echo esc_attr($flippingTime); ?>"
+                        data-start-page="<?php echo esc_attr($startPage); ?>"
+                        data-swipe-distance="<?php echo esc_attr($swipeDistance); ?>"
+                        data-use-mouse-events="<?php echo esc_attr($useMouseEvents); ?>"
+                        data-size="<?php echo esc_attr($size); ?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+    } else { ?>
+        <div class="flipbook-wrap" id="<?php echo esc_attr($uid); ?>">
+            <?php if('1' === $wps_tool_btn) : ?>
+            <div class="flipbook-toolbar">
+                <button type="button" class="btn-prev">⬅ Prev</button>
+                <span>Page <span class="page-current">1</span> of <span class="page-total">-</span></span>
+                <button type="button" class="btn-next">Next ➡</button>
+                <input type="number" class="page-jump" min="1" value="1" /> 
+                <button type="button" class="btn-go">Go</button>
+            </div>
+            <?php endif; ?>
+            <div class="flip-book"
+                id="<?php echo esc_attr($uid); ?>__book"
+                data-images='<?php echo esc_attr(wp_json_encode($image_urls)); ?>'
+                data-width="<?php echo (int) $width; ?>"
+                data-height="<?php echo (int) $height; ?>"
+                data-flip-sound="<?php echo esc_url($flip_sound_url); ?>"
+                data-flip-sound-volume="<?php echo esc_attr($flip_sound_volume !== '' ? $flip_sound_volume : 1); ?>"
+                data-mobile-scroll="<?php echo esc_attr($mobileScrollSupport); ?>"
+                data-max-shadow-opacity="<?php echo esc_attr($maxShadowOpacity); ?>"
+                data-flipping-time="<?php echo esc_attr($flippingTime); ?>"
+                data-start-page="<?php echo esc_attr($startPage); ?>"
+                data-swipe-distance="<?php echo esc_attr($swipeDistance); ?>"
+                data-use-mouse-events="<?php echo esc_attr($useMouseEvents); ?>"
+                data-size="<?php echo esc_attr($size); ?>">
+            </div>
+        </div>
+    <?php }
+    return ob_get_clean();
+}
 }
 

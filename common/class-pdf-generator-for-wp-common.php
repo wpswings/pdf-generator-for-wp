@@ -82,7 +82,9 @@ class Pdf_Generator_For_Wp_Common {
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . 'common' );
+		wp_register_script( 'flipbook-bundle', PDF_GENERATOR_FOR_WP_DIR_URL . 'common/src/js/flipbook.bundle.js', array( 'jquery' ), $this->version, false );
 		add_thickbox();
+		wp_enqueue_script( 'flipbook-bundle' );
 	}
 	/**
 	 * Catching link for pdf generation user.

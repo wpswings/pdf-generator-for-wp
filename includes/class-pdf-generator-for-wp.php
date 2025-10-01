@@ -238,6 +238,13 @@ class Pdf_Generator_For_Wp {
 		}
 
 		$this->loader->add_action( 'wp_ajax_wps_pgfw_save_embed_source', $pgfw_plugin_admin, 'wps_pgfw_save_embed_source_callback' );
+
+		/* Functionality related to Flipbook   add_shortcode('flipbook', 'my_flipbook_shortcode_1');    */
+		$this->loader->add_action( 'admin_init', $pgfw_plugin_admin, 'wps_pgfw_flipbook_settings_callback' );
+		$this->loader->add_action( 'add_meta_boxes', $pgfw_plugin_admin, 'wps_pgfw_add_flipbook_metabox_callback',10,1 );
+		$this->loader->add_action( 'save_post_flipbook', $pgfw_plugin_admin, 'wps_pgfw_save_flipbook_metabox_callback',10,1 );
+		$this->loader->add_filter( 'manage_flipbook_posts_columns', $pgfw_plugin_admin, 'wps_pgfw_manage_flipbook_posts_columns',10,1 );
+		$this->loader->add_action( 'manage_flipbook_posts_custom_column', $pgfw_plugin_admin, 'wps_pgfw_flipbook_posts_custom_column',10,2 );
 	}
 
 	/**
@@ -307,6 +314,8 @@ class Pdf_Generator_For_Wp {
 				$this->loader->add_filter( 'the_content', $pgfw_plugin_public, 'pgfw_show_download_icon_to_users', 20 );
 			}
 		}
+
+		$this->loader->add_action( 'init', $pgfw_plugin_public, 'wps_pgfw_flipbook_shortcode_callback' );
 
 	}
 
