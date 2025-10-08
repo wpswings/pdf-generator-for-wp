@@ -2,9 +2,9 @@ name: PHPCS & PHPCBF
 
 on:
   push:
-    branches: [ Version-1.5.6]
+    branches: [ 1.5.6]
   pull_request:
-    branches: [ Version-1.5.6 ]
+    branches: [ 1.5.6 ]
 
 jobs:
   phpcs:
