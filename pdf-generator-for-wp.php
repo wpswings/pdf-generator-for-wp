@@ -1061,3 +1061,60 @@ function wps_pgfw_notification_plugin_html() {
 		}
 	}
 }
+
+// Hook this function to 'init'
+add_action( 'init', 'wps_register_flipbook_post_type' );
+
+function wps_register_flipbook_post_type() {
+    $labels = [
+        'name'               => __( 'Flipbooks', 'wps-flipbook' ),
+        'singular_name'      => __( 'Flipbook', 'wps-flipbook' ),
+        'menu_name'          => __( 'Flipbooks', 'wps-flipbook' ),
+        'name_admin_bar'     => __( 'Flipbook', 'wps-flipbook' ),
+        'add_new'            => __( 'Add New', 'wps-flipbook' ),
+        'add_new_item'       => __( 'Add New Flipbook', 'wps-flipbook' ),
+        'new_item'           => __( 'New Flipbook', 'wps-flipbook' ),
+        'edit_item'          => __( 'Edit Flipbook', 'wps-flipbook' ),
+        'view_item'          => __( 'View Flipbook', 'wps-flipbook' ),
+        'all_items'          => __( 'All Flipbooks', 'wps-flipbook' ),
+        'search_items'       => __( 'Search Flipbooks', 'wps-flipbook' ),
+        'not_found'          => __( 'No flipbooks found.', 'wps-flipbook' ),
+        'not_found_in_trash' => __( 'No flipbooks found in Trash.', 'wps-flipbook' ),
+    ];
+
+    $args = [
+        'labels'             => $labels,
+        'public'             => false,        // Not visible on frontend
+        'show_ui'            => true,         // Show in admin
+        'show_in_menu'       => true,         // Show in left sidebar
+        'menu_icon'          => 'dashicons-book-alt', // Book icon
+        'supports'           => ['title'],    // You can add 'editor', 'thumbnail' if needed
+        'capability_type'    => 'post',
+        'has_archive'        => false,
+        'rewrite'            => false,
+        'query_var'          => true,
+    ];
+
+    register_post_type( 'flipbook', $args );
+}
+
+add_action('init' , 'm1');
+function m1(){
+// 	register_post_type('flipbook', [
+//     'label' => 'Flipbooks',
+//     'public' => false,
+//     'show_ui' => true,
+//     'show_in_menu' => true, // Recommended for non-public, admin-only CPTs
+//     'menu_icon' => 'dashicons-book-alt',
+//     'supports' => ['title'],
+//     'taxonomies' => ['flipbook_category'],
+// ]);
+
+    register_taxonomy('flipbook_category', 'flipbook', [
+        'label' => 'Flipbook Categories',
+        'hierarchical' => true,
+        'show_ui' => true,
+        'show_admin_column' => true,
+        'rewrite' => ['slug' => 'flipbook-category'],
+    ]);
+}

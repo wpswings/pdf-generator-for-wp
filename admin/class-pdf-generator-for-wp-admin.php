@@ -254,6 +254,7 @@ class Pdf_Generator_For_Wp_Admin {
 	public function pgfw_admin_general_settings_page( $pgfw_settings_general_html_arr ) {
 		$general_settings_data     = get_option( 'pgfw_general_settings_save', array() );
 		$pgfw_enable_plugin        = array_key_exists( 'pgfw_enable_plugin', $general_settings_data ) ? $general_settings_data['pgfw_enable_plugin'] : '';
+		$pgfw_flipbook_enable = array_key_exists( 'pgfw_flipbook_enable', $general_settings_data ) ? $general_settings_data['pgfw_flipbook_enable'] : '';
 		$pgfw_show_post_categories = array_key_exists( 'pgfw_general_pdf_show_categories', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_categories'] : '';
 		$pgfw_show_post_tags       = array_key_exists( 'pgfw_general_pdf_show_tags', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_tags'] : '';
 		$pgfw_show_post_taxonomy   = array_key_exists( 'pgfw_general_pdf_show_taxonomy', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_taxonomy'] : '';
@@ -278,6 +279,16 @@ class Pdf_Generator_For_Wp_Admin {
 					'no'  => __( 'NO', 'pdf-generator-for-wp' ),
 				),
 			),
+						array(
+				'title'        => __( 'Enable Flipbook', 'pdf-generator-for-wp' ),
+				'type'         => 'checkbox',
+				'description'  => __( 'Enable to convert any PDF or images in flipbook', 'pdf-generator-for-wp' ),
+				'id'           => 'pgfw_flipbook_enable',
+				'value'        => $pgfw_flipbook_enable,
+				'class'        => 'pgfw_flipbook_enable',
+				'name'         => 'pgfw_flipbook_enable',
+				'parent-class' => 'pgfw_flipbook_enable',
+						),
 			array(
 				'title'        => __( 'Include Categories', 'pdf-generator-for-wp' ),
 				'type'         => 'checkbox',
