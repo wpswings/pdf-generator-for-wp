@@ -1,197 +1,148 @@
-.flipbook-modal { position: fixed; inset: 0; display: none; z-index: 100000; }
-.flipbook-modal[aria-hidden="false"] { display: flex; align-items: center; justify-content: center; padding: 4vh 2vw; }
-.flipbook-modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.6); }
-.flipbook-modal-dialog { position: relative; background: #fff; width: min(1000px, 96vw); max-height: 92vh; border-radius: 8px; overflow: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 1; }
-.flipbook-modal-close { position: absolute; top: 8px; right: 10px; border: none; background: black; font-size: 24px; cursor: pointer; }
-.flipbook-modal .flipbook-wrap { padding: 16px; }
-
-/* Hide lazy flipbook container (and its toolbar) until modal is opened */
-.flipbook-wrap[data-init-on-open='1'] { display: none; }
-.flipbook-modal[aria-hidden="false"] .flipbook-wrap[data-init-on-open='1'] { display: block; }
-
-/* Optional styling for the open button */
-.flipbook-open-btn { display: inline-flex; align-items: center; gap: 6px; }
-.flipbook-open-btn.is-icon { width: 48px; height: 48px; border-radius: 999px; background: #0d6efd; color: #fff; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px rgba(13,110,253,.35); border: 0; cursor: pointer; transition: transform .12s ease, box-shadow .12s ease; }
-.flipbook-open-btn.is-icon:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(13,110,253,.4); }
-.flipbook-open-btn.is-icon:active { transform: translateY(0); box-shadow: 0 6px 16px rgba(13,110,253,.35); }
-.flipbook-open-btn.is-icon .fb-icon { display: inline-flex; }
-.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-
-/* Prevent page scroll when modal is open */
-body.flipbook-modal-open { overflow: hidden; }
-
-/* Book-style open/close animation */
-.flipbook-modal { perspective: 1600px; }
-.flipbook-modal .flipbook-modal-dialog { transform-origin: center center; }
-.flipbook-modal.is-opening .flipbook-modal-backdrop { animation: fbFadeIn 380ms ease forwards; }
-.flipbook-modal.is-opening .flipbook-modal-dialog { animation: fbBookOpenFrom 520ms cubic-bezier(.16,1,.3,1) forwards; will-change: transform, opacity; }
-.flipbook-modal.is-closing .flipbook-modal-backdrop { animation: fbFadeOut 300ms ease forwards; }
-.flipbook-modal.is-closing .flipbook-modal-dialog { animation: fbBookCloseTo 420ms cubic-bezier(.16,1,.3,1) forwards; will-change: transform, opacity; }
-
-@keyframes fbFadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes fbFadeOut { from { opacity: 1; } to { opacity: 0; } }
-@keyframes fbBookOpenFrom {
-  0% { opacity: 0; transform: translate(var(--fb-dx, 0), var(--fb-dy, 0)) rotateY(35deg) scale(.85); box-shadow: 0 24px 60px rgba(0,0,0,0.45); }
-  60% { opacity: 1; transform: translate(calc(var(--fb-dx, 0) * .12), calc(var(--fb-dy, 0) * .12)) rotateY(-4deg) scale(1.01); }
-  100% { opacity: 1; transform: translate(0,0) rotateY(0deg) scale(1); box-shadow: 0 10px 30px rgba(0,0,0,0.30); }
-}
-@keyframes fbBookCloseTo {
-  0% { opacity: 1; transform: translate(0,0) rotateY(0deg) scale(1); box-shadow: 0 10px 30px rgba(0,0,0,0.30); }
-  100% { opacity: 0; transform: translate(var(--fb-dx, 0), var(--fb-dy, 0)) rotateY(35deg) scale(.85); box-shadow: 0 24px 60px rgba(0,0,0,0.45); }
+.fb-tabs {
+  margin-top: 10px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .flipbook-modal.is-opening .flipbook-modal-backdrop,
-  .flipbook-modal.is-opening .flipbook-modal-dialog,
-  .flipbook-modal.is-closing .flipbook-modal-backdrop,
-  .flipbook-modal.is-closing .flipbook-modal-dialog { animation: none !important; }
-}
-
-/* --------------------------- */
-/* Flipbook visual styling     */
-/* --------------------------- */
-.flipbook-wrap { max-width: 100%; }
-.flipbook-wrap .flipbook-toolbar { 
-  display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
-  gap: 10px; margin: 8px 0 14px; padding: 8px 10px; 
-  background: linear-gradient(180deg, #f9fafb 0%, #f3f4f6 100%);
-  border: 1px solid #e5e7eb; border-radius: 8px;
-}
-.flipbook-wrap .flipbook-toolbar button { 
-  background: #ffffff; color: #111827; border: 1px solid #d1d5db; 
-  padding: 6px 10px; border-radius: 6px; cursor: pointer; 
-  box-shadow: 0 1px 0 rgba(0,0,0,0.04);
-  transition: background .15s ease, transform .08s ease, box-shadow .15s ease;
-}
-.flipbook-wrap .flipbook-toolbar button:hover { background: #f9fafb; }
-.flipbook-wrap .flipbook-toolbar button:active { transform: translateY(1px); }
-.flipbook-wrap .flipbook-toolbar .page-jump { 
-  width: 64px; padding: 6px 8px; border-radius: 6px; border: 1px solid #d1d5db; 
-  background: #fff; text-align: center;
-}
-.flipbook-wrap .flipbook-toolbar span { color: #374151; }
-
-/* Book container aesthetics */
-.flipbook-wrap .flip-book { 
-  margin: 0 auto; border-radius: 10px; overflow: hidden; 
-  background: #f8fafc; /* light paper backdrop while loading */
-  box-shadow: 0 20px 40px rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.08);
-}
-
-/* PageFlip internal pages often use canvas elements; add a subtle page shadow */
-.flipbook-wrap .flip-book canvas { 
-  background: #fff; 
-}
-
-/* Optional: give the page edges a subtle gradient edge for book vibe */
-.flipbook-wrap .flip-book::before { 
-  content: ""; position: absolute; inset: 0; pointer-events: none; 
-  background: radial-gradient(ellipse at left, rgba(0,0,0,.06), transparent 40%),
-              radial-gradient(ellipse at right, rgba(0,0,0,.06), transparent 40%);
-}
-
-/* Better spacing inside modal */
-.flipbook-modal .flipbook-wrap { padding: 18px 18px 22px; }
-
-/* Responsive tweaks */
-@media (max-width: 768px) {
-  .flipbook-modal-dialog { width: 96vw; max-height: 90vh; }
-  .flipbook-wrap .flipbook-toolbar { gap: 8px; padding: 6px 8px; }
-  .flipbook-wrap .flipbook-toolbar .page-jump { width: 56px; }
-}
-
-@media (max-width: 520px) {
-  .flipbook-wrap .flipbook-toolbar { font-size: 14px; }
-  .flipbook-wrap .flipbook-toolbar button { padding: 5px 8px; }
-}
-.flipbook-wrap {
-  /* max-width: 900px; */
-  margin: 20px auto;
-  font-family: "Georgia", serif;
-}
-
-.flipbook-toolbar {
+.fb-tab-nav {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 15px;
 }
 
-.flipbook-toolbar button,
-.flipbook-toolbar input {
-  padding: 6px 10px;
-  font-size: 14px;
-  border: 1px solid #e01212;
-  background: #fdfdfd;
-  cursor: pointer;
-  color: #333;
-}
-.flipbook-toolbar input {
-  width: 50px;
-  text-align: center;
-}
-.flipbook-toolbar button:hover {
-  background: #eee;
+.fb-tab-nav a:focus {
+  outline: none;
+  box-shadow: none;
 }
 
-.flip-book {
-  box-shadow: 0 0 25px rgba(0,0,0,0.4);
-  background: #faf7f0;
-}
-
-.page {
-  padding: 20px;
-  background: #fffbe9;
-  border: 1px solid #e0d6b5;
-  /* overflow: hidden; */
-}
-
-.page .page-header {
-  text-align: center;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.page .page-text {
-  font-size: 14px;
-  line-height: 1.5;
-  text-align: justify;
-}
-
-.page .page-footer {
-  text-align: right;
-  font-size: 12px;
-  color: #666;
-  border-top: 1px solid #ddd;
-  padding-top: 5px;
-}
-
-.page .page-image {
-  margin: 10px 0;
-  height: 200px;
-  background-size: cover;
-  background-position: center;
+.fb-tab-nav a {
+  display: inline-block;
+  padding: 8px 15px;
   border: 1px solid #ccc;
+  border-bottom: none;
+  margin-right: 5px;
+  background: #f9f9f9;
+  color: #333;
+  border-radius: 5px 5px 0 0;
+  text-decoration: none;
 }
 
-.page-cover {
-  background: #c8a97e;
-  color: white;
-  text-align: center;
-}
-.page-cover h1, .page-cover h2 {
-  margin: 40% 0;
+.fb-tab-nav a.active {
+  background: #fff;
+  font-weight: bold;
+  position: relative;
 }
 
-.fb-tabs { margin-top:10px; }
-        .fb-tab-nav { margin-bottom: 10px; border-bottom: 1px solid #ccc; }
-        .fb-tab-nav a {
-            display:inline-block; padding:8px 15px; border:1px solid #ccc;
-            border-bottom:none; margin-right:5px; background:#f9f9f9; color:#333;
-            text-decoration:none;
-        }
-        .fb-tab-nav a.active { background:#fff; font-weight:bold; }
-        .fb-tab-content { display:none; padding:10px; border:1px solid #ccc; background:#fff; }
-        .fb-tab-content.active { display:block; }
-        textarea.fb-wide { width:100%; min-height:150px; }
+.fb-tab-nav a.active:after {
+  background: #fff;
+  position: absolute;
+  bottom: -1.5px;
+  height: 1.5px;
+  left: 0;
+  right: 0;
+  content: '';
+}
+
+.fb-tab-nav .fb-shortcode {
+  flex: 1;
+  text-align: right;
+  font-size: 14px;
+  font-weight: 400;
+  display: inline-block;
+  line-height: 1.5;
+}
+
+.fb-tab-content {
+  display: none;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background: #fff;
+}
+
+.fb-tab-content.active {
+  display: block;
+}
+
+.fb-tab-content .form-table th,
+.fb-tab-content .form-table td {
+  padding: 15px;
+}
+
+.fb-tab-content .cover-settings-row img {
+  max-height: 250px;
+}
+
+.fb-tab-content .cover-settings-row input[type=url],
+#fb_flip_sound_url {
+  width: calc(100% - 33px);
+}
+
+.fb-tab-content .fb-source-block {
+  background: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1.5px solid #dcdcdc;
+  display: inline-block;
+  width: calc(100% - 66px);
+}
+
+.fb-tab-content .dashicons-editor-help {
+  cursor: help;
+  margin: 0 6px 0 0;
+}
+
+.fb-tab-content .fb-source-block .pdf-preview {
+  text-align: right;
+}
+
+.fb-tab-content h4 {
+  margin: 0 0 10px;
+}
+
+.fb-tab-content .fb-img-chip {
+  margin: 0 0 10px;
+}
+
+.wps-fb_info-box {
+  margin: 15px 0 0;
+}
+
+.wps-fb_info-box a {
+  text-decoration: none;
+  background: #F2F2F2;
+  display: inline-block;
+  padding: 8px 16px;
+  color: #111;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.wps-fb_info-box>div {
+  margin: 0 0 10px;
+}
+
+.wps-fb_info-box a:hover {
+  background: #dcdcdc;
+}
+
+.wps-fb_info-box .upgrade_to_pro a {
+  background: #1ea334;
+  color: #fff;
+}
+
+.wps-fb_info-box .upgrade_to_pro a span {
+  font-size: 18px;
+}
+
+.wps-fb_info-box .upgrade_to_pro a:hover {
+  background: #0f8022;
+}
+
+@media screen and (max-width: 782px) {
+
+  .fb-tab-content .form-table th,
+  .fb-tab-content .form-table td {
+    padding: 15px;
+  }
+
+  .fb-tab-content .fb-source-block .pdf-preview {
+    margin: 0 0 10px;
+  }
+}

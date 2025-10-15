@@ -221,7 +221,6 @@ class Pdf_Generator_For_Wp {
 		
 		$this->loader->add_action( 'wp_ajax_wpg_ajax_callbacks', $pgfw_plugin_admin, 'wps_wpg_ajax_callbacks' );
 		$this->loader->add_filter( 'wps_pgfw_custom_page_size_filter_hook', $pgfw_plugin_admin, 'wpg_custom_page_size_in_dropdown' );
-		///////////////
 		$this->loader->add_action( 'admin_init', $pgfw_plugin_admin, 'wps_pgfw_set_cron_for_plugin_notification' );
 		$this->loader->add_action( 'wps_wgm_check_for_notification_update', $pgfw_plugin_admin, 'wps_pgfw_save_notice_message' );
 		$this->loader->add_action( 'wp_ajax_wps_pgfw_dismiss_notice_banner', $pgfw_plugin_admin, 'wps_pgfw_dismiss_notice_banner_callback' );
@@ -239,8 +238,8 @@ class Pdf_Generator_For_Wp {
 
 		$this->loader->add_action( 'wp_ajax_wps_pgfw_save_embed_source', $pgfw_plugin_admin, 'wps_pgfw_save_embed_source_callback' );
 
-		/* Functionality related to Flipbook   add_shortcode('flipbook', 'my_flipbook_shortcode_1');    */
-		$this->loader->add_action( 'admin_init', $pgfw_plugin_admin, 'wps_pgfw_flipbook_settings_callback' );
+		/* Functionality related to Flipbook    */
+		// $this->loader->add_action( 'admin_init', $pgfw_plugin_admin, 'wps_pgfw_flipbook_settings_callback' );
 		$this->loader->add_action( 'add_meta_boxes', $pgfw_plugin_admin, 'wps_pgfw_add_flipbook_metabox_callback',10,1 );
 		$this->loader->add_action( 'save_post_flipbook', $pgfw_plugin_admin, 'wps_pgfw_save_flipbook_metabox_callback',10,1 );
 		$this->loader->add_filter( 'manage_flipbook_posts_columns', $pgfw_plugin_admin, 'wps_pgfw_manage_flipbook_posts_columns',10,1 );
@@ -761,7 +760,7 @@ class Pdf_Generator_For_Wp {
 										</div>
 										<div class="mdc-checkbox__ripple"></div>
 									</div>
-									<label for="checkbox-1"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></label>
+									<label for="checkbox-1"><?php echo ( isset( $pgfw_component['description'] ) ? wp_kses_post( $pgfw_component['description'] ) : '' ); ?></label>
 								</div>
 							</div>
 						</div>

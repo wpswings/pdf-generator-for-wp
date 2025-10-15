@@ -163,7 +163,7 @@ jQuery(document).ready(function($){
                     $preview.append('\
                         <div class="fb-img-chip" data-url="'+a.url+'" style="position:relative;width:60px;height:60px;">\
                             <img src="'+a.url+'" style="width:60px;height:60px;object-fit:cover;border:1px solid #ddd;border-radius:4px;display:block;" />\
-                            <button type="button" class="button-link-delete fb-img-remove" title="Remove" style="position:absolute;top:-8px;right:-6px;background:#d63638;color:#fff;border:none;border-radius:999px;width:18px;height:18px;line-height:18px;text-align:center;font-size:12px;cursor:pointer;">×</button>\
+                            <button type="button" class="button-link-delete fb-img-remove" title="Remove" style="position:absolute;top:-8px;right:-6px;background:#d63638;color:#fff;border:none;border-radius:999px;width: 20px;height: 20px;line-height: 1;text-align:center;cursor:pointer;display: inline-flex;align-items: center;justify-content: center;font-size: 14px;">&times;</button>\
                         </div>');
                 }
             });

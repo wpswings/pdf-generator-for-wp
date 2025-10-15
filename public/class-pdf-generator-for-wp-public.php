@@ -468,11 +468,11 @@ public function wps_pgfw_flipbook_shortcode_html($atts){
                 <div class="flipbook-wrap" id="<?php echo esc_attr($uid); ?>" data-init-on-open="1">
                     <?php if('1' === $wps_tool_btn) : ?>
                     <div class="flipbook-toolbar">
-                        <button type="button" class="btn-prev">⬅ Prev</button>
+                        <button type="button" class="btn-prev">Prev</button>
                         <span>Page <span class="page-current">1</span> of <span class="page-total">-</span></span>
-                        <button type="button" class="btn-next">Next ➡</button>
+                        <button type="button" class="btn-next">Next</button>
                         <input type="number" class="page-jump" min="1" value="1" /> 
-                        <button type="button" class="btn-go">Go</button>
+                        <button type="button" class="btn-go">Go to page</button>
                     </div>
                     <?php endif; ?>
                     <div class="flip-book"
@@ -498,11 +498,11 @@ public function wps_pgfw_flipbook_shortcode_html($atts){
         <div class="flipbook-wrap" id="<?php echo esc_attr($uid); ?>">
             <?php if('1' === $wps_tool_btn) : ?>
             <div class="flipbook-toolbar">
-                <button type="button" class="btn-prev">⬅ Prev</button>
-                <span>Page <span class="page-current">1</span> of <span class="page-total">-</span></span>
-                <button type="button" class="btn-next">Next ➡</button>
+                <button type="button" class="btn-prev">Prev</button>
+                <span>Page <span class="page-current"><?php echo esc_attr(isset($startPage) && !empty($startPage) ? $startPage : 1); ?></span> of <span class="page-total">-</span></span>
+                <button type="button" class="btn-next">Next</button>
                 <input type="number" class="page-jump" min="1" value="1" /> 
-                <button type="button" class="btn-go">Go</button>
+                <button type="button" class="btn-go">Go to page</button>
             </div>
             <?php endif; ?>
             <div class="flip-book"

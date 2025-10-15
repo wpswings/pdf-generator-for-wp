@@ -254,8 +254,8 @@ class Pdf_Generator_For_Wp_Admin {
 	public function pgfw_admin_general_settings_page( $pgfw_settings_general_html_arr ) {
 		$general_settings_data     = get_option( 'pgfw_general_settings_save', array() );
 		$pgfw_enable_plugin        = array_key_exists( 'pgfw_enable_plugin', $general_settings_data ) ? $general_settings_data['pgfw_enable_plugin'] : '';
-		$pgfw_flipbook_enable = array_key_exists( 'pgfw_flipbook_enable', $general_settings_data ) ? $general_settings_data['pgfw_flipbook_enable'] : '';
 		$pgfw_show_post_categories = array_key_exists( 'pgfw_general_pdf_show_categories', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_categories'] : '';
+		$pgfw_flipbook_enable = array_key_exists( 'pgfw_flipbook_enable', $general_settings_data ) ? $general_settings_data['pgfw_flipbook_enable'] : '';
 		$pgfw_show_post_tags       = array_key_exists( 'pgfw_general_pdf_show_tags', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_tags'] : '';
 		$pgfw_show_post_taxonomy   = array_key_exists( 'pgfw_general_pdf_show_taxonomy', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_taxonomy'] : '';
 		$pgfw_show_post_date       = array_key_exists( 'pgfw_general_pdf_show_post_date', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_post_date'] : '';
@@ -265,6 +265,16 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_pdf_file_name_custom = array_key_exists( 'pgfw_custom_pdf_file_name', $general_settings_data ) ? $general_settings_data['pgfw_custom_pdf_file_name'] : '';
 		$pgfw_general_pdf_date_format    = array_key_exists( 'pgfw_general_pdf_date_format', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_date_format'] : '';
 		$pgfw_show_current_date       = array_key_exists( 'pgfw_general_pdf_show_current_date', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_current_date'] : '';
+		// Get the flipbook URL.
+		$flipbook_url = admin_url('edit.php?post_type=flipbook');
+
+		// Prepare description based on condition.
+		$description = __('Enable to convert any PDF or images in flipbook', 'pdf-generator-for-wp');
+
+		// Add the link only if your specific condition is true.
+		if ('yes' === $pgfw_flipbook_enable) {
+			$description .= ' <a href="' . esc_url($flipbook_url) . '">' . __('Visit Here', 'pdf-generator-for-wp') . '</a>';
+		}
 		$pgfw_settings_general_html_arr   = array(
 			array(
 				'title'       => __( 'Enable Plugin', 'pdf-generator-for-wp' ),
@@ -279,10 +289,11 @@ class Pdf_Generator_For_Wp_Admin {
 					'no'  => __( 'NO', 'pdf-generator-for-wp' ),
 				),
 			),
-						array(
+
+			array(
 				'title'        => __( 'Enable Flipbook', 'pdf-generator-for-wp' ),
 				'type'         => 'checkbox',
-				'description'  => __( 'Enable to convert any PDF or images in flipbook', 'pdf-generator-for-wp' ),
+				'description'  => $description,
 				'id'           => 'pgfw_flipbook_enable',
 				'value'        => $pgfw_flipbook_enable,
 				'class'        => 'pgfw_flipbook_enable',
@@ -413,7 +424,9 @@ class Pdf_Generator_For_Wp_Admin {
 			'class'       => 'pgfw_general_settings_save',
 			'name'        => 'pgfw_general_settings_save',
 		);
+		
 		return $pgfw_settings_general_html_arr;
+
 	}
 	/**
 	 * PDF Generator For WordPress save tab settings.
@@ -3230,14 +3243,15 @@ class Pdf_Generator_For_Wp_Admin {
 	}
 
 	public function wps_pgfw_flipbook_settings_callback(){
-		register_post_type('flipbook', [
-        'label' => 'Flipbooks',
-        'public' => false,
-        'show_ui' => true,
-        'menu_icon' => 'dashicons-book-alt',
-        'supports' => ['title'],
-        'taxonomies' => ['flipbook_category'],
-    ]);
+	register_post_type('flipbook', [
+    'label' => 'Flipbooks',
+    'public' => false,
+    'show_ui' => true,
+    'show_in_menu' => true, // Recommended for non-public, admin-only CPTs
+    'menu_icon' => 'dashicons-book-alt',
+    'supports' => ['title'],
+    'taxonomies' => ['flipbook_category'],
+]);
 
     register_taxonomy('flipbook_category', 'flipbook', [
         'label' => 'Flipbook Categories',
@@ -3271,35 +3285,35 @@ add_meta_box(
 
 	function wps_pgfw_useful_links_box($post) {
     // Fetch saved meta
-    $demo_link   ='qw';
-    $video_link  = 'q';
-    $service_url = 'q';
-    $pro_link    = 'r';
+    $demo_link   ='https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=pdf-org-doc&utm_campaign=demo';
+    $video_link  = 'https://youtu.be/RljECeP3JJk';
+    $service_url = 'https://wpswings.com/woocommerce-services/';
+    $pro_link    = 'https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=referral&utm_campaign=pdf-pro';
 
     ?>
-    <div style="line-height:1.6;">
+    <div class="wps-fb_info-box">
         <?php if ($video_link): ?>
-            <p><a href="<?php echo esc_url($video_link); ?>" target="_blank" style="color:#d63638;font-weight:bold;">
-                📺 See Video Tutorial
-            </a></p>
+            <div class="video"><a href="<?php echo esc_url($video_link); ?>" target="_blank">
+                <span class="dashicons dashicons-video-alt3"></span> See Video Tutorial
+            </a></div>
         <?php endif; ?>
 
         <?php if ($demo_link): ?>
-            <p><a href="<?php echo esc_url($demo_link); ?>" target="_blank" style="color:#0073aa;font-weight:bold;">
-                🌐 Live Demo
-            </a></p>
+            <div class="demo"><a href="<?php echo esc_url($demo_link); ?>" target="_blank">
+                <span class="dashicons dashicons-welcome-widgets-menus"></span> Live Demo
+            </a></div>
         <?php endif; ?>
 
         <?php if ($service_url): ?>
-            <p><a href="<?php echo esc_url($service_url); ?>" target="_blank" style="color:#0073aa;">
-                🔗 Service Page
-            </a></p>
+            <div class="service"><a href="<?php echo esc_url($service_url); ?>" target="_blank">
+                <span class="dashicons dashicons-admin-generic"></span> Service Page
+            </a></div>
         <?php endif; ?>
 
         <?php if ($pro_link): ?>
-            <p><a href="<?php echo esc_url($pro_link); ?>" target="_blank" style="color:#d63638;font-weight:bold;">
-                ⭐ Upgrade to Pro Version
-            </a></p>
+            <div class="upgrade_to_pro"><a href="<?php echo esc_url($pro_link); ?>" target="_blank">
+                <span class="dashicons dashicons-star-filled"></span> Upgrade to Pro Version
+            </a></div>
         <?php endif; ?>
     </div>
     <?php
@@ -3309,7 +3323,6 @@ add_meta_box(
 public function wps_pgfw_settings_box($post) {
     $width       = get_post_meta($post->ID, '_fb_width', true) ?: 1000;
     $height      = get_post_meta($post->ID, '_fb_height', true) ?: 1509;
-    $pdf_html    = get_post_meta($post->ID, '_fb_pdf_html', true) ?: '';
     $show_cover  = get_post_meta($post->ID, '_fb_show_cover', true);
     $cover_image = get_post_meta($post->ID, '_fb_cover_image', true);
     $back_image  = get_post_meta($post->ID, '_fb_back_image', true);
@@ -3336,7 +3349,7 @@ public function wps_pgfw_settings_box($post) {
     $flippingTime        = ($flippingTime !== '') ? $flippingTime : 1000;
     $startPage           = ($startPage !== '') ? $startPage : 0;
     $swipeDistance       = ($swipeDistance !== '') ? $swipeDistance : 30;
-    $useMouseEvents      = ($useMouseEvents !== '') ? $useMouseEvents : '1';
+   	$useMouseEvents      = ($useMouseEvents !== '') ? 'true' : 'false';
     $size                = ($size !== '') ? $size : 'stretch';
     $flip_sound_url      = ($flip_sound_url !== '') ? $flip_sound_url : '';
     $flip_sound_volume   = ($flip_sound_volume !== '') ? $flip_sound_volume : 1;
@@ -3354,7 +3367,7 @@ public function wps_pgfw_settings_box($post) {
         <div class="fb-tab-nav">
             <a href="#fb-layout" class="active">Layout</a>
             <a href="#fb-config">Config</a>
-            <a href="#fb-shortcode">Shortcode</a>
+            <span class="fb-shortcode">Shortcode: <strong>[flipbook id="<?php echo $post->ID; ?>"]</strong></span>
         </div>
 
         <!-- Layout Tab -->
@@ -3364,15 +3377,15 @@ public function wps_pgfw_settings_box($post) {
                     <!-- Book Content Source -->
                     <tr>
                         <th><label for="fb_pdf_url">Content Source</label>
-                            <span class="dashicons dashicons-editor-help" title="Use either a PDF file or a set of images to build the flipbook. If images are selected, they will be used; otherwise the PDF source will be used." style="cursor:help;"></span>
                         </th>
                         <td>
-                            <div class="fb-source-block" style="padding:12px; background:#f6f7f7; border:1px solid #dcdcde; border-radius:4px;">
-                                <h4 style="margin:0 0 8px;">PDF</h4>
+							<span class="dashicons dashicons-editor-help" title="Use either a PDF file or a set of images to build the flipbook. If images are selected, they will be used; otherwise the PDF source will be used."></span>
+                            <div class="fb-source-block">
+                                <h4>PDF</h4>
                                 <input type="url" id="fb_pdf_url" name="fb_pdf_url" value="<?php echo esc_attr($pdf_url); ?>" placeholder="Enter PDF URL" style="width:100%; margin-bottom:10px;">
-                                <div class="pdf-preview" style="margin:8px 0;">
+                                <div class="pdf-preview">
                                     <?php if ($pdf_url): ?>
-                                        <a href="<?php echo esc_url($pdf_url); ?>" target="_blank" rel="noopener">Current PDF</a>
+                                        <a href="<?php echo esc_url($pdf_url); ?>" target="_blank" rel="noopener">Preview Uploaded PDF</a>
                                     <?php endif; ?>
                                 </div>
                                 <button type="button" class="button upload-pdf-btn"><?php echo $pdf_url ? 'Change PDF' : 'Upload/Select PDF'; ?></button>
@@ -3382,65 +3395,67 @@ public function wps_pgfw_settings_box($post) {
                                 </div>
 
                                 <hr style="margin:14px 0; border:none; border-top:1px solid #dcdcde;">
-                                <h4 style="margin:0 0 8px;">Images</h4>
+                                <h4>Images</h4>
                                 <input type="hidden" id="fb_image_urls" name="fb_image_urls" value='<?php echo esc_attr($image_urls_json); ?>'>
-                                <div class="images-preview" style="display:flex; flex-wrap:wrap; gap:8px; margin:8px 0;">
+                                <div class="images-preview" style="display:flex; flex-wrap:wrap; gap:8px;">
                                     <?php
                                     $existing_imgs = json_decode($image_urls_json, true);
                                     if (is_array($existing_imgs)) {
                                         foreach ($existing_imgs as $u) {
                                             echo '<div class="fb-img-chip" data-url="' . esc_url($u) . '" style="position:relative;width:60px;height:60px;">
                                                     <img src="' . esc_url($u) . '" style="width:60px;height:60px;object-fit:cover;border:1px solid #ddd;border-radius:4px;display:block;" />
-                                                    <button type="button" class="button-link-delete fb-img-remove" title="Remove" style="position:absolute;top:-8px;right:-6px;background:#d63638;color:#fff;border:none;border-radius:999px;width:18px;height:18px;line-height:18px;text-align:center;font-size:12px;cursor:pointer;">×</button>
+                                                    <button type="button" class="button-link-delete fb-img-remove" title="Remove" style="position:absolute;top:-8px;right:-6px;background:#d63638;color:#fff;border:none;border-radius:999px;width: 20px;height: 20px;line-height: 1;text-align:center;cursor:pointer;display: inline-flex;align-items: center;justify-content: center;font-size: 14px;">&times;</button>
                                                 </div>';
                                         }
                                     }
                                     ?>
                                 </div>
-                                <button type="button" class="button upload-images-btn">Upload/Select Images</button>
-                                <button type="button" class="button clear-images-btn" <?php echo empty($existing_imgs) ? 'style="display:none;"' : ''; ?>>Clear</button>
+								<div class="button-group">
+									<button type="button" class="button upload-images-btn">Upload/Select Images</button>
+									<button type="button" class="button clear-images-btn" <?php echo empty($existing_imgs) ? 'style="display:none;"' : ''; ?>>Clear</button>
+								</div>
                                 <p class="description" style="margin-top:8px;">If images are selected, they will be used to create the flipbook pages. Otherwise, the PDF source will be used.</p>
                             </div>
                         </td>
                     </tr>
-                    <tr style="display:none">
+                    <tr style="display:none;">
 
                          <td><textarea name="fb_pdf_html" id="fb_pdf_html" rows="6" class="fb-wide"></textarea></td>
                     </tr>
                     <tr>
                         <th><label for="fb_width">Width</label>
-                            <span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enter the width of the flipbook in pixels.', 'interactive-flipbook'); ?>" style="cursor:help;"></span>
+                            
                         </th>
-                        <td><input type="number" name="fb_width" id="fb_width" value="<?php echo esc_attr($width); ?>"> px</td>
+                        <td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enter the width of the flipbook in pixels.', 'interactive-flipbook'); ?>"></span><input type="number" name="fb_width" id="fb_width" value="<?php echo esc_attr($width); ?>"> px</td>
                     </tr>
                     
                     <tr>
                         <th><label for="fb_height">Height</label>
-                            <span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enter the height of the flipbook in pixels.', 'interactive-flipbook'); ?>" style="cursor:help;"></span>
+                            
                         </th>
-                        <td><input type="number" name="fb_height" id="fb_height" value="<?php echo esc_attr($height); ?>"> px</td>
+                        <td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enter the height of the flipbook in pixels.', 'interactive-flipbook'); ?>"></span><input type="number" name="fb_height" id="fb_height" value="<?php echo esc_attr($height); ?>"> px</td>
                     </tr>
                     <!-- Cover Toggle -->
                     <tr>
                         <th><label for="fb_tool_btn">Flipbook Tool Button</label>
-                            <span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enable this option to add a tool button like go,next and previous to the flipbook.', 'interactive-flipbook'); ?>" style="cursor:help;"></span>
+                            
                         </th>
-                        <td><input type="checkbox" name="fb_tool_btn" id="fb_tool_btn" value="1" <?php checked((int)$tool_btn, 1); ?>></td>
+                        <td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enable this option to add a tool button like go,next and previous to the flipbook.', 'interactive-flipbook'); ?>"></span><input type="checkbox" name="fb_tool_btn" id="fb_tool_btn" value="1" <?php checked((int)$tool_btn, 1); ?>></td>
                     </tr>
                     <!-- Cover Toggle -->
                     <tr>
                         <th><label for="fb_show_cover">Add Cover Page</label>
-                            <span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enable this option to add a cover page to the flipbook.', 'interactive-flipbook'); ?>" style="cursor:help;"></span>
+                            
                         </th>
-                        <td><input type="checkbox" name="fb_show_cover" id="fb_show_cover" value="1" <?php checked((int)$show_cover, 1); ?>></td>
+                        <td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enable this option to add a cover page to the flipbook.', 'interactive-flipbook'); ?>"></span><input type="checkbox" name="fb_show_cover" id="fb_show_cover" value="1" <?php checked((int)$show_cover, 1); ?>></td>
                     </tr>
                     <!-- Cover Image -->
                     <tr class="cover-settings-row">
                         <th><label for="fb_cover_image">Cover Image</label>
-                            <span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enter the URL of the cover image for the flipbook.', 'interactive-flipbook'); ?>" style="cursor:help;"></span>
+                            
                         </th>
-                        <td>
-                            <input type="url" id="fb_cover_image" name="fb_cover_image" value="<?php echo esc_attr($cover_image); ?>" style="width:100%; margin-bottom:5px;" placeholder="Paste cover image URL or select below">
+                        <td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enter the URL of the cover image for the flipbook.', 'interactive-flipbook'); ?>"></span>
+                            <input type="url" id="fb_cover_image" name="fb_cover_image" value="<?php echo esc_attr($cover_image); ?>" placeholder="Paste cover image URL or select below">
                             <div class="cover-preview" style="margin-top:10px;">
                                 <?php if ($cover_image): ?><img src="<?php echo esc_url($cover_image); ?>" style="max-width:250px; border:1px solid #ccc; display:block; margin-bottom:5px;"><?php endif; ?>
                             </div>
@@ -3451,10 +3466,10 @@ public function wps_pgfw_settings_box($post) {
                     <!-- Back Cover Image -->
                     <tr class="cover-settings-row">
                         <th><label for="fb_back_image">Back Cover Image</label>
-                            <span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enter the URL of the back cover image for the flipbook.', 'interactive-flipbook'); ?>" style="cursor:help;"></span>
+                            
                         </th>
-                        <td>
-                            <input type="url" id="fb_back_image" name="fb_back_image" value="<?php echo esc_attr($back_image); ?>" style="width:100%; margin-bottom:5px;" placeholder="Paste back cover image URL or select below">
+                        <td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enter the URL of the back cover image for the flipbook.', 'interactive-flipbook'); ?>"></span>
+                            <input type="url" id="fb_back_image" name="fb_back_image" value="<?php echo esc_attr($back_image); ?>" placeholder="Paste back cover image URL or select below">
                             <div class="back-preview" style="margin-top:10px;">
                                 <?php if ($back_image): ?><img src="<?php echo esc_url($back_image); ?>" style="max-width:250px; border:1px solid #ccc; display:block; margin-bottom:5px;"><?php endif; ?>
                             </div>
@@ -3472,17 +3487,17 @@ public function wps_pgfw_settings_box($post) {
                 <tbody>
                     <tr>
                         <th><label for="fb_popup_enabled">Open in Popup Modal</label>
-                            <span class="dashicons dashicons-editor-help" title="Show a small flipbook icon. On click, open the flipbook in a modal." style="cursor:help;"></span>
-                        </th>
-                        <td>
+					</th>
+					<td>
+							<span class="dashicons dashicons-editor-help" title="Show a small flipbook icon. On click, open the flipbook in a modal."></span>
                             <input type="checkbox" name="fb_popup_enabled" id="fb_popup_enabled" value="1" <?php checked((int)$popup_enabled, 1); ?>>
                         </td>
                     </tr>
                     <tr>
                         <th><label for="fb_mobileScrollSupport">Mobile Scroll Support</label>
-                    <span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enable or disable mobile scroll support for the flipbook.', 'interactive-flipbook'); ?>" style="cursor:help;"></span>
                     </th>
-                        <td>
+					<td>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enable or disable mobile scroll support for the flipbook.', 'interactive-flipbook'); ?>"></span>
                             <select name="fb_mobileScrollSupport" id="fb_mobileScrollSupport">
                                 <option value="1" <?php selected($mobileScrollSupport, '1'); ?>>Yes</option>
                                 <option value="0" <?php selected($mobileScrollSupport, '0'); ?>>No</option>
@@ -3491,33 +3506,38 @@ public function wps_pgfw_settings_box($post) {
                     </tr>
                     <tr>
                         <th><label for="fb_maxShadowOpacity">Max Shadow Opacity</label>
-                            <span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Set the maximum shadow opacity for the flipbook.', 'interactive-flipbook'); ?>" style="cursor:help;"></span>
+                            
                         </th>
-                        <td><input type="number" step="0.1" id="fb_maxShadowOpacity" name="fb_maxShadowOpacity" value="<?php echo esc_attr($maxShadowOpacity); ?>"></td>
+                        <td>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Set the maximum shadow opacity for the flipbook.', 'interactive-flipbook'); ?>"></span>
+							<input type="number" step="0.1" id="fb_maxShadowOpacity" name="fb_maxShadowOpacity" value="<?php echo esc_attr($maxShadowOpacity); ?>"></td>
                     </tr>
                     <tr>
                         <th><label for="fb_flippingTime">Flipping Time (ms)</label>
-                            <span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Set the flipping time in milliseconds for the flipbook.', 'interactive-flipbook'); ?>" style="cursor:help;"></span>
-                        </th>
-                        <td><input type="number" id="fb_flippingTime" name="fb_flippingTime" value="<?php echo esc_attr($flippingTime); ?>"></td>
+					</th>
+					<td>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Set the flipping time in milliseconds for the flipbook.', 'interactive-flipbook'); ?>"></span>
+							<input type="number" id="fb_flippingTime" name="fb_flippingTime" value="<?php echo esc_attr($flippingTime); ?>"></td>
                     </tr>
                     <tr>
                         <th><label for="fb_startPage">Start Page</label>
-                            <span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Set the starting page for the flipbook.', 'interactive-flipbook'); ?>" style="cursor:help;"></span>
-                        </th>
-                        <td><input type="number" id="fb_startPage" name="fb_startPage" value="<?php echo esc_attr($startPage); ?>"></td>
+					</th>
+					<td>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Set the starting page for the flipbook.', 'interactive-flipbook'); ?>"></span>
+							<input type="number" id="fb_startPage" name="fb_startPage" value="<?php echo esc_attr($startPage); ?>"></td>
                     </tr>
                     <tr>
                         <th><label for="fb_swipeDistance">Swipe Distance</label>
-                            <span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Set the swipe distance for the flipbook.', 'interactive-flipbook'); ?>" style="cursor:help;"></span>
-                        </th>
-                        <td><input type="number" id="fb_swipeDistance" name="fb_swipeDistance" value="<?php echo esc_attr($swipeDistance); ?>"></td>
+					</th>
+					<td>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Set the swipe distance for the flipbook.', 'interactive-flipbook'); ?>"></span>
+							<input type="number" id="fb_swipeDistance" name="fb_swipeDistance" value="<?php echo esc_attr($swipeDistance); ?>"></td>
                     </tr>
                     <tr>
                         <th><label for="fb_useMouseEvents">Use Mouse Events</label>
-                            <span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enable or disable mouse events for the flipbook.', 'interactive-flipbook'); ?>" style="cursor:help;"></span>
-                        </th>
-                        <td>
+					</th>
+					<td>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enable or disable mouse events for the flipbook.', 'interactive-flipbook'); ?>"></span>
                             <select name="fb_useMouseEvents" id="fb_useMouseEvents">
                                 <option value="1" <?php selected($useMouseEvents, '1'); ?>>Yes</option>
                                 <option value="0" <?php selected($useMouseEvents, '0'); ?>>No</option>
@@ -3526,9 +3546,9 @@ public function wps_pgfw_settings_box($post) {
                     </tr>
                     <tr>
                         <th><label for="fb_size">Book Size Mode</label>
-                            <span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Set the book size mode for the flipbook.', 'interactive-flipbook'); ?>" style="cursor:help;"></span>
-                        </th>
-                        <td>
+					</th>
+					<td>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Set the book size mode for the flipbook.', 'interactive-flipbook'); ?>"></span>
                             <select id="fb_size" name="fb_size">
                                 <option value="fixed" <?php selected($size, 'fixed'); ?>>Fixed</option>
                                 <option value="stretch" <?php selected($size, 'stretch'); ?>>Stretch</option>
@@ -3537,13 +3557,13 @@ public function wps_pgfw_settings_box($post) {
                     </tr>
                     <tr>
                         <th><label for="fb_flip_sound_url">Flip Sound URL</label>
-                            <span class="dashicons dashicons-editor-help" title="Provide an audio file URL to play on page flip (e.g., MP3, WAV)." style="cursor:help;"></span>
-                        </th>
-                        <td>
-                            <input type="url" name="fb_flip_sound_url" id="fb_flip_sound_url" value="<?php echo esc_attr($flip_sound_url); ?>" style="width:100%; margin-bottom:8px;" placeholder="https://example.com/flip.mp3">
+					</th>
+					<td>
+							<span class="dashicons dashicons-editor-help" title="Provide an audio file URL to play on page flip (e.g., MP3, WAV)."></span>
+                            <input type="url" name="fb_flip_sound_url" id="fb_flip_sound_url" value="<?php echo esc_attr($flip_sound_url); ?>" placeholder="https://example.com/flip.mp3">
                             <div class="audio-preview" style="margin:8px 0;">
                                 <?php if ($flip_sound_url): ?>
-                                    <audio controls src="<?php echo esc_url($flip_sound_url); ?>" style="width:100%;"></audio>
+                                    <audio controls src="<?php echo esc_url($flip_sound_url); ?>"></audio>
                                 <?php endif; ?>
                             </div>
                             <button type="button" class="button upload-audio-btn"><?php echo $flip_sound_url ? 'Change Audio' : 'Upload/Select Audio'; ?></button>
@@ -3552,9 +3572,9 @@ public function wps_pgfw_settings_box($post) {
                     </tr>
                     <tr>
                         <th><label for="fb_flip_sound_volume">Flip Sound Volume</label>
-                            <span class="dashicons dashicons-editor-help" title="Volume from 0.0 (mute) to 1.0 (max)." style="cursor:help;"></span>
-                        </th>
-                        <td>
+					</th>
+					<td>
+							<span class="dashicons dashicons-editor-help" title="Volume from 0.0 (mute) to 1.0 (max)."></span>
                             <input type="number" step="0.1" min="0" max="1" name="fb_flip_sound_volume" id="fb_flip_sound_volume" value="<?php echo esc_attr($flip_sound_volume); ?>">
                         </td>
                     </tr>
@@ -3569,8 +3589,7 @@ public function wps_pgfw_settings_box($post) {
         </div>
     </div>
 
-    <!-- PDF.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
     <script>
     // Nonces and AJAX URL for PDF actions
     const fbFetchNonce = '<?php echo wp_create_nonce('fb_fetch_pdf'); ?>';
