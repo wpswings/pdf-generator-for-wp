@@ -298,7 +298,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'value'        => $pgfw_flipbook_enable,
 				'class'        => 'pgfw_flipbook_enable',
 				'name'         => 'pgfw_flipbook_enable',
-				'parent-class' => 'pgfw_flipbook_enable',
+				'parent-class' => 'pgfw_new-feature',
 						),
 			array(
 				'title'        => __( 'Include Categories', 'pdf-generator-for-wp' ),
@@ -3494,17 +3494,6 @@ public function wps_pgfw_settings_box($post) {
                         </td>
                     </tr>
                     <tr>
-                        <th><label for="fb_mobileScrollSupport">Mobile Scroll Support</label>
-                    </th>
-					<td>
-							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enable or disable mobile scroll support for the flipbook.', 'interactive-flipbook'); ?>"></span>
-                            <select name="fb_mobileScrollSupport" id="fb_mobileScrollSupport">
-                                <option value="1" <?php selected($mobileScrollSupport, '1'); ?>>Yes</option>
-                                <option value="0" <?php selected($mobileScrollSupport, '0'); ?>>No</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
                         <th><label for="fb_maxShadowOpacity">Max Shadow Opacity</label>
                             
                         </th>
@@ -3517,7 +3506,7 @@ public function wps_pgfw_settings_box($post) {
 					</th>
 					<td>
 							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Set the flipping time in milliseconds for the flipbook.', 'interactive-flipbook'); ?>"></span>
-							<input type="number" id="fb_flippingTime" name="fb_flippingTime" value="<?php echo esc_attr($flippingTime); ?>"></td>
+							<input type="number" id="fb_flippingTime" name="fb_flippingTime" min = "0" value="<?php echo esc_attr($flippingTime); ?>"></td>
                     </tr>
                     <tr>
                         <th><label for="fb_startPage">Start Page</label>
@@ -3649,6 +3638,16 @@ public function wps_pgfw_settings_box($post) {
             $('.fb-tab-content').removeClass('active');
             $(target).addClass('active');
         });
+
+		const flippingTimeInput = document.getElementById('fb_flippingTime');
+
+// Method 1: Prevent negative values on input
+flippingTimeInput.addEventListener('input', function() {
+    if (this.value < 0) {
+        this.value = 0;
+    }
+});
+
     });
     </script>
     <?php

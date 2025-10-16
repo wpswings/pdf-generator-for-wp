@@ -443,3 +443,37 @@ select {
     background: #fff;
     padding: 15px 0;
 }
+
+.pgfw_new-feature {
+  position: relative;
+}
+ 
+.pgfw_new-feature:after {
+  content: "New Feature";
+  position: absolute;
+  top: -30px;
+  left: 15px;
+  background: #0aa0001a;
+  color: #0aa000;
+  padding: 5px 25px 5px 10px;
+  font-size: 12px;
+  border-left: 4px solid;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 50%, 100% 100%, 0 100%);
+}
+ 
+ 
+ 
+@media screen and (max-width: 768px) {
+ 
+  .pgfw_new-feature:after {
+ 
+    top: -10px;
+    left: unset;
+    right: 15px;
+    padding: 5px 10px 5px 25px;
+    border-left: unset;
+    border-right: 4px solid;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 8px 50%);
+  }
+ 
+}
