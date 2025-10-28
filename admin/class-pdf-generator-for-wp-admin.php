@@ -79,7 +79,7 @@ class Pdf_Generator_For_Wp_Admin {
 		}
 		wp_enqueue_style( 'pgfw-admin-custom-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-generator-for-wp-admin-custom.css', array(), $this->version, 'all' );
 		wp_enqueue_style( 'flipbook-custom-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/flipbook.css', array(), $this->version, 'all' );
-	
+
 	}
 
 	/**
@@ -169,7 +169,7 @@ class Pdf_Generator_For_Wp_Admin {
 				)
 			);
 		}
-		wp_enqueue_script('flipbook-js', plugin_dir_url( __FILE__ ) . 'src/js/flipbook.js', array('jquery'), '1.0.0', true);
+		wp_enqueue_script( 'flipbook-js', plugin_dir_url( __FILE__ ) . 'src/js/flipbook.js', array( 'jquery' ), '1.0.0', true );
 		wp_enqueue_media();
 	}
 
@@ -266,14 +266,14 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_general_pdf_date_format    = array_key_exists( 'pgfw_general_pdf_date_format', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_date_format'] : '';
 		$pgfw_show_current_date       = array_key_exists( 'pgfw_general_pdf_show_current_date', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_current_date'] : '';
 		// Get the flipbook URL.
-		$flipbook_url = admin_url('edit.php?post_type=flipbook');
+		$flipbook_url = admin_url( 'edit.php?post_type=flipbook' );
 
 		// Prepare description based on condition.
-		$description = __('Enable to convert any PDF or images in flipbook', 'pdf-generator-for-wp');
+		$description = __( 'Enable to convert any PDF or images in flipbook', 'pdf-generator-for-wp' );
 
 		// Add the link only if your specific condition is true.
-		if ('yes' === $pgfw_flipbook_enable) {
-			$description .= ' <a href="' . esc_url($flipbook_url) . '">' . __('Visit Here', 'pdf-generator-for-wp') . '</a>';
+		if ( 'yes' === $pgfw_flipbook_enable ) {
+			$description .= ' <a href="' . esc_url( $flipbook_url ) . '">' . __( 'Visit Here', 'pdf-generator-for-wp' ) . '</a>';
 		}
 		$pgfw_settings_general_html_arr   = array(
 			array(
@@ -299,7 +299,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'class'        => 'pgfw_flipbook_enable',
 				'name'         => 'pgfw_flipbook_enable',
 				'parent-class' => 'pgfw_new-feature',
-						),
+			),
 			array(
 				'title'        => __( 'Include Categories', 'pdf-generator-for-wp' ),
 				'type'         => 'checkbox',
@@ -424,7 +424,7 @@ class Pdf_Generator_For_Wp_Admin {
 			'class'       => 'pgfw_general_settings_save',
 			'name'        => 'pgfw_general_settings_save',
 		);
-		
+
 		return $pgfw_settings_general_html_arr;
 
 	}
@@ -3242,540 +3242,676 @@ class Pdf_Generator_For_Wp_Admin {
 		}
 	}
 
-	public function wps_pgfw_flipbook_settings_callback(){
-	register_post_type('flipbook', [
-    'label' => 'Flipbooks',
-    'public' => false,
-    'show_ui' => true,
-    'show_in_menu' => true, // Recommended for non-public, admin-only CPTs
-    'menu_icon' => 'dashicons-book-alt',
-    'supports' => ['title'],
-    'taxonomies' => ['flipbook_category'],
-]);
+	/**
+	 * Flipbook Custom Post Type and Taxonomy registration callback.
+	 *
+	 * @since 3.0.0
+	 */
+	public function wps_pgfw_flipbook_settings_callback() {
+		register_post_type(
+			'flipbook',
+			array(
+				'label' => 'Flipbooks',
+				'public' => false,
+				'show_ui' => true,
+				'show_in_menu' => true, // Recommended for non-public, admin-only CPTs.
+				'menu_icon' => 'dashicons-book-alt',
+				'supports' => array( 'title' ),
+				'taxonomies' => array( 'flipbook_category' ),
+			)
+		);
 
-    register_taxonomy('flipbook_category', 'flipbook', [
-        'label' => 'Flipbook Categories',
-        'hierarchical' => true,
-        'show_ui' => true,
-        'show_admin_column' => true,
-        'rewrite' => ['slug' => 'flipbook-category'],
-    ]);
+		register_taxonomy(
+			'flipbook_category',
+			'flipbook',
+			array(
+				'label' => 'Flipbook Categories',
+				'hierarchical' => true,
+				'show_ui' => true,
+				'show_admin_column' => true,
+				'rewrite' => array( 'slug' => 'flipbook-category' ),
+			)
+		);
 	}
 
-	public function wps_pgfw_add_flipbook_metabox_callback(){
+	/**
+	 * Flipbook Metabox registration callback.
+	 *
+	 * @since 3.0.0
+	 */
+	public function wps_pgfw_add_flipbook_metabox_callback() {
 		add_meta_box(
-        'flipbook_settings',
-        'Flipbook Settings',
-        [$this, 'wps_pgfw_settings_box'],
-        'flipbook',
-        'normal',
-        'high'
-    );
+			'flipbook_settings',
+			'Flipbook Settings',
+			array( $this, 'wps_pgfw_settings_box' ),
+			'flipbook',
+			'normal',
+			'high'
+		);
 
-add_meta_box(
-        'flipbook_useful_links',
-        'Useful Links',
-        [$this, 'wps_pgfw_useful_links_box'],
-        'flipbook',
-        'side',  // show on the right side like your screenshot
-        'default'
-    );
+		add_meta_box(
+			'flipbook_useful_links',
+			'Useful Links',
+			array( $this, 'wps_pgfw_useful_links_box' ),
+			'flipbook',
+			'side',  // show on the right side like your screenshot.
+			'default'
+		);
+	}
+
+	/**
+	 * Flipbook Useful links box callback.
+	 *
+	 * @param WP_Post $post Current post object.
+	 * @since 3.0.0
+	 */
+	public function wps_pgfw_useful_links_box( $post ) {
+		// Fetch saved meta.
+		$demo_link   = 'https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=pdf-org-doc&utm_campaign=demo';
+		$video_link  = 'https://youtu.be/RljECeP3JJk';
+		$service_url = 'https://wpswings.com/woocommerce-services/';
+		$pro_link    = 'https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=referral&utm_campaign=pdf-pro';
+
+		?>
+	<div class="wps-fb_info-box">
+		<?php if ( $video_link ) : ?>
+			<div class="video"><a href="<?php echo esc_url( $video_link ); ?>" target="_blank">
+				<span class="dashicons dashicons-video-alt3"></span> See Video Tutorial
+			</a></div>
+		<?php endif; ?>
+
+		<?php if ( $demo_link ) : ?>
+			<div class="demo"><a href="<?php echo esc_url( $demo_link ); ?>" target="_blank">
+				<span class="dashicons dashicons-welcome-widgets-menus"></span> Live Demo
+			</a></div>
+		<?php endif; ?>
+
+		<?php if ( $service_url ) : ?>
+			<div class="service"><a href="<?php echo esc_url( $service_url ); ?>" target="_blank">
+				<span class="dashicons dashicons-admin-generic"></span> Service Page
+			</a></div>
+		<?php endif; ?>
+
+		<?php if ( $pro_link ) : ?>
+			<div class="upgrade_to_pro"><a href="<?php echo esc_url( $pro_link ); ?>" target="_blank">
+				<span class="dashicons dashicons-star-filled"></span> Upgrade to Pro Version
+			</a></div>
+		<?php endif; ?>
+	</div>
+		<?php
 	}
 
 
-	function wps_pgfw_useful_links_box($post) {
-    // Fetch saved meta
-    $demo_link   ='https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=pdf-org-doc&utm_campaign=demo';
-    $video_link  = 'https://youtu.be/RljECeP3JJk';
-    $service_url = 'https://wpswings.com/woocommerce-services/';
-    $pro_link    = 'https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=referral&utm_campaign=pdf-pro';
+	/**
+	 * Flipbook Settings box callback.
+	 *
+	 * @param WP_Post $post Current post object.
+	 * @since 3.0.0
+	 */
+	public function wps_pgfw_settings_box( $post ) {
+		$width  = ! empty( get_post_meta( $post->ID, '_fb_width', true ) ) ? get_post_meta( $post->ID, '_fb_width', true ) : 1000;
+		$height = ! empty( get_post_meta( $post->ID, '_fb_height', true ) ) ? get_post_meta( $post->ID, '_fb_height', true ) : 1509;
 
-    ?>
-    <div class="wps-fb_info-box">
-        <?php if ($video_link): ?>
-            <div class="video"><a href="<?php echo esc_url($video_link); ?>" target="_blank">
-                <span class="dashicons dashicons-video-alt3"></span> See Video Tutorial
-            </a></div>
-        <?php endif; ?>
+		$show_cover  = get_post_meta( $post->ID, '_fb_show_cover', true );
+		$cover_image = get_post_meta( $post->ID, '_fb_cover_image', true );
+		$back_image  = get_post_meta( $post->ID, '_fb_back_image', true );
+		$tool_btn    = get_post_meta( $post->ID, '_fb_tool_btn', true );
+		$pdf_url     = get_post_meta( $post->ID, '_fb_pdf_url', true );
+		$flip_sound_url = get_post_meta( $post->ID, '_fb_flip_sound_url', true );
+		$flip_sound_volume = get_post_meta( $post->ID, '_fb_flip_sound_volume', true );
+		$popup_enabled = get_post_meta( $post->ID, '_fb_popup_enabled', true );
+		$image_urls_json = get_post_meta( $post->ID, '_fb_image_urls', true );
+		$image_urls_json = is_string( $image_urls_json ) ? $image_urls_json : '';
 
-        <?php if ($demo_link): ?>
-            <div class="demo"><a href="<?php echo esc_url($demo_link); ?>" target="_blank">
-                <span class="dashicons dashicons-welcome-widgets-menus"></span> Live Demo
-            </a></div>
-        <?php endif; ?>
+		// ✅ Config values with defaults.
+		$mobile_scroll_support = get_post_meta( $post->ID, '_fb_mobileScrollSupport', true );
+		$max_shadow_opacity    = get_post_meta( $post->ID, '_fb_maxShadowOpacity', true );
+		$flipping_time        = get_post_meta( $post->ID, '_fb_flippingTime', true );
+		$start_page           = get_post_meta( $post->ID, '_fb_startPage', true );
+		$swipe_distance       = get_post_meta( $post->ID, '_fb_swipeDistance', true );
+		$use_mouse_events      = get_post_meta( $post->ID, '_fb_useMouseEvents', true );
+		$size                = get_post_meta( $post->ID, '_fb_size', true );
 
-        <?php if ($service_url): ?>
-            <div class="service"><a href="<?php echo esc_url($service_url); ?>" target="_blank">
-                <span class="dashicons dashicons-admin-generic"></span> Service Page
-            </a></div>
-        <?php endif; ?>
+		$mobile_scroll_support = ( '' !== $mobile_scroll_support ) ? $mobile_scroll_support : '1';
+		$max_shadow_opacity    = ( '' !== $max_shadow_opacity ) ? $max_shadow_opacity : 0.5;
+		$flipping_time         = ( '' !== $flipping_time ) ? $flipping_time : 1000;
+		$start_page            = ( '' !== $start_page ) ? $start_page : 0;
+		$swipe_distance        = ( '' !== $swipe_distance ) ? $swipe_distance : 30;
+		$use_mouse_events      = ( '' !== $use_mouse_events ) ? 'true' : 'false';
+		$size                  = ( '' !== $size ) ? $size : 'stretch';
+		$flip_sound_url        = ( '' !== $flip_sound_url ) ? $flip_sound_url : '';
+		$flip_sound_volume     = ( '' !== $flip_sound_volume ) ? $flip_sound_volume : 1;
+		$popup_enabled         = ( '' !== $popup_enabled ) ? (int) $popup_enabled : 0;
 
-        <?php if ($pro_link): ?>
-            <div class="upgrade_to_pro"><a href="<?php echo esc_url($pro_link); ?>" target="_blank">
-                <span class="dashicons dashicons-star-filled"></span> Upgrade to Pro Version
-            </a></div>
-        <?php endif; ?>
-    </div>
-    <?php
-}
+		// Optional validation notice (from save_post validation).
+		$validation_notice = get_transient( 'wps_pgfw_notice_' . $post->ID );
+		?>
+	
+	<div class="fb-tabs">
+		<?php if ( $validation_notice ) : ?>
+			<div id="ifb-validation-notice" class="notice notice-warning" style="margin:12px 0 0;">
+				<p><?php echo esc_html( $validation_notice ); ?></p>
+			</div>
+			<?php
+			delete_transient( 'wps_pgfw_notice_' . $post->ID );
+endif;
+		?>
+		<div class="fb-tab-nav">
+			<a href="#fb-layout" class="active">Layout</a>
+			<a href="#fb-config">Config</a>
+			<span class="fb-shortcode">Shortcode: <strong>[flipbook id="<?php echo esc_attr( $post->ID ); ?>"]</strong></span>
+		</div>
 
+		<!-- Layout Tab. -->
+		<div id="fb-layout" class="fb-tab-content active">
+			<?php wp_nonce_field( 'wps_pgfw_save_flipbook', 'wps_pgfw_flipbook_nonce' ); ?>
 
-public function wps_pgfw_settings_box($post) {
-    $width       = get_post_meta($post->ID, '_fb_width', true) ?: 1000;
-    $height      = get_post_meta($post->ID, '_fb_height', true) ?: 1509;
-    $show_cover  = get_post_meta($post->ID, '_fb_show_cover', true);
-    $cover_image = get_post_meta($post->ID, '_fb_cover_image', true);
-    $back_image  = get_post_meta($post->ID, '_fb_back_image', true);
-    $tool_btn    = get_post_meta($post->ID, '_fb_tool_btn', true);
-    $pdf_url     = get_post_meta($post->ID, '_fb_pdf_url', true);
-    $flip_sound_url = get_post_meta($post->ID, '_fb_flip_sound_url', true);
-    $flip_sound_volume = get_post_meta($post->ID, '_fb_flip_sound_volume', true);
-    $popup_enabled = get_post_meta($post->ID, '_fb_popup_enabled', true);
-    $image_urls_json = get_post_meta($post->ID, '_fb_image_urls', true);
-    $image_urls_json = is_string($image_urls_json) ? $image_urls_json : '';
-
-
-    // ✅ Config values with defaults
-    $mobileScrollSupport = get_post_meta($post->ID, '_fb_mobileScrollSupport', true);
-    $maxShadowOpacity    = get_post_meta($post->ID, '_fb_maxShadowOpacity', true);
-    $flippingTime        = get_post_meta($post->ID, '_fb_flippingTime', true);
-    $startPage           = get_post_meta($post->ID, '_fb_startPage', true);
-    $swipeDistance       = get_post_meta($post->ID, '_fb_swipeDistance', true);
-    $useMouseEvents      = get_post_meta($post->ID, '_fb_useMouseEvents', true);
-    $size                = get_post_meta($post->ID, '_fb_size', true);
-
-    $mobileScrollSupport = ($mobileScrollSupport !== '') ? $mobileScrollSupport : '1';
-    $maxShadowOpacity    = ($maxShadowOpacity !== '') ? $maxShadowOpacity : 0.5;
-    $flippingTime        = ($flippingTime !== '') ? $flippingTime : 1000;
-    $startPage           = ($startPage !== '') ? $startPage : 0;
-    $swipeDistance       = ($swipeDistance !== '') ? $swipeDistance : 30;
-   	$useMouseEvents      = ($useMouseEvents !== '') ? 'true' : 'false';
-    $size                = ($size !== '') ? $size : 'stretch';
-    $flip_sound_url      = ($flip_sound_url !== '') ? $flip_sound_url : '';
-    $flip_sound_volume   = ($flip_sound_volume !== '') ? $flip_sound_volume : 1;
-    $popup_enabled       = ($popup_enabled !== '') ? (int)$popup_enabled : 0;
-    // Optional validation notice (from save_post validation)
-    $validation_notice = get_transient('wps_pgfw_notice_' . $post->ID);
-    ?>
-    
-    <div class="fb-tabs">
-        <?php if ($validation_notice): ?>
-            <div id="ifb-validation-notice" class="notice notice-warning" style="margin:12px 0 0;">
-                <p><?php echo esc_html($validation_notice); ?></p>
-            </div>
-        <?php delete_transient('wps_pgfw_notice_' . $post->ID); endif; ?>
-        <div class="fb-tab-nav">
-            <a href="#fb-layout" class="active">Layout</a>
-            <a href="#fb-config">Config</a>
-            <span class="fb-shortcode">Shortcode: <strong>[flipbook id="<?php echo $post->ID; ?>"]</strong></span>
-        </div>
-
-        <!-- Layout Tab -->
-        <div id="fb-layout" class="fb-tab-content active">
-            <table class="form-table striped">
-                <tbody>
-                    <!-- Book Content Source -->
-                    <tr>
-                        <th><label for="fb_pdf_url">Content Source</label>
-                        </th>
-                        <td>
+			<table class="form-table striped">
+				<tbody>
+					<!-- Book Content Source. -->
+					<tr>
+						<th><label for="fb_pdf_url">Content Source</label>
+						</th>
+						<td>
 							<span class="dashicons dashicons-editor-help" title="Use either a PDF file or a set of images to build the flipbook. If images are selected, they will be used; otherwise the PDF source will be used."></span>
-                            <div class="fb-source-block">
-                                <h4>PDF</h4>
-                                <input type="url" id="fb_pdf_url" name="fb_pdf_url" value="<?php echo esc_attr($pdf_url); ?>" placeholder="Enter PDF URL" style="width:100%; margin-bottom:10px;">
-                                <div class="pdf-preview">
-                                    <?php if ($pdf_url): ?>
-                                        <a href="<?php echo esc_url($pdf_url); ?>" target="_blank" rel="noopener">Preview Uploaded PDF</a>
-                                    <?php endif; ?>
-                                </div>
-                                <button type="button" class="button upload-pdf-btn"><?php echo $pdf_url ? 'Change PDF' : 'Upload/Select PDF'; ?></button>
-                                <?php if ($pdf_url): ?><button type="button" class="button remove-pdf-btn">Remove</button><?php endif; ?>
-                                <div id="fb_pdf_spinner" style="display:none; margin-top:10px;">
-                                    <span class="spinner is-active" style="float:none;"></span> Converting PDF, please wait...
-                                </div>
+							<div class="fb-source-block">
+								<h4>PDF</h4>
+								<input type="url" id="fb_pdf_url" name="fb_pdf_url" value="<?php echo esc_attr( $pdf_url ); ?>" placeholder="Enter PDF URL" style="width:100%; margin-bottom:10px;">
+								<div class="pdf-preview">
+									<?php if ( $pdf_url ) : ?>
+										<a href="<?php echo esc_url( $pdf_url ); ?>" target="_blank" rel="noopener">Preview Uploaded PDF</a>
+									<?php endif; ?>
+								</div>
+								<button type="button" class="button upload-pdf-btn"><?php echo $pdf_url ? 'Change PDF' : 'Upload/Select PDF'; ?></button>
+								<?php
+								if ( $pdf_url ) :
+									?>
+									<button type="button" class="button remove-pdf-btn">Remove</button><?php endif; ?>
+								<div id="fb_pdf_spinner" style="display:none; margin-top:10px;">
+									<span class="spinner is-active" style="float:none;"></span> Converting PDF, please wait...
+								</div>
 
-                                <hr style="margin:14px 0; border:none; border-top:1px solid #dcdcde;">
-                                <h4>Images</h4>
-                                <input type="hidden" id="fb_image_urls" name="fb_image_urls" value='<?php echo esc_attr($image_urls_json); ?>'>
-                                <div class="images-preview" style="display:flex; flex-wrap:wrap; gap:8px;">
-                                    <?php
-                                    $existing_imgs = json_decode($image_urls_json, true);
-                                    if (is_array($existing_imgs)) {
-                                        foreach ($existing_imgs as $u) {
-                                            echo '<div class="fb-img-chip" data-url="' . esc_url($u) . '" style="position:relative;width:60px;height:60px;">
-                                                    <img src="' . esc_url($u) . '" style="width:60px;height:60px;object-fit:cover;border:1px solid #ddd;border-radius:4px;display:block;" />
+								<hr style="margin:14px 0; border:none; border-top:1px solid #dcdcde;">
+								<h4>Images</h4>
+								<input type="hidden" id="fb_image_urls" name="fb_image_urls" value='<?php echo esc_attr( $image_urls_json ); ?>'>
+								<div class="images-preview" style="display:flex; flex-wrap:wrap; gap:8px;">
+									<?php
+									$existing_imgs = json_decode( $image_urls_json, true );
+									if ( is_array( $existing_imgs ) ) {
+										foreach ( $existing_imgs as $u ) {
+											echo '<div class="fb-img-chip" data-url="' . esc_url( $u ) . '" style="position:relative;width:60px;height:60px;">
+                                                    <img src="' . esc_url( $u ) . '" style="width:60px;height:60px;object-fit:cover;border:1px solid #ddd;border-radius:4px;display:block;" />
                                                     <button type="button" class="button-link-delete fb-img-remove" title="Remove" style="position:absolute;top:-8px;right:-6px;background:#d63638;color:#fff;border:none;border-radius:999px;width: 20px;height: 20px;line-height: 1;text-align:center;cursor:pointer;display: inline-flex;align-items: center;justify-content: center;font-size: 14px;">&times;</button>
                                                 </div>';
-                                        }
-                                    }
-                                    ?>
-                                </div>
+										}
+									}
+									?>
+								</div>
 								<div class="button-group">
 									<button type="button" class="button upload-images-btn">Upload/Select Images</button>
-									<button type="button" class="button clear-images-btn" <?php echo empty($existing_imgs) ? 'style="display:none;"' : ''; ?>>Clear</button>
+									<button type="button" class="button clear-images-btn" <?php echo empty( $existing_imgs ) ? 'style="display:none;"' : ''; ?>>Clear</button>
 								</div>
-                                <p class="description" style="margin-top:8px;">If images are selected, they will be used to create the flipbook pages. Otherwise, the PDF source will be used.</p>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr style="display:none;">
+								<p class="description" style="margin-top:8px;">If images are selected, they will be used to create the flipbook pages. Otherwise, the PDF source will be used.</p>
+							</div>
+						</td>
+					</tr>
+					<tr style="display:none;">
 
-                         <td><textarea name="fb_pdf_html" id="fb_pdf_html" rows="6" class="fb-wide"></textarea></td>
-                    </tr>
-                    <tr>
-                        <th><label for="fb_width">Width</label>
-                            
-                        </th>
-                        <td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enter the width of the flipbook in pixels.', 'interactive-flipbook'); ?>"></span><input type="number" name="fb_width" id="fb_width" value="<?php echo esc_attr($width); ?>"> px</td>
-                    </tr>
-                    
-                    <tr>
-                        <th><label for="fb_height">Height</label>
-                            
-                        </th>
-                        <td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enter the height of the flipbook in pixels.', 'interactive-flipbook'); ?>"></span><input type="number" name="fb_height" id="fb_height" value="<?php echo esc_attr($height); ?>"> px</td>
-                    </tr>
-                    <!-- Cover Toggle -->
-                    <tr>
-                        <th><label for="fb_tool_btn">Flipbook Tool Button</label>
-                            
-                        </th>
-                        <td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enable this option to add a tool button like go,next and previous to the flipbook.', 'interactive-flipbook'); ?>"></span><input type="checkbox" name="fb_tool_btn" id="fb_tool_btn" value="1" <?php checked((int)$tool_btn, 1); ?>></td>
-                    </tr>
-                    <!-- Cover Toggle -->
-                    <tr>
-                        <th><label for="fb_show_cover">Add Cover Page</label>
-                            
-                        </th>
-                        <td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enable this option to add a cover page to the flipbook.', 'interactive-flipbook'); ?>"></span><input type="checkbox" name="fb_show_cover" id="fb_show_cover" value="1" <?php checked((int)$show_cover, 1); ?>></td>
-                    </tr>
-                    <!-- Cover Image -->
-                    <tr class="cover-settings-row">
-                        <th><label for="fb_cover_image">Cover Image</label>
-                            
-                        </th>
-                        <td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enter the URL of the cover image for the flipbook.', 'interactive-flipbook'); ?>"></span>
-                            <input type="url" id="fb_cover_image" name="fb_cover_image" value="<?php echo esc_attr($cover_image); ?>" placeholder="Paste cover image URL or select below">
-                            <div class="cover-preview" style="margin-top:10px;">
-                                <?php if ($cover_image): ?><img src="<?php echo esc_url($cover_image); ?>" style="max-width:250px; border:1px solid #ccc; display:block; margin-bottom:5px;"><?php endif; ?>
-                            </div>
-                            <button type="button" class="button upload-cover-btn"><?php echo $cover_image ? 'Change Cover Image' : 'Select Cover Image'; ?></button>
-                            <?php if ($cover_image): ?><button type="button" class="button remove-cover-btn">Remove</button><?php endif; ?>
-                        </td>
-                    </tr>
-                    <!-- Back Cover Image -->
-                    <tr class="cover-settings-row">
-                        <th><label for="fb_back_image">Back Cover Image</label>
-                            
-                        </th>
-                        <td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enter the URL of the back cover image for the flipbook.', 'interactive-flipbook'); ?>"></span>
-                            <input type="url" id="fb_back_image" name="fb_back_image" value="<?php echo esc_attr($back_image); ?>" placeholder="Paste back cover image URL or select below">
-                            <div class="back-preview" style="margin-top:10px;">
-                                <?php if ($back_image): ?><img src="<?php echo esc_url($back_image); ?>" style="max-width:250px; border:1px solid #ccc; display:block; margin-bottom:5px;"><?php endif; ?>
-                            </div>
-                            <button type="button" class="button upload-back-btn"><?php echo $back_image ? 'Change Back Image' : 'Select Back Image'; ?></button>
-                            <?php if ($back_image): ?><button type="button" class="button remove-back-btn">Remove</button><?php endif; ?>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+						 <td><textarea name="fb_pdf_html" id="fb_pdf_html" rows="6" class="fb-wide"></textarea></td>
+					</tr>
+					<tr>
+						<th><label for="fb_width">Width</label>
+							
+						</th>
+						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enter the width of the flipbook in pixels.', 'interactive-flipbook' ); ?>"></span><input type="number" name="fb_width" id="fb_width" value="<?php echo esc_attr( $width ); ?>"> px</td>
+					</tr>
+					
+					<tr>
+						<th><label for="fb_height">Height</label>
+							
+						</th>
+						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enter the height of the flipbook in pixels.', 'interactive-flipbook' ); ?>"></span><input type="number" name="fb_height" id="fb_height" value="<?php echo esc_attr( $height ); ?>"> px</td>
+					</tr>
+					<!-- Cover Toggle -->
+					<tr>
+						<th><label for="fb_tool_btn">Flipbook Tool Button</label>
+							
+						</th>
+						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enable this option to add a tool button like go,next and previous to the flipbook.', 'interactive-flipbook' ); ?>"></span><input type="checkbox" name="fb_tool_btn" id="fb_tool_btn" value="1" <?php checked( (int) $tool_btn, 1 ); ?>></td>
+					</tr>
+					<!-- Cover Toggle. -->
+					<tr>
+						<th><label for="fb_show_cover">Add Cover Page</label>
+							
+						</th>
+						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enable this option to add a cover page to the flipbook.', 'interactive-flipbook' ); ?>"></span><input type="checkbox" name="fb_show_cover" id="fb_show_cover" value="1" <?php checked( (int) $show_cover, 1 ); ?>></td>
+					</tr>
+					<!-- Cover Image. -->
+					<tr class="cover-settings-row">
+						<th><label for="fb_cover_image">Cover Image</label>
+							
+						</th>
+						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enter the URL of the cover image for the flipbook.', 'interactive-flipbook' ); ?>"></span>
+							<input type="url" id="fb_cover_image" name="fb_cover_image" value="<?php echo esc_attr( $cover_image ); ?>" placeholder="Paste cover image URL or select below">
+							<div class="cover-preview" style="margin-top:10px;">
+									<?php
+									if ( $cover_image ) :
+										?>
+										<img src="<?php echo esc_url( $cover_image ); ?>" style="max-width:250px; border:1px solid #ccc; display:block; margin-bottom:5px;"><?php endif; ?>
+							</div>
+							<button type="button" class="button upload-cover-btn"><?php echo $cover_image ? 'Change Cover Image' : 'Select Cover Image'; ?></button>
+								<?php
+								if ( $cover_image ) :
+									?>
+									<button type="button" class="button remove-cover-btn">Remove</button><?php endif; ?>
+						</td>
+					</tr>
+					<!-- Back Cover Image. -->
+					<tr class="cover-settings-row">
+						<th><label for="fb_back_image">Back Cover Image</label>
+							
+						</th>
+						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enter the URL of the back cover image for the flipbook.', 'interactive-flipbook' ); ?>"></span>
+							<input type="url" id="fb_back_image" name="fb_back_image" value="<?php echo esc_attr( $back_image ); ?>" placeholder="Paste back cover image URL or select below">
+							<div class="back-preview" style="margin-top:10px;">
+									<?php
+									if ( $back_image ) :
+										?>
+										<img src="<?php echo esc_url( $back_image ); ?>" style="max-width:250px; border:1px solid #ccc; display:block; margin-bottom:5px;"><?php endif; ?>
+							</div>
+							<button type="button" class="button upload-back-btn"><?php echo $back_image ? 'Change Back Image' : 'Select Back Image'; ?></button>
+								<?php
+								if ( $back_image ) :
+									?>
+									<button type="button" class="button remove-back-btn">Remove</button><?php endif; ?>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 
-        <!-- Config Tab -->
-        <div id="fb-config" class="fb-tab-content">
-            <table class="form-table striped">
-                <tbody>
-                    <tr>
-                        <th><label for="fb_popup_enabled">Open in Popup Modal</label>
+		<!-- Config Tab. -->
+		<div id="fb-config" class="fb-tab-content">
+			<table class="form-table striped">
+				<tbody>
+					<tr>
+						<th><label for="fb_popup_enabled">Open in Popup Modal</label>
 					</th>
 					<td>
 							<span class="dashicons dashicons-editor-help" title="Show a small flipbook icon. On click, open the flipbook in a modal."></span>
-                            <input type="checkbox" name="fb_popup_enabled" id="fb_popup_enabled" value="1" <?php checked((int)$popup_enabled, 1); ?>>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><label for="fb_maxShadowOpacity">Max Shadow Opacity</label>
-                            
-                        </th>
-                        <td>
-							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Set the maximum shadow opacity for the flipbook.', 'interactive-flipbook'); ?>"></span>
-							<input type="number" step="0.1" id="fb_maxShadowOpacity" name="fb_maxShadowOpacity" value="<?php echo esc_attr($maxShadowOpacity); ?>"></td>
-                    </tr>
-                    <tr>
-                        <th><label for="fb_flippingTime">Flipping Time (ms)</label>
+							<input type="checkbox" name="fb_popup_enabled" id="fb_popup_enabled" value="1" <?php checked( (int) $popup_enabled, 1 ); ?>>
+						</td>
+					</tr>
+					<tr>
+						<th><label for="fb_maxShadowOpacity">Max Shadow Opacity</label>
+							
+						</th>
+						<td>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Set the maximum shadow opacity for the flipbook.', 'interactive-flipbook' ); ?>"></span>
+							<input type="number" step="0.1" id="fb_maxShadowOpacity" name="fb_maxShadowOpacity" value="<?php echo esc_attr( $max_shadow_opacity ); ?>"></td>
+					</tr>
+					<tr>
+						<th><label for="fb_flippingTime">Flipping Time (ms)</label>
 					</th>
 					<td>
-							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Set the flipping time in milliseconds for the flipbook.', 'interactive-flipbook'); ?>"></span>
-							<input type="number" id="fb_flippingTime" name="fb_flippingTime" min = "0" value="<?php echo esc_attr($flippingTime); ?>"></td>
-                    </tr>
-                    <tr>
-                        <th><label for="fb_startPage">Start Page</label>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Set the flipping time in milliseconds for the flipbook.', 'interactive-flipbook' ); ?>"></span>
+							<input type="number" id="fb_flippingTime" name="fb_flippingTime" min = "0" value="<?php echo esc_attr( $flipping_time ); ?>"></td>
+					</tr>
+					<tr>
+						<th><label for="fb_startPage">Start Page</label>
 					</th>
 					<td>
-							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Set the starting page for the flipbook.', 'interactive-flipbook'); ?>"></span>
-							<input type="number" id="fb_startPage" name="fb_startPage" value="<?php echo esc_attr($startPage); ?>"></td>
-                    </tr>
-                    <tr>
-                        <th><label for="fb_swipeDistance">Swipe Distance</label>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Set the starting page for the flipbook.', 'interactive-flipbook' ); ?>"></span>
+							<input type="number" id="fb_startPage" name="fb_startPage" value="<?php echo esc_attr( $start_page ); ?>"></td>
+					</tr>
+					<tr>
+						<th><label for="fb_swipeDistance">Swipe Distance</label>
 					</th>
 					<td>
-							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Set the swipe distance for the flipbook.', 'interactive-flipbook'); ?>"></span>
-							<input type="number" id="fb_swipeDistance" name="fb_swipeDistance" value="<?php echo esc_attr($swipeDistance); ?>"></td>
-                    </tr>
-                    <tr>
-                        <th><label for="fb_useMouseEvents">Use Mouse Events</label>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Set the swipe distance for the flipbook.', 'interactive-flipbook' ); ?>"></span>
+							<input type="number" id="fb_swipeDistance" name="fb_swipeDistance" value="<?php echo esc_attr( $swipe_distance ); ?>"></td>
+					</tr>
+					<tr>
+						<th><label for="fb_useMouseEvents">Use Mouse Events</label>
 					</th>
 					<td>
-							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Enable or disable mouse events for the flipbook.', 'interactive-flipbook'); ?>"></span>
-                            <select name="fb_useMouseEvents" id="fb_useMouseEvents">
-                                <option value="1" <?php selected($useMouseEvents, '1'); ?>>Yes</option>
-                                <option value="0" <?php selected($useMouseEvents, '0'); ?>>No</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><label for="fb_size">Book Size Mode</label>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enable or disable mouse events for the flipbook.', 'interactive-flipbook' ); ?>"></span>
+							<select name="fb_useMouseEvents" id="fb_useMouseEvents">
+								<option value="1" <?php selected( $use_mouse_events, '1' ); ?>>Yes</option>
+								<option value="0" <?php selected( $use_mouse_events, '0' ); ?>>No</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th><label for="fb_size">Book Size Mode</label>
 					</th>
 					<td>
-							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e('Set the book size mode for the flipbook.', 'interactive-flipbook'); ?>"></span>
-                            <select id="fb_size" name="fb_size">
-                                <option value="fixed" <?php selected($size, 'fixed'); ?>>Fixed</option>
-                                <option value="stretch" <?php selected($size, 'stretch'); ?>>Stretch</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><label for="fb_flip_sound_url">Flip Sound URL</label>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Set the book size mode for the flipbook.', 'interactive-flipbook' ); ?>"></span>
+							<select id="fb_size" name="fb_size">
+								<option value="fixed" <?php selected( $size, 'fixed' ); ?>>Fixed</option>
+								<option value="stretch" <?php selected( $size, 'stretch' ); ?>>Stretch</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th><label for="fb_flip_sound_url">Flip Sound URL</label>
 					</th>
 					<td>
 							<span class="dashicons dashicons-editor-help" title="Provide an audio file URL to play on page flip (e.g., MP3, WAV)."></span>
-                            <input type="url" name="fb_flip_sound_url" id="fb_flip_sound_url" value="<?php echo esc_attr($flip_sound_url); ?>" placeholder="https://example.com/flip.mp3">
-                            <div class="audio-preview" style="margin:8px 0;">
-                                <?php if ($flip_sound_url): ?>
-                                    <audio controls src="<?php echo esc_url($flip_sound_url); ?>"></audio>
-                                <?php endif; ?>
-                            </div>
-                            <button type="button" class="button upload-audio-btn"><?php echo $flip_sound_url ? 'Change Audio' : 'Upload/Select Audio'; ?></button>
-                            <?php if ($flip_sound_url): ?><button type="button" class="button remove-audio-btn">Remove</button><?php endif; ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><label for="fb_flip_sound_volume">Flip Sound Volume</label>
+							<input type="url" name="fb_flip_sound_url" id="fb_flip_sound_url" value="<?php echo esc_attr( $flip_sound_url ); ?>" placeholder="https://example.com/flip.mp3">
+							<div class="audio-preview" style="margin:8px 0;">
+									<?php if ( $flip_sound_url ) : ?>
+									<audio controls src="<?php echo esc_url( $flip_sound_url ); ?>"></audio>
+								<?php endif; ?>
+							</div>
+							<button type="button" class="button upload-audio-btn"><?php echo $flip_sound_url ? 'Change Audio' : 'Upload/Select Audio'; ?></button>
+								<?php
+								if ( $flip_sound_url ) :
+									?>
+									<button type="button" class="button remove-audio-btn">Remove</button><?php endif; ?>
+						</td>
+					</tr>
+					<tr>
+						<th><label for="fb_flip_sound_volume">Flip Sound Volume</label>
 					</th>
 					<td>
 							<span class="dashicons dashicons-editor-help" title="Volume from 0.0 (mute) to 1.0 (max)."></span>
-                            <input type="number" step="0.1" min="0" max="1" name="fb_flip_sound_volume" id="fb_flip_sound_volume" value="<?php echo esc_attr($flip_sound_volume); ?>">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+							<input type="number" step="0.1" min="0" max="1" name="fb_flip_sound_volume" id="fb_flip_sound_volume" value="<?php echo esc_attr( $flip_sound_volume ); ?>">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 
-        <!-- Shortcode Tab -->
-        <div id="fb-shortcode" class="fb-tab-content">
-            <p><strong>Use this shortcode:</strong></p>
-            <code>[flipbook id="<?php echo $post->ID; ?>"]</code>
-        </div>
-    </div>
+		<!-- Shortcode Tab. -->
+		<div id="fb-shortcode" class="fb-tab-content">
+			<p><strong>Use this shortcode:</strong></p>
+			<code>[flipbook id="<?php echo esc_attr( $post->ID ); ?>"]</code>
+		</div>
+	</div>
 
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
-    <script>
-    // Nonces and AJAX URL for PDF actions
-    const fbFetchNonce = '<?php echo wp_create_nonce('fb_fetch_pdf'); ?>';
-    const fbUploadNonce = '<?php echo wp_create_nonce('ifb_upload_pdf'); ?>';
-    const fbAjaxUrl = '<?php echo admin_url('admin-ajax.php'); ?>';
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
-    jQuery(document).ready(function($){
-        async function convertPdfToImages(arrayBuffer) {
-            $('#fb_pdf_spinner').show();
-            const uint8Array = new Uint8Array(arrayBuffer);
-            const pdf = await pdfjsLib.getDocument({ data: uint8Array }).promise;
-            let htmlOutput = "";
-            for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-                const page = await pdf.getPage(pageNum);
-                const viewport = page.getViewport({ scale: 1.5 });
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-                await page.render({ canvasContext: ctx, viewport: viewport }).promise;
-                const imgData = canvas.toDataURL("image/png");
-                htmlOutput += `<div class="pdf-page"><div class="page-header">Page ${pageNum}</div><div class="page-body"><img src="${imgData}" style="max-width:100%; height:auto;"></div></div>\n`;
-            }
-            $('#fb_pdf_html').val(htmlOutput);
-            $('#fb_pdf_spinner').hide();
-        }
-        $('#fb_pdf_url').on('change', async function(){
-    const url = $(this).val().trim();
-    if(url){
-        try {
-            const response = await fetch(fbAjaxUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: 'action=fb_fetch_pdf&url=' + encodeURIComponent(url) + '&nonce=' + encodeURIComponent(fbFetchNonce)
-            });
-            if(!response.ok){
-                const text = await response.text();
-                throw new Error(text || ('HTTP '+response.status));
-            }
-            const ct = response.headers.get('content-type') || '';
-            if (!ct.includes('application/pdf')) {
-                const text = await response.text();
-                throw new Error(text || 'Non-PDF response');
-            }
-            const buffer = await response.arrayBuffer();
-            convertPdfToImages(buffer);
-        } catch(err) {
-            alert('Failed to load PDF: '+err.message);
-        }
-    }
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
+	<script>
+	// Nonces and AJAX URL for PDF actions.
+	const fbFetchNonce = '<?php echo esc_js( wp_create_nonce( 'fb_fetch_pdf' ) ); ?>';
+	const fbUploadNonce = '<?php echo esc_js( wp_create_nonce( 'ifb_upload_pdf' ) ); ?>';
+	const fbAjaxUrl = '<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>';
+
+	pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
+	jQuery(document).ready(function($){
+		async function convertPdfToImages(arrayBuffer) {
+			$('#fb_pdf_spinner').show();
+			const uint8Array = new Uint8Array(arrayBuffer);
+			const pdf = await pdfjsLib.getDocument({ data: uint8Array }).promise;
+			let htmlOutput = "";
+			for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+				const page = await pdf.getPage(pageNum);
+				const viewport = page.getViewport({ scale: 1.5 });
+				const canvas = document.createElement('canvas');
+				const ctx = canvas.getContext('2d');
+				canvas.height = viewport.height;
+				canvas.width = viewport.width;
+				await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+				const imgData = canvas.toDataURL("image/png");
+				htmlOutput += `<div class="pdf-page"><div class="page-header">Page ${pageNum}</div><div class="page-body"><img src="${imgData}" style="max-width:100%; height:auto;"></div></div>\n`;
+			}
+			$('#fb_pdf_html').val(htmlOutput);
+			$('#fb_pdf_spinner').hide();
+		}
+		$('#fb_pdf_url').on('change', async function(){
+	const url = $(this).val().trim();
+	if(url){
+		try {
+			const response = await fetch(fbAjaxUrl, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+				body: 'action=fb_fetch_pdf&url=' + encodeURIComponent(url) + '&nonce=' + encodeURIComponent(fbFetchNonce)
+			});
+			if(!response.ok){
+				const text = await response.text();
+				throw new Error(text || ('HTTP '+response.status));
+			}
+			const ct = response.headers.get('content-type') || '';
+			if (!ct.includes('application/pdf')) {
+				const text = await response.text();
+				throw new Error(text || 'Non-PDF response');
+			}
+			const buffer = await response.arrayBuffer();
+			convertPdfToImages(buffer);
+		} catch(err) {
+			alert('Failed to load PDF: '+err.message);
+		}
+	}
 });
-        $('.fb-tab-nav a').on('click', function(e){
-            e.preventDefault();
-            var target = $(this).attr('href');
-            $('.fb-tab-nav a').removeClass('active');
-            $(this).addClass('active');
-            $('.fb-tab-content').removeClass('active');
-            $(target).addClass('active');
-        });
+		$('.fb-tab-nav a').on('click', function(e){
+			e.preventDefault();
+			var target = $(this).attr('href');
+			$('.fb-tab-nav a').removeClass('active');
+			$(this).addClass('active');
+			$('.fb-tab-content').removeClass('active');
+			$(target).addClass('active');
+		});
 
 		const flippingTimeInput = document.getElementById('fb_flippingTime');
-
-// Method 1: Prevent negative values on input
 flippingTimeInput.addEventListener('input', function() {
-    if (this.value < 0) {
-        this.value = 0;
-    }
+	if (this.value < 0) {
+		this.value = 0;
+	}
 });
 
-    });
-    </script>
-    <?php
-}
+	});
+	</script>
+		<?php
+	}
 
-public function wps_pgfw_save_flipbook_metabox_callback($post_id){
-if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
-    if (!current_user_can('edit_post', $post_id)) return;
+	/**
+	 * Flipbook Metabox save callback.
+	 *
+	 * @param int $post_id Current post ID.
+	 * @since 3.0.0
+	 */
+	public function wps_pgfw_save_flipbook_metabox_callback( $post_id ) {
 
-    if (isset($_POST['fb_width'])) {
-        update_post_meta($post_id, '_fb_width', (int) $_POST['fb_width']);
-    }
-    if (isset($_POST['fb_height'])) {
-        update_post_meta($post_id, '_fb_height', (int) $_POST['fb_height']);
-    }
-    if (isset($_POST['fb_flip_sound_url'])) {
-        update_post_meta($post_id, '_fb_flip_sound_url', esc_url_raw($_POST['fb_flip_sound_url']));
-    }
-    if (isset($_POST['fb_flip_sound_volume'])) {
-        $vol = floatval($_POST['fb_flip_sound_volume']);
-        if ($vol < 0) { $vol = 0; }
-        if ($vol > 1) { $vol = 1; }
-        update_post_meta($post_id, '_fb_flip_sound_volume', $vol);
-    }
-    if (isset($_POST['fb_popup_enabled'])) {
-        update_post_meta($post_id, '_fb_popup_enabled', (int)$_POST['fb_popup_enabled']);
-    } else {
-        update_post_meta($post_id, '_fb_popup_enabled', 0);
-    }
-    // Save images JSON
-    if (isset($_POST['fb_image_urls'])) {
-        $raw = wp_unslash($_POST['fb_image_urls']);
-        // Basic validation: must decode to array of URLs
-        $arr = json_decode($raw, true);
-        if (is_array($arr)) {
-            $clean = array();
-            foreach ($arr as $u) {
-                $url = esc_url_raw($u);
-                if ($url) { $clean[] = $url; }
-            }
-            update_post_meta($post_id, '_fb_image_urls', wp_json_encode(array_values($clean)));
-        } else {
-            update_post_meta($post_id, '_fb_image_urls', '');
-        }
-    }
+		if (
+		! isset( $_POST['wps_pgfw_flipbook_nonce'] ) ||
+		! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wps_pgfw_flipbook_nonce'] ) ), 'wps_pgfw_save_flipbook' )
+		) {
+			return;
+		}
 
-    // Validation: ensure at least one source (PDF or images) is provided
-    $saved_pdf_url = get_post_meta($post_id, '_fb_pdf_url', true);
-    $saved_imgs_json = get_post_meta($post_id, '_fb_image_urls', true);
-    $saved_imgs = $saved_imgs_json ? json_decode($saved_imgs_json, true) : array();
-    $has_images = is_array($saved_imgs) && count($saved_imgs) > 0;
-    $has_pdf = !empty($saved_pdf_url);
-    if (!$has_images && !$has_pdf) {
-        set_transient('wps_pgfw_notice_' . $post_id, 'Please set a Content Source: either select a PDF or choose images.', 60);
-    } else {
-        delete_transient('wps_pgfw_notice_' . $post_id);
-    }
-    if (isset($_POST['fb_pdf_html']) && ! empty($_POST['fb_pdf_html'])) {
-        update_post_meta($post_id, '_fb_pdf_html', $_POST['fb_pdf_html']);
-    }
-    if (isset($_POST['fb_cover_image'])) {
-        update_post_meta($post_id, '_fb_cover_image', esc_url_raw($_POST['fb_cover_image']));
-    }
-    if (isset($_POST['fb_back_image'])) {
-        update_post_meta($post_id, '_fb_back_image', esc_url_raw($_POST['fb_back_image']));
-    }
-     if (isset($_POST['fb_show_cover'])) {
-        update_post_meta($post_id, '_fb_show_cover', (int)$_POST['fb_show_cover']);
-    }else {
-        update_post_meta($post_id, '_fb_show_cover', 0);
-    }
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
 
-    if(isset($_POST['fb_tool_btn'])) {
-        update_post_meta($post_id, '_fb_tool_btn', (int)$_POST['fb_tool_btn']);
-    } else {
-        update_post_meta($post_id, '_fb_tool_btn', 0);
-    }
-    if(! empty($_POST['fb_pdf_url'])) {
-        update_post_meta($post_id, '_fb_pdf_url', esc_url_raw($_POST['fb_pdf_url']));
-    }
-    else {
-        update_post_meta($post_id, '_fb_pdf_url', '');
-    }
+		if ( isset( $_POST['fb_width'] ) ) {
+			update_post_meta( $post_id, '_fb_width', (int) $_POST['fb_width'] );
+		}
+		if ( isset( $_POST['fb_height'] ) ) {
+			update_post_meta( $post_id, '_fb_height', (int) $_POST['fb_height'] );
+		}
+		if ( isset( $_POST['fb_flip_sound_url'] ) ) {
+			update_post_meta(
+				$post_id,
+				'_fb_flip_sound_url',
+				esc_url_raw( wp_unslash( $_POST['fb_flip_sound_url'] ) )
+			);
+		}
+		if ( isset( $_POST['fb_flip_sound_volume'] ) ) {
+			$vol = floatval( $_POST['fb_flip_sound_volume'] );
+			if ( $vol < 0 ) {
+				$vol = 0; }
+			if ( $vol > 1 ) {
+				$vol = 1; }
+			update_post_meta( $post_id, '_fb_flip_sound_volume', $vol );
+		}
+		if ( isset( $_POST['fb_popup_enabled'] ) ) {
+			update_post_meta( $post_id, '_fb_popup_enabled', (int) $_POST['fb_popup_enabled'] );
+		} else {
+			update_post_meta( $post_id, '_fb_popup_enabled', 0 );
+		}
+		// Save images JSON safely.
+		if ( isset( $_POST['fb_image_urls'] ) ) {
+			// Unslash the raw JSON string from POST.
+			$raw = sanitize_textarea_field( wp_unslash( $_POST['fb_image_urls'] ) );
 
+			// Decode JSON to array.
+			$arr = json_decode( $raw, true );
 
-    // ✅ Save Config Settings
-    $config_keys = [
-        'mobileScrollSupport',
-        'maxShadowOpacity',
-        'flippingTime',
-        'startPage',
-        'swipeDistance',
-        'useMouseEvents',
-        'size',
-    ];
+			if ( is_array( $arr ) ) {
+				$clean = array();
 
-    foreach ($config_keys as $key) {
-        if (isset($_POST['fb_' . $key])) {
-            $val = $_POST['fb_' . $key];
+				foreach ( $arr as $u ) {
+					// Sanitize each image URL.
+					$url = esc_url_raw( $u );
+					if ( ! empty( $url ) ) {
+						$clean[] = $url;
+					}
+				}
 
-            // Cast values properly
-            if (in_array($key, ['mobileScrollSupport','useMouseEvents'])) {
-                $val = $val === '1' ? '1' : '0';
-            }
-            elseif (in_array($key, ['maxShadowOpacity'])) {
-                $val = floatval($val);
-            }
-            elseif (in_array($key, ['flippingTime','startPage','swipeDistance'])) {
-                $val = intval($val);
-            }
-            elseif ($key === 'size') {
-                $val = in_array($val, ['fixed','stretch']) ? $val : 'stretch';
-            }
+				// Re-encode sanitized array and save.
+				update_post_meta( $post_id, '_fb_image_urls', wp_json_encode( array_values( $clean ) ) );
+			} else {
+				update_post_meta( $post_id, '_fb_image_urls', '' );
+			}
+		}
 
-            update_post_meta($post_id, '_fb_' . $key, $val);
-        }
-    }
-}
+		// Validation: ensure at least one source (PDF or images) is provided.
+		$saved_pdf_url = get_post_meta( $post_id, '_fb_pdf_url', true );
+		$saved_imgs_json = get_post_meta( $post_id, '_fb_image_urls', true );
+		$saved_imgs = $saved_imgs_json ? json_decode( $saved_imgs_json, true ) : array();
+		$has_images = is_array( $saved_imgs ) && count( $saved_imgs ) > 0;
+		$has_pdf = ! empty( $saved_pdf_url );
+		if ( ! $has_images && ! $has_pdf ) {
+			set_transient( 'wps_pgfw_notice_' . $post_id, 'Please set a Content Source: either select a PDF or choose images.', 60 );
+		} else {
+			delete_transient( 'wps_pgfw_notice_' . $post_id );
+		}
+		if ( ! empty( $_POST['fb_pdf_html'] ) ) {
+			update_post_meta(
+				$post_id,
+				'_fb_pdf_html',
+				wp_kses_post( wp_unslash( $_POST['fb_pdf_html'] ) )
+			);
+		}
 
-public function wps_pgfw_manage_flipbook_posts_columns($columns){
-    $columns['shortcode'] = 'Shortcode';
-    return $columns;
-}
+		// Save Cover Image URL.
+		if ( isset( $_POST['fb_cover_image'] ) ) {
+			update_post_meta(
+				$post_id,
+				'_fb_cover_image',
+				esc_url_raw( wp_unslash( $_POST['fb_cover_image'] ) )
+			);
+		}
 
-public function wps_pgfw_flipbook_posts_custom_column($column, $post_id){
-	  if ($column === 'shortcode') {
-        echo '<code>[flipbook id="' . $post_id . '"]</code>';
-    }
-}
+		// Save Back Cover Image URL.
+		if ( isset( $_POST['fb_back_image'] ) ) {
+			update_post_meta(
+				$post_id,
+				'_fb_back_image',
+				esc_url_raw( wp_unslash( $_POST['fb_back_image'] ) )
+			);
+		}
+
+		// Save Show Cover (checkbox).
+		if ( isset( $_POST['fb_show_cover'] ) ) {
+			update_post_meta(
+				$post_id,
+				'_fb_show_cover',
+				absint( wp_unslash( $_POST['fb_show_cover'] ) )
+			);
+		} else {
+			update_post_meta( $post_id, '_fb_show_cover', 0 );
+		}
+
+		if ( isset( $_POST['fb_tool_btn'] ) ) {
+			update_post_meta( $post_id, '_fb_tool_btn', (int) $_POST['fb_tool_btn'] );
+		} else {
+			update_post_meta( $post_id, '_fb_tool_btn', 0 );
+		}
+		if ( ! empty( $_POST['fb_pdf_url'] ) ) {
+			update_post_meta(
+				$post_id,
+				'_fb_pdf_url',
+				esc_url_raw( wp_unslash( $_POST['fb_pdf_url'] ) )
+			);
+		} else {
+			update_post_meta( $post_id, '_fb_pdf_url', '' );
+		}
+
+		// ✅ Save Config Settings.
+		$config_keys = array(
+			'mobileScrollSupport',
+			'maxShadowOpacity',
+			'flippingTime',
+			'startPage',
+			'swipeDistance',
+			'useMouseEvents',
+			'size',
+		);
+
+		foreach ( $config_keys as $key ) {
+			if ( isset( $_POST[ 'fb_' . $key ] ) ) {
+				// Always unslash first to remove WordPress-added backslashes.
+				$val = isset( $_POST[ 'fb_' . $key ] )
+				? sanitize_text_field( wp_unslash( $_POST[ 'fb_' . $key ] ) )
+				: '';
+
+				// Sanitize and cast based on expected data type.
+				if ( in_array( $key, array( 'mobileScrollSupport', 'useMouseEvents' ), true ) ) {
+					// Expect "1" or "0" as string values.
+					$val = ( '1' === $val ) ? '1' : '0';
+
+				} elseif ( 'maxShadowOpacity' === $key ) {
+					// Float values (opacity).
+					$val = floatval( $val );
+
+				} elseif ( in_array( $key, array( 'flippingTime', 'startPage', 'swipeDistance' ), true ) ) {
+					// Integer values.
+					$val = absint( $val );
+
+				} elseif ( 'size' === $key ) {
+					// Only allow specific string options.
+					$val = in_array( $val, array( 'fixed', 'stretch' ), true )
+						? sanitize_text_field( $val )
+						: 'stretch';
+
+				} else {
+					// Default sanitization for any future keys.
+					$val = sanitize_text_field( $val );
+				}
+
+				update_post_meta( $post_id, '_fb_' . $key, $val );
+			}
+		}
+
+	}
+
+	/**
+	 * Manage Flipbook posts columns callback.
+	 *
+	 * @param array $columns Existing columns.
+	 * @return array Modified columns.
+	 * @since 3.0.0
+	 */
+	public function wps_pgfw_manage_flipbook_posts_columns( $columns ) {
+		$columns['shortcode'] = 'Shortcode';
+		return $columns;
+	}
+
+	/**
+	 * Flipbook posts custom column callback.
+	 *
+	 * @param string $column  Current column name.
+	 * @param int    $post_id Current post ID.
+	 * @since 3.0.0
+	 */
+	public function wps_pgfw_flipbook_posts_custom_column( $column, $post_id ) {
+		if ( 'shortcode' === $column ) {
+			echo '<code>[flipbook id="' . esc_attr( $post_id ) . '"]</code>';
+		}
+	}
 
 }

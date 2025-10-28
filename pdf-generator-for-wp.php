@@ -24,7 +24,7 @@
  * Requires at least:    6.7.0
  * Tested up to:         6.8.3
  * WC requires at least: 6.5.0
- * WC tested up to:      10.2.2
+ * WC tested up to:      10.3.3
  * Stable tag:           1.5.6
  * Requires PHP:         7.4
  *
@@ -182,7 +182,7 @@ function wps_pgfw_is_pdf_pro_plugin_active() {
 	return $flag;
 }
 
-/**
+ /**
  * Register new Elementor widgets.
  *
  * @param \Elementor\Widgets_Manager $widgets_manager Elementor widgets manager.

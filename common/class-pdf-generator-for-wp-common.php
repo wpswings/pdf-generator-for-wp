@@ -274,7 +274,7 @@ class Pdf_Generator_For_Wp_Common {
 			// Webp Image Start Fixes ///////////////////////////////////////////////////////////
 			// Load HTML content into DOMDocument.
 			$dom = new DOMDocument();
-			libxml_use_internal_errors(true);
+			libxml_use_internal_errors( true );
 			$dom->loadHTML( $html );
 			libxml_clear_errors();
 
