@@ -227,4 +227,11 @@ jQuery(document).ready(function($){
 
     // Toggle on checkbox change
     $(document).on('change', '#fb_show_cover', toggleCoverSettings);
+    $(document).on('click', '#pgfw_general_settings_save', function () {
+        const isChecked = $('#pgfw_flipbook_enable').is(':checked');
+        location.reload();
+        setTimeout(() => location.reload(), 500);
+    });
+
+
 });

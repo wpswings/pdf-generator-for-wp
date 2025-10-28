@@ -72,13 +72,20 @@
 .fb-tab-content .cover-settings-row input[type=url]{
   width: calc(100% - 33px);
 }
-#fb_flip_sound_url {
+#fb_flip_sound_url{
   max-width: 254px;
   display: inline-block;
 }
-button.button.upload-audio-btn {
+
+#fb_cover_image,#fb_back_image{
+  max-width: 250px;
+  display: inline-block;
+}
+
+button.button.upload-cover-bt ,button.button.upload-audio-btn {
     margin-left: 30px;
 }
+
 .fb-tab-content .fb-source-block {
   background: #fff;
   padding: 15px;

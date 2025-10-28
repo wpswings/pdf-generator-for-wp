@@ -182,7 +182,7 @@ function wps_pgfw_is_pdf_pro_plugin_active() {
 	return $flag;
 }
 
- /**
+/**
  * Register new Elementor widgets.
  *
  * @param \Elementor\Widgets_Manager $widgets_manager Elementor widgets manager.
@@ -401,7 +401,7 @@ add_action( 'admin_notices', 'wps_wpg_migrate_notice', 99 );
 /**
  * Migration to new domain notice on main dashboard notice.
  */
-function wps_wpg_migrate_notice() {      // phpcs:disable WordPress.Security.NonceVerification.Recommended
+function wps_wpg_migrate_notice() {       // phpcs:disable WordPress.Security.NonceVerification.Recommended
 	$tab = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 	global $pgfw_old_plugin_exists;
 
@@ -1028,48 +1028,56 @@ if ( ! function_exists( 'wps_banner_notification_plugin_html' ) ) {
 	}
 }
 
-// Always register the post type, but conditionally show it in admin
 add_action( 'init', 'wps_register_flipbook_post_type' );
 add_action( 'init', 'wps_pgfw_register_flipbook_taxonomy' );
 
+/**
+ * Register Flipbook Post Type.
+ */
 function wps_register_flipbook_post_type() {
-    $general_settings_data = get_option( 'pgfw_general_settings_save', array() );
-    $pgfw_flipbook_enable = array_key_exists( 'pgfw_flipbook_enable', $general_settings_data ) ? $general_settings_data['pgfw_flipbook_enable'] : '';
-    
-    $args = [
-        'labels'             => [
-            'name'               => __( 'Flipbooks', 'wps-flipbook' ),
-            'singular_name'      => __( 'Flipbook', 'wps-flipbook' ),
-            'menu_name'          => __( 'Flipbooks', 'wps-flipbook' ),
-            // ... your other labels
-        ],
-        'public'             => false,
-        'show_ui'            => ('yes' === $pgfw_flipbook_enable), // Control visibility here
-        'show_in_menu'       => ('yes' === $pgfw_flipbook_enable), // Control menu visibility
-        'menu_icon'          => 'dashicons-book-alt',
-        'supports'           => ['title'],
-        'capability_type'    => 'post',
-        'has_archive'        => false,
-        'rewrite'            => false,
-        'query_var'          => true,
-    ];
+	$general_settings_data = get_option( 'pgfw_general_settings_save', array() );
+	$pgfw_flipbook_enable = array_key_exists( 'pgfw_flipbook_enable', $general_settings_data ) ? $general_settings_data['pgfw_flipbook_enable'] : '';
 
-    register_post_type( 'flipbook', $args );
+	$args = array(
+		'labels'             => array(
+			'name'               => __( 'Flipbooks', 'wps-flipbook' ),
+			'singular_name'      => __( 'Flipbook', 'wps-flipbook' ),
+			'menu_name'          => __( 'Flipbooks', 'wps-flipbook' ),
+		),
+		'public'             => false,
+		'show_ui'            => ( 'yes' === $pgfw_flipbook_enable ),
+		'show_in_menu'       => ( 'yes' === $pgfw_flipbook_enable ),
+		'menu_icon'          => 'dashicons-book-alt',
+		'supports'           => array( 'title' ),
+		'capability_type'    => 'post',
+		'has_archive'        => false,
+		'rewrite'            => false,
+		'query_var'          => true,
+	);
+
+	register_post_type( 'flipbook', $args );
 }
 
+/**
+ * Register Flipbook Taxonomy.
+ */
 function wps_pgfw_register_flipbook_taxonomy() {
-    $general_settings_data = get_option( 'pgfw_general_settings_save', array() );
-    $pgfw_flipbook_enable = array_key_exists( 'pgfw_flipbook_enable', $general_settings_data ) ? $general_settings_data['pgfw_flipbook_enable'] : '';
-    
-    if ('yes' === $pgfw_flipbook_enable) {
-        register_taxonomy('flipbook_category', 'flipbook', [
-            'label' => 'Flipbook Categories',
-            'hierarchical' => true,
-            'show_ui' => true,
-            'show_admin_column' => true,
-            'rewrite' => ['slug' => 'flipbook-category'],
-        ]);
-    }
+	$general_settings_data = get_option( 'pgfw_general_settings_save', array() );
+	$pgfw_flipbook_enable = array_key_exists( 'pgfw_flipbook_enable', $general_settings_data ) ? $general_settings_data['pgfw_flipbook_enable'] : '';
+
+	if ( 'yes' === $pgfw_flipbook_enable ) {
+		register_taxonomy(
+			'flipbook_category',
+			'flipbook',
+			array(
+				'label' => 'Flipbook Categories',
+				'hierarchical' => true,
+				'show_ui' => true,
+				'show_admin_column' => true,
+				'rewrite' => array( 'slug' => 'flipbook-category' ),
+			)
+		);
+	}
 }
 
 add_action( 'admin_notices', 'wps_pgfw_notification_plugin_html' );
