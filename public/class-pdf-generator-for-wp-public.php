@@ -476,7 +476,7 @@ class Pdf_Generator_For_Wp_Public {
 		if ( 1 === (int) $popup_enabled ) {
 			$modal_id = $uid . '__modal';
 			?>
-		<button type="button" class="flipbook-open-btn is-icon" data-target="#<?php echo esc_attr( $modal_id ); ?>" aria-haspopup="dialog" aria-controls="<?php echo esc_attr( $modal_id ); ?>" aria-label="Open Flipbook">
+		<button type="button" class="flipbook-open-btn is-icon wps-no-print" data-target="#<?php echo esc_attr( $modal_id ); ?>" aria-haspopup="dialog" aria-controls="<?php echo esc_attr( $modal_id ); ?>" aria-label="Open Flipbook">
 			<span class="fb-icon" aria-hidden="true">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path d="M12 6.5c-2.5-1.6-5.5-1.8-8-.8v12.1c2.5-1 5.5-.8 8 .8m0-12.1c2.5-1.6 5.5-1.8 8-.8v12.1c-2.5-1-5.5-.8-8 .8M12 6.5v12.1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -521,7 +521,7 @@ class Pdf_Generator_For_Wp_Public {
 			?>
 		<div class="flipbook-wrap" id="<?php echo esc_attr( $uid ); ?>">
 				<?php if ( '1' === $wps_tool_btn ) : ?>
-			<div class="flipbook-toolbar">
+			<div class="flipbook-toolbar wps-no-print">
 				<button type="button" class="btn-prev">Prev</button>
 				<span>Page <span class="page-current"><?php echo esc_attr( isset( $start_page ) && ! empty( $start_page ) ? $start_page : 1 ); ?></span> of <span class="page-total">-</span></span>
 				<button type="button" class="btn-next">Next</button>
