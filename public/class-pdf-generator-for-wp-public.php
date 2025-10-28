@@ -397,6 +397,12 @@ class Pdf_Generator_For_Wp_Public {
 	 * @return void
 	 */
 	public function wps_pgfw_flipbook_shortcode_callback() {
+		$general_settings_data     = get_option( 'pgfw_general_settings_save', array() );
+		$pgfw_enable_plugin        = array_key_exists( 'pgfw_enable_plugin', $general_settings_data ) ? $general_settings_data['pgfw_enable_plugin'] : '';
+		$pgfw_flipbook_enable = array_key_exists( 'pgfw_flipbook_enable', $general_settings_data ) ? $general_settings_data['pgfw_flipbook_enable'] : '';
+		if ( 'yes' !== $pgfw_enable_plugin || 'yes' !== $pgfw_flipbook_enable ) {
+			return;
+		}
 		add_shortcode( 'flipbook', array( $this, 'wps_pgfw_flipbook_shortcode_html' ) );
 	}
 
