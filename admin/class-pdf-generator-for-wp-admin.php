@@ -3793,7 +3793,7 @@ flippingTimeInput.addEventListener('input', function() {
 			update_post_meta(
 				$post_id,
 				'_fb_pdf_html',
-				wp_kses_post( wp_unslash( $_POST['fb_pdf_html'] ) )
+				( ( $_POST['fb_pdf_html'] ) )
 			);
 		}
 
