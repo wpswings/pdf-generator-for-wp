@@ -471,7 +471,7 @@ class Pdf_Generator_For_Wp_Public {
 			}
 		}
 		$uid = 'flipbook_' . wp_unique_id();
-
+        $wps_total_pages = count( $image_urls );
 		ob_start();
 		if ( 1 === (int) $popup_enabled ) {
 			$modal_id = $uid . '__modal';
@@ -492,9 +492,9 @@ class Pdf_Generator_For_Wp_Public {
 					<?php if ( '1' === $wps_tool_btn ) : ?>
 					<div class="flipbook-toolbar">
 						<button type="button" class="btn-prev">Prev</button>
-						<span>Page <span class="page-current"><?php echo esc_attr( isset( $start_page ) && ! empty( $start_page ) ? $start_page : 1 ); ?></span> of <span class="page-total">-</span></span>
+						<span>Page <span class="page-current"><?php echo esc_attr( isset( $start_page ) && ($wps_total_pages > $start_page) && ! empty( $start_page ) ? $start_page : 1 ); ?></span> of <span class="page-total">-</span></span>
 						<button type="button" class="btn-next">Next</button>
-						<input type="number" class="page-jump" min="1" value="<?php echo esc_attr( isset( $start_page ) && ! empty( $start_page ) ? $start_page : 1 ); ?>" /> 
+						<input type="number" class="page-jump" min="1" value="<?php echo esc_attr( isset( $start_page ) && ($wps_total_pages > $start_page) && ! empty( $start_page ) ? $start_page : 1 ); ?>" /> 
 						<button type="button" class="btn-go">Go to page</button>
 					</div>
 					<?php endif; ?>
@@ -523,9 +523,9 @@ class Pdf_Generator_For_Wp_Public {
 				<?php if ( '1' === $wps_tool_btn ) : ?>
 			<div class="flipbook-toolbar wps-no-print">
 				<button type="button" class="btn-prev">Prev</button>
-				<span>Page <span class="page-current"><?php echo esc_attr( isset( $start_page ) && ! empty( $start_page ) ? $start_page : 1 ); ?></span> of <span class="page-total">-</span></span>
+				<span>Page <span class="page-current"><?php echo esc_attr( isset( $start_page ) && ($wps_total_pages > $start_page) && ! empty( $start_page ) ? $start_page : 1 ); ?></span> of <span class="page-total">-</span></span>
 				<button type="button" class="btn-next">Next</button>
-				<input type="number" class="page-jump" min="1" value="<?php echo esc_attr( isset( $start_page ) && ! empty( $start_page ) ? $start_page : 1 ); ?>" /> 
+				<input type="number" class="page-jump" min="1" value="<?php echo esc_attr( isset( $start_page ) && ($wps_total_pages > $start_page) && ! empty( $start_page ) ? $start_page : 1 ); ?>" /> 
 				<button type="button" class="btn-go">Go to page</button>
 			</div>
 			<?php endif; ?>
