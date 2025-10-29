@@ -207,6 +207,7 @@ function wps_pgfw_fb_fetch_pdf() {
 	header( 'Content-Type: application/pdf' );
 	header( 'Content-Length: ' . strlen( $body ) );
 	header( 'X-Content-Type-Options: nosniff' );
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo ( $body );
 	exit;
 }

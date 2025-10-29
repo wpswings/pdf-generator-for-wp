@@ -3749,10 +3749,25 @@ endif;
 			delete_transient( 'wps_pgfw_notice_' . $post_id );
 		}
 		if ( ! empty( $_POST['fb_pdf_html'] ) ) {
+			$allowed_html = array(
+				'div' => array(
+					'class' => true,
+					'id'    => true,
+					'style' => true,
+				),
+				'img' => array(
+					'src'   => true,
+					'style' => true,
+					'alt'   => true,
+				),
+			);
+			
+			$html_content = wp_kses( wp_unslash( $_POST['fb_pdf_html'] ), $allowed_html );
+			// error_log( print_r( $html_content, true ) );
 			update_post_meta(
 				$post_id,
 				'_fb_pdf_html',
-				( ( $_POST['fb_pdf_html'] ) )
+				$html_content
 			);
 		}
 

@@ -1079,6 +1079,29 @@ function wps_pgfw_register_flipbook_taxonomy() {
 		);
 	}
 }
+add_action( 'wp_ajax_upload_pdf_page_image', 'upload_pdf_page_image' );
+add_action( 'wp_ajax_nopriv_upload_pdf_page_image', 'upload_pdf_page_image' );
+/**
+ * Handle PDF page image upload via AJAX.
+ */
+function upload_pdf_page_image() {
+	if ( empty( $_FILES['file'] ) ) {
+		wp_send_json_error( array( 'message' => 'No file uploaded' ) );
+	}
+
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+	$uploadedfile = $_FILES['file'];
+
+	$movefile = wp_handle_upload( $uploadedfile, array( 'test_form' => false ) );
+
+	if ( $movefile && ! isset( $movefile['error'] ) ) {
+		wp_send_json_success( array( 'url' => $movefile['url'] ) );
+	} else {
+		wp_send_json_error( array( 'message' => $movefile['error'] ?? 'Upload failed' ) );
+	}
+}
+
 
 add_action( 'admin_notices', 'wps_pgfw_notification_plugin_html' );
 /**

@@ -7,25 +7,61 @@ jQuery( document ).ready( function( $ ) {
 	/**
 	 * Convert PDF to images.
 	 */
-	async function convertPdfToImages( arrayBuffer ) {
-		$( '#fb_pdf_spinner' ).show();
-		const uint8Array = new Uint8Array( arrayBuffer );
-		const pdf = await pdfjsLib.getDocument( { data: uint8Array } ).promise;
-		let htmlOutput = '';
-		for ( let pageNum = 1; pageNum <= pdf.numPages; pageNum++ ) {
-			const page = await pdf.getPage( pageNum );
-			const viewport = page.getViewport( { scale: 1.5 } );
-			const canvas = document.createElement( 'canvas' );
-			const ctx = canvas.getContext( '2d' );
-			canvas.height = viewport.height;
-			canvas.width = viewport.width;
-			await page.render( { canvasContext: ctx, viewport: viewport } ).promise;
-			const imgData = canvas.toDataURL( 'image/png' );
-			htmlOutput += `<div class="pdf-page"><div class="page-header">Page ${ pageNum }</div><div class="page-body"><img src="${ imgData }" style="max-width:100%; height:auto;"></div></div>\n`;
-		}
-		$( '#fb_pdf_html' ).val( htmlOutput );
-		$( '#fb_pdf_spinner' ).hide();
-	}
+async function convertPdfToImages(arrayBuffer) {
+    $("#fb_pdf_spinner").show();
+    const uint8Array = new Uint8Array(arrayBuffer);
+    const pdf = await pdfjsLib.getDocument({ data: uint8Array }).promise;
+    let htmlOutput = "";
+
+    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+      const page = await pdf.getPage(pageNum);
+      const viewport = page.getViewport({ scale: 1.5 });
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+
+      await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+
+      // Convert to blob instead of base64
+      const blob = await new Promise((resolve) =>
+        canvas.toBlob(resolve, "image/png")
+      );
+
+      // Upload blob to WordPress
+      const formData = new FormData();
+      formData.append("action", "upload_pdf_page_image");
+      formData.append("file", blob, `page-${pageNum}.png`);
+
+      try {
+        console.log("⬆️ Uploading page", pageNum);
+        const response = await fetch(wpsGfwPdf.fbAjaxUrl, {
+          method: "POST",
+          body: formData,
+        });
+
+        const result = await response.json();
+        console.log("✅ Upload result:", result);
+
+        if (result.success && result.data.url) {
+          htmlOutput += `
+            <div class="pdf-page">
+              <div class="page-header">Page ${pageNum}</div>
+              <div class="page-body">
+                <img src="${result.data.url}" style="max-width:100%; height:auto;">
+              </div>
+            </div>\n`;
+        } else {
+          console.error("Upload failed for page", pageNum, result);
+        }
+      } catch (err) {
+        console.error("Error uploading page", pageNum, err);
+      }
+    }
+
+    $("#fb_pdf_html").val(htmlOutput);
+    $("#fb_pdf_spinner").hide();
+  }
 
 	/**
 	 * Handle PDF URL fetch.
