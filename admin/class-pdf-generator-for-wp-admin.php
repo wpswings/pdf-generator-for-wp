@@ -59,7 +59,7 @@ class Pdf_Generator_For_Wp_Admin {
 	 */
 	public function pgfw_admin_enqueue_styles( $hook ) {
 		$screen = get_current_screen();
-		if (isset($screen->id) && ('wp-swings_page_pdf_generator_for_wp_menu' == $screen->id || 'wp-swings_page_home' == $screen->id)) { // phpcs:ignore
+		if ( isset( $screen->id ) && ( 'wp-swings_page_pdf_generator_for_wp_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) ) { // phpcs:ignore
 
 			wp_enqueue_style( 'wps-pgfw-select2-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.css', array(), time(), 'all' );
 
@@ -79,7 +79,6 @@ class Pdf_Generator_For_Wp_Admin {
 		}
 		wp_enqueue_style( 'pgfw-admin-custom-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-generator-for-wp-admin-custom.css', array(), $this->version, 'all' );
 		wp_enqueue_style( 'flipbook-custom-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/flipbook.css', array(), $this->version, 'all' );
-
 	}
 
 	/**
@@ -100,7 +99,7 @@ class Pdf_Generator_For_Wp_Admin {
 		wp_register_script( $this->plugin_name . 'admin-notice', plugin_dir_url( __FILE__ ) . 'src/js/pdf-generator-for-wp-notices.js', array( 'jquery' ), $this->version, false );
 		wp_localize_script( $this->plugin_name . 'admin-notice', 'wps_pgfw_notice', $wps_wgm_notice );
 		wp_enqueue_script( $this->plugin_name . 'admin-notice' );
-		if (isset($screen->id) && ('wp-swings_page_pdf_generator_for_wp_menu' == $screen->id || 'wp-swings_page_home' == $screen->id)) { // phpcs:ignore
+		if ( isset( $screen->id ) && ( 'wp-swings_page_pdf_generator_for_wp_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) ) { // phpcs:ignore
 			wp_enqueue_script( 'wps-pgfw-select2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.js', array( 'jquery' ), time(), false );
 
 			wp_enqueue_script( 'wps-pgfw-metarial-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-web.min.js', array(), time(), false );
@@ -457,7 +456,6 @@ class Pdf_Generator_For_Wp_Admin {
 		);
 
 		return $pgfw_settings_general_html_arr;
-
 	}
 	/**
 	 * PDF Generator For WordPress save tab settings.
@@ -515,7 +513,7 @@ class Pdf_Generator_For_Wp_Admin {
 			if ( $pgfw_save_check_flag ) {
 				$wps_pgfw_gen_flag = false;
 				$pgfw_button_index = array_search( 'submit', array_column( $pgfw_genaral_settings, 'type' ), true );
-				if (isset($pgfw_button_index) && (null == $pgfw_button_index || '' === $pgfw_button_index)) { // phpcs:ignore
+				if ( isset( $pgfw_button_index ) && ( null == $pgfw_button_index || '' === $pgfw_button_index ) ) { // phpcs:ignore
 					$pgfw_button_index = array_search( 'button', array_column( $pgfw_genaral_settings, 'type' ), true );
 				}
 				if ( isset( $pgfw_button_index ) && '' !== $pgfw_button_index ) {
@@ -568,12 +566,10 @@ class Pdf_Generator_For_Wp_Admin {
 									} else {
 										$settings_general_arr[ $pgfw_genaral_setting['id'] ] = '';
 									}
-								} else {
-									if ( isset( $_POST[ $pgfw_genaral_setting['id'] ] ) ) {
+								} elseif ( isset( $_POST[ $pgfw_genaral_setting['id'] ] ) ) {
 										$settings_general_arr[ $pgfw_genaral_setting['id'] ] = is_array( $_POST[ $pgfw_genaral_setting['id'] ] ) ? map_deep( wp_unslash( $_POST[ $pgfw_genaral_setting['id'] ] ), 'sanitize_text_field' ) : sanitize_text_field( wp_unslash( $_POST[ $pgfw_genaral_setting['id'] ] ) );
-									} else {
-										$settings_general_arr[ $pgfw_genaral_setting['id'] ] = '';
-									}
+								} else {
+									$settings_general_arr[ $pgfw_genaral_setting['id'] ] = '';
 								}
 							} else {
 								$wps_pgfw_gen_flag = true;
@@ -2200,7 +2196,7 @@ class Pdf_Generator_For_Wp_Admin {
 			$files = glob( $pgfw_pdf_dir . '*' );
 			foreach ( $files as $file ) {
 				if ( is_file( $file ) ) {
-					@unlink($file); // phpcs:ignore
+					@unlink( $file ); // phpcs:ignore
 				}
 			}
 		}
@@ -2446,7 +2442,7 @@ class Pdf_Generator_For_Wp_Admin {
 	 * @since 1.0.0
 	 */
 	public function wps_pgfw_welcome_callback_function() {
-		include_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/pdf-generator-for-wp-welcome.php';
+		include_once plugin_dir_path( __DIR__ ) . 'admin/partials/pdf-generator-for-wp-welcome.php';
 	}
 
 	// PRO TAG /////////////////////////////////.
@@ -3761,9 +3757,8 @@ endif;
 					'alt'   => true,
 				),
 			);
-			
+
 			$html_content = wp_kses( wp_unslash( $_POST['fb_pdf_html'] ), $allowed_html );
-			// error_log( print_r( $html_content, true ) );
 			update_post_meta(
 				$post_id,
 				'_fb_pdf_html',
@@ -3860,7 +3855,6 @@ endif;
 				update_post_meta( $post_id, '_fb_' . $key, $val );
 			}
 		}
-
 	}
 
 	/**
@@ -3887,5 +3881,4 @@ endif;
 			echo '<code>[flipbook id="' . esc_attr( $post_id ) . '"]</code>';
 		}
 	}
-
 }

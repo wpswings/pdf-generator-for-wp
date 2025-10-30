@@ -19,7 +19,7 @@ wps_embed_sources_page();
  * Description: Embeds a source Meeting.
  */
 function wps_embed_sources_page() {
-	 $sources = array( 'linkedln', 'loom', 'twitch', 'ai_chatbot', 'canva', 'reddit', 'google_elements', 'calendly', 'strava', 'rss_feed', 'x', 'pdf_embed' , 'tracking_info' );
+	 $sources = array( 'linkedln', 'loom', 'twitch', 'ai_chatbot', 'canva', 'reddit', 'google_elements', 'calendly', 'strava', 'rss_feed', 'x', 'pdf_embed', 'tracking_info' );
 
 	?>
 	<div class="wrap">

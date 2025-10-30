@@ -128,7 +128,6 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 		// Ajax to Skip popup.
 		add_action( 'wp_ajax_pgfw_skip_onboarding_popup', array( $this, 'wps_pgfw_skip_onboarding_popup' ) );
 		add_action( 'wp_ajax_nopriv_pgfw_skip_onboarding_popup', array( $this, 'wps_pgfw_skip_onboarding_popup' ) );
-
 	}
 
 	/**
@@ -602,7 +601,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 			$found = current(
 				array_filter(
 					$formatted_data,
-					function( $item ) {
+					function ( $item ) {
 						return isset( $item['name'] ) && 'plugin_deactivation_reason' == $item['name']; // phpcs:ignore
 					}
 				)

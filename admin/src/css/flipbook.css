@@ -158,3 +158,6 @@ button.button.upload-cover-bt ,button.button.upload-audio-btn {
     margin: 0 0 10px;
   }
 }
+button.button.upload-cover-bt, button.button.upload-audio-btn, button.button.upload-back-btn, button.button.upload-cover-btn {
+    margin-left: 30px;
+}

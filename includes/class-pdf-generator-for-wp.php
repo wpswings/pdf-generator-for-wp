@@ -115,22 +115,22 @@ class Pdf_Generator_For_Wp {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-pdf-generator-for-wp-loader.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-pdf-generator-for-wp-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-pdf-generator-for-wp-i18n.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-pdf-generator-for-wp-i18n.php';
 
 		if ( is_admin() ) {
 
 			// The class responsible for defining all actions that occur in the admin area.
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-pdf-generator-for-wp-admin.php';
+			require_once plugin_dir_path( __DIR__ ) . 'admin/class-pdf-generator-for-wp-admin.php';
 
 			// The class responsible for on-boarding steps for plugin.
-			if ( is_dir( plugin_dir_path( dirname( __FILE__ ) ) . 'onboarding' ) && ! class_exists( 'Pdf_Generator_For_Wp_Onboarding_Steps' ) ) {
-				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-pdf-generator-for-wp-onboarding-steps.php';
+			if ( is_dir( plugin_dir_path( __DIR__ ) . 'onboarding' ) && ! class_exists( 'Pdf_Generator_For_Wp_Onboarding_Steps' ) ) {
+				require_once plugin_dir_path( __DIR__ ) . 'includes/class-pdf-generator-for-wp-onboarding-steps.php';
 			}
 
 			if ( class_exists( 'Pdf_Generator_For_Wp_Onboarding_Steps' ) ) {
@@ -139,16 +139,16 @@ class Pdf_Generator_For_Wp {
 		} else {
 
 			// The class responsible for defining all actions that occur in the public-facing side of the site.
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-pdf-generator-for-wp-public.php';
+			require_once plugin_dir_path( __DIR__ ) . 'public/class-pdf-generator-for-wp-public.php';
 		}
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'package/rest-api/class-pdf-generator-for-wp-rest-api.php';
+		require_once plugin_dir_path( __DIR__ ) . 'package/rest-api/class-pdf-generator-for-wp-rest-api.php';
 
 		/**
 		 * This class responsible for defining common functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'common/class-pdf-generator-for-wp-common.php';
+		require_once plugin_dir_path( __DIR__ ) . 'common/class-pdf-generator-for-wp-common.php';
 		$this->loader = new Pdf_Generator_For_Wp_Loader();
 	}
 

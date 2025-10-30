@@ -227,10 +227,15 @@ jQuery(document).ready(function($){
 
     // Toggle on checkbox change
     $(document).on('change', '#fb_show_cover', toggleCoverSettings);
-    $(document).on('click', '#pgfw_general_settings_save', function () {
-        const isChecked = $('#pgfw_flipbook_enable').is(':checked');
-        location.reload();
-        setTimeout(() => location.reload(), 500);
+    $('#pgfw_general_settings_save').on('click', function() {
+        sessionStorage.setItem('reloadAgain', 'true');
+    });
+
+    $(window).on('load', function() {
+        if (sessionStorage.getItem('reloadAgain')) {
+            sessionStorage.removeItem('reloadAgain');
+            setTimeout(() => location.reload(true), 100);
+        }
     });
 
 

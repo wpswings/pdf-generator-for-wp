@@ -283,7 +283,7 @@ body.flipbook-modal-open {
 }
 
 .flipbook-wrap {
-    max-width: 100%;
+    max-width: 1000px;
 }
 
 .flipbook-wrap .flipbook-toolbar {
@@ -292,7 +292,7 @@ body.flipbook-modal-open {
     justify-content: center;
     flex-wrap: wrap;
     gap: 10px;
-    margin: 0;
+    margin: 0 0 15px;
     padding: 12px 10px;
     background: linear-gradient(180deg, #f9fafb 0%, #f3f4f6 100%);
     border: 1px solid #e5e7eb;

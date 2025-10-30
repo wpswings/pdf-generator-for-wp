@@ -212,7 +212,7 @@ function wps_register_new_widgets( $widgets_manager ) {
 	$tofw_only_widgets = array( 'wps_tracking_info' );
 
 	// Check if Pro plugin is active.
-	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+	include_once ABSPATH . 'wp-admin/includes/plugin.php';
 	$pdf_is_pro_plugin_active = is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' );
 	$tofw_is_pro_plugin_active = is_plugin_active( 'track-orders-for-woocommerce/track-orders-for-woocommerce.php' );
 
@@ -252,7 +252,7 @@ function wps_register_new_widgets( $widgets_manager ) {
 		$wps_widget_file = plugin_dir_path( __FILE__ ) . "Elementor/class-elementor-widget-{$wps_source}.php";
 
 		if ( file_exists( $wps_widget_file ) ) {
-			require_once( $wps_widget_file );
+			require_once $wps_widget_file;
 		}
 
 		$wps_class_name = "Elementor_Widget_{$wps_sources_class}";
@@ -343,7 +343,7 @@ if ( true === $pgfw_old_plugin_exists ) {
 	 * Check update if pro is old.
 	 */
 	function wps_wpg_check_and_inform_update() {
-		$update_file = plugin_dir_path( dirname( __FILE__ ) ) . 'wordpress-pdf-generator/class-mwb-wordpress-pdf-generator-update.php';
+		$update_file = plugin_dir_path( __DIR__ ) . 'wordpress-pdf-generator/class-mwb-wordpress-pdf-generator-update.php';
 
 		// If present but not active.
 		if ( ! is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
@@ -1085,6 +1085,12 @@ add_action( 'wp_ajax_nopriv_upload_pdf_page_image', 'upload_pdf_page_image' );
  * Handle PDF page image upload via AJAX.
  */
 function upload_pdf_page_image() {
+	$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+	if ( ! wp_verify_nonce( $nonce, 'fb_fetch_pdf' ) ) {
+		status_header( 403 );
+		echo 'Invalid nonce';
+		exit;
+	}
 	if ( empty( $_FILES['file'] ) ) {
 		wp_send_json_error( array( 'message' => 'No file uploaded' ) );
 	}

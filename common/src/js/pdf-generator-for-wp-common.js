@@ -70,4 +70,18 @@
       $(".page").prepend(modalItemDetach);
     }
   });
+
+  $(document).ready(function() {
+    // Get the width attribute value of the canvas
+    const canvasWidth = $('.stf__canvas').attr('width');
+
+    if (canvasWidth) {
+        // Apply it as max-width (with px unit)
+        $('.flipbook-wrap').css('max-width', canvasWidth + 'px');
+        console.log("Max width set to:", canvasWidth + "px");
+    } else {
+        console.warn("Canvas width not found!");
+    }
+});
+
 })(jQuery);

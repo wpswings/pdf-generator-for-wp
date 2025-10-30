@@ -382,11 +382,10 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 			</div>';
 		}
 		$html .= '</form></div>';
-		$html .= apply_filters( 'wps_fetch_tracking_data','', $order_id );
+		$html .= apply_filters( 'wps_fetch_tracking_data', '', $order_id );
 
-			$html .='</body>';
-			
-			
+			$html .= '</body>';
+
 			$html .= '</html>';
 
 		return $html;

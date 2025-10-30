@@ -487,17 +487,15 @@ function return_ob_html( $post_id, $template_name = '' ) {
 							}
 							$html2 .= '<div><b> ' . $pgfw_meta_key_name . '</b> </div>';
 
-						} else {
-							if ( 'yes' == $pgfw_body_metafields_row_wise ) {
+						} elseif ( 'yes' == $pgfw_body_metafields_row_wise ) {
 								$i++;
 								$html2 .= '<td><b>' . $pgfw_meta_key_name . ' :</b></td>';
 								$html2 .= '<td> ' . $meta_val . ' </td>';
-								if ( 0 == $i % $pgfw_body_meta_field_column ) {
-									$html2 .= '</tr><tr>';
-								}
-							} else {
-									$html2 .= '<div><b>' . $pgfw_meta_key_name . ' : </b> ' . $meta_val . '</div>';
+							if ( 0 == $i % $pgfw_body_meta_field_column ) {
+								$html2 .= '</tr><tr>';
 							}
+						} else {
+								$html2 .= '<div><b>' . $pgfw_meta_key_name . ' : </b> ' . $meta_val . '</div>';
 						}
 					}
 				}
@@ -511,4 +509,3 @@ function return_ob_html( $post_id, $template_name = '' ) {
 
 	return $html;
 }
-

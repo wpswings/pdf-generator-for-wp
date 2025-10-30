@@ -32,17 +32,15 @@ async function convertPdfToImages(arrayBuffer) {
       const formData = new FormData();
       formData.append("action", "upload_pdf_page_image");
       formData.append("file", blob, `page-${pageNum}.png`);
+	  formData.append("nonce", wpsGfwPdf.fbFetchNonce);
 
       try {
-        console.log("⬆️ Uploading page", pageNum);
         const response = await fetch(wpsGfwPdf.fbAjaxUrl, {
           method: "POST",
           body: formData,
         });
 
         const result = await response.json();
-        console.log("✅ Upload result:", result);
-
         if (result.success && result.data.url) {
           htmlOutput += `
             <div class="pdf-page">

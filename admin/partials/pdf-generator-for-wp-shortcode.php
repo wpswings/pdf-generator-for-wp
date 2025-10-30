@@ -35,26 +35,41 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</tr>
 				<tr>
 					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[WPS_POST_METAVALUE key='wps_field' {shortcode-postid}]"><code>[WPS_POST_METAVALUE key='wps_field' {shortcode-postid}]</code></span></td>
-					<td><?php echo esc_html__( 'The selected meta fields will be added to the PDF, but all at the same place ( one after the other ), If you want the individual meta fields to be added at your desired place you can use this shortcode just replace the wps_field with your desired meta key and place at your desired place in the custom template it will fetch the respective meta field data.', 'pdf-generator-for-wp' ); ?><?php if( !is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' )) { ?><span class="wps_shortcode_pro">(PRO)</span><?php } ?></td>
+					<td><?php echo esc_html__( 'The selected meta fields will be added to the PDF, but all at the same place ( one after the other ), If you want the individual meta fields to be added at your desired place you can use this shortcode just replace the wps_field with your desired meta key and place at your desired place in the custom template it will fetch the respective meta field data.', 'pdf-generator-for-wp' ); ?>
+					<?php
+					if ( ! is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
+						?>
+						<span class="wps_shortcode_pro">(PRO)</span><?php } ?></td>
 					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[WPS_POST_METAVALUE key='post_content' {shortcode-postid}]"><code>[WPS_POST_METAVALUE key='post_content' {shortcode-postid}]</code></span></td>
 				</tr>
 
 				<tr>
 					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[QR_CODE]"><code>[QR_CODE]</code></span></td>
 					<td><?php echo esc_html__( 'Add [QR_CODE] shortcode anywhere on your Custom template to display QR Code on pdf.', 'pdf-generator-for-wp' ); ?>
-					<?php if( !is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' )) { ?><span class="wps_shortcode_pro">(PRO)</span><?php } ?></td>
+					<?php
+					if ( ! is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
+						?>
+						<span class="wps_shortcode_pro">(PRO)</span><?php } ?></td>
 					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[QR_CODE]"><code>[QR_CODE]</code></span></td>
 				</tr>
 
 
 				<tr>
 					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[WPS_SINGLE_IMAGE id='Image ID' width='50' height='50']"><code>[WPS_SINGLE_IMAGE id='Image ID' width='50' height='50']</code></span></td>
-					<td><?php echo esc_html__( 'Use [WPS_SINGLE_IMAGE id="Image ID" width="50" height="50"] To add an image to the pdf via image id.', 'pdf-generator-for-wp' ); ?><?php if( !is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' )) { ?><span class=""></span><?php } ?></td>
+					<td><?php echo esc_html__( 'Use [WPS_SINGLE_IMAGE id="Image ID" width="50" height="50"] To add an image to the pdf via image id.', 'pdf-generator-for-wp' ); ?>
+					<?php
+					if ( ! is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
+						?>
+						<span class=""></span><?php } ?></td>
 					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[WPS_SINGLE_IMAGE id='473' width='50' height='50']"><code>[WPS_SINGLE_IMAGE id='473' width='50' height='50']</code></span></td>
 				</tr>
 				<tr>
 					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[wps_tracking_info order_id='12345' align='left']"><code>[wps_tracking_info order_id="12345" align="left"]</code></span></td>
-					<td><?php echo esc_html__( 'Use [wps_tracking_info order_id="12345" align="left"] To add an tracking info to the pdf via order id.', 'pdf-generator-for-wp' ); ?><?php if( !is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' )) { ?><span class=""></span><?php } ?></td>
+					<td><?php echo esc_html__( 'Use [wps_tracking_info order_id="12345" align="left"] To add an tracking info to the pdf via order id.', 'pdf-generator-for-wp' ); ?>
+					<?php
+					if ( ! is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
+						?>
+						<span class=""></span><?php } ?></td>
 					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[wps_tracking_info order_id='12345' align='left']"><code>[wps_tracking_info order_id='12345' align='left']</code></span></td>
 				</tr>
 			</tbody>
