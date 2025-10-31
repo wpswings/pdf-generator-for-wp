@@ -62,21 +62,30 @@
       });
     });
   });
-  $(document).on("click", ".flipbook-open-btn", function (e) {
-    var modalItem = $(".flipbook-modal");
+$(document).on("click", ".flipbook-open-btn", function (e) {
+    e.preventDefault();
+    const targetSelector = $(this).data("target");
+    const $modal = $(targetSelector);
+    if ($modal.length) {
+      if ($modal.parent().length && !$modal.parent().is("body")) {
+        $modal.detach().appendTo("body");
+      }
 
-    if ($(".page>.flipbook-modal").length === 0) {
-      var modalItemDetach = modalItem.detach();
-      $(".page").prepend(modalItemDetach);
+      // show modal.
+      $modal.attr("aria-hidden", "false").addClass("is-active");
+    } else {
+      console.warn("Modal not found:", targetSelector);
     }
   });
 
-  $(document).ready(function() {
-    // Get the width attribute value of the canvas
-    const canvasWidth = $('.stf__canvas').attr('width');
+  // close modal on backdrop or X button.
+  $(document).on("click", ".flipbook-modal [data-close]", function () {
+    $(this).closest(".flipbook-modal").attr("aria-hidden", "true").removeClass("is-active");
+  });
 
+  $(document).ready(function() {
+    const canvasWidth = $('.stf__canvas').attr('width');
     if (canvasWidth) {
-        // Apply it as max-width (with px unit)
         $('.flipbook-wrap').css('max-width', canvasWidth + 'px');
         console.log("Max width set to:", canvasWidth + "px");
     } else {
