@@ -3424,9 +3424,9 @@ class Pdf_Generator_For_Wp_Admin {
 endif;
 		?>
 		<div class="fb-tab-nav">
-			<a href="#fb-layout" class="active">Layout</a>
-			<a href="#fb-config">Config</a>
-			<span class="fb-shortcode">Shortcode: <strong>[flipbook id="<?php echo esc_attr( $post->ID ); ?>"]</strong></span>
+			<a href="#fb-layout" class="active"><?php esc_html_e( 'Layout', 'pdf-generator-for-wp' ); ?></a>
+			<a href="#fb-config"><?php esc_html_e( 'Config', 'pdf-generator-for-wp' ); ?></a>
+			<span class="fb-shortcode"><?php esc_html_e( 'Shortcode: ', 'pdf-generator-for-wp' ); ?><strong>[flipbook id="<?php echo esc_attr( $post->ID ); ?>"]</strong></span>
 		</div>
 
 		<!-- Layout Tab. -->
@@ -3437,29 +3437,29 @@ endif;
 				<tbody>
 					<!-- Book Content Source. -->
 					<tr>
-						<th><label for="fb_pdf_url">Content Source</label>
+						<th><label for="fb_pdf_url"><?php esc_html_e( 'Content Source', 'pdf-generator-for-wp' ); ?></label>
 						</th>
 						<td>
-							<span class="dashicons dashicons-editor-help" title="Use either a PDF file or a set of images to build the flipbook. If images are selected, they will be used; otherwise the PDF source will be used."></span>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Use either a PDF file or a set of images to build the flipbook. If images are selected, they will be used; otherwise the PDF source will be used.', 'pdf-generator-for-wp' ); ?>"></span>
 							<div class="fb-source-block">
-								<h4>PDF</h4>
+								<h4><?php esc_html_e( 'PDF', 'pdf-generator-for-wp' ); ?></h4>
 								<input type="url" id="fb_pdf_url" name="fb_pdf_url" value="<?php echo esc_attr( $pdf_url ); ?>" placeholder="Enter PDF URL" style="width:100%; margin-bottom:10px;">
 								<div class="pdf-preview">
 									<?php if ( $pdf_url ) : ?>
-										<a href="<?php echo esc_url( $pdf_url ); ?>" target="_blank" rel="noopener">Preview Uploaded PDF</a>
+										<a href="<?php echo esc_url( $pdf_url ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Preview Uploaded PDF', 'pdf-generator-for-wp' ); ?></a>
 									<?php endif; ?>
 								</div>
-								<button type="button" class="button upload-pdf-btn"><?php echo $pdf_url ? 'Change PDF' : 'Upload/Select PDF'; ?></button>
+								<button type="button" class="button upload-pdf-btn"><?php echo $pdf_url ? esc_html__( 'Change PDF', 'pdf-generator-for-wp' ) : esc_html__( 'Upload/Select PDF', 'pdf-generator-for-wp' ); ?></button>
 								<?php
 								if ( $pdf_url ) :
 									?>
-									<button type="button" class="button remove-pdf-btn">Remove</button><?php endif; ?>
+									<button type="button" class="button remove-pdf-btn"><?php esc_html_e( 'Remove', 'pdf-generator-for-wp' ); ?></button><?php endif; ?>
 								<div id="fb_pdf_spinner" style="display:none; margin-top:10px;">
-									<span class="spinner is-active" style="float:none;"></span> Converting PDF, please wait...
+									<span class="spinner is-active" style="float:none;"></span> <?php esc_html_e( 'Converting PDF, please wait...', 'pdf-generator-for-wp' ); ?>
 								</div>
 
 								<hr style="margin:14px 0; border:none; border-top:1px solid #dcdcde;">
-								<h4>Images</h4>
+								<h4><?php esc_html_e( 'Images', 'pdf-generator-for-wp' ); ?></h4>
 								<input type="hidden" id="fb_image_urls" name="fb_image_urls" value='<?php echo esc_attr( $image_urls_json ); ?>'>
 								<div class="images-preview" style="display:flex; flex-wrap:wrap; gap:8px;">
 									<?php
@@ -3475,10 +3475,10 @@ endif;
 									?>
 								</div>
 								<div class="button-group">
-									<button type="button" class="button upload-images-btn">Upload/Select Images</button>
-									<button type="button" class="button clear-images-btn" <?php echo empty( $existing_imgs ) ? 'style="display:none;"' : ''; ?>>Clear</button>
+									<button type="button" class="button upload-images-btn"><?php esc_html_e( 'Upload/Select Images', 'pdf-generator-for-wp' ); ?></button>
+									<button type="button" class="button clear-images-btn" <?php echo empty( $existing_imgs ) ? 'style="display:none;"' : ''; ?>><?php esc_html_e( 'Clear', 'pdf-generator-for-wp' ); ?></button>
 								</div>
-								<p class="description" style="margin-top:8px;">If images are selected, they will be used to create the flipbook pages. Otherwise, the PDF source will be used.</p>
+								<p class="description" style="margin-top:8px;"><?php esc_html_e( 'If images are selected, they will be used to create the flipbook pages. Otherwise, the PDF source will be used.', 'pdf-generator-for-wp' ); ?></p>
 							</div>
 						</td>
 					</tr>
@@ -3487,38 +3487,33 @@ endif;
 						 <td><textarea name="fb_pdf_html" id="fb_pdf_html" rows="6" class="fb-wide"></textarea></td>
 					</tr>
 					<tr>
-						<th><label for="fb_width">Width</label>
-							
+						<th><label for="fb_width"><?php esc_html_e( 'Width', 'pdf-generator-for-wp' ); ?></label>
 						</th>
-						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enter the width of the flipbook in pixels.', 'interactive-flipbook' ); ?>"></span><input type="number" name="fb_width" id="fb_width" value="<?php echo esc_attr( $width ); ?>"> px</td>
+						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enter the width of the flipbook in pixels.', 'pdf-generator-for-wp' ); ?>"></span><input type="number" name="fb_width" id="fb_width" value="<?php echo esc_attr( $width ); ?>"> px</td>
 					</tr>
 					
 					<tr>
-						<th><label for="fb_height">Height</label>
-							
+						<th><label for="fb_height"><?php esc_html_e( 'Height', 'pdf-generator-for-wp' ); ?></label>
 						</th>
-						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enter the height of the flipbook in pixels.', 'interactive-flipbook' ); ?>"></span><input type="number" name="fb_height" id="fb_height" value="<?php echo esc_attr( $height ); ?>"> px</td>
+						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enter the height of the flipbook in pixels.', 'pdf-generator-for-wp' ); ?>"></span><input type="number" name="fb_height" id="fb_height" value="<?php echo esc_attr( $height ); ?>"> px</td>
 					</tr>
 					<!-- Cover Toggle -->
 					<tr>
-						<th><label for="fb_tool_btn">Flipbook Tool Button</label>
-							
+						<th><label for="fb_tool_btn"><?php esc_html_e( 'Flipbook Tool Button', 'pdf-generator-for-wp' ); ?></label>
 						</th>
-						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enable this option to add a tool button like go,next and previous to the flipbook.', 'interactive-flipbook' ); ?>"></span><input type="checkbox" name="fb_tool_btn" id="fb_tool_btn" value="1" <?php checked( (int) $tool_btn, 1 ); ?>></td>
+						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enable this option to add a tool button like go,next and previous to the flipbook.', 'pdf-generator-for-wp' ); ?>"></span><input type="checkbox" name="fb_tool_btn" id="fb_tool_btn" value="1" <?php checked( (int) $tool_btn, 1 ); ?>></td>
 					</tr>
 					<!-- Cover Toggle. -->
 					<tr>
-						<th><label for="fb_show_cover">Add Cover Page</label>
-							
+						<th><label for="fb_show_cover"><?php esc_html_e( 'Add Cover Page', 'pdf-generator-for-wp' ); ?></label>
 						</th>
-						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enable this option to add a cover page to the flipbook.', 'interactive-flipbook' ); ?>"></span><input type="checkbox" name="fb_show_cover" id="fb_show_cover" value="1" <?php checked( (int) $show_cover, 1 ); ?>></td>
+						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enable this option to add a cover page to the flipbook.', 'pdf-generator-for-wp' ); ?>"></span><input type="checkbox" name="fb_show_cover" id="fb_show_cover" value="1" <?php checked( (int) $show_cover, 1 ); ?>></td>
 					</tr>
 					<!-- Cover Image. -->
 					<tr class="cover-settings-row">
-						<th><label for="fb_cover_image">Cover Image</label>
-							
+						<th><label for="fb_cover_image"><?php esc_html_e( 'Cover Image', 'pdf-generator-for-wp' ); ?></label>
 						</th>
-						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enter the URL of the cover image for the flipbook.', 'interactive-flipbook' ); ?>"></span>
+						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enter the URL of the cover image for the flipbook.', 'pdf-generator-for-wp' ); ?>"></span>
 							<input type="url" id="fb_cover_image" name="fb_cover_image" value="<?php echo esc_attr( $cover_image ); ?>" placeholder="Paste cover image URL or select below">
 							<div class="cover-preview" style="margin-top:10px;">
 									<?php
@@ -3526,19 +3521,18 @@ endif;
 										?>
 										<img src="<?php echo esc_url( $cover_image ); ?>" style="max-width:250px; border:1px solid #ccc; display:block; margin-bottom:5px;"><?php endif; ?>
 							</div>
-							<button type="button" class="button upload-cover-btn"><?php echo $cover_image ? 'Change Cover Image' : 'Select Cover Image'; ?></button>
+							<button type="button" class="button upload-cover-btn"><?php echo $cover_image ? esc_html__( 'Change Cover Image', 'pdf-generator-for-wp' ) : esc_html__( 'Select Cover Image', 'pdf-generator-for-wp' ); ?></button>
 								<?php
 								if ( $cover_image ) :
 									?>
-									<button type="button" class="button remove-cover-btn">Remove</button><?php endif; ?>
+									<button type="button" class="button remove-cover-btn"><?php esc_html_e( 'Remove', 'pdf-generator-for-wp' ); ?></button><?php endif; ?>
 						</td>
 					</tr>
 					<!-- Back Cover Image. -->
 					<tr class="cover-settings-row">
-						<th><label for="fb_back_image">Back Cover Image</label>
-							
+						<th><label for="fb_back_image"><?php esc_html_e( 'Back Cover Image', 'pdf-generator-for-wp' ); ?></label>
 						</th>
-						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enter the URL of the back cover image for the flipbook.', 'interactive-flipbook' ); ?>"></span>
+						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enter the URL of the back cover image for the flipbook.', 'pdf-generator-for-wp' ); ?>"></span>
 							<input type="url" id="fb_back_image" name="fb_back_image" value="<?php echo esc_attr( $back_image ); ?>" placeholder="Paste back cover image URL or select below">
 							<div class="back-preview" style="margin-top:10px;">
 									<?php
@@ -3546,11 +3540,11 @@ endif;
 										?>
 										<img src="<?php echo esc_url( $back_image ); ?>" style="max-width:250px; border:1px solid #ccc; display:block; margin-bottom:5px;"><?php endif; ?>
 							</div>
-							<button type="button" class="button upload-back-btn"><?php echo $back_image ? 'Change Back Image' : 'Select Back Image'; ?></button>
+							<button type="button" class="button upload-back-btn"><?php echo $back_image ? esc_html__( 'Change Back Image', 'pdf-generator-for-wp' ) : esc_html__( 'Select Back Image', 'pdf-generator-for-wp' ); ?></button>
 								<?php
 								if ( $back_image ) :
 									?>
-									<button type="button" class="button remove-back-btn">Remove</button><?php endif; ?>
+									<button type="button" class="button remove-back-btn"><?php esc_html_e( 'Remove', 'pdf-generator-for-wp' ); ?></button><?php endif; ?>
 						</td>
 					</tr>
 				</tbody>
@@ -3562,47 +3556,47 @@ endif;
 			<table class="form-table striped">
 				<tbody>
 					<tr>
-						<th><label for="fb_popup_enabled">Open in Popup Modal</label>
+						<th><label for="fb_popup_enabled"><?php esc_html_e( 'Open in Popup Modal', 'pdf-generator-for-wp' ); ?></label>
 					</th>
 					<td>
-							<span class="dashicons dashicons-editor-help" title="Show a small flipbook icon. On click, open the flipbook in a modal."></span>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Show a small flipbook icon. On click, open the flipbook in a modal.', 'pdf-generator-for-wp' ); ?>"></span>
 							<input type="checkbox" name="fb_popup_enabled" id="fb_popup_enabled" value="1" <?php checked( (int) $popup_enabled, 1 ); ?>>
 						</td>
 					</tr>
 					<tr>
-						<th><label for="fb_maxShadowOpacity">Max Shadow Opacity</label>
+						<th><label for="fb_maxShadowOpacity"><?php esc_html_e( 'Max Shadow Opacity', 'pdf-generator-for-wp' ); ?></label>
 							
 						</th>
 						<td>
-							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Set the maximum shadow opacity for the flipbook.', 'interactive-flipbook' ); ?>"></span>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Set the maximum shadow opacity for the flipbook.', 'pdf-generator-for-wp' ); ?>"></span>
 							<input type="number" step="0.1" id="fb_maxShadowOpacity" name="fb_maxShadowOpacity" value="<?php echo esc_attr( $max_shadow_opacity ); ?>"></td>
 					</tr>
 					<tr>
-						<th><label for="fb_flippingTime">Flipping Time (ms)</label>
+						<th><label for="fb_flippingTime"><?php esc_html_e( 'Flipping Time (ms)', 'pdf-generator-for-wp' ); ?></label>
 					</th>
 					<td>
-							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Set the flipping time in milliseconds for the flipbook.', 'interactive-flipbook' ); ?>"></span>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Set the flipping time in milliseconds for the flipbook.', 'pdf-generator-for-wp' ); ?>"></span>
 							<input type="number" id="fb_flippingTime" name="fb_flippingTime" min = "0" value="<?php echo esc_attr( $flipping_time ); ?>"></td>
 					</tr>
 					<tr>
-						<th><label for="fb_startPage">Start Page</label>
+						<th><label for="fb_startPage"><?php esc_html_e( 'Start Page', 'pdf-generator-for-wp' ); ?></label>
 					</th>
 					<td>
-							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Set the starting page for the flipbook.', 'interactive-flipbook' ); ?>"></span>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Set the starting page for the flipbook.', 'pdf-generator-for-wp' ); ?>"></span>
 							<input type="number" id="fb_startPage" name="fb_startPage" value="<?php echo esc_attr( $start_page ); ?>"></td>
 					</tr>
 					<tr>
-						<th><label for="fb_swipeDistance">Swipe Distance</label>
+						<th><label for="fb_swipeDistance"><?php esc_html_e( 'Swipe Distance', 'pdf-generator-for-wp' ); ?></label>
 					</th>
 					<td>
-							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Set the swipe distance for the flipbook.', 'interactive-flipbook' ); ?>"></span>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Set the swipe distance for the flipbook.', 'pdf-generator-for-wp' ); ?>"></span>
 							<input type="number" id="fb_swipeDistance" name="fb_swipeDistance" value="<?php echo esc_attr( $swipe_distance ); ?>"></td>
 					</tr>
 					<tr>
-						<th><label for="fb_useMouseEvents">Use Mouse Events</label>
+						<th><label for="fb_useMouseEvents"><?php esc_html_e( 'Use Mouse Events', 'pdf-generator-for-wp' ); ?></label>
 					</th>
 					<td>
-							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enable or disable mouse events for the flipbook.', 'interactive-flipbook' ); ?>"></span>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enable or disable mouse events for the flipbook.', 'pdf-generator-for-wp' ); ?>"></span>
 							<select name="fb_useMouseEvents" id="fb_useMouseEvents">
 								<option value="1" <?php selected( $use_mouse_events, '1' ); ?>>Yes</option>
 								<option value="0" <?php selected( $use_mouse_events, '0' ); ?>>No</option>
@@ -3610,10 +3604,10 @@ endif;
 						</td>
 					</tr>
 					<tr>
-						<th><label for="fb_size">Book Size Mode</label>
+						<th><label for="fb_size"><?php esc_html_e( 'Book Size Mode', 'pdf-generator-for-wp' ); ?></label>
 					</th>
 					<td>
-							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Set the book size mode for the flipbook.', 'interactive-flipbook' ); ?>"></span>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Set the book size mode for the flipbook.', 'pdf-generator-for-wp' ); ?>"></span>
 							<select id="fb_size" name="fb_size">
 								<option value="fixed" <?php selected( $size, 'fixed' ); ?>>Fixed</option>
 								<option value="stretch" <?php selected( $size, 'stretch' ); ?>>Stretch</option>
@@ -3621,10 +3615,10 @@ endif;
 						</td>
 					</tr>
 					<tr>
-						<th><label for="fb_flip_sound_url">Flip Sound URL</label>
+						<th><label for="fb_flip_sound_url"><?php esc_html_e( 'Flip Sound URL', 'pdf-generator-for-wp' ); ?></label>
 					</th>
 					<td>
-							<span class="dashicons dashicons-editor-help" title="Provide an audio file URL to play on page flip (e.g., MP3, WAV)."></span>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Provide an audio file URL to play on page flip (e.g., MP3, WAV).', 'pdf-generator-for-wp' ); ?>"></span>
 							<input type="url" name="fb_flip_sound_url" id="fb_flip_sound_url" value="<?php echo esc_attr( $flip_sound_url ); ?>" placeholder="https://example.com/flip.mp3">
 							<div class="audio-preview" style="margin:8px 0;">
 									<?php if ( $flip_sound_url ) : ?>
@@ -3639,10 +3633,10 @@ endif;
 						</td>
 					</tr>
 					<tr>
-						<th><label for="fb_flip_sound_volume">Flip Sound Volume</label>
+						<th><label for="fb_flip_sound_volume"><?php esc_html_e( 'Flip Sound Volume', 'pdf-generator-for-wp' ); ?></label>
 					</th>
 					<td>
-							<span class="dashicons dashicons-editor-help" title="Volume from 0.0 (mute) to 1.0 (max)."></span>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Volume from 0.0 (mute) to 1.0 (max).', 'pdf-generator-for-wp' ); ?>"></span>
 							<input type="number" step="0.1" min="0" max="1" name="fb_flip_sound_volume" id="fb_flip_sound_volume" value="<?php echo esc_attr( $flip_sound_volume ); ?>">
 						</td>
 					</tr>
