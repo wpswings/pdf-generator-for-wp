@@ -1038,3 +1038,27 @@ if ('on' === embed_block_param.is_view_pdf_active) {
         }
     })(window.wp);
 }
+
+// Register a custom block for flipbook shortcode (with only ID input).
+wp.blocks.registerBlockType('custom/flipbook-shortcode', {
+    title: 'WPSwings Flipbook',
+    icon: 'format-image', // You can choose a different icon here.
+    category: 'widgets',
+    attributes: {
+        id: { type: 'string', default: '' }
+    },
+    edit: function(props) {
+        return wp.element.createElement('div', useBlockProps(),
+            wp.element.createElement(wp.components.TextControl, {
+                label: 'Flipbook ID',
+                value: props.attributes.id,
+                onChange: function(id) { props.setAttributes({ id: id }) },
+                placeholder: 'Enter Flipbook ID'
+            }),
+            wp.element.createElement('p', {}, `Shortcode Output: [flipbook id="${props.attributes.id}"]`)
+        );
+    },
+    save: function(props) {
+        return wp.element.createElement('div', useBlockProps.save(), `[flipbook id="${props.attributes.id}"]`);
+    }
+});
