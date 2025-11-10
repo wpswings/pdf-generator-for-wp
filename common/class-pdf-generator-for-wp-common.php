@@ -372,6 +372,14 @@ class Pdf_Generator_For_Wp_Common {
 
 			$dompdf->setHttpContext( $contxt );
 		}
+		//Relative Link to Absolute link.
+		$site_url = trailingslashit( get_site_url() );
+		$dompdf->setBasePath( $site_url );
+		$html = preg_replace(
+			'/(href|src)=\"\/(?!\/)/i',
+			'$1="' . $site_url,
+			$html
+		);
 		$dompdf->loadHtml( $html, 'UTF-8' );
 		$dompdf->set_option( 'isRemoteEnabled', true );
 
