@@ -47,7 +47,6 @@ class Pdf_Generator_For_Wp_Loader {
 
 		$this->actions = array();
 		$this->filters = array();
-
 	}
 
 	/**
@@ -102,7 +101,6 @@ class Pdf_Generator_For_Wp_Loader {
 		);
 
 		return $hooks;
-
 	}
 
 	/**
@@ -119,7 +117,5 @@ class Pdf_Generator_For_Wp_Loader {
 		foreach ( $this->actions as $hook ) {
 			add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
 		}
-
 	}
-
 }

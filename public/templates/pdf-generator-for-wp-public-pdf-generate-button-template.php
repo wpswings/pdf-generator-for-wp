@@ -85,7 +85,6 @@ function pgfw_pdf_download_button( $url_here, $id ) {
 
 		return $html;
 	}
-
 }
 /**
  * Whatsapp sharing link generator .

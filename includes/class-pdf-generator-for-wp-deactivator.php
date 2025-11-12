@@ -29,7 +29,5 @@ class Pdf_Generator_For_Wp_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function pdf_generator_for_wp_deactivate() {
-
 	}
-
 }

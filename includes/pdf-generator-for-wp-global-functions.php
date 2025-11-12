@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Dompdf\FontMetrics;
+
 if ( ! function_exists( 'wps_generate_pdf' ) ) {
 
 	/**
@@ -130,3 +131,153 @@ if ( ! function_exists( 'wps_generate_pdf' ) ) {
 	}
 }
 
+
+
+add_action( 'wp_ajax_fb_fetch_pdf', 'wps_pgfw_fb_fetch_pdf' );
+add_action( 'wp_ajax_nopriv_fb_fetch_pdf', 'wps_pgfw_fb_fetch_pdf' );
+add_action( 'wp_ajax_ifb_upload_pdf', 'wps_pgfw_upload_pdf' );
+
+/**
+ * Fetch PDF from external URL and serve it.
+ */
+function wps_pgfw_fb_fetch_pdf() {
+	$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+	if ( ! wp_verify_nonce( $nonce, 'fb_fetch_pdf' ) ) {
+		status_header( 403 );
+		echo 'Invalid nonce';
+		exit;
+	}
+
+	$url = isset( $_POST['url'] ) ? esc_url_raw( wp_unslash( $_POST['url'] ) ) : '';
+	if ( ! $url || ! filter_var( $url, FILTER_VALIDATE_URL ) ) {
+		status_header( 400 );
+		echo 'Invalid URL';
+		exit;
+	}
+
+	$scheme = wp_parse_url( $url, PHP_URL_SCHEME );
+	if ( ! in_array( $scheme, array( 'http', 'https' ), true ) ) {
+		status_header( 400 );
+		echo 'Unsupported URL scheme';
+		exit;
+	}
+
+	$response = wp_remote_get(
+		$url,
+		array(
+			'timeout'     => 20,
+			'redirection' => 5,
+			'user-agent'  => 'InteractiveFlipbook/1.0 (+WordPress)',
+		)
+	);
+
+	if ( is_wp_error( $response ) ) {
+		status_header( 502 );
+		echo wp_kses_post( $response->get_error_message() );
+		exit;
+	}
+
+	$code = wp_remote_retrieve_response_code( $response );
+	if ( $code < 200 || $code >= 300 ) {
+		status_header( $code ? $code : 502 );
+		echo 'Remote server responded with status ' . intval( $code );
+		exit;
+	}
+
+	$headers      = wp_remote_retrieve_headers( $response );
+	$content_type = isset( $headers['content-type'] ) ? strtolower( explode( ';', $headers['content-type'] )[0] ) : '';
+	// Some servers mislabel PDFs; allow by extension as a fallback.
+	$is_pdf_type = ( 'application/pdf' === $content_type );
+	$path_ext    = strtolower( pathinfo( wp_parse_url( $url, PHP_URL_PATH ) ? wp_parse_url( $url, PHP_URL_PATH ) : '', PATHINFO_EXTENSION ) );
+	$is_pdf_ext  = ( 'pdf' === $path_ext );
+	if ( ! $is_pdf_type && ! $is_pdf_ext ) {
+		status_header( 415 );
+		echo 'URL does not point to a PDF';
+		exit;
+	}
+
+	$body = wp_remote_retrieve_body( $response );
+	if ( '' === $body || null === $body ) {
+		status_header( 502 );
+		echo 'Empty response body';
+		exit;
+	}
+
+	nocache_headers();
+	header( 'Content-Type: application/pdf' );
+	header( 'Content-Length: ' . strlen( $body ) );
+	header( 'X-Content-Type-Options: nosniff' );
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo ( $body );
+	exit;
+}
+
+/**
+ * Handle PDF upload via AJAX.
+ */
+function wps_pgfw_upload_pdf() {
+	$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+	if ( ! wp_verify_nonce( $nonce, 'ifb_upload_pdf' ) ) {
+		wp_send_json_error( 'Invalid nonce', 403 );
+	}
+	if ( ! current_user_can( 'upload_files' ) ) {
+		wp_send_json_error( 'Permission denied', 403 );
+	}
+
+	if ( ! isset( $_FILES['pdf'] ) || empty( $_FILES['pdf']['name'] ) ) {
+		wp_send_json_error( 'No file provided', 400 );
+	}
+
+	// Sanitize $_FILES array before use.
+	$files = isset( $_FILES['pdf'] ) ? array_map( 'sanitize_file_name', wp_unslash( $_FILES['pdf'] ) ) : array();
+	if ( empty( $files ) ) {
+		wp_send_json_error( 'No file provided', 400 );
+	}
+
+	$file = $files;
+	if ( 'pdf' !== strtolower( $type['ext'] ) ) {
+		wp_send_json_error( 'Only PDF files are allowed', 415 );
+	}
+
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+	require_once ABSPATH . 'wp-admin/includes/media.php';
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+
+	$overrides = array(
+		'test_form' => false,
+		'mimes'     => array( 'pdf' => 'application/pdf' ),
+	);
+	$file_arr = array(
+		'name'     => $file['name'],
+		'type'     => $file['type'],
+		'tmp_name' => $file['tmp_name'],
+		'error'    => $file['error'],
+		'size'     => $file['size'],
+	);
+
+	$movefile = wp_handle_upload( $file_arr, $overrides );
+	if ( ! $movefile || isset( $movefile['error'] ) ) {
+		wp_send_json_error( $movefile && isset( $movefile['error'] ) ? $movefile['error'] : 'Upload failed' );
+	}
+
+	$attachment = array(
+		'post_mime_type' => 'application/pdf',
+		'post_title'     => sanitize_file_name( basename( $movefile['file'] ) ),
+		'post_content'   => '',
+		'post_status'    => 'inherit',
+	);
+	$attach_id = wp_insert_attachment( $attachment, $movefile['file'] );
+	if ( is_wp_error( $attach_id ) ) {
+		wp_send_json_error( $attach_id->get_error_message() );
+	}
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+	wp_update_attachment_metadata( $attach_id, wp_generate_attachment_metadata( $attach_id, $movefile['file'] ) );
+
+	$url = $movefile['url'];
+	wp_send_json_success(
+		array(
+			'id'  => $attach_id,
+			'url' => $url,
+		)
+	);
+}

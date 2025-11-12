@@ -1,13 +1,13 @@
 === PDF Generator for WordPress ===
 Contributors: wpswings
 Donate link: https://wpswings.com/
-Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress pdf generator
-Requires at least: 5.5.0
-Tested up to: 6.8
+Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress PDF generator
+Requires at least: 6.7.0
+Tested up to: 6.8.3
 WC requires at least: 6.5.0
-WC tested up to: 9.8.1
-Stable tag: 1.5.0
-Requires PHP: 7.2
+WC tested up to: 10.3.3
+Stable tag: 1.5.6
+Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -15,13 +15,14 @@ PDF Generator for WordPress allows you to convert posts into PDF files to share 
 
 == Description ==
 
-**PDF GENERATOR FOR WORDPRESS PLUGIN LETS YOU CREATE PDFs OF PAGES, PRODUCTS, AND POSTS FOR BETTER DISPERSAL OF BRAND INFORMATION WITH WPML COMPATIBILITY. YOU CAN MAKE OR CREATE PDFs EASILY FOR YOUR WEBSITES.** 
+**PDF GENERATOR FOR WORDPRESS PLUGIN ENABLES YOU TO CREATE AND CUSTOMIZE INTERACTIVE PDFS AND FLIPBOOKS OF PAGES, POSTS, AND PRODUCTS WITH EASE. IT OFFERS ELEMENTOR AND GUTENBERG SUPPORT, EMBEDDING OPTIONS FOR GOOGLE AND THIRD-PARTY SERVICES, BULK EXPORT, AND ADVANCED DESIGN SETTINGS FOR BRAND PRESENTATION.** 
 
-The [**PDF plugin for WordPress**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=referral&utm_campaign=hpdf-pro)) allows you to create PDF files for the pages to ensure the availability of information offline. It allows the admin to convert all the posts, pages, blogs, and products on their website into PDF files.
+PDF Generator plugin for WordPress helps you create and customize PDF files for your website pages, making your content easy to access offline. It allows the admin to convert posts, pages, blogs, and products into downloadable PDFs with full control over layout, colors, and fonts.
 
-The WordPress PDF creator plugin allows users to download PDFs from the WordPress site or view them in a new tab. Also, the admin can authorize users to receive their PDFs at their email addresses. 
+With this WordPress PDF embedder plugin, users can download PDFs, view them in a new tab, or receive them via email. The plugin also supports Elementor and Gutenberg, making it simple to add shortcodes or embed third-party services like Google Forms, Canva, or Loom.
 
-Users can non-commercially distribute the downloaded PDF files with the PDF Generator Pro.
+You can even turn your PDFs or images into interactive flipbooks, export files in bulk, and set display rules for different user roles. Users can share the downloaded PDF files for non-commercial use with the [**WordPress PDF Generator Pro**](https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=wpswings-org-page&utm_campaign=pdf-pro) plugin.
+
 
 [**WordPress PDF Generator Demo**](https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=referral&utm_campaign=frontend-demo) | [**PDF Generator Documentation**](https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-doc&utm_medium=referral&utm_campaign=documentation) | [**Contact Us**](https://wpswings.com/contact-us/?utm_source=wpswings-pdf&utm_medium=referral&utm_campaign=contact-us).
 
@@ -44,7 +45,7 @@ Users can non-commercially distribute the downloaded PDF files with the PDF Gene
 * Get a Shortcode to add the PDF icon anywhere on the page.
 * Get a shortcode to insert your own pdf.
 * Set the PDF download button’s location. 
-* Create custom PDF download icon.
+* Create a custom PDF download icon.
 * Predefined header, footer, and body settings.
 * Include author details. 
 * Compatible with WPML, thus facilitating your multilingual audience.
@@ -57,53 +58,59 @@ Users can non-commercially distribute the downloaded PDF files with the PDF Gene
 
 == WHAT’S INCLUDED IN OUR PDF GENERATOR FOR WORDPRESS PLUGIN == 
 
-**1) Embed Multiple Third-Party Services**
-Our PDF embed plugin has the feature to embed multiple third-party services like LinkedIn Post, Reddit Post, Canva embed, Loom Video Embed, Calendly Calendar, Twitch Streams, and Strava, and the best thing is that all these services are in the form of Gutenberg blocks. Hence, you just need to add the respective block on your page and paste the embedding link. You are good to go!
+**1) Generate Flipbooks With PDFs or Images**
+Our PDF Generator plugin also offers a built-in flipbook feature that lets you transform any PDF into an engaging, interactive flipbook. You can even choose multiple images and instantly convert them into a flipbook. It provides plenty of customization options like setting custom height and width, showing the flipbook in a modal popup, adding realistic page-flip sounds, and more.
 
-**2) Gutenberg Block to Embed All Google Services**
+**2) Elementor Blocks For Shortcodes**
+All the existing shortcodes have been converted into easy-to-use Elementor blocks. Just open Elementor, drag and drop your favorite block into your page or post, and you’re all set.
+
+**3) Embed Multiple Third-Party Services**
+Our PDF embedder plugin has the feature to embed multiple third-party services like LinkedIn Post, Reddit Post, Canva embed, Loom Video Embed, Calendly Calendar, Twitch Streams, and Strava, and the best thing is that all these services are in the form of Gutenberg blocks. Hence, you just need to add the respective block on your page and paste the embedding link. You are good to go!
+
+**4) Gutenberg Block to Embed All Google Services**
 Our free pdf creator plugin allows you to embed Google services like Forms, Slides, Sheets, and Docs into your posts using the intuitive WPSwings Gutenberg blocks. Just search for it, add your Google URL, and it’s done. 
 
 Plus, existing shortcodes such as [WPS_SINGLE_IMAGE] are now converted into Gutenberg blocks, making customization simple
 
-**3) Customize Template Color and Text Color**
-With Our WordPress Generate PDF Plugin you can customize the overall color of your PDF, plus you’ll also get the option to customize the text color of your PDF. Customizing the color scheme and text color of your PDF can enhance brand consistency and professionalism.
+**5) Customize Template Color and Text Color**
+With Our free PDF embedder Plugin you can customize the overall color of your PDF, plus you’ll also get the option to customize the text color of your PDF. Customizing the color scheme and text color of your PDF can enhance brand consistency and professionalism.
 
-**4) Include Important Details**
+**6) Include Important Details**
 The General Settings in the PDF plugin allows you to include important information in the generated PDF files. The plugin lets you display the categories, tags, taxonomy, post date, and author name. 
 
-**5) Display PDF Icon Based on User Roles**
+**7) Display PDF Icon Based on User Roles**
 With the help of our latest update in the WordPress PDF plugin, you can now restrict the visibility of the PDF icon on your website for different user roles such as administrator, author, editor, and so on. This will assist you a great deal in increasing quality leads from your website itself. 
 
-**6) Bulk Export**
+**8) Bulk Export**
 You can export PDF files for products, pages, and posts in bulk using the default template provided in our free WordPress PDF plugin generator.
 
-**7) Add Footer Customizations** 
-Our latest plugin brings in the footer customization options for you. You can now add the post name, post date, and author name to the pages of your generated PDF files.
+**9) Add Footer Customizations** 
+Our WordPress embed PDF plugin brings in the footer customization options for you. You can now add the post name, post date, and author name to the pages of your generated PDF files.
 
-**8) Display More Images In a Row**
+**10) Display More Images In a Row**
 We have solved displaying your post or product images in a better format in our latest update for the PDF creator plugin. You can now display more than one image in a row using the functionalities of this PDF plugin by turning on the settings from the body settings tab.
 
-**9) Control The Display Of Functionality**
+**11) Control The Display Of Functionality**
 From the display settings of the PDF icon, you can choose to display the PDF generator icon to either the registered users, the guest users, or both. You can also opt to allow, both, the registered and guest users to either directly download the information in PDF format or e-mail the PDF file to the user.
 
-**10) Icon Settings**
+**12) Icon Settings**
 WordPress PDF Generator gives you a free hand to customize the plugin icon for the front end of your website. You can also set the size of the PDF generator icon as per the design and theme requirements of the WordPress site. Display settings in the plugin allow several positions to place the icon, also letting you set the alignment of the same to center, right, and left.
 
-**11) Predefine Header Settings**
+**13) Predefine Header Settings**
 The layout settings authorize you to tailor-make the header settings. You can upload the company logo and details besides setting the header width. Layout settings also allow you to set the font and font size. 
 
-**12) Predefine Body Settings**
+**14) Predefine Body Settings**
 Body settings have many features to let you set the page orientation, page size, and title settings. You can also predefine the content font settings, font color, page margin, and border settings. This plugin also provides RTL support for Hebrew and Arabic languages. You can add a watermark to represent your brand in the layout settings.
 
-**13) Predefine Footer Settings**
-You can set the size and width of the footer using the layout settings. It also allows you to set the footer text font and size as well. 
+**15) Predefine Footer Settings**
+WordPress embed PDF plugin allows you to set the size and width of the footer using the layout settings. It also allows you to set the footer text font and size as well. 
 
-**14) Relevant Post Types And Appropriate Meta Fields**
+**16) Relevant Post Types And Appropriate Meta Fields**
 The plugin gives you the option to make the post visible only for relevant post types such as post, page, or product, depending on the utility of your content. The admin is also authorized to set the meta fields that you wish to display in the posts, pages, or products, individually.
 
 Also, if your product images are different from your product image gallery then you can write the name in the box below, enable the setting, and uncheck this in the metafield section. 
 
-**15) Upload Your PDF Files** 
+**17) Upload Your PDF Files** 
 The plugin allows you to upload your own PDF files for download. You can also limit access to these files for registered users or guest users.
 
 Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=referral&utm_campaign=documentation) and learn more about the features and working of the plugin.
@@ -116,7 +123,9 @@ Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/
 
 == WORDPRESS PDF GENERATOR COMPATIBILITIES == 
 
-* **WooCommerce HPOS:** PDF generator for WordPress is compatible with WooCommerce High-Performance Order Storage HPOS which allows you to store order data in custom order tables to maximize your eCommerce store performance.
+* **Track Order For WooCommerce:** WordPress PDF plugin is compatible with our track order plugin. You can show the order tracking card in the generated invoices, so your users can directly track their orders from the generated invoices.
+
+* **WooCommerce HPOS:** The PDF generator for WordPress is compatible with WooCommerce High-Performance Order Storage HPOS which allows you to store order data in custom order tables to maximize your eCommerce store performance.
 
 == WHAT PREMIUM VERSION OF THE WORDPRESS PDF GENERATOR PLUGIN OFFERS ==
 
@@ -211,8 +220,45 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 14. PDF Upload setting
 15. WPML Setting
 16. Embed multiple third-party services
+17. Flipbook feature
+18. Flipbook Shortcode 
+19. Flipbook Edit Post
+20. Layout Flipbook Setting
+21. Config Flipbook Setting
 
 == Changelog ==
+
+= 1.5.6 - Released on 31 October 2025 =
+* New: Introduced a powerful "Flipbook Generator" that converts any uploaded PDF or image set into an interactive flipbook.
+* New: Added  "short Code support"  to easily embed flipbooks on any page or post.
+* New: Added  "advanced customization options"— configure height, width, view type, flip sound, cover page, and more.
+* New: Added support for creating "multiple flipbooks", each with a unique ID and independent configuration.
+* New: Added an "intuitive admin interface" for managing flipbooks and inserting their shortcodes effortlessly.
+* New: compatibility with the latest WP(6.8.3) and WC (10.3.3)
+
+= 1.5.5 - Released on 05 September 2025 =
+* New: Compatibility with the latest WP (6.8.2) and WC (10.1.2)
+* Fix: Deprecated function fixes.
+
+= 1.5.4 - Released on 20 August 2025 =
+* New: Compatibility with the latest WP(6.8.2) and WC(10.1.0)
+* New: Updated dompdf to version 3.0.1
+
+= 1.5.3 - Released on 18 July 2025 =
+* New: Compatibility with the latest versions of WordPress(6.8.2) and WooCommerce (10.0.2)
+* Enhancement: Upgraded the Dompdf library to the latest stable version.
+* Fix: Replaced deprecated functions with their latest stable alternatives.
+
+= 1.5.2 - Released on 13 June 2025 =
+* New: Compatibility with the latest versions of WordPress  (6.8.1) and WooCommerce (9.9.3).
+* Enhancement: Improved custom table rendering to support larger and more complex table content in PDFs.
+* Enhancement: Enhanced admin settings structure to support flexible and longer layout configurations.
+
+= 1.5.1 - Released on 28 May 2025 = 
+* New: Elementor widget support for all existing shortcodes/blocks, enabling easy drag-and-drop usage in the Elementor builder.
+* New: Integration with Track Order For Woocommerce for enhanced compatibility and feature expansion.
+* New: Ability to embed tracking information inside posts, pages, and generated PDFs via Elementor widgets.
+* New: Compatibility with the latest WC(9.8.5) and WP(6.8.1)
 
 = 1.5.0 - Released on 16 April 2025 =
 * New: WPSwings Calendly Embed
@@ -386,9 +432,10 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Upgrade Notice ==
 
-= 1.5.0 - Released on 16 April 2025 =
-* New: WPSwings Calendly Embed
-* New: WPSwings Twitch Embed
-* New: WPSwings Strava Embed
-* Enhancement: Addition of  Shortcode tabs
-* New: Compatibility with the latest WC(9.8.1) and WP(6.8)
+= 1.5.6 - Released on 31 October 2025 =
+* New: Introduced a powerful "Flipbook Generator" that converts any uploaded PDF or image set into an interactive flipbook.
+* New: Added  "short Code support"  to easily embed flipbooks on any page or post.
+* New: Added  "advanced customization options"— configure height, width, view type, flip sound, cover page, and more.
+* New: Added support for creating "multiple flipbooks", each with a unique ID and independent configuration.
+* New: Added an "intuitive admin interface" for managing flipbooks and inserting their shortcodes effortlessly.
+* New: compatibility with the latest WP(6.8.3) and WC (10.3.3)

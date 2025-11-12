@@ -15,17 +15,17 @@
  * Plugin Name:       PDF Generator For WP
  * Plugin URI:        https://wordpress.org/plugins/pdf-generator-for-wp/
  * Description:       <code><strong>PDF Generator for WordPress</strong></code> plugin allows to generate and download PDF files from WordPress sites across multiple platforms in just one click. Elevate your eCommerce store by exploring more on WP Swings.<a href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-shop&utm_medium=pdf-org-backend&utm_campaign=shop-page" target="_blank"> Elevate your e-commerce store by exploring more on <strong> WP Swings </strong></a>
- * Version:           1.5.0
+ * Version:           1.5.7
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=pdf-org-backend&utm_campaign=official
  * Text Domain:       pdf-generator-for-wp
  * Domain Path:       /languages
  *
- * Requires at least:    5.5.0
- * Tested up to:         6.8.0
- * WC requires at least: 5.2.0
- * WC tested up to:      9.8.1
- * Stable tag:           1.5.0
+ * Requires at least:    6.7.0
+ * Tested up to:         6.8.3
+ * WC requires at least: 6.5.0
+ * WC tested up to:      10.3.3
+ * Stable tag:           1.5.7
  * Requires PHP:         7.4
  *
  * License:           GNU General Public License v3.0
@@ -36,11 +36,12 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
+
 use Automattic\WooCommerce\Utilities\OrderUtil;
 // HPOS Compatibility.
 add_action(
 	'before_woocommerce_init',
-	function() {
+	function () {
 		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
 			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
 		}
@@ -61,7 +62,7 @@ if ( isset( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php'] ) ) {
  * @since 1.0.0
  */
 function define_pdf_generator_for_wp_constants() {
-	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.5.0' );
+	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.5.7' );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_PATH', plugin_dir_path( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_URL', plugin_dir_url( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_SERVER_URL', 'https://wpswings.com' );
@@ -94,11 +95,18 @@ function pdf_generator_for_wp_constants( $key, $value ) {
 function activate_pdf_generator_for_wp( $network_wide ) {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-pdf-generator-for-wp-activator.php';
 	Pdf_Generator_For_Wp_Activator::pdf_generator_for_wp_activate( $network_wide );
-	$wps_pgfw_active_plugin                         = get_option( 'wps_all_plugins_active', array() );
+	$wps_pgfw_active_plugin = get_option( 'wps_all_plugins_active', array() );
+	if ( ! is_array( $wps_pgfw_active_plugin ) ) {
+		// If someone stored JSON in the past, try to decode it.
+		$decoded = is_string( $wps_pgfw_active_plugin ) ? json_decode( $wps_pgfw_active_plugin, true ) : null;
+		$wps_pgfw_active_plugin = is_array( $decoded ) ? $decoded : array();
+	}
+
 	$wps_pgfw_active_plugin['pdf-generator-for-wp'] = array(
 		'plugin_name' => __( 'PDF Generator For WordPress', 'pdf-generator-for-wp' ),
 		'active'      => '1',
 	);
+
 	update_option( 'wps_all_plugins_active', $wps_pgfw_active_plugin );
 }
 
@@ -126,7 +134,6 @@ function wps_pgfw_new_site_created_options( $new_site ) {
 		update_option( 'wps_all_plugins_active', $wps_pgfw_active_plugin );
 		restore_current_blog();
 	}
-
 }
 
 add_action( 'wp_initialize_site', 'wps_pgfw_new_site_created_options', 900 );
@@ -159,6 +166,115 @@ register_deactivation_hook( __FILE__, 'deactivate_pdf_generator_for_wp' );
  * admin-specific hooks, and public-facing site hooks.
  */
 require plugin_dir_path( __FILE__ ) . 'includes/class-pdf-generator-for-wp.php';
+
+
+/**
+ * This function is used to check PAR pro plugin is active or not.
+ *
+ * @return bool
+ */
+function wps_pgfw_is_pdf_pro_plugin_active() {
+	$flag = false;
+	if ( is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
+
+		$flag = true;
+	}
+	return $flag;
+}
+
+/**
+ * Register new Elementor widgets.
+ *
+ * @param \Elementor\Widgets_Manager $widgets_manager Elementor widgets manager.
+ * @return void
+ */
+function wps_register_new_widgets( $widgets_manager ) {
+	$wps_pgfw_sources = array(
+		'wps_tracking_info',
+		'wps_pdf_shortcode',
+		'wps_single_image',
+		'wps_calendly',
+		'wps_linkedln',
+		'wps_loom',
+		'wps_twitch',
+		'wps_ai_chatbot',
+		'wps_canva',
+		'wps_reddit',
+		'wps_google_elements',
+		'wps_strava',
+		'wps_rss_feed',
+		'wps_x',
+		'wps_pdf_embed',
+	);
+
+	$always_include = array( 'wps_pdf_shortcode', 'wps_single_image' );
+	$pro_only_widgets = array( 'wps_ai_chatbot', 'wps_pdf_embed', 'wps_rss_feed' );
+	$tofw_only_widgets = array( 'wps_tracking_info' );
+
+	// Check if Pro plugin is active.
+	include_once ABSPATH . 'wp-admin/includes/plugin.php';
+	$pdf_is_pro_plugin_active = is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' );
+	$tofw_is_pro_plugin_active = is_plugin_active( 'track-orders-for-woocommerce/track-orders-for-woocommerce.php' );
+
+	foreach ( $wps_pgfw_sources as $source ) {
+		$should_load = false;
+
+		if ( in_array( $source, $always_include ) ) {
+			$should_load = true;
+		} elseif ( in_array( $source, $pro_only_widgets ) ) {
+			$option_key = str_replace( 'wps_', '', $source );
+			$option_key = "wps_embed_source_{$option_key}";
+
+			if ( 'on' === get_option( $option_key, '' ) && $pdf_is_pro_plugin_active ) {
+				$should_load = true;
+			}
+		} elseif ( in_array( $source, $tofw_only_widgets ) ) {
+			$option_key = str_replace( 'wps_', '', $source );
+			$option_key = "wps_embed_source_{$option_key}";
+
+			if ( 'on' === get_option( $option_key, '' ) && $tofw_is_pro_plugin_active ) {
+				$should_load = true;
+			}
+		} else {
+			$option_key = str_replace( 'wps_', '', $source );
+			$option_key = "wps_embed_source_{$option_key}";
+			if ( 'on' === get_option( $option_key, '' ) ) {
+				$should_load = true;
+			}
+		}
+
+		if ( ! $should_load ) {
+			continue;
+		}
+
+		$wps_source = str_replace( '_', '-', $source );
+		$wps_sources_class = strtoupper( strtok( $source, '_' ) ) . '_' . ucfirst( substr( $source, strpos( $source, '_' ) + 1 ) );
+		$wps_widget_file = plugin_dir_path( __FILE__ ) . "Elementor/class-elementor-widget-{$wps_source}.php";
+
+		if ( file_exists( $wps_widget_file ) ) {
+			require_once $wps_widget_file;
+		}
+
+		$wps_class_name = "Elementor_Widget_{$wps_sources_class}";
+		if ( class_exists( $wps_class_name ) ) {
+			$widgets_manager->register( new $wps_class_name() );
+		}
+	}
+}
+
+add_action( 'elementor/widgets/register', 'wps_register_new_widgets' );
+add_action(
+	'elementor/elements/categories_registered',
+	function ( $elements_manager ) {
+		$elements_manager->add_category(
+			'wps_pdf_widgets',
+			array(
+				'title' => __( 'WPSwings PDF Widgets', 'pdf-generator-for-wp' ),
+				'icon'  => 'eicon-file-download',
+			)
+		);
+	}
+);
 
 
 /**
@@ -220,7 +336,6 @@ add_filter( 'plugin_row_meta', 'pdf_generator_for_wp_custom_settings_at_plugin_t
 
 
 // Update now link in pro.
-
 if ( true === $pgfw_old_plugin_exists ) {
 
 	add_action( 'admin_notices', 'wps_wpg_check_and_inform_update' );
@@ -228,24 +343,22 @@ if ( true === $pgfw_old_plugin_exists ) {
 	 * Check update if pro is old.
 	 */
 	function wps_wpg_check_and_inform_update() {
+		$update_file = plugin_dir_path( __DIR__ ) . 'wordpress-pdf-generator/class-mwb-wordpress-pdf-generator-update.php';
 
-		$update_file = plugin_dir_path( dirname( __FILE__ ) ) . 'wordpress-pdf-generator/class-mwb-wordpress-pdf-generator-update.php';
-
-			// If present but not active.
+		// If present but not active.
 		if ( ! is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
 			if ( file_exists( $update_file ) ) {
-					$mwb_wpg_license_key = get_option( 'mwb_wpg_license_key', '' );
-					! defined( 'WORDPRESS_PDF_GENERATOR_LICENSE_KEY' ) && define( 'WORDPRESS_PDF_GENERATOR_LICENSE_KEY', $mwb_wpg_license_key );
-					! defined( 'WORDPRESS_PDF_GENERATOR_BASE_FILE' ) && define( 'WORDPRESS_PDF_GENERATOR_BASE_FILE', 'wordpress-pdf-generator/wordpress-pdf-generator.php' );
-					! defined( 'WORDPRESS_PDF_GENERATOR_VERSION' ) && define( 'WORDPRESS_PDF_GENERATOR_VERSION', '3.0.4' );
-
+				$mwb_wpg_license_key = get_option( 'mwb_wpg_license_key', '' );
+				! defined( 'WORDPRESS_PDF_GENERATOR_LICENSE_KEY' ) && define( 'WORDPRESS_PDF_GENERATOR_LICENSE_KEY', $mwb_wpg_license_key );
+				! defined( 'WORDPRESS_PDF_GENERATOR_BASE_FILE' ) && define( 'WORDPRESS_PDF_GENERATOR_BASE_FILE', 'wordpress-pdf-generator/wordpress-pdf-generator.php' );
+				! defined( 'WORDPRESS_PDF_GENERATOR_VERSION' ) && define( 'WORDPRESS_PDF_GENERATOR_VERSION', '3.0.4' );
 			}
 			require_once $update_file;
 		}
 		if ( defined( 'WORDPRESS_PDF_GENERATOR_BASE_FILE' ) ) {
 
-				$wps_wpg_version_old_pro = new Mwb_WordPress_Pdf_Generator_Update();
-				$wps_wpg_version_old_pro->mwb_check_update();
+			$wps_wpg_version_old_pro = new Mwb_WordPress_Pdf_Generator_Update();
+			$wps_wpg_version_old_pro->mwb_check_update();
 		}
 	}
 }
@@ -266,30 +379,29 @@ function wps_wpg_old_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 	if ( $pgfw_old_plugin_exists ) {
 		?>
 		<tr class="plugin-update-tr active notice-warning notice-alt">
-		<td colspan="4" class="plugin-update colspanchange">
-			<div class="notice notice-error inline update-message notice-alt">
-				<p class='wps-notice-title wps-notice-section'>
-					<strong><?php esc_html_e( 'This plugin will not work anymore correctly.', 'pdf-generator-for-wp' ); ?></strong><br>
-					<?php esc_html_e( 'We highly recommend to update to latest pro version and once installed please migrate the existing settings.', 'pdf-generator-for-wp' ); ?><br>
-					<?php esc_html_e( 'If you are not getting automatic update now button here, then don\'t worry you will get in within 24 hours. If you still not get it please visit to your account dashboard and install it manually or connect to our support.', 'pdf-generator-for-wp' ); ?>
-				</p>
-			</div>
-		</td>
-	</tr>
-	<style>
-	.wps-notice-section > p:before {
+			<td colspan="4" class="plugin-update colspanchange">
+				<div class="notice notice-error inline update-message notice-alt">
+					<p class='wps-notice-title wps-notice-section'>
+						<strong><?php esc_html_e( 'This plugin will not work anymore correctly.', 'pdf-generator-for-wp' ); ?></strong><br>
+						<?php esc_html_e( 'We highly recommend to update to latest pro version and once installed please migrate the existing settings.', 'pdf-generator-for-wp' ); ?><br>
+						<?php esc_html_e( 'If you are not getting automatic update now button here, then don\'t worry you will get in within 24 hours. If you still not get it please visit to your account dashboard and install it manually or connect to our support.', 'pdf-generator-for-wp' ); ?>
+					</p>
+				</div>
+			</td>
+		</tr>
+		<style>
+			.wps-notice-section>p:before {
 				content: none;
 			}
 		</style>
-			<?php
+		<?php
 	}
 }
 add_action( 'admin_notices', 'wps_wpg_migrate_notice', 99 );
 /**
  * Migration to new domain notice on main dashboard notice.
  */
-function wps_wpg_migrate_notice() {
-	// phpcs:disable WordPress.Security.NonceVerification.Recommended
+function wps_wpg_migrate_notice() {       // phpcs:disable WordPress.Security.NonceVerification.Recommended
 	$tab = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 	global $pgfw_old_plugin_exists;
 
@@ -299,23 +411,22 @@ function wps_wpg_migrate_notice() {
 		<input type="hidden" class="treat-button">
 		<?php
 		if ( $pgfw_old_plugin_exists ) {
-
 			?>
 			<tr class="plugin-update-tr active notice-warning notice-alt">
-					<td colspan="4" class="plugin-update colspanchange">
-						<div class="notice notice-warning inline update-message notice-alt">
-							<p class='wps-notice-title wps-notice-section'>
-								<?php esc_html_e( 'If You are using Premium Version of PDF plugin then please update Pro plugin from plugin page by ', 'pdf-generator-for-wp' ); ?><a style="text-decoration:none;" href="<?php echo esc_url( admin_url( 'plugins.php' ) ); ?>"><?php esc_html_e( 'Click Here', 'pdf-generator-for-wp' ); ?></strong></a>
-							</p>
-						</div>
-					</td>
-				</tr>
+				<td colspan="4" class="plugin-update colspanchange">
+					<div class="notice notice-warning inline update-message notice-alt">
+						<p class='wps-notice-title wps-notice-section'>
+							<?php esc_html_e( 'If You are using Premium Version of PDF plugin then please update Pro plugin from plugin page by ', 'pdf-generator-for-wp' ); ?><a style="text-decoration:none;" href="<?php echo esc_url( admin_url( 'plugins.php' ) ); ?>"><?php esc_html_e( 'Click Here', 'pdf-generator-for-wp' ); ?></strong></a>
+						</p>
+					</div>
+				</td>
+			</tr>
 			<style>
-				.wps-notice-section > p:before {
-						content: none;
+				.wps-notice-section>p:before {
+					content: none;
 				}
 			</style>
-				<?php
+			<?php
 		}
 	}
 }
@@ -345,7 +456,7 @@ function wps_wpg_pro_pdf_upgrade_notice( $plugin_file, $plugin_data, $status ) {
 			</td>
 		</tr>
 		<style>
-			.wps-notice-section > p:before {
+			.wps-notice-section>p:before {
 				content: none;
 			}
 		</style>
@@ -374,25 +485,154 @@ function wps_calendly_embed_shortcode( $atts ) {
 /**
  * Adding shortcode to show calendly Events anywhere on the page.
  */
-if('on' === get_option( 'wps_embed_source_calendly' , '')){
-add_shortcode( 'wps_calendly', 'wps_calendly_embed_shortcode' );
+if ( 'on' === get_option( 'wps_embed_source_calendly', '' ) ) {
+	add_shortcode( 'wps_calendly', 'wps_calendly_embed_shortcode' );
 }
-if('on' === get_option( 'wps_embed_source_twitch' , '')){
-add_shortcode( 'wps_twitch', 'wps_twitch_stream_with_chat_shortcode' );
+if ( 'on' === get_option( 'wps_embed_source_twitch', '' ) ) {
+	add_shortcode( 'wps_twitch', 'wps_twitch_stream_with_chat_shortcode' );
 }
 
-if('on' === get_option( 'wps_embed_source_strava' , '')){
-add_shortcode( 'wps_strava', 'wps_strava_embed_shortcode' );
+if ( 'on' === get_option( 'wps_embed_source_strava', '' ) ) {
+	add_shortcode( 'wps_strava', 'wps_strava_embed_shortcode' );
 }
 
 if ( is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
-	if('on' === get_option( 'wps_embed_source_ai_chatbot' , '')){
-add_shortcode( 'wps_ai_chatbot', 'wps_chatbot_ai_shortcode' );
+	if ( 'on' === get_option( 'wps_embed_source_ai_chatbot', '' ) ) {
+		add_shortcode( 'wps_ai_chatbot', 'wps_chatbot_ai_shortcode' );
 	}
-if('on' === get_option( 'wps_embed_source_rss_feed' , '')){
-add_shortcode( 'wps_rssapp_feed', 'wps_rssapp_feed_shortcode' );
+	if ( 'on' === get_option( 'wps_embed_source_rss_feed', '' ) ) {
+		add_shortcode( 'wps_rssapp_feed', 'wps_rssapp_feed_shortcode' );
+	}
 }
+
+if ( 'on' === get_option( 'wps_embed_source_wps_track_order', '' ) && is_plugin_active( 'track-orders-for-woocommerce/track-orders-for-woocommerce.php' ) ) {
+	add_shortcode( 'wps_tracking_info', 'wps_pgfw_tracking_info_shortcode' );
 }
+
+/**
+ * Shortcode: [wps_tracking_info].
+ * Description: Displays tracking information for a WooCommerce order.
+ *
+ * @param array $atts Attributes for the shortcode.
+ * - order_id: (int) The ID of the WooCommerce order (required).
+ * - align: (string) Text alignment ('left', 'center', 'right', default: 'center').
+ *
+ * Example usage:
+ * [wps_tracking_info order_id="12345" align="left"].
+ */
+function wps_pgfw_tracking_info_shortcode( $atts ) {
+	$atts = shortcode_atts(
+		array(
+			'order_id' => '',
+			'align'    => 'center',
+		),
+		$atts,
+		'wps_tracking_info'
+	);
+
+	if ( empty( $atts['order_id'] ) ) {
+		return '<div style="color:red;">Order ID is missing.</div>';
+	}
+
+	$wps_pgfw_order_id = intval( $atts['order_id'] );
+	$wps_pgfw_order = wc_get_order( $wps_pgfw_order_id );
+
+	if ( ! $wps_pgfw_order ) {
+		return '<div style="color:red;">Invalid Order ID.</div>';
+	}
+
+	// Order meta data.
+	$wps_pgfw_estimated_date  = $wps_pgfw_order->get_meta( 'wps_tofw_estimated_delivery_date' );
+	$wps_pgfw_estimated_time  = $wps_pgfw_order->get_meta( 'wps_tofw_estimated_delivery_time' );
+	$wps_pgfw_carrier_base    = $wps_pgfw_order->get_meta( 'wps_tofwp_enhanced_order_company' );
+	$wps_pgfw_tracking_number = $wps_pgfw_order->get_meta( 'wps_tofwp_enhanced_tracking_no' );
+	$wps_pgfw_tracking_link   = $wps_pgfw_carrier_base && $wps_pgfw_tracking_number ? esc_url( $wps_pgfw_carrier_base . urlencode( $wps_pgfw_tracking_number ) ) : '';
+
+	$wps_pgfw_saved_settings  = get_option( 'wps_tofwp_general_settings_saved' );
+	$wps_pgfw_saved_providers = isset( $wps_pgfw_saved_settings['providers_data'] ) ? $wps_pgfw_saved_settings['providers_data'] : array();
+
+	// Order status.
+	$wps_pgfw_status = wc_get_order_status_name( $wps_pgfw_order->get_status() );
+
+	// Text alignment logic.
+	$wps_pgfw_allowed_alignments = array( 'left', 'center', 'right' );
+	$wps_pgfw_align = in_array( strtolower( $atts['align'] ), $wps_pgfw_allowed_alignments ) ? strtolower( $atts['align'] ) : 'center';
+
+	$wps_pgfw_container_style = 'max-width: 500px; padding: 20px; border-radius: 12px; background: #f8f9fa; box-shadow: 0 4px 12px rgba(0,0,0,0.1); font-family: Arial, sans-serif;';
+	if ( 'center' === $wps_pgfw_align ) {
+		$wps_pgfw_container_style .= ' margin: 20px auto;';
+	} elseif ( 'left' === $wps_pgfw_align ) {
+		$wps_pgfw_container_style .= ' margin: 20px 0 20px auto; float: left;';
+	} else {
+		$wps_pgfw_container_style .= ' margin: 20px auto 20px 0; float: right;';
+	}
+
+	ob_start();
+	if ( is_plugin_active( 'track-orders-for-woocommerce-pro/track-orders-for-woocommerce-pro.php' ) ) {
+		$wps_pgfw_plugin_url = TRACK_ORDERS_FOR_WOOCOMMERCE_PRO_DIR_URL;
+		$wps_pgfw_icon_path  = $wps_pgfw_plugin_url . 'admin/partials/assets/icons/';
+		$wps_pgfw_matched_carrier_name = '';
+		$wps_pgfw_icon_url = '';
+
+		// Detect matched carrier and icon.
+		foreach ( $wps_pgfw_saved_providers as $wps_pgfw_name => $wps_pgfw_url ) {
+			if ( strpos( $wps_pgfw_carrier_base, $wps_pgfw_url ) !== false ) {
+				$wps_pgfw_matched_carrier_name = $wps_pgfw_name;
+				$wps_pgfw_icon_file = strtolower( str_replace( ' ', '', $wps_pgfw_matched_carrier_name ) ) . '.png';
+				$wps_pgfw_icon_full_path = TRACK_ORDERS_FOR_WOOCOMMERCE_PRO_DIR_PATH . 'admin/partials/assets/icons/' . $wps_pgfw_icon_file;
+				$wps_pgfw_icon_url = file_exists( $wps_pgfw_icon_full_path ) ? $wps_pgfw_icon_path . $wps_pgfw_icon_file : $wps_pgfw_icon_path . 'default.png';
+				break;
+			}
+		}
+	}
+	?>
+	<div style="<?php echo esc_attr( $wps_pgfw_container_style ); ?>">
+		<h2 style="margin-top: 0; color: #333;"><?php echo esc_html__( 'Order Tracking Information', 'pdf-generator-for-wp' ); ?></h2>
+		<p><strong><?php echo esc_html__( 'Order ID:', 'pdf-generator-for-wp' ); ?></strong> <?php echo esc_html( $wps_pgfw_order_id ); ?></p>
+		<p><strong><?php echo esc_html__( 'Order Status:', 'pdf-generator-for-wp' ); ?></strong> <span style="color: green;"><?php echo esc_html( $wps_pgfw_status ); ?></span></p>
+		<?php if ( is_plugin_active( 'track-orders-for-woocommerce-pro/track-orders-for-woocommerce-pro.php' ) ) { ?>
+			<?php if ( $wps_pgfw_estimated_date || $wps_pgfw_estimated_time ) : ?>
+				<p><strong><?php echo esc_html__( 'Estimated Delivery:', 'pdf-generator-for-wp' ); ?></strong><br>
+					<?php if ( $wps_pgfw_estimated_date ) : ?>
+						📅 <?php echo esc_html( $wps_pgfw_estimated_date ); ?><br>
+					<?php endif; ?>
+					<?php if ( $wps_pgfw_estimated_time ) : ?>
+						⏰ <?php echo esc_html( $wps_pgfw_estimated_time ); ?>
+					<?php endif; ?>
+				</p>
+			<?php endif; ?>
+
+
+			<?php if ( $wps_pgfw_tracking_link ) : ?>
+				<div style="margin-top: 15px;">
+					<strong><?php echo esc_html__( 'Carrier Tracking:', 'pdf-generator-for-wp' ); ?></strong>
+					<div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
+						<?php if ( $wps_pgfw_icon_url ) : ?>
+							<img src="<?php echo esc_url( $wps_pgfw_icon_url ); ?>" alt="<?php echo esc_attr( $wps_pgfw_matched_carrier_name ); ?>" style="height: 35px;">
+						<?php endif; ?>
+						<?php if ( $wps_pgfw_matched_carrier_name ) : ?>
+							<span style="font-weight: bold;"><?php echo esc_html( $wps_pgfw_matched_carrier_name ); ?></span>
+						<?php endif; ?>
+					</div>
+				</div>
+			<?php endif; ?>
+		<?php } ?>
+
+		<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;">
+			<?php if ( is_plugin_active( 'track-orders-for-woocommerce-pro/track-orders-for-woocommerce-pro.php' ) ) { ?>
+				<?php if ( $wps_pgfw_tracking_link ) { ?>
+					<a href="<?php echo esc_url( $wps_pgfw_tracking_link ); ?>" class="button wc-forward" target="_blank" style="flex: 1; text-align: center; background-color: #0071a1; color: #fff; padding: 10px 15px; border-radius: 6px; text-decoration: none;">Track with Carrier</a>
+					<?php
+				}
+			}
+			?>
+			<a href="<?php echo esc_url( home_url( '/track-your-order/?' . $wps_pgfw_order_id ) ); ?>" class="button wc-forward" style="flex: 1; text-align: center; background-color: #28a745; color: #fff; padding: 10px 15px; border-radius: 6px; text-decoration: none;">Track Your Order</a>
+		</div>
+	</div>
+	<?php
+	return ob_get_clean();
+}
+
 
 /**
  * Shortcode: [wps_twitch].
@@ -464,10 +704,6 @@ function wps_twitch_stream_with_chat_shortcode( $atts ) {
 	return $output;
 }
 
-// [wps_twitch channel="twitch_username"].
-// [wps_twitch channel="twitch_username" width="700" height="400" chat_width="350" chat_height="400" show_chat="no"].
-
-
 /**
  * Shortcode: [wps_strava].
  * Description: Embeds a Strava activity or segment using Strava Embeds service.
@@ -505,10 +741,10 @@ function wps_strava_embed_shortcode( $atts ) {
 	?>
 	<!-- Strava Embed Placeholder -->
 	<div class="strava-embed-placeholder"
-		 data-embed-type="<?php echo esc_attr( $atts['type'] ); ?>"
-		 data-embed-id="<?php echo esc_attr( $atts['id'] ); ?>"
-		 data-style="<?php echo esc_attr( $atts['style'] ); ?>"
-		 data-from-embed="<?php echo esc_attr( $atts['from_embed'] ); ?>">
+		data-embed-type="<?php echo esc_attr( $atts['type'] ); ?>"
+		data-embed-id="<?php echo esc_attr( $atts['id'] ); ?>"
+		data-style="<?php echo esc_attr( $atts['style'] ); ?>"
+		data-from-embed="<?php echo esc_attr( $atts['from_embed'] ); ?>">
 	</div>
 
 	<!-- Strava Embed Script -->
@@ -561,7 +797,7 @@ function wps_chatbot_ai_shortcode( $atts ) {
 			margin: 40px auto;
 			border-radius: 16px;
 			overflow: hidden;
-			box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+			box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
 			background: #fff;
 			animation: fadeIn 1s ease-in-out;
 			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -596,8 +832,15 @@ function wps_chatbot_ai_shortcode( $atts ) {
 
 		/* Simple fade-in animation */
 		@keyframes fadeIn {
-			from { opacity: 0; transform: translateY(20px); }
-			to { opacity: 1; transform: translateY(0); }
+			from {
+				opacity: 0;
+				transform: translateY(20px);
+			}
+
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
 		}
 	</style>
 
@@ -605,7 +848,9 @@ function wps_chatbot_ai_shortcode( $atts ) {
 	<div class="wps-chatbot-wrapper wps-no-print">
 		<!-- Header with title and optional icon -->
 		<div class="wps-chatbot-header">
-			<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-10 10 9.99 9.99 0 0 0 5.29 8.75c-.1.75-.32 1.84-.79 3.01 0 0-.04.09.01.14.05.05.13.02.13.02 1.72-.24 3.05-.99 3.58-1.33A10.01 10.01 0 0 0 22 12 10 10 0 0 0 12 2z"/></svg>
+			<svg viewBox="0 0 24 24">
+				<path d="M12 2a10 10 0 0 0-10 10 9.99 9.99 0 0 0 5.29 8.75c-.1.75-.32 1.84-.79 3.01 0 0-.04.09.01.14.05.05.13.02.13.02 1.72-.24 3.05-.99 3.58-1.33A10.01 10.01 0 0 0 22 12 10 10 0 0 0 12 2z" />
+			</svg>
 			<?php echo esc_html( $atts['header_title'] ); ?>
 		</div>
 
@@ -685,8 +930,7 @@ function wps_rssapp_feed_shortcode( $atts ) {
 			width="100%"
 			height="<?php echo esc_attr( $atts['height'] ); ?>"
 			style="border: none; overflow-y: auto;"
-			scrolling="yes"
-		></iframe>
+			scrolling="yes"></iframe>
 	</div>
 	<?php
 	// Return the buffered content.
@@ -739,7 +983,7 @@ function wps_display_uploaded_image_shortcode( $atts ) {
  * Notification update.
  */
 function wps_pgfw_remove_cron_for_notification_update() {
-	   wp_clear_scheduled_hook( 'wps_wgm_check_for_notification_update' );
+	wp_clear_scheduled_hook( 'wps_wgm_check_for_notification_update' );
 }
 
 add_action( 'admin_notices', 'wps_banner_notification_plugin_html' );
@@ -750,11 +994,15 @@ if ( ! function_exists( 'wps_banner_notification_plugin_html' ) ) {
 	 */
 	function wps_banner_notification_plugin_html() {
 		$screen = get_current_screen();
-		if ( isset( $screen->id ) ) {
-			$pagescreen = $screen->id;
+		if ( ! $screen || empty( $screen->id ) ) {
+			return;
 		}
-		if ( ( isset( $pagescreen ) && 'plugins' === $pagescreen ) || ( 'wp-swings_page_home' == $pagescreen ) ) {
-			$notification_id = get_option( 'wps_wgm_notify_new_msg_id', false );
+
+		$target_screens = array( 'plugins', 'dashboard', 'wp-swings_page_home' );
+		$page_param     = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+
+		// Check whether to show on specific pages or screens.
+		if ( 'wc-settings' === $page_param || in_array( $screen->id, $target_screens, true ) ) {
 			$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
 			if ( isset( $banner_id ) && '' !== $banner_id ) {
 				$hidden_banner_id            = get_option( 'wps_wgm_notify_hide_baneer_notification', false );
@@ -765,13 +1013,13 @@ if ( ! function_exists( 'wps_banner_notification_plugin_html' ) ) {
 					if ( '' !== $banner_image && '' !== $banner_url ) {
 
 						?>
-							<div class="wps-offer-notice notice notice-warning is-dismissible">
-								<div class="notice-container">
-									<a href="<?php echo esc_url( $banner_url ); ?>" target="_blank"><img src="<?php echo esc_url( $banner_image ); ?>" alt="Gift cards"/></a>
-								</div>
-								<button type="button" class="notice-dismiss dismiss_banner" id="dismiss-banner"><span class="screen-reader-text">Dismiss this notice.</span></button>
+						<div class="wps-offer-notice notice notice-warning is-dismissible">
+							<div class="notice-container">
+								<a href="<?php echo esc_url( $banner_url ); ?>" target="_blank"><img src="<?php echo esc_url( $banner_image ); ?>" alt="Gift cards" /></a>
 							</div>
-							
+							<button type="button" class="notice-dismiss dismiss_banner" id="dismiss-banner"><span class="screen-reader-text">Dismiss this notice.</span></button>
+						</div>
+
 						<?php
 					}
 				}
@@ -780,18 +1028,97 @@ if ( ! function_exists( 'wps_banner_notification_plugin_html' ) ) {
 	}
 }
 
+add_action( 'init', 'wps_register_flipbook_post_type' );
+add_action( 'init', 'wps_pgfw_register_flipbook_taxonomy' );
+
+/**
+ * Register Flipbook Post Type.
+ */
+function wps_register_flipbook_post_type() {
+	$general_settings_data = get_option( 'pgfw_general_settings_save', array() );
+	$pgfw_flipbook_enable = array_key_exists( 'pgfw_flipbook_enable', $general_settings_data ) ? $general_settings_data['pgfw_flipbook_enable'] : '';
+
+	$args = array(
+		'labels'             => array(
+			'name'               => __( 'Flipbooks', 'wps-flipbook' ),
+			'singular_name'      => __( 'Flipbook', 'wps-flipbook' ),
+			'menu_name'          => __( 'Flipbooks', 'wps-flipbook' ),
+		),
+		'public'             => false,
+		'show_ui'            => ( 'yes' === $pgfw_flipbook_enable ),
+		'show_in_menu'       => ( 'yes' === $pgfw_flipbook_enable ),
+		'menu_icon'          => 'dashicons-book-alt',
+		'supports'           => array( 'title' ),
+		'capability_type'    => 'post',
+		'has_archive'        => false,
+		'rewrite'            => false,
+		'query_var'          => true,
+	);
+
+	register_post_type( 'flipbook', $args );
+}
+
+/**
+ * Register Flipbook Taxonomy.
+ */
+function wps_pgfw_register_flipbook_taxonomy() {
+	$general_settings_data = get_option( 'pgfw_general_settings_save', array() );
+	$pgfw_flipbook_enable = array_key_exists( 'pgfw_flipbook_enable', $general_settings_data ) ? $general_settings_data['pgfw_flipbook_enable'] : '';
+
+	if ( 'yes' === $pgfw_flipbook_enable ) {
+		register_taxonomy(
+			'flipbook_category',
+			'flipbook',
+			array(
+				'label' => 'Flipbook Categories',
+				'hierarchical' => true,
+				'show_ui' => true,
+				'show_admin_column' => true,
+				'rewrite' => array( 'slug' => 'flipbook-category' ),
+			)
+		);
+	}
+}
+add_action( 'wp_ajax_upload_pdf_page_image', 'upload_pdf_page_image' );
+add_action( 'wp_ajax_nopriv_upload_pdf_page_image', 'upload_pdf_page_image' );
+/**
+ * Handle PDF page image upload via AJAX.
+ */
+function upload_pdf_page_image() {
+	$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+	if ( ! wp_verify_nonce( $nonce, 'fb_fetch_pdf' ) ) {
+		status_header( 403 );
+		echo 'Invalid nonce';
+		exit;
+	}
+	if ( empty( $_FILES['file'] ) ) {
+		wp_send_json_error( array( 'message' => 'No file uploaded' ) );
+	}
+
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+	$uploadedfile = $_FILES['file'];
+
+	$movefile = wp_handle_upload( $uploadedfile, array( 'test_form' => false ) );
+
+	if ( $movefile && ! isset( $movefile['error'] ) ) {
+		wp_send_json_success( array( 'url' => $movefile['url'] ) );
+	} else {
+		wp_send_json_error( array( 'message' => $movefile['error'] ?? 'Upload failed' ) );
+	}
+}
+
+
 add_action( 'admin_notices', 'wps_pgfw_notification_plugin_html' );
 /**
  * Notification html.
  */
 function wps_pgfw_notification_plugin_html() {
-
 	$screen = get_current_screen();
 	if ( isset( $screen->id ) ) {
 		$pagescreen = $screen->id;
 	}
 	if ( ( isset( $_GET['page'] ) && 'pdf_generator_for_wp_menu' === $_GET['page'] ) ) {
-		$notification_id = get_option( 'wps_wgm_notify_new_msg_id', false );
 		$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
 		if ( isset( $banner_id ) && '' !== $banner_id ) {
 			$hidden_banner_id            = get_option( 'wps_wgm_notify_hide_baneer_notification', false );
@@ -802,17 +1129,16 @@ function wps_pgfw_notification_plugin_html() {
 				if ( '' !== $banner_image && '' !== $banner_url ) {
 
 					?>
-							<div class="wps-offer-notice notice notice-warning is-dismissible">
-								<div class="notice-container">
-									<a href="<?php echo esc_url( $banner_url ); ?>" target="_blank"><img src="<?php echo esc_url( $banner_image ); ?>" alt="Gift cards"/></a>
-								</div>
-								<button type="button" class="notice-dismiss dismiss_banner" id="dismiss-banner"><span class="screen-reader-text">Dismiss this notice.</span></button>
-							</div>
-							
-						<?php
+					<div class="wps-offer-notice notice notice-warning is-dismissible">
+						<div class="notice-container">
+							<a href="<?php echo esc_url( $banner_url ); ?>" target="_blank"><img src="<?php echo esc_url( $banner_image ); ?>" alt="Gift cards" /></a>
+						</div>
+						<button type="button" class="notice-dismiss dismiss_banner" id="dismiss-banner"><span class="screen-reader-text">Dismiss this notice.</span></button>
+					</div>
+
+					<?php
 				}
 			}
 		}
 	}
-
 }

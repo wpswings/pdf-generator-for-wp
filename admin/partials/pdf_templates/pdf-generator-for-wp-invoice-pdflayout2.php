@@ -311,8 +311,9 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 					</div>
 					</div>';
 		}
-		$html .= '</div>
-				</body>
+		$html .= '</div>';
+		$html .= apply_filters( 'wps_fetch_tracking_data', '', $order_id );
+		$html .= '</body>
 			</html>';
 		return $html;
 	}

@@ -59,7 +59,7 @@ class Pdf_Generator_For_Wp_Admin {
 	 */
 	public function pgfw_admin_enqueue_styles( $hook ) {
 		$screen = get_current_screen();
-		if (isset($screen->id) && ('wp-swings_page_pdf_generator_for_wp_menu' == $screen->id || 'wp-swings_page_home' == $screen->id)) { // phpcs:ignore
+		if ( isset( $screen->id ) && ( 'wp-swings_page_pdf_generator_for_wp_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) ) { // phpcs:ignore
 
 			wp_enqueue_style( 'wps-pgfw-select2-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.css', array(), time(), 'all' );
 
@@ -78,6 +78,7 @@ class Pdf_Generator_For_Wp_Admin {
 			wp_enqueue_style( 'wps--admin--min-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-admin-home.min.css', array(), $this->version, 'all' );
 		}
 		wp_enqueue_style( 'pgfw-admin-custom-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-generator-for-wp-admin-custom.css', array(), $this->version, 'all' );
+		wp_enqueue_style( 'flipbook-custom-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/flipbook.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -92,18 +93,20 @@ class Pdf_Generator_For_Wp_Admin {
 		$wps_wgm_notice = array(
 			'ajaxurl'       => admin_url( 'admin-ajax.php' ),
 			'wps_pgfw_nonce' => wp_create_nonce( 'wps-pgfw-verify-notice-nonce' ),
+			'check_pro_activate'     => ! wps_pgfw_is_pdf_pro_plugin_active(),
+
 		);
 		wp_register_script( $this->plugin_name . 'admin-notice', plugin_dir_url( __FILE__ ) . 'src/js/pdf-generator-for-wp-notices.js', array( 'jquery' ), $this->version, false );
 		wp_localize_script( $this->plugin_name . 'admin-notice', 'wps_pgfw_notice', $wps_wgm_notice );
 		wp_enqueue_script( $this->plugin_name . 'admin-notice' );
-		if (isset($screen->id) && ('wp-swings_page_pdf_generator_for_wp_menu' == $screen->id || 'wp-swings_page_home' == $screen->id)) { // phpcs:ignore
+		if ( isset( $screen->id ) && ( 'wp-swings_page_pdf_generator_for_wp_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) ) { // phpcs:ignore
 			wp_enqueue_script( 'wps-pgfw-select2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.js', array( 'jquery' ), time(), false );
 
 			wp_enqueue_script( 'wps-pgfw-metarial-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-web.min.js', array(), time(), false );
 			wp_enqueue_script( 'wps-pgfw-metarial-js2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.js', array(), time(), false );
 			wp_enqueue_script( 'wps-pgfw-metarial-lite', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-lite.min.js', array(), time(), false );
 
-			wp_register_script( $this->plugin_name . 'admin-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/js/pdf-generator-for-wp-admin.js', array( 'jquery', 'wps-pgfw-select2', 'wps-pgfw-metarial-js', 'wps-pgfw-metarial-js2', 'wps-pgfw-metarial-lite' ), $this->version, false );
+			wp_register_script( $this->plugin_name . 'admin-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/js/pdf-generator-for-wp-admin.js', array( 'jquery', 'wps-pgfw-select2', 'wps-pgfw-metarial-js', 'wps-pgfw-metarial-js2', 'wps-pgfw-metarial-lite' ), time(), false );
 			$wps_wpg_plugin_list = get_option( 'active_plugins' );
 			$wps_wpg_is_pro_active = false;
 			$wps_wpg_plugin = 'wordpress-pdf-generator/wordpress-pdf-generator.php';
@@ -165,6 +168,39 @@ class Pdf_Generator_For_Wp_Admin {
 				)
 			);
 		}
+		// Enqueue PDF.js library.
+		wp_enqueue_script(
+			'pdfjs-library',
+			'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js',
+			array(),
+			'2.6.347',
+			false
+		);
+
+		// Enqueue jQuery (if not already enqueued).
+		wp_enqueue_script( 'jquery' );
+
+		// Enqueue custom PDF handler script.
+		wp_enqueue_script(
+			'wps-pgfw-pdf-handler',
+			plugin_dir_url( __FILE__ ) . 'src/js/pdf-flipbook.js',
+			array( 'jquery', 'pdfjs-library' ),
+			'1.0.0',
+			true
+		);
+
+		// Localize script with nonces and AJAX URL.
+		wp_localize_script(
+			'wps-pgfw-pdf-handler',
+			'wpsGfwPdf',
+			array(
+				'fbFetchNonce' => wp_create_nonce( 'fb_fetch_pdf' ),
+				'fbUploadNonce' => wp_create_nonce( 'ifb_upload_pdf' ),
+				'fbAjaxUrl' => esc_url( admin_url( 'admin-ajax.php' ) ),
+			)
+		);
+		wp_enqueue_script( 'flipbook-js', plugin_dir_url( __FILE__ ) . 'src/js/flipbook.js', array( 'jquery' ), '1.0.0', true );
+		wp_enqueue_media();
 	}
 
 	/**
@@ -249,6 +285,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$general_settings_data     = get_option( 'pgfw_general_settings_save', array() );
 		$pgfw_enable_plugin        = array_key_exists( 'pgfw_enable_plugin', $general_settings_data ) ? $general_settings_data['pgfw_enable_plugin'] : '';
 		$pgfw_show_post_categories = array_key_exists( 'pgfw_general_pdf_show_categories', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_categories'] : '';
+		$pgfw_flipbook_enable = array_key_exists( 'pgfw_flipbook_enable', $general_settings_data ) ? $general_settings_data['pgfw_flipbook_enable'] : '';
 		$pgfw_show_post_tags       = array_key_exists( 'pgfw_general_pdf_show_tags', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_tags'] : '';
 		$pgfw_show_post_taxonomy   = array_key_exists( 'pgfw_general_pdf_show_taxonomy', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_taxonomy'] : '';
 		$pgfw_show_post_date       = array_key_exists( 'pgfw_general_pdf_show_post_date', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_post_date'] : '';
@@ -258,6 +295,16 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_pdf_file_name_custom = array_key_exists( 'pgfw_custom_pdf_file_name', $general_settings_data ) ? $general_settings_data['pgfw_custom_pdf_file_name'] : '';
 		$pgfw_general_pdf_date_format    = array_key_exists( 'pgfw_general_pdf_date_format', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_date_format'] : '';
 		$pgfw_show_current_date       = array_key_exists( 'pgfw_general_pdf_show_current_date', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_current_date'] : '';
+		// Get the flipbook URL.
+		$flipbook_url = admin_url( 'edit.php?post_type=flipbook' );
+
+		// Prepare description based on condition.
+		$description = __( 'Enable to convert any PDF or images in flipbook', 'pdf-generator-for-wp' );
+
+		// Add the link only if your specific condition is true.
+		if ( 'yes' === $pgfw_flipbook_enable ) {
+			$description .= ' <a href="' . esc_url( $flipbook_url ) . '">' . __( 'Visit Here', 'pdf-generator-for-wp' ) . '</a>';
+		}
 		$pgfw_settings_general_html_arr   = array(
 			array(
 				'title'       => __( 'Enable Plugin', 'pdf-generator-for-wp' ),
@@ -271,6 +318,17 @@ class Pdf_Generator_For_Wp_Admin {
 					'yes' => __( 'YES', 'pdf-generator-for-wp' ),
 					'no'  => __( 'NO', 'pdf-generator-for-wp' ),
 				),
+			),
+
+			array(
+				'title'        => __( 'Enable Flipbook', 'pdf-generator-for-wp' ),
+				'type'         => 'checkbox',
+				'description'  => $description,
+				'id'           => 'pgfw_flipbook_enable',
+				'value'        => $pgfw_flipbook_enable,
+				'class'        => 'pgfw_flipbook_enable',
+				'name'         => 'pgfw_flipbook_enable',
+				'parent-class' => 'pgfw_new-feature',
 			),
 			array(
 				'title'        => __( 'Include Categories', 'pdf-generator-for-wp' ),
@@ -396,6 +454,7 @@ class Pdf_Generator_For_Wp_Admin {
 			'class'       => 'pgfw_general_settings_save',
 			'name'        => 'pgfw_general_settings_save',
 		);
+
 		return $pgfw_settings_general_html_arr;
 	}
 	/**
@@ -454,7 +513,7 @@ class Pdf_Generator_For_Wp_Admin {
 			if ( $pgfw_save_check_flag ) {
 				$wps_pgfw_gen_flag = false;
 				$pgfw_button_index = array_search( 'submit', array_column( $pgfw_genaral_settings, 'type' ), true );
-				if (isset($pgfw_button_index) && (null == $pgfw_button_index || '' === $pgfw_button_index)) { // phpcs:ignore
+				if ( isset( $pgfw_button_index ) && ( null == $pgfw_button_index || '' === $pgfw_button_index ) ) { // phpcs:ignore
 					$pgfw_button_index = array_search( 'button', array_column( $pgfw_genaral_settings, 'type' ), true );
 				}
 				if ( isset( $pgfw_button_index ) && '' !== $pgfw_button_index ) {
@@ -507,12 +566,10 @@ class Pdf_Generator_For_Wp_Admin {
 									} else {
 										$settings_general_arr[ $pgfw_genaral_setting['id'] ] = '';
 									}
-								} else {
-									if ( isset( $_POST[ $pgfw_genaral_setting['id'] ] ) ) {
+								} elseif ( isset( $_POST[ $pgfw_genaral_setting['id'] ] ) ) {
 										$settings_general_arr[ $pgfw_genaral_setting['id'] ] = is_array( $_POST[ $pgfw_genaral_setting['id'] ] ) ? map_deep( wp_unslash( $_POST[ $pgfw_genaral_setting['id'] ] ), 'sanitize_text_field' ) : sanitize_text_field( wp_unslash( $_POST[ $pgfw_genaral_setting['id'] ] ) );
-									} else {
-										$settings_general_arr[ $pgfw_genaral_setting['id'] ] = '';
-									}
+								} else {
+									$settings_general_arr[ $pgfw_genaral_setting['id'] ] = '';
 								}
 							} else {
 								$wps_pgfw_gen_flag = true;
@@ -2139,7 +2196,7 @@ class Pdf_Generator_For_Wp_Admin {
 			$files = glob( $pgfw_pdf_dir . '*' );
 			foreach ( $files as $file ) {
 				if ( is_file( $file ) ) {
-					@unlink($file); // phpcs:ignore
+					@unlink( $file ); // phpcs:ignore
 				}
 			}
 		}
@@ -2385,7 +2442,7 @@ class Pdf_Generator_For_Wp_Admin {
 	 * @since 1.0.0
 	 */
 	public function wps_pgfw_welcome_callback_function() {
-		include_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/pdf-generator-for-wp-welcome.php';
+		include_once plugin_dir_path( __DIR__ ) . 'admin/partials/pdf-generator-for-wp-welcome.php';
 	}
 
 	// PRO TAG /////////////////////////////////.
@@ -3051,7 +3108,7 @@ class Pdf_Generator_For_Wp_Admin {
 			update_option( 'wps_wgm_notify_new_banner_image', $banner_image );
 			update_option( 'wps_wgm_notify_new_banner_url', $banner_url );
 			if ( 'regular' == $banner_type ) {
-				update_option( 'wps_wgm_notify_hide_baneer_notification', '' );
+				update_option( 'wps_wgm_notify_hide_baneer_notification', 0 );
 			}
 		}
 	}
@@ -3085,24 +3142,6 @@ class Pdf_Generator_For_Wp_Admin {
 		return $wps_notification_data;
 	}
 
-	/**
-	 * Display Notice.
-	 *
-	 * @since 3.0.0
-	 */
-	public function wps_pgfw_dismiss_notice_banner_callback() {
-		if ( isset( $_REQUEST['wps_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['wps_nonce'] ) ), 'wps-pgfw-verify-notice-nonce' ) ) {
-
-			$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
-
-			if ( isset( $banner_id ) && '' != $banner_id ) {
-				update_option( 'wps_wgm_notify_hide_baneer_notification', $banner_id );
-			}
-
-			wp_send_json_success();
-		}
-	}
-
 
 	/**
 	 * Register google embed block.
@@ -3111,10 +3150,16 @@ class Pdf_Generator_For_Wp_Admin {
 	 */
 	public function register_google_embed_blocks() {
 		$wps_wpg_is_pro_active = false;
+		$wps_tofw_is_pro_active = false;
 		$wps_wpg_plugin_list = get_option( 'active_plugins' );
 		$wps_wpg_plugin = 'wordpress-pdf-generator/wordpress-pdf-generator.php';
 		if ( in_array( $wps_wpg_plugin, $wps_wpg_plugin_list ) ) {
 			$wps_wpg_is_pro_active = true;
+		}
+
+		$wps_tofw_plugin = 'track-orders-for-woocommerce/track-orders-for-woocommerce.php';
+		if ( in_array( $wps_tofw_plugin, $wps_wpg_plugin_list ) ) {
+			$wps_tofw_is_pro_active = true;
 		}
 		$license_check = get_option( 'wps_wpg_license_check', 0 );
 
@@ -3154,7 +3199,8 @@ class Pdf_Generator_For_Wp_Admin {
 				'reloadurl'           => admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ),
 				'is_pro_active' => $wps_wpg_is_pro_active,
 				'license_check' => $license_check,
-				'is_linkedln_active' => get_option( 'wps_embed_source_linkedin', '' ),
+				'is_tofw_is_active' => $wps_tofw_is_pro_active,
+				'is_linkedln_active' => get_option( 'wps_embed_source_linkedln', '' ),
 				'is_loom_active' => get_option( 'wps_embed_source_loom', '' ),
 				'is_twitch_active' => get_option( 'wps_embed_source_twitch', '' ),
 				'is_ai_chatbot_active' => get_option( 'wps_embed_source_ai_chatbot', '' ),
@@ -3166,6 +3212,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'is_rss_feed_active' => get_option( 'wps_embed_source_rss_feed', '' ),
 				'is_x_active' => get_option( 'wps_embed_source_x', '' ),
 				'is_view_pdf_active' => get_option( 'wps_embed_source_pdf_embed', '' ),
+				'is_wps_track_order_active' => get_option( 'wps_embed_source_tracking_info', '' ),
 			)
 		);
 	}
@@ -3202,5 +3249,630 @@ class Pdf_Generator_For_Wp_Admin {
 		wp_send_json_success( "Saved $source as $value" );
 
 		wp_die();
+	}
+
+	/**
+	 * Display Notice.
+	 *
+	 * @since 3.0.0
+	 */
+	public function wps_pgfw_dismiss_notice_banner_callback() {
+		if ( isset( $_REQUEST['wps_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['wps_nonce'] ) ), 'wps-pgfw-verify-notice-nonce' ) ) {
+
+			$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
+
+			if ( isset( $banner_id ) && '' != $banner_id ) {
+				update_option( 'wps_wgm_notify_hide_baneer_notification', $banner_id );
+			}
+
+			wp_send_json_success();
+		}
+	}
+
+	/**
+	 * Flipbook Custom Post Type and Taxonomy registration callback.
+	 *
+	 * @since 3.0.0
+	 */
+	public function wps_pgfw_flipbook_settings_callback() {
+		register_post_type(
+			'flipbook',
+			array(
+				'label' => 'Flipbooks',
+				'public' => false,
+				'show_ui' => true,
+				'show_in_menu' => true, // Recommended for non-public, admin-only CPTs.
+				'menu_icon' => 'dashicons-book-alt',
+				'supports' => array( 'title' ),
+				'taxonomies' => array( 'flipbook_category' ),
+			)
+		);
+
+		register_taxonomy(
+			'flipbook_category',
+			'flipbook',
+			array(
+				'label' => 'Flipbook Categories',
+				'hierarchical' => true,
+				'show_ui' => true,
+				'show_admin_column' => true,
+				'rewrite' => array( 'slug' => 'flipbook-category' ),
+			)
+		);
+	}
+
+	/**
+	 * Flipbook Metabox registration callback.
+	 *
+	 * @since 3.0.0
+	 */
+	public function wps_pgfw_add_flipbook_metabox_callback() {
+		add_meta_box(
+			'flipbook_settings',
+			'Flipbook Settings',
+			array( $this, 'wps_pgfw_settings_box' ),
+			'flipbook',
+			'normal',
+			'high'
+		);
+
+		add_meta_box(
+			'flipbook_useful_links',
+			'Useful Links',
+			array( $this, 'wps_pgfw_useful_links_box' ),
+			'flipbook',
+			'side',  // show on the right side like your screenshot.
+			'default'
+		);
+	}
+
+	/**
+	 * Flipbook Useful links box callback.
+	 *
+	 * @param WP_Post $post Current post object.
+	 * @since 3.0.0
+	 */
+	public function wps_pgfw_useful_links_box( $post ) {
+		// Fetch saved meta.
+		$demo_link   = 'https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=pdf-org-doc&utm_campaign=demo';
+		$video_link  = 'https://youtu.be/RljECeP3JJk';
+		$service_url = 'https://wpswings.com/woocommerce-services/';
+		$pro_link    = 'https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=referral&utm_campaign=pdf-pro';
+
+		?>
+	<div class="wps-fb_info-box">
+		<?php if ( $video_link ) : ?>
+			<div class="video"><a href="<?php echo esc_url( $video_link ); ?>" target="_blank">
+				<span class="dashicons dashicons-video-alt3"></span> See Video Tutorial
+			</a></div>
+		<?php endif; ?>
+
+		<?php if ( $demo_link ) : ?>
+			<div class="demo"><a href="<?php echo esc_url( $demo_link ); ?>" target="_blank">
+				<span class="dashicons dashicons-welcome-widgets-menus"></span> Live Demo
+			</a></div>
+		<?php endif; ?>
+
+		<?php if ( $service_url ) : ?>
+			<div class="service"><a href="<?php echo esc_url( $service_url ); ?>" target="_blank">
+				<span class="dashicons dashicons-admin-generic"></span> Service Page
+			</a></div>
+		<?php endif; ?>
+
+		<?php if ( $pro_link ) : ?>
+			<div class="upgrade_to_pro"><a href="<?php echo esc_url( $pro_link ); ?>" target="_blank">
+				<span class="dashicons dashicons-star-filled"></span> Upgrade to Pro Version
+			</a></div>
+		<?php endif; ?>
+	</div>
+		<?php
+	}
+
+
+	/**
+	 * Flipbook Settings box callback.
+	 *
+	 * @param WP_Post $post Current post object.
+	 * @since 3.0.0
+	 */
+	public function wps_pgfw_settings_box( $post ) {
+		$width  = ! empty( get_post_meta( $post->ID, '_fb_width', true ) ) ? get_post_meta( $post->ID, '_fb_width', true ) : 1000;
+		$height = ! empty( get_post_meta( $post->ID, '_fb_height', true ) ) ? get_post_meta( $post->ID, '_fb_height', true ) : 1509;
+
+		$show_cover  = get_post_meta( $post->ID, '_fb_show_cover', true );
+		$cover_image = get_post_meta( $post->ID, '_fb_cover_image', true );
+		$back_image  = get_post_meta( $post->ID, '_fb_back_image', true );
+		$tool_btn    = get_post_meta( $post->ID, '_fb_tool_btn', true );
+		$pdf_url     = get_post_meta( $post->ID, '_fb_pdf_url', true );
+		$flip_sound_url = get_post_meta( $post->ID, '_fb_flip_sound_url', true );
+		$flip_sound_volume = get_post_meta( $post->ID, '_fb_flip_sound_volume', true );
+		$popup_enabled = get_post_meta( $post->ID, '_fb_popup_enabled', true );
+		$image_urls_json = get_post_meta( $post->ID, '_fb_image_urls', true );
+		$image_urls_json = is_string( $image_urls_json ) ? $image_urls_json : '';
+
+		// ✅ Config values with defaults.
+		$mobile_scroll_support = get_post_meta( $post->ID, '_fb_mobileScrollSupport', true );
+		$max_shadow_opacity    = get_post_meta( $post->ID, '_fb_maxShadowOpacity', true );
+		$flipping_time        = get_post_meta( $post->ID, '_fb_flippingTime', true );
+		$start_page           = get_post_meta( $post->ID, '_fb_startPage', true );
+		$swipe_distance       = get_post_meta( $post->ID, '_fb_swipeDistance', true );
+		$use_mouse_events      = get_post_meta( $post->ID, '_fb_useMouseEvents', true );
+		$size                = get_post_meta( $post->ID, '_fb_size', true );
+
+		$mobile_scroll_support = ( '' !== $mobile_scroll_support ) ? $mobile_scroll_support : '1';
+		$max_shadow_opacity    = ( '' !== $max_shadow_opacity ) ? $max_shadow_opacity : 0.5;
+		$flipping_time         = ( '' !== $flipping_time ) ? $flipping_time : 1000;
+		$start_page            = ( '' !== $start_page ) ? $start_page : 0;
+		$swipe_distance        = ( '' !== $swipe_distance ) ? $swipe_distance : 30;
+		$use_mouse_events      = ( '' !== $use_mouse_events ) ? 'true' : 'false';
+		$size                  = ( '' !== $size ) ? $size : 'stretch';
+		$flip_sound_url        = ( '' !== $flip_sound_url ) ? $flip_sound_url : '';
+		$flip_sound_volume     = ( '' !== $flip_sound_volume ) ? $flip_sound_volume : 1;
+		$popup_enabled         = ( '' !== $popup_enabled ) ? (int) $popup_enabled : 0;
+
+		// Optional validation notice (from save_post validation).
+		$validation_notice = get_transient( 'wps_pgfw_notice_' . $post->ID );
+		?>
+	
+	<div class="fb-tabs">
+		<?php if ( $validation_notice ) : ?>
+			<div id="ifb-validation-notice" class="notice notice-warning" style="margin:12px 0 0;">
+				<p><?php echo esc_html( $validation_notice ); ?></p>
+			</div>
+			<?php
+			delete_transient( 'wps_pgfw_notice_' . $post->ID );
+endif;
+		?>
+		<div class="fb-tab-nav">
+			<a href="#fb-layout" class="active"><?php esc_html_e( 'Layout', 'pdf-generator-for-wp' ); ?></a>
+			<a href="#fb-config"><?php esc_html_e( 'Config', 'pdf-generator-for-wp' ); ?></a>
+			<span class="fb-shortcode"><?php esc_html_e( 'Shortcode: ', 'pdf-generator-for-wp' ); ?><strong>[flipbook id="<?php echo esc_attr( $post->ID ); ?>"]</strong></span>
+		</div>
+
+		<!-- Layout Tab. -->
+		<div id="fb-layout" class="fb-tab-content active">
+			<?php wp_nonce_field( 'wps_pgfw_save_flipbook', 'wps_pgfw_flipbook_nonce' ); ?>
+
+			<table class="form-table striped">
+				<tbody>
+					<!-- Book Content Source. -->
+					<tr>
+						<th><label for="fb_pdf_url"><?php esc_html_e( 'Content Source', 'pdf-generator-for-wp' ); ?></label>
+						</th>
+						<td>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Use either a PDF file or a set of images to build the flipbook. If images are selected, they will be used; otherwise the PDF source will be used.', 'pdf-generator-for-wp' ); ?>"></span>
+							<div class="fb-source-block">
+								<h4><?php esc_html_e( 'PDF', 'pdf-generator-for-wp' ); ?></h4>
+								<input type="url" id="fb_pdf_url" name="fb_pdf_url" value="<?php echo esc_attr( $pdf_url ); ?>" placeholder="Enter PDF URL" style="width:100%; margin-bottom:10px;">
+								<div class="pdf-preview">
+									<?php if ( $pdf_url ) : ?>
+										<a href="<?php echo esc_url( $pdf_url ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Preview Uploaded PDF', 'pdf-generator-for-wp' ); ?></a>
+									<?php endif; ?>
+								</div>
+								<button type="button" class="button upload-pdf-btn"><?php echo $pdf_url ? esc_html__( 'Change PDF', 'pdf-generator-for-wp' ) : esc_html__( 'Upload/Select PDF', 'pdf-generator-for-wp' ); ?></button>
+								<?php
+								if ( $pdf_url ) :
+									?>
+									<button type="button" class="button remove-pdf-btn"><?php esc_html_e( 'Remove', 'pdf-generator-for-wp' ); ?></button><?php endif; ?>
+								<div id="fb_pdf_spinner" style="display:none; margin-top:10px;">
+									<span class="spinner is-active" style="float:none;"></span> <?php esc_html_e( 'Converting PDF, please wait...', 'pdf-generator-for-wp' ); ?>
+								</div>
+
+								<hr style="margin:14px 0; border:none; border-top:1px solid #dcdcde;">
+								<h4><?php esc_html_e( 'Images', 'pdf-generator-for-wp' ); ?></h4>
+								<input type="hidden" id="fb_image_urls" name="fb_image_urls" value='<?php echo esc_attr( $image_urls_json ); ?>'>
+								<div class="images-preview" style="display:flex; flex-wrap:wrap; gap:8px;">
+									<?php
+									$existing_imgs = json_decode( $image_urls_json, true );
+									if ( is_array( $existing_imgs ) ) {
+										foreach ( $existing_imgs as $u ) {
+											echo '<div class="fb-img-chip" data-url="' . esc_url( $u ) . '" style="position:relative;width:60px;height:60px;">
+                                                    <img src="' . esc_url( $u ) . '" style="width:60px;height:60px;object-fit:cover;border:1px solid #ddd;border-radius:4px;display:block;" />
+                                                    <button type="button" class="button-link-delete fb-img-remove" title="Remove" style="position:absolute;top:-8px;right:-6px;background:#d63638;color:#fff;border:none;border-radius:999px;width: 20px;height: 20px;line-height: 1;text-align:center;cursor:pointer;display: inline-flex;align-items: center;justify-content: center;font-size: 14px;">&times;</button>
+                                                </div>';
+										}
+									}
+									?>
+								</div>
+								<div class="button-group">
+									<button type="button" class="button upload-images-btn"><?php esc_html_e( 'Upload/Select Images', 'pdf-generator-for-wp' ); ?></button>
+									<button type="button" class="button clear-images-btn" <?php echo empty( $existing_imgs ) ? 'style="display:none;"' : ''; ?>><?php esc_html_e( 'Clear', 'pdf-generator-for-wp' ); ?></button>
+								</div>
+								<p class="description" style="margin-top:8px;"><?php esc_html_e( 'If images are selected, they will be used to create the flipbook pages. Otherwise, the PDF source will be used.', 'pdf-generator-for-wp' ); ?></p>
+							</div>
+						</td>
+					</tr>
+					<tr style="display:none;">
+
+						 <td><textarea name="fb_pdf_html" id="fb_pdf_html" rows="6" class="fb-wide"></textarea></td>
+					</tr>
+					<tr>
+						<th><label for="fb_width"><?php esc_html_e( 'Width', 'pdf-generator-for-wp' ); ?></label>
+						</th>
+						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enter the width of the flipbook in pixels.', 'pdf-generator-for-wp' ); ?>"></span><input type="number" name="fb_width" id="fb_width" value="<?php echo esc_attr( $width ); ?>"> px</td>
+					</tr>
+					
+					<tr>
+						<th><label for="fb_height"><?php esc_html_e( 'Height', 'pdf-generator-for-wp' ); ?></label>
+						</th>
+						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enter the height of the flipbook in pixels.', 'pdf-generator-for-wp' ); ?>"></span><input type="number" name="fb_height" id="fb_height" value="<?php echo esc_attr( $height ); ?>"> px</td>
+					</tr>
+					<!-- Cover Toggle -->
+					<tr>
+						<th><label for="fb_tool_btn"><?php esc_html_e( 'Flipbook Tool Button', 'pdf-generator-for-wp' ); ?></label>
+						</th>
+						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enable this option to add a tool button like go,next and previous to the flipbook.', 'pdf-generator-for-wp' ); ?>"></span><input type="checkbox" name="fb_tool_btn" id="fb_tool_btn" value="1" <?php checked( (int) $tool_btn, 1 ); ?>></td>
+					</tr>
+					<!-- Cover Toggle. -->
+					<tr>
+						<th><label for="fb_show_cover"><?php esc_html_e( 'Add Cover Page', 'pdf-generator-for-wp' ); ?></label>
+						</th>
+						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enable this option to add a cover page to the flipbook.', 'pdf-generator-for-wp' ); ?>"></span><input type="checkbox" name="fb_show_cover" id="fb_show_cover" value="1" <?php checked( (int) $show_cover, 1 ); ?>></td>
+					</tr>
+					<!-- Cover Image. -->
+					<tr class="cover-settings-row">
+						<th><label for="fb_cover_image"><?php esc_html_e( 'Cover Image', 'pdf-generator-for-wp' ); ?></label>
+						</th>
+						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enter the URL of the cover image for the flipbook.', 'pdf-generator-for-wp' ); ?>"></span>
+							<input type="url" id="fb_cover_image" name="fb_cover_image" value="<?php echo esc_attr( $cover_image ); ?>" placeholder="Paste cover image URL or select below">
+							<div class="cover-preview" style="margin-top:10px;">
+									<?php
+									if ( $cover_image ) :
+										?>
+										<img src="<?php echo esc_url( $cover_image ); ?>" style="max-width:250px; border:1px solid #ccc; display:block; margin-bottom:5px;"><?php endif; ?>
+							</div>
+							<button type="button" class="button upload-cover-btn"><?php echo $cover_image ? esc_html__( 'Change Cover Image', 'pdf-generator-for-wp' ) : esc_html__( 'Select Cover Image', 'pdf-generator-for-wp' ); ?></button>
+								<?php
+								if ( $cover_image ) :
+									?>
+									<button type="button" class="button remove-cover-btn"><?php esc_html_e( 'Remove', 'pdf-generator-for-wp' ); ?></button><?php endif; ?>
+						</td>
+					</tr>
+					<!-- Back Cover Image. -->
+					<tr class="cover-settings-row">
+						<th><label for="fb_back_image"><?php esc_html_e( 'Back Cover Image', 'pdf-generator-for-wp' ); ?></label>
+						</th>
+						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enter the URL of the back cover image for the flipbook.', 'pdf-generator-for-wp' ); ?>"></span>
+							<input type="url" id="fb_back_image" name="fb_back_image" value="<?php echo esc_attr( $back_image ); ?>" placeholder="Paste back cover image URL or select below">
+							<div class="back-preview" style="margin-top:10px;">
+									<?php
+									if ( $back_image ) :
+										?>
+										<img src="<?php echo esc_url( $back_image ); ?>" style="max-width:250px; border:1px solid #ccc; display:block; margin-bottom:5px;"><?php endif; ?>
+							</div>
+							<button type="button" class="button upload-back-btn"><?php echo $back_image ? esc_html__( 'Change Back Image', 'pdf-generator-for-wp' ) : esc_html__( 'Select Back Image', 'pdf-generator-for-wp' ); ?></button>
+								<?php
+								if ( $back_image ) :
+									?>
+									<button type="button" class="button remove-back-btn"><?php esc_html_e( 'Remove', 'pdf-generator-for-wp' ); ?></button><?php endif; ?>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- Config Tab. -->
+		<div id="fb-config" class="fb-tab-content">
+			<table class="form-table striped">
+				<tbody>
+					<tr>
+						<th><label for="fb_popup_enabled"><?php esc_html_e( 'Open in Popup Modal', 'pdf-generator-for-wp' ); ?></label>
+					</th>
+					<td>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Show a small flipbook icon. On click, open the flipbook in a modal.', 'pdf-generator-for-wp' ); ?>"></span>
+							<input type="checkbox" name="fb_popup_enabled" id="fb_popup_enabled" value="1" <?php checked( (int) $popup_enabled, 1 ); ?>>
+						</td>
+					</tr>
+					<tr>
+						<th><label for="fb_maxShadowOpacity"><?php esc_html_e( 'Max Shadow Opacity', 'pdf-generator-for-wp' ); ?></label>
+							
+						</th>
+						<td>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Set the maximum shadow opacity for the flipbook.', 'pdf-generator-for-wp' ); ?>"></span>
+							<input type="number" step="0.1" id="fb_maxShadowOpacity" name="fb_maxShadowOpacity" value="<?php echo esc_attr( $max_shadow_opacity ); ?>"></td>
+					</tr>
+					<tr>
+						<th><label for="fb_flippingTime"><?php esc_html_e( 'Flipping Time (ms)', 'pdf-generator-for-wp' ); ?></label>
+					</th>
+					<td>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Set the flipping time in milliseconds for the flipbook.', 'pdf-generator-for-wp' ); ?>"></span>
+							<input type="number" id="fb_flippingTime" name="fb_flippingTime" min = "0" value="<?php echo esc_attr( $flipping_time ); ?>"></td>
+					</tr>
+					<tr>
+						<th><label for="fb_startPage"><?php esc_html_e( 'Start Page', 'pdf-generator-for-wp' ); ?></label>
+					</th>
+					<td>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Set the starting page for the flipbook.', 'pdf-generator-for-wp' ); ?>"></span>
+							<input type="number" id="fb_startPage" name="fb_startPage" value="<?php echo esc_attr( $start_page ); ?>"></td>
+					</tr>
+					<tr>
+						<th><label for="fb_swipeDistance"><?php esc_html_e( 'Swipe Distance', 'pdf-generator-for-wp' ); ?></label>
+					</th>
+					<td>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Set the swipe distance for the flipbook.', 'pdf-generator-for-wp' ); ?>"></span>
+							<input type="number" id="fb_swipeDistance" name="fb_swipeDistance" value="<?php echo esc_attr( $swipe_distance ); ?>"></td>
+					</tr>
+					<tr>
+						<th><label for="fb_useMouseEvents"><?php esc_html_e( 'Use Mouse Events', 'pdf-generator-for-wp' ); ?></label>
+					</th>
+					<td>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enable or disable mouse events for the flipbook.', 'pdf-generator-for-wp' ); ?>"></span>
+							<select name="fb_useMouseEvents" id="fb_useMouseEvents">
+								<option value="1" <?php selected( $use_mouse_events, '1' ); ?>>Yes</option>
+								<option value="0" <?php selected( $use_mouse_events, '0' ); ?>>No</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th><label for="fb_size"><?php esc_html_e( 'Book Size Mode', 'pdf-generator-for-wp' ); ?></label>
+					</th>
+					<td>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Set the book size mode for the flipbook.', 'pdf-generator-for-wp' ); ?>"></span>
+							<select id="fb_size" name="fb_size">
+								<option value="fixed" <?php selected( $size, 'fixed' ); ?>>Fixed</option>
+								<option value="stretch" <?php selected( $size, 'stretch' ); ?>>Stretch</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th><label for="fb_flip_sound_url"><?php esc_html_e( 'Flip Sound URL', 'pdf-generator-for-wp' ); ?></label>
+					</th>
+					<td>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Provide an audio file URL to play on page flip (e.g., MP3, WAV).', 'pdf-generator-for-wp' ); ?>"></span>
+							<input type="url" name="fb_flip_sound_url" id="fb_flip_sound_url" value="<?php echo esc_attr( $flip_sound_url ); ?>" placeholder="https://example.com/flip.mp3">
+							<div class="audio-preview" style="margin:8px 0;">
+									<?php if ( $flip_sound_url ) : ?>
+									<audio controls src="<?php echo esc_url( $flip_sound_url ); ?>"></audio>
+								<?php endif; ?>
+							</div>
+							<button type="button" class="button upload-audio-btn"><?php echo $flip_sound_url ? 'Change Audio' : 'Upload/Select Audio'; ?></button>
+								<?php
+								if ( $flip_sound_url ) :
+									?>
+									<button type="button" class="button remove-audio-btn">Remove</button><?php endif; ?>
+						</td>
+					</tr>
+					<tr>
+						<th><label for="fb_flip_sound_volume"><?php esc_html_e( 'Flip Sound Volume', 'pdf-generator-for-wp' ); ?></label>
+					</th>
+					<td>
+							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Volume from 0.0 (mute) to 1.0 (max).', 'pdf-generator-for-wp' ); ?>"></span>
+							<input type="number" step="0.1" min="0" max="1" name="fb_flip_sound_volume" id="fb_flip_sound_volume" value="<?php echo esc_attr( $flip_sound_volume ); ?>">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- Shortcode Tab. -->
+		<div id="fb-shortcode" class="fb-tab-content">
+			<p><strong>Use this shortcode:</strong></p>
+			<code>[flipbook id="<?php echo esc_attr( $post->ID ); ?>"]</code>
+		</div>
+	</div>
+		<?php
+	}
+
+	/**
+	 * Flipbook Metabox save callback.
+	 *
+	 * @param int $post_id Current post ID.
+	 * @since 3.0.0
+	 */
+	public function wps_pgfw_save_flipbook_metabox_callback( $post_id ) {
+
+		if (
+		! isset( $_POST['wps_pgfw_flipbook_nonce'] ) ||
+		! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wps_pgfw_flipbook_nonce'] ) ), 'wps_pgfw_save_flipbook' )
+		) {
+			return;
+		}
+
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+
+		if ( isset( $_POST['fb_width'] ) ) {
+			update_post_meta( $post_id, '_fb_width', (int) $_POST['fb_width'] );
+		}
+		if ( isset( $_POST['fb_height'] ) ) {
+			update_post_meta( $post_id, '_fb_height', (int) $_POST['fb_height'] );
+		}
+		if ( isset( $_POST['fb_flip_sound_url'] ) ) {
+			update_post_meta(
+				$post_id,
+				'_fb_flip_sound_url',
+				esc_url_raw( wp_unslash( $_POST['fb_flip_sound_url'] ) )
+			);
+		}
+		if ( isset( $_POST['fb_flip_sound_volume'] ) ) {
+			$vol = floatval( $_POST['fb_flip_sound_volume'] );
+			if ( $vol < 0 ) {
+				$vol = 0; }
+			if ( $vol > 1 ) {
+				$vol = 1; }
+			update_post_meta( $post_id, '_fb_flip_sound_volume', $vol );
+		}
+		if ( isset( $_POST['fb_popup_enabled'] ) ) {
+			update_post_meta( $post_id, '_fb_popup_enabled', (int) $_POST['fb_popup_enabled'] );
+		} else {
+			update_post_meta( $post_id, '_fb_popup_enabled', 0 );
+		}
+		// Save images JSON safely.
+		if ( isset( $_POST['fb_image_urls'] ) ) {
+			// Unslash the raw JSON string from POST.
+			$raw = sanitize_textarea_field( wp_unslash( $_POST['fb_image_urls'] ) );
+
+			// Decode JSON to array.
+			$arr = json_decode( $raw, true );
+
+			if ( is_array( $arr ) ) {
+				$clean = array();
+
+				foreach ( $arr as $u ) {
+					// Sanitize each image URL.
+					$url = esc_url_raw( $u );
+					if ( ! empty( $url ) ) {
+						$clean[] = $url;
+					}
+				}
+
+				// Re-encode sanitized array and save.
+				update_post_meta( $post_id, '_fb_image_urls', wp_json_encode( array_values( $clean ) ) );
+			} else {
+				update_post_meta( $post_id, '_fb_image_urls', '' );
+			}
+		}
+
+		// Validation: ensure at least one source (PDF or images) is provided.
+		$saved_pdf_url = get_post_meta( $post_id, '_fb_pdf_url', true );
+		$saved_imgs_json = get_post_meta( $post_id, '_fb_image_urls', true );
+		$saved_imgs = $saved_imgs_json ? json_decode( $saved_imgs_json, true ) : array();
+		$has_images = is_array( $saved_imgs ) && count( $saved_imgs ) > 0;
+		$has_pdf = ! empty( $saved_pdf_url );
+		if ( ! $has_images && ! $has_pdf ) {
+			set_transient( 'wps_pgfw_notice_' . $post_id, 'Please set a Content Source: either select a PDF or choose images.', 60 );
+		} else {
+			delete_transient( 'wps_pgfw_notice_' . $post_id );
+		}
+		if ( ! empty( $_POST['fb_pdf_html'] ) ) {
+			$allowed_html = array(
+				'div' => array(
+					'class' => true,
+					'id'    => true,
+					'style' => true,
+				),
+				'img' => array(
+					'src'   => true,
+					'style' => true,
+					'alt'   => true,
+				),
+			);
+
+			$html_content = wp_kses( wp_unslash( $_POST['fb_pdf_html'] ), $allowed_html );
+			update_post_meta(
+				$post_id,
+				'_fb_pdf_html',
+				$html_content
+			);
+		}
+
+		// Save Cover Image URL.
+		if ( isset( $_POST['fb_cover_image'] ) ) {
+			update_post_meta(
+				$post_id,
+				'_fb_cover_image',
+				esc_url_raw( wp_unslash( $_POST['fb_cover_image'] ) )
+			);
+		}
+
+		// Save Back Cover Image URL.
+		if ( isset( $_POST['fb_back_image'] ) ) {
+			update_post_meta(
+				$post_id,
+				'_fb_back_image',
+				esc_url_raw( wp_unslash( $_POST['fb_back_image'] ) )
+			);
+		}
+
+		// Save Show Cover (checkbox).
+		if ( isset( $_POST['fb_show_cover'] ) ) {
+			update_post_meta(
+				$post_id,
+				'_fb_show_cover',
+				absint( wp_unslash( $_POST['fb_show_cover'] ) )
+			);
+		} else {
+			update_post_meta( $post_id, '_fb_show_cover', 0 );
+		}
+
+		if ( isset( $_POST['fb_tool_btn'] ) ) {
+			update_post_meta( $post_id, '_fb_tool_btn', (int) $_POST['fb_tool_btn'] );
+		} else {
+			update_post_meta( $post_id, '_fb_tool_btn', 0 );
+		}
+		if ( ! empty( $_POST['fb_pdf_url'] ) ) {
+			update_post_meta(
+				$post_id,
+				'_fb_pdf_url',
+				esc_url_raw( wp_unslash( $_POST['fb_pdf_url'] ) )
+			);
+		} else {
+			update_post_meta( $post_id, '_fb_pdf_url', '' );
+		}
+
+		// ✅ Save Config Settings.
+		$config_keys = array(
+			'mobileScrollSupport',
+			'maxShadowOpacity',
+			'flippingTime',
+			'startPage',
+			'swipeDistance',
+			'useMouseEvents',
+			'size',
+		);
+
+		foreach ( $config_keys as $key ) {
+			if ( isset( $_POST[ 'fb_' . $key ] ) ) {
+				// Always unslash first to remove WordPress-added backslashes.
+				$val = isset( $_POST[ 'fb_' . $key ] )
+				? sanitize_text_field( wp_unslash( $_POST[ 'fb_' . $key ] ) )
+				: '';
+
+				// Sanitize and cast based on expected data type.
+				if ( in_array( $key, array( 'mobileScrollSupport', 'useMouseEvents' ), true ) ) {
+					// Expect "1" or "0" as string values.
+					$val = ( '1' === $val ) ? '1' : '0';
+
+				} elseif ( 'maxShadowOpacity' === $key ) {
+					// Float values (opacity).
+					$val = floatval( $val );
+
+				} elseif ( in_array( $key, array( 'flippingTime', 'startPage', 'swipeDistance' ), true ) ) {
+					// Integer values.
+					$val = absint( $val );
+
+				} elseif ( 'size' === $key ) {
+					// Only allow specific string options.
+					$val = in_array( $val, array( 'fixed', 'stretch' ), true )
+						? sanitize_text_field( $val )
+						: 'stretch';
+
+				} else {
+					// Default sanitization for any future keys.
+					$val = sanitize_text_field( $val );
+				}
+
+				update_post_meta( $post_id, '_fb_' . $key, $val );
+			}
+		}
+	}
+
+	/**
+	 * Manage Flipbook posts columns callback.
+	 *
+	 * @param array $columns Existing columns.
+	 * @return array Modified columns.
+	 * @since 3.0.0
+	 */
+	public function wps_pgfw_manage_flipbook_posts_columns( $columns ) {
+		$columns['shortcode'] = 'Shortcode';
+		return $columns;
+	}
+
+	/**
+	 * Flipbook posts custom column callback.
+	 *
+	 * @param string $column  Current column name.
+	 * @param int    $post_id Current post ID.
+	 * @since 3.0.0
+	 */
+	public function wps_pgfw_flipbook_posts_custom_column( $column, $post_id ) {
+		if ( 'shortcode' === $column ) {
+			echo '<code>[flipbook id="' . esc_attr( $post_id ) . '"]</code>';
+		}
 	}
 }

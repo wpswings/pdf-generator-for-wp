@@ -395,14 +395,16 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
       <div id="notices">
         <div>NOTICE:</div>
         <div class="notice"><b>' . $disclaimer . '</b></div>
-      </div>
-    </main>';
+      </div>';
+
+			$html .= apply_filters( 'wps_fetch_tracking_data', '', $order_id );
+
+			$html .= '</main>';
 		}
-		$html .= '   <footer>
+		$html .= '<footer>
       Invoice was created on a computer and is valid without the signature and seal.
-    </footer>	
-	
-				</body>
+    </footer>';
+				$html .= '</body>
 			</html>';
 		return $html;
 	}

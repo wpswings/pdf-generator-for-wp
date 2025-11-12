@@ -27,7 +27,7 @@ if ( true != $wps_wpg_is_pro_active ) {
 <div class="wps-overview__wrapper">
 	<?php do_action( 'pgfw_overview_content_top' ); ?>
 	<div class="wps-overview__banner">
-		<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ); ?>admin/src/images/bannerpdf.png" alt="Overview banner image" >
+		<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ); ?>admin/src/images/bannerpdf.jpg" alt="Overview banner image" >
 	</div>
 	<div class="wps-overview__content">
 		<div class="wps-overview__content-description">

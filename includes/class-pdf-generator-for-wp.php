@@ -28,6 +28,7 @@
  */
 class Pdf_Generator_For_Wp {
 
+
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
@@ -71,13 +72,12 @@ class Pdf_Generator_For_Wp {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-
 		if ( defined( 'PDF_GENERATOR_FOR_WP_VERSION' ) ) {
 
 			$this->version = PDF_GENERATOR_FOR_WP_VERSION;
 		} else {
 
-			$this->version = '1.4.1';
+			$this->version = '1.5.3';
 		}
 
 		$this->plugin_name = 'pdf-generator-for-wp';
@@ -92,7 +92,6 @@ class Pdf_Generator_For_Wp {
 		$this->pdf_generator_for_wp_common_hooks();
 
 		$this->pdf_generator_for_wp_api_hooks();
-
 	}
 
 	/**
@@ -112,27 +111,26 @@ class Pdf_Generator_For_Wp {
 	 * @since    1.0.0
 	 */
 	private function pdf_generator_for_wp_dependencies() {
-
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-pdf-generator-for-wp-loader.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-pdf-generator-for-wp-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-pdf-generator-for-wp-i18n.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-pdf-generator-for-wp-i18n.php';
 
 		if ( is_admin() ) {
 
 			// The class responsible for defining all actions that occur in the admin area.
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-pdf-generator-for-wp-admin.php';
+			require_once plugin_dir_path( __DIR__ ) . 'admin/class-pdf-generator-for-wp-admin.php';
 
 			// The class responsible for on-boarding steps for plugin.
-			if ( is_dir( plugin_dir_path( dirname( __FILE__ ) ) . 'onboarding' ) && ! class_exists( 'Pdf_Generator_For_Wp_Onboarding_Steps' ) ) {
-				require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-pdf-generator-for-wp-onboarding-steps.php';
+			if ( is_dir( plugin_dir_path( __DIR__ ) . 'onboarding' ) && ! class_exists( 'Pdf_Generator_For_Wp_Onboarding_Steps' ) ) {
+				require_once plugin_dir_path( __DIR__ ) . 'includes/class-pdf-generator-for-wp-onboarding-steps.php';
 			}
 
 			if ( class_exists( 'Pdf_Generator_For_Wp_Onboarding_Steps' ) ) {
@@ -141,19 +139,17 @@ class Pdf_Generator_For_Wp {
 		} else {
 
 			// The class responsible for defining all actions that occur in the public-facing side of the site.
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-pdf-generator-for-wp-public.php';
-
+			require_once plugin_dir_path( __DIR__ ) . 'public/class-pdf-generator-for-wp-public.php';
 		}
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'package/rest-api/class-pdf-generator-for-wp-rest-api.php';
+		require_once plugin_dir_path( __DIR__ ) . 'package/rest-api/class-pdf-generator-for-wp-rest-api.php';
 
 		/**
 		 * This class responsible for defining common functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'common/class-pdf-generator-for-wp-common.php';
+		require_once plugin_dir_path( __DIR__ ) . 'common/class-pdf-generator-for-wp-common.php';
 		$this->loader = new Pdf_Generator_For_Wp_Loader();
-
 	}
 
 	/**
@@ -165,11 +161,9 @@ class Pdf_Generator_For_Wp {
 	 * @since    1.0.0
 	 */
 	private function pdf_generator_for_wp_locale() {
-
 		$plugin_i18n = new Pdf_Generator_For_Wp_I18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
 	}
 
 	/**
@@ -179,7 +173,6 @@ class Pdf_Generator_For_Wp {
 	 * @since    1.0.0
 	 */
 	private function pdf_generator_for_wp_admin_hooks() {
-
 		$pgfw_plugin_admin = new Pdf_Generator_For_Wp_Admin( $this->pgfw_get_plugin_name(), $this->pgfw_get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $pgfw_plugin_admin, 'pgfw_admin_enqueue_styles' );
@@ -218,17 +211,16 @@ class Pdf_Generator_For_Wp {
 		$this->loader->add_action( 'pgfw_cron_delete_pdf_from_server', $pgfw_plugin_admin, 'pgfw_delete_pdf_from_server' );
 		// Reset all the settings to default.
 		$this->loader->add_action( 'wp_ajax_pgfw_reset_default_settings', $pgfw_plugin_admin, 'pgfw_reset_default_settings' );
-		
+
 		$this->loader->add_action( 'wp_ajax_wpg_ajax_callbacks', $pgfw_plugin_admin, 'wps_wpg_ajax_callbacks' );
 		$this->loader->add_filter( 'wps_pgfw_custom_page_size_filter_hook', $pgfw_plugin_admin, 'wpg_custom_page_size_in_dropdown' );
-		///////////////
 		$this->loader->add_action( 'admin_init', $pgfw_plugin_admin, 'wps_pgfw_set_cron_for_plugin_notification' );
 		$this->loader->add_action( 'wps_wgm_check_for_notification_update', $pgfw_plugin_admin, 'wps_pgfw_save_notice_message' );
 		$this->loader->add_action( 'wp_ajax_wps_pgfw_dismiss_notice_banner', $pgfw_plugin_admin, 'wps_pgfw_dismiss_notice_banner_callback' );
-		
+
 		$this->loader->add_action( 'init', $pgfw_plugin_admin, 'register_google_embed_blocks' );
-	
-							// PRO PLUGIN DUMMY CONTENT HTML FUNCTIONS  ////////////.
+
+		// PRO PLUGIN DUMMY CONTENT HTML FUNCTIONS  ////////////.
 		if ( ! is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
 			$this->loader->add_filter( 'pgfw_taxonomy_settings_array_dummy', $pgfw_plugin_admin, 'pgfw_setting_fields_for_customising_taxonomy_dummy' );
 			$this->loader->add_action( 'pgfw_plugin_standard_admin_settings_sub_tabs_dummy', $pgfw_plugin_admin, 'pgfw_add_custom_template_settings_tab_dummy' );
@@ -238,6 +230,12 @@ class Pdf_Generator_For_Wp {
 		}
 
 		$this->loader->add_action( 'wp_ajax_wps_pgfw_save_embed_source', $pgfw_plugin_admin, 'wps_pgfw_save_embed_source_callback' );
+
+		/* Functionality related to Flipbook    */
+		$this->loader->add_action( 'add_meta_boxes', $pgfw_plugin_admin, 'wps_pgfw_add_flipbook_metabox_callback', 10, 1 );
+		$this->loader->add_action( 'save_post_flipbook', $pgfw_plugin_admin, 'wps_pgfw_save_flipbook_metabox_callback', 10, 1 );
+		$this->loader->add_filter( 'manage_flipbook_posts_columns', $pgfw_plugin_admin, 'wps_pgfw_manage_flipbook_posts_columns', 10, 1 );
+		$this->loader->add_action( 'manage_flipbook_posts_custom_column', $pgfw_plugin_admin, 'wps_pgfw_flipbook_posts_custom_column', 10, 2 );
 	}
 
 	/**
@@ -247,7 +245,6 @@ class Pdf_Generator_For_Wp {
 	 * @since    1.0.0
 	 */
 	private function pdf_generator_for_wp_common_hooks() {
-
 		$pgfw_plugin_common = new Pdf_Generator_For_Wp_Common( $this->pgfw_get_plugin_name(), $this->pgfw_get_version() );
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_common, 'pgfw_common_enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_common, 'pgfw_common_enqueue_scripts' );
@@ -268,7 +265,7 @@ class Pdf_Generator_For_Wp {
 			// invoice.
 			$pgfw_enable_plugin = get_option( 'wpg_enable_plugin' );
 			if ( 'yes' === $pgfw_enable_plugin ) {
-				//adding shortcodes to fetch all order detials [ISFW_FETCH_ORDER].
+				// adding shortcodes to fetch all order detials [ISFW_FETCH_ORDER].
 				$this->loader->add_action( 'plugins_loaded', $pgfw_plugin_common, 'wpg_fetch_order_details_shortcode' );
 				$this->loader->add_action( 'wpg_reset_invoice_number_hook', $pgfw_plugin_common, 'wpg_reset_invoice_number' );
 			}
@@ -282,7 +279,6 @@ class Pdf_Generator_For_Wp {
 	 * @since    1.0.0
 	 */
 	private function pdf_generator_for_wp_public_hooks() {
-
 		$pgfw_plugin_public = new Pdf_Generator_For_Wp_Public( $this->pgfw_get_plugin_name(), $this->pgfw_get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_public, 'pgfw_public_enqueue_styles' );
@@ -308,6 +304,7 @@ class Pdf_Generator_For_Wp {
 			}
 		}
 
+		$this->loader->add_action( 'init', $pgfw_plugin_public, 'wps_pgfw_flipbook_shortcode_callback' );
 	}
 
 	/**
@@ -317,11 +314,9 @@ class Pdf_Generator_For_Wp {
 	 * @since    1.0.0
 	 */
 	private function pdf_generator_for_wp_api_hooks() {
-
 		$pgfw_plugin_api = new Pdf_Generator_For_Wp_Rest_Api( $this->pgfw_get_plugin_name(), $this->pgfw_get_version() );
 
 		$this->loader->add_action( 'rest_api_init', $pgfw_plugin_api, 'wps_pgfw_add_endpoint' );
-
 	}
 
 
@@ -352,7 +347,7 @@ class Pdf_Generator_For_Wp {
 	 * @return    Pdf_Generator_For_Wp_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function pgfw_get_loader() {
-		return $this->loader;
+		 return $this->loader;
 	}
 
 
@@ -435,24 +430,24 @@ class Pdf_Generator_For_Wp {
 				'name'  => 'pdf-generator-for-wp-invoice-page-setting',
 			);
 		}
-						// END DUMMY CODE TABS ////////.
-			$pgfw_default_tabs = apply_filters( 'wps_pgfw_plugin_standard_admin_settings_tabs', $pgfw_default_tabs );
+		// END DUMMY CODE TABS ////////.
+		$pgfw_default_tabs = apply_filters( 'wps_pgfw_plugin_standard_admin_settings_tabs', $pgfw_default_tabs );
 
-			$pgfw_default_tabs['pdf-generator-for-wp-pdf-upload'] = array(
-				'title' => esc_html__( 'PDF Upload', 'pdf-generator-for-wp' ),
-				'name'  => 'pdf-generator-for-wp-pdf-upload',
-			);
+		$pgfw_default_tabs['pdf-generator-for-wp-pdf-upload'] = array(
+			'title' => esc_html__( 'PDF Upload', 'pdf-generator-for-wp' ),
+			'name'  => 'pdf-generator-for-wp-pdf-upload',
+		);
 
-			$pgfw_default_tabs['pdf-generator-for-wp-shortcode'] = array(
-				'title' => esc_html__( 'Shortcodes', 'pdf-generator-for-wp' ),
-				'name'  => 'pdf-generator-for-wp-shortcode',
-			);
+		$pgfw_default_tabs['pdf-generator-for-wp-shortcode'] = array(
+			'title' => esc_html__( 'Shortcodes', 'pdf-generator-for-wp' ),
+			'name'  => 'pdf-generator-for-wp-shortcode',
+		);
 
-			$pgfw_default_tabs['pdf-generator-for-wp-overview'] = array(
-				'title' => esc_html__( 'Overview', 'pdf-generator-for-wp' ),
-				'name'  => 'pdf-generator-for-wp-overview',
-			);
-			return $pgfw_default_tabs;
+		$pgfw_default_tabs['pdf-generator-for-wp-overview'] = array(
+			'title' => esc_html__( 'Overview', 'pdf-generator-for-wp' ),
+			'name'  => 'pdf-generator-for-wp-overview',
+		);
+		return $pgfw_default_tabs;
 	}
 	/**
 	 * Customizations sub tabs.
@@ -502,7 +497,7 @@ class Pdf_Generator_For_Wp {
 	 * @return array
 	 */
 	public function wps_pgfw_plug_layout_setting_sub_tabs_dummy() {
-		$pgfw_default_sub_tabs = array();
+		 $pgfw_default_sub_tabs = array();
 		$pgfw_default_sub_tabs = apply_filters( 'pgfw_plugin_standard_admin_settings_sub_tabs_dummy', $pgfw_default_sub_tabs );
 		return $pgfw_default_sub_tabs;
 	}
@@ -596,472 +591,6 @@ class Pdf_Generator_For_Wp {
 						case 'email':
 						case 'text':
 							?>
-						<div class="wps-form-group wps-pgfw-<?php echo esc_attr( $pgfw_component['type'] . ' ' . $pgfw_component['class'] . ' ' . ( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ) ); ?>" style="<?php echo esc_attr( array_key_exists( 'style', $pgfw_component ) ? $pgfw_component['style'] : '' ); ?>">
-							<div class="wps-form-group__label">
-								<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
-							</div>
-							<div class="wps-form-group__control">
-								<label class="mdc-text-field mdc-text-field--outlined">
-									<span class="mdc-notched-outline">
-										<span class="mdc-notched-outline__leading"></span>
-										<span class="mdc-notched-outline__notch">
-											<?php if ( 'number' !== $pgfw_component['type'] ) { ?>
-												<span class="mdc-floating-label" id="my-label-id" style=""><?php echo ( isset( $pgfw_component['placeholder'] ) ? esc_attr( $pgfw_component['placeholder'] ) : '' ); ?></span>
-											<?php } ?>
-										</span>
-										<span class="mdc-notched-outline__trailing"></span>
-									</span>
-									<input
-									class="mdc-text-field__input <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>" 
-									name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
-									id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"
-									type="<?php echo esc_attr( $pgfw_component['type'] ); ?>"
-									value="<?php echo ( isset( $pgfw_component['value'] ) ? esc_attr( $pgfw_component['value'] ) : '' ); ?>"
-									placeholder="<?php echo ( isset( $pgfw_component['placeholder'] ) ? esc_attr( $pgfw_component['placeholder'] ) : '' ); ?>"
-									<?php echo ( 'number' === $pgfw_component['type'] && isset( $pgfw_component['min'] ) ) ? esc_html( 'min=' . $pgfw_component['min'] ) : ''; ?>
-									<?php echo ( 'number' === $pgfw_component['type'] && isset( $pgfw_component['max'] ) ) ? esc_html( 'max=' . $pgfw_component['max'] ) : ''; ?>
-									<?php echo isset( $pgfw_component['step'] ) ? esc_html( 'step=' . $pgfw_component['step'] ) : ''; ?>
-									>
-								</label>
-								<div class="mdc-text-field-helper-line">
-									<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
-								</div>
-							</div>
-						</div>
-							<?php
-							break;
-						case 'password':
-							?>
-						<div class="wps-form-group">
-							<div class="wps-form-group__label">
-								<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
-							</div>
-							<div class="wps-form-group__control">
-								<label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon">
-									<span class="mdc-notched-outline">
-										<span class="mdc-notched-outline__leading"></span>
-										<span class="mdc-notched-outline__notch">
-										</span>
-										<span class="mdc-notched-outline__trailing"></span>
-									</span>
-									<input 
-									class="mdc-text-field__input <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?> wps-form__password" 
-									name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
-									id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"
-									type="<?php echo esc_attr( $pgfw_component['type'] ); ?>"
-									value="<?php echo ( isset( $pgfw_component['value'] ) ? esc_attr( $pgfw_component['value'] ) : '' ); ?>"
-									placeholder="<?php echo ( isset( $pgfw_component['placeholder'] ) ? esc_attr( $pgfw_component['placeholder'] ) : '' ); ?>"
-									>
-									<i class="material-icons mdc-text-field__icon mdc-text-field__icon--trailing wps-password-hidden" tabindex="0" role="button">visibility</i>
-								</label>
-								<div class="mdc-text-field-helper-line">
-									<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
-								</div>
-							</div>
-						</div>
-							<?php
-							break;
-
-						case 'textarea':
-							?>
-						<div class="wps-form-group">
-							<div class="wps-form-group__label">
-								<label class="wps-form-label" for="<?php echo esc_attr( $pgfw_component['id'] ); ?>"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
-							</div>
-							<div class="wps-form-group__control">
-								<label class="mdc-text-field mdc-text-field--outlined mdc-text-field--textarea"  	for="text-field-hero-input">
-									<span class="mdc-notched-outline">
-										<span class="mdc-notched-outline__leading"></span>
-										<span class="mdc-notched-outline__notch">
-											<span class="mdc-floating-label"><?php echo ( isset( $pgfw_component['placeholder'] ) ? esc_attr( $pgfw_component['placeholder'] ) : '' ); ?></span>
-										</span>
-										<span class="mdc-notched-outline__trailing"></span>
-									</span>
-									<span class="mdc-text-field__resizer">
-										<textarea class="mdc-text-field__input <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>" rows="2" cols="25" aria-label="Label" name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>" id="<?php echo esc_attr( $pgfw_component['id'] ); ?>" placeholder="<?php echo ( isset( $pgfw_component['placeholder'] ) ? esc_attr( $pgfw_component['placeholder'] ) : '' ); ?>"><?php echo ( isset( $pgfw_component['value'] ) ? esc_textarea( $pgfw_component['value'] ) : '' ); ?></textarea>
-									</span>
-								</label>
-								<br/>
-								<label class="mdl-textfield__label" for="octane"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></label>
-							</div>
-						</div>
-
-							<?php
-							break;
-
-						case 'select':
-						case 'multiselect':
-							?>
-						<div class="wps-form-group <?php echo esc_attr( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ); ?>">
-							<div class="wps-form-group__label">
-								<label class="wps-form-label" for="<?php echo esc_attr( $pgfw_component['id'] ); ?>"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
-							</div>
-							<div class="wps-form-group__control">
-								<div class="wps-form-select">
-									<select id="<?php echo esc_attr( $pgfw_component['id'] ); ?>" name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : '' ); ?><?php echo ( 'multiselect' === $pgfw_component['type'] ) ? '[]' : ''; ?>" id="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="mdl-textfield__input <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>" <?php echo 'multiselect' === $pgfw_component['type'] ? 'multiple="multiple"' : ''; ?> >
-										<?php
-										foreach ( $pgfw_component['options'] as $pgfw_key => $pgfw_val ) {
-											?>
-											<option value="<?php echo esc_attr( $pgfw_key ); ?>"
-												<?php
-												if ( is_array( $pgfw_component['value'] ) ) {
-													selected( in_array( (string) $pgfw_key, $pgfw_component['value'], true ), true );
-												} else {
-													selected( $pgfw_component['value'], (string) $pgfw_key );
-												}
-												?>
-												>
-												<?php echo esc_html( $pgfw_val ); ?>
-											</option>
-											<?php
-										}
-										?>
-									</select>
-									<label class="mdl-textfield__label" for="octane"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></label>
-								</div>
-							</div>
-						</div>
-
-							<?php
-							break;
-
-						case 'checkbox':
-							?>
-						<div class="wps-form-group <?php echo esc_attr( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ); ?>">
-							<div class="wps-form-group__label">
-								<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
-							</div>
-							<div class="wps-form-group__control wps-pl-4">
-								<div class="mdc-form-field">
-									<div class="mdc-checkbox">
-										<input 
-										name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
-										id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"
-										type="checkbox"
-										class="mdc-checkbox__native-control <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
-										value="yes"
-										<?php checked( $pgfw_component['value'], 'yes' ); ?>
-										/>
-										<div class="mdc-checkbox__background">
-											<svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
-												<path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
-											</svg>
-											<div class="mdc-checkbox__mixedmark"></div>
-										</div>
-										<div class="mdc-checkbox__ripple"></div>
-									</div>
-									<label for="checkbox-1"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></label>
-								</div>
-							</div>
-						</div>
-							<?php
-							break;
-
-						case 'radio':
-							?>
-						<div class="wps-form-group">
-							<div class="wps-form-group__label">
-								<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
-							</div>
-							<div class="wps-form-group__control wps-pl-4">
-								<div class="wps-flex-col">
-									<?php
-									foreach ( $pgfw_component['options'] as $pgfw_radio_key => $pgfw_radio_val ) {
-										?>
-										<div class="mdc-form-field">
-											<div class="mdc-radio">
-												<input
-												name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
-												value="<?php echo esc_attr( $pgfw_radio_key ); ?>"
-												type="radio"
-												class="mdc-radio__native-control <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
-												<?php checked( $pgfw_radio_key, $pgfw_component['value'] ); ?>
-												>
-												<div class="mdc-radio__background">
-													<div class="mdc-radio__outer-circle"></div>
-													<div class="mdc-radio__inner-circle"></div>
-												</div>
-												<div class="mdc-radio__ripple"></div>
-											</div>
-											<label for="radio-1"><?php echo esc_html( $pgfw_radio_val ); ?></label>
-										</div>	
-										<?php
-									}
-									?>
-								</div>
-							</div>
-						</div>
-							<?php
-							break;
-
-						case 'radio-switch':
-							?>
-
-						<div class="wps-form-group">
-							<div class="wps-form-group__label">
-								<label for="" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
-							</div>
-							<div class="wps-form-group__control">
-								<div>
-									<div class="mdc-switch">
-										<div class="mdc-switch__track"></div>
-										<div class="mdc-switch__thumb-underlay">
-											<div class="mdc-switch__thumb"></div>
-											<input
-											name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
-											type="checkbox"
-											id="<?php echo esc_html( $pgfw_component['id'] ); ?>"
-											value="yes"
-											class="mdc-switch__native-control <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
-											role="switch"
-											aria-checked="<?php echo esc_html( 'yes' === $pgfw_component['value'] ) ? 'true' : 'false'; ?>"
-											<?php checked( $pgfw_component['value'], 'yes' ); ?>
-											>
-										</div>
-									</div>
-								</div>
-								<div class="mdc-text-field-helper-line">
-									<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
-								</div>
-							</div>
-						</div>
-							<?php
-							break;
-
-						case 'button':
-							?>
-						<div class="wps-form-group">
-							<div class="wps-form-group__label"></div>
-							<div class="wps-form-group__control">
-								<button type="submit" class="mdc-button mdc-button--raised" name= "<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
-									id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"> <span class="mdc-button__ripple"></span>
-									<span class="mdc-button__label <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"><?php echo ( isset( $pgfw_component['button_text'] ) ? esc_html( $pgfw_component['button_text'] ) : '' ); ?></span>
-								</button>
-							</div>
-						</div>
-							<?php
-							break;
-						case 'reset-button':
-							?>
-						<div class="wps-form-group">
-							<div class="wps-form-group__label">
-								<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
-							</div>
-							<div class="wps-form-group__control">
-								<button type="submit" class="<?php echo esc_attr( $pgfw_component['class'] ); ?>" name= "<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
-									id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"> <span class="mdc-button__ripple"></span>
-									<span class="mdc-button__label <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"><?php echo ( isset( $pgfw_component['button_text'] ) ? esc_html( $pgfw_component['button_text'] ) : '' ); ?></span>
-								</button>
-								<span id="<?php echo ( isset( $pgfw_component['loader-id'] ) ? esc_attr( $pgfw_component['loader-id'] ) : '' ); ?>" ></span>
-								<div class="mdc-text-field-helper-line">
-									<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
-								</div>
-							</div>
-						</div>
-
-							<?php
-							break;
-
-						case 'multi':
-							?>
-							<div class="wps-form-group wps-isfw-<?php echo esc_attr( $pgfw_component['type'] ); ?>">
-								<div class="wps-form-group__label">
-									<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
-									</div>
-									<div class="wps-form-group__control">
-									<?php
-									foreach ( $pgfw_component['value'] as $component ) {
-										if ( 'color' !== $component['type'] ) {
-											?>
-											<label class="mdc-text-field mdc-text-field--outlined">
-												<span class="mdc-notched-outline">
-													<span class="mdc-notched-outline__leading"></span>
-													<span class="mdc-notched-outline__notch">
-														<?php if ( 'number' !== $component['type'] ) { ?>
-															<span class="mdc-floating-label" id="my-label-id" style=""><?php echo ( isset( $component['placeholder'] ) ? esc_attr( $component['placeholder'] ) : '' ); ?></span>
-														<?php } ?>
-													</span>
-													<span class="mdc-notched-outline__trailing"></span>
-												</span>
-												<?php } ?>
-												<input 
-												class="mdc-text-field__input <?php echo ( isset( $component['class'] ) ? esc_attr( $component['class'] ) : '' ); ?>" 
-												name="<?php echo ( isset( $component['name'] ) ? esc_html( $component['name'] ) : esc_html( $component['id'] ) ); ?>"
-												id="<?php echo esc_attr( $component['id'] ); ?>"
-												type="<?php echo esc_attr( 'color' === $component['type'] ) ? 'text' : esc_html( $component['type'] ); ?>"
-												value="<?php echo ( isset( $component['value'] ) ? esc_attr( $component['value'] ) : '' ); ?>"
-												placeholder="<?php echo ( isset( $component['placeholder'] ) ? esc_attr( $component['placeholder'] ) : '' ); ?>"
-												<?php echo esc_attr( ( 'number' === $component['type'] ) ? 'min=' . $component['min'] . ' max=' . $component['max'] : '' ); ?>
-												>
-												<?php if ( 'color' !== $component['type'] ) { ?>
-											</label>
-											<?php } ?>
-								<?php } ?>
-									<div class="mdc-text-field-helper-line">
-										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
-									</div>
-								</div>
-							</div>
-								<?php
-							break;
-						case 'multiwithcheck':
-							?>
-							<div class="wps-form-group wps-isfw-<?php echo esc_attr( $pgfw_component['type'] ); ?>">
-								<div class="wps-form-group__label">
-									<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
-									</div>
-									<div class="wps-form-group__control">
-									<?php
-									foreach ( $pgfw_component['value'] as $component ) {
-										if ( 'color' !== $component['type'] ) {
-											?>
-											<label class="mdc-text-field mdc-text-field--outlined">
-												<span class="mdc-notched-outline">
-													<span class="mdc-notched-outline__leading"></span>
-													<span class="mdc-notched-outline__notch">
-														<?php if ( 'number' !== $component['type'] ) { ?>
-															<span class="mdc-floating-label" id="my-label-id" style=""><?php echo ( isset( $component['placeholder'] ) ? esc_attr( $component['placeholder'] ) : '' ); ?></span>
-														<?php } ?>
-													</span>
-													<span class="mdc-notched-outline__trailing"></span>
-												</span>
-												<?php } ?>
-												<input type="checkbox" class="wpg-multi-checkbox" name="<?php echo ( isset( $component['checkbox_name'] ) ? esc_attr( $component['checkbox_name'] ) : '' ); ?>" id="<?php echo ( isset( $component['checkbox_id'] ) ? esc_attr( $component['checkbox_id'] ) : '' ); ?>" <?php checked( ( isset( $component['checkbox_value'] ) ? $component['checkbox_value'] : '' ), 'yes' ); ?> value="yes">
-												<input 
-												class="mdc-text-field__input <?php echo ( isset( $component['class'] ) ? esc_attr( $component['class'] ) : '' ); ?>" 
-												name="<?php echo ( isset( $component['name'] ) ? esc_html( $component['name'] ) : esc_html( $component['id'] ) ); ?>"
-												id="<?php echo esc_attr( $component['id'] ); ?>"
-												type="<?php echo esc_attr( 'color' === $component['type'] ) ? 'text' : esc_html( $component['type'] ); ?>"
-												value="<?php echo ( isset( $component['value'] ) ? esc_attr( $component['value'] ) : '' ); ?>"
-												placeholder="<?php echo ( isset( $component['placeholder'] ) ? esc_attr( $component['placeholder'] ) : '' ); ?>"
-												<?php echo esc_attr( ( 'number' === $component['type'] ) ? 'min=' . $component['min'] . ' max=' . $component['max'] : '' ); ?>
-												>
-												<?php if ( 'color' !== $component['type'] ) { ?>
-											</label>
-											<?php } ?>
-								<?php } ?>
-									<div class="mdc-text-field-helper-line">
-										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
-									</div>
-								</div>
-							</div>
-								<?php
-							break;
-						case 'color':
-						case 'date':
-						case 'file':
-							?>
-							<div class="wps-form-group wps-isfw-<?php echo esc_attr( $pgfw_component['type'] ); ?> <?php echo esc_attr( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ); ?>">
-								<div class="wps-form-group__label">
-									<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
-								</div>
-								<div class="wps-form-group__control">
-									<input 
-									class="<?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>" 
-									name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
-									id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"
-									type="<?php echo esc_attr( ( 'color' === $pgfw_component['type'] ) ? 'text' : $pgfw_component['type'] ); ?>"
-									value="<?php echo ( isset( $pgfw_component['value'] ) ? esc_attr( $pgfw_component['value'] ) : '' ); ?>"
-									<?php echo esc_html( ( 'date' === $pgfw_component['type'] ) ? 'max=' . gmdate( 'Y-m-d', strtotime( gmdate( 'Y-m-d', mktime() ) . ' + 365 day' ) ) . ' min=' . gmdate( 'Y-m-d' ) . '' : '' ); ?>
-									>
-									<?php if ( 'file' === $pgfw_component['type'] ) { ?>
-									<span><?php echo esc_attr( $pgfw_component['value'] ); ?></span>
-									<?php } ?>
-									<div class="mdc-text-field-helper-line">
-										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
-									</div>
-								</div>
-							</div>
-							<?php
-							break;
-						case 'temp-select':
-							?>
-								<div class="wps-form-group wps_pgfw_pro_tag wps-wpg-<?php echo esc_attr( array_key_exists( 'type', $pgfw_component ) ? $pgfw_component['type'] : '' ); ?>">
-									<div class="wps-form-group__label">
-										<label for="<?php echo esc_attr( array_key_exists( 'id', $pgfw_component ) ? $pgfw_component['id'] : '' ); ?>" class="wps-form-label"><?php echo esc_html( array_key_exists( 'title', $pgfw_component ) ? $pgfw_component['title'] : '' ); ?></label>
-									</div>
-									<div class="wps-form-group__control">
-									<?php
-									foreach ( $pgfw_component['value'] as $pgfw_subcomponent ) {
-										?>
-											<img src="<?php echo ( isset( $pgfw_subcomponent['src'] ) ? esc_attr( $pgfw_subcomponent['src'] ) : '' ); ?>" width="100" height="100" alt="">
-											<input 
-											class="<?php echo esc_attr( array_key_exists( 'class', $pgfw_subcomponent ) ? $pgfw_subcomponent['class'] : '' ); ?>" 
-											name="<?php echo esc_attr( array_key_exists( 'name', $pgfw_subcomponent ) ? $pgfw_subcomponent['name'] : '' ); ?>"
-											id="<?php echo esc_attr( array_key_exists( 'id', $pgfw_subcomponent ) ? $pgfw_subcomponent['id'] : '' ); ?>"
-											type="<?php echo esc_attr( array_key_exists( 'type', $pgfw_subcomponent ) ? $pgfw_subcomponent['type'] : '' ); ?>"
-											value="<?php echo esc_attr( array_key_exists( 'value', $pgfw_subcomponent ) ? $pgfw_subcomponent['value'] : '' ); ?>"
-											<?php checked( $pgfw_component['selected'], $pgfw_subcomponent['value'] ); ?>
-											>
-										<?php } ?>
-										<div class="mdc-text-field-helper-line">
-											<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo wp_kses_post( array_key_exists( 'description', $pgfw_component ) ? $pgfw_component['description'] : '' ); ?></div>
-										</div>
-									</div>
-								</div>
-									<?php
-							break;
-						case 'submit':
-							?>
-						<tr valign="top">
-							<td scope="row">
-								<input type="submit" class="button button-primary" 
-								name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
-								id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"
-								class="<?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
-								value="<?php echo esc_attr( $pgfw_component['button_text'] ); ?>"
-								/>
-							</td>
-						</tr>
-							<?php
-							break;
-						case 'upload-button':
-							?>
-								<div class="wps-form-group <?php echo esc_attr( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ); ?>">
-								<div class="wps-form-group__label">
-									<label for="<?php echo esc_attr( array_key_exists( 'id', $pgfw_component ) ? $pgfw_component['id'] : '' ); ?>" class="wps-form-label"><?php echo esc_html( array_key_exists( 'title', $pgfw_component ) ? $pgfw_component['title'] : '' ); ?></label>
-								</div>
-								<div class="wps-form-group__control">
-									<input
-									type="hidden"
-									id="<?php echo esc_attr( array_key_exists( 'id', $pgfw_component ) ? $pgfw_component['id'] : '' ); ?>"
-									class="<?php echo esc_attr( array_key_exists( 'class', $pgfw_component ) ? $pgfw_component['class'] : '' ); ?>"
-									name="<?php echo esc_attr( array_key_exists( 'name', $pgfw_component ) ? $pgfw_component['name'] : '' ); ?>"
-									value="<?php echo esc_html( array_key_exists( 'value', $pgfw_component ) ? $pgfw_component['value'] : '' ); ?>"
-									>
-									<img
-										src="<?php echo esc_attr( $pgfw_component['img-tag']['img-src'] ); ?>"
-										class="<?php echo esc_attr( $pgfw_component['img-tag']['img-class'] ); ?>"
-										id="<?php echo esc_attr( $pgfw_component['img-tag']['img-id'] ); ?>"
-										style="<?php echo esc_attr( $pgfw_component['img-tag']['img-style'] ); ?>"
-									>
-									<button class="mdc-button--raised" name="<?php echo esc_attr( array_key_exists( 'sub_name', $pgfw_component ) ? $pgfw_component['sub_name'] : '' ); ?>"
-										id="<?php echo esc_attr( array_key_exists( 'sub_id', $pgfw_component ) ? $pgfw_component['sub_id'] : '' ); ?>"> <span class="mdc-button__ripple"></span>
-										<span class="mdc-button__label"><?php echo esc_attr( array_key_exists( 'button_text', $pgfw_component ) ? $pgfw_component['button_text'] : '' ); ?></span>
-									</button>
-									<button class="mdc-button--raised" name="<?php echo esc_attr( $pgfw_component['img-remove']['btn-name'] ); ?>"
-										id="<?php echo esc_attr( $pgfw_component['img-remove']['btn-id'] ); ?>"
-										style="<?php echo esc_attr( $pgfw_component['img-remove']['btn-style'] ); ?>"
-										> <span class="mdc-button__ripple"
-										></span>
-										<span class="mdc-button__label"><?php echo esc_attr( $pgfw_component['img-remove']['btn-title'] ); ?></span>
-									</button>
-									<input
-									type="hidden"
-									id="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['id'] ) : ''; ?>"
-									class="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['class'] ) : ''; ?>"
-									name="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['name'] ) : ''; ?>"
-									>
-									<div class="mdc-text-field-helper-line">
-										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
-									</div>
-								</div>
-							</div>
-								<?php
-							break;
-						case 'sub-text':
-							?>
-						<div class="sub-text-parent-class">
 							<div class="wps-form-group wps-pgfw-<?php echo esc_attr( $pgfw_component['type'] . ' ' . $pgfw_component['class'] . ' ' . ( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ) ); ?>" style="<?php echo esc_attr( array_key_exists( 'style', $pgfw_component ) ? $pgfw_component['style'] : '' ); ?>">
 								<div class="wps-form-group__label">
 									<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
@@ -1078,62 +607,514 @@ class Pdf_Generator_For_Wp {
 											<span class="mdc-notched-outline__trailing"></span>
 										</span>
 										<input
-										class="mdc-text-field__input <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>" 
-										name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
-										id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"
-										type="<?php echo esc_attr( $pgfw_component['type'] ); ?>"
-										value="<?php echo ( isset( $pgfw_component['value'] ) ? esc_attr( $pgfw_component['value'] ) : '' ); ?>"
-										placeholder="<?php echo ( isset( $pgfw_component['placeholder'] ) ? esc_attr( $pgfw_component['placeholder'] ) : '' ); ?>"
-										<?php echo ( 'number' === $pgfw_component['type'] && isset( $pgfw_component['min'] ) ) ? esc_html( 'min=' . $pgfw_component['min'] ) : ''; ?>
-										<?php echo ( 'number' === $pgfw_component['type'] && isset( $pgfw_component['max'] ) ) ? esc_html( 'max=' . $pgfw_component['max'] ) : ''; ?>
-										<?php echo isset( $pgfw_component['step'] ) ? esc_html( 'step=' . $pgfw_component['step'] ) : ''; ?>
-										>
+											class="mdc-text-field__input <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
+											name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
+											id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"
+											type="<?php echo esc_attr( $pgfw_component['type'] ); ?>"
+											value="<?php echo ( isset( $pgfw_component['value'] ) ? esc_attr( $pgfw_component['value'] ) : '' ); ?>"
+											placeholder="<?php echo ( isset( $pgfw_component['placeholder'] ) ? esc_attr( $pgfw_component['placeholder'] ) : '' ); ?>"
+											<?php echo ( 'number' === $pgfw_component['type'] && isset( $pgfw_component['min'] ) ) ? esc_html( 'min=' . $pgfw_component['min'] ) : ''; ?>
+											<?php echo ( 'number' === $pgfw_component['type'] && isset( $pgfw_component['max'] ) ) ? esc_html( 'max=' . $pgfw_component['max'] ) : ''; ?>
+											<?php echo isset( $pgfw_component['step'] ) ? esc_html( 'step=' . $pgfw_component['step'] ) : ''; ?>>
 									</label>
 									<div class="mdc-text-field-helper-line">
 										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
 									</div>
 								</div>
 							</div>
-						</div>
+							<?php
+							break;
+						case 'password':
+							?>
+							<div class="wps-form-group">
+								<div class="wps-form-group__label">
+									<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
+								</div>
+								<div class="wps-form-group__control">
+									<label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon">
+										<span class="mdc-notched-outline">
+											<span class="mdc-notched-outline__leading"></span>
+											<span class="mdc-notched-outline__notch">
+											</span>
+											<span class="mdc-notched-outline__trailing"></span>
+										</span>
+										<input
+											class="mdc-text-field__input <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?> wps-form__password"
+											name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
+											id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"
+											type="<?php echo esc_attr( $pgfw_component['type'] ); ?>"
+											value="<?php echo ( isset( $pgfw_component['value'] ) ? esc_attr( $pgfw_component['value'] ) : '' ); ?>"
+											placeholder="<?php echo ( isset( $pgfw_component['placeholder'] ) ? esc_attr( $pgfw_component['placeholder'] ) : '' ); ?>">
+										<i class="material-icons mdc-text-field__icon mdc-text-field__icon--trailing wps-password-hidden" tabindex="0" role="button">visibility</i>
+									</label>
+									<div class="mdc-text-field-helper-line">
+										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
+									</div>
+								</div>
+							</div>
+							<?php
+							break;
+
+						case 'textarea':
+							?>
+							<div class="wps-form-group">
+								<div class="wps-form-group__label">
+									<label class="wps-form-label" for="<?php echo esc_attr( $pgfw_component['id'] ); ?>"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
+								</div>
+								<div class="wps-form-group__control">
+									<label class="mdc-text-field mdc-text-field--outlined mdc-text-field--textarea" for="text-field-hero-input">
+										<span class="mdc-notched-outline">
+											<span class="mdc-notched-outline__leading"></span>
+											<span class="mdc-notched-outline__notch">
+												<span class="mdc-floating-label"><?php echo ( isset( $pgfw_component['placeholder'] ) ? esc_attr( $pgfw_component['placeholder'] ) : '' ); ?></span>
+											</span>
+											<span class="mdc-notched-outline__trailing"></span>
+										</span>
+										<span class="mdc-text-field__resizer">
+											<textarea class="mdc-text-field__input <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>" rows="2" cols="25" aria-label="Label" name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>" id="<?php echo esc_attr( $pgfw_component['id'] ); ?>" placeholder="<?php echo ( isset( $pgfw_component['placeholder'] ) ? esc_attr( $pgfw_component['placeholder'] ) : '' ); ?>"><?php echo ( isset( $pgfw_component['value'] ) ? esc_textarea( $pgfw_component['value'] ) : '' ); ?></textarea>
+										</span>
+									</label>
+									<br />
+									<label class="mdl-textfield__label" for="octane"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></label>
+								</div>
+							</div>
+
+							<?php
+							break;
+
+						case 'select':
+						case 'multiselect':
+							?>
+							<div class="wps-form-group <?php echo esc_attr( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ); ?>">
+								<div class="wps-form-group__label">
+									<label class="wps-form-label" for="<?php echo esc_attr( $pgfw_component['id'] ); ?>"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
+								</div>
+								<div class="wps-form-group__control">
+									<div class="wps-form-select">
+										<select id="<?php echo esc_attr( $pgfw_component['id'] ); ?>" name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : '' ); ?><?php echo ( 'multiselect' === $pgfw_component['type'] ) ? '[]' : ''; ?>" id="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="mdl-textfield__input <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>" <?php echo 'multiselect' === $pgfw_component['type'] ? 'multiple="multiple"' : ''; ?>>
+											<?php
+											if ( ! empty( $pgfw_component['options'] ) && is_array( $pgfw_component['options'] ) ) {
+												foreach ( $pgfw_component['options'] as $pgfw_key => $pgfw_val ) {
+													?>
+													<option value="<?php echo esc_attr( $pgfw_key ); ?>"
+														<?php
+														if ( is_array( $pgfw_component['value'] ) ) {
+															selected( in_array( (string) $pgfw_key, $pgfw_component['value'], true ), true );
+														} else {
+															selected( $pgfw_component['value'], (string) $pgfw_key );
+														}
+														?>
+														>
+														<?php echo esc_html( $pgfw_val ); ?>
+													</option>
+													<?php
+												}
+											}
+											?>
+										</select>
+										<label class="mdl-textfield__label" for="octane"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></label>
+									</div>
+								</div>
+							</div>
+
+							<?php
+							break;
+
+						case 'checkbox':
+							?>
+							<div class="wps-form-group <?php echo esc_attr( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ); ?>">
+								<div class="wps-form-group__label">
+									<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
+								</div>
+								<div class="wps-form-group__control wps-pl-4">
+									<div class="mdc-form-field">
+										<div class="mdc-checkbox">
+											<input
+												name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
+												id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"
+												type="checkbox"
+												class="mdc-checkbox__native-control <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
+												value="yes"
+												<?php checked( $pgfw_component['value'], 'yes' ); ?> />
+											<div class="mdc-checkbox__background">
+												<svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+													<path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" />
+												</svg>
+												<div class="mdc-checkbox__mixedmark"></div>
+											</div>
+											<div class="mdc-checkbox__ripple"></div>
+										</div>
+										<label for="checkbox-1"><?php echo ( isset( $pgfw_component['description'] ) ? wp_kses_post( $pgfw_component['description'] ) : '' ); ?></label>
+									</div>
+								</div>
+							</div>
+							<?php
+							break;
+
+						case 'radio':
+							?>
+							<div class="wps-form-group">
+								<div class="wps-form-group__label">
+									<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
+								</div>
+								<div class="wps-form-group__control wps-pl-4">
+									<div class="wps-flex-col">
+										<?php
+										foreach ( $pgfw_component['options'] as $pgfw_radio_key => $pgfw_radio_val ) {
+											?>
+											<div class="mdc-form-field">
+												<div class="mdc-radio">
+													<input
+														name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
+														value="<?php echo esc_attr( $pgfw_radio_key ); ?>"
+														type="radio"
+														class="mdc-radio__native-control <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
+														<?php checked( $pgfw_radio_key, $pgfw_component['value'] ); ?>>
+													<div class="mdc-radio__background">
+														<div class="mdc-radio__outer-circle"></div>
+														<div class="mdc-radio__inner-circle"></div>
+													</div>
+													<div class="mdc-radio__ripple"></div>
+												</div>
+												<label for="radio-1"><?php echo esc_html( $pgfw_radio_val ); ?></label>
+											</div>
+											<?php
+										}
+										?>
+									</div>
+								</div>
+							</div>
+							<?php
+							break;
+
+						case 'radio-switch':
+							?>
+
+							<div class="wps-form-group">
+								<div class="wps-form-group__label">
+									<label for="" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
+								</div>
+								<div class="wps-form-group__control">
+									<div>
+										<div class="mdc-switch">
+											<div class="mdc-switch__track"></div>
+											<div class="mdc-switch__thumb-underlay">
+												<div class="mdc-switch__thumb"></div>
+												<input
+													name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
+													type="checkbox"
+													id="<?php echo esc_html( $pgfw_component['id'] ); ?>"
+													value="yes"
+													class="mdc-switch__native-control <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
+													role="switch"
+													aria-checked="<?php echo esc_html( 'yes' === $pgfw_component['value'] ) ? 'true' : 'false'; ?>"
+													<?php checked( $pgfw_component['value'], 'yes' ); ?>>
+											</div>
+										</div>
+									</div>
+									<div class="mdc-text-field-helper-line">
+										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
+									</div>
+								</div>
+							</div>
+							<?php
+							break;
+
+						case 'button':
+							?>
+							<div class="wps-form-group">
+								<div class="wps-form-group__label"></div>
+								<div class="wps-form-group__control">
+									<button type="submit" class="mdc-button mdc-button--raised wps-pgfw-save-setting" name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
+										id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"> <span class="mdc-button__ripple"></span>
+										<span class="mdc-button__label <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"><?php echo ( isset( $pgfw_component['button_text'] ) ? esc_html( $pgfw_component['button_text'] ) : '' ); ?></span>
+									</button>
+								</div>
+							</div>
+							<?php
+							break;
+						case 'reset-button':
+							?>
+							<div class="wps-form-group">
+								<div class="wps-form-group__label">
+									<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
+								</div>
+								<div class="wps-form-group__control">
+									<button type="submit" class="<?php echo esc_attr( $pgfw_component['class'] ); ?>" name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
+										id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"> <span class="mdc-button__ripple"></span>
+										<span class="mdc-button__label <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"><?php echo ( isset( $pgfw_component['button_text'] ) ? esc_html( $pgfw_component['button_text'] ) : '' ); ?></span>
+									</button>
+									<span id="<?php echo ( isset( $pgfw_component['loader-id'] ) ? esc_attr( $pgfw_component['loader-id'] ) : '' ); ?>"></span>
+									<div class="mdc-text-field-helper-line">
+										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
+									</div>
+								</div>
+							</div>
+
+							<?php
+							break;
+
+						case 'multi':
+							?>
+							<div class="wps-form-group wps-isfw-<?php echo esc_attr( $pgfw_component['type'] ); ?>">
+								<div class="wps-form-group__label">
+									<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
+								</div>
+								<div class="wps-form-group__control">
+									<?php
+									foreach ( $pgfw_component['value'] as $component ) {
+										if ( 'color' !== $component['type'] ) {
+											?>
+											<label class="mdc-text-field mdc-text-field--outlined">
+												<span class="mdc-notched-outline">
+													<span class="mdc-notched-outline__leading"></span>
+													<span class="mdc-notched-outline__notch">
+														<?php if ( 'number' !== $component['type'] ) { ?>
+															<span class="mdc-floating-label" id="my-label-id" style=""><?php echo ( isset( $component['placeholder'] ) ? esc_attr( $component['placeholder'] ) : '' ); ?></span>
+														<?php } ?>
+													</span>
+													<span class="mdc-notched-outline__trailing"></span>
+												</span>
+											<?php } ?>
+											<input
+												class="mdc-text-field__input <?php echo ( isset( $component['class'] ) ? esc_attr( $component['class'] ) : '' ); ?>"
+												name="<?php echo ( isset( $component['name'] ) ? esc_html( $component['name'] ) : esc_html( $component['id'] ) ); ?>"
+												id="<?php echo esc_attr( $component['id'] ); ?>"
+												type="<?php echo esc_attr( 'color' === $component['type'] ) ? 'text' : esc_html( $component['type'] ); ?>"
+												value="<?php echo ( isset( $component['value'] ) ? esc_attr( $component['value'] ) : '' ); ?>"
+												placeholder="<?php echo ( isset( $component['placeholder'] ) ? esc_attr( $component['placeholder'] ) : '' ); ?>"
+												<?php echo esc_attr( ( 'number' === $component['type'] ) ? 'min=' . $component['min'] . ' max=' . $component['max'] : '' ); ?>>
+											<?php if ( 'color' !== $component['type'] ) { ?>
+											</label>
+										<?php } ?>
+									<?php } ?>
+									<div class="mdc-text-field-helper-line">
+										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
+									</div>
+								</div>
+							</div>
+							<?php
+							break;
+						case 'multiwithcheck':
+							?>
+							<div class="wps-form-group wps-isfw-<?php echo esc_attr( $pgfw_component['type'] ); ?>">
+								<div class="wps-form-group__label">
+									<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
+								</div>
+								<div class="wps-form-group__control">
+									<?php
+									foreach ( $pgfw_component['value'] as $component ) {
+										if ( 'color' !== $component['type'] ) {
+											?>
+											<label class="mdc-text-field mdc-text-field--outlined">
+												<span class="mdc-notched-outline">
+													<span class="mdc-notched-outline__leading"></span>
+													<span class="mdc-notched-outline__notch">
+														<?php if ( 'number' !== $component['type'] ) { ?>
+															<span class="mdc-floating-label" id="my-label-id" style=""><?php echo ( isset( $component['placeholder'] ) ? esc_attr( $component['placeholder'] ) : '' ); ?></span>
+														<?php } ?>
+													</span>
+													<span class="mdc-notched-outline__trailing"></span>
+												</span>
+											<?php } ?>
+											<input type="checkbox" class="wpg-multi-checkbox" name="<?php echo ( isset( $component['checkbox_name'] ) ? esc_attr( $component['checkbox_name'] ) : '' ); ?>" id="<?php echo ( isset( $component['checkbox_id'] ) ? esc_attr( $component['checkbox_id'] ) : '' ); ?>" <?php checked( ( isset( $component['checkbox_value'] ) ? $component['checkbox_value'] : '' ), 'yes' ); ?> value="yes">
+											<input
+												class="mdc-text-field__input <?php echo ( isset( $component['class'] ) ? esc_attr( $component['class'] ) : '' ); ?>"
+												name="<?php echo ( isset( $component['name'] ) ? esc_html( $component['name'] ) : esc_html( $component['id'] ) ); ?>"
+												id="<?php echo esc_attr( $component['id'] ); ?>"
+												type="<?php echo esc_attr( 'color' === $component['type'] ) ? 'text' : esc_html( $component['type'] ); ?>"
+												value="<?php echo ( isset( $component['value'] ) ? esc_attr( $component['value'] ) : '' ); ?>"
+												placeholder="<?php echo ( isset( $component['placeholder'] ) ? esc_attr( $component['placeholder'] ) : '' ); ?>"
+												<?php echo esc_attr( ( 'number' === $component['type'] ) ? 'min=' . $component['min'] . ' max=' . $component['max'] : '' ); ?>>
+											<?php if ( 'color' !== $component['type'] ) { ?>
+											</label>
+										<?php } ?>
+									<?php } ?>
+									<div class="mdc-text-field-helper-line">
+										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
+									</div>
+								</div>
+							</div>
+							<?php
+							break;
+						case 'color':
+						case 'date':
+						case 'file':
+							?>
+							<div class="wps-form-group wps-isfw-<?php echo esc_attr( $pgfw_component['type'] ); ?> <?php echo esc_attr( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ); ?>">
+								<div class="wps-form-group__label">
+									<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
+								</div>
+								<div class="wps-form-group__control">
+									<input
+										class="<?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
+										name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
+										id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"
+										type="<?php echo esc_attr( ( 'color' === $pgfw_component['type'] ) ? 'text' : $pgfw_component['type'] ); ?>"
+										value="<?php echo ( isset( $pgfw_component['value'] ) ? esc_attr( $pgfw_component['value'] ) : '' ); ?>"
+										<?php echo esc_html( ( 'date' === $pgfw_component['type'] ) ? 'max=' . gmdate( 'Y-m-d', strtotime( gmdate( 'Y-m-d', mktime() ) . ' + 365 day' ) ) . ' min=' . gmdate( 'Y-m-d' ) . '' : '' ); ?>>
+									<?php if ( 'file' === $pgfw_component['type'] ) { ?>
+										<span><?php echo esc_attr( $pgfw_component['value'] ); ?></span>
+									<?php } ?>
+									<div class="mdc-text-field-helper-line">
+										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
+									</div>
+								</div>
+							</div>
+							<?php
+							break;
+						case 'temp-select':
+							?>
+							<div class="wps-form-group wps_pgfw_pro_tag wps-wpg-<?php echo esc_attr( array_key_exists( 'type', $pgfw_component ) ? $pgfw_component['type'] : '' ); ?>">
+								<div class="wps-form-group__label">
+									<label for="<?php echo esc_attr( array_key_exists( 'id', $pgfw_component ) ? $pgfw_component['id'] : '' ); ?>" class="wps-form-label"><?php echo esc_html( array_key_exists( 'title', $pgfw_component ) ? $pgfw_component['title'] : '' ); ?></label>
+								</div>
+								<div class="wps-form-group__control">
+									<?php
+									foreach ( $pgfw_component['value'] as $pgfw_subcomponent ) {
+										?>
+										<img src="<?php echo ( isset( $pgfw_subcomponent['src'] ) ? esc_attr( $pgfw_subcomponent['src'] ) : '' ); ?>" width="100" height="100" alt="">
+										<input
+											class="<?php echo esc_attr( array_key_exists( 'class', $pgfw_subcomponent ) ? $pgfw_subcomponent['class'] : '' ); ?>"
+											name="<?php echo esc_attr( array_key_exists( 'name', $pgfw_subcomponent ) ? $pgfw_subcomponent['name'] : '' ); ?>"
+											id="<?php echo esc_attr( array_key_exists( 'id', $pgfw_subcomponent ) ? $pgfw_subcomponent['id'] : '' ); ?>"
+											type="<?php echo esc_attr( array_key_exists( 'type', $pgfw_subcomponent ) ? $pgfw_subcomponent['type'] : '' ); ?>"
+											value="<?php echo esc_attr( array_key_exists( 'value', $pgfw_subcomponent ) ? $pgfw_subcomponent['value'] : '' ); ?>"
+											<?php checked( $pgfw_component['selected'], $pgfw_subcomponent['value'] ); ?>>
+									<?php } ?>
+									<div class="mdc-text-field-helper-line">
+										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo wp_kses_post( array_key_exists( 'description', $pgfw_component ) ? $pgfw_component['description'] : '' ); ?></div>
+									</div>
+								</div>
+							</div>
+							<?php
+							break;
+						case 'submit':
+							?>
+							<tr valign="top">
+								<td scope="row">
+									<input type="submit" class="button button-primary"
+										name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
+										id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"
+										class="<?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
+										value="<?php echo esc_attr( $pgfw_component['button_text'] ); ?>" />
+								</td>
+							</tr>
+							<?php
+							break;
+						case 'upload-button':
+							?>
+							<div class="wps-form-group <?php echo esc_attr( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ); ?>">
+								<div class="wps-form-group__label">
+									<label for="<?php echo esc_attr( array_key_exists( 'id', $pgfw_component ) ? $pgfw_component['id'] : '' ); ?>" class="wps-form-label"><?php echo esc_html( array_key_exists( 'title', $pgfw_component ) ? $pgfw_component['title'] : '' ); ?></label>
+								</div>
+								<div class="wps-form-group__control">
+									<input
+										type="hidden"
+										id="<?php echo esc_attr( array_key_exists( 'id', $pgfw_component ) ? $pgfw_component['id'] : '' ); ?>"
+										class="<?php echo esc_attr( array_key_exists( 'class', $pgfw_component ) ? $pgfw_component['class'] : '' ); ?>"
+										name="<?php echo esc_attr( array_key_exists( 'name', $pgfw_component ) ? $pgfw_component['name'] : '' ); ?>"
+										value="<?php echo esc_html( array_key_exists( 'value', $pgfw_component ) ? $pgfw_component['value'] : '' ); ?>">
+									<img
+										src="<?php echo esc_attr( $pgfw_component['img-tag']['img-src'] ); ?>"
+										class="<?php echo esc_attr( $pgfw_component['img-tag']['img-class'] ); ?>"
+										id="<?php echo esc_attr( $pgfw_component['img-tag']['img-id'] ); ?>"
+										style="<?php echo esc_attr( $pgfw_component['img-tag']['img-style'] ); ?>">
+									<button class="mdc-button--raised" name="<?php echo esc_attr( array_key_exists( 'sub_name', $pgfw_component ) ? $pgfw_component['sub_name'] : '' ); ?>"
+										id="<?php echo esc_attr( array_key_exists( 'sub_id', $pgfw_component ) ? $pgfw_component['sub_id'] : '' ); ?>"> <span class="mdc-button__ripple"></span>
+										<span class="mdc-button__label"><?php echo esc_attr( array_key_exists( 'button_text', $pgfw_component ) ? $pgfw_component['button_text'] : '' ); ?></span>
+									</button>
+									<button class="mdc-button--raised" name="<?php echo esc_attr( $pgfw_component['img-remove']['btn-name'] ); ?>"
+										id="<?php echo esc_attr( $pgfw_component['img-remove']['btn-id'] ); ?>"
+										style="<?php echo esc_attr( $pgfw_component['img-remove']['btn-style'] ); ?>"> <span class="mdc-button__ripple"></span>
+										<span class="mdc-button__label"><?php echo esc_attr( $pgfw_component['img-remove']['btn-title'] ); ?></span>
+									</button>
+									<input
+										type="hidden"
+										id="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['id'] ) : ''; ?>"
+										class="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['class'] ) : ''; ?>"
+										name="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['name'] ) : ''; ?>">
+									<div class="mdc-text-field-helper-line">
+										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
+									</div>
+								</div>
+							</div>
+							<?php
+							break;
+						case 'sub-text':
+							?>
+							<div class="sub-text-parent-class">
+								<div class="wps-form-group wps-pgfw-<?php echo esc_attr( $pgfw_component['type'] . ' ' . $pgfw_component['class'] . ' ' . ( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ) ); ?>" style="<?php echo esc_attr( array_key_exists( 'style', $pgfw_component ) ? $pgfw_component['style'] : '' ); ?>">
+									<div class="wps-form-group__label">
+										<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
+									</div>
+									<div class="wps-form-group__control">
+										<label class="mdc-text-field mdc-text-field--outlined">
+											<span class="mdc-notched-outline">
+												<span class="mdc-notched-outline__leading"></span>
+												<span class="mdc-notched-outline__notch">
+													<?php if ( 'number' !== $pgfw_component['type'] ) { ?>
+														<span class="mdc-floating-label" id="my-label-id" style=""><?php echo ( isset( $pgfw_component['placeholder'] ) ? esc_attr( $pgfw_component['placeholder'] ) : '' ); ?></span>
+													<?php } ?>
+												</span>
+												<span class="mdc-notched-outline__trailing"></span>
+											</span>
+											<input
+												class="mdc-text-field__input <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
+												name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
+												id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"
+												type="<?php echo esc_attr( $pgfw_component['type'] ); ?>"
+												value="<?php echo ( isset( $pgfw_component['value'] ) ? esc_attr( $pgfw_component['value'] ) : '' ); ?>"
+												placeholder="<?php echo ( isset( $pgfw_component['placeholder'] ) ? esc_attr( $pgfw_component['placeholder'] ) : '' ); ?>"
+												<?php echo ( 'number' === $pgfw_component['type'] && isset( $pgfw_component['min'] ) ) ? esc_html( 'min=' . $pgfw_component['min'] ) : ''; ?>
+												<?php echo ( 'number' === $pgfw_component['type'] && isset( $pgfw_component['max'] ) ) ? esc_html( 'max=' . $pgfw_component['max'] ) : ''; ?>
+												<?php echo isset( $pgfw_component['step'] ) ? esc_html( 'step=' . $pgfw_component['step'] ) : ''; ?>>
+										</label>
+										<div class="mdc-text-field-helper-line">
+											<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
+										</div>
+									</div>
+								</div>
+							</div>
 							<?php
 							break;
 						case 'date-picker':
 							?>
-								<div class="wps-form-group">
-									<div class="wps-form-group__label">
-										<label class="wps-form-label" for="<?php echo esc_attr( array_key_exists( 'id', $pgfw_component ) ? $pgfw_component['id'] : '' ); ?>"><?php echo esc_attr( array_key_exists( 'title', $pgfw_component ) ? $pgfw_component['title'] : '' ); ?></label>
-									</div>
-									<div class="wps-form-group__control">
-								 <?php
+							<div class="wps-form-group">
+								<div class="wps-form-group__label">
+									<label class="wps-form-label" for="<?php echo esc_attr( array_key_exists( 'id', $pgfw_component ) ? $pgfw_component['id'] : '' ); ?>"><?php echo esc_attr( array_key_exists( 'title', $pgfw_component ) ? $pgfw_component['title'] : '' ); ?></label>
+								</div>
+								<div class="wps-form-group__control">
+									<?php
 									$sub_pgfw_component_value = $pgfw_component['value'];
 									?>
-										<div class="wps-wpg-date-picker-group">
-											<span class="wps-wpg-month-selector"><?php echo esc_attr( $sub_pgfw_component_value['month']['title'] ); ?></span>
-											<select name="<?php echo esc_attr( $sub_pgfw_component_value['month']['name'] ); ?>" id="<?php echo esc_attr( $sub_pgfw_component_value['month']['id'] ); ?>" class="<?php echo esc_attr( $sub_pgfw_component_value['month']['class'] ); ?>">
-										 <?php
+									<div class="wps-wpg-date-picker-group">
+										<span class="wps-wpg-month-selector"><?php echo esc_attr( $sub_pgfw_component_value['month']['title'] ); ?></span>
+										<select name="<?php echo esc_attr( $sub_pgfw_component_value['month']['name'] ); ?>" id="<?php echo esc_attr( $sub_pgfw_component_value['month']['id'] ); ?>" class="<?php echo esc_attr( $sub_pgfw_component_value['month']['class'] ); ?>">
+											<?php
 											$month_options = $sub_pgfw_component_value['month']['options'];
 											foreach ( $month_options as $key => $value ) {
 												?>
-													<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $sub_pgfw_component_value['month']['value'], $key ); ?>><?php echo esc_attr( $value ); ?></option>
-													<?php
+												<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $sub_pgfw_component_value['month']['value'], $key ); ?>><?php echo esc_attr( $value ); ?></option>
+												<?php
 											}
 											?>
-											</select>
-											<span class="wps-wpg-date-selector"><?php echo esc_attr( $sub_pgfw_component_value['date']['title'] ); ?></span>
-											<select name="<?php echo esc_attr( $sub_pgfw_component_value['date']['name'] ); ?>" id="<?php echo esc_attr( $sub_pgfw_component_value['date']['id'] ); ?>" class="<?php echo esc_attr( $sub_pgfw_component_value['date']['class'] ); ?>">
-												<?php
-												$date_options = $sub_pgfw_component_value['date']['options'];
-												foreach ( $date_options as $key => $value ) {
-													?>
-													<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $sub_pgfw_component_value['date']['value'], $key ); ?>><?php echo esc_attr( $value ); ?></option>
-													<?php
-												}
+										</select>
+										<span class="wps-wpg-date-selector"><?php echo esc_attr( $sub_pgfw_component_value['date']['title'] ); ?></span>
+										<select name="<?php echo esc_attr( $sub_pgfw_component_value['date']['name'] ); ?>" id="<?php echo esc_attr( $sub_pgfw_component_value['date']['id'] ); ?>" class="<?php echo esc_attr( $sub_pgfw_component_value['date']['class'] ); ?>">
+											<?php
+											$date_options = $sub_pgfw_component_value['date']['options'];
+											foreach ( $date_options as $key => $value ) {
 												?>
-											</select>
-										</div>
+												<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $sub_pgfw_component_value['date']['value'], $key ); ?>><?php echo esc_attr( $value ); ?></option>
+												<?php
+											}
+											?>
+										</select>
 									</div>
 								</div>
-								<?php
+							</div>
+							<?php
 							break;
 						default:
 							break;

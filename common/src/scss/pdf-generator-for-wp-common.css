@@ -2,20 +2,23 @@
  * All of the CSS for your common functionality should be
  * included in this file.
  */
-#pgfw-right-floating-div{
-    z-index: 10;  
-    position: absolute;  
+#pgfw-right-floating-div {
+    z-index: 10;
+    position: absolute;
     right: 0;
 
 }
+
 .pgfw_bulk_wrapper ul {
     margin: 0;
     display: flex;
 }
+
 .pgfw_bulk_wrapper li {
     list-style: none;
     flex: 0 0 33%;
 }
+
 /*popup modal*/
 
 .wps_pgfw_email_bulk_input {
@@ -37,7 +40,7 @@
 }
 
 .wps_pgfw_email_bulk_input input:focus {
-    outline:none;
+    outline: none;
     box-shadow: none;
 }
 
@@ -48,14 +51,15 @@
 .wps_pgfw_email_bulk_button button {
     background-color: #333333;
     color: #ffffff;
-    border:none;
+    border: none;
 }
 
 .wps_pgfw_email_bulk_button button:focus {
-    border:none;
-    outline:none;
-    color:#ffffff;
+    border: none;
+    outline: none;
+    color: #ffffff;
 }
+
 #pgfw-user-email-submittion-message-bulk {
     margin-top: 10px;
 }
@@ -65,8 +69,357 @@
         max-width: 275px;
         margin-top: 10px;
     }
-} 
-#pgfw-poster-dowload-url-link a img{
+}
+
+#pgfw-poster-dowload-url-link a img {
     width: 25px !important;
-    height : 45px;
+    height: 45px;
+}
+
+.flipbook-modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    z-index: 100000;
+}
+
+.flipbook-modal[aria-hidden="false"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4vh 2vw;
+}
+
+.flipbook-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.flipbook-modal-dialog {
+    position: relative;
+    background: #fff;
+    width: min(1000px, 96vw);
+    max-height: 92vh;
+    border-radius: 8px;
+    overflow: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.flipbook-modal-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    background: #f2f2f2;
+    color: #111;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 48px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 10px;
+    margin: 0;
+    min-height: 32px;
+    height: auto;
+    line-height: 1;
+}
+
+.flipbook-modal .flipbook-wrap {
+    padding: 16px;
+}
+
+.flipbook-wrap[data-init-on-open='1'] {
+    display: none;
+}
+
+.flipbook-modal[aria-hidden="false"] .flipbook-wrap[data-init-on-open='1'] {
+    display: flex;
+}
+
+/* Optional styling for the open button */
+.flipbook-open-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.flipbook-open-btn.is-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 999px;
+    background: #0d6efd;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 16px rgba(13, 110, 253, .35);
+    border: 0;
+    cursor: pointer;
+    transition: transform .12s ease, box-shadow .12s ease;
+}
+
+.flipbook-open-btn.is-icon:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(13, 110, 253, .4);
+}
+
+.flipbook-open-btn.is-icon:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 16px rgba(13, 110, 253, .35);
+}
+
+.flipbook-open-btn.is-icon .fb-icon {
+    display: inline-flex;
+}
+
+.flipbook-open-btn .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+body.flipbook-modal-open {
+    overflow: hidden;
+}
+
+.flipbook-modal {
+    perspective: 1600px;
+}
+
+.flipbook-modal .flipbook-modal-dialog {
+    transform-origin: center center;
+}
+
+.flipbook-modal.is-opening .flipbook-modal-backdrop {
+    animation: fbFadeIn 380ms ease forwards;
+}
+
+.flipbook-modal.is-closing .flipbook-modal-backdrop {
+    animation: fbFadeOut 300ms ease forwards;
+}
+
+.flipbook-modal.is-opening .flipbook-modal-dialog {
+    animation: fbBookOpenFromLeft 520ms cubic-bezier(.16, 1, .3, 1) forwards;
+    will-change: transform, opacity;
+}
+
+.flipbook-modal.is-closing .flipbook-modal-dialog {
+    animation: fbBookCloseToLeft 420ms cubic-bezier(.16, 1, .3, 1) forwards;
+    will-change: transform, opacity;
+}
+
+@keyframes fbFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fbFadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fbBookOpenFromLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-200px) rotateY(45deg) scale(.85);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    }
+
+    60% {
+        opacity: 1;
+        transform: translateX(20px) rotateY(-5deg) scale(1.02);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0) rotateY(0deg) scale(1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.30);
+    }
+}
+
+@keyframes fbBookCloseToLeft {
+    0% {
+        opacity: 1;
+        transform: translateX(0) rotateY(0deg) scale(1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.30);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(-200px) rotateY(45deg) scale(.85);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .flipbook-modal.is-opening .flipbook-modal-backdrop,
+    .flipbook-modal.is-opening .flipbook-modal-dialog,
+    .flipbook-modal.is-closing .flipbook-modal-backdrop,
+    .flipbook-modal.is-closing .flipbook-modal-dialog {
+        animation: none !important;
+    }
+}
+
+.flipbook-wrap {
+    max-width: 1000px;
+}
+
+.flipbook-wrap .flipbook-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0 0 15px;
+    padding: 12px 10px;
+    background: linear-gradient(180deg, #f9fafb 0%, #f3f4f6 100%);
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.flipbook-wrap .flipbook-toolbar button {
+    background: #ffffff;
+    color: #111827;
+    border: 1px solid #d1d5db;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+    transition: background .15s ease, transform .08s ease, box-shadow .15s ease;
+}
+
+.flipbook-wrap .flipbook-toolbar button:active {
+    transform: translateY(1px);
+}
+
+.flipbook-wrap .flipbook-toolbar .page-jump {
+    width: 64px;
+    padding: 5px 8px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    background: #fff;
+    text-align: center;
+    min-height: 22px;
+    font-size: 14px;
+    height: auto;
+    margin: 0;
+}
+
+.flipbook-wrap .flipbook-toolbar span {
+    color: #374151;
+}
+
+/* Book container aesthetics */
+.flipbook-wrap .flip-book {
+    margin: 0 auto;
+    min-width: 300px !important;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f8fafc;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, .05);
+}
+
+/* Better spacing inside modal */
+.flipbook-modal .flipbook-wrap {
+    padding: 18px 18px 22px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .flipbook-modal-dialog {
+        width: 96vw;
+        max-height: 90vh;
+    }
+
+    .flipbook-wrap .flipbook-toolbar {
+        gap: 8px;
+        padding: 6px 8px;
+    }
+
+    .flipbook-wrap .flipbook-toolbar .page-jump {
+        width: 56px;
+    }
+}
+
+@media (max-width: 520px) {
+    .flipbook-wrap .flipbook-toolbar {
+        font-size: 14px;
+    }
+
+    .flipbook-wrap .flipbook-toolbar button {
+        padding: 5px 8px;
+    }
+}
+
+.flipbook-wrap {
+    margin: 28px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.flipbook-toolbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 15px;
+    order: 1;
+}
+
+.flipbook-toolbar button,
+.flipbook-toolbar input {
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #e01212;
+    background: #fdfdfd;
+    cursor: pointer;
+    color: #333;
+    margin: 0;
+    min-height: 22px;
+    height: auto;
+    line-height: 1;
+}
+
+.flipbook-toolbar input {
+    width: 50px;
+    text-align: center;
+}
+
+.flipbook-toolbar button:hover {
+    background: #eee;
+}
+
+.flipbook-toolbar button.btn-go {
+    background: #6ebf3d;
+    border: 1.5px solid #6ebf3d;
+    color: #fff;
+}
+
+.flipbook-wrap .flipbook-toolbar button.btn-go:hover {
+    color: #fff;
+    background: #51a320;
 }

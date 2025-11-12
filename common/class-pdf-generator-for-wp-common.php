@@ -82,7 +82,9 @@ class Pdf_Generator_For_Wp_Common {
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . 'common' );
+		wp_register_script( 'flipbook-bundle', PDF_GENERATOR_FOR_WP_DIR_URL . 'common/src/js/flipbook.bundle.js', array( 'jquery' ), $this->version, false );
 		add_thickbox();
+		wp_enqueue_script( 'flipbook-bundle' );
 	}
 	/**
 	 * Catching link for pdf generation user.
@@ -180,16 +182,14 @@ class Pdf_Generator_For_Wp_Common {
 		$post_id                 = is_array( $prod_id ) ? $prod_id[0] : $prod_id;
 		if ( 'preview' === $pgfw_generate_mode ) {
 			require_once $template;
-		} else {
-			if ( 'page' === get_post_type( $post_id ) ) {
+		} elseif ( 'page' === get_post_type( $post_id ) ) {
 				$template_file_name = PDF_GENERATOR_FOR_WP_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wp-admin-' . $pgfw_body_page_template . '.php';
 				$template_file_name = apply_filters( 'pgfw_load_templates_for_pdf_html', $template_file_name, $pgfw_body_page_template, $post_id );
 				require_once $template_file_name;
-			} else {
-				$template_file_name = PDF_GENERATOR_FOR_WP_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wp-admin-' . $pgfw_body_post_template . '.php';
-				$template_file_name = apply_filters( 'pgfw_load_templates_for_pdf_html', $template_file_name, $pgfw_body_post_template, $post_id );
-				require_once $template_file_name;
-			}
+		} else {
+			$template_file_name = PDF_GENERATOR_FOR_WP_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wp-admin-' . $pgfw_body_post_template . '.php';
+			$template_file_name = apply_filters( 'pgfw_load_templates_for_pdf_html', $template_file_name, $pgfw_body_post_template, $post_id );
+			require_once $template_file_name;
 		}
 		$general_settings_arr = get_option( 'pgfw_general_settings_save', array() );
 		$pdf_file_name        = array_key_exists( 'pgfw_general_pdf_file_name', $general_settings_arr ) ? $general_settings_arr['pgfw_general_pdf_file_name'] : 'post_name';
@@ -272,7 +272,9 @@ class Pdf_Generator_For_Wp_Common {
 			// Webp Image Start Fixes ///////////////////////////////////////////////////////////
 			// Load HTML content into DOMDocument.
 			$dom = new DOMDocument();
+			libxml_use_internal_errors( true );
 			$dom->loadHTML( $html );
+			libxml_clear_errors();
 
 			// Find all img tags.
 			$imgs = $dom->getElementsByTagName( 'img' );
@@ -370,6 +372,14 @@ class Pdf_Generator_For_Wp_Common {
 
 			$dompdf->setHttpContext( $contxt );
 		}
+		//Relative Link to Absolute link.
+		$site_url = trailingslashit( get_site_url() );
+		$dompdf->setBasePath( $site_url );
+		$html = preg_replace(
+			'/(href|src)=\"\/(?!\/)/i',
+			'$1="' . $site_url,
+			$html
+		);
 		$dompdf->loadHtml( $html, 'UTF-8' );
 		$dompdf->set_option( 'isRemoteEnabled', true );
 
@@ -674,7 +684,6 @@ class Pdf_Generator_For_Wp_Common {
 					}
 				}
 		}
-
 	}
 	/**
 	 * Bulk export button for posts.
@@ -717,7 +726,6 @@ class Pdf_Generator_For_Wp_Common {
 		$template_file_name = PDF_GENERATOR_FOR_WP_DIR_PATH . 'common/templates/bulk-pdf-template.php';
 		require_once $template_file_name;
 		return bulk_pdf_exporter_html( $ids );
-
 	}
 	// invoice .
 
@@ -1198,4 +1206,3 @@ class Pdf_Generator_For_Wp_Common {
 		}
 	}
 }
-

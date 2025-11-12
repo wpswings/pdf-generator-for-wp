@@ -176,7 +176,7 @@ function return_ob_html( $post_id, $template_name = '' ) {
 				border        : ' . $pgfw_body_border_size . 'px solid ' . $pgfw_body_border_color . ';
 			}
 		</style>
-		<div class="pgfw-border-page" ></div>';
+		<div class="pgfw-border-page" >';
 	}
 	if ( 'yes' == $pgfw_body_add_watermark ) {
 		$watermark = $pgfw_body_watermark_text;
@@ -319,14 +319,12 @@ function return_ob_html( $post_id, $template_name = '' ) {
 			  inset: -1in;
 			  background-color: ' . $pgfw_template_color . ' ;
 			  z-index: -1000;
-			  margin : -100px !important;
 			  padding:100px !important;
 			  
 			}
 			.pgfw-pdf-body *, .pgfw-pdf-footer *, .pgfw-pdf-header * {
 			  color:' . $pgfw_template_text_color . ';
 			}
-		   
 			';
 		}
 
@@ -489,17 +487,15 @@ function return_ob_html( $post_id, $template_name = '' ) {
 							}
 							$html2 .= '<div><b> ' . $pgfw_meta_key_name . '</b> </div>';
 
-						} else {
-							if ( 'yes' == $pgfw_body_metafields_row_wise ) {
+						} elseif ( 'yes' == $pgfw_body_metafields_row_wise ) {
 								$i++;
 								$html2 .= '<td><b>' . $pgfw_meta_key_name . ' :</b></td>';
 								$html2 .= '<td> ' . $meta_val . ' </td>';
-								if ( 0 == $i % $pgfw_body_meta_field_column ) {
-									$html2 .= '</tr><tr>';
-								}
-							} else {
-									$html2 .= '<div><b>' . $pgfw_meta_key_name . ' : </b> ' . $meta_val . '</div>';
+							if ( 0 == $i % $pgfw_body_meta_field_column ) {
+								$html2 .= '</tr><tr>';
 							}
+						} else {
+								$html2 .= '<div><b>' . $pgfw_meta_key_name . ' : </b> ' . $meta_val . '</div>';
 						}
 					}
 				}
@@ -508,9 +504,8 @@ function return_ob_html( $post_id, $template_name = '' ) {
 			}
 		}
 		$html .= apply_filters( 'wps_pgfw_product_post_meta_in_pdf_filter_hook', $html2, $post );
-		$html .= '</div></div><span id = "wps_page_break_point" style="page-break-after: always;overflow:hidden;"></span>';
+		$html .= '</div></div></div><span id = "wps_page_break_point" style="page-break-after: always;overflow:hidden;"></span>';
 	}
 
 	return $html;
 }
-
