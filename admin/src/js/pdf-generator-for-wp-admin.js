@@ -164,5 +164,72 @@ jQuery(document).ready(function ($) {
 		allowClear: true,
 		width: 'resolve'
 	});
-});
 
+	// Disable duplicate selections across template dropdowns.
+	function updateDisabledOptions() {
+		let selectedValues = [];
+
+		$selects.each(function() {
+			const vals = $(this).val();
+			if (vals && vals.length) {
+				selectedValues = selectedValues.concat(vals);
+			}
+		});
+
+		$selects.each(function() {
+			const $current = $(this);
+			const currentValues = $current.val() || [];
+
+			$current.find('option').prop('disabled', false);
+
+			$current.find('option').each(function() {
+				const optionVal = $(this).val();
+				if (
+					optionVal &&
+					selectedValues.includes(optionVal) &&
+					!currentValues.includes(optionVal)
+				) {
+					$(this).prop('disabled', true);
+				}
+			});
+
+			$current.trigger('change.select2');
+		});
+	}
+
+	function ajaxSaveData(templateName, selectedValues, context = 'items') {
+		$.ajax({
+			url: pgfw_admin_param.ajaxurl,
+			method: 'POST',
+			data: {
+				action: 'wpg_save_template_items',
+				template: templateName,
+				items: selectedValues,
+				context: context,
+				nonce: pgfw_admin_param.nonce,
+			},
+			success: function(response) {
+				if (response.success) {
+					console.log('Saved successfully');
+				} else {
+					console.error('Save failed:', response.data);
+				}
+			},
+			error: function() {
+				console.error('AJAX error');
+			}
+		});
+	}
+
+	$selects.on('change', function() {
+		updateDisabledOptions();
+		let fullName = $(this).attr('name');
+		let matches = fullName.match(/wpg_template_(?:items|post_types)\[(.*?)\]/);
+		let templateName = matches ? matches[1] : '';
+		let selectedVals = $(this).val() || [];
+		let context = $(this).data('save-key') || 'items';
+		ajaxSaveData(templateName, selectedVals, context);
+	});
+
+	updateDisabledOptions();
+});

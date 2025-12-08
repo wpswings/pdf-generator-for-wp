@@ -142,32 +142,52 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 										<?php if ( 0 === $i ) { ?>
 											<td rowspan="3"><?php echo esc_html( str_replace( 'customtemplate', __( 'Custom Template ', 'pdf-generator-for-wp' ), $template ) ); ?></td>
 											<td rowspan="3">
-												<span><select name="wpg_template_items[<?php echo esc_attr( $template ); ?>][]" class="wpg-select2" multiple style="width: 300px;">
-														<?php
-														$selected_items = get_option( 'wpg_template_items_' . $template, array() ); // need to get the selected items for this template.
-														$post_types = get_post_types( array( 'public' => true ), 'objects' );
-
-														foreach ( $post_types as $wps_post_type ) {
-															$wps_single_posts = get_posts(
-																array(
-																	'post_type'      => $wps_post_type->name,
-																	'posts_per_page' => -1,
-																	'post_status'    => 'publish',
-																)
-															);
-
-															if ( ! empty( $wps_single_posts ) ) {
-																echo '<optgroup label="' . esc_html( $wps_post_type->labels->singular_name ) . '">';
-																foreach ( $wps_single_posts as $wps_post ) {
-																	$selected = in_array( $wps_post->ID, $selected_items ) ? 'selected' : '';
-																	echo '<option value="' . esc_attr( $wps_post->ID ) . '" ' . esc_attr( $selected ) . '>' . esc_html( $wps_post->post_title ) . '</option>';
+												<div class="wpg-template-wise-selects">
+													<label><strong><?php esc_html_e( 'Post Types', 'pdf-generator-for-wp' ); ?></strong></label>
+													<span>
+														<select name="wpg_template_post_types[<?php echo esc_attr( $template ); ?>][]" class="wpg-select2 wpg-template-post-types" data-save-key="post_types" multiple style="width: 300px;">
+															<?php
+															$post_types          = get_post_types( array( 'public' => true ), 'objects' );
+															$selected_post_types = get_option( 'wpg_template_post_types_' . $template, array() );
+															foreach ( $post_types as $wps_post_type ) {
+																if ( 'attachment' === $wps_post_type->name ) {
+																	continue;
 																}
-																echo '</optgroup>';
+																$selected = in_array( $wps_post_type->name, (array) $selected_post_types, true ) ? 'selected' : '';
+																echo '<option value="' . esc_attr( $wps_post_type->name ) . '" ' . esc_attr( $selected ) . '>' . esc_html( $wps_post_type->labels->singular_name ) . '</option>';
 															}
-														}
-														?>
-													</select>
-												</span>
+															?>
+														</select>
+													</span>
+													<label><strong><?php esc_html_e( 'Specific Posts', 'pdf-generator-for-wp' ); ?></strong></label>
+													<span>
+														<select name="wpg_template_items[<?php echo esc_attr( $template ); ?>][]" class="wpg-select2" data-save-key="items" multiple style="width: 300px;">
+															<?php
+															$selected_items = get_option( 'wpg_template_items_' . $template, array() ); // need to get the selected items for this template.
+															$post_types     = get_post_types( array( 'public' => true ), 'objects' );
+
+															foreach ( $post_types as $wps_post_type ) {
+																$wps_single_posts = get_posts(
+																	array(
+																		'post_type'      => $wps_post_type->name,
+																		'posts_per_page' => -1,
+																		'post_status'    => 'publish',
+																	)
+																);
+
+																if ( ! empty( $wps_single_posts ) ) {
+																	echo '<optgroup label="' . esc_html( $wps_post_type->labels->singular_name ) . '">';
+																	foreach ( $wps_single_posts as $wps_post ) {
+																		$selected = in_array( $wps_post->ID, $selected_items, true ) ? 'selected' : '';
+																		echo '<option value="' . esc_attr( $wps_post->ID ) . '" ' . esc_attr( $selected ) . '>' . esc_html( $wps_post->post_title ) . '</option>';
+																	}
+																	echo '</optgroup>';
+																}
+															}
+															?>
+														</select>
+													</span>
+												</div>
 											</td>
 											<td rowspan="3">
 

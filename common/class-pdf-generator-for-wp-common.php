@@ -220,6 +220,11 @@ class Pdf_Generator_For_Wp_Common {
 			$html .= return_ob_html( $prod_id, $template_name );
 		}
 		$html        = str_replace( '[WORDPRESS_PDF]', '', $html );
+		$html = is_string( $html ) ? $html : '';
+		if ( '' === trim( $html ) ) {
+			return '';
+		}
+
 		$paper_sizes = array(
 			'4a0'                      => array( 0, 0, 4767.87, 6740.79 ),
 			'2a0'                      => array( 0, 0, 3370.39, 4767.87 ),
@@ -1204,5 +1209,46 @@ class Pdf_Generator_For_Wp_Common {
 
 			return $path;
 		}
+	}
+
+	/**
+	 * Save template to post/post-type mapping.
+	 *
+	 * @since 3.0.0
+	 * @return void
+	 */
+	public function wpg_save_template_items_callbck() {
+		check_ajax_referer( 'wps_wpg_embed_ajax_nonce', 'nonce' );
+		$template = isset( $_POST['template'] )
+		? sanitize_text_field( wp_unslash( $_POST['template'] ) )
+		: '';
+
+		$context = isset( $_POST['context'] )
+		? sanitize_text_field( wp_unslash( $_POST['context'] ) )
+		: 'items';
+
+		$items = isset( $_POST['items'] ) && is_array( $_POST['items'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['items'] ) ) : array();
+
+		if ( ! $template ) {
+			wp_send_json_error( 'Invalid template name' );
+		}
+
+		if ( 'post_types' === $context ) {
+			$post_types = get_post_types( array( 'public' => true ) );
+			$items      = array_values(
+				array_filter(
+					$items,
+					function ( $post_type ) use ( $post_types ) {
+						return in_array( $post_type, $post_types, true );
+					}
+				)
+			);
+			update_option( 'wpg_template_post_types_' . $template, $items );
+		} else {
+			$items = array_map( 'intval', $items );
+			update_option( 'wpg_template_items_' . $template, $items );
+		}
+
+		wp_send_json_success();
 	}
 }
