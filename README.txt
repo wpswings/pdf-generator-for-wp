@@ -1,12 +1,12 @@
 === PDF Generator for WordPress ===
 Contributors: wpswings
 Donate link: https://wpswings.com/
-Tags: PDF, PDF creator, PDF generator, PDF maker, WordPress PDF generator
+Tags: PDF, invoices, 3d flipbook, PDF generator, pdf flipbook, WordPress PDF generator
 Requires at least: 6.7.0
-Tested up to: 6.8.3
+Tested up to: 6.9.0
 WC requires at least: 6.5.0
-WC tested up to: 10.3.5
-Stable tag: 1.5.7
+WC tested up to: 10.4.2
+Stable tag: 1.5.8
 Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -15,7 +15,7 @@ PDF Generator for WordPress allows you to convert posts into PDF files to share 
 
 == Description ==
 
-**PDF GENERATOR FOR WORDPRESS PLUGIN ENABLES YOU TO CREATE AND CUSTOMIZE INTERACTIVE PDFS AND FLIPBOOKS OF PAGES, POSTS, AND PRODUCTS WITH EASE. IT OFFERS ELEMENTOR AND GUTENBERG SUPPORT, EMBEDDING OPTIONS FOR GOOGLE AND THIRD-PARTY SERVICES, BULK EXPORT, AND ADVANCED DESIGN SETTINGS FOR BRAND PRESENTATION.** 
+With PDF generator for WordPress you can create and customize interactive PDFs and transform your custom PDFs and images into a 3D flipbook, you can also convert posts and pages into PDFs. PDF Generator plugin also offers Elementor and Gutenberg support, embedding options for Google and third-party services, bulk export, and advanced design settings for brand presentation.
 
 PDF Generator plugin for WordPress helps you create and customize PDF files for your website pages, making your content easy to access offline. It allows the admin to convert posts, pages, blogs, and products into downloadable PDFs with full control over layout, colors, and fonts.
 
@@ -58,8 +58,8 @@ You can even turn your PDFs or images into interactive flipbooks, export files i
 
 == WHAT’S INCLUDED IN OUR PDF GENERATOR FOR WORDPRESS PLUGIN == 
 
-**1) Generate Flipbooks With PDFs or Images**
-Our PDF Generator plugin also offers a built-in flipbook feature that lets you transform any PDF into an engaging, interactive flipbook. You can even choose multiple images and instantly convert them into a flipbook. It provides plenty of customization options like setting custom height and width, showing the flipbook in a modal popup, adding realistic page-flip sounds, and more.
+**1) Generate 3D Flipbooks With PDFs or Images**
+Our PDF Generator plugin also offers a built-in 3D flipbook feature that lets you transform any PDF into an engaging, interactive flipbook. You can even choose multiple images and instantly convert them into a flipbook. It provides plenty of customization options like setting custom height and width, showing the flipbook in a modal popup, adding realistic page-flip sounds, and more.
 
 **2) Elementor Blocks For Shortcodes**
 All the existing shortcodes have been converted into easy-to-use Elementor blocks. Just open Elementor, drag and drop your favorite block into your page or post, and you’re all set.
@@ -227,6 +227,10 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 21. Config Flipbook Setting
 
 == Changelog ==
+
+= 1.5.8 - Released on 9 January 2026 =
+* New : Compatibility with latest WP (6.9) and WC (10.4.2)
+* Fix : deprecated  function fixes.
 
 = 1.5.7 - Released on 13 November 2025 =
 * New : Gutenberg block support for flipbook shortcode.
@@ -436,6 +440,6 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Upgrade Notice ==
 
-= 1.5.7 - Released on 13 November 2025 =
-* New : Gutenberg block support for flipbook shortcode.
-* New : Compatibility with latest WP (6.8.3) and WC (10.3.5)
+= 1.5.8 - Released on 9 January 2026 =
+* New : Compatibility with latest WP (6.9) and WC (10.4.2)
+* Fix : deprecated  function fixes.
