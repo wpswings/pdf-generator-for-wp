@@ -15,6 +15,68 @@
     background-color: #fff;
     color: #2196f3;
 }
+
+/* Header: keep links aligned on one row (desktop) */
+.wps-header-container {
+    flex-wrap: nowrap;
+    gap: 10px;
+}
+
+.wps-header-container .wps-header-title {
+    flex: 1 1 auto;
+    max-width: none;
+}
+
+.wps-header-container .wps-link,
+.wps-header-container span {
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.wps-header-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.wps-header-container .wps-link:first-of-type {
+    margin-left: auto;
+}
+
+.wps-header-container span {
+    margin: 0 8px;
+}
+
+@media (max-width: 768px) {
+    .wps-header-container {
+        flex-wrap: wrap;
+    }
+    .wps-header-container .wps-link:first-of-type {
+        margin-left: 0;
+    }
+    .wps-header-links {
+        margin-left: 0;
+        flex-wrap: wrap;
+    }
+}
+
+@media screen and (max-width: 580px) {
+    .wps-header-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .wps-header-links {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    .wps-header-container span {
+        display: none;
+        margin: 0;
+    }
+}
 /*=====  layout-card  ======*/
 .wps-wpg-card__wrapper-list {
     display: flex;
@@ -285,4 +347,58 @@ body.makewebbetter_page_pdf_generator_for_wp_menu  .wps-wpg-card__img {
 }
 .wps-info-img {
     vertical-align: middle;
+}
+
+/* New css add */
+.wps-pgfw-gen-section-form .wps-form-select select {
+    padding: 5px 30px 5px 10px !important;
+}
+
+.wpg-section-wrap select {
+    padding: 5px 30px 5px 10px !important;
+}
+
+.wps-form-group.wps-isfw-multi .mdc-text-field--outlined {
+    height: 0;
+    padding: 20px 0px;
+
+}
+.wps-form-group__control .mdc-text-field--outlined .mdc-text-field__input {
+    align-self: center;
+}
+
+.wps-pgfw-gen-section-form .wps-wpg-card__wrapper-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.wps-pgfw-gen-section-form .wps-wpg-card__wrapper-list-item {
+    flex: 1 0 30%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.wps-wpg-card__item-img-wrapper {
+    max-width: 100%;
+}
+.wps-form-group__control .mdc-text-field--outlined .mdc-text-field__input {
+    padding: 0 20px;
+}
+.wpg-secion-wrap input[type=checkbox] ,.pgfw-section-wrap input[type=checkbox]{
+    margin:0 10px;
+}
+
+@media (max-width: 991px) {
+    .wps-pgfw-gen-section-form .wps-wpg-card__wrapper-list-item {
+        flex: 1 0 48%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .wps-pgfw-gen-section-form .wps-wpg-card__wrapper-list-item {
+        flex: 1 0 100%;
+        max-width: 100%;
+    }
 }

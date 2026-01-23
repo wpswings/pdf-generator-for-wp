@@ -34,13 +34,17 @@ if ( in_array( $wps_wpg_plugin, $wps_wpg_plugin_list ) ) {
 	?>
 	<div class="wps-header-container wps-bg-white wps-r-8">
 		<h1 class="wps-header-title"><?php echo esc_attr( strtoupper( str_replace( '-', ' ', apply_filters( 'wps_pgfw_update_plugin_name_dashboard', $pgfw_wps_pgfw_obj->pgfw_get_plugin_name() ) ) ) ); ?></h1>
-		<?php if ( ! $wps_wpg_is_pro_active ) { ?>
-		<a href="https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-backend&utm_campaign=documentation" target="_blank" class="wps-link"><?php esc_html_e( 'Documentation', 'pdf-generator-for-wp' ); ?></a>
-		<?php } else { ?>
-		<a href="https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-backend&utm_campaign=documentation" target="_blank" class="wps-link"><?php esc_html_e( 'Documentation', 'pdf-generator-for-wp' ); ?></a>	
-		<?php } ?>
-		<span>|</span>
-		<a href="https://wpswings.com/submit-query/?utm_source=wpswings-pdf-support&utm_medium=pdf-org-backend&utm_campaign=submit-query" target="_blank" class="wps-link"><?php esc_html_e( 'Support', 'pdf-generator-for-wp' ); ?></a>
+		<div class="wps-header-links">
+			<?php if ( ! $wps_wpg_is_pro_active ) { ?>
+			<a href="https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-backend&utm_campaign=documentation" target="_blank" class="wps-link"><?php esc_html_e( 'Documentation', 'pdf-generator-for-wp' ); ?></a>
+			<?php } else { ?>
+			<a href="https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-backend&utm_campaign=documentation" target="_blank" class="wps-link"><?php esc_html_e( 'Documentation', 'pdf-generator-for-wp' ); ?></a>
+			<?php } ?>
+			<span>|</span>
+			<a href="https://wpswings.com/submit-query/?utm_source=wpswings-pdf-support&utm_medium=pdf-org-backend&utm_campaign=submit-query" target="_blank" class="wps-link"><?php esc_html_e( 'Support', 'pdf-generator-for-wp' ); ?></a>
+			<span>|</span>
+			<a href="https://wpswings.com/wordpress-woocommerce-solutions/?utm_source=wpswings-pdf-service&utm_medium=pdf-org-backend&utm_campaign=service-page" target="_blank" class="wps-link"><?php esc_html_e( 'Services', 'pdf-generator-for-wp' ); ?></a>
+		</div>
 	</div>
 </header>
 <?php
