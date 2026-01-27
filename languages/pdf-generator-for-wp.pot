@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PDF Generator For WP 1.5.8\n"
-"POT-Creation-Date: 2025-12-09 17:46+0530\n"
+"Project-Id-Version: PDF Generator For WP 1.5.9\n"
+"POT-Creation-Date: 2026-01-27 11:31+0530\n"
 "PO-Revision-Date: 2023-10-03 16:14+0530\n"
 "Last-Translator: \n"
 "Language-Team: WP Swings\n"
@@ -2374,22 +2374,27 @@ msgstr ""
 msgid "Volume from 0.0 (mute) to 1.0 (max)."
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-admin-dashboard.php:38
-#: admin/partials/pdf-generator-for-wp-admin-dashboard.php:40
+#: admin/partials/pdf-generator-for-wp-admin-dashboard.php:39
+#: admin/partials/pdf-generator-for-wp-admin-dashboard.php:41
 #: pdf-generator-for-wp.php:328
 msgid "Documentation"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-admin-dashboard.php:43
+#: admin/partials/pdf-generator-for-wp-admin-dashboard.php:44
 #: pdf-generator-for-wp.php:330
 msgid "Support"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-admin-dashboard.php:49
+#: admin/partials/pdf-generator-for-wp-admin-dashboard.php:46
+#: pdf-generator-for-wp.php:331
+msgid "Services"
+msgstr ""
+
+#: admin/partials/pdf-generator-for-wp-admin-dashboard.php:53
 msgid "Settings saved successfully !"
 msgstr ""
 
-#: admin/partials/pdf-generator-for-wp-admin-dashboard.php:52
+#: admin/partials/pdf-generator-for-wp-admin-dashboard.php:56
 msgid "There might be some error, Please reload the page and try again."
 msgstr ""
 
@@ -3129,10 +3134,6 @@ msgstr ""
 
 #: pdf-generator-for-wp.php:329
 msgid "Video"
-msgstr ""
-
-#: pdf-generator-for-wp.php:331
-msgid "Services"
 msgstr ""
 
 #: pdf-generator-for-wp.php:385

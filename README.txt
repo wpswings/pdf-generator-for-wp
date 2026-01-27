@@ -5,8 +5,8 @@ Tags: PDF, invoices, 3d flipbook, PDF generator, pdf flipbook, WordPress PDF gen
 Requires at least: 6.7.0
 Tested up to: 6.9.0
 WC requires at least: 6.5.0
-WC tested up to: 10.4.2
-Stable tag: 1.5.8
+WC tested up to: 10.4.3
+Stable tag: 1.5.9
 Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -228,8 +228,12 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Changelog ==
 
+= 1.5.9 - Released on 27 January 2026 =
+* Enhancement : Implemented React-based list loading with bulk action support.
+* Enhancement : Fixed overflow issues in the meta field tab settings.
+
 = 1.5.8 - Released on 9 January 2026 =
-* New : Compatibility with latest WP (6.9) and WC (10.4.2)
+* New : Compatibility with latest WP (6.9) and WC (10.4.3)
 * Fix : deprecated  function fixes.
 
 = 1.5.7 - Released on 13 November 2025 =
@@ -440,6 +444,6 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Upgrade Notice ==
 
-= 1.5.8 - Released on 9 January 2026 =
-* New : Compatibility with latest WP (6.9) and WC (10.4.2)
-* Fix : deprecated  function fixes.
+= 1.5.9 - Released on 27 January 2026 =
+* Enhancement : Implemented React-based list loading with bulk action support.
+* Enhancement : Fixed overflow issues in the meta field tab settings.
