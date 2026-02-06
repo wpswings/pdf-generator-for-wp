@@ -1302,6 +1302,7 @@ class Pdf_Generator_For_Wp_Admin {
 	 */
 	public function pgfw_admin_body_settings_page( $pgfw_body_html_arr ) {
 		$pgfw_body_settings          = get_option( 'pgfw_body_save_settings', array() );
+		$pgfw_body_columns  = array_key_exists( 'pgfw_body_columns', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_columns'] : '49';
 		$pgfw_body_title_font_style  = array_key_exists( 'pgfw_body_title_font_style', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_title_font_style'] : '';
 		$pgfw_body_title_font_size   = array_key_exists( 'pgfw_body_title_font_size', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_title_font_size'] : '';
 		$pgfw_body_title_font_color  = array_key_exists( 'pgfw_body_title_font_color', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_title_font_color'] : '';
@@ -1872,6 +1873,21 @@ class Pdf_Generator_For_Wp_Admin {
 					'2'          => __( '2', 'pdf-generator-for-wp' ),
 					'3'          => __( '3', 'pdf-generator-for-wp' ),
 					'4'          => __( '4', 'pdf-generator-for-wp' ),
+				),
+			),
+			array(
+				'title'       => __( 'Select Body columns ', 'pdf-generator-for-wp' ),
+				'type'        => 'select',
+				'description' => __( 'You can choose number of columns needed for the body content.', 'pdf-generator-for-wp' ),
+				'id'          => 'pgfw_body_columns',
+				'value'       => $pgfw_body_columns,
+				'class'       => 'pgfw_body_columns',
+				'name'        => 'pgfw_body_columns',
+				'options'     => array(
+					'98'          => __( '1', 'pdf-generator-for-wp' ),
+					'49'          => __( '2', 'pdf-generator-for-wp' ),
+					'32.5'          => __( '3', 'pdf-generator-for-wp' ),
+					'24.5'          => __( '4', 'pdf-generator-for-wp' ),
 				),
 			),
 			array(
@@ -2602,6 +2618,15 @@ class Pdf_Generator_For_Wp_Admin {
 				'value'       => '',
 				'class'       => 'wps_pgfw_pro_tag',
 				'name'        => 'wpg_generate_invoice_from_cache',
+			),
+			array(
+				'title'       => __( 'Attched Shareable Link', 'pdf-generator-for-wp' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Enable this to generate shareable links for invoices.', 'pdf-generator-for-wp' ),
+				'id'          => 'wpg_attach_invoice_shareable_link',
+				'value'       => '',
+				'class'       => 'wps_pgfw_pro_tag',
+				'name'        => 'wpg_attach_invoice_shareable_link',
 			),
 			array(
 				'title' => __( 'How Do You Want To View PDF?', 'pdf-generator-for-wp' ),

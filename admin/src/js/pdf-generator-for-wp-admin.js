@@ -164,5 +164,32 @@ jQuery(document).ready(function ($) {
 		allowClear: true,
 		width: 'resolve'
 	});
-});
 
+	// Save internal-page template mapping (posts + post types) via AJAX.
+	const templateSelectors = $('.wpg-template-items, .wpg-template-post-types');
+	if ( templateSelectors.length ) {
+		const ajaxSave = function( templateName ) {
+			const posts = $('select[name="wpg_template_items[' + templateName + '][]"]').val() || [];
+			const postTypes = $('select[name="wpg_template_post_types[' + templateName + '][]"]').val() || [];
+			$.ajax({
+				url: pgfw_admin_param.ajaxurl,
+				method: 'POST',
+				data: {
+					action: 'wpg_save_template_items',
+					template: templateName,
+					items: posts,
+					post_types: postTypes,
+					nonce: pgfw_admin_param.nonce,
+				},
+			});
+		};
+
+		templateSelectors.on('change', function() {
+			const match = $(this).attr('name').match(/wpg_template_(?:items|post_types)\[(.*?)\]/);
+			const template = match && match[1] ? match[1] : '';
+			if ( template ) {
+				ajaxSave( template );
+			}
+		});
+	}
+});

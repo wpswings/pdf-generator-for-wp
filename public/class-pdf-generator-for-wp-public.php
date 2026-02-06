@@ -547,4 +547,3 @@ class Pdf_Generator_For_Wp_Public {
 		return ob_get_clean();
 	}
 }
-

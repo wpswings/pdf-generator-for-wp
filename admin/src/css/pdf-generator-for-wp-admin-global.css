@@ -477,3 +477,25 @@ select {
   }
  
 }
+
+.wps-wpg-logs-table .sorting-indicator {
+    display: inline-block;
+}
+
+
+.wps-wpg-logs-table th:last-of-type {
+    width: 200px;
+}
+
+#wpg-pdf-logs-app .components-base-control__field {
+    margin: 0;
+}
+
+#wpg-pdf-logs-app .tablenav-pages {
+    margin: 0;
+}
+
+#wpg-pdf-logs-app .tablenav-pages span.paging-input {
+    display: inline-block;
+    padding: 0 10px;
+}

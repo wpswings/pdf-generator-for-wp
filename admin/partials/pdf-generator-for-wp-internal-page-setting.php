@@ -142,7 +142,22 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 										<?php if ( 0 === $i ) { ?>
 											<td rowspan="3"><?php echo esc_html( str_replace( 'customtemplate', __( 'Custom Template ', 'pdf-generator-for-wp' ), $template ) ); ?></td>
 											<td rowspan="3">
-												<span><select name="wpg_template_items[<?php echo esc_attr( $template ); ?>][]" class="wpg-select2" multiple style="width: 300px;">
+												<div style="margin-bottom:10px;">
+													<label style="font-weight:600; display:block; margin-bottom:4px;"><?php esc_html_e( 'Post Types', 'pdf-generator-for-wp' ); ?></label>
+													<select name="wpg_template_post_types[<?php echo esc_attr( $template ); ?>][]" class="wpg-select2 wpg-template-post-types" multiple style="width: 300px;">
+														<?php
+														$selected_post_types = get_option( 'wpg_template_post_types_' . $template, array() );
+														$post_types          = get_post_types( array( 'public' => true ), 'objects' );
+														foreach ( $post_types as $wps_post_type ) {
+															$selected = in_array( $wps_post_type->name, $selected_post_types, true ) ? 'selected' : '';
+															echo '<option value="' . esc_attr( $wps_post_type->name ) . '" ' . esc_attr( $selected ) . '>' . esc_html( $wps_post_type->labels->singular_name ) . '</option>';
+														}
+														?>
+													</select>
+												</div>
+												<div>
+													<label style="font-weight:600; display:block; margin-bottom:4px;"><?php esc_html_e( 'Posts', 'pdf-generator-for-wp' ); ?></label>
+													<select name="wpg_template_items[<?php echo esc_attr( $template ); ?>][]" class="wpg-select2 wpg-template-items" multiple style="width: 300px;">
 														<?php
 														$selected_items = get_option( 'wpg_template_items_' . $template, array() ); // need to get the selected items for this template.
 														$post_types = get_post_types( array( 'public' => true ), 'objects' );
@@ -167,7 +182,7 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 														}
 														?>
 													</select>
-												</span>
+												</div>
 											</td>
 											<td rowspan="3">
 

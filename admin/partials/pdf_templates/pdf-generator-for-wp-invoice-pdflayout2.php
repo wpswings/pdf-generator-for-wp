@@ -10,15 +10,17 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+require_once __DIR__ . '/pdf-generator-for-wp-invoice-share-helper.php';
 /**
  * Return the html data for the second template.
  *
  * @param int    $order_id order id.
  * @param string $type packing slip or the invoice.
  * @param string $invoice_id current invoice ID.
+ * @param string $invoice_url Public URL to the generated invoice file (optional).
  * @return string
  */
-function return_ob_value( $order_id, $type, $invoice_id ) {
+function return_ob_value( $order_id, $type, $invoice_id, $invoice_url = '' ) {
 
 	$order_details         = do_shortcode( '[WPG_FETCH_ORDER order_id ="' . $order_id . '"]' );
 
@@ -44,6 +46,10 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 	$logo                  = get_option( 'sub_wpg_upload_invoice_company_logo' );
 	$digit                 = ( $digit ) ? $digit : 3;
 	$color                 = ( $color ) ? $color : '#000000';
+	$share_meta            = wpg_invoice_share_meta( $invoice_id, $order_id, $type, $invoice_url );
+	$share_link            = $share_meta['share_link'];
+	$whatsapp_share        = $share_meta['whatsapp_share'];
+	$email_share           = $share_meta['email_share'];
 	if ( $order_details ) {
 		$html = '<!DOCTYPE html>
 					<html>
@@ -306,16 +312,41 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 							</tr>
 						</table>
 					</div>
+					
 					<div class="wpg-invoice-greetings">
 						<b>' . $disclaimer . '</b>
 					</div>
 					</div>';
 		}
-		$html .= '</div>';
-		$html .= apply_filters( 'wps_fetch_tracking_data', '', $order_id );
-		$html .= '</body>
-			</html>';
-		return $html;
+			$html .= '</div>';
+	
+			$html .= '<table border = "0" cellpadding = "0" cellspacing = "0" style="width: 100%;">
+				<tbody>
+				<tr>';
+
+			if ('yes' == get_option('wpg_attach_invoice_shareable_link')) {
+				$html .= '<td style="vertical-align: top;">
+                <div style="padding:20px 10px 10px">' . wpg_invoice_share_section($share_link, $color, $whatsapp_share, $email_share) . '</div>
+              </td>';
+			}
+
+			$tracking_html = apply_filters('wps_fetch_tracking_data', '', $order_id);
+
+			if ('' !== $tracking_html) {
+				$html .= '<td style="vertical-align: top; text-align: right;">
+                <div style="padding:20px 10px 10px; text-align: left;">' . $tracking_html . '</div>
+              </td>';
+			}
+
+			$html .= '</tr>
+					</tbody>
+					</table>';
+
+			$html .= '</body></html>';
+
+			return $html;
 	}
+
+
 	return '<div>' . esc_html__( 'Looks like order is not found', 'pdf-generator-for-wp' ) . '</div>';
 }
