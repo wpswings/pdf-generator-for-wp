@@ -155,6 +155,9 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 														?>
 													</select>
 												</div>
+												<div style="text-align:center; font-weight:600; margin: 8px 0;">
+													<?php esc_html_e( 'OR', 'pdf-generator-for-wp' ); ?>
+												</div>
 												<div>
 													<label style="font-weight:600; display:block; margin-bottom:4px;"><?php esc_html_e( 'Posts', 'pdf-generator-for-wp' ); ?></label>
 													<select name="wpg_template_items[<?php echo esc_attr( $template ); ?>][]" class="wpg-select2 wpg-template-items" multiple style="width: 300px;">

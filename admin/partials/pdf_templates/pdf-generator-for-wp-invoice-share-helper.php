@@ -46,8 +46,11 @@ if ( ! function_exists( 'wpg_invoice_share_section' ) ) {
 	 * @return string
 	 */
 	function wpg_invoice_share_section( $share_link, $color, $whatsapp_share, $email_share ) {
-		$share_link  = esc_url( $share_link );
-		$color_style = $color ? $color : '#000000';
+		$share_link            = esc_url( $share_link );
+		$whatsapp_share        = esc_url( $whatsapp_share );
+		$email_share           = esc_url( $email_share );
+		$color_style           = $color ? $color : '#000000';
+		$open_link_text        = esc_attr__( 'Open invoice link', 'pdf-generator-for-wp' );
 
 		$html  = '<div style="text-align:center; padding:14px; border:1px solid #e6e6e6; border-radius:8px; background:#fafafa;">';
 		$html .= '<div style="font-weight:700; letter-spacing:0.3px; margin-bottom:15px; color:' . esc_attr( $color_style ) . '; text-transform:uppercase; font-size:13px;">' . __( 'Share this invoice', 'pdf-generator-for-wp' ) . '</div>';
@@ -55,7 +58,7 @@ if ( ! function_exists( 'wpg_invoice_share_section' ) ) {
 		$html .= '<a target="_blank" rel="noopener noreferrer" href="' . $whatsapp_share . '" style="min-width:96px; background:#25D366;color:#fff;padding:8px 12px;border-radius:18px;text-decoration:none;font-size:12px; font-weight:600; box-shadow:0 1px 2px rgba(0,0,0,0.08);margin-right:5px;">' . __( 'WhatsApp', 'pdf-generator-for-wp' ) . '</a>';
 		$html .= '<a target="_blank" rel="noopener noreferrer" href="' . $email_share . '" style="min-width:96px; background:#4285f4;color:#fff;padding:8px 12px;border-radius:18px;text-decoration:none;font-size:12px; font-weight:600; box-shadow:0 1px 2px rgba(0,0,0,0.08);">' . __( 'Email', 'pdf-generator-for-wp' ) . '</a>';
 		$html .= '</div>';
-		$html .= '<a target="_blank" rel="noopener noreferrer" href="' . $share_link . '" style="display:inline-block; font-size:11px; color:#4a4a4a; text-decoration:none; word-break:break-all; padding:6px 10px; border:1px dashed #d0d0d0; border-radius:6px; background:#fff;margin-top:15px;">' . $share_link . '</a>';
+		$html .= '<a target="_blank" rel="noopener noreferrer" href="' . $share_link . '" aria-label="' . $open_link_text . '" title="' . $open_link_text . '" style="display:block; width:100%; max-width:520px; margin:15px auto 0; font-size:11px; color:#4a4a4a; text-decoration:none; word-break:break-all; padding:6px 10px; border:1px dashed #d0d0d0; border-radius:6px; background:#fff; line-height:1.45; font-family:inherit; text-align:left; cursor:pointer;">' . esc_html( $share_link ) . '</a>';
 		$html .= '</div>';
 
 		return $html;

@@ -1207,6 +1207,15 @@ class Pdf_Generator_For_Wp_Common {
 			if ( 'open_window' === $action ) {
 				$output = $dompdf->output();
 				$dompdf->stream( $invoice_name . '.pdf', array( 'Attachment' => 0 ) );
+				if ('yes' == get_option('wpg_attach_invoice_shareable_link')) {
+				$output = $dompdf->output();
+				if ( file_exists( $path ) ) {
+					@unlink( $path ); // phpcs:ignore
+				}
+				if ( ! file_exists( $path ) ) {
+					@file_put_contents( $path, $output ); // phpcs:ignore
+				}
+				}
 			}
 			if ( 'download_on_server' === $action ) {
 				$output = $dompdf->output();

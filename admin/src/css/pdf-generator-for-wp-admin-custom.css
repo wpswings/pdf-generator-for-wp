@@ -50,6 +50,10 @@
     margin: 0 8px;
 }
 
+span#wps-wpg-day-count  {
+    margin : 0;
+}
+
 @media (max-width: 768px) {
     .wps-header-container {
         flex-wrap: wrap;

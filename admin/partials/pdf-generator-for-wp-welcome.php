@@ -27,7 +27,7 @@ $pgfw_tab_key = '';
 		<h1 class="wps-header-title"><?php echo esc_attr( 'WP Swings' ); ?></h1>
 	</div>
 </header>
-<main class="wps-main wps-bg-white wps-r-8">
+<main class="wps-main wps-main_home wps-bg-white wps-r-8">
 	<section class="wps-section">
 		<div>
 			<?php
