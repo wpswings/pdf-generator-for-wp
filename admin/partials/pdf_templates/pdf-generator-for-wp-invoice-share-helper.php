@@ -26,10 +26,27 @@ if ( ! function_exists( 'wpg_invoice_share_meta' ) ) {
 		$share_link = $share_link ? $share_link : home_url( '/' );
 		$share_link = apply_filters( 'wpg_invoice_share_link', $share_link, $order_id, $invoice_id, $type );
 
+		$whatsapp_message = sprintf(
+			/* translators: 1: Invoice ID, 2: Invoice URL. */
+			__( 'Invoice %1$s: %2$s', 'pdf-generator-for-wp' ),
+			$invoice_id,
+			$share_link
+		);
+		$email_subject = sprintf(
+			/* translators: %s: Invoice ID. */
+			__( 'Invoice %s', 'pdf-generator-for-wp' ),
+			$invoice_id
+		);
+		$email_body = sprintf(
+			/* translators: %s: Invoice URL. */
+			__( 'Here is your invoice: %s', 'pdf-generator-for-wp' ),
+			$share_link
+		);
+
 		return array(
 			'share_link'     => $share_link,
-			'whatsapp_share' => 'https://api.whatsapp.com/send?text=' . rawurlencode( sprintf( __( 'Invoice %1$s: %2$s', 'pdf-generator-for-wp' ), $invoice_id, $share_link ) ),
-			'email_share'    => 'mailto:?subject=' . rawurlencode( sprintf( __( 'Invoice %s', 'pdf-generator-for-wp' ), $invoice_id ) ) . '&body=' . rawurlencode( sprintf( __( 'Here is your invoice: %s', 'pdf-generator-for-wp' ), $share_link ) ),
+			'whatsapp_share' => 'https://api.whatsapp.com/send?text=' . rawurlencode( $whatsapp_message ),
+			'email_share'    => 'mailto:?subject=' . rawurlencode( $email_subject ) . '&body=' . rawurlencode( $email_body ),
 		);
 	}
 }

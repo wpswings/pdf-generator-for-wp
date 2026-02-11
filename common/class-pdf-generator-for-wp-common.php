@@ -506,7 +506,7 @@ class Pdf_Generator_For_Wp_Common {
 			$log_download();
 			return $document_name;
 		} elseif ( 'preview' === $pgfw_generate_mode ) {
-			@ob_end_clean(); // phpcs:ignore
+			@ob_end_clean(); // phpcs:ignore.
 			$dompdf->stream(
 				$document_name . '.pdf',
 				array(
@@ -527,11 +527,12 @@ class Pdf_Generator_For_Wp_Common {
 	private function pgfw_get_client_ip() {
 		$ip_keys = array( 'HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR' );
 		foreach ( $ip_keys as $key ) {
-			if ( empty( $_SERVER[ $key ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			if ( empty( $_SERVER[ $key ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.
 				continue;
 			}
-			$ip_list = explode( ',', wp_unslash( $_SERVER[ $key ] ) ); // phpcs:ignore WordPress.Security.NonceVerification
-			$ip      = trim( $ip_list[0] );
+			$server_ip_value = sanitize_text_field( wp_unslash( $_SERVER[ $key ] ) ); // phpcs:ignore WordPress.Security.NonceVerification.
+			$ip_list         = explode( ',', $server_ip_value );
+			$ip              = trim( $ip_list[0] );
 			if ( filter_var( $ip, FILTER_VALIDATE_IP ) ) {
 				return $ip;
 			}
@@ -1103,9 +1104,6 @@ class Pdf_Generator_For_Wp_Common {
 		$path     = $upload_basedir . $invoice_name . '.pdf';
 		$file_url = $upload_baseurl . rawurlencode( $invoice_name ) . '.pdf';
 
-		// var_dump( $path );
-		// die($file_url);
-
 		if ( ( 'yes' === $pgfw_generate_invoice_from_cache ) && file_exists( $path ) ) {
 			if ( 'download_locally' === $action ) {
 				$this->wpg_download_already_existing_invoice_file( $file_url );
@@ -1182,7 +1180,6 @@ class Pdf_Generator_For_Wp_Common {
 			// Output the updated HTML content.
 			$html = $updated_html;
 			// Webp Image End Fixes.
-            // die( $html );
 			$dompdf->loadHtml( $html );
 			$dompdf->setPaper( 'A4' );
 			@ob_end_clean(); // phpcs:ignore

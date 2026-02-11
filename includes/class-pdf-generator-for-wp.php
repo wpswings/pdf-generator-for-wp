@@ -301,15 +301,6 @@ class Pdf_Generator_For_Wp {
 					// Post to pdf generate button if woocommerce is activated but hook the content is used.
 					$this->loader->add_filter( 'the_content', $pgfw_plugin_public, 'pgfw_show_download_icon_to_users', 20 );
 				}
-
-				// Invoice download/view hooks for WooCommerce orders (free plugin parity with Pro).
-				// $wpg_enable_plugin = get_option( 'wpg_enable_plugin' );
-				// if ( 'yes' === $wpg_enable_plugin ) {
-				// 	$this->loader->add_action( 'init', $pgfw_plugin_public, 'wpg_generate_pdf_for_user' );
-				// 	$this->loader->add_filter( 'woocommerce_my_account_my_orders_actions', $pgfw_plugin_public, 'wpg_add_invoice_action_to_my_orders', 10, 2 );
-				// 	$this->loader->add_action( 'woocommerce_order_details_after_order_table', $pgfw_plugin_public, 'wpg_show_download_invoice_button_on_order_description_page' );
-				// 	$this->loader->add_filter( 'woocommerce_thankyou_order_received_text', $pgfw_plugin_public, 'wpg_pdf_generation_link_for_guest_user', 20, 2 );
-				// }
 			} else {
 				// Post to pdf generate button if woocommerce is not activated.
 				$this->loader->add_filter( 'the_content', $pgfw_plugin_public, 'pgfw_show_download_icon_to_users', 20 );

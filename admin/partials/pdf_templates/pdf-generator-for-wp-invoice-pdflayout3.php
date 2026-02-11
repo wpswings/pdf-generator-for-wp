@@ -443,7 +443,7 @@ function return_ob_value( $order_id, $type, $invoice_id, $invoice_url = '' ) {
 
 			$html .= '</body>
 			</html>';
-      // die( $html );
+
 		return $html;
 	}
 	return '<div>' . esc_html__( 'Looks like order is not found', 'pdf-generator-for-wp' ) . '</div>';

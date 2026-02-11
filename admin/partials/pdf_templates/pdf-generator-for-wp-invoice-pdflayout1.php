@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This is template one for the pdf generation.
  *

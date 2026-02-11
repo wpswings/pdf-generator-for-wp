@@ -19,15 +19,6 @@ global $pgfw_wps_pgfw_obj, $wps_pgfw_gen_flag, $pgfw_save_check_flag;
 $pgfw_active_tab   = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw_tab'] ) : 'pdf-generator-for-wp-general'; // phpcs:ignore
 do_action( 'pgfw_license_activation_notice_on_dashboard' );
 $pgfw_default_tabs = $pgfw_wps_pgfw_obj->wps_pgfw_plug_default_tabs();
-// Handle stale pro tab slugs after pro plugin deactivation.
-// if ( ! array_key_exists( $pgfw_active_tab, $pgfw_default_tabs ) ) {
-// 	$pgfw_migrated_tab = sanitize_key( str_replace( 'wordpress-pdf-generator', 'pdf-generator-for-wp', $pgfw_active_tab ) );
-// 	if ( array_key_exists( $pgfw_migrated_tab, $pgfw_default_tabs ) ) {
-// 		$pgfw_active_tab = $pgfw_migrated_tab;
-// 	} else {
-// 		$pgfw_active_tab = 'pdf-generator-for-wp-general';
-// 	}
-// }
 
 $wps_wpg_plugin_list = get_option( 'active_plugins' );
 $wps_wpg_plugin = 'wordpress-pdf-generator/wordpress-pdf-generator.php';
