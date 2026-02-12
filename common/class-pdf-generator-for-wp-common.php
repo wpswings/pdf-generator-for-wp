@@ -476,7 +476,6 @@ class Pdf_Generator_For_Wp_Common {
 					'Attachment' => 0,
 				)
 			);
-			// exit();
 		} elseif ( 'upload_on_server_and_mail' === $pgfw_generate_mode ) {
 			$output = $dompdf->output();
 			$path   = $upload_basedir . $document_name . '.pdf';
