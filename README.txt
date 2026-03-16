@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: PDF, invoices, 3d flipbook, PDF generator, pdf flipbook, WordPress PDF generator
 Requires at least: 6.7.0
-Tested up to: 6.9.1
+Tested up to: 6.9.4
 WC requires at least: 6.5.0
-WC tested up to: 10.5.1
-Stable tag: 1.6.0
+WC tested up to: 10.6.1
+Stable tag: 1.6.1
 Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -228,6 +228,9 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Changelog ==
 
+= 1.6.1 - Released on 16 March 2026 =
+* New : Compatibility With Latest WP (6.9.4) and WC (10.6.1)
+
 = 1.6.0 - Released on 12 February 2026 =
 * New : PDF LOG USER log tracking.
 * New : Compatibility With Latest WP (6.9.1) and WC (10.5.1)
@@ -448,6 +451,5 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Upgrade Notice ==
 
-= 1.6.0 - Released on 12 February 2026 =
-* New : PDF LOG USER log tracking.
-* New : Compatibility With Latest WP (6.9.1) and WC (10.5.1).
+= 1.6.1 - Released on 16 March 2026 =
+* New : Compatibility With Latest WP (6.9.4) and WC (10.6.1)
