@@ -79,6 +79,67 @@ class Pdf_Generator_For_Wp_Rest_Api {
 				'permission_callback' => array( $this, 'wps_pgfw_default_permission_check' ),
 			)
 		);
+
+		register_rest_route(
+			'pgfw-route/v1',
+			'/tab-content',
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'wps_pgfw_tab_content' ),
+				'permission_callback' => array( $this, 'wps_pgfw_tab_permission_check' ),
+				'args'                => array(
+					'tab' => array(
+						'required' => true,
+						'type'     => 'string',
+						'pattern'  => '[a-zA-Z0-9\-]+',
+					),
+				),
+			),
+		);
+	}
+
+	/**
+	 * Permission check for tab content endpoint.
+	 *
+	 * @param WP_REST_Request $request Request data.
+	 * @return bool|
+	 */
+	public function wps_pgfw_tab_permission_check( $request ) {
+		return current_user_can( 'manage_options' );
+	}
+
+	/**
+	 * Return rendered tab HTML so the admin UI can switch without full reload.
+	 *
+	 * @param WP_REST_Request $request Request data.
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function wps_pgfw_tab_content( $request ) {
+		$tab = sanitize_key( $request->get_param( 'tab' ) );
+		if ( empty( $tab ) ) {
+			return new WP_Error( 'pgfw_invalid_tab', __( 'Invalid tab.', 'pdf-generator-for-wp' ), array( 'status' => 400 ) );
+		}
+
+		$pgfw_tab_content_path = 'admin/partials/' . $tab . '.php';
+
+		global $pgfw_wps_pgfw_obj;
+		if ( empty( $pgfw_wps_pgfw_obj ) || ! method_exists( $pgfw_wps_pgfw_obj, 'wps_pgfw_plug_load_template' ) ) {
+			return new WP_Error( 'pgfw_loader_missing', __( 'Unable to load tab content.', 'pdf-generator-for-wp' ), array( 'status' => 500 ) );
+		}
+
+		// Ensure tab value is available to partials that read $_GET['pgfw_tab'] directly.
+		$_GET['pgfw_tab'] = $tab; // phpcs:ignore WordPress.Security.NonceVerification
+
+		ob_start();
+		do_action( 'wps_pgfw_before_general_settings_form' );
+		$pgfw_wps_pgfw_obj->wps_pgfw_plug_load_template( $pgfw_tab_content_path );
+		do_action( 'wps_pgfw_after_general_settings_form' );
+		$html = ob_get_clean();
+
+		return rest_ensure_response( array(
+			'tab'  => $tab,
+			'html' => $html,
+		) );
 	}
 
 

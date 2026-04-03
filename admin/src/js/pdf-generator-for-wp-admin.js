@@ -1,195 +1,148 @@
 (function( $ ) {
 	'use strict';
 
-	/**
-	 * All of the code for your admin-facing JavaScript source
-	 * should reside in this file.
-	 *
-	 * Note: It has been assumed you will write jQuery code here, so the
-	 * $ function reference has been prepared for usage within the scope
-	 * of this function.
-	 *
-	 * This enables you to define handlers, for when the DOM is ready:
-	 *
-	 * $(function() {
-	 *
-	 * });
-	 *
-	 * When the window is loaded:
-	 *
-	 * $( window ).load(function() {
-	 *
-	 * });
-	 *
-	 * ...and/or other possibilities.
-	 *
-	 * Ideally, it is not considered best practise to attach more than a
-	 * single DOM-ready or window-load handler for a particular page.
-	 * Although scripts in the WordPress core, Plugins and Themes may be
-	 * practising this, we should strive to set a better example in our own work.
-	 */
+	window.pgfwInitUI = function() {
+		const wps_wpg_pro_enable = pgfw_admin_param.is_pro_active;
 
-	 $(document).ready(function() {
-		
-		var wps_wpg_pro_enable = pgfw_admin_param.is_pro_active
-		var wps_wpg_licese_check = pgfw_admin_param.license_check
-		
-		if ( wps_wpg_pro_enable ){
-			jQuery('.wps_pgfw_pro_tag').closest('.wps-form-group').addClass('wps_pgfw_pro_tag_lable').hide();
-		}else {
-			jQuery('.wps_pgfw_pro_tag').closest('.wps-form-group').addClass('wps_pgfw_pro_tag_lable').show();
+		if ( wps_wpg_pro_enable ) {
+			$('.wps_pgfw_pro_tag').closest('.wps-form-group').addClass('wps_pgfw_pro_tag_lable').hide();
+		} else {
+			$('.wps_pgfw_pro_tag').closest('.wps-form-group').addClass('wps_pgfw_pro_tag_lable').show();
 		}
-		
-         
-        
-		const MDCText = mdc.textField.MDCTextField;
-        const textField = [].map.call(document.querySelectorAll('.mdc-text-field'), function(el) {
-            return new MDCText(el);
-        });
-        const MDCRipple = mdc.ripple.MDCRipple;
-        const buttonRipple = [].map.call(document.querySelectorAll('.mdc-button'), function(el) {
-            return new MDCRipple(el);
-        });
-        const MDCSwitch = mdc.switchControl.MDCSwitch;
-        const switchControl = [].map.call(document.querySelectorAll('.mdc-switch'), function(el) {
-            return new MDCSwitch(el);
-        });
 
-        $('.wps-password-hidden').click(function() {
-            if ($('.wps-form__password').attr('type') == 'text') {
-                $('.wps-form__password').attr('type', 'password');
-            } else {
-                $('.wps-form__password').attr('type', 'text');
-            }
-        });
-
-	});
-
-	$(window).load(function(){
-		// add select2 for multiselect.
-		if( $(document).find('.wps-defaut-multiselect').length > 0 ) {
-			$(document).find('.wps-defaut-multiselect').select2();
+		// Material components init.
+		if ( window.mdc && mdc.textField ) {
+			[].map.call(document.querySelectorAll('.mdc-text-field'), function(el) { return new mdc.textField.MDCTextField(el); });
 		}
-	});
+		if ( window.mdc && mdc.ripple ) {
+			[].map.call(document.querySelectorAll('.mdc-button'), function(el) { return new mdc.ripple.MDCRipple(el); });
+		}
+		if ( window.mdc && mdc.switchControl ) {
+			[].map.call(document.querySelectorAll('.mdc-switch'), function(el) { return new mdc.switchControl.MDCSwitch(el); });
+		}
 
-	document.addEventListener('DOMContentLoaded', () => {
-		document.querySelectorAll('.wps-switch input').forEach((el) => {
-			el.addEventListener('change', function() {
-				const source = this.dataset.source;
-				const value = this.checked ? 'on' : 'off';
-				const toast = document.getElementById('wps-toast-msg');
+		// Password toggle.
+		$('.wps-password-hidden').off('click.pgfw').on('click.pgfw', function() {
+			const $pwd = $('.wps-form__password');
+			$pwd.attr('type', $pwd.attr('type') === 'text' ? 'password' : 'text');
+		});
 
-				$.ajax({
-                    url    : pgfw_admin_param.ajaxurl,
-                    method : 'post',
-                    data   : {
-                        action   : 'wps_pgfw_save_embed_source',
-                        nonce    : pgfw_admin_param.nonce,
-						is_enable: value,
-						souce_name: source,
-						is_pro_active : pgfw_admin_param.is_pro_active,
-                    },
-                    success: function( msg ) {
-						console.log(msg);
-						if (msg.success) {
-							toast.textContent = '✅ Setting saved!';
-							toast.style.display = 'inline-block';
-							setTimeout(() => {
-								toast.style.display = 'none';
-							}, 2000);
-                        }
-                    }, error : function() {
-						console.log('error encounter');
-                    } 
-                });
+		// Select2 initialisation (safe re-run).
+		$('.wps-defaut-multiselect').each(function() {
+			if ( ! $(this).data('select2') ) {
+				$(this).select2();
+			}
+		});
+		$('.wpg-select2').each(function() {
+			if ( ! $(this).data('select2') ) {
+				$(this).select2({ placeholder: 'Select unique items', allowClear: true, width: 'resolve' });
+			}
+		});
+
+		// Toggle AJAX save (delegated).
+		$(document).off('change.pgfw', '.wps-switch input').on('change.pgfw', '.wps-switch input', function() {
+			const source = this.dataset.source;
+			const value = this.checked ? 'on' : 'off';
+			const toast = document.getElementById('wps-toast-msg');
+
+			$.ajax({
+				url: pgfw_admin_param.ajaxurl,
+				method: 'post',
+				data: {
+					action: 'wps_pgfw_save_embed_source',
+					nonce: pgfw_admin_param.nonce,
+					is_enable: value,
+					souce_name: source,
+					is_pro_active: pgfw_admin_param.is_pro_active,
+				},
+				success: function( msg ) {
+					if ( msg.success && toast ) {
+						toast.textContent = '✅ Setting saved!';
+						toast.style.display = 'inline-block';
+						setTimeout(() => { toast.style.display = 'none'; }, 2000);
+					}
+				},
 			});
 		});
-	});
-	
 
-	document.addEventListener("DOMContentLoaded", function() {
-		const shortcodes = document.querySelectorAll(".wps-pgfw-shortcodes-copy-shortcode");
-
-		shortcodes.forEach(shortcode => {
-			shortcode.style.cursor = "pointer";
-			shortcode.style.position = "relative";
-
-			shortcode.addEventListener("click", function() {
-				const text = this.getAttribute("data-shortcode");
+		// Shortcode copy buttons.
+		document.querySelectorAll('.wps-pgfw-shortcodes-copy-shortcode').forEach(shortcode => {
+			shortcode.style.cursor = 'pointer';
+			shortcode.style.position = 'relative';
+			shortcode.removeEventListener('click', shortcode._pgfwCopyHandler || (()=>{}));
+			const handler = function() {
+				const text = this.getAttribute('data-shortcode');
 				navigator.clipboard.writeText(text).then(() => {
-					let tooltip = document.createElement("span");
-					tooltip.textContent = "Copied!";
-					tooltip.style.position = "absolute";
-					tooltip.style.top = "-25px";
-					tooltip.style.left = "50%";
-					tooltip.style.transform = "translateX(-50%)";
-					tooltip.style.background = "#28a745";
-					tooltip.style.color = "#fff";
-					tooltip.style.padding = "5px 10px";
-					tooltip.style.borderRadius = "5px";
-					tooltip.style.fontSize = "12px";
-					tooltip.style.boxShadow = "0px 2px 5px rgba(0,0,0,0.2)";
-					tooltip.style.opacity = "0.9";
-					tooltip.style.transition = "opacity 0.5s";
+					let tooltip = document.createElement('span');
+					tooltip.textContent = 'Copied!';
+					Object.assign(tooltip.style, {
+						position: 'absolute',
+						top: '-25px',
+						left: '50%',
+						transform: 'translateX(-50%)',
+						background: '#28a745',
+						color: '#fff',
+						padding: '5px 10px',
+						borderRadius: '5px',
+						fontSize: '12px',
+						boxShadow: '0px 2px 5px rgba(0,0,0,0.2)',
+						opacity: '0.9',
+						transition: 'opacity 0.5s',
+					});
 					this.appendChild(tooltip);
-
 					setTimeout(() => {
-						tooltip.style.opacity = "0";
+						tooltip.style.opacity = '0';
 						setTimeout(() => tooltip.remove(), 500);
 					}, 1000);
 				});
-			});
+			};
+			shortcode._pgfwCopyHandler = handler;
+			shortcode.addEventListener('click', handler);
 		});
-	});
-	
-	 
-})(jQuery);
 
-document.addEventListener("DOMContentLoaded", function () {
-	document.querySelectorAll('span.wps_shortcode_pro').forEach(span => {
-		const tr = span.closest('tr');
-		if (tr) {
-			tr.classList.add('wps-highlight-tr');
-			console.log('Added class to:', tr);
-		}
-	});
-});
-
-jQuery(document).ready(function ($) {
-	const $selects = $('.wpg-select2');
-
-	// Initialize Select2
-	$selects.select2({
-		placeholder: "Select unique items",
-		allowClear: true,
-		width: 'resolve'
-	});
-
-	// Save internal-page template mapping (posts + post types) via AJAX.
-	const templateSelectors = $('.wpg-template-items, .wpg-template-post-types');
-	if ( templateSelectors.length ) {
-		const ajaxSave = function( templateName ) {
-			const posts = $('select[name="wpg_template_items[' + templateName + '][]"]').val() || [];
-			const postTypes = $('select[name="wpg_template_post_types[' + templateName + '][]"]').val() || [];
-			$.ajax({
-				url: pgfw_admin_param.ajaxurl,
-				method: 'POST',
-				data: {
-					action: 'wpg_save_template_items',
-					template: templateName,
-					items: posts,
-					post_types: postTypes,
-					nonce: pgfw_admin_param.nonce,
-				},
-			});
-		};
-
-		templateSelectors.on('change', function() {
-			const match = $(this).attr('name').match(/wpg_template_(?:items|post_types)\[(.*?)\]/);
-			const template = match && match[1] ? match[1] : '';
-			if ( template ) {
-				ajaxSave( template );
+		// Highlight pro rows.
+		document.querySelectorAll('span.wps_shortcode_pro').forEach(span => {
+			const tr = span.closest('tr');
+			if ( tr ) {
+				tr.classList.add('wps-highlight-tr');
 			}
 		});
-	}
-});
+
+		// Internal template mapping save.
+		const templateSelectors = $('.wpg-template-items, .wpg-template-post-types');
+		if ( templateSelectors.length ) {
+			const ajaxSave = function( templateName ) {
+				const posts = $('select[name=\"wpg_template_items[' + templateName + '][]\"]').val() || [];
+				const postTypes = $('select[name=\"wpg_template_post_types[' + templateName + '][]\"]').val() || [];
+				$.ajax({
+					url: pgfw_admin_param.ajaxurl,
+					method: 'POST',
+					data: {
+						action: 'wpg_save_template_items',
+						template: templateName,
+						items: posts,
+						post_types: postTypes,
+						nonce: pgfw_admin_param.nonce,
+					},
+				});
+			};
+
+			templateSelectors.off('change.pgfw').on('change.pgfw', function() {
+				const match = $(this).attr('name').match(/wpg_template_(?:items|post_types)\\[(.*?)\\]/);
+				const template = match && match[1] ? match[1] : '';
+				if ( template ) {
+					ajaxSave( template );
+				}
+			});
+		}
+	};
+
+	$(document).ready(function() {
+		window.pgfwInitUI();
+	});
+
+	$(window).on('load', function() {
+		window.pgfwInitUI();
+	});
+
+})(jQuery);

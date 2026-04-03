@@ -1,167 +1,84 @@
 <?php
 /**
- * Provide a admin area view for the plugin
+ * Overview tab content (redesigned dashboard).
  *
- * This file is used to markup the html field for overview tab.
- *
- * @link       https://wpswings.com/
- * @since      1.0.0
- *
- * @package    Pdf_Generator_For_Wp
- * @subpackage Pdf_Generator_For_Wp/admin/partials
+ * @package Pdf_Generator_For_Wp
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-do_action( 'wps_pgfw_pro_overview_content' );
-$wps_wpg_plugin_list = get_option( 'active_plugins' );
-$wps_wpg_plugin = 'wordpress-pdf-generator/wordpress-pdf-generator.php';
-$wps_wpg_is_pro_active = false;
-if ( in_array( $wps_wpg_plugin, $wps_wpg_plugin_list ) ) {
-	$wps_wpg_is_pro_active = true;
-}
 
-if ( true != $wps_wpg_is_pro_active ) {
-	?>
-<div class="wps-overview__wrapper">
-	<?php do_action( 'pgfw_overview_content_top' ); ?>
-	<div class="wps-overview__banner">
-		<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ); ?>admin/src/images/bannerpdf.jpg" alt="Overview banner image" >
-	</div>
-	<div class="wps-overview__content">
-		<div class="wps-overview__content-description">
-			<h2><?php echo esc_html_e( 'What is PDF Generator?', 'pdf-generator-for-wp' ); ?></h2>
-			<p>
-				<?php
-				esc_html_e(
-					'PDF Generator allows you to share the content on your website in more than one way. You can convert your posts, product pages, and blogs into PDF files to make them available offline. There are various utilities allowing users and admins to generate PDF files of desired content. These range from dispersing your brand name through watermarks, customized headers and footers, and much more. 
-					PDF generator is one such plugin that will let you or your users generate PDF with personalized settings, also allowing access to emails of your leads and potential customers. The PDF Generator plugin is now upgraded to equip you with better control of the feature on your WordPress site.',
-					'pdf-generator-for-wp'
-				);
-				?>
-			</p>
-			<h3><?php esc_html_e( 'With our PDF Generator for WordPress plugin, you can:', 'pdf-generator-for-wp' ); ?></h3>
-			<div class="wps-overview__features-wrapper">
-				<ul class="wps-overview__features">
-					<li><?php esc_html_e( 'Create PDF files to build your company portfolio as per your industry best practices.', 'pdf-generator-for-wp' ); ?></li>
-					<li><?php esc_html_e( 'Allow users to download products and content from your website.', 'pdf-generator-for-wp' ); ?></li>
-					<li><?php esc_html_e( 'Allow users to share the PDF files on different channels or access them offline.', 'pdf-generator-for-wp' ); ?></li>
-					<li><?php esc_html_e( 'Upload PDF files in advance to let your customers download them.', 'pdf-generator-for-wp' ); ?></li>
-					<li><?php esc_html_e( 'Request the users’ email id in exchange for information.', 'pdf-generator-for-wp' ); ?></li>
-					<li><?php esc_html_e( 'Disperse your branding effectively with the useful information you have to sell.', 'pdf-generator-for-wp' ); ?></li>
-				</ul>
-				<div class="wps-overview__video--url">
-					<iframe width="560" height="315" src="https://www.youtube.com/embed/tmdht_8uLMI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-				</div>
-			</div>
+global $pgfw_wps_pgfw_obj;
+
+$plugin_title = strtoupper( str_replace( '-', ' ', apply_filters( 'wps_pgfw_update_plugin_name_dashboard', $pgfw_wps_pgfw_obj->pgfw_get_plugin_name() ) ) );
+
+$docs_url       = 'https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-backend&utm_campaign=documentation';
+$video_url      = 'https://www.youtube.com/watch?v=RljECeP3JJk';
+$faq_url        = 'https://wpswings.com/submit-query/?utm_source=wpswings-pdf-support&utm_medium=pdf-org-backend&utm_campaign=submit-query';
+$contact_url    = 'https://wpswings.com/contact-us/';
+$services_url   = 'https://wpswings.com/wordpress-woocommerce-solutions/?utm_source=wpswings-pdf-service&utm_medium=pdf-org-backend&utm_campaign=service-page';
+$upgrade_url    = 'https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=pdf-org-backend&utm_campaign=go-pro';
+$demo_url       = 'https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=wpswings-org-backend&utm_campaign=View-demo';
+$support_email  = 'support@wpswings.com';
+
+$feature_cards = array(
+	array(
+		'icon'  => 'dashicons-yes-alt',
+		'title' => __( 'Top three features of this plugin?', 'pdf-generator-for-wp' ),
+		'body'  => __( 'Detailed Report View With Churn Rate and ARR', 'pdf-generator-for-wp' ),
+	),
+	array(
+		'icon'  => 'dashicons-chart-area',
+		'title' => __( 'Top three features of this plugin?', 'pdf-generator-for-wp' ),
+		'body'  => __( 'Detailed Report View With Churn Rate and ARR', 'pdf-generator-for-wp' ),
+	),
+	array(
+		'icon'  => 'dashicons-database-view',
+		'title' => __( 'Top three features of this plugin?', 'pdf-generator-for-wp' ),
+		'body'  => __( 'Detailed Report View With Churn Rate and ARR', 'pdf-generator-for-wp' ),
+	),
+);
+?>
+
+<div class="pgfw-overview">
+	<div class="pgfw-hero">
+		<div class="pgfw-hero__illustration">
+			<img src="<?php echo esc_url( PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/wps-pdf-icon.png' ); ?>" alt="PDF Generator" />
 		</div>
-		<h2> <?php esc_html_e( 'The Free Plugin Benefits', 'pdf-generator-for-wp' ); ?></h2>
-		<div class="wps-overview__keywords">
-			<div class="wps-overview__keywords-item">
-				<div class="wps-overview__keywords-card">
-					<div class="wps-overview__keywords-image">
-						<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/includedetails.jpg' ); ?>" alt="Advanced-report image">
-					</div>
-					<div class="wps-overview__keywords-text">
-						<h3 class="wps-overview__keywords-heading"><?php echo esc_html_e( 'Include Details', 'pdf-generator-for-wp' ); ?></h3>
-						<p class="wps-overview__keywords-description">
-							<?php
-							esc_html_e(
-								'The general features in the PDF generator plugin allow you to set the name for your generated PDF. Also, the general settings in the PDF generator allow you to choose if you want to display the author name, date of publication, and different download options.',
-								'pdf-generator-for-wp'
-							);
-							?>
-						</p>
-					</div>
-				</div>
-			</div>
-			<div class="wps-overview__keywords-item">
-				<div class="wps-overview__keywords-card">
-					<div class="wps-overview__keywords-image">
-						<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/seticonalignment.jpg' ); ?>" alt="Workflow image">
-					</div>
-					<div class="wps-overview__keywords-text">
-						<h3 class="wps-overview__keywords-heading"><?php esc_html_e( 'Set Icon Alignment', 'pdf-generator-for-wp' ); ?></h3>
-						<p class="wps-overview__keywords-description"><?php esc_html_e( 'By using the display settings, the PDF generator plugin provides flexibility to choose if users and guest users will be able to see the icon. It has the features to let you decide the alignment of your icon in the WordPress site and if you want to send the PDF to the user’s e-mail.', 'pdf-generator-for-wp' ); ?></p>
-					</div>
-				</div>
-			</div>
-			<div class="wps-overview__keywords-item">
-				<div class="wps-overview__keywords-card">
-					<div class="wps-overview__keywords-image">
-						<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/customizepdf.jpg' ); ?>" alt="Variable product image">
-					</div>
-					<div class="wps-overview__keywords-text">
-						<h3 class="wps-overview__keywords-heading"><?php esc_html_e( 'Customize Your PDF', 'pdf-generator-for-wp' ); ?></h3>
-						<p class="wps-overview__keywords-description">
-							<?php
-							esc_html_e(
-								'The plugin allows you for the individual customization of the header, footer, and PDF body. You can set your desired margins, watermarks, custom logo, title, tagline, and much more. An exclusive feature in the PDF generator is compatibility with Arabic languages and RTL support.',
-								'pdf-generator-for-wp'
-							);
-							?>
-						</p>
-					</div>
-				</div>
-			</div>
-			<div class="wps-overview__keywords-item">
-				<div class="wps-overview__keywords-card">
-					<div class="wps-overview__keywords-image">
-						<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/releventplacement.jpg' ); ?>" alt="List-of-abandoned-users image">
-					</div>
-					<div class="wps-overview__keywords-text">
-						<h3 class="wps-overview__keywords-heading"><?php esc_html_e( 'Relevant Placement', 'pdf-generator-for-wp' ); ?></h3>
-						<p class="wps-overview__keywords-description">
-							<?php
-							esc_html_e(
-								'The advanced settings of the PDF generator plugin allow you to place the PDF icon on the relevant pages only. So, you can select the relevant post types of which you want to generate the PDF. PDF generators let you generate PDF files for products, pages, or posts.',
-								'pdf-generator-for-wp'
-							);
-							?>
-						</p>
-					</div>
-				</div>
-			</div>
-			<div class="wps-overview__keywords-item">
-				<div class="wps-overview__keywords-card wps-card-support">
-					<div class="wps-overview__keywords-image">
-						<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/metafields.jpg' ); ?>" alt="Support image">
-					</div>
-					<div class="wps-overview__keywords-text">
-						<h3 class="wps-overview__keywords-heading"><?php esc_html_e( 'Select Appropriate Metafields', 'pdf-generator-for-wp' ); ?></h3>
-						<p class="wps-overview__keywords-description">
-							<?php
-							esc_html_e(
-								'Depending upon the purpose of your PDF file, you can select the appropriate meta fields. The plugin lets you select the meta fields specifically for products, pages, and posts respectively. So, you can edit the settings as per your target audience, be it a potential client or a new supplier. ',
-								'pdf-generator-for-wp'
-							);
-							?>
-						</p>
-					</div>
-				</div>
-			</div>
-			<div class="wps-overview__keywords-item">
-				<div class="wps-overview__keywords-card wps-card-support">
-					<div class="wps-overview__keywords-image">
-						<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/uploadyourpdf.jpg' ); ?>" alt="Support image">
-					</div>
-					<div class="wps-overview__keywords-text">
-						<h3 class="wps-overview__keywords-heading"><?php esc_html_e( 'Upload Your Own PDF', 'pdf-generator-for-wp' ); ?></h3>
-						<p class="wps-overview__keywords-description">
-							<?php
-							esc_html_e(
-								'Another chic feature in the plugin to serve your purpose of generating PDF files is allowing you to upload your own PDF files. This lets you sell your product, services or content in a manner you have planned in advance.',
-								'pdf-generator-for-wp'
-							);
-							?>
-						</p>
-					</div>
-				</div>
-			</div>
+		<div class="pgfw-hero__text">
+			<p class="pgfw-badge">v<?php echo esc_html( PDF_GENERATOR_FOR_WP_VERSION ); ?></p>
+			<h1><?php esc_html_e( 'Product Recommendation using AI', 'pdf-generator-for-wp' ); ?></h1>
+			<p class="pgfw-lead"><?php esc_html_e( 'Subscriptions for WooCommerce Pro enables seamless recurring payments, flexible subscription plans, and effortless management, boosting customer retention and revenue. Perfect for businesses seeking to optimize their subscription-based WooCommerce store.', 'pdf-generator-for-wp' ); ?></p>
 		</div>
 	</div>
-	<?php do_action( 'pgfw_overview_content_bottom' ); ?>
+
+	<div class="pgfw-card pgfw-feature-callout">
+		<div class="pgfw-feature-heading">
+			<span class="pgfw-line"></span>
+			<h2><?php esc_html_e( 'Top Features of this plugin', 'pdf-generator-for-wp' ); ?></h2>
+			<span class="pgfw-line"></span>
+		</div>
+		<div class="pgfw-feature-grid">
+			<?php foreach ( $feature_cards as $card ) : ?>
+				<article class="pgfw-feature-item">
+					<span class="pgfw-feature-icon dashicons <?php echo esc_attr( $card['icon'] ); ?>" aria-hidden="true"></span>
+					<h3><?php echo esc_html( $card['title'] ); ?></h3>
+					<p><?php echo esc_html( $card['body'] ); ?></p>
+				</article>
+			<?php endforeach; ?>
+		</div>
+	</div>
+
+	<div class="pgfw-support-strip">
+		<div class="pgfw-support-text">
+			<strong><?php esc_html_e( 'Facing issues?', 'pdf-generator-for-wp' ); ?></strong>
+			<span><?php esc_html_e( 'We are ready to resolve your problems.', 'pdf-generator-for-wp' ); ?></span>
+		</div>
+		<div class="pgfw-support-actions">
+			<a class="pgfw-btn pgfw-btn-dark" href="<?php echo esc_url( $contact_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Hire us!', 'pdf-generator-for-wp' ); ?></a>
+			<a class="pgfw-btn" href="<?php echo esc_url( $demo_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Demo', 'pdf-generator-for-wp' ); ?></a>
+			<a class="pgfw-btn" href="<?php echo esc_url( $faq_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Support', 'pdf-generator-for-wp' ); ?></a>
+		</div>
+	</div>
 </div>
-	<?php
-}

@@ -20,7 +20,7 @@ $pgfw_default_tabs      = $pgfw_wps_pgfw_obj->wps_pgfw_plug_layout_setting_sub_t
 
 $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', array() );
 ?>
-<main class="wps-main wps-bg-white wps-r-8 wps_pgfw_pro_tag">
+<main class="wps-main wps-bg-white wps-r-8 wps_pgfw_pro_tag pgfw-internal-page">
 	<nav class="wps-navbar">
 		<ul class="wps-navbar__items">
 			<?php
@@ -61,7 +61,7 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 						get_site_url()
 					);
 					?>
-					<div class="wpg-adding-notice-for-custom-template">
+					<div class="wpg-adding-notice-for-custom-template pgfw-notice-box">
 						<?php
 						esc_html_e(
 							'To add custom template just click on the Create Templates icon, this will add three page each for header, body and footer with default layouts you can edit them by clicking on the edit link, it will redirect you to the editor, you can add snippets from PDF Snippets block, which is provided in the block section of the gutenberg editor and choose accordingly.',
@@ -69,7 +69,7 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 						);
 						?>
 					</div>
-					<div class="wpg-adding-notice-for-custom-template">
+					<div class="wpg-adding-notice-for-custom-template pgfw-notice-box">
 						<?php
 						esc_html_e(
 							'To add post thumbnail on the PDF, just click on the body editing link, it will redirect you to editor, there you can add any image of desired size, that image will be replaced by the post thumbnail of the size you have just selected image.',
@@ -77,7 +77,7 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 						);
 						?>
 					</div>
-					<div class="wpg-adding-notice-for-custom-template">
+					<div class="wpg-adding-notice-for-custom-template pgfw-notice-box">
 						<?php
 						esc_html_e(
 							'To set the content on the page, If you see any Issue with top placement of header, just visit PDF Settings/Header tab, from that setting page change the value of Header top placement, If you see any issue with the footer placement just visit PDF Settings/Footer tab change the value of Footer bottom placement, Also these changes need to be done in synchronisation with the setting at the PDF setting/ Body page for Page Margin, These will set the content on the PDF.',
@@ -85,8 +85,9 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 						);
 						?>
 					</div>
-					<span class="wpg-add-custom-page-insertion"><?php esc_html_e( 'Create Templates', 'pdf-generator-for-wp' ); ?></span>
-					<table class="wps-layout-table-bottom">
+					<span class="wpg-add-custom-page-insertion pgfw-create-btn"><?php esc_html_e( 'Create Templates', 'pdf-generator-for-wp' ); ?></span>
+					<div class="pgfw-table-card">
+					<table class="wps-layout-table-bottom pgfw-internal-table">
 						<thead>
 							<tr>
 								<th><?php esc_html_e( 'Name', 'pdf-generator-for-wp' ); ?></th>
@@ -144,7 +145,7 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 											<td rowspan="3">
 												<div style="margin-bottom:10px;">
 													<label style="font-weight:600; display:block; margin-bottom:4px;"><?php esc_html_e( 'Post Types', 'pdf-generator-for-wp' ); ?></label>
-													<select name="wpg_template_post_types[<?php echo esc_attr( $template ); ?>][]" class="wpg-select2 wpg-template-post-types" multiple style="width: 300px;">
+													<select name="wpg_template_post_types[<?php echo esc_attr( $template ); ?>][]" class="wpg-select2 wpg-template-post-types" multiple style="width: 280px;">
 														<?php
 														$selected_post_types = get_option( 'wpg_template_post_types_' . $template, array() );
 														$post_types          = get_post_types( array( 'public' => true ), 'objects' );
@@ -160,7 +161,7 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 												</div>
 												<div>
 													<label style="font-weight:600; display:block; margin-bottom:4px;"><?php esc_html_e( 'Posts', 'pdf-generator-for-wp' ); ?></label>
-													<select name="wpg_template_items[<?php echo esc_attr( $template ); ?>][]" class="wpg-select2 wpg-template-items" multiple style="width: 300px;">
+													<select name="wpg_template_items[<?php echo esc_attr( $template ); ?>][]" class="wpg-select2 wpg-template-items" multiple style="width: 280px;">
 														<?php
 														$selected_items = get_option( 'wpg_template_items_' . $template, array() ); // need to get the selected items for this template.
 														$post_types = get_post_types( array( 'public' => true ), 'objects' );
@@ -217,7 +218,7 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 										if ( 0 === $i ) {
 											?>
 											<td rowspan="3">
-												<button data-template-name="<?php echo esc_html( $template ); ?>" class="wpg-delete-template"><?php esc_html_e( 'Delete', 'pdf-generator-for-wp' ); ?></button>
+												<button data-template-name="<?php echo esc_html( $template ); ?>" class="wpg-delete-template pgfw-btn-danger"><?php esc_html_e( 'Delete', 'pdf-generator-for-wp' ); ?></button>
 											</td>
 										<?php } ?>
 									</tr>
@@ -228,8 +229,10 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 							?>
 						</tbody>
 					</table>
+					</table>
+					</div>
 					<div class="mpg-submit-btn-wrap">
-						<button class="wpg-submit-internal-page-setting"><?php esc_html_e( 'Save Setting', 'pdf-generator-for-wp' ); ?></button>
+						<button class="wpg-submit-internal-page-setting pgfw-btn-primary"><?php esc_html_e( 'Save Setting', 'pdf-generator-for-wp' ); ?></button>
 					</div>
 				</div>
 			</form>

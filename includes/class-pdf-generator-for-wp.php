@@ -382,6 +382,11 @@ class Pdf_Generator_For_Wp {
 	public function wps_pgfw_plug_default_tabs() {
 		$pgfw_default_tabs = array();
 
+		$pgfw_default_tabs['pdf-generator-for-wp-overview'] = array(
+			'title' => esc_html__( 'Overview', 'pdf-generator-for-wp' ),
+			'name'  => 'pdf-generator-for-wp-overview',
+		);
+
 		$pgfw_default_tabs['pdf-generator-for-wp-general'] = array(
 			'title' => esc_html__( 'General Settings', 'pdf-generator-for-wp' ),
 			'name'  => 'pdf-generator-for-wp-general',
