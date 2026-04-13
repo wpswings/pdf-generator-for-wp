@@ -1,20 +1,34 @@
 ( function ( wp ) {
-	if ( ! wp || ! wp.element || ! wp.apiFetch ) {
+	if ( ! wp || ! wp.apiFetch ) {
 		return;
 	}
 
 	const dataEl = document.getElementById( 'pgfw-tabs-data' );
-	const containerEl = document.getElementById( 'pgfw-react-app' );
 	const contentEl = document.getElementById( 'pgfw-tab-content' );
+	const bodyGridEl = document.getElementById( 'pgfw-body-grid' );
+	const heroCardEl = document.getElementById( 'pgfw-hero-card' );
+	const heroEyebrowEl = document.getElementById( 'pgfw-hero-eyebrow' );
+	const heroTitleEl = document.getElementById( 'pgfw-hero-title' );
+	const heroSubEl = document.getElementById( 'pgfw-hero-sub' );
 
-	if ( ! dataEl || ! containerEl || ! contentEl ) {
+	if ( ! dataEl || ! contentEl ) {
 		return;
 	}
 
+	return;
+
 	const settings = JSON.parse( dataEl.textContent || '{}' );
-	const initialHtml = contentEl.innerHTML;
-	const { createElement, useEffect, useState } = wp.element;
-	const createRoot = wp.element.createRoot || wp.element.render;
+	let activeTab = settings.activeTab;
+	let isLoading = false;
+	let loaderEl = document.querySelector( '.pgfw-loader' );
+
+	if ( ! loaderEl ) {
+		loaderEl = document.createElement( 'div' );
+		loaderEl.className = 'pgfw-loader';
+		loaderEl.hidden = true;
+		loaderEl.innerHTML = '<span>Loading…</span>';
+		document.body.appendChild( loaderEl );
+	}
 
 	const runScripts = ( host ) => {
 		const scripts = host.querySelectorAll( 'script' );
@@ -34,6 +48,84 @@
 		} );
 	};
 
+	const getActiveNavTab = ( tab ) =>
+		( settings.parentTabs && settings.parentTabs[ tab ] ) || tab;
+
+	const isOverviewTab = ( tab ) =>
+		getActiveNavTab( tab ) === 'pdf-generator-for-wp-overview';
+
+	const updateHeader = ( header ) => {
+		if ( ! header ) {
+			return;
+		}
+
+		if ( heroEyebrowEl && typeof header.eyebrow === 'string' ) {
+			heroEyebrowEl.textContent = header.eyebrow;
+		}
+
+		if ( heroTitleEl && typeof header.title === 'string' ) {
+			heroTitleEl.textContent = header.title;
+		}
+
+		if ( heroSubEl && typeof header.description === 'string' ) {
+			heroSubEl.textContent = header.description;
+		}
+	};
+
+	const updateShellState = ( tab, header ) => {
+		const overviewTab = isOverviewTab( tab );
+
+		if ( bodyGridEl ) {
+			bodyGridEl.classList.toggle( 'pgfw-body-grid--overview', overviewTab );
+		}
+
+		if ( heroCardEl ) {
+			heroCardEl.classList.toggle( 'pgfw-hidden', overviewTab );
+		}
+
+		if ( ! overviewTab ) {
+			updateHeader( header );
+		}
+	};
+
+	const clearActiveStates = () => {
+		document
+			.querySelectorAll( '.pgfw-legacy-nav li.is-active' )
+			.forEach( ( item ) => item.classList.remove( 'is-active' ) );
+	};
+
+	const updateActiveStates = ( tab ) => {
+		const activeNavTab = getActiveNavTab( tab );
+
+		clearActiveStates();
+
+		document
+			.querySelectorAll( '.pgfw-legacy-nav a[data-tab]' )
+			.forEach( ( link ) => {
+				if ( link.dataset.tab !== activeNavTab ) {
+					return;
+				}
+
+				const item = link.closest( 'li' );
+				if ( item ) {
+					item.classList.add( 'is-active' );
+				}
+
+				const moreItem = link.closest( '.pgfw-nav-more' );
+				if ( moreItem ) {
+					moreItem.classList.add( 'is-active' );
+				}
+			} );
+	};
+
+	const showLoader = () => {
+		loaderEl.hidden = false;
+	};
+
+	const hideLoader = () => {
+		loaderEl.hidden = true;
+	};
+
 	const fetchTab = async ( tab ) => {
 		const url = `${ settings.restUrl }?tab=${ encodeURIComponent( tab ) }`;
 		return wp.apiFetch( {
@@ -43,110 +135,82 @@
 		} );
 	};
 
-	const TabApp = () => {
-		const [ activeTab, setActiveTab ] = useState( settings.activeTab );
-		const [ html, setHtml ] = useState( initialHtml );
-		const [ loading, setLoading ] = useState( false );
-
-		useEffect( () => {
-			if ( contentEl ) {
-				contentEl.innerHTML = html;
-				runScripts( contentEl );
+	const parseTabFromUrl = ( href ) => {
+		try {
+			const url = new URL( href, window.location.origin );
+			if ( url.searchParams.get( 'page' ) !== 'pdf_generator_for_wp_menu' ) {
+				return null;
 			}
-		}, [ html ] );
-
-		useEffect( () => {
-			document.body.classList.add( 'pgfw-react-active' );
-		}, [] );
-
-		useEffect( () => {
-			const handlePop = () => {
-				const params = new URLSearchParams( window.location.search );
-				const tab = params.get( 'pgfw_tab' ) || settings.activeTab;
-				if ( tab !== activeTab ) {
-					loadTab( tab, false );
-				}
-			};
-			window.addEventListener( 'popstate', handlePop );
-			return () => window.removeEventListener( 'popstate', handlePop );
-		} );
-
-		const loadTab = async ( tab, push = true ) => {
-			if ( loading || ! tab || tab === activeTab ) {
-				return;
-			}
-			setLoading( true );
-			try {
-				const res = await fetchTab( tab );
-				if ( res && res.html ) {
-					setHtml( res.html );
-					setActiveTab( tab );
-					if ( window.pgfwInitUI ) {
-						// Give DOM a tick to paint then init UI.
-						setTimeout( () => window.pgfwInitUI(), 0 );
-					}
-					if ( push ) {
-						const newUrl = `${ settings.pageUrl }&pgfw_tab=${ tab }`;
-						window.history.pushState( { tab }, '', newUrl );
-					}
-				} else {
-					window.location.href = `${ settings.pageUrl }&pgfw_tab=${ tab }`;
-				}
-			} catch ( e ) {
-				// fallback to full load.
-				window.location.href = `${ settings.pageUrl }&pgfw_tab=${ tab }`;
-			} finally {
-				setLoading( false );
-			}
-		};
-
-		const renderTabButton = ( tab ) =>
-			createElement(
-				'button',
-				{
-					key: tab.key,
-					className:
-						'pgfw-tab-link' +
-						( tab.key === activeTab ? ' is-active' : '' ),
-					onClick: () => loadTab( tab.key, true ),
-					type: 'button',
-				},
-				tab.title,
-				tab.isPro
-					? createElement(
-							'span',
-							{ className: 'pgfw-pill' },
-							'PRO'
-					  )
-					: null
-			);
-
-		return createElement(
-			'div',
-			{ className: 'pgfw-react-nav' },
-			createElement(
-				'div',
-				{ className: 'pgfw-nav' },
-				createElement(
-					'div',
-					{ className: 'pgfw-nav__list' },
-					settings.tabs.map( renderTabButton )
-				)
-			),
-			loading &&
-				createElement(
-					'div',
-					{ className: 'pgfw-loader' },
-					createElement( 'span', null, 'Loading…' )
-				)
-		);
+			return url.searchParams.get( 'pgfw_tab' );
+		} catch ( e ) {
+			return null;
+		}
 	};
 
-	const app = createElement( TabApp );
+	const loadTab = async ( tab, push = true ) => {
+		if ( isLoading || ! tab || tab === activeTab ) {
+			return;
+		}
 
-	if ( typeof wp.element.createRoot === 'function' ) {
-		wp.element.createRoot( containerEl ).render( app );
-	} else {
-		wp.element.render( app, containerEl );
-	}
+		isLoading = true;
+		showLoader();
+
+		try {
+			const res = await fetchTab( tab );
+			if ( ! res || ! res.html ) {
+				window.location.href = `${ settings.pageUrl }&pgfw_tab=${ tab }`;
+				return;
+			}
+
+			contentEl.innerHTML = res.html;
+			runScripts( contentEl );
+
+			activeTab = tab;
+			updateActiveStates( tab );
+			updateShellState( tab, res.header || {} );
+
+			if ( window.pgfwInitUI ) {
+				setTimeout( () => window.pgfwInitUI(), 0 );
+			}
+
+			if ( push ) {
+				window.history.pushState(
+					{ tab },
+					'',
+					`${ settings.pageUrl }&pgfw_tab=${ tab }`
+				);
+			}
+		} catch ( e ) {
+			window.location.href = `${ settings.pageUrl }&pgfw_tab=${ tab }`;
+		} finally {
+			isLoading = false;
+			hideLoader();
+		}
+	};
+
+	document.addEventListener( 'click', ( event ) => {
+		const link = event.target.closest( 'a[href]' );
+		if ( ! link ) {
+			return;
+		}
+
+		const tab = parseTabFromUrl( link.href );
+		if ( ! tab ) {
+			return;
+		}
+
+		event.preventDefault();
+		loadTab( tab, true );
+	} );
+
+	window.addEventListener( 'popstate', () => {
+		const params = new URLSearchParams( window.location.search );
+		const tab = params.get( 'pgfw_tab' ) || settings.activeTab;
+		if ( tab !== activeTab ) {
+			loadTab( tab, false );
+		}
+	} );
+
+	updateActiveStates( activeTab );
+	updateShellState( activeTab, settings.header || {} );
 } )( window.wp );

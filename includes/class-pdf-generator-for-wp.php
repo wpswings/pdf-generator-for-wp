@@ -77,14 +77,14 @@ class Pdf_Generator_For_Wp {
 			$this->version = PDF_GENERATOR_FOR_WP_VERSION;
 		} else {
 
-			$this->version = '1.6.1';
+			$this->version = '1.6.2';
 		}
 
 		$this->plugin_name = 'pdf-generator-for-wp';
 
 		$this->pdf_generator_for_wp_dependencies();
-		$this->pdf_generator_for_wp_locale();
-		if ( is_admin() ) {
+		
+		if ( $this->pdf_generator_for_wp_should_load_admin_context() ) {
 			$this->pdf_generator_for_wp_admin_hooks();
 		} else {
 			$this->pdf_generator_for_wp_public_hooks();
@@ -117,13 +117,8 @@ class Pdf_Generator_For_Wp {
 		 */
 		require_once plugin_dir_path( __DIR__ ) . 'includes/class-pdf-generator-for-wp-loader.php';
 
-		/**
-		 * The class responsible for defining internationalization functionality
-		 * of the plugin.
-		 */
-		require_once plugin_dir_path( __DIR__ ) . 'includes/class-pdf-generator-for-wp-i18n.php';
-
-		if ( is_admin() ) {
+		
+		if ( $this->pdf_generator_for_wp_should_load_admin_context() ) {
 
 			// The class responsible for defining all actions that occur in the admin area.
 			require_once plugin_dir_path( __DIR__ ) . 'admin/class-pdf-generator-for-wp-admin.php';
@@ -153,18 +148,18 @@ class Pdf_Generator_For_Wp {
 	}
 
 	/**
-	 * Define the locale for this plugin for internationalization.
+	 * Determine whether the current request needs admin-side plugin hooks.
 	 *
-	 * Uses the Pdf_Generator_For_Wp_I18n class in order to set the domain and to register the hook
-	 * with WordPress.
+	 * Tab content is loaded through the REST API from the admin screen, so those
+	 * requests also need the admin field filters registered.
 	 *
-	 * @since    1.0.0
+	 * @since 1.0.0
+	 * @return bool
 	 */
-	private function pdf_generator_for_wp_locale() {
-		$plugin_i18n = new Pdf_Generator_For_Wp_I18n();
-
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+	private function pdf_generator_for_wp_should_load_admin_context() {
+		return is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST );
 	}
+
 
 	/**
 	 * Register all of the hooks related to the admin area functionality
@@ -486,6 +481,166 @@ class Pdf_Generator_For_Wp {
 		);
 
 		return $pgfw_default_tabs;
+	}
+
+	/**
+	 * Return child-to-parent dashboard tab mappings.
+	 *
+	 * @since 1.0.0
+	 * @return array
+	 */
+	public function wps_pgfw_get_dashboard_parent_tab_map() {
+		return array(
+			'pdf-generator-for-wp-pdf-icon-setting'  => 'pdf-generator-for-wp-pdf-setting',
+			'pdf-generator-for-wp-header'            => 'pdf-generator-for-wp-pdf-setting',
+			'pdf-generator-for-wp-body'              => 'pdf-generator-for-wp-pdf-setting',
+			'pdf-generator-for-wp-footer'            => 'pdf-generator-for-wp-pdf-setting',
+			'pdf-generator-for-wp-cover-page-setting'    => 'pdf-generator-for-wp-layout-settings',
+			'pdf-generator-for-wp-internal-page-setting' => 'pdf-generator-for-wp-layout-settings',
+		);
+	}
+
+	/**
+	 * Return the top-level dashboard tab for a tab key.
+	 *
+	 * @since 1.0.0
+	 * @param string $tab_key Current tab key.
+	 * @return string
+	 */
+	public function wps_pgfw_get_dashboard_parent_tab( $tab_key ) {
+		$parent_tab_map = $this->wps_pgfw_get_dashboard_parent_tab_map();
+		return isset( $parent_tab_map[ $tab_key ] ) ? $parent_tab_map[ $tab_key ] : $tab_key;
+	}
+
+	/**
+	 * Return dashboard hero content for the active tab.
+	 *
+	 * @since 1.0.0
+	 * @param string $tab_key Current tab key.
+	 * @return array
+	 */
+	public function wps_pgfw_get_dashboard_header_content( $tab_key ) {
+		$tab_key     = sanitize_key( $tab_key );
+		$parent_tab  = $this->wps_pgfw_get_dashboard_parent_tab( $tab_key );
+		$header_data = array(
+			'pdf-generator-for-wp-overview' => array(
+				'eyebrow'     => esc_html__( 'Overview', 'pdf-generator-for-wp' ),
+				'title'       => esc_html__( 'See your PDF workspace at a glance', 'pdf-generator-for-wp' ),
+				'description' => esc_html__( 'Review core plugin capabilities, quick actions, and support resources from one dashboard.', 'pdf-generator-for-wp' ),
+			),
+			'pdf-generator-for-wp-general' => array(
+				'eyebrow'     => esc_html__( 'General Settings', 'pdf-generator-for-wp' ),
+				'title'       => esc_html__( 'Control how PDF generation behaves across your site', 'pdf-generator-for-wp' ),
+				'description' => esc_html__( 'Configure the main plugin behavior, availability, and baseline PDF generation rules for your content.', 'pdf-generator-for-wp' ),
+			),
+			'pdf-generator-for-wp-pdf-setting' => array(
+				'eyebrow'     => esc_html__( 'PDF Settings', 'pdf-generator-for-wp' ),
+				'title'       => esc_html__( 'Shape the PDF experience from icon to layout', 'pdf-generator-for-wp' ),
+				'description' => esc_html__( 'Adjust icon display, document structure, and the visual sections that appear inside each generated PDF.', 'pdf-generator-for-wp' ),
+			),
+			'pdf-generator-for-wp-pdf-icon-setting' => array(
+				'eyebrow'     => esc_html__( 'PDF Settings', 'pdf-generator-for-wp' ),
+				'title'       => esc_html__( 'Control how PDF icons appear on your site', 'pdf-generator-for-wp' ),
+				'description' => esc_html__( 'Manage icon visibility, alignment, labels, and styling before users generate or download PDFs.', 'pdf-generator-for-wp' ),
+			),
+			'pdf-generator-for-wp-header' => array(
+				'eyebrow'     => esc_html__( 'PDF Settings', 'pdf-generator-for-wp' ),
+				'title'       => esc_html__( 'Customize the header section of each PDF', 'pdf-generator-for-wp' ),
+				'description' => esc_html__( 'Configure the logo, company name, tagline, typography, and spacing shown at the top of generated PDFs.', 'pdf-generator-for-wp' ),
+			),
+			'pdf-generator-for-wp-body' => array(
+				'eyebrow'     => esc_html__( 'PDF Settings', 'pdf-generator-for-wp' ),
+				'title'       => esc_html__( 'Design the main PDF body content', 'pdf-generator-for-wp' ),
+				'description' => esc_html__( 'Set up body styling, colors, watermark options, and content presentation for the main document area.', 'pdf-generator-for-wp' ),
+			),
+			'pdf-generator-for-wp-footer' => array(
+				'eyebrow'     => esc_html__( 'PDF Settings', 'pdf-generator-for-wp' ),
+				'title'       => esc_html__( 'Manage the footer that closes every PDF', 'pdf-generator-for-wp' ),
+				'description' => esc_html__( 'Update footer text, spacing, and supporting details so the final page area matches your document design.', 'pdf-generator-for-wp' ),
+			),
+			'pdf-generator-for-wp-advanced' => array(
+				'eyebrow'     => esc_html__( 'Advanced Settings', 'pdf-generator-for-wp' ),
+				'title'       => esc_html__( 'Handle advanced PDF generation options', 'pdf-generator-for-wp' ),
+				'description' => esc_html__( 'Fine-tune deeper behavior, compatibility settings, and advanced controls for more complex PDF workflows.', 'pdf-generator-for-wp' ),
+			),
+			'pdf-generator-for-wp-meta-fields' => array(
+				'eyebrow'     => esc_html__( 'Meta Fields', 'pdf-generator-for-wp' ),
+				'title'       => esc_html__( 'Decide which meta fields flow into your PDFs', 'pdf-generator-for-wp' ),
+				'description' => esc_html__( 'Select and organize post meta so the right data is injected into generated documents.', 'pdf-generator-for-wp' ),
+			),
+			'pdf-generator-for-wp-embed-source' => array(
+				'eyebrow'     => esc_html__( 'Embed Source', 'pdf-generator-for-wp' ),
+				'title'       => esc_html__( 'Choose the source used for embedded PDFs', 'pdf-generator-for-wp' ),
+				'description' => esc_html__( 'Configure where embedded PDF content is pulled from and how it is exposed within your site experience.', 'pdf-generator-for-wp' ),
+			),
+			'pdf-generator-for-wp-taxonomy' => array(
+				'eyebrow'     => esc_html__( 'Taxonomy Settings', 'pdf-generator-for-wp' ),
+				'title'       => esc_html__( 'Control taxonomy data inside generated PDFs', 'pdf-generator-for-wp' ),
+				'description' => esc_html__( 'Decide how taxonomy terms are included so category and classification data appears where you need it.', 'pdf-generator-for-wp' ),
+			),
+			'pdf-generator-for-wp-layout-settings' => array(
+				'eyebrow'     => esc_html__( 'Layout Settings', 'pdf-generator-for-wp' ),
+				'title'       => esc_html__( 'Build the page structure of your PDF layouts', 'pdf-generator-for-wp' ),
+				'description' => esc_html__( 'Configure page templates, supporting layouts, and layout-specific structure for more tailored PDF output.', 'pdf-generator-for-wp' ),
+			),
+			'pdf-generator-for-wp-cover-page-setting' => array(
+				'eyebrow'     => esc_html__( 'Layout Settings', 'pdf-generator-for-wp' ),
+				'title'       => esc_html__( 'Configure the cover page layout', 'pdf-generator-for-wp' ),
+				'description' => esc_html__( 'Manage the content and presentation of the opening page shown before the main PDF body.', 'pdf-generator-for-wp' ),
+			),
+			'pdf-generator-for-wp-internal-page-setting' => array(
+				'eyebrow'     => esc_html__( 'Layout Settings', 'pdf-generator-for-wp' ),
+				'title'       => esc_html__( 'Set up the internal page layout', 'pdf-generator-for-wp' ),
+				'description' => esc_html__( 'Define the structure and reusable sections used across internal pages of the generated PDF.', 'pdf-generator-for-wp' ),
+			),
+			'pdf-generator-for-wp-logs' => array(
+				'eyebrow'     => esc_html__( 'PDF Logs', 'pdf-generator-for-wp' ),
+				'title'       => esc_html__( 'Inspect PDF generation activity and diagnostics', 'pdf-generator-for-wp' ),
+				'description' => esc_html__( 'Review logged PDF events to monitor activity, troubleshoot issues, and verify document generation.', 'pdf-generator-for-wp' ),
+			),
+			'pdf-generator-for-wp-invoice-general' => array(
+				'eyebrow'     => esc_html__( 'Invoice Settings', 'pdf-generator-for-wp' ),
+				'title'       => esc_html__( 'Configure invoice PDF generation rules', 'pdf-generator-for-wp' ),
+				'description' => esc_html__( 'Set invoice-specific behavior, numbering, branding, and options for WooCommerce invoice documents.', 'pdf-generator-for-wp' ),
+			),
+			'pdf-generator-for-wp-invoice-page-setting' => array(
+				'eyebrow'     => esc_html__( 'Invoice Page Settings', 'pdf-generator-for-wp' ),
+				'title'       => esc_html__( 'Design the layout used for invoice pages', 'pdf-generator-for-wp' ),
+				'description' => esc_html__( 'Adjust invoice page structure and visual presentation so billing documents match your storefront requirements.', 'pdf-generator-for-wp' ),
+			),
+			'pdf-generator-for-wp-pdf-upload' => array(
+				'eyebrow'     => esc_html__( 'PDF Upload', 'pdf-generator-for-wp' ),
+				'title'       => esc_html__( 'Upload PDF assets and reuse them with shortcodes', 'pdf-generator-for-wp' ),
+				'description' => esc_html__( 'Manage uploaded PDF files and poster assets so they can be placed anywhere on your site with generated shortcodes.', 'pdf-generator-for-wp' ),
+			),
+			'pdf-generator-for-wp-shortcode' => array(
+				'eyebrow'     => esc_html__( 'Shortcodes', 'pdf-generator-for-wp' ),
+				'title'       => esc_html__( 'Reference the shortcodes available in this plugin', 'pdf-generator-for-wp' ),
+				'description' => esc_html__( 'Review copy-ready shortcode patterns for PDF buttons, meta values, QR codes, and other supported outputs.', 'pdf-generator-for-wp' ),
+			),
+		);
+
+		if ( isset( $header_data[ $tab_key ] ) ) {
+			return $header_data[ $tab_key ];
+		}
+
+		if ( isset( $header_data[ $parent_tab ] ) ) {
+			return $header_data[ $parent_tab ];
+		}
+
+		$known_tabs = array_merge(
+			$this->wps_pgfw_plug_default_tabs(),
+			$this->wps_pgfw_plug_default_sub_tabs(),
+			$this->wps_pgfw_plug_layout_setting_sub_tabs(),
+			$this->wps_pgfw_plug_layout_setting_sub_tabs_dummy()
+		);
+		$tab_title  = isset( $known_tabs[ $tab_key ]['title'] ) ? $known_tabs[ $tab_key ]['title'] : esc_html__( 'PDF Workspace', 'pdf-generator-for-wp' );
+
+		return array(
+			'eyebrow'     => $tab_title,
+			'title'       => sprintf( esc_html__( 'Manage %s', 'pdf-generator-for-wp' ), $tab_title ),
+			'description' => esc_html__( 'Review and update the settings available in this section.', 'pdf-generator-for-wp' ),
+		);
 	}
 	/**
 	 * Loading sub tabs for layout settings used by pro plugin.
@@ -842,22 +997,21 @@ class Pdf_Generator_For_Wp {
 									<label for="" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
 								</div>
 								<div class="wps-form-group__control">
-									<div>
-										<div class="mdc-switch">
-											<div class="mdc-switch__track"></div>
-											<div class="mdc-switch__thumb-underlay">
-												<div class="mdc-switch__thumb"></div>
-												<input
-													name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
-													type="checkbox"
-													id="<?php echo esc_html( $pgfw_component['id'] ); ?>"
-													value="yes"
-													class="mdc-switch__native-control <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
-													role="switch"
-													aria-checked="<?php echo esc_html( 'yes' === $pgfw_component['value'] ) ? 'true' : 'false'; ?>"
-													<?php checked( $pgfw_component['value'], 'yes' ); ?>>
-											</div>
-										</div>
+									<div class="pgfw-toggle">
+										<label class="pgfw-toggle__switch" for="<?php echo esc_attr( $pgfw_component['id'] ); ?>">
+											<input
+												name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
+												type="checkbox"
+												id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"
+												value="yes"
+												class="pgfw-toggle__input <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
+												role="switch"
+												aria-checked="<?php echo esc_attr( 'yes' === $pgfw_component['value'] ? 'true' : 'false' ); ?>"
+												<?php checked( $pgfw_component['value'], 'yes' ); ?>>
+											<span class="pgfw-toggle__track" aria-hidden="true">
+												<span class="pgfw-toggle__thumb"></span>
+											</span>
+										</label>
 									</div>
 									<div class="mdc-text-field-helper-line">
 										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>

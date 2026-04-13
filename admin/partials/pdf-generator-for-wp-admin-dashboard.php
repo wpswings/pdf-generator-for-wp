@@ -12,17 +12,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $pgfw_wps_pgfw_obj, $wps_pgfw_gen_flag, $pgfw_save_check_flag;
 
 $pgfw_active_tab   = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw_tab'] ) : 'pdf-generator-for-wp-overview'; // phpcs:ignore
-do_action( 'pgfw_license_activation_notice_on_dashboard' );
 $pgfw_default_tabs = $pgfw_wps_pgfw_obj->wps_pgfw_plug_default_tabs();
 
 $wps_wpg_plugin_list  = get_option( 'active_plugins' );
 $wps_wpg_plugin       = 'wordpress-pdf-generator/wordpress-pdf-generator.php';
 $wps_wpg_is_pro_active = in_array( $wps_wpg_plugin, $wps_wpg_plugin_list, true );
-$upgrade_url          = 'https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=pdf-org-backend&utm_campaign=go-pro';
 $docs_url             = 'https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-backend&utm_campaign=documentation';
 $video_url            = 'https://www.youtube.com/watch?v=RljECeP3JJk';
 $faq_url              = 'https://wpswings.com/submit-query/?utm_source=wpswings-pdf-support&utm_medium=pdf-org-backend&utm_campaign=submit-query';
 $contact_url          = 'https://wpswings.com/contact-us/';
+$plugins_url          = 'https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-sidebar&utm_medium=pdf-org-backend&utm_campaign=shop-page';
 
 $tabs_for_js = array();
 if ( is_array( $pgfw_default_tabs ) ) {
@@ -37,12 +36,16 @@ if ( is_array( $pgfw_default_tabs ) ) {
 	}
 }
 
+$pgfw_header_content = $pgfw_wps_pgfw_obj->wps_pgfw_get_dashboard_header_content( $pgfw_active_tab );
+
 $pgfw_settings_data = array(
-	'restUrl'   => esc_url_raw( rest_url( 'pgfw-route/v1/tab-content' ) ),
-	'nonce'     => wp_create_nonce( 'wp_rest' ),
-	'pageUrl'   => admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ),
-	'activeTab' => $pgfw_active_tab,
-	'tabs'      => $tabs_for_js,
+	'restUrl'    => esc_url_raw( rest_url( 'pgfw-route/v1/tab-content' ) ),
+	'nonce'      => wp_create_nonce( 'wp_rest' ),
+	'pageUrl'    => admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ),
+	'activeTab'  => $pgfw_active_tab,
+	'tabs'       => $tabs_for_js,
+	'header'     => $pgfw_header_content,
+	'parentTabs' => $pgfw_wps_pgfw_obj->wps_pgfw_get_dashboard_parent_tab_map(),
 );
 
 // Save/migrate notice handling.
@@ -57,25 +60,29 @@ if ( $pgfw_save_check_flag ) {
 do_action( 'wps_wpg_settings_saved_notice' );
 ?>
 
-<div class="pgfw-flashbar">
-	<div class="pgfw-flashbar__text"><?php esc_html_e( 'Flash Sale is live: Get up to 45% OFF on WP Swings Plugins', 'pdf-generator-for-wp' ); ?></div>
-	<div class="pgfw-flashbar__code"><?php esc_html_e( 'Use Code', 'pdf-generator-for-wp' ); ?> <strong>GRAB10</strong></div>
-	<a class="pgfw-flashbar__cta" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-shop&utm_medium=pdf-org-backend&utm_campaign=shop-page" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Grab Now', 'pdf-generator-for-wp' ); ?></a>
+<script type="application/json" id="pgfw-tabs-data"><?php echo wp_json_encode( $pgfw_settings_data ); ?></script>
+
+<div class="pgfw-flashbar" role="region" aria-label="<?php esc_attr_e( 'Flash sale notice', 'pdf-generator-for-wp' ); ?>">
+	<div class="pgfw-flashbar__inner">
+		<span class="pgfw-flashbar__pill"><?php esc_html_e( 'Flash Sale', 'pdf-generator-for-wp' ); ?></span>
+		<div class="pgfw-flashbar__content">
+			<div class="pgfw-flashbar__text">
+				<span class="pgfw-flashbar__lead"><?php esc_html_e( 'Flash Sale is live', 'pdf-generator-for-wp' ); ?></span>
+				<span class="pgfw-flashbar__offer"><?php esc_html_e( 'Get up to 45% OFF on WP Swings Plugins', 'pdf-generator-for-wp' ); ?></span>
+			</div>
+			<div class="pgfw-flashbar__code">
+				<span class="pgfw-flashbar__code-label"><?php esc_html_e( 'Use Code', 'pdf-generator-for-wp' ); ?></span>
+				<strong>GRAB10</strong>
+			</div>
+		</div>
+		<a class="pgfw-flashbar__cta" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-shop&utm_medium=pdf-org-backend&utm_campaign=shop-page" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Grab Now', 'pdf-generator-for-wp' ); ?></a>
+	</div>
 </div>
 
 <main class="pgfw-shell pgfw-skin-v2">
 	<?php
-	$tab_is_active = function( $tab_key ) use ( $pgfw_active_tab ) {
-		if ( $pgfw_active_tab === $tab_key ) {
-			return true;
-		}
-		if ( in_array( $pgfw_active_tab, array( 'pdf-generator-for-wp-header', 'pdf-generator-for-wp-body', 'pdf-generator-for-wp-footer', 'pdf-generator-for-wp-pdf-icon-setting' ), true ) && 'pdf-generator-for-wp-pdf-setting' === $tab_key ) {
-			return true;
-		}
-		if ( in_array( $pgfw_active_tab, array( 'pdf-generator-for-wp-cover-page-setting', 'pdf-generator-for-wp-internal-page-setting' ), true ) && 'pdf-generator-for-wp-layout-settings' === $tab_key ) {
-			return true;
-		}
-		return false;
+	$tab_is_active = function( $tab_key ) use ( $pgfw_active_tab, $pgfw_wps_pgfw_obj ) {
+		return $pgfw_wps_pgfw_obj->wps_pgfw_get_dashboard_parent_tab( $pgfw_active_tab ) === $tab_key;
 	};
 	$primary_tabs  = array();
 	$overflow_tabs = array();
@@ -92,13 +99,14 @@ do_action( 'wps_wpg_settings_saved_notice' );
 	}
 	?>
 
-	<div class="pgfw-brandbar">
-		<div class="pgfw-brandbar__pill"><?php echo $wps_wpg_is_pro_active ? esc_html__( 'Pro Active', 'pdf-generator-for-wp' ) : esc_html__( 'PDF Generator', 'pdf-generator-for-wp' ); ?></div>
-		<div class="pgfw-brandbar__title"><?php esc_html_e( 'PDF Generator for WP', 'pdf-generator-for-wp' ); ?></div>
-		<a class="pgfw-btn pgfw-btn-success pgfw-brandbar__cta" href="<?php echo esc_url( $upgrade_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Upgrade to pro', 'pdf-generator-for-wp' ); ?></a>
-	</div>
+		<div class="pgfw-brandbar">
+			<div class="pgfw-brandbar__pill"><?php echo $wps_wpg_is_pro_active ? esc_html__( 'Pro Active', 'pdf-generator-for-wp' ) : esc_html__( 'PDF Generator', 'pdf-generator-for-wp' ); ?></div>
+			<div class="pgfw-brandbar__title"><?php esc_html_e( 'PDF Generator for WP', 'pdf-generator-for-wp' ); ?></div>
+		</div>
 
-	<div class="pgfw-tabbar">
+		<?php do_action( 'pgfw_license_activation_notice_on_dashboard' ); ?>
+
+		<div class="pgfw-tabbar">
 		<div class="pgfw-tabbar__version">
 			v<?php echo esc_html( PDF_GENERATOR_FOR_WP_VERSION ); ?> <?php echo $wps_wpg_is_pro_active ? esc_html__( 'Pro', 'pdf-generator-for-wp' ) : ''; ?>
 		</div>
@@ -141,66 +149,54 @@ do_action( 'wps_wpg_settings_saved_notice' );
 		</nav>
 	</div>
 
-	<div class="pgfw-hero-card">
-		<div class="pgfw-hero-card__icon">
-			<img src="<?php echo esc_url( PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/document-management-big.png' ); ?>" alt="<?php esc_attr_e( 'PDF Generator icon', 'pdf-generator-for-wp' ); ?>" loading="lazy" />
-		</div>
-		<div class="pgfw-hero-card__content">
-			<p class="pgfw-hero-card__eyebrow"><?php esc_html_e( 'PDF Generator for WP', 'pdf-generator-for-wp' ); ?></p>
-			<h1><?php esc_html_e( 'Control every PDF touchpoint from one screen', 'pdf-generator-for-wp' ); ?></h1>
-			<p class="pgfw-hero-card__sub"><?php esc_html_e( 'Configure icons, templates, watermarks and emails in a single, streamlined workspace.', 'pdf-generator-for-wp' ); ?></p>
-			<div class="pgfw-hero-card__actions">
-				<a class="pgfw-btn pgfw-btn-secondary" href="<?php echo esc_url( $docs_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'View Docs', 'pdf-generator-for-wp' ); ?></a>
-				<a class="pgfw-btn pgfw-btn-dark" href="<?php echo esc_url( $contact_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Get Help', 'pdf-generator-for-wp' ); ?></a>
-			</div>
-		</div>
-		<div class="pgfw-hero-card__badge">
-			<span class="pgfw-badge pgfw-badge--pill"><?php printf( esc_html__( 'v%s', 'pdf-generator-for-wp' ), esc_html( PDF_GENERATOR_FOR_WP_VERSION ) ); ?></span>
-			<span class="pgfw-hero-card__tag"><?php esc_html_e( 'UI Refresh', 'pdf-generator-for-wp' ); ?></span>
-		</div>
-	</div>
+		<div class="pgfw-body-grid <?php echo ( 'pdf-generator-for-wp-overview' === $pgfw_active_tab ) ? 'pgfw-body-grid--overview' : ''; ?>" id="pgfw-body-grid">
+			<div class="pgfw-main-column">
+				<div class="pgfw-hero-card <?php echo ( 'pdf-generator-for-wp-overview' === $pgfw_active_tab ) ? 'pgfw-hidden' : ''; ?>" id="pgfw-hero-card">
+					<div class="pgfw-hero-card__content">
+						<p class="pgfw-hero-card__eyebrow" id="pgfw-hero-eyebrow"><?php echo esc_html( $pgfw_header_content['eyebrow'] ); ?></p>
+						<h1 id="pgfw-hero-title"><?php echo esc_html( $pgfw_header_content['title'] ); ?></h1>
+						<p class="pgfw-hero-card__sub" id="pgfw-hero-sub"><?php echo esc_html( $pgfw_header_content['description'] ); ?></p>
+					</div>
+					<a class="pgfw-btn pgfw-btn-dark pgfw-hero-card__cta" href="<?php echo esc_url( $docs_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Read Documentation', 'pdf-generator-for-wp' ); ?></a>
+				</div>
 
-	<div class="pgfw-body-grid">
-		<section class="pgfw-content" id="pgfw-tab-content" aria-live="polite">
-			<?php
-			do_action( 'wps_pgfw_before_general_settings_form' );
-			if ( empty( $pgfw_active_tab ) ) {
-				$pgfw_active_tab = 'pdf-generator-for-wp-overview';
-			}
+				<section class="pgfw-content" id="pgfw-tab-content" aria-live="polite">
+				<?php
+				do_action( 'wps_pgfw_before_general_settings_form' );
+				if ( empty( $pgfw_active_tab ) ) {
+					$pgfw_active_tab = 'pdf-generator-for-wp-overview';
+				}
 
-			$pgfw_tab_content_path = 'admin/partials/' . $pgfw_active_tab . '.php';
-			echo '<div class="pgfw-secion-wrap">';
-				$pgfw_wps_pgfw_obj->wps_pgfw_plug_load_template( $pgfw_tab_content_path );
-			echo '</div>';
+				$pgfw_tab_content_path = 'admin/partials/' . $pgfw_active_tab . '.php';
+				echo '<div class="pgfw-secion-wrap">';
+					$pgfw_wps_pgfw_obj->wps_pgfw_plug_load_template( $pgfw_tab_content_path );
+				echo '</div>';
 
-			do_action( 'wps_pgfw_after_general_settings_form' );
-			?>
-		</section>
+				do_action( 'wps_pgfw_after_general_settings_form' );
+				?>
+			</section>
+		</div>
 
 		<aside class="pgfw-rail" aria-label="<?php esc_attr_e( 'Helpful links', 'pdf-generator-for-wp' ); ?>">
-			<a class="pgfw-setup-link" href="<?php echo esc_url( admin_url( 'admin.php?page=pdf_generator_for_wp_menu&pgfw_tab=pdf-generator-for-wp-general' ) ); ?>">
-				<span class="dashicons dashicons-migrate" aria-hidden="true"></span>
-				<?php esc_html_e( 'Let’s Start the Setup', 'pdf-generator-for-wp' ); ?>
-			</a>
-
-			<div class="pgfw-card pgfw-help-card">
-				<h3><?php esc_html_e( 'Don’t know how this plugin works?', 'pdf-generator-for-wp' ); ?></h3>
+			<div class="pgfw-card pgfw-rail-card pgfw-help-card">
+				<h3><?php esc_html_e( 'Need help with this plugin?', 'pdf-generator-for-wp' ); ?></h3>
 				<ul>
-					<li><a href="<?php echo esc_url( $video_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Watch Video', 'pdf-generator-for-wp' ); ?> <span class="dashicons dashicons-video-alt3" aria-hidden="true"></span></a></li>
-					<li><a href="<?php echo esc_url( $docs_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Documentation', 'pdf-generator-for-wp' ); ?> <span class="dashicons dashicons-media-default" aria-hidden="true"></span></a></li>
-					<li><a href="<?php echo esc_url( $faq_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'FAQs', 'pdf-generator-for-wp' ); ?> <span class="dashicons dashicons-editor-help" aria-hidden="true"></span></a></li>
+					<li><a class="pgfw-rail-link" href="<?php echo esc_url( $video_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Watch Video', 'pdf-generator-for-wp' ); ?></a></li>
+					<li><a class="pgfw-rail-link" href="<?php echo esc_url( $docs_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Documentation', 'pdf-generator-for-wp' ); ?></a></li>
+					<li><a class="pgfw-rail-link" href="<?php echo esc_url( $faq_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Support', 'pdf-generator-for-wp' ); ?></a></li>
 				</ul>
 			</div>
 
-			<div class="pgfw-card pgfw-help-card pgfw-contact-card">
-				<h3><?php esc_html_e( 'Contact us', 'pdf-generator-for-wp' ); ?></h3>
-				<p><?php esc_html_e( 'If we are able to help you grow your business, let us know.', 'pdf-generator-for-wp' ); ?></p>
-				<div class="pgfw-socials">
-					<a class="dashicons dashicons-facebook" href="https://www.facebook.com/wpswings" target="_blank" rel="noopener noreferrer"><span class="screen-reader-text">Facebook</span></a>
-					<a class="dashicons dashicons-twitter" href="https://x.com/wpswings" target="_blank" rel="noopener noreferrer"><span class="screen-reader-text">X</span></a>
-					<a class="dashicons dashicons-instagram" href="https://www.instagram.com/wpswings" target="_blank" rel="noopener noreferrer"><span class="screen-reader-text">Instagram</span></a>
-					<a class="dashicons dashicons-admin-links" href="<?php echo esc_url( $contact_url ); ?>" target="_blank" rel="noopener noreferrer"><span class="screen-reader-text">Contact</span></a>
-				</div>
+			<div class="pgfw-card pgfw-rail-card pgfw-contact-card">
+				<h3><?php esc_html_e( 'Still facing problems?', 'pdf-generator-for-wp' ); ?></h3>
+				<p><?php esc_html_e( 'We are ready to resolve workflow, styling, and integration issues across your store setup.', 'pdf-generator-for-wp' ); ?></p>
+				<a class="pgfw-rail-action pgfw-rail-action--dark" href="<?php echo esc_url( $contact_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Contact Us', 'pdf-generator-for-wp' ); ?></a>
+			</div>
+
+			<div class="pgfw-card pgfw-rail-card pgfw-plugin-card">
+				<h3><?php esc_html_e( 'Explore more plugins', 'pdf-generator-for-wp' ); ?></h3>
+				<p><?php esc_html_e( 'Discover additional commerce and automation plugins from the same product family.', 'pdf-generator-for-wp' ); ?></p>
+				<a class="pgfw-rail-action pgfw-rail-action--light" href="<?php echo esc_url( $plugins_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'View More Plugins', 'pdf-generator-for-wp' ); ?></a>
 			</div>
 		</aside>
 	</div>

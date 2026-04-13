@@ -46,7 +46,7 @@ $pgfw_settings_display_fields = apply_filters( 'pgfw_display_settings_array', ar
 <!--  template file for admin settings. -->
 <section class="wps-section">
 	<form action="" method="POST" class="wps-pgfw-gen-section-form">
-		<div class="pgfw-section-wrap">
+		<div class="pgfw-secion-wrap pgfw-section-wrap">
 			<?php
 			wp_nonce_field( 'nonce_settings_save', 'pgfw_nonce_field' );
 			$pgfw_wps_pgfw_obj->wps_pgfw_plug_generate_html( $pgfw_settings_display_fields );

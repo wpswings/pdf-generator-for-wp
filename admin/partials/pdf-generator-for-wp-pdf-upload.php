@@ -19,7 +19,7 @@ $pgfw_pdf_upload_settings = apply_filters( 'pgfw_pdf_upload_fields_settings_arra
 ?>
 <!--  template file for admin settings. -->
 <form action="" method="POST" class="wps-pgfw-gen-section-form">
-	<div class="pgfw-section-wrap">
+	<div class="pgfw-secion-wrap pgfw-section-wrap">
 		<div class="pgfw-upload-poster-notification"><?php esc_html_e( 'Upload posters from here and you will get shortcode which you can use anywhere on your post or page to give access to download these posters.', 'pdf-generator-for-wp' ); ?></div>
 		<?php
 		wp_nonce_field( 'nonce_settings_save', 'pgfw_nonce_field' );

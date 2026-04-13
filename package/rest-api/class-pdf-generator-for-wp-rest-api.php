@@ -132,13 +132,19 @@ class Pdf_Generator_For_Wp_Rest_Api {
 
 		ob_start();
 		do_action( 'wps_pgfw_before_general_settings_form' );
+		echo '<div class="pgfw-secion-wrap">';
 		$pgfw_wps_pgfw_obj->wps_pgfw_plug_load_template( $pgfw_tab_content_path );
+		echo '</div>';
 		do_action( 'wps_pgfw_after_general_settings_form' );
-		$html = ob_get_clean();
+		$html   = ob_get_clean();
+		$header = method_exists( $pgfw_wps_pgfw_obj, 'wps_pgfw_get_dashboard_header_content' )
+			? $pgfw_wps_pgfw_obj->wps_pgfw_get_dashboard_header_content( $tab )
+			: array();
 
 		return rest_ensure_response( array(
-			'tab'  => $tab,
-			'html' => $html,
+			'tab'    => $tab,
+			'html'   => $html,
+			'header' => $header,
 		) );
 	}
 

@@ -154,6 +154,13 @@ class Pdf_Generator_For_Wp_Admin {
 					'reset_error'        => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/cross.png',
 				)
 			);
+			wp_enqueue_script(
+				'pgfw-react-tabs',
+				PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/js/pgfw-react-tabs.js',
+				array( 'wp-api-fetch' ),
+				filemtime( plugin_dir_path( __FILE__ ) . 'src/js/pgfw-react-tabs.js' ),
+				true
+			);
 			$migration_success = get_option( 'wps_code_migratded' );
 			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'src/js/wpg-addon-admin.js', array( 'jquery' ), $this->version, false );
 			wp_enqueue_script( $this->plugin_name . '-swal', plugin_dir_url( __FILE__ ) . 'src/js/wpg-swal.js', array( 'jquery' ), $this->version, false );
