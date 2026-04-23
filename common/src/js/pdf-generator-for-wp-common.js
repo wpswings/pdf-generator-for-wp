@@ -62,35 +62,5 @@
       });
     });
   });
-$(document).on("click", ".flipbook-open-btn", function (e) {
-    e.preventDefault();
-    const targetSelector = $(this).data("target");
-    const $modal = $(targetSelector);
-    if ($modal.length) {
-      if ($modal.parent().length && !$modal.parent().is("body")) {
-        $modal.detach().appendTo("body");
-      }
-
-      // show modal.
-      $modal.attr("aria-hidden", "false").addClass("is-active");
-    } else {
-      console.warn("Modal not found:", targetSelector);
-    }
-  });
-
-  // close modal on backdrop or X button.
-  $(document).on("click", ".flipbook-modal [data-close]", function () {
-    $(this).closest(".flipbook-modal").attr("aria-hidden", "true").removeClass("is-active");
-  });
-
-  $(document).ready(function() {
-    const canvasWidth = $('.stf__canvas').attr('width');
-    if (canvasWidth) {
-        $('.flipbook-wrap').css('max-width', canvasWidth + 'px');
-        console.log("Max width set to:", canvasWidth + "px");
-    } else {
-        console.warn("Canvas width not found!");
-    }
-});
 
 })(jQuery);

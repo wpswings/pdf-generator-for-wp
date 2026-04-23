@@ -444,21 +444,6 @@ a.pgfw-single-pdf-download-button,
 }
 
 /*popup modal of email input=========start*/
-#TB_window {
-    z-index: 1000000 !important;
-    width: 90% !important;
-    max-width: 400px;
-    transform: translate(-50%, -50%);
-    margin: 0 !important;
-    box-shadow: 0 0 0 5000px rgb(0 0 0 / 74%) !important;
-}
-
-#TB_ajaxContent {
-    width: auto !important;
-    height: unset !important;
-    min-height: 305px;
-}
-
 /*popup modal*/
 .wps_pgfw_email_input {
     display: flex;

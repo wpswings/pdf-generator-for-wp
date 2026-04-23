@@ -55,11 +55,98 @@ class Pdf_Generator_For_Wp_Common {
 	}
 
 	/**
+	 * Get cached general settings for the current request.
+	 *
+	 * @return array
+	 */
+	private function pgfw_get_general_settings() {
+		$settings = wps_pgfw_get_option_cached( 'pgfw_general_settings_save', array() );
+		return is_array( $settings ) ? $settings : array();
+	}
+
+	/**
+	 * Get cached display settings for the current request.
+	 *
+	 * @return array
+	 */
+	private function pgfw_get_display_settings() {
+		$settings = wps_pgfw_get_option_cached( 'pgfw_save_admin_display_settings', array() );
+		return is_array( $settings ) ? $settings : array();
+	}
+
+	/**
+	 * Get cached advanced settings for the current request.
+	 *
+	 * @return array
+	 */
+	private function pgfw_get_advanced_settings() {
+		$settings = wps_pgfw_get_option_cached( 'pgfw_advanced_save_settings', array() );
+		return is_array( $settings ) ? $settings : array();
+	}
+
+	/**
+	 * Determine whether common front-end assets are needed for the current request.
+	 *
+	 * @return bool
+	 */
+	private function pgfw_should_enqueue_common_assets() {
+		$general_settings = $this->pgfw_get_general_settings();
+		if ( 'yes' !== ( $general_settings['pgfw_enable_plugin'] ?? '' ) ) {
+			return false;
+		}
+
+		if ( is_singular() ) {
+			return true;
+		}
+
+		if ( is_front_page() || is_home() ) {
+			$post_id = get_queried_object_id();
+			if ( $post_id ) {
+				$post = get_post( $post_id );
+				if ( $post && isset( $post->post_content ) ) {
+					if ( has_shortcode( $post->post_content, 'WORDPRESS_PDF' ) || has_shortcode( $post->post_content, 'flipbook' ) ) {
+						return true;
+					}
+				}
+
+				$advanced_settings   = $this->pgfw_get_advanced_settings();
+				$enabled_post_types = $advanced_settings['pgfw_advanced_show_post_type_icons'] ?? array();
+				if ( is_array( $enabled_post_types ) && in_array( get_post_type( $post_id ), $enabled_post_types, true ) ) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Determine whether flipbook runtime assets are needed on the current request.
+	 *
+	 * @return bool
+	 */
+	private function pgfw_should_enqueue_flipbook_assets() {
+		$general_settings = $this->pgfw_get_general_settings();
+		if ( 'yes' !== ( $general_settings['pgfw_enable_plugin'] ?? '' ) || 'yes' !== ( $general_settings['pgfw_flipbook_enable'] ?? '' ) || ! is_singular() ) {
+			return false;
+		}
+
+		$post_id = get_queried_object_id();
+		$post    = $post_id ? get_post( $post_id ) : null;
+
+		return $post && isset( $post->post_content ) && has_shortcode( $post->post_content, 'flipbook' );
+	}
+
+	/**
 	 * Register the stylesheets for the common side of the site.
 	 *
 	 * @since    1.0.0
 	 */
 	public function pgfw_common_enqueue_styles() {
+		if ( ! $this->pgfw_should_enqueue_common_assets() ) {
+			return;
+		}
+
 		wp_enqueue_style( $this->plugin_name . 'common', PDF_GENERATOR_FOR_WP_DIR_URL . 'common/src/scss/pdf-generator-for-wp-common.css', array(), $this->version, 'all' );
 	}
 
@@ -69,7 +156,11 @@ class Pdf_Generator_For_Wp_Common {
 	 * @since    1.0.0
 	 */
 	public function pgfw_common_enqueue_scripts() {
-		wp_register_script( $this->plugin_name . 'common', PDF_GENERATOR_FOR_WP_DIR_URL . 'common/src/js/pdf-generator-for-wp-common.js', array( 'jquery' ), $this->version, false );
+		if ( ! $this->pgfw_should_enqueue_common_assets() ) {
+			return;
+		}
+
+		wp_register_script( $this->plugin_name . 'common', PDF_GENERATOR_FOR_WP_DIR_URL . 'common/src/js/pdf-generator-for-wp-common.js', array( 'jquery' ), $this->version, true );
 		wp_localize_script(
 			$this->plugin_name . 'common',
 			'pgfw_common_param',
@@ -82,9 +173,13 @@ class Pdf_Generator_For_Wp_Common {
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . 'common' );
-		wp_register_script( 'flipbook-bundle', PDF_GENERATOR_FOR_WP_DIR_URL . 'common/src/js/flipbook.bundle.js', array( 'jquery' ), $this->version, false );
-		add_thickbox();
-		wp_enqueue_script( 'flipbook-bundle' );
+
+		if ( $this->pgfw_should_enqueue_flipbook_assets() ) {
+			wp_enqueue_style( $this->plugin_name . '-flipbook', PDF_GENERATOR_FOR_WP_DIR_URL . 'common/src/scss/pdf-generator-for-wp-flipbook.css', array(), $this->version, 'all' );
+			wp_enqueue_script( $this->plugin_name . '-flipbook', PDF_GENERATOR_FOR_WP_DIR_URL . 'common/src/js/pdf-generator-for-wp-flipbook.js', array( 'jquery' ), $this->version, true );
+			wp_register_script( 'flipbook-bundle', PDF_GENERATOR_FOR_WP_DIR_URL . 'common/src/js/flipbook.bundle.js', array( 'jquery', $this->plugin_name . '-flipbook' ), $this->version, true );
+			wp_enqueue_script( 'flipbook-bundle' );
+		}
 	}
 	/**
 	 * Catching link for pdf generation user.
@@ -93,7 +188,7 @@ class Pdf_Generator_For_Wp_Common {
 	 * @return void
 	 */
 	public function pgfw_generate_pdf_link_catching_user() {
-		$display_setings_arr = get_option( 'pgfw_save_admin_display_settings', array() );
+		$display_setings_arr = $this->pgfw_get_display_settings();
 		$user_access_pdf     = array_key_exists( 'pgfw_user_access', $display_setings_arr ) ? $display_setings_arr['pgfw_user_access'] : '';
 		$guest_access_pdf    = array_key_exists( 'pgfw_guest_access', $display_setings_arr ) ? $display_setings_arr['pgfw_guest_access'] : '';
 		if ( isset( $_GET['action'] ) ) { // phpcs:ignore
@@ -118,7 +213,7 @@ class Pdf_Generator_For_Wp_Common {
 	 * @return void
 	 */
 	public function pgfw_generate_pdf( $prod_id ) {
-		$general_settings_arr = get_option( 'pgfw_general_settings_save', array() );
+		$general_settings_arr = $this->pgfw_get_general_settings();
 		$pgfw_generate_mode   = array_key_exists( 'pgfw_general_pdf_generate_mode', $general_settings_arr ) ? $general_settings_arr['pgfw_general_pdf_generate_mode'] : 'download_locally';
 		$this->pgfw_generate_pdf_from_library( $prod_id, $pgfw_generate_mode );
 	}
@@ -163,17 +258,17 @@ class Pdf_Generator_For_Wp_Common {
 	public function pgfw_generate_pdf_from_library( $prod_id, $pgfw_generate_mode, $mode = '', $email = '', $template = '', $template_name = '' ) {
 		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
 
-		$pgfw_meta_settings = get_option( 'pgfw_meta_fields_save_settings', array() );
+		$pgfw_meta_settings = wps_pgfw_get_option_cached( 'pgfw_meta_fields_save_settings', array() );
 		 // unknow image file handler.
 		$pgfw_meta_fields_show_unknown_image_format = array_key_exists( 'pgfw_meta_fields_show_unknown_image_format', $pgfw_meta_settings ) ? $pgfw_meta_settings['pgfw_meta_fields_show_unknown_image_format'] : '';
 		// footer .
-		$pgfw_footer_settings   = get_option( 'pgfw_footer_setting_submit', array() );
+		$pgfw_footer_settings   = wps_pgfw_get_option_cached( 'pgfw_footer_setting_submit', array() );
 		$pgfw_general_pdf_show_pageno = array_key_exists( 'pgfw_general_pdf_show_pageno', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_general_pdf_show_pageno'] : '';
 		$pgfw_pageno_position_left    = array_key_exists( 'pgfw_pageno_position_left', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_pageno_position_left'] : '';
 		$pgfw_pageno_position_top    = array_key_exists( 'pgfw_pageno_position_top', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_pageno_position_top'] : '';
 
 		// end footer .
-		$body_settings_arr       = get_option( 'pgfw_body_save_settings', array() );
+		$body_settings_arr       = wps_pgfw_get_option_cached( 'pgfw_body_save_settings', array() );
 		$pgfw_body_custom_page_size_height        = array_key_exists( 'pgfw_body_custom_page_size_height', $body_settings_arr ) ? $body_settings_arr['pgfw_body_custom_page_size_height'] : '';
 		$pgfw_body_custom_page_size_width        = array_key_exists( 'pgfw_body_custom_page_size_width', $body_settings_arr ) ? $body_settings_arr['pgfw_body_custom_page_size_width'] : '';
 		$pgfw_body_page_template = array_key_exists( 'pgfw_body_page_template', $body_settings_arr ) ? $body_settings_arr['pgfw_body_page_template'] : 'template1';
@@ -191,7 +286,7 @@ class Pdf_Generator_For_Wp_Common {
 			$template_file_name = apply_filters( 'pgfw_load_templates_for_pdf_html', $template_file_name, $pgfw_body_post_template, $post_id );
 			require_once $template_file_name;
 		}
-		$general_settings_arr = get_option( 'pgfw_general_settings_save', array() );
+		$general_settings_arr = $this->pgfw_get_general_settings();
 		$pdf_file_name        = array_key_exists( 'pgfw_general_pdf_file_name', $general_settings_arr ) ? $general_settings_arr['pgfw_general_pdf_file_name'] : 'post_name';
 		$body_add_watermark   = array_key_exists( 'pgfw_body_add_watermark', $body_settings_arr ) ? $body_settings_arr['pgfw_body_add_watermark'] : '#000000';
 		$body_watermark_color = array_key_exists( 'pgfw_body_watermark_color', $body_settings_arr ) ? $body_settings_arr['pgfw_body_watermark_color'] : '';

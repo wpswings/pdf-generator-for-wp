@@ -27,7 +27,8 @@
 
         
         // colorpicker header and footer.
-        $('.pgfw_color_picker').each(function() {
+        if ( $.fn.wpColorPicker ) {
+            $('.pgfw_color_picker').each(function() {
             var $input = $(this);
             var $card = $input.closest('[data-color-picker-card]');
             var $hex = $card.find('[data-color-picker-hex]');
@@ -68,7 +69,8 @@
             });
 
             syncColorMeta($input.val());
-        });
+            });
+        }
         // remove logo header.
         $('#pgfw_header_image_remove').click(function(e){
             e.preventDefault();
@@ -209,7 +211,9 @@
             return false;
         });
         // add datatable to the poster listing table.
-        $('#pgfw_poster_shortcode_listing_table').DataTable();
+        if ( $.fn.DataTable && $('#pgfw_poster_shortcode_listing_table').length ) {
+            $('#pgfw_poster_shortcode_listing_table').DataTable();
+        }
         // delete posters.
         $('.pgfw-delete-poster-form-table').click(function(e){
             e.preventDefault();

@@ -162,20 +162,21 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 */
 	public function wps_pgfw_onboarding_enqueue_styles() {
 		global $pagenow;
+		$asset_version = defined( 'PDF_GENERATOR_FOR_WP_VERSION' ) ? PDF_GENERATOR_FOR_WP_VERSION : '1.6.2';
 		$is_valid = false;
 		if ( ! $is_valid && 'plugins.php' == $pagenow ) { // phpcs:ignore
 			$is_valid = true;
 		}
 		if ( $this->wps_pgfw_valid_page_screen_check() || $is_valid ) {
 			// comment the line of code Only when your plugin doesn't uses the Select2.
-			wp_enqueue_style( 'wps-pgfw-onboarding-select2-style', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.css', array(), time(), 'all' );
+			wp_enqueue_style( 'wps-pgfw-onboarding-select2-style', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.css', array(), $asset_version, 'all' );
 
-			wp_enqueue_style( 'wps-pgfw-meterial-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-web.min.css', array(), time(), 'all' );
-			wp_enqueue_style( 'wps-pgfw-meterial-css2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.css', array(), time(), 'all' );
-			wp_enqueue_style( 'wps-pgfw-meterial-lite', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-lite.min.css', array(), time(), 'all' );
-			wp_enqueue_style( 'wps-pgfw-meterial-icons-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/icon.css', array(), time(), 'all' );
+			wp_enqueue_style( 'wps-pgfw-meterial-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-web.min.css', array(), $asset_version, 'all' );
+			wp_enqueue_style( 'wps-pgfw-meterial-css2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.css', array(), $asset_version, 'all' );
+			wp_enqueue_style( 'wps-pgfw-meterial-lite', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-lite.min.css', array(), $asset_version, 'all' );
+			wp_enqueue_style( 'wps-pgfw-meterial-icons-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/icon.css', array(), $asset_version, 'all' );
 
-			wp_enqueue_style( 'wps-pgfw-onboarding-style', PDF_GENERATOR_FOR_WP_DIR_URL . 'onboarding/css/pdf-generator-for-wp-onboarding.css', array(), time(), 'all' );
+			wp_enqueue_style( 'wps-pgfw-onboarding-style', PDF_GENERATOR_FOR_WP_DIR_URL . 'onboarding/css/pdf-generator-for-wp-onboarding.css', array(), $asset_version, 'all' );
 
 		}
 	}
@@ -193,6 +194,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	 */
 	public function wps_pgfw_onboarding_enqueue_scripts() {
 		global $pagenow;
+		$asset_version = defined( 'PDF_GENERATOR_FOR_WP_VERSION' ) ? PDF_GENERATOR_FOR_WP_VERSION : '1.6.2';
 		$is_valid = false;
 		if ( ! $is_valid && 'plugins.php' == $pagenow ) { // phpcs:ignore
 			$is_valid = true;
@@ -201,11 +203,11 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 
 			wp_enqueue_script( 'wps-pgfw-onboarding-select2-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.js', array( 'jquery' ), '1.0.0', false );
 
-			wp_enqueue_script( 'wps-pgfw-metarial-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-web.min.js', array(), time(), false );
-			wp_enqueue_script( 'wps-pgfw-metarial-js2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.js', array(), time(), false );
-			wp_enqueue_script( 'wps-pgfw-metarial-lite', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-lite.min.js', array(), time(), false );
+			wp_enqueue_script( 'wps-pgfw-metarial-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-web.min.js', array(), $asset_version, false );
+			wp_enqueue_script( 'wps-pgfw-metarial-js2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.js', array(), $asset_version, false );
+			wp_enqueue_script( 'wps-pgfw-metarial-lite', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-lite.min.js', array(), $asset_version, false );
 
-			wp_enqueue_script( 'wps-pgfw-onboarding-scripts', PDF_GENERATOR_FOR_WP_DIR_URL . 'onboarding/js/pdf-generator-for-wp-onboarding.js', array( 'jquery', 'wps-pgfw-onboarding-select2-js', 'wps-pgfw-metarial-js', 'wps-pgfw-metarial-js2', 'wps-pgfw-metarial-lite' ), time(), true );
+			wp_enqueue_script( 'wps-pgfw-onboarding-scripts', PDF_GENERATOR_FOR_WP_DIR_URL . 'onboarding/js/pdf-generator-for-wp-onboarding.js', array( 'jquery', 'wps-pgfw-onboarding-select2-js', 'wps-pgfw-metarial-js', 'wps-pgfw-metarial-js2', 'wps-pgfw-metarial-lite' ), $asset_version, true );
 
 			$pgfw_current_slug = ! empty( explode( '/', plugin_basename( __FILE__ ) ) ) ? explode( '/', plugin_basename( __FILE__ ) )[0] : '';
 			wp_localize_script(

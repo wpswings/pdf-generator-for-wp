@@ -52,6 +52,165 @@ class Pdf_Generator_For_Wp_Admin {
 	}
 
 	/**
+	 * Determine whether the current screen is one of this plugin's settings screens.
+	 *
+	 * @param WP_Screen|null $screen Current screen object.
+	 * @return bool
+	 */
+	private function pgfw_is_plugin_settings_screen( $screen ) {
+		return isset( $screen->id ) && in_array( $screen->id, array( 'wp-swings_page_pdf_generator_for_wp_menu', 'wp-swings_page_home' ), true );
+	}
+
+	/**
+	 * Determine whether the current screen is one of the flipbook management screens.
+	 *
+	 * @param WP_Screen|null $screen Current screen object.
+	 * @return bool
+	 */
+	private function pgfw_is_flipbook_screen( $screen ) {
+		if ( ! isset( $screen->post_type ) ) {
+			return false;
+		}
+
+		return 'flipbook' === $screen->post_type;
+	}
+
+	/**
+	 * Get the active dashboard tab for the plugin settings screen.
+	 *
+	 * @return string
+	 */
+	private function pgfw_get_active_plugin_tab() {
+		$active_tab = isset( $_GET['pgfw_tab'] ) ? sanitize_key( wp_unslash( $_GET['pgfw_tab'] ) ) : 'pdf-generator-for-wp-overview'; // phpcs:ignore WordPress.Security.NonceVerification
+
+		return ! empty( $active_tab ) ? $active_tab : 'pdf-generator-for-wp-overview';
+	}
+
+	/**
+	 * Determine whether a tab slug is in the provided tab list.
+	 *
+	 * @param string $active_tab Active plugin tab slug.
+	 * @param array  $tabs       Supported tab slugs.
+	 * @return bool
+	 */
+	private function pgfw_tab_matches( $active_tab, $tabs ) {
+		return in_array( $active_tab, $tabs, true );
+	}
+
+	/**
+	 * Determine whether the active tab needs settings form assets.
+	 *
+	 * @param string $active_tab Active plugin tab slug.
+	 * @return bool
+	 */
+	private function pgfw_tab_uses_form_assets( $active_tab ) {
+		return ! $this->pgfw_tab_matches(
+			$active_tab,
+			array(
+				'pdf-generator-for-wp-overview',
+				'pdf-generator-for-wp-shortcode',
+				'pdf-generator-for-wp-logs',
+			)
+		);
+	}
+
+	/**
+	 * Determine whether the active tab needs Select2 assets.
+	 *
+	 * @param string $active_tab Active plugin tab slug.
+	 * @return bool
+	 */
+	private function pgfw_tab_uses_select2_assets( $active_tab ) {
+		return $this->pgfw_tab_matches(
+			$active_tab,
+			array(
+				'pdf-generator-for-wp-advanced',
+				'pdf-generator-for-wp-body',
+				'pdf-generator-for-wp-footer',
+				'pdf-generator-for-wp-internal-page-setting',
+				'pdf-generator-for-wp-invoice-general',
+				'pdf-generator-for-wp-invoice-page-setting',
+				'pdf-generator-for-wp-meta-fields',
+				'pdf-generator-for-wp-pdf-icon-setting',
+			)
+		);
+	}
+
+	/**
+	 * Determine whether the active tab needs media library assets.
+	 *
+	 * @param string $active_tab Active plugin tab slug.
+	 * @return bool
+	 */
+	private function pgfw_tab_uses_media_assets( $active_tab ) {
+		return $this->pgfw_tab_matches(
+			$active_tab,
+			array(
+				'pdf-generator-for-wp-cover-page-setting',
+				'pdf-generator-for-wp-header',
+				'pdf-generator-for-wp-invoice-general',
+				'pdf-generator-for-wp-invoice-page-setting',
+				'pdf-generator-for-wp-pdf-icon-setting',
+				'pdf-generator-for-wp-pdf-upload',
+			)
+		);
+	}
+
+	/**
+	 * Determine whether the active tab needs DataTables assets.
+	 *
+	 * @param string $active_tab Active plugin tab slug.
+	 * @return bool
+	 */
+	private function pgfw_tab_uses_datatable_assets( $active_tab ) {
+		return 'pdf-generator-for-wp-pdf-upload' === $active_tab;
+	}
+
+	/**
+	 * Determine whether the active tab needs the WordPress color picker.
+	 *
+	 * @param string $active_tab Active plugin tab slug.
+	 * @return bool
+	 */
+	private function pgfw_tab_uses_color_picker( $active_tab ) {
+		return $this->pgfw_tab_matches(
+			$active_tab,
+			array(
+				'pdf-generator-for-wp-body',
+				'pdf-generator-for-wp-cover-page-setting',
+				'pdf-generator-for-wp-footer',
+				'pdf-generator-for-wp-header',
+				'pdf-generator-for-wp-invoice-general',
+				'pdf-generator-for-wp-invoice-page-setting',
+				'pdf-generator-for-wp-pdf-icon-setting',
+			)
+		);
+	}
+
+	/**
+	 * Determine whether the active tab needs the legacy admin custom script.
+	 *
+	 * @param string $active_tab Active plugin tab slug.
+	 * @return bool
+	 */
+	private function pgfw_tab_uses_custom_settings_script( $active_tab ) {
+		return $this->pgfw_tab_matches(
+			$active_tab,
+			array(
+				'pdf-generator-for-wp-advanced',
+				'pdf-generator-for-wp-body',
+				'pdf-generator-for-wp-cover-page-setting',
+				'pdf-generator-for-wp-general',
+				'pdf-generator-for-wp-header',
+				'pdf-generator-for-wp-invoice-general',
+				'pdf-generator-for-wp-invoice-page-setting',
+				'pdf-generator-for-wp-pdf-icon-setting',
+				'pdf-generator-for-wp-pdf-upload',
+			)
+		);
+	}
+
+	/**
 	 * Register the stylesheets for the admin area.
 	 *
 	 * @since    1.0.0
@@ -59,28 +218,51 @@ class Pdf_Generator_For_Wp_Admin {
 	 */
 	public function pgfw_admin_enqueue_styles( $hook ) {
 		$screen = get_current_screen();
-		if ( isset( $screen->id ) && ( 'wp-swings_page_pdf_generator_for_wp_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) ) { // phpcs:ignore
+		$is_plugin_screen   = $this->pgfw_is_plugin_settings_screen( $screen );
+		$is_flipbook_screen = $this->pgfw_is_flipbook_screen( $screen );
 
-			wp_enqueue_style( 'wps-pgfw-select2-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.css', array(), $this->version, 'all' );
+		if ( $is_plugin_screen ) {
+			$active_tab         = $this->pgfw_get_active_plugin_tab();
+			$uses_form_assets   = $this->pgfw_tab_uses_form_assets( $active_tab );
+			$uses_select2       = $this->pgfw_tab_uses_select2_assets( $active_tab );
+			$uses_datatable     = $this->pgfw_tab_uses_datatable_assets( $active_tab );
+			$uses_color_picker  = $this->pgfw_tab_uses_color_picker( $active_tab );
+			$is_overview_screen = 'pdf-generator-for-wp-overview' === $active_tab;
 
-			wp_enqueue_style( 'wps-pgfw-meterial-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-web.min.css', array(), $this->version, 'all' );
-			wp_enqueue_style( 'wps-pgfw-meterial-css2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.css', array(), $this->version, 'all' );
-			wp_enqueue_style( 'wps-pgfw-meterial-lite', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-lite.min.css', array(), $this->version, 'all' );
+			if ( $uses_select2 ) {
+				wp_enqueue_style( 'wps-pgfw-select2-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.css', array(), $this->version, 'all' );
+			}
 
-			wp_enqueue_style( 'wps-pgfw-meterial-icons-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/icon.css', array(), $this->version, 'all' );
+			if ( $uses_form_assets ) {
+				wp_enqueue_style( 'wps-pgfw-meterial-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-web.min.css', array(), $this->version, 'all' );
+				wp_enqueue_style( 'wps-pgfw-meterial-css2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.css', array(), $this->version, 'all' );
+				wp_enqueue_style( 'wps-pgfw-meterial-lite', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-lite.min.css', array(), $this->version, 'all' );
+				wp_enqueue_style( 'wps-pgfw-meterial-icons-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/icon.css', array(), $this->version, 'all' );
+			}
 
-			wp_enqueue_style( $this->plugin_name . '-admin-global', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-generator-for-wp-admin-global.css', array( 'wps-pgfw-meterial-icons-css' ), $this->version, 'all' );
+			if ( $uses_color_picker ) {
+				wp_enqueue_style( 'wp-color-picker' );
+			}
 
-			wp_enqueue_style( 'wp-color-picker' );
+			wp_enqueue_style( $this->plugin_name . '-admin-global', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-generator-for-wp-admin-global.css', $uses_form_assets ? array( 'wps-pgfw-meterial-icons-css' ) : array(), $this->version, 'all' );
 			wp_enqueue_style( 'pgfw-admin-commomn-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-generator-for-wp-admin-common.css', array(), $this->version, 'all' );
-			wp_enqueue_style( 'pgfw-datatable-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/datatable/datatables.min.css', array(), $this->version, 'all' );
-			wp_enqueue_style( 'pgfw-overview-form-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/wps-admin.css', array(), $this->version, 'all' );
-			wp_enqueue_style( 'wps--admin--min-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-admin-home.min.css', array(), $this->version, 'all' );
-			wp_enqueue_style( 'pgfw-google-fonts', 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;600;700&display=swap', array(), $this->version );
-			wp_enqueue_style( 'pgfw-admin-modern', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-generator-for-wp-admin-modern.css', array( 'pgfw-google-fonts' ), $this->version, 'all' );
+
+			if ( $uses_datatable ) {
+				wp_enqueue_style( 'pgfw-datatable-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/datatable/datatables.min.css', array(), $this->version, 'all' );
+			}
+
+			if ( $is_overview_screen ) {
+				wp_enqueue_style( 'pgfw-overview-form-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/wps-admin.css', array(), $this->version, 'all' );
+				wp_enqueue_style( 'wps--admin--min-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-admin-home.min.css', array(), $this->version, 'all' );
+			}
+
+			wp_enqueue_style( 'pgfw-admin-modern', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-generator-for-wp-admin-modern.css', array(), $this->version, 'all' );
+			wp_enqueue_style( 'pgfw-admin-custom-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-generator-for-wp-admin-custom.css', array(), $this->version, 'all' );
 		}
-		wp_enqueue_style( 'pgfw-admin-custom-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-generator-for-wp-admin-custom.css', array(), $this->version, 'all' );
-		wp_enqueue_style( 'flipbook-custom-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/flipbook.css', array(), $this->version, 'all' );
+
+		if ( $is_flipbook_screen ) {
+			wp_enqueue_style( 'flipbook-custom-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/flipbook.css', array(), $this->version, 'all' );
+		}
 	}
 
 	/**
@@ -92,30 +274,39 @@ class Pdf_Generator_For_Wp_Admin {
 	public function pgfw_admin_enqueue_scripts( $hook ) {
 
 		$screen = get_current_screen();
+		$is_plugin_screen   = $this->pgfw_is_plugin_settings_screen( $screen );
+		$is_flipbook_screen = $this->pgfw_is_flipbook_screen( $screen );
 		$wps_wgm_notice = array(
 			'ajaxurl'       => admin_url( 'admin-ajax.php' ),
 			'wps_pgfw_nonce' => wp_create_nonce( 'wps-pgfw-verify-notice-nonce' ),
 			'check_pro_activate'     => ! wps_pgfw_is_pdf_pro_plugin_active(),
 
 		);
-		wp_register_script( $this->plugin_name . 'admin-notice', plugin_dir_url( __FILE__ ) . 'src/js/pdf-generator-for-wp-notices.js', array( 'jquery' ), $this->version, false );
+		wp_register_script( $this->plugin_name . 'admin-notice', plugin_dir_url( __FILE__ ) . 'src/js/pdf-generator-for-wp-notices.js', array( 'jquery' ), $this->version, true );
 		wp_localize_script( $this->plugin_name . 'admin-notice', 'wps_pgfw_notice', $wps_wgm_notice );
 		wp_enqueue_script( $this->plugin_name . 'admin-notice' );
-		if ( isset( $screen->id ) && ( 'wp-swings_page_pdf_generator_for_wp_menu' == $screen->id || 'wp-swings_page_home' == $screen->id ) ) { // phpcs:ignore
-			wp_enqueue_script( 'wps-pgfw-select2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.js', array( 'jquery' ), $this->version, false );
+		if ( $is_plugin_screen ) {
+			$active_tab            = $this->pgfw_get_active_plugin_tab();
+			$uses_form_assets      = $this->pgfw_tab_uses_form_assets( $active_tab );
+			$uses_select2          = $this->pgfw_tab_uses_select2_assets( $active_tab );
+			$uses_media_assets     = $this->pgfw_tab_uses_media_assets( $active_tab );
+			$uses_datatable        = $this->pgfw_tab_uses_datatable_assets( $active_tab );
+			$uses_color_picker     = $this->pgfw_tab_uses_color_picker( $active_tab );
+			$uses_custom_settings  = $this->pgfw_tab_uses_custom_settings_script( $active_tab );
 
-			wp_enqueue_script( 'wps-pgfw-metarial-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-web.min.js', array(), $this->version, false );
-			wp_enqueue_script( 'wps-pgfw-metarial-js2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.js', array(), $this->version, false );
-			wp_enqueue_script( 'wps-pgfw-metarial-lite', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-lite.min.js', array(), $this->version, false );
-
-			wp_register_script( $this->plugin_name . 'admin-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/js/pdf-generator-for-wp-admin.js', array( 'jquery', 'wps-pgfw-select2', 'wps-pgfw-metarial-js', 'wps-pgfw-metarial-js2', 'wps-pgfw-metarial-lite' ), $this->version, false );
-			$wps_wpg_plugin_list = get_option( 'active_plugins' );
-			$wps_wpg_is_pro_active = false;
-			$wps_wpg_plugin = 'wordpress-pdf-generator/wordpress-pdf-generator.php';
-			if ( in_array( $wps_wpg_plugin, $wps_wpg_plugin_list ) ) {
-				$wps_wpg_is_pro_active = true;
+			if ( $uses_select2 ) {
+				wp_enqueue_script( 'wps-pgfw-select2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/select-2/pdf-generator-for-wp-select2.js', array( 'jquery' ), $this->version, true );
 			}
-			$license_check = get_option( 'wps_wpg_license_check', 0 );
+
+			if ( $uses_form_assets ) {
+				wp_enqueue_script( 'wps-pgfw-metarial-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-web.min.js', array(), $this->version, true );
+				wp_enqueue_script( 'wps-pgfw-metarial-js2', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-components-v5.0-web.min.js', array(), $this->version, true );
+				wp_enqueue_script( 'wps-pgfw-metarial-lite', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/material-design/material-lite.min.js', array(), $this->version, true );
+			}
+
+			wp_register_script( $this->plugin_name . 'admin-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/js/pdf-generator-for-wp-admin.js', array( 'jquery' ), $this->version, true );
+			$wps_wpg_is_pro_active = wps_pgfw_is_pdf_pro_plugin_active();
+			$license_check         = wps_pgfw_get_option_cached( 'wps_wpg_license_check', 0 );
 
 			wp_localize_script(
 				$this->plugin_name . 'admin-js',
@@ -123,7 +314,7 @@ class Pdf_Generator_For_Wp_Admin {
 				array(
 					'ajaxurl'             => admin_url( 'admin-ajax.php' ),
 					'reloadurl'           => admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ),
-					'pgfw_gen_tab_enable' => get_option( 'pgfw_radio_switch_demo' ),
+					'pgfw_gen_tab_enable' => wps_pgfw_get_option_cached( 'pgfw_radio_switch_demo', '' ),
 					'is_pro_active' => $wps_wpg_is_pro_active,
 					'license_check' => $license_check,
 					'nonce'         => wp_create_nonce( 'wps_wpg_embed_ajax_nonce' ),
@@ -131,85 +322,101 @@ class Pdf_Generator_For_Wp_Admin {
 			);
 
 			wp_enqueue_script( $this->plugin_name . 'admin-js' );
-			wp_enqueue_media();
-			wp_enqueue_script( 'pgfw-datatable-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/datatable/datatables.min.js', array( 'jquery' ), $this->version, true );
-			wp_enqueue_script( 'wps-pgfw-admin-custom-setting-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/js/pdf-generator-for-wp-admin-custom.js', array( 'jquery', 'wp-color-picker' ), $this->version, true );
-			wp_localize_script(
-				'wps-pgfw-admin-custom-setting-js',
-				'pgfw_admin_custom_param',
-				array(
-					'ajaxurl'            => admin_url( 'admin-ajax.php' ),
-					'delete_loader'      => esc_html__( 'Deleting....', 'pdf-generator-for-wp' ),
-					'nonce'              => wp_create_nonce( 'pgfw_delete_media_by_id' ),
-					'pgfw_doc_dummy_img' => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/document-management-big.png',
-					'upload_doc'         => esc_html__( 'Upload Doc', 'pdf-generator-for-wp' ),
-					'use_doc'            => esc_html__( 'Use Doc', 'pdf-generator-for-wp' ),
-					'upload_image'       => esc_html__( 'Upload Image', 'pdf-generator-for-wp' ),
-					'upload_invoice_image' => esc_html__( 'Upload Invoice Image', 'pdf-generator-for-wp' ),
-					'use_image'          => esc_html__( 'Use Image', 'pdf-generator-for-wp' ),
-					'confirm_text'       => esc_html__( 'Are you sure you want to delete Doc ?', 'pdf-generator-for-wp' ),
-					'reset_confirm'      => esc_html__( 'Are you sure you want to reset all the settings to default ?', 'pdf-generator-for-wp' ),
-					'reset_loader'       => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/loader.gif',
-					'reset_success'      => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/checked.png',
-					'reset_error'        => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/cross.png',
-				)
-			);
+
+			if ( $uses_media_assets ) {
+				wp_enqueue_media();
+			}
+
+			if ( $uses_datatable ) {
+				wp_enqueue_script( 'pgfw-datatable-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/datatable/datatables.min.js', array( 'jquery' ), $this->version, true );
+			}
+
+			if ( $uses_custom_settings ) {
+				$admin_custom_dependencies = array( 'jquery' );
+
+				if ( $uses_color_picker ) {
+					$admin_custom_dependencies[] = 'wp-color-picker';
+				}
+
+				if ( $uses_datatable ) {
+					$admin_custom_dependencies[] = 'pgfw-datatable-js';
+				}
+
+				wp_enqueue_script( 'wps-pgfw-admin-custom-setting-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/js/pdf-generator-for-wp-admin-custom.js', $admin_custom_dependencies, $this->version, true );
+				wp_localize_script(
+					'wps-pgfw-admin-custom-setting-js',
+					'pgfw_admin_custom_param',
+					array(
+						'ajaxurl'            => admin_url( 'admin-ajax.php' ),
+						'delete_loader'      => esc_html__( 'Deleting....', 'pdf-generator-for-wp' ),
+						'nonce'              => wp_create_nonce( 'pgfw_delete_media_by_id' ),
+						'pgfw_doc_dummy_img' => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/document-management-big.png',
+						'upload_doc'         => esc_html__( 'Upload Doc', 'pdf-generator-for-wp' ),
+						'use_doc'            => esc_html__( 'Use Doc', 'pdf-generator-for-wp' ),
+						'upload_image'       => esc_html__( 'Upload Image', 'pdf-generator-for-wp' ),
+						'upload_invoice_image' => esc_html__( 'Upload Invoice Image', 'pdf-generator-for-wp' ),
+						'use_image'          => esc_html__( 'Use Image', 'pdf-generator-for-wp' ),
+						'confirm_text'       => esc_html__( 'Are you sure you want to delete Doc ?', 'pdf-generator-for-wp' ),
+						'reset_confirm'      => esc_html__( 'Are you sure you want to reset all the settings to default ?', 'pdf-generator-for-wp' ),
+						'reset_loader'       => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/loader.gif',
+						'reset_success'      => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/checked.png',
+						'reset_error'        => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/cross.png',
+					)
+				);
+			}
+
+			$migration_success = wps_pgfw_get_option_cached( 'wps_code_migratded', '' );
+			$pending_settings  = $this->wps_wpg_get_count( 'settings', 'count' );
+			$activated_time    = get_option( 'wps_wpg_activated_timestamp' );
+
+			if ( ! empty( $pending_settings ) && empty( $activated_time ) ) {
+				wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'src/js/wpg-addon-admin.js', array( 'jquery' ), $this->version, true );
+				wp_enqueue_script( $this->plugin_name . '-swal', plugin_dir_url( __FILE__ ) . 'src/js/wpg-swal.js', array( 'jquery' ), $this->version, true );
+				wp_enqueue_script( $this->plugin_name . '-wps-swal', plugin_dir_url( __FILE__ ) . 'src/js/wps-wpg-swal.js', array( 'jquery' ), $this->version, true );
+				wp_localize_script(
+					$this->plugin_name,
+					'localised',
+					array(
+						'ajaxurl'          => admin_url( 'admin-ajax.php' ),
+						'nonce'            => wp_create_nonce( 'wps_wpg_migrated_nonce' ),
+						'callback'         => 'wpg_ajax_callbacks',
+						'pending_settings' => $pending_settings,
+						'hide_import'      => $migration_success,
+					)
+				);
+			}
+		}
+
+		if ( $is_flipbook_screen ) {
 			wp_enqueue_script(
-				'pgfw-react-tabs',
-				PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/js/pgfw-react-tabs.js',
-				array( 'wp-api-fetch' ),
-				filemtime( plugin_dir_path( __FILE__ ) . 'src/js/pgfw-react-tabs.js' ),
+				'pdfjs-library',
+				'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js',
+				array(),
+				'2.6.347',
+				false
+			);
+
+			wp_enqueue_script( 'jquery' );
+			wp_enqueue_script(
+				'wps-pgfw-pdf-handler',
+				plugin_dir_url( __FILE__ ) . 'src/js/pdf-flipbook.js',
+				array( 'jquery', 'pdfjs-library' ),
+				$this->version,
 				true
 			);
-			$migration_success = get_option( 'wps_code_migratded' );
-			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'src/js/wpg-addon-admin.js', array( 'jquery' ), $this->version, false );
-			wp_enqueue_script( $this->plugin_name . '-swal', plugin_dir_url( __FILE__ ) . 'src/js/wpg-swal.js', array( 'jquery' ), $this->version, false );
-			wp_enqueue_script( $this->plugin_name . '-wps-swal', plugin_dir_url( __FILE__ ) . 'src/js/wps-wpg-swal.js', array( 'jquery' ), $this->version, false );
+
 			wp_localize_script(
-				$this->plugin_name,
-				'localised',
+				'wps-pgfw-pdf-handler',
+				'wpsGfwPdf',
 				array(
-					'ajaxurl'       => admin_url( 'admin-ajax.php' ),
-					'nonce'         => wp_create_nonce( 'wps_wpg_migrated_nonce' ),
-					'callback'      => 'wpg_ajax_callbacks',
-					'pending_settings' => $this->wps_wpg_get_count( 'settings', 'count' ),
-					'hide_import'   => $migration_success,
+					'fbFetchNonce' => wp_create_nonce( 'fb_fetch_pdf' ),
+					'fbUploadNonce' => wp_create_nonce( 'ifb_upload_pdf' ),
+					'fbAjaxUrl' => esc_url( admin_url( 'admin-ajax.php' ) ),
 				)
 			);
+			wp_enqueue_script( 'flipbook-js', plugin_dir_url( __FILE__ ) . 'src/js/flipbook.js', array( 'jquery' ), $this->version, true );
+			wp_enqueue_media();
 		}
-		// Enqueue PDF.js library.
-		wp_enqueue_script(
-			'pdfjs-library',
-			'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js',
-			array(),
-			'2.6.347',
-			false
-		);
-
-		// Enqueue jQuery (if not already enqueued).
-		wp_enqueue_script( 'jquery' );
-
-		// Enqueue custom PDF handler script.
-		wp_enqueue_script(
-			'wps-pgfw-pdf-handler',
-			plugin_dir_url( __FILE__ ) . 'src/js/pdf-flipbook.js',
-			array( 'jquery', 'pdfjs-library' ),
-			'1.0.0',
-			true
-		);
-
-		// Localize script with nonces and AJAX URL.
-		wp_localize_script(
-			'wps-pgfw-pdf-handler',
-			'wpsGfwPdf',
-			array(
-				'fbFetchNonce' => wp_create_nonce( 'fb_fetch_pdf' ),
-				'fbUploadNonce' => wp_create_nonce( 'ifb_upload_pdf' ),
-				'fbAjaxUrl' => esc_url( admin_url( 'admin-ajax.php' ) ),
-			)
-		);
-		wp_enqueue_script( 'flipbook-js', plugin_dir_url( __FILE__ ) . 'src/js/flipbook.js', array( 'jquery' ), '1.0.0', true );
-		wp_enqueue_media();
 	}
 
 	/**
@@ -3252,25 +3459,15 @@ class Pdf_Generator_For_Wp_Admin {
 	 * @return void
 	 */
 	public function register_google_embed_blocks() {
-		$wps_wpg_is_pro_active = false;
-		$wps_tofw_is_pro_active = false;
-		$wps_wpg_plugin_list = get_option( 'active_plugins' );
-		$wps_wpg_plugin = 'wordpress-pdf-generator/wordpress-pdf-generator.php';
-		if ( in_array( $wps_wpg_plugin, $wps_wpg_plugin_list ) ) {
-			$wps_wpg_is_pro_active = true;
-		}
-
-		$wps_tofw_plugin = 'track-orders-for-woocommerce/track-orders-for-woocommerce.php';
-		if ( in_array( $wps_tofw_plugin, $wps_wpg_plugin_list ) ) {
-			$wps_tofw_is_pro_active = true;
-		}
-		$license_check = get_option( 'wps_wpg_license_check', 0 );
+		$wps_wpg_is_pro_active  = wps_pgfw_is_plugin_active_cached( 'wordpress-pdf-generator/wordpress-pdf-generator.php' );
+		$wps_tofw_is_pro_active = wps_pgfw_is_plugin_active_cached( 'track-orders-for-woocommerce/track-orders-for-woocommerce.php' );
+		$license_check          = wps_pgfw_get_option_cached( 'wps_wpg_license_check', 0 );
 
 		wp_register_script(
 			'google-embed-block',
 			plugins_url( 'src/js/pdf-google-embed-block.js', __FILE__ ),
-			array( 'wp-blocks', 'wp-editor', 'wp-element', 'wp-components' ),
-			filemtime( plugin_dir_path( __FILE__ ) . '/src/js/pdf-google-embed-block.js' )
+			array( 'wp-blocks', 'wp-components', 'wp-element' ),
+			$this->version
 		);
 
 		register_block_type(
@@ -3303,19 +3500,19 @@ class Pdf_Generator_For_Wp_Admin {
 				'is_pro_active' => $wps_wpg_is_pro_active,
 				'license_check' => $license_check,
 				'is_tofw_is_active' => $wps_tofw_is_pro_active,
-				'is_linkedln_active' => get_option( 'wps_embed_source_linkedln', '' ),
-				'is_loom_active' => get_option( 'wps_embed_source_loom', '' ),
-				'is_twitch_active' => get_option( 'wps_embed_source_twitch', '' ),
-				'is_ai_chatbot_active' => get_option( 'wps_embed_source_ai_chatbot', '' ),
-				'is_canva_active' => get_option( 'wps_embed_source_canva', '' ),
-				'is_reddit_active' => get_option( 'wps_embed_source_reddit', '' ),
-				'is_google_active' => get_option( 'wps_embed_source_google_elements', '' ),
-				'is_calendly_active' => get_option( 'wps_embed_source_calendly', '' ),
-				'is_strava_active' => get_option( 'wps_embed_source_strava', '' ),
-				'is_rss_feed_active' => get_option( 'wps_embed_source_rss_feed', '' ),
-				'is_x_active' => get_option( 'wps_embed_source_x', '' ),
-				'is_view_pdf_active' => get_option( 'wps_embed_source_pdf_embed', '' ),
-				'is_wps_track_order_active' => get_option( 'wps_embed_source_tracking_info', '' ),
+				'is_linkedln_active' => wps_pgfw_get_option_cached( 'wps_embed_source_linkedln', '' ),
+				'is_loom_active' => wps_pgfw_get_option_cached( 'wps_embed_source_loom', '' ),
+				'is_twitch_active' => wps_pgfw_get_option_cached( 'wps_embed_source_twitch', '' ),
+				'is_ai_chatbot_active' => wps_pgfw_get_option_cached( 'wps_embed_source_ai_chatbot', '' ),
+				'is_canva_active' => wps_pgfw_get_option_cached( 'wps_embed_source_canva', '' ),
+				'is_reddit_active' => wps_pgfw_get_option_cached( 'wps_embed_source_reddit', '' ),
+				'is_google_active' => wps_pgfw_get_option_cached( 'wps_embed_source_google_elements', '' ),
+				'is_calendly_active' => wps_pgfw_get_option_cached( 'wps_embed_source_calendly', '' ),
+				'is_strava_active' => wps_pgfw_get_option_cached( 'wps_embed_source_strava', '' ),
+				'is_rss_feed_active' => wps_pgfw_get_option_cached( 'wps_embed_source_rss_feed', '' ),
+				'is_x_active' => wps_pgfw_get_option_cached( 'wps_embed_source_x', '' ),
+				'is_view_pdf_active' => wps_pgfw_get_option_cached( 'wps_embed_source_pdf_embed', '' ),
+				'is_wps_track_order_active' => wps_pgfw_get_option_cached( 'wps_embed_source_tracking_info', '' ),
 			)
 		);
 	}

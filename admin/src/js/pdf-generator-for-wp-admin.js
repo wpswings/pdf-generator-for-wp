@@ -28,16 +28,18 @@
 		});
 
 		// Select2 initialisation (safe re-run).
-		$('.wps-defaut-multiselect').each(function() {
-			if ( ! $(this).data('select2') ) {
-				$(this).select2();
-			}
-		});
-		$('.wpg-select2').each(function() {
-			if ( ! $(this).data('select2') ) {
-				$(this).select2({ placeholder: 'Select unique items', allowClear: true, width: 'resolve' });
-			}
-		});
+		if ( $.fn.select2 ) {
+			$('.wps-defaut-multiselect').each(function() {
+				if ( ! $(this).data('select2') ) {
+					$(this).select2();
+				}
+			});
+			$('.wpg-select2').each(function() {
+				if ( ! $(this).data('select2') ) {
+					$(this).select2({ placeholder: 'Select unique items', allowClear: true, width: 'resolve' });
+				}
+			});
+		}
 
 		// Toggle AJAX save (delegated).
 		$(document).off('change.pgfw', '.wps-switch input').on('change.pgfw', '.wps-switch input', function() {

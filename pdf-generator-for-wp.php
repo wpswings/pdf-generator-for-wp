@@ -47,12 +47,14 @@ add_action(
 		}
 	}
 );
-require_once ABSPATH . '/wp-admin/includes/plugin.php';
 $pgfw_old_plugin_exists = false;
-$plug           = get_plugins();
-if ( isset( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php'] ) ) {
-	if ( version_compare( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php']['Version'], '3.0.5', '<' ) ) {
-		$pgfw_old_plugin_exists = true;
+if ( is_admin() ) {
+	require_once ABSPATH . '/wp-admin/includes/plugin.php';
+	$plug = get_plugins();
+	if ( isset( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php'] ) ) {
+		if ( version_compare( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php']['Version'], '3.0.5', '<' ) ) {
+			$pgfw_old_plugin_exists = true;
+		}
 	}
 }
 
@@ -82,6 +84,46 @@ function pdf_generator_for_wp_constants( $key, $value ) {
 
 		define( $key, $value );
 	}
+}
+
+/**
+ * Read plugin options once per request.
+ *
+ * @param string $option_name Option name.
+ * @param mixed  $default Default value.
+ * @return mixed
+ */
+function wps_pgfw_get_option_cached( $option_name, $default = false ) {
+	static $option_cache = array();
+	$missing_sentinel = '__wps_pgfw_option_missing__';
+
+	if ( ! array_key_exists( $option_name, $option_cache ) ) {
+		$stored_value = get_option( $option_name, $missing_sentinel );
+		$option_cache[ $option_name ] = ( $missing_sentinel === $stored_value ) ? $missing_sentinel : $stored_value;
+	}
+
+	return ( $missing_sentinel === $option_cache[ $option_name ] ) ? $default : $option_cache[ $option_name ];
+}
+
+/**
+ * Check active plugin status without repeatedly loading plugin.php helpers.
+ *
+ * @param string $plugin_file Plugin basename.
+ * @return bool
+ */
+function wps_pgfw_is_plugin_active_cached( $plugin_file ) {
+	static $active_plugins = null;
+	static $network_active_plugins = null;
+
+	if ( null === $active_plugins ) {
+		$active_plugins = (array) wps_pgfw_get_option_cached( 'active_plugins', array() );
+	}
+
+	if ( null === $network_active_plugins ) {
+		$network_active_plugins = is_multisite() ? array_keys( (array) get_site_option( 'active_sitewide_plugins', array() ) ) : array();
+	}
+
+	return in_array( $plugin_file, $active_plugins, true ) || in_array( $plugin_file, $network_active_plugins, true );
 }
 
 /**
@@ -174,12 +216,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-pdf-generator-for-wp.php';
  * @return bool
  */
 function wps_pgfw_is_pdf_pro_plugin_active() {
-	$flag = false;
-	if ( is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
-
-		$flag = true;
-	}
-	return $flag;
+	return wps_pgfw_is_plugin_active_cached( 'wordpress-pdf-generator/wordpress-pdf-generator.php' );
 }
 
 /**
@@ -212,9 +249,8 @@ function wps_register_new_widgets( $widgets_manager ) {
 	$tofw_only_widgets = array( 'wps_tracking_info' );
 
 	// Check if Pro plugin is active.
-	include_once ABSPATH . 'wp-admin/includes/plugin.php';
-	$pdf_is_pro_plugin_active = is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' );
-	$tofw_is_pro_plugin_active = is_plugin_active( 'track-orders-for-woocommerce/track-orders-for-woocommerce.php' );
+	$pdf_is_pro_plugin_active  = wps_pgfw_is_plugin_active_cached( 'wordpress-pdf-generator/wordpress-pdf-generator.php' );
+	$tofw_is_pro_plugin_active = wps_pgfw_is_plugin_active_cached( 'track-orders-for-woocommerce/track-orders-for-woocommerce.php' );
 
 	foreach ( $wps_pgfw_sources as $source ) {
 		$should_load = false;
@@ -225,20 +261,20 @@ function wps_register_new_widgets( $widgets_manager ) {
 			$option_key = str_replace( 'wps_', '', $source );
 			$option_key = "wps_embed_source_{$option_key}";
 
-			if ( 'on' === get_option( $option_key, '' ) && $pdf_is_pro_plugin_active ) {
+			if ( 'on' === wps_pgfw_get_option_cached( $option_key, '' ) && $pdf_is_pro_plugin_active ) {
 				$should_load = true;
 			}
 		} elseif ( in_array( $source, $tofw_only_widgets ) ) {
 			$option_key = str_replace( 'wps_', '', $source );
 			$option_key = "wps_embed_source_{$option_key}";
 
-			if ( 'on' === get_option( $option_key, '' ) && $tofw_is_pro_plugin_active ) {
+			if ( 'on' === wps_pgfw_get_option_cached( $option_key, '' ) && $tofw_is_pro_plugin_active ) {
 				$should_load = true;
 			}
 		} else {
 			$option_key = str_replace( 'wps_', '', $source );
 			$option_key = "wps_embed_source_{$option_key}";
-			if ( 'on' === get_option( $option_key, '' ) ) {
+			if ( 'on' === wps_pgfw_get_option_cached( $option_key, '' ) ) {
 				$should_load = true;
 			}
 		}
@@ -310,7 +346,7 @@ function pdf_generator_for_wp_settings_link( $links ) {
 	$my_link = array(
 		'<a href="' . admin_url( 'admin.php?page=pdf_generator_for_wp_menu' ) . '">' . __( 'Settings', 'pdf-generator-for-wp' ) . '</a>',
 	);
-	if ( ! in_array( 'wordpress-pdf-generator/wordpress-pdf-generator.php', get_option( 'active_plugins' ), true ) ) {
+	if ( ! wps_pgfw_is_plugin_active_cached( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
 		$my_link[] = '<a href="https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=pdf-org-backend&utm_campaign=go-pro" target="_blank" class="wps-pgfw-go-pro-link-backend">' . esc_html__( 'GO PRO', 'pdf-generator-for-wp' ) . '</a>';
 	}
 	return array_merge( $my_link, $links );
@@ -346,9 +382,9 @@ if ( true === $pgfw_old_plugin_exists ) {
 		$update_file = plugin_dir_path( __DIR__ ) . 'wordpress-pdf-generator/class-mwb-wordpress-pdf-generator-update.php';
 
 		// If present but not active.
-		if ( ! is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
+		if ( ! wps_pgfw_is_pdf_pro_plugin_active() ) {
 			if ( file_exists( $update_file ) ) {
-				$mwb_wpg_license_key = get_option( 'mwb_wpg_license_key', '' );
+				$mwb_wpg_license_key = wps_pgfw_get_option_cached( 'mwb_wpg_license_key', '' );
 				! defined( 'WORDPRESS_PDF_GENERATOR_LICENSE_KEY' ) && define( 'WORDPRESS_PDF_GENERATOR_LICENSE_KEY', $mwb_wpg_license_key );
 				! defined( 'WORDPRESS_PDF_GENERATOR_BASE_FILE' ) && define( 'WORDPRESS_PDF_GENERATOR_BASE_FILE', 'wordpress-pdf-generator/wordpress-pdf-generator.php' );
 				! defined( 'WORDPRESS_PDF_GENERATOR_VERSION' ) && define( 'WORDPRESS_PDF_GENERATOR_VERSION', '3.0.4' );
@@ -485,27 +521,27 @@ function wps_calendly_embed_shortcode( $atts ) {
 /**
  * Adding shortcode to show calendly Events anywhere on the page.
  */
-if ( 'on' === get_option( 'wps_embed_source_calendly', '' ) ) {
+if ( 'on' === wps_pgfw_get_option_cached( 'wps_embed_source_calendly', '' ) ) {
 	add_shortcode( 'wps_calendly', 'wps_calendly_embed_shortcode' );
 }
-if ( 'on' === get_option( 'wps_embed_source_twitch', '' ) ) {
+if ( 'on' === wps_pgfw_get_option_cached( 'wps_embed_source_twitch', '' ) ) {
 	add_shortcode( 'wps_twitch', 'wps_twitch_stream_with_chat_shortcode' );
 }
 
-if ( 'on' === get_option( 'wps_embed_source_strava', '' ) ) {
+if ( 'on' === wps_pgfw_get_option_cached( 'wps_embed_source_strava', '' ) ) {
 	add_shortcode( 'wps_strava', 'wps_strava_embed_shortcode' );
 }
 
-if ( is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
-	if ( 'on' === get_option( 'wps_embed_source_ai_chatbot', '' ) ) {
+if ( wps_pgfw_is_pdf_pro_plugin_active() ) {
+	if ( 'on' === wps_pgfw_get_option_cached( 'wps_embed_source_ai_chatbot', '' ) ) {
 		add_shortcode( 'wps_ai_chatbot', 'wps_chatbot_ai_shortcode' );
 	}
-	if ( 'on' === get_option( 'wps_embed_source_rss_feed', '' ) ) {
+	if ( 'on' === wps_pgfw_get_option_cached( 'wps_embed_source_rss_feed', '' ) ) {
 		add_shortcode( 'wps_rssapp_feed', 'wps_rssapp_feed_shortcode' );
 	}
 }
 
-if ( 'on' === get_option( 'wps_embed_source_wps_track_order', '' ) && is_plugin_active( 'track-orders-for-woocommerce/track-orders-for-woocommerce.php' ) ) {
+if ( 'on' === wps_pgfw_get_option_cached( 'wps_embed_source_wps_track_order', '' ) && wps_pgfw_is_plugin_active_cached( 'track-orders-for-woocommerce/track-orders-for-woocommerce.php' ) ) {
 	add_shortcode( 'wps_tracking_info', 'wps_pgfw_tracking_info_shortcode' );
 }
 
@@ -568,7 +604,7 @@ function wps_pgfw_tracking_info_shortcode( $atts ) {
 	}
 
 	ob_start();
-	if ( is_plugin_active( 'track-orders-for-woocommerce-pro/track-orders-for-woocommerce-pro.php' ) ) {
+	if ( wps_pgfw_is_plugin_active_cached( 'track-orders-for-woocommerce-pro/track-orders-for-woocommerce-pro.php' ) ) {
 		$wps_pgfw_plugin_url = TRACK_ORDERS_FOR_WOOCOMMERCE_PRO_DIR_URL;
 		$wps_pgfw_icon_path  = $wps_pgfw_plugin_url . 'admin/partials/assets/icons/';
 		$wps_pgfw_matched_carrier_name = '';
@@ -590,7 +626,7 @@ function wps_pgfw_tracking_info_shortcode( $atts ) {
 		<h2 style="margin-top: 0; color: #333;"><?php echo esc_html__( 'Order Tracking Information', 'pdf-generator-for-wp' ); ?></h2>
 		<p><strong><?php echo esc_html__( 'Order ID:', 'pdf-generator-for-wp' ); ?></strong> <?php echo esc_html( $wps_pgfw_order_id ); ?></p>
 		<p><strong><?php echo esc_html__( 'Order Status:', 'pdf-generator-for-wp' ); ?></strong> <span style="color: green;"><?php echo esc_html( $wps_pgfw_status ); ?></span></p>
-		<?php if ( is_plugin_active( 'track-orders-for-woocommerce-pro/track-orders-for-woocommerce-pro.php' ) ) { ?>
+		<?php if ( wps_pgfw_is_plugin_active_cached( 'track-orders-for-woocommerce-pro/track-orders-for-woocommerce-pro.php' ) ) { ?>
 			<?php if ( $wps_pgfw_estimated_date || $wps_pgfw_estimated_time ) : ?>
 				<p><strong><?php echo esc_html__( 'Estimated Delivery:', 'pdf-generator-for-wp' ); ?></strong><br>
 					<?php if ( $wps_pgfw_estimated_date ) : ?>
@@ -619,7 +655,7 @@ function wps_pgfw_tracking_info_shortcode( $atts ) {
 		<?php } ?>
 
 		<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;">
-			<?php if ( is_plugin_active( 'track-orders-for-woocommerce-pro/track-orders-for-woocommerce-pro.php' ) ) { ?>
+			<?php if ( wps_pgfw_is_plugin_active_cached( 'track-orders-for-woocommerce-pro/track-orders-for-woocommerce-pro.php' ) ) { ?>
 				<?php if ( $wps_pgfw_tracking_link ) { ?>
 					<a href="<?php echo esc_url( $wps_pgfw_tracking_link ); ?>" class="button wc-forward" target="_blank" style="flex: 1; text-align: center; background-color: #0071a1; color: #fff; padding: 10px 15px; border-radius: 6px; text-decoration: none;">Track with Carrier</a>
 					<?php
