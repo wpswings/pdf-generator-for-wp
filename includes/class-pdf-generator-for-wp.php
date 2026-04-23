@@ -1112,6 +1112,82 @@ class Pdf_Generator_For_Wp {
 							<?php
 							break;
 
+						case 'radio-image':
+							$pgfw_radio_image_categories = array();
+							foreach ( $pgfw_component['options'] as $pgfw_radio_option ) {
+								if ( is_array( $pgfw_radio_option ) && ! empty( $pgfw_radio_option['category'] ) ) {
+									$pgfw_radio_image_category = strtolower( wp_strip_all_tags( $pgfw_radio_option['category'] ) );
+									if ( ! isset( $pgfw_radio_image_categories[ $pgfw_radio_image_category ] ) ) {
+										$pgfw_radio_image_categories[ $pgfw_radio_image_category ] = array(
+											'label' => $pgfw_radio_option['category'],
+											'count' => 0,
+										);
+									}
+									$pgfw_radio_image_categories[ $pgfw_radio_image_category ]['count']++;
+								}
+							}
+							?>
+							<div class="wps-form-group <?php echo esc_attr( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ); ?>">
+								<div class="wps-form-group__label">
+									<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
+								</div>
+								<div class="wps-form-group__control">
+									<div class="pgfw-radio-image-toolbar" aria-hidden="true">
+										<div class="pgfw-radio-image-summary">
+											<span class="pgfw-radio-image-summary__pill"><?php echo esc_html( sprintf( __( 'All %d', 'pdf-generator-for-wp' ), count( $pgfw_component['options'] ) ) ); ?></span>
+											<?php foreach ( $pgfw_radio_image_categories as $pgfw_radio_image_category ) : ?>
+												<span class="pgfw-radio-image-summary__pill"><?php echo esc_html( sprintf( __( '%1$s %2$d', 'pdf-generator-for-wp' ), $pgfw_radio_image_category['label'], $pgfw_radio_image_category['count'] ) ); ?></span>
+											<?php endforeach; ?>
+										</div>
+									</div>
+									<div class="pgfw-radio-image-group">
+										<?php foreach ( $pgfw_component['options'] as $pgfw_radio_key => $pgfw_radio_option ) : ?>
+											<?php
+											$pgfw_radio_label       = is_array( $pgfw_radio_option ) && isset( $pgfw_radio_option['label'] ) ? $pgfw_radio_option['label'] : $pgfw_radio_option;
+											$pgfw_radio_description = is_array( $pgfw_radio_option ) && isset( $pgfw_radio_option['description'] ) ? $pgfw_radio_option['description'] : '';
+											$pgfw_radio_preview     = is_array( $pgfw_radio_option ) && isset( $pgfw_radio_option['preview_class'] ) ? $pgfw_radio_option['preview_class'] : '';
+											$pgfw_radio_category    = is_array( $pgfw_radio_option ) && isset( $pgfw_radio_option['category'] ) ? $pgfw_radio_option['category'] : '';
+											$pgfw_radio_sequence    = is_array( $pgfw_radio_option ) && isset( $pgfw_radio_option['sequence'] ) ? $pgfw_radio_option['sequence'] : '';
+											?>
+											<label class="pgfw-radio-image-option">
+												<input
+													name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
+													value="<?php echo esc_attr( $pgfw_radio_key ); ?>"
+													type="radio"
+													class="pgfw-radio-image-option__input <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
+													<?php checked( $pgfw_radio_key, $pgfw_component['value'] ); ?>>
+												<span class="pgfw-radio-image-option__card">
+													<span class="pgfw-radio-image-option__check" aria-hidden="true"></span>
+													<span class="pgfw-radio-image-option__meta">
+														<?php if ( ! empty( $pgfw_radio_sequence ) ) : ?>
+															<span class="pgfw-radio-image-option__index"><?php echo esc_html( $pgfw_radio_sequence ); ?></span>
+														<?php endif; ?>
+														<?php if ( ! empty( $pgfw_radio_category ) ) : ?>
+															<span class="pgfw-radio-image-option__category"><?php echo esc_html( strtolower( $pgfw_radio_category ) ); ?></span>
+														<?php endif; ?>
+													</span>
+													<span class="pgfw-radio-image-option__preview <?php echo esc_attr( $pgfw_radio_preview ); ?>">
+														<span class="pgfw-radio-image-option__preview-icon"></span>
+														<span class="pgfw-radio-image-option__preview-label"></span>
+													</span>
+													<span class="pgfw-radio-image-option__content">
+														<span class="pgfw-radio-image-option__title"><?php echo esc_html( $pgfw_radio_label ); ?></span>
+														<?php if ( ! empty( $pgfw_radio_description ) ) : ?>
+															<span class="pgfw-radio-image-option__description"><?php echo esc_html( $pgfw_radio_description ); ?></span>
+														<?php endif; ?>
+													</span>
+												</span>
+											</label>
+										<?php endforeach; ?>
+									</div>
+									<div class="mdc-text-field-helper-line">
+										<div class="mdc-text-field-helper-text--persistent wps-helper-text" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
+									</div>
+								</div>
+							</div>
+							<?php
+							break;
+
 						case 'radio-switch':
 							?>
 

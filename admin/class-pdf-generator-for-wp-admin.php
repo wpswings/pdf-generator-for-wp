@@ -609,6 +609,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_user_download_or_email             = array_key_exists( 'pgfw_user_download_or_email', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_user_download_or_email'] : '';
 		$pgfw_pdf_icon_after                     = array_key_exists( 'pgfw_display_pdf_icon_after', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_display_pdf_icon_after'] : '';
 		$pgfw_pdf_icon_alignment                 = array_key_exists( 'pgfw_display_pdf_icon_alignment', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_display_pdf_icon_alignment'] : '';
+		$pgfw_pdf_icon_display_template          = array_key_exists( 'pgfw_pdf_icon_display_template', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_pdf_icon_display_template'] : 'default';
 		$sub_pgfw_pdf_single_download_icon       = array_key_exists( 'sub_pgfw_pdf_single_download_icon', $pgfw_display_settings ) ? $pgfw_display_settings['sub_pgfw_pdf_single_download_icon'] : '';
 		$pgfw_pdf_icon_width                     = array_key_exists( 'pgfw_pdf_icon_width', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_pdf_icon_width'] : '';
 		$pgfw_pdf_icon_height                    = array_key_exists( 'pgfw_pdf_icon_height', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_pdf_icon_height'] : '';
@@ -792,6 +793,73 @@ class Pdf_Generator_For_Wp_Admin {
 					'flex-start'   => __( 'Left', 'pdf-generator-for-wp' ),
 					'center' => __( 'Center', 'pdf-generator-for-wp' ),
 					'flex-end'  => __( 'Right', 'pdf-generator-for-wp' ),
+				),
+			),
+			array(
+				'title'       => __( 'PDF Icon Display', 'pdf-generator-for-wp' ),
+				'type'        => 'radio-image',
+				'description' => __( 'Choose how the PDF download icon appears on the product page front-end. Classic templates feel familiar and catalog-like; modern templates use softer shapes and stronger brand presence.', 'pdf-generator-for-wp' ),
+				'id'          => 'pgfw_pdf_icon_display_template',
+				'value'       => $pgfw_pdf_icon_display_template,
+				'class'       => 'pgfw_pdf_icon_display_template',
+				'name'        => 'pgfw_pdf_icon_display_template',
+				'options'     => array(
+					'style-2' => array(
+						'label'         => __( 'Adobe Badge', 'pdf-generator-for-wp' ),
+						'description'   => __( 'Universal red PDF badge. Instantly recognized.', 'pdf-generator-for-wp' ),
+						'category'      => __( 'Classic', 'pdf-generator-for-wp' ),
+						'sequence'      => '01',
+						'preview_class' => 'is-style-2',
+					),
+					'default' => array(
+						'label'         => __( 'Printer Classic', 'pdf-generator-for-wp' ),
+						'description'   => __( 'Monochrome printer glyph. Matches current default.', 'pdf-generator-for-wp' ),
+						'category'      => __( 'Classic', 'pdf-generator-for-wp' ),
+						'sequence'      => '02',
+						'preview_class' => 'is-default',
+					),
+					'style-4' => array(
+						'label'         => __( 'Boxed Button', 'pdf-generator-for-wp' ),
+						'description'   => __( 'Double-line border with label. Catalog feel.', 'pdf-generator-for-wp' ),
+						'category'      => __( 'Classic', 'pdf-generator-for-wp' ),
+						'sequence'      => '03',
+						'preview_class' => 'is-style-4',
+					),
+					'style-5' => array(
+						'label'         => __( 'Stamped Seal', 'pdf-generator-for-wp' ),
+						'description'   => __( 'Rubber-stamp circle. Certificate / document tone.', 'pdf-generator-for-wp' ),
+						'category'      => __( 'Classic', 'pdf-generator-for-wp' ),
+						'sequence'      => '04',
+						'preview_class' => 'is-style-5',
+					),
+					'style-3' => array(
+						'label'         => __( 'Brand Tile', 'pdf-generator-for-wp' ),
+						'description'   => __( 'Rounded purple tile. Refined current Template 3.', 'pdf-generator-for-wp' ),
+						'category'      => __( 'Modern', 'pdf-generator-for-wp' ),
+						'sequence'      => '05',
+						'preview_class' => 'is-style-3',
+					),
+					'style-6' => array(
+						'label'         => __( 'Gradient FAB', 'pdf-generator-for-wp' ),
+						'description'   => __( 'Circular floating action with accent glow.', 'pdf-generator-for-wp' ),
+						'category'      => __( 'Modern', 'pdf-generator-for-wp' ),
+						'sequence'      => '06',
+						'preview_class' => 'is-style-6',
+					),
+					'style-7' => array(
+						'label'         => __( 'Glass Pill', 'pdf-generator-for-wp' ),
+						'description'   => __( 'Translucent pill with icon, label, and PDF chip.', 'pdf-generator-for-wp' ),
+						'category'      => __( 'Modern', 'pdf-generator-for-wp' ),
+						'sequence'      => '07',
+						'preview_class' => 'is-style-7',
+					),
+					'style-8' => array(
+						'label'         => __( 'Shimmer Tile', 'pdf-generator-for-wp' ),
+						'description'   => __( 'Gradient tile with animated sheen on hover.', 'pdf-generator-for-wp' ),
+						'category'      => __( 'Modern', 'pdf-generator-for-wp' ),
+						'sequence'      => '08',
+						'preview_class' => 'is-style-8',
+					),
 				),
 			),
 
@@ -2262,6 +2330,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'pgfw_user_download_or_email'       => 'direct_download',
 				'pgfw_display_pdf_icon_after'       => 'after_content',
 				'pgfw_display_pdf_icon_alignment'   => 'center',
+				'pgfw_pdf_icon_display_template'    => 'default',
 				'sub_pgfw_pdf_single_download_icon' => '',
 				'sub_pgfw_pdf_bulk_download_icon'   => '',
 				'pgfw_pdf_icon_width'               => 25,
