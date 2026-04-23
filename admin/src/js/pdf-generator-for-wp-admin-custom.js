@@ -27,7 +27,48 @@
 
         
         // colorpicker header and footer.
-        $('.pgfw_color_picker').wpColorPicker();
+        $('.pgfw_color_picker').each(function() {
+            var $input = $(this);
+            var $card = $input.closest('[data-color-picker-card]');
+            var $hex = $card.find('[data-color-picker-hex]');
+
+            function normalizeColor(value) {
+                return value ? value.toUpperCase() : '';
+            }
+
+            function syncColorMeta(value) {
+                if (!$card.length) {
+                    return;
+                }
+                var hexValue = normalizeColor(value);
+                var $resultButton = $card.find('.wp-color-result');
+                var $resultSwatches = $resultButton.find('.color-alpha, span');
+                $card.toggleClass('has-color-value', !!hexValue);
+                $hex.text(hexValue);
+                if ( hexValue ) {
+                    $card.css('--pgfw-picked-color', hexValue);
+                    $resultButton.css('background-color', hexValue);
+                    $resultSwatches.css('background-color', hexValue);
+                } else {
+                    $card.css('--pgfw-picked-color', '');
+                    $resultButton.css('background-color', '');
+                    $resultSwatches.css('background-color', '');
+                }
+            }
+
+            $input.wpColorPicker({
+                hide: true,
+                palettes: true,
+                change: function(event, ui) {
+                    syncColorMeta(ui && ui.color ? ui.color.toString() : $input.val());
+                },
+                clear: function() {
+                    syncColorMeta('');
+                }
+            });
+
+            syncColorMeta($input.val());
+        });
         // remove logo header.
         $('#pgfw_header_image_remove').click(function(e){
             e.preventDefault();

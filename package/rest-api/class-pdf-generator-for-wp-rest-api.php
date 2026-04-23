@@ -120,12 +120,16 @@ class Pdf_Generator_For_Wp_Rest_Api {
 			return new WP_Error( 'pgfw_invalid_tab', __( 'Invalid tab.', 'pdf-generator-for-wp' ), array( 'status' => 400 ) );
 		}
 
-		$pgfw_tab_content_path = 'admin/partials/' . $tab . '.php';
-
 		global $pgfw_wps_pgfw_obj;
 		if ( empty( $pgfw_wps_pgfw_obj ) || ! method_exists( $pgfw_wps_pgfw_obj, 'wps_pgfw_plug_load_template' ) ) {
 			return new WP_Error( 'pgfw_loader_missing', __( 'Unable to load tab content.', 'pdf-generator-for-wp' ), array( 'status' => 500 ) );
 		}
+
+		if ( method_exists( $pgfw_wps_pgfw_obj, 'wps_pgfw_normalize_dashboard_tab' ) ) {
+			$tab = $pgfw_wps_pgfw_obj->wps_pgfw_normalize_dashboard_tab( $tab );
+		}
+
+		$pgfw_tab_content_path = 'admin/partials/' . $tab . '.php';
 
 		// Ensure tab value is available to partials that read $_GET['pgfw_tab'] directly.
 		$_GET['pgfw_tab'] = $tab; // phpcs:ignore WordPress.Security.NonceVerification

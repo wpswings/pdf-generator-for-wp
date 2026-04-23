@@ -177,11 +177,15 @@ function wps_embed_sources_page() {
 			border-radius: 50%;
 		}
 
-		input:checked+.slider {
-			background-color: #2196F3;
+		.wps-switch input:focus-visible + .slider {
+			box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18);
 		}
 
-		input:checked+.slider:before {
+		.wps-switch input:checked + .slider {
+			background-color: #f59e0b;
+		}
+
+		.wps-switch input:checked + .slider:before {
 			transform: translateX(26px);
 		}
 	</style>

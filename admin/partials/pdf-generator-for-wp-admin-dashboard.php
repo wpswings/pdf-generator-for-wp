@@ -12,11 +12,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $pgfw_wps_pgfw_obj, $wps_pgfw_gen_flag, $pgfw_save_check_flag;
 
 $pgfw_active_tab   = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw_tab'] ) : 'pdf-generator-for-wp-overview'; // phpcs:ignore
+$pgfw_active_tab   = $pgfw_wps_pgfw_obj->wps_pgfw_normalize_dashboard_tab( $pgfw_active_tab );
+$_GET['pgfw_tab']  = $pgfw_active_tab; // phpcs:ignore WordPress.Security.NonceVerification
 $pgfw_default_tabs = $pgfw_wps_pgfw_obj->wps_pgfw_plug_default_tabs();
 
-$wps_wpg_plugin_list  = get_option( 'active_plugins' );
-$wps_wpg_plugin       = 'wordpress-pdf-generator/wordpress-pdf-generator.php';
-$wps_wpg_is_pro_active = in_array( $wps_wpg_plugin, $wps_wpg_plugin_list, true );
+$wps_wpg_is_pro_active = $pgfw_wps_pgfw_obj->wps_pgfw_is_pro_plugin_active();
+$pgfw_version_label    = $pgfw_wps_pgfw_obj->wps_pgfw_get_dashboard_version_label();
 $docs_url             = 'https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-backend&utm_campaign=documentation';
 $video_url            = 'https://www.youtube.com/watch?v=RljECeP3JJk';
 $faq_url              = 'https://wpswings.com/submit-query/?utm_source=wpswings-pdf-support&utm_medium=pdf-org-backend&utm_campaign=submit-query';
@@ -100,7 +101,7 @@ do_action( 'wps_wpg_settings_saved_notice' );
 	?>
 
 		<div class="pgfw-brandbar">
-			<div class="pgfw-brandbar__pill"><?php echo $wps_wpg_is_pro_active ? esc_html__( 'Pro Active', 'pdf-generator-for-wp' ) : esc_html__( 'PDF Generator', 'pdf-generator-for-wp' ); ?></div>
+			<div class="pgfw-brandbar__pill"><?php echo $wps_wpg_is_pro_active ? esc_html__( 'Pro Active', 'pdf-generator-for-wp' ) : esc_html__( 'Free Active', 'pdf-generator-for-wp' ); ?></div>
 			<div class="pgfw-brandbar__title"><?php esc_html_e( 'PDF Generator for WP', 'pdf-generator-for-wp' ); ?></div>
 		</div>
 
@@ -108,7 +109,7 @@ do_action( 'wps_wpg_settings_saved_notice' );
 
 		<div class="pgfw-tabbar">
 		<div class="pgfw-tabbar__version">
-			v<?php echo esc_html( PDF_GENERATOR_FOR_WP_VERSION ); ?> <?php echo $wps_wpg_is_pro_active ? esc_html__( 'Pro', 'pdf-generator-for-wp' ) : ''; ?>
+			<?php echo esc_html( $pgfw_version_label ); ?>
 		</div>
 		<nav class="pgfw-nav pgfw-legacy-nav" aria-label="<?php esc_attr_e( 'PDF Generator tabs', 'pdf-generator-for-wp' ); ?>">
 			<ul>

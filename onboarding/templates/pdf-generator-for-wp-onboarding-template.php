@@ -16,9 +16,9 @@ $pgfw_onboarding_form_fields = apply_filters( 'wps_pgfw_on_boarding_form_fields'
 ?>
 
 <?php if ( ! empty( $pgfw_onboarding_form_fields ) ) : ?>
-	<div class="mdc-dialog mdc-dialog--scrollable">
+	<div class="mdc-dialog mdc-dialog--scrollable wps-pgfw-onboarding-dialog">
 		<div class="wps-pgfw-on-boarding-wrapper-background mdc-dialog__container">
-			<div class="wps-pgfw-on-boarding-wrapper mdc-dialog__surface" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
+			<div class="wps-pgfw-on-boarding-wrapper wps-pgfw-onboarding-surface mdc-dialog__surface" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
 				<div class="mdc-dialog__content">
 					<div class="wps-pgfw-on-boarding-close-btn">
 						<a href="#"><span class="pgfw-close-form material-icons wps-pgfw-close-icon mdc-dialog__button" data-mdc-dialog-action="close">clear</span></a>
@@ -27,11 +27,11 @@ $pgfw_onboarding_form_fields = apply_filters( 'wps_pgfw_on_boarding_form_fields'
 					<h3 class="wps-pgfw-on-boarding-heading mdc-dialog__title"><?php esc_html_e( 'Welcome to WP Swings', 'pdf-generator-for-wp' ); ?> </h3>
 					<p class="wps-pgfw-on-boarding-desc"><?php esc_html_e( 'We love making new friends! Subscribe below and we promise to keep you up-to-date with our latest new plugins, updates, awesome deals and a few special offers.', 'pdf-generator-for-wp' ); ?></p>
 
-					<form action="#" method="post" class="wps-pgfw-on-boarding-form">
+					<form action="#" method="post" class="wps-pgfw-on-boarding-form wps-pgfw-onboarding-form">
 						<?php
 						$pgfw_wps_pgfw_obj->wps_pgfw_plug_generate_html( $pgfw_onboarding_form_fields );
 						?>
-						<div class="wps-pgfw-on-boarding-form-btn__wrapper mdc-dialog__actions">
+						<div class="wps-pgfw-on-boarding-form-btn__wrapper wps-pgfw-onboarding-actions mdc-dialog__actions">
 							<div class="wps-pgfw-on-boarding-form-submit wps-pgfw-on-boarding-form-verify ">
 								<input type="submit" class="wps-pgfw-on-boarding-submit wps-on-boarding-verify mdc-button mdc-button--raised" value="Send Us">
 							</div>
