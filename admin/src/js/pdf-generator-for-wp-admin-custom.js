@@ -71,6 +71,7 @@
             syncColorMeta($input.val());
             });
         }
+
         // remove logo header.
         $('#pgfw_header_image_remove').click(function(e){
             e.preventDefault();

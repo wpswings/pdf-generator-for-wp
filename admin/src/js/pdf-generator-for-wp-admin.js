@@ -110,6 +110,43 @@
 			}
 		});
 
+		const expertModal = document.querySelector( '.pgfw-expert-modal' );
+		if ( expertModal ) {
+			const openExpertModal = function() {
+				expertModal.hidden = false;
+				expertModal.setAttribute( 'aria-hidden', 'false' );
+				document.body.classList.add( 'pgfw-expert-modal-open' );
+			};
+
+			const closeExpertModal = function() {
+				expertModal.hidden = true;
+				expertModal.setAttribute( 'aria-hidden', 'true' );
+				document.body.classList.remove( 'pgfw-expert-modal-open' );
+			};
+
+			$( document )
+				.off( 'click.pgfwExpertModalOpen', '[data-pgfw-open-expert-modal]' )
+				.on( 'click.pgfwExpertModalOpen', '[data-pgfw-open-expert-modal]', function( event ) {
+					event.preventDefault();
+					openExpertModal();
+				} );
+
+			$( document )
+				.off( 'click.pgfwExpertModalClose', '[data-pgfw-close-expert-modal]' )
+				.on( 'click.pgfwExpertModalClose', '[data-pgfw-close-expert-modal]', function( event ) {
+					event.preventDefault();
+					closeExpertModal();
+				} );
+
+			$( document )
+				.off( 'keydown.pgfwExpertModal' )
+				.on( 'keydown.pgfwExpertModal', function( event ) {
+					if ( event.key === 'Escape' && ! expertModal.hidden ) {
+						closeExpertModal();
+					}
+				} );
+		}
+
 		// Internal template mapping save.
 		const templateSelectors = $('.wpg-template-items, .wpg-template-post-types');
 		if ( templateSelectors.length ) {
@@ -137,6 +174,7 @@
 				}
 			});
 		}
+
 	};
 
 	$(document).ready(function() {

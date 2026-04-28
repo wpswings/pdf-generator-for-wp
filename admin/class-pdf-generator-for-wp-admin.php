@@ -1110,10 +1110,10 @@ class Pdf_Generator_For_Wp_Admin {
 			array(
 				'title'       => __( 'Single Download PDF Icon Name ', 'pdf-generator-for-wp' ),
 				'type'        => 'text',
-				'id'          => 'single_pdf_icon_name',
+				'id'          => 'wps_wpg_single_pdf_icon_name',
 				'value'       => 'single pdf name',
 				'class'       => 'wps_pgfw_pro_tag',
-				'name'        => 'single_pdf_icon_name',
+				'name'        => 'wps_wpg_single_pdf_icon_name',
 				'placeholder' => __( 'Icon Name', 'pdf-generator-for-wp' ),
 			),
 			array(
@@ -2538,6 +2538,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'pgfw_display_pdf_icon_after'       => 'after_content',
 				'pgfw_display_pdf_icon_alignment'   => 'center',
 				'pgfw_pdf_icon_display_template'    => 'default',
+				'wps_wpg_single_pdf_icon_name'      => '',
 				'sub_pgfw_pdf_single_download_icon' => '',
 				'sub_pgfw_pdf_bulk_download_icon'   => '',
 				'pgfw_pdf_icon_width'               => 25,

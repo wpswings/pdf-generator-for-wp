@@ -1,7 +1,7 @@
 <svg width="24" height="32" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M5 1H14.5L19 5.5V31H5V1Z" fill="white"/>
-<path d="M14.5 1L19 5.5H14.5V1Z" fill="#EFE7FF"/>
-<path d="M5 1H14.5L19 5.5V31H5V1Z" stroke="#E6DDFF"/>
+<path d="M14.5 1L19 5.5H14.5V1Z" fill="#F3ECFF"/>
+<path d="M5 1H14.5L19 5.5V31H5V1Z" stroke="#E1D5FF"/>
 <path d="M5 20H19V31H5V20Z" fill="#EF4444"/>
 <text x="12" y="27.6" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="6" font-weight="700" letter-spacing="0.8">PDF</text>
 </svg>

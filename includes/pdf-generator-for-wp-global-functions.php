@@ -131,6 +131,151 @@ if ( ! function_exists( 'wps_generate_pdf' ) ) {
 	}
 }
 
+if ( ! function_exists( 'pgfw_get_single_pdf_download_icon_src' ) ) {
+	/**
+	 * Get the frontend icon source for the selected display template.
+	 *
+	 * Custom uploads override the built-in template assets.
+	 *
+	 * @param string $custom_icon_url Uploaded custom icon URL.
+	 * @param string $display_template Selected display template slug.
+	 * @return string
+	 */
+	function pgfw_get_single_pdf_download_icon_src( $custom_icon_url, $display_template ) {
+		if ( '' !== $custom_icon_url ) {
+			return $custom_icon_url;
+		}
+
+		$template_icon_map = array(
+			'style-2' => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/adobe_badge.svg',
+			'default' => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/PDF_Tray.svg',
+		);
+
+		return isset( $template_icon_map[ $display_template ] ) ? $template_icon_map[ $display_template ] : $template_icon_map['default'];
+	}
+}
+
+if ( ! function_exists( 'pgfw_get_icon_display_template_config' ) ) {
+	/**
+	 * Get shared template metadata for frontend icon rendering.
+	 *
+	 * @param string $display_template Selected template slug.
+	 * @return array
+	 */
+	function pgfw_get_icon_display_template_config( $display_template = 'default' ) {
+		$config = array(
+			'style-2' => array(
+				'label'        => 'Adobe Badge',
+				'wrapper_type' => 'compact',
+			),
+			'default' => array(
+				'label'        => 'Printer Classic',
+				'wrapper_type' => 'compact',
+			),
+			'style-4' => array(
+				'label'        => 'Boxed Button',
+				'wrapper_type' => 'button',
+			),
+			'style-5' => array(
+				'label'        => 'Stamped Seal',
+				'wrapper_type' => 'seal',
+			),
+			'style-3' => array(
+				'label'        => 'Brand Tile',
+				'wrapper_type' => 'tile',
+			),
+			'style-6' => array(
+				'label'        => 'Gradient FAB',
+				'wrapper_type' => 'orb',
+			),
+			'style-7' => array(
+				'label'        => 'Glass Pill',
+				'wrapper_type' => 'pill',
+			),
+			'style-8' => array(
+				'label'        => 'Shimmer Tile',
+				'wrapper_type' => 'tile',
+			),
+		);
+
+		return isset( $config[ $display_template ] ) ? $config[ $display_template ] : $config['default'];
+	}
+}
+
+if ( ! function_exists( 'pgfw_get_frontend_icon_display_settings' ) ) {
+	/**
+	 * Get normalized frontend icon display settings.
+	 *
+	 * @return array
+	 */
+	function pgfw_get_frontend_icon_display_settings() {
+		$display_settings = wps_pgfw_get_option_cached( 'pgfw_save_admin_display_settings', array() );
+		$display_settings = is_array( $display_settings ) ? $display_settings : array();
+
+		// Roll back to the legacy frontend-safe renderer.
+		$display_template = 'default';
+		$icon_width       = array_key_exists( 'pgfw_pdf_icon_width', $display_settings ) ? absint( $display_settings['pgfw_pdf_icon_width'] ) : 25;
+		$icon_height      = array_key_exists( 'pgfw_pdf_icon_height', $display_settings ) ? absint( $display_settings['pgfw_pdf_icon_height'] ) : 45;
+		$alignment        = array_key_exists( 'pgfw_display_pdf_icon_alignment', $display_settings ) ? sanitize_text_field( $display_settings['pgfw_display_pdf_icon_alignment'] ) : 'center';
+		$label            = array_key_exists( 'wps_wpg_single_pdf_icon_name', $display_settings ) ? $display_settings['wps_wpg_single_pdf_icon_name'] : '';
+
+		if ( '' === $label && array_key_exists( 'single_pdf_icon_name', $display_settings ) ) {
+			$label = $display_settings['single_pdf_icon_name'];
+		}
+
+		$bulk_label = array_key_exists( 'wps_wpg_bulk_pdf_icon_name', $display_settings ) ? $display_settings['wps_wpg_bulk_pdf_icon_name'] : '';
+
+		$settings = array(
+			'display_template'            => $display_template,
+			'template_config'             => pgfw_get_icon_display_template_config( $display_template ),
+			'alignment'                   => $alignment,
+			'icon_width'                  => $icon_width > 0 ? $icon_width : 25,
+			'icon_height'                 => $icon_height > 0 ? $icon_height : 45,
+			'single_icon_url'             => array_key_exists( 'sub_pgfw_pdf_single_download_icon', $display_settings ) ? $display_settings['sub_pgfw_pdf_single_download_icon'] : '',
+			'single_label'                => sanitize_text_field( $label ),
+			'bulk_icon_url'               => array_key_exists( 'sub_pgfw_pdf_bulk_download_icon', $display_settings ) ? $display_settings['sub_pgfw_pdf_bulk_download_icon'] : '',
+			'bulk_label'                  => sanitize_text_field( $bulk_label ),
+			'body_show_pdf_icon'          => array_key_exists( 'pgfw_body_show_pdf_icon', $display_settings ) ? $display_settings['pgfw_body_show_pdf_icon'] : '',
+			'show_roles'                  => array_key_exists( 'pgfw_show_post_type_icons_for_user_role', $display_settings ) ? $display_settings['pgfw_show_post_type_icons_for_user_role'] : array(),
+			'print_enabled'               => array_key_exists( 'pgfw_print_enable', $display_settings ) ? $display_settings['pgfw_print_enable'] : '',
+			'whatsapp_enabled'            => array_key_exists( 'wps_wpg_whatsapp_sharing', $display_settings ) ? $display_settings['wps_wpg_whatsapp_sharing'] : '',
+			'wrapper_style_attribute'     => '--pgfw-icon-justify:' . $alignment . ';',
+			'button_style_attribute'      => '--pgfw-icon-width:' . ( $icon_width > 0 ? $icon_width : 25 ) . 'px;--pgfw-icon-height:' . ( $icon_height > 0 ? $icon_height : 45 ) . 'px;',
+			'custom_label_fallback'       => __( 'Download PDF', 'pdf-generator-for-wp' ),
+			'custom_bulk_label_fallback'  => __( 'Bulk PDF', 'pdf-generator-for-wp' ),
+		);
+
+		return $settings;
+	}
+}
+
+if ( ! function_exists( 'pgfw_get_icon_action_icon_src' ) ) {
+	/**
+	 * Get the icon source for a frontend icon action.
+	 *
+	 * @param string $action_type Action type.
+	 * @param array  $settings Normalized frontend settings.
+	 * @return string
+	 */
+	function pgfw_get_icon_action_icon_src( $action_type, $settings = array() ) {
+		switch ( $action_type ) {
+			case 'bulk':
+				$bulk_icon_url = isset( $settings['bulk_icon_url'] ) ? $settings['bulk_icon_url'] : '';
+				return '' !== $bulk_icon_url ? $bulk_icon_url : PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/download_PDF.svg';
+			case 'print':
+				return PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/print_icon.png';
+			case 'share':
+				return PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/whatsapp.png';
+			case 'download':
+			case 'email':
+			default:
+				$single_icon_url  = isset( $settings['single_icon_url'] ) ? $settings['single_icon_url'] : '';
+				$display_template = isset( $settings['display_template'] ) ? $settings['display_template'] : 'default';
+				return pgfw_get_single_pdf_download_icon_src( $single_icon_url, $display_template );
+		}
+	}
+}
+
 
 
 add_action( 'wp_ajax_fb_fetch_pdf', 'wps_pgfw_fb_fetch_pdf' );

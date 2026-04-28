@@ -22,6 +22,7 @@ $docs_url             = 'https://docs.wpswings.com/pdf-generator-for-wp/?utm_sou
 $video_url            = 'https://www.youtube.com/watch?v=RljECeP3JJk';
 $faq_url              = 'https://wpswings.com/submit-query/?utm_source=wpswings-pdf-support&utm_medium=pdf-org-backend&utm_campaign=submit-query';
 $contact_url          = 'https://wpswings.com/contact-us/';
+$talk_to_expert_url   = 'https://share-eu1.hsforms.com/1kb_CTsGnSFiHip8vtHKGIAf5cts';
 $plugins_url          = 'https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-sidebar&utm_medium=pdf-org-backend&utm_campaign=shop-page';
 
 $tabs_for_js = array();
@@ -188,6 +189,93 @@ do_action( 'wps_wpg_settings_saved_notice' );
 				</ul>
 			</div>
 
+			<div class="pgfw-card pgfw-rail-card pgfw-services-card">
+				<div class="pgfw-services-card__head">
+					<div class="pgfw-services-card__intro">
+						<h3><?php esc_html_e( 'Grow Your Store With Our Services', 'pdf-generator-for-wp' ); ?></h3>
+						<p><?php esc_html_e( "Expert solutions to boost your store's performance.", 'pdf-generator-for-wp' ); ?></p>
+					</div>
+					<span class="pgfw-services-card__spark" aria-hidden="true">
+						<svg viewBox="0 0 24 24" focusable="false">
+							<path d="M12 2.9l1.8 3.68 4.07.59-2.95 2.88.7 4.05L12 12.23 8.36 14.1l.7-4.05L6.1 7.17l4.08-.59L12 2.9z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path>
+						</svg>
+					</span>
+				</div>
+
+				<div class="pgfw-services-card__list">
+					<a class="pgfw-services-card__item" href="<?php echo esc_url( $contact_url ); ?>" target="_blank" rel="noopener noreferrer">
+						<span class="pgfw-services-card__icon pgfw-services-card__icon--seo" aria-hidden="true">
+							<svg viewBox="0 0 24 24" focusable="false">
+								<circle cx="10.5" cy="10.5" r="4.5" fill="none" stroke="currentColor" stroke-width="1.8"></circle>
+								<path d="M14 14l4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+							</svg>
+						</span>
+						<span class="pgfw-services-card__copy">
+							<strong><?php esc_html_e( 'SEO Services', 'pdf-generator-for-wp' ); ?></strong>
+							<small><?php esc_html_e( 'Improve rankings & organic traffic', 'pdf-generator-for-wp' ); ?></small>
+						</span>
+						<span class="pgfw-services-card__chevron" aria-hidden="true">&rsaquo;</span>
+					</a>
+
+					<a class="pgfw-services-card__item" href="<?php echo esc_url( $contact_url ); ?>" target="_blank" rel="noopener noreferrer">
+						<span class="pgfw-services-card__icon pgfw-services-card__icon--ads" aria-hidden="true">
+							<svg viewBox="0 0 24 24" focusable="false">
+								<path d="M5 16.8l3.56-6.16a1.2 1.2 0 0 1 2.08 0l3.66 6.35" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+								<path d="M15.4 7.2l3.25 5.63" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+								<circle cx="18.65" cy="14.2" r="1.5" fill="currentColor"></circle>
+							</svg>
+						</span>
+						<span class="pgfw-services-card__copy">
+							<strong><?php esc_html_e( 'Google Ads Setup And G4 Setup', 'pdf-generator-for-wp' ); ?></strong>
+							<small><?php esc_html_e( 'Run profitable ad campaigns', 'pdf-generator-for-wp' ); ?></small>
+						</span>
+						<span class="pgfw-services-card__chevron" aria-hidden="true">&rsaquo;</span>
+					</a>
+
+					<a class="pgfw-services-card__item" href="<?php echo esc_url( $contact_url ); ?>" target="_blank" rel="noopener noreferrer">
+						<span class="pgfw-services-card__icon pgfw-services-card__icon--speed" aria-hidden="true">
+							<svg viewBox="0 0 24 24" focusable="false">
+								<path d="M6.5 15.5a5.5 5.5 0 1 1 11 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+								<path d="M12 15.5l3-4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+								<circle cx="12" cy="15.5" r="1.2" fill="currentColor"></circle>
+							</svg>
+						</span>
+						<span class="pgfw-services-card__copy">
+							<strong><?php esc_html_e( 'Speed Optimization', 'pdf-generator-for-wp' ); ?></strong>
+							<small><?php esc_html_e( 'Faster store, happier customers', 'pdf-generator-for-wp' ); ?></small>
+						</span>
+						<span class="pgfw-services-card__chevron" aria-hidden="true">&rsaquo;</span>
+					</a>
+
+					<a class="pgfw-services-card__item" href="<?php echo esc_url( $contact_url ); ?>" target="_blank" rel="noopener noreferrer">
+						<span class="pgfw-services-card__icon pgfw-services-card__icon--speed" aria-hidden="true">
+							<svg viewBox="0 0 24 24" focusable="false">
+								<path d="M4.5 6.5h15a2.5 2.5 0 0 1 2.5 2.5v5.5a2.5 2.5 0 0 1-2.5 2.5h-7l-4 3v-3h-4A2.5 2.5 0 0 1 2 14.5V9a2.5 2.5 0 0 1 2.5-2.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"  ></path>
+								<path d="M5.7 10.1l1 3.7 1-3.7 1 3.7 1-3.7" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"  ></path>
+								<circle cx="13.1" cy="12" r="1.4" fill="none" stroke="currentColor" stroke-width="1.4"></circle>
+								<circle cx="17.2" cy="12" r="1.4" fill="none" stroke="currentColor" stroke-width="1.4"></circle>
+							</svg>
+						</span>
+						<span class="pgfw-services-card__copy">
+							<strong><?php esc_html_e( 'WooCommerce Development Services', 'pdf-generator-for-wp' ); ?></strong>
+							<small><?php esc_html_e( 'Custom Solution For your store needs', 'pdf-generator-for-wp' ); ?></small>
+						</span>
+						<span class="pgfw-services-card__chevron" aria-hidden="true">&rsaquo;</span>
+					</a>
+				</div>
+
+				<a class="pgfw-services-card__cta" href="#" data-pgfw-open-expert-modal="true"><?php esc_html_e( 'Talk to an Expert', 'pdf-generator-for-wp' ); ?></a>
+				<p class="pgfw-services-card__meta">
+					<?php esc_html_e( 'Services by WP Swings', 'pdf-generator-for-wp' ); ?>
+					<span class="pgfw-services-card__meta-badge" aria-hidden="true">
+						<svg viewBox="0 0 24 24" focusable="false">
+							<path d="M12 3l6 2.7v5.5c0 3.9-2.4 7.5-6 9-3.6-1.5-6-5.1-6-9V5.7L12 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"></path>
+							<path d="M9.4 12.1l1.7 1.7 3.5-3.7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
+						</svg>
+					</span>
+				</p>
+			</div>
+
 			<div class="pgfw-card pgfw-rail-card pgfw-contact-card">
 				<h3><?php esc_html_e( 'Still facing problems?', 'pdf-generator-for-wp' ); ?></h3>
 				<p><?php esc_html_e( 'We are ready to resolve workflow, styling, and integration issues across your store setup.', 'pdf-generator-for-wp' ); ?></p>
@@ -202,6 +290,25 @@ do_action( 'wps_wpg_settings_saved_notice' );
 		</aside>
 	</div>
 </main>
+
+<div class="pgfw-expert-modal" hidden aria-hidden="true">
+	<div class="pgfw-expert-modal__backdrop" data-pgfw-close-expert-modal="true"></div>
+	<div class="pgfw-expert-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="pgfw-expert-modal-title">
+		<div class="pgfw-expert-modal__header">
+			<div class="pgfw-expert-modal__copy">
+				<p class="pgfw-expert-modal__eyebrow"><?php esc_html_e( 'Marketing Services', 'pdf-generator-for-wp' ); ?></p>
+				<h2 id="pgfw-expert-modal-title"><?php esc_html_e( 'Talk to an Expert', 'pdf-generator-for-wp' ); ?></h2>
+				<p><?php esc_html_e( 'Share your store goals and we will reach out with the right next step.', 'pdf-generator-for-wp' ); ?></p>
+			</div>
+			<button type="button" class="pgfw-expert-modal__close" data-pgfw-close-expert-modal="true" aria-label="<?php esc_attr_e( 'Close expert form', 'pdf-generator-for-wp' ); ?>">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="pgfw-expert-modal__frame-wrap">
+			<iframe class="pgfw-expert-modal__iframe" src="<?php echo esc_url( $talk_to_expert_url ); ?>" title="<?php esc_attr_e( 'Talk to an Expert form', 'pdf-generator-for-wp' ); ?>" loading="lazy"></iframe>
+		</div>
+	</div>
+</div>
 
 <?php
 // Migration reminder (kept from legacy UI).

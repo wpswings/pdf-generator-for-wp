@@ -68,6 +68,8 @@ class Pdf_Generator_For_Wp_Activator {
 					'pgfw_user_download_or_email'       => 'direct_download',
 					'pgfw_display_pdf_icon_after'       => 'after_content',
 					'pgfw_display_pdf_icon_alignment'   => 'center',
+					'pgfw_pdf_icon_display_template'    => 'default',
+					'wps_wpg_single_pdf_icon_name'      => '',
 					'sub_pgfw_pdf_single_download_icon' => '',
 					'sub_pgfw_pdf_bulk_download_icon'   => '',
 					'pgfw_pdf_icon_width'               => 25,

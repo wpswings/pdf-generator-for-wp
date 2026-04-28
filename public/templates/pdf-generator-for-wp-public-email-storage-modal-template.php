@@ -22,28 +22,24 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string
  */
 function pgfw_modal_for_email_template( $url_here, $id ) {
-	$pgfw_display_settings             = wps_pgfw_get_option_cached( 'pgfw_save_admin_display_settings', array() );
-	$pgfw_pdf_icon_alignment           = array_key_exists( 'pgfw_display_pdf_icon_alignment', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_display_pdf_icon_alignment'] : '';
-	$pgfw_pdf_icon_display_template    = array_key_exists( 'pgfw_pdf_icon_display_template', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_pdf_icon_display_template'] : 'default';
-	$sub_pgfw_pdf_single_download_icon = array_key_exists( 'sub_pgfw_pdf_single_download_icon', $pgfw_display_settings ) ? $pgfw_display_settings['sub_pgfw_pdf_single_download_icon'] : '';
-	$pgfw_single_pdf_download_icon_src = ( '' !== $sub_pgfw_pdf_single_download_icon ) ? $sub_pgfw_pdf_single_download_icon : PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/PDF_Tray.svg';
-	$pgfw_pdf_icon_width               = array_key_exists( 'pgfw_pdf_icon_width', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_pdf_icon_width'] : '';
-	$pgfw_pdf_icon_height              = array_key_exists( 'pgfw_pdf_icon_height', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_pdf_icon_height'] : '';
-	$pgfw_icon_width_attr              = ! empty( $pgfw_pdf_icon_width ) ? (int) $pgfw_pdf_icon_width : ( ! empty( $pgfw_pdf_icon_height ) ? (int) $pgfw_pdf_icon_height : 24 );
-	$pgfw_icon_height_attr             = ! empty( $pgfw_pdf_icon_height ) ? (int) $pgfw_pdf_icon_height : 24;
-	if ( wps_pgfw_is_pdf_pro_plugin_active() ) {
-		$wps_wpg_single_pdf_icon_name    = array_key_exists( 'wps_wpg_single_pdf_icon_name', $pgfw_display_settings ) ? $pgfw_display_settings['wps_wpg_single_pdf_icon_name'] : '';
-		$is_pro_active = true;
-	} else {
-		$wps_wpg_single_pdf_icon_name = '';
-		$is_pro_active = false;
-	}
-	$pgfw_wrapper_classes = 'pdf-icon-for-the-email pgfw-icon-display pgfw-icon-display--' . sanitize_html_class( $pgfw_pdf_icon_display_template );
-	$pgfw_button_classes  = 'pgfw-single-pdf-download-a pgfw-single-pdf-download-a--' . sanitize_html_class( $pgfw_pdf_icon_display_template );
-	$pgfw_label_markup    = '<span class="pgfw-single-pdf-download-button__label">' . esc_html( $wps_wpg_single_pdf_icon_name ) . '</span>';
+	require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'public/templates/pdf-generator-for-wp-public-icon-action-template.php';
 
-	$html  = '<div class="' . esc_attr( $pgfw_wrapper_classes ) . '" style=" gap:10px;justify-content:' . esc_html( $pgfw_pdf_icon_alignment ) . '">
-				<a href="#" title="' . esc_html__( 'Please Enter Your Email ID', 'pdf-generator-for-wp' ) . '" class="' . esc_attr( $pgfw_button_classes ) . '"><img src="' . esc_url( $pgfw_single_pdf_download_icon_src ) . '" title="' . esc_html__( 'Generate PDF', 'pdf-generator-for-wp' ) . '" width="' . esc_attr( $pgfw_icon_width_attr ) . '" height="' . esc_attr( $pgfw_icon_height_attr ) . '" decoding="async" style="height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;">' . $pgfw_label_markup . '</a>';
+	$settings             = pgfw_get_frontend_icon_display_settings();
+	$pgfw_wrapper_classes = 'pdf-icon-for-the-email pgfw-icon-display pgfw-icon-display--' . sanitize_html_class( $settings['display_template'] );
+
+	$html  = '<div class="' . esc_attr( $pgfw_wrapper_classes ) . '" style="' . esc_attr( $settings['wrapper_style_attribute'] ) . '">';
+	$html .= pgfw_render_icon_action_button(
+		array(
+			'action_type'      => 'email',
+			'display_template' => $settings['display_template'],
+			'href'             => '#',
+			'title'            => __( 'Please Enter Your Email ID', 'pdf-generator-for-wp' ),
+			'label'            => '' !== $settings['single_label'] ? $settings['single_label'] : $settings['custom_label_fallback'],
+			'icon_src'         => pgfw_get_icon_action_icon_src( 'email', $settings ),
+			'classes'          => array( 'pgfw-single-pdf-download-a', 'pgfw-single-pdf-download-a--' . sanitize_html_class( $settings['display_template'] ) ),
+			'style_attribute'  => $settings['button_style_attribute'],
+		)
+	);
 	$html  = apply_filters( 'wps_pgfw_bulk_download_button_filter_hook', $html, $id );
 
 	if ( is_user_logged_in() ) {
