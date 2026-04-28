@@ -600,18 +600,20 @@ input#s2id_autogen1 {
 .wps-pgfw-onboarding-actions .wps-pgfw-on-boarding-form-submit,
 .wps-pgfw-onboarding-actions .wps-pgfw-on-boarding-form-no_thanks {
 	display: flex;
+	flex: 0 1 192px;
 	float: none;
 	margin: 0;
-	max-width: 170px !important;
+	max-width: 192px !important;
+	min-width: 192px;
 	width: 100%;
 }
 
 .wps-pgfw-onboarding-actions .wps-pgfw-on-boarding-form-submit {
-	flex: 0 0 170px;
+	align-items: stretch;
 }
 
 .wps-pgfw-onboarding-actions .wps-pgfw-on-boarding-form-no_thanks {
-	flex: 0 0 170px;
+	align-items: stretch;
 	justify-content: center;
 	text-align: center;
 }
@@ -629,18 +631,22 @@ input#s2id_autogen1 {
 	font-weight: 700;
 	justify-content: center;
 	letter-spacing: 1px;
+	line-height: 1.1;
 	min-height: 54px;
 	opacity: 1;
+	text-align: center;
+	text-decoration: none;
 	text-transform: uppercase;
+	white-space: nowrap;
 	width: 100%;
 }
 
 .wps-pgfw-onboarding-actions .wps-pgfw-on-boarding-submit {
-	padding: 0 42px 0 24px !important;
+	padding: 0 46px !important;
 }
 
 .wps-pgfw-onboarding-actions .wps-pgfw-on-boarding-no_thanks.mdc-button {
-	padding: 12px 24px !important;
+	padding: 0 24px !important;
 }
 
 .wps-pgfw-onboarding-actions .wps-pgfw-on-boarding-submit:hover,

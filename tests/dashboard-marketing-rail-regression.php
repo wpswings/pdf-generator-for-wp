@@ -44,10 +44,6 @@ $checks = array(
 	),
 	array(
 		'haystack' => $dashboard,
-		'needle'   => "\$talk_to_expert_url   = 'https://share-eu1.hsforms.com/1kb_CTsGnSFiHip8vtHKGIAf5cts';",
-	),
-	array(
-		'haystack' => $dashboard,
 		'needle'   => "esc_html_e( 'Still facing problems?', 'pdf-generator-for-wp' )",
 	),
 	array(

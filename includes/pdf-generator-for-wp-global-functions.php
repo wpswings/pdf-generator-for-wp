@@ -212,12 +212,15 @@ if ( ! function_exists( 'pgfw_get_frontend_icon_display_settings' ) ) {
 		$display_settings = wps_pgfw_get_option_cached( 'pgfw_save_admin_display_settings', array() );
 		$display_settings = is_array( $display_settings ) ? $display_settings : array();
 
-		// Roll back to the legacy frontend-safe renderer.
-		$display_template = 'default';
+		$display_template = array_key_exists( 'pgfw_pdf_icon_display_template', $display_settings ) ? sanitize_text_field( $display_settings['pgfw_pdf_icon_display_template'] ) : 'default';
 		$icon_width       = array_key_exists( 'pgfw_pdf_icon_width', $display_settings ) ? absint( $display_settings['pgfw_pdf_icon_width'] ) : 25;
 		$icon_height      = array_key_exists( 'pgfw_pdf_icon_height', $display_settings ) ? absint( $display_settings['pgfw_pdf_icon_height'] ) : 45;
 		$alignment        = array_key_exists( 'pgfw_display_pdf_icon_alignment', $display_settings ) ? sanitize_text_field( $display_settings['pgfw_display_pdf_icon_alignment'] ) : 'center';
 		$label            = array_key_exists( 'wps_wpg_single_pdf_icon_name', $display_settings ) ? $display_settings['wps_wpg_single_pdf_icon_name'] : '';
+
+		if ( ! in_array( $display_template, array( 'style-2', 'default', 'style-4', 'style-5', 'style-3', 'style-6', 'style-7', 'style-8' ), true ) ) {
+			$display_template = 'default';
+		}
 
 		if ( '' === $label && array_key_exists( 'single_pdf_icon_name', $display_settings ) ) {
 			$label = $display_settings['single_pdf_icon_name'];
@@ -246,6 +249,46 @@ if ( ! function_exists( 'pgfw_get_frontend_icon_display_settings' ) ) {
 		);
 
 		return $settings;
+	}
+}
+
+if ( ! function_exists( 'pgfw_get_single_action_label' ) ) {
+	/**
+	 * Get the visible label for the single PDF action button.
+	 *
+	 * When a custom icon is selected without custom text, keep the action
+	 * icon-only on the frontend instead of forcing the fallback label.
+	 *
+	 * @param array $settings Normalized frontend settings.
+	 * @return string
+	 */
+	function pgfw_get_single_action_label( $settings = array() ) {
+		$single_label    = isset( $settings['single_label'] ) ? $settings['single_label'] : '';
+		$single_icon_url = isset( $settings['single_icon_url'] ) ? $settings['single_icon_url'] : '';
+		$fallback_label  = isset( $settings['custom_label_fallback'] ) ? $settings['custom_label_fallback'] : __( 'Download PDF', 'pdf-generator-for-wp' );
+
+		if ( '' !== $single_icon_url ) {
+			return '';
+		}
+
+		if ( '' !== $single_label ) {
+			return $single_label;
+		}
+
+		return $fallback_label;
+	}
+}
+
+if ( ! function_exists( 'pgfw_should_render_single_action_as_uploaded_icon' ) ) {
+	/**
+	 * Determine whether the single PDF action should render as a plain uploaded icon.
+	 *
+	 * @param array $settings Normalized frontend settings.
+	 * @return bool
+	 */
+	function pgfw_should_render_single_action_as_uploaded_icon( $settings = array() ) {
+		$single_icon_url = isset( $settings['single_icon_url'] ) ? $settings['single_icon_url'] : '';
+		return '' !== $single_icon_url;
 	}
 }
 

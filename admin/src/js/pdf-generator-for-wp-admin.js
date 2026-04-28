@@ -110,9 +110,117 @@
 			}
 		});
 
+		const flashbar = document.querySelector( '[data-pgfw-flashbar]' );
+		if ( flashbar ) {
+			const flashbarDismissKey = 'pgfw_flashbar_dismissed';
+			const dismissFlashbar = function() {
+				flashbar.hidden = true;
+				flashbar.setAttribute( 'aria-hidden', 'true' );
+
+				try {
+					window.localStorage.setItem( flashbarDismissKey, 'yes' );
+				} catch ( error ) {
+					// Ignore storage failures and still hide the banner for the current view.
+				}
+			};
+
+			try {
+				if ( window.localStorage.getItem( flashbarDismissKey ) === 'yes' ) {
+					flashbar.hidden = true;
+					flashbar.setAttribute( 'aria-hidden', 'true' );
+				}
+			} catch ( error ) {
+				// Ignore storage read failures and leave the banner visible.
+			}
+
+			$( document )
+				.off( 'click.pgfwFlashbarDismiss', '[data-pgfw-dismiss-flashbar]' )
+				.on( 'click.pgfwFlashbarDismiss', '[data-pgfw-dismiss-flashbar]', function( event ) {
+					event.preventDefault();
+					dismissFlashbar();
+				} );
+		}
+
 		const expertModal = document.querySelector( '.pgfw-expert-modal' );
 		if ( expertModal ) {
+			const expertForm = expertModal.querySelector( '[data-pgfw-expert-form]' );
+			const expertFormPanel = expertModal.querySelector( '[data-pgfw-expert-form-panel]' );
+			const expertState = expertModal.querySelector( '[data-pgfw-expert-state]' );
+			const expertThankYou = expertModal.querySelector( '[data-pgfw-expert-thank-you]' );
+			const expertThankYouMessage = expertModal.querySelector( '[data-pgfw-expert-thank-you-message]' );
+			let expertRedirectTimeout = null;
+
+			const clearExpertStatus = function() {
+				if ( ! expertState ) {
+					return;
+				}
+
+				expertState.hidden = true;
+				expertState.textContent = '';
+				expertState.classList.remove( 'is-success', 'is-error' );
+			};
+
+			const setExpertStatus = function( type, message ) {
+				if ( ! expertState ) {
+					return;
+				}
+
+				expertState.hidden = false;
+				expertState.textContent = message;
+				expertState.classList.remove( 'is-success', 'is-error' );
+				expertState.classList.add( type === 'success' ? 'is-success' : 'is-error' );
+			};
+
+			const clearExpertRedirect = function() {
+				if ( expertRedirectTimeout ) {
+					window.clearTimeout( expertRedirectTimeout );
+					expertRedirectTimeout = null;
+				}
+			};
+
+			const showExpertForm = function( clearRedirect = true ) {
+				if ( clearRedirect ) {
+					clearExpertRedirect();
+				}
+				clearExpertStatus();
+				if ( expertForm ) {
+					expertForm.classList.remove( 'pgfw-expert-form--submitted' );
+				}
+				if ( expertFormPanel ) {
+					expertFormPanel.hidden = false;
+				}
+				if ( expertThankYou ) {
+					expertThankYou.hidden = true;
+					expertThankYou.setAttribute( 'aria-hidden', 'true' );
+				}
+				if ( expertThankYouMessage ) {
+					expertThankYouMessage.textContent = 'Thank you for submitting your request.';
+				}
+			};
+
+			const showExpertThankYou = function( message ) {
+				clearExpertRedirect();
+				clearExpertStatus();
+				if ( expertForm ) {
+					expertForm.classList.add( 'pgfw-expert-form--submitted' );
+				}
+				if ( expertFormPanel ) {
+					expertFormPanel.hidden = true;
+				}
+				if ( expertThankYouMessage ) {
+					expertThankYouMessage.textContent = message || 'Thank you for submitting your request.';
+				}
+				if ( expertThankYou ) {
+					expertThankYou.hidden = false;
+					expertThankYou.setAttribute( 'aria-hidden', 'false' );
+				}
+				expertRedirectTimeout = window.setTimeout( function() {
+					window.location.href = pgfw_admin_param.reloadurl;
+				}, 4000 );
+			};
+
 			const openExpertModal = function() {
+				showExpertForm();
 				expertModal.hidden = false;
 				expertModal.setAttribute( 'aria-hidden', 'false' );
 				document.body.classList.add( 'pgfw-expert-modal-open' );
@@ -122,6 +230,7 @@
 				expertModal.hidden = true;
 				expertModal.setAttribute( 'aria-hidden', 'true' );
 				document.body.classList.remove( 'pgfw-expert-modal-open' );
+				showExpertForm( false );
 			};
 
 			$( document )
@@ -144,6 +253,74 @@
 					if ( event.key === 'Escape' && ! expertModal.hidden ) {
 						closeExpertModal();
 					}
+				} );
+
+			$( document )
+				.off( 'submit.pgfwExpertForm', '[data-pgfw-expert-form]' )
+				.on( 'submit.pgfwExpertForm', '[data-pgfw-expert-form]', function( event ) {
+					const formElement = this;
+					const submitButton = formElement.querySelector( '[data-pgfw-expert-submit]' );
+					const formData = new FormData( formElement );
+					const payload = {};
+
+					event.preventDefault();
+					clearExpertStatus();
+
+					formData.forEach( function( value, key ) {
+						const normalizedKey = key.replace( /\[\]$/, '' );
+
+						if ( Object.prototype.hasOwnProperty.call( payload, normalizedKey ) ) {
+							if ( ! Array.isArray( payload[ normalizedKey ] ) ) {
+								const currentValue = payload[ normalizedKey ];
+								payload[ normalizedKey ] = [];
+								payload[ normalizedKey ].push( currentValue );
+							}
+							payload[ normalizedKey ].push( value );
+							return;
+						}
+
+						payload[ normalizedKey ] = value;
+					} );
+
+					if ( submitButton ) {
+						submitButton.disabled = true;
+						submitButton.textContent = submitButton.getAttribute( 'data-pgfw-submit-loading-label' ) || 'Sending...';
+					}
+
+					$.ajax( {
+						url: pgfw_admin_param.ajaxurl,
+						method: 'POST',
+						dataType: 'json',
+						data: {
+							action: 'wps_pgfw_submit_talk_to_expert',
+							nonce: pgfw_admin_param.talk_to_expert_nonce,
+							form_data: JSON.stringify( payload ),
+						},
+					} )
+						.done( function( response ) {
+							const message = response && response.data && response.data.message ? response.data.message : 'Thank you for submitting your request.';
+
+							if ( response && response.success ) {
+								formElement.reset();
+								showExpertThankYou( message );
+								return;
+							}
+
+							setExpertStatus( 'error', message );
+						} )
+						.fail( function( xhr ) {
+							const message = xhr && xhr.responseJSON && xhr.responseJSON.data && xhr.responseJSON.data.message
+								? xhr.responseJSON.data.message
+								: 'Something went wrong while submitting the form. Please try again.';
+
+							setExpertStatus( 'error', message );
+						} )
+						.always( function() {
+							if ( submitButton ) {
+								submitButton.disabled = false;
+								submitButton.textContent = submitButton.getAttribute( 'data-pgfw-submit-label' ) || 'Submit Request';
+							}
+						} );
 				} );
 		}
 
@@ -173,6 +350,10 @@
 					ajaxSave( template );
 				}
 			});
+		}
+
+		if ( typeof window.pgfwInitCustomSettingsUI === 'function' ) {
+			window.pgfwInitCustomSettingsUI( document );
 		}
 
 	};

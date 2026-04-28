@@ -24,11 +24,12 @@ if ( ! function_exists( 'pgfw_render_icon_action_button' ) ) {
 				'display_template' => 'default',
 				'href'             => '#',
 				'title'            => '',
-				'label'            => '',
+				'label'            => null,
 				'icon_src'         => '',
 				'id'               => '',
 				'classes'          => array(),
 				'attributes'       => array(),
+				'image_only'       => false,
 				'style_attribute'  => '',
 			)
 		);
@@ -46,6 +47,12 @@ if ( ! function_exists( 'pgfw_render_icon_action_button' ) ) {
 		if ( 'download' === $args['action_type'] || 'email' === $args['action_type'] ) {
 			$classes = array_diff( $classes, array( 'pgfw-action-button', 'pgfw-action-button--download', 'pgfw-action-button--email' ) );
 		}
+
+		if ( ! empty( $args['image_only'] ) ) {
+			$classes[] = 'pgfw-single-pdf-download-button--image-only';
+		}
+
+		$classes[] = 'pgfw-single-pdf-download-button--icon-only';
 
 		$attribute_markup = '';
 
@@ -65,11 +72,23 @@ if ( ! function_exists( 'pgfw_render_icon_action_button' ) ) {
 			if ( '' === $attribute_value || null === $attribute_value ) {
 				continue;
 			}
+
 			$attribute_markup .= ' ' . sanitize_key( $attribute_name ) . '="' . esc_attr( $attribute_value ) . '"';
 		}
 
-		$label = '' !== $args['label'] ? $args['label'] : __( 'Download PDF', 'pdf-generator-for-wp' );
+		$label            = null !== $args['label'] ? (string) $args['label'] : __( 'Download PDF', 'pdf-generator-for-wp' );
+		$accessible_label = '';
 
-		return '<a href="' . esc_url( $args['href'] ) . '" class="' . esc_attr( implode( ' ', array_filter( $classes ) ) ) . '"' . $attribute_markup . '><span class="pgfw-single-pdf-download-button__media" aria-hidden="true"><img src="' . esc_url( $args['icon_src'] ) . '" alt="" decoding="async"></span><span class="pgfw-single-pdf-download-button__label">' . esc_html( $label ) . '</span></a>';
+		if ( '' !== $label ) {
+			$accessible_label = $label;
+		} elseif ( ! empty( $args['title'] ) ) {
+			$accessible_label = (string) $args['title'];
+		}
+
+		if ( '' !== $accessible_label ) {
+			$attribute_markup .= ' aria-label="' . esc_attr( $accessible_label ) . '"';
+		}
+
+		return '<a href="' . esc_url( $args['href'] ) . '" class="' . esc_attr( implode( ' ', array_filter( $classes ) ) ) . '"' . $attribute_markup . '><span class="pgfw-single-pdf-download-button__media" aria-hidden="true"><img src="' . esc_url( $args['icon_src'] ) . '" alt="" decoding="async"></span></a>';
 	}
 }

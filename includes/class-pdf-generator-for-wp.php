@@ -128,8 +128,16 @@ class Pdf_Generator_For_Wp {
 				require_once plugin_dir_path( __DIR__ ) . 'includes/class-pdf-generator-for-wp-onboarding-steps.php';
 			}
 
+			if ( ! class_exists( 'Pdf_Generator_For_Wp_Talk_To_Expert_Form' ) ) {
+				require_once plugin_dir_path( __DIR__ ) . 'includes/class-pdf-generator-for-wp-talk-to-expert-form.php';
+			}
+
 			if ( class_exists( 'Pdf_Generator_For_Wp_Onboarding_Steps' ) ) {
 				$pgfw_onboard_steps = new Pdf_Generator_For_Wp_Onboarding_Steps();
+			}
+
+			if ( class_exists( 'Pdf_Generator_For_Wp_Talk_To_Expert_Form' ) ) {
+				$pgfw_talk_to_expert_form = new Pdf_Generator_For_Wp_Talk_To_Expert_Form();
 			}
 		} else {
 
@@ -1380,22 +1388,32 @@ class Pdf_Generator_For_Wp {
 						case 'color':
 							$pgfw_color_value = isset( $pgfw_component['value'] ) ? (string) $pgfw_component['value'] : '';
 							$pgfw_color_hex   = $pgfw_color_value ? strtoupper( $pgfw_color_value ) : '';
+							$pgfw_color_class = isset( $pgfw_component['class'] ) ? (string) $pgfw_component['class'] : '';
+							$pgfw_is_native_color_card = false !== strpos( $pgfw_color_class, 'pgfw_native_color_picker' );
+							$pgfw_native_color_value   = preg_match( '/^#[0-9A-Fa-f]{6}$/', $pgfw_color_value ) ? $pgfw_color_value : '#000000';
 							?>
 							<div class="wps-form-group wps-isfw-<?php echo esc_attr( $pgfw_component['type'] ); ?> <?php echo esc_attr( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ); ?>">
 								<div class="wps-form-group__label">
 									<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
 								</div>
 								<div class="wps-form-group__control">
-									<div class="pgfw-color-picker-card <?php echo $pgfw_color_hex ? 'has-color-value' : ''; ?>" data-color-picker-card>
+									<div class="pgfw-color-picker-card <?php echo $pgfw_color_hex ? 'has-color-value' : ''; ?> <?php echo $pgfw_is_native_color_card ? 'pgfw-color-picker-card--native' : ''; ?>" data-color-picker-card>
 										<div class="pgfw-color-picker-input-wrap">
 											<input
-												class="<?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
+												class="<?php echo esc_attr( $pgfw_color_class ); ?>"
 												name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
 												id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"
 												type="text"
 												value="<?php echo esc_attr( $pgfw_color_value ); ?>"
 												data-default-color="<?php echo esc_attr( $pgfw_color_value ); ?>"
 												data-alpha-enabled="false">
+											<?php if ( $pgfw_is_native_color_card ) : ?>
+												<input
+													class="pgfw-color-picker-native-control"
+													type="color"
+													value="<?php echo esc_attr( $pgfw_native_color_value ); ?>"
+													aria-label="<?php echo esc_attr( isset( $pgfw_component['title'] ) ? $pgfw_component['title'] : esc_html__( 'Choose color', 'pdf-generator-for-wp' ) ); ?>">
+											<?php endif; ?>
 										</div>
 										<div class="pgfw-color-picker-meta">
 											<div class="pgfw-color-picker-meta-row">
@@ -1480,31 +1498,42 @@ class Pdf_Generator_For_Wp {
 									<label for="<?php echo esc_attr( array_key_exists( 'id', $pgfw_component ) ? $pgfw_component['id'] : '' ); ?>" class="wps-form-label"><?php echo esc_html( array_key_exists( 'title', $pgfw_component ) ? $pgfw_component['title'] : '' ); ?></label>
 								</div>
 								<div class="wps-form-group__control">
-									<input
-										type="hidden"
-										id="<?php echo esc_attr( array_key_exists( 'id', $pgfw_component ) ? $pgfw_component['id'] : '' ); ?>"
-										class="<?php echo esc_attr( array_key_exists( 'class', $pgfw_component ) ? $pgfw_component['class'] : '' ); ?>"
-										name="<?php echo esc_attr( array_key_exists( 'name', $pgfw_component ) ? $pgfw_component['name'] : '' ); ?>"
-										value="<?php echo esc_html( array_key_exists( 'value', $pgfw_component ) ? $pgfw_component['value'] : '' ); ?>">
-									<img
-										src="<?php echo esc_attr( $pgfw_component['img-tag']['img-src'] ); ?>"
-										class="<?php echo esc_attr( $pgfw_component['img-tag']['img-class'] ); ?>"
-										id="<?php echo esc_attr( $pgfw_component['img-tag']['img-id'] ); ?>"
-										style="<?php echo esc_attr( $pgfw_component['img-tag']['img-style'] ); ?>">
-									<button class="mdc-button--raised" name="<?php echo esc_attr( array_key_exists( 'sub_name', $pgfw_component ) ? $pgfw_component['sub_name'] : '' ); ?>"
-										id="<?php echo esc_attr( array_key_exists( 'sub_id', $pgfw_component ) ? $pgfw_component['sub_id'] : '' ); ?>"> <span class="mdc-button__ripple"></span>
-										<span class="mdc-button__label"><?php echo esc_attr( array_key_exists( 'button_text', $pgfw_component ) ? $pgfw_component['button_text'] : '' ); ?></span>
-									</button>
-									<button class="mdc-button--raised" name="<?php echo esc_attr( $pgfw_component['img-remove']['btn-name'] ); ?>"
-										id="<?php echo esc_attr( $pgfw_component['img-remove']['btn-id'] ); ?>"
-										style="<?php echo esc_attr( $pgfw_component['img-remove']['btn-style'] ); ?>"> <span class="mdc-button__ripple"></span>
-										<span class="mdc-button__label"><?php echo esc_attr( $pgfw_component['img-remove']['btn-title'] ); ?></span>
-									</button>
-									<input
-										type="hidden"
-										id="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['id'] ) : ''; ?>"
-										class="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['class'] ) : ''; ?>"
-										name="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['name'] ) : ''; ?>">
+									<div class="pgfw-upload-card <?php echo esc_attr( array_key_exists( 'upload-card-class', $pgfw_component ) ? $pgfw_component['upload-card-class'] : '' ); ?> <?php echo ! empty( $pgfw_component['value'] ) ? 'is-filled' : 'is-empty'; ?>" data-pgfw-upload-card>
+										<input
+											type="hidden"
+											id="<?php echo esc_attr( array_key_exists( 'id', $pgfw_component ) ? $pgfw_component['id'] : '' ); ?>"
+											class="<?php echo esc_attr( array_key_exists( 'class', $pgfw_component ) ? $pgfw_component['class'] : '' ); ?>"
+											name="<?php echo esc_attr( array_key_exists( 'name', $pgfw_component ) ? $pgfw_component['name'] : '' ); ?>"
+											value="<?php echo esc_html( array_key_exists( 'value', $pgfw_component ) ? $pgfw_component['value'] : '' ); ?>">
+										<div class="pgfw-upload-card__preview">
+											<span class="pgfw-upload-card__preview-label"><?php echo esc_html( array_key_exists( 'preview-label', $pgfw_component ) ? $pgfw_component['preview-label'] : __( 'Preview', 'pdf-generator-for-wp' ) ); ?></span>
+											<div class="pgfw-upload-card__preview-frame">
+												<img
+													src="<?php echo esc_attr( $pgfw_component['img-tag']['img-src'] ); ?>"
+													class="<?php echo esc_attr( $pgfw_component['img-tag']['img-class'] ); ?>"
+													id="<?php echo esc_attr( $pgfw_component['img-tag']['img-id'] ); ?>"
+													style="<?php echo esc_attr( $pgfw_component['img-tag']['img-style'] ); ?>"
+													alt="<?php echo esc_attr( array_key_exists( 'title', $pgfw_component ) ? $pgfw_component['title'] : '' ); ?>">
+												<span class="pgfw-upload-card__empty"><?php echo esc_html( array_key_exists( 'empty-label', $pgfw_component ) ? $pgfw_component['empty-label'] : __( 'No file selected', 'pdf-generator-for-wp' ) ); ?></span>
+											</div>
+										</div>
+										<div class="pgfw-upload-card__actions">
+											<button type="button" class="mdc-button--raised <?php echo esc_attr( array_key_exists( 'sub_class', $pgfw_component ) ? $pgfw_component['sub_class'] : '' ); ?>" name="<?php echo esc_attr( array_key_exists( 'sub_name', $pgfw_component ) ? $pgfw_component['sub_name'] : '' ); ?>"
+												id="<?php echo esc_attr( array_key_exists( 'sub_id', $pgfw_component ) ? $pgfw_component['sub_id'] : '' ); ?>"> <span class="mdc-button__ripple"></span>
+												<span class="mdc-button__label"><?php echo esc_attr( array_key_exists( 'button_text', $pgfw_component ) ? $pgfw_component['button_text'] : '' ); ?></span>
+											</button>
+											<button type="button" class="mdc-button--raised <?php echo esc_attr( array_key_exists( 'btn-class', $pgfw_component['img-remove'] ) ? $pgfw_component['img-remove']['btn-class'] : '' ); ?>" name="<?php echo esc_attr( $pgfw_component['img-remove']['btn-name'] ); ?>"
+												id="<?php echo esc_attr( $pgfw_component['img-remove']['btn-id'] ); ?>"
+												style="<?php echo esc_attr( $pgfw_component['img-remove']['btn-style'] ); ?>"> <span class="mdc-button__ripple"></span>
+												<span class="mdc-button__label"><?php echo esc_attr( $pgfw_component['img-remove']['btn-title'] ); ?></span>
+											</button>
+										</div>
+										<input
+											type="hidden"
+											id="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['id'] ) : ''; ?>"
+											class="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['class'] ) : ''; ?>"
+											name="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['name'] ) : ''; ?>">
+									</div>
 									<div class="mdc-text-field-helper-line">
 										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
 									</div>

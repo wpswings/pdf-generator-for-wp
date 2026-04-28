@@ -42,7 +42,8 @@
 #pgfw_pdf_single_download_icon,
 #pgfw_single_pdf_icon_image_remove,
 #pgfw_pdf_bulk_download_icon,
-#pgfw_bulk_pdf_icon_image_remove {
+#wps_pgfw_pdf_bulk_download_icon,
+#wps_bulk_pdf_icon_image_remove {
     border: none;
     padding: 8px;
     font-size: 12px;
@@ -57,7 +58,7 @@
 #pgfw_header_image_remove,
 #pgfw_poster_image_remove,
 #pgfw_single_pdf_icon_image_remove,
-#pgfw_bulk_pdf_icon_image_remove {
+#wps_bulk_pdf_icon_image_remove {
     background-color: #ff3d30;
 }
 
@@ -68,7 +69,8 @@
 #pgfw_pdf_single_download_icon:focus,
 #pgfw_single_pdf_icon_image_remove:focus,
 #pgfw_pdf_bulk_download_icon:focus,
-#pgfw_bulk_pdf_icon_image_remove:focus {
+#wps_pgfw_pdf_bulk_download_icon:focus,
+#wps_bulk_pdf_icon_image_remove:focus {
     box-shadow: none;
     color: #ffffff;
     outline: none;
@@ -416,4 +418,157 @@ a.wps-pdf__popup-for-pro-link:hover {
 #pgfw_single_pdf_invoice_icon_image_remove {
     background-color: #ff3d30;
     color: #fff !important;
+}
+
+.pgfw-upload-card {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+
+.pgfw-upload-card__preview {
+    min-width: 0;
+}
+
+.pgfw-upload-card__preview-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #4f5f73;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.pgfw-upload-card__preview-frame {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.pgfw-upload-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.pgfw-upload-card__empty {
+    color: #5f6c7b;
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.pgfw-upload-card.is-filled .pgfw-upload-card__empty {
+    display: none;
+}
+
+.pgfw-upload-card--icon-setting {
+    width: 100%;
+    padding: 18px 20px;
+    border: 1px solid #d8e1ec;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+    box-sizing: border-box;
+}
+
+.pgfw-upload-card--icon-setting .pgfw-upload-card__preview {
+    min-width: 140px;
+}
+
+.pgfw-upload-card--icon-setting .pgfw-upload-card__preview-frame {
+    width: 120px;
+    height: 120px;
+    border: 1px dashed #c2cfdd;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+}
+
+.pgfw-upload-card--icon-setting .pgfw-upload-card__preview-frame img {
+    width: 56px !important;
+    height: 56px !important;
+    margin: 0 !important;
+    object-fit: contain;
+}
+
+.pgfw-upload-card--icon-setting .pgfw-upload-card__actions {
+    flex: 1 1 220px;
+}
+
+.pgfw-upload-card--icon-setting .mdc-button--raised {
+    min-width: 145px;
+    min-height: 40px;
+    margin: 0 !important;
+    padding: 10px 18px;
+    border-radius: 999px;
+    box-shadow: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, color 0.18s ease;
+}
+
+.pgfw-upload-card--icon-setting .mdc-button--raised:hover,
+.pgfw-upload-card--icon-setting .mdc-button--raised:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(19, 61, 116, 0.12);
+}
+
+.pgfw-upload-card--icon-setting.is-empty .pgfw-upload-card__preview-frame {
+    background: linear-gradient(135deg, #f8fbff 0%, #eef4fb 100%);
+}
+
+.pgfw-upload-card--icon-setting.is-empty .pgfw-upload-card__preview-frame img {
+    display: none !important;
+}
+
+.pgfw-upload-card--icon-setting.is-filled .pgfw-upload-card__preview-frame {
+    border-style: solid;
+    border-color: #bed5c2;
+    background: linear-gradient(135deg, #fcfffc 0%, #f2fbf4 100%);
+}
+
+#pgfw_pdf_invoice_single_download_icon,
+#pgfw_pdf_single_download_icon,
+#pgfw_pdf_bulk_download_icon,
+#wps_pgfw_pdf_bulk_download_icon {
+    background: linear-gradient(135deg, #0f9f57 0%, #0a7f49 100%);
+    color: #ffffff;
+}
+
+#pgfw_single_pdf_invoice_icon_image_remove,
+#pgfw_single_pdf_icon_image_remove,
+#wps_bulk_pdf_icon_image_remove {
+    border: 1px solid #f1b5ad;
+    background: #ffffff;
+    color: #b42318 !important;
+}
+
+#pgfw_single_pdf_invoice_icon_image_remove:hover,
+#pgfw_single_pdf_invoice_icon_image_remove:focus,
+#pgfw_single_pdf_icon_image_remove:hover,
+#pgfw_single_pdf_icon_image_remove:focus,
+#wps_bulk_pdf_icon_image_remove:hover,
+#wps_bulk_pdf_icon_image_remove:focus {
+    background: #fff5f3;
+    color: #991b13 !important;
+}
+
+@media screen and (max-width: 767px) {
+    .pgfw-upload-card--icon-setting {
+        padding: 16px;
+    }
+
+    .pgfw-upload-card--icon-setting .pgfw-upload-card__preview {
+        width: 100%;
+    }
+
+    .pgfw-upload-card--icon-setting .pgfw-upload-card__preview-frame {
+        width: 100%;
+        max-width: 140px;
+    }
 }

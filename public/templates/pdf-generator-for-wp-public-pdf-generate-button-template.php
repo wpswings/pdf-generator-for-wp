@@ -46,7 +46,8 @@ function pgfw_pdf_download_button( $url_here, $id ) {
 			'display_template' => $settings['display_template'],
 			'href'             => $url_here,
 			'title'            => __( 'Generate PDF', 'pdf-generator-for-wp' ),
-			'label'            => '' !== $settings['single_label'] ? $settings['single_label'] : $settings['custom_label_fallback'],
+			'label'            => pgfw_get_single_action_label( $settings ),
+			'image_only'       => pgfw_should_render_single_action_as_uploaded_icon( $settings ),
 			'icon_src'         => pgfw_get_icon_action_icon_src( 'download', $settings ),
 			'attributes'       => array_filter(
 				array(

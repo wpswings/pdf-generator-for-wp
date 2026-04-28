@@ -22,7 +22,6 @@ $docs_url             = 'https://docs.wpswings.com/pdf-generator-for-wp/?utm_sou
 $video_url            = 'https://www.youtube.com/watch?v=RljECeP3JJk';
 $faq_url              = 'https://wpswings.com/submit-query/?utm_source=wpswings-pdf-support&utm_medium=pdf-org-backend&utm_campaign=submit-query';
 $contact_url          = 'https://wpswings.com/contact-us/';
-$talk_to_expert_url   = 'https://share-eu1.hsforms.com/1kb_CTsGnSFiHip8vtHKGIAf5cts';
 $plugins_url          = 'https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-sidebar&utm_medium=pdf-org-backend&utm_campaign=shop-page';
 
 $tabs_for_js = array();
@@ -64,20 +63,25 @@ do_action( 'wps_wpg_settings_saved_notice' );
 
 <script type="application/json" id="pgfw-tabs-data"><?php echo wp_json_encode( $pgfw_settings_data ); ?></script>
 
-<div class="pgfw-flashbar" role="region" aria-label="<?php esc_attr_e( 'Flash sale notice', 'pdf-generator-for-wp' ); ?>">
+<div class="pgfw-flashbar" role="region" aria-label="<?php esc_attr_e( 'Flash sale notice', 'pdf-generator-for-wp' ); ?>" data-pgfw-flashbar="true">
+	<button type="button" class="pgfw-flashbar__dismiss" data-pgfw-dismiss-flashbar="true" aria-label="<?php esc_attr_e( 'Dismiss flash sale notice', 'pdf-generator-for-wp' ); ?>">
+		<span class="dashicons dashicons-no-alt" aria-hidden="true"></span>
+	</button>
 	<div class="pgfw-flashbar__inner">
-		<span class="pgfw-flashbar__pill"><?php esc_html_e( 'Flash Sale', 'pdf-generator-for-wp' ); ?></span>
-		<div class="pgfw-flashbar__content">
-			<div class="pgfw-flashbar__text">
+		<div class="pgfw-flashbar__group">
+			<span class="pgfw-flashbar__pill"><?php esc_html_e( 'Flash Sale', 'pdf-generator-for-wp' ); ?></span>
+			<div class="pgfw-flashbar__content">
 				<span class="pgfw-flashbar__lead"><?php esc_html_e( 'Flash Sale is live', 'pdf-generator-for-wp' ); ?></span>
 				<span class="pgfw-flashbar__offer"><?php esc_html_e( 'Get up to 45% OFF on WP Swings Plugins', 'pdf-generator-for-wp' ); ?></span>
+				<div class="pgfw-flashbar__code">
+					<span class="pgfw-flashbar__code-label"><?php esc_html_e( 'Use Code', 'pdf-generator-for-wp' ); ?></span>
+					<strong>GRAB10</strong>
+				</div>
 			</div>
-			<div class="pgfw-flashbar__code">
-				<span class="pgfw-flashbar__code-label"><?php esc_html_e( 'Use Code', 'pdf-generator-for-wp' ); ?></span>
-				<strong>GRAB10</strong>
+			<div class="pgfw-flashbar__cta-wrap">
+				<a class="pgfw-flashbar__cta" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-shop&utm_medium=pdf-org-backend&utm_campaign=shop-page" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Grab Now', 'pdf-generator-for-wp' ); ?></a>
 			</div>
 		</div>
-		<a class="pgfw-flashbar__cta" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-shop&utm_medium=pdf-org-backend&utm_campaign=shop-page" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Grab Now', 'pdf-generator-for-wp' ); ?></a>
 	</div>
 </div>
 
@@ -192,7 +196,7 @@ do_action( 'wps_wpg_settings_saved_notice' );
 			<div class="pgfw-card pgfw-rail-card pgfw-services-card">
 				<div class="pgfw-services-card__head">
 					<div class="pgfw-services-card__intro">
-						<h3><?php esc_html_e( 'Grow Your Store With Our Services', 'pdf-generator-for-wp' ); ?></h3>
+						<h3><?php esc_html_e( 'Grow Your Store With WP Swings', 'pdf-generator-for-wp' ); ?></h3>
 						<p><?php esc_html_e( "Expert solutions to boost your store's performance.", 'pdf-generator-for-wp' ); ?></p>
 					</div>
 					<span class="pgfw-services-card__spark" aria-hidden="true">
@@ -290,25 +294,6 @@ do_action( 'wps_wpg_settings_saved_notice' );
 		</aside>
 	</div>
 </main>
-
-<div class="pgfw-expert-modal" hidden aria-hidden="true">
-	<div class="pgfw-expert-modal__backdrop" data-pgfw-close-expert-modal="true"></div>
-	<div class="pgfw-expert-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="pgfw-expert-modal-title">
-		<div class="pgfw-expert-modal__header">
-			<div class="pgfw-expert-modal__copy">
-				<p class="pgfw-expert-modal__eyebrow"><?php esc_html_e( 'Marketing Services', 'pdf-generator-for-wp' ); ?></p>
-				<h2 id="pgfw-expert-modal-title"><?php esc_html_e( 'Talk to an Expert', 'pdf-generator-for-wp' ); ?></h2>
-				<p><?php esc_html_e( 'Share your store goals and we will reach out with the right next step.', 'pdf-generator-for-wp' ); ?></p>
-			</div>
-			<button type="button" class="pgfw-expert-modal__close" data-pgfw-close-expert-modal="true" aria-label="<?php esc_attr_e( 'Close expert form', 'pdf-generator-for-wp' ); ?>">
-				<span aria-hidden="true">&times;</span>
-			</button>
-		</div>
-		<div class="pgfw-expert-modal__frame-wrap">
-			<iframe class="pgfw-expert-modal__iframe" src="<?php echo esc_url( $talk_to_expert_url ); ?>" title="<?php esc_attr_e( 'Talk to an Expert form', 'pdf-generator-for-wp' ); ?>" loading="lazy"></iframe>
-		</div>
-	</div>
-</div>
 
 <?php
 // Migration reminder (kept from legacy UI).

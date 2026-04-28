@@ -82,8 +82,30 @@ a.pgfw-bulk-product-add {
     display: inline-flex;
 }
 
-.pgfw-single-pdf-download-button__label:empty::before {
-    content: "Download PDF";
+a.pgfw-single-pdf-download-button--image-only,
+a.pgfw-single-pdf-download-a.pgfw-single-pdf-download-button--image-only {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    display: inline-block;
+    gap: 0 !important;
+    line-height: 0;
+    min-height: 0 !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+}
+
+.pgfw-icon-display .pgfw-single-pdf-download-button--image-only:hover,
+.pgfw-single-pdf-download-button--image-only:hover {
+    background: transparent !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.pgfw-single-pdf-download-button--image-only .pgfw-single-pdf-download-button__media {
+    display: block;
 }
 
 .pgfw-icon-display--default .pgfw-single-pdf-download-button,
@@ -619,3 +641,39 @@ div.wps-pgfw-pdf-generate-icon__wrapper-frontend{
     /* float: left;
     width: 100%; */
 } 
+
+a.pgfw-single-pdf-download-button--icon-only,
+a.pgfw-single-pdf-download-a.pgfw-single-pdf-download-button--icon-only,
+.wps_pgfw_whatsapp_share_icon.pgfw-single-pdf-download-button--icon-only {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    display: inline-block;
+    gap: 0 !important;
+    line-height: 0;
+    min-height: 0 !important;
+    min-width: 0 !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    transform: none !important;
+}
+
+.pgfw-icon-display .pgfw-single-pdf-download-button--icon-only:hover,
+.pgfw-single-pdf-download-button--icon-only:hover,
+.pgfw-single-pdf-download-button--icon-only.pgfw-single-pdf-download-button--style-8:hover {
+    background: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.pgfw-single-pdf-download-button--icon-only::before,
+.pgfw-single-pdf-download-button--icon-only::after {
+    display: none !important;
+}
+
+.pgfw-single-pdf-download-button--icon-only .pgfw-single-pdf-download-button__media {
+    display: block;
+}
