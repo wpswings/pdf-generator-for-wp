@@ -2837,7 +2837,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'id'          => 'wpg_allow_invoice_generation_for_orders',
 				'value'       => get_option( 'wpg_allow_invoice_generation_for_orders', array() ),
 				'name'        => 'wpg_allow_invoice_generation_for_orders',
-				'class'       => 'wps_pgfw_pro_tag wpg-multiselect-class wpg-defaut-multiselect',
+				'class'       => 'wps_pgfw_pro_tag wpg-multiselect-class wps-defaut-multiselect',
 				'placeholder' => '',
 				'options'     => $order_statuses,
 			),
