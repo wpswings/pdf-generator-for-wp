@@ -186,7 +186,7 @@ select {
     bottom: 0;
     left: 0;
     right: 0;
-    border-bottom: 3px solid var( --mdc-theme-primary);
+    border-bottom: 3px solid var(--pgfw-aurora-accent) !important;
     border-radius: 2px;
 }
 
@@ -257,7 +257,7 @@ select {
 
 .wps-navbar__items li a {
     padding: 18px 0;
-    color: var(--mdc-theme-primary);
+    color: var(--pgfw-aurora-text) !important;
 }
 
 .wps-section {
@@ -435,14 +435,13 @@ select {
     position: sticky;
     bottom: 0;
     background: #fff;
-    padding: 15px 0;
+    padding: 15px;
+    margin: 0 -15px;
+    background: none !important;
+    box-shadow: none !important;
+    border: none !important;
 }
-.wps-form-group:has(button.mdc-button.wps-pgfw-save-setting) {
-    position: sticky;
-    bottom: 0;
-    background: #fff;
-    padding: 15px 0;
-}
+
 
 .wps-wpg-logs-table .sorting-indicator {
     display: inline-block;

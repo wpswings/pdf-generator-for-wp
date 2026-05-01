@@ -72,10 +72,10 @@ a.pgfw-bulk-product-add {
 .wps_pgfw_whatsapp_share_icon img,
 .pgfw-bulk-product-add > img {
     display: inline-block;
-    height: var(--pgfw-icon-height, 24px);
+    height: 40px;
     max-width: none;
     vertical-align: middle;
-    width: var(--pgfw-icon-width, 24px);
+    width: 40px;
 }
 
 .pgfw-single-pdf-download-button__label {
