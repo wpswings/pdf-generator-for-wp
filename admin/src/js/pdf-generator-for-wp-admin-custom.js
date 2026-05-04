@@ -26,8 +26,12 @@
 				return value ? value.toUpperCase() : '';
 			}
 
-			function syncNativeColor(value) {
-				var hexValue = normalizeColor(value);
+			function isHexColor(value) {
+				return /^#[0-9A-F]{6}$/i.test(value || '');
+			}
+
+			function applyNativeColor(value) {
+				var hexValue = isHexColor(value) ? normalizeColor(value) : '';
 				$card.toggleClass('has-color-value', !!hexValue);
 				$hex.text(hexValue);
 				if ( hexValue ) {
@@ -35,11 +39,21 @@
 				} else {
 					$card.css('--pgfw-picked-color', '');
 				}
-				$input.val(value);
+				if ( hexValue && $control.length && $control.val() !== value ) {
+					$control.val(value);
+				}
+			}
+
+			function syncNativeColor(value, shouldTriggerChange) {
+				applyNativeColor(value);
+				$input.val( value );
+				if ( false !== shouldTriggerChange ) {
+					$input.trigger( 'change' );
+				}
 			}
 
 			if ( $card.data('pgfwNativeColorReady') ) {
-				syncNativeColor($control.val() || $input.val());
+				syncNativeColor($input.val() || $control.val(), false);
 				return;
 			}
 
@@ -47,7 +61,10 @@
 			$control.on('input change', function() {
 				syncNativeColor($(this).val());
 			});
-			syncNativeColor($control.val() || $input.val());
+			$input.on('input change', function() {
+				applyNativeColor($(this).val());
+			});
+			syncNativeColor($input.val() || $control.val(), false);
 		});
 
 		if ( ! $.fn.wpColorPicker ) {
