@@ -958,7 +958,7 @@
 .wps-form-group.pgfw-savebar-wrap .wps-form-group__control,
 .wps-form-group.pgfw-savebar-wrap .pgfw-savebar-control {
 	display: flex;
-	justify-content: flex-start;
+	justify-content: flex-end;
 	padding: 0;
 	pointer-events: none;
 }

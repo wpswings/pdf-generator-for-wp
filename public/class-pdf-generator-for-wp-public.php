@@ -113,9 +113,13 @@ class Pdf_Generator_For_Wp_Public {
 		}
 
 		if ( is_front_page() || is_home() ) {
+			
 			$post_id = get_queried_object_id();
+			
 			if ( $post_id ) {
 				$advanced_settings = $this->pgfw_get_advanced_settings();
+				
+
 				$enabled_post_types = $advanced_settings['pgfw_advanced_show_post_type_icons'] ?? array();
 				if ( is_array( $enabled_post_types ) && in_array( get_post_type( $post_id ), $enabled_post_types, true ) ) {
 					return true;
@@ -125,7 +129,13 @@ class Pdf_Generator_For_Wp_Public {
 				if ( $post && isset( $post->post_content ) ) {
 					return has_shortcode( $post->post_content, 'WORDPRESS_PDF' );
 				}
+
+				
+				
 			}
+		}
+		if (is_home()){
+			return true;
 		}
 
 		return false;
@@ -138,6 +148,7 @@ class Pdf_Generator_For_Wp_Public {
 	 */
 	public function pgfw_public_enqueue_styles() {
 		if ( ! $this->pgfw_should_enqueue_public_assets() ) {
+			echo 'xfgdcg';
 			return;
 		}
 
