@@ -363,7 +363,7 @@ class Pdf_Generator_For_Wp_Talk_To_Expert_Form {
 			);
 		}
 
-		$form_payload = isset( $_POST['form_data'] ) ? wp_unslash( $_POST['form_data'] ) : '';
+		$form_payload = isset( $_POST['form_data'] ) ? sanitize_textarea_field( wp_unslash( $_POST['form_data'] ) ) : '';
 		$form_data    = ! empty( $form_payload ) ? json_decode( $form_payload, true ) : array();
 
 		if ( empty( $form_data ) || ! is_array( $form_data ) ) {
@@ -573,16 +573,19 @@ class Pdf_Generator_For_Wp_Talk_To_Expert_Form {
 
 		$placeholders = implode( ', ', array_fill( 0, count( $paid_statuses ), '%s' ) );
 		$cutoff_date  = gmdate( 'Y-m-d H:i:s', strtotime( '-12 months' ) );
-		$query        = "
-			SELECT COALESCE(SUM(total_sales), 0)
-			FROM {$table_name}
-			WHERE status IN ({$placeholders})
-				AND parent_id = 0
-				AND date_paid IS NOT NULL
-				AND date_paid != '0000-00-00 00:00:00'
-				AND date_paid >= %s
-		";
-		$revenue      = $wpdb->get_var( $wpdb->prepare( $query, array_merge( $paid_statuses, array( $cutoff_date ) ) ) );
+		$revenue      = $wpdb->get_var(
+			$wpdb->prepare(
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name and placeholders are generated internally.
+				"SELECT COALESCE(SUM(total_sales), 0)
+				FROM {$table_name}
+				WHERE status IN ({$placeholders})
+					AND parent_id = 0
+					AND date_paid IS NOT NULL
+					AND date_paid != '0000-00-00 00:00:00'
+					AND date_paid >= %s",
+				array_merge( $paid_statuses, array( $cutoff_date ) )
+			)
+		);
 
 		if ( ! is_numeric( $revenue ) ) {
 			return null;

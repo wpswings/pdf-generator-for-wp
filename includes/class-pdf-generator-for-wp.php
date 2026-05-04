@@ -765,6 +765,7 @@ class Pdf_Generator_For_Wp {
 
 		return array(
 			'eyebrow'     => $tab_title,
+			/* translators: %s: current dashboard tab title. */
 			'title'       => sprintf( esc_html__( 'Manage %s', 'pdf-generator-for-wp' ), $tab_title ),
 			'description' => esc_html__( 'Review and update the settings available in this section.', 'pdf-generator-for-wp' ),
 		);
@@ -1135,15 +1136,17 @@ class Pdf_Generator_For_Wp {
 								<div class="wps-form-group__label">
 									<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
 								</div>
-								<div class="wps-form-group__control">
-									<div class="pgfw-radio-image-toolbar" aria-hidden="true">
-										<div class="pgfw-radio-image-summary">
-											<span class="pgfw-radio-image-summary__pill"><?php echo esc_html( sprintf( __( 'All %d', 'pdf-generator-for-wp' ), count( $pgfw_component['options'] ) ) ); ?></span>
-											<?php foreach ( $pgfw_radio_image_categories as $pgfw_radio_image_category ) : ?>
-												<span class="pgfw-radio-image-summary__pill"><?php echo esc_html( sprintf( __( '%1$s %2$d', 'pdf-generator-for-wp' ), $pgfw_radio_image_category['label'], $pgfw_radio_image_category['count'] ) ); ?></span>
-											<?php endforeach; ?>
+									<div class="wps-form-group__control">
+										<div class="pgfw-radio-image-toolbar" aria-hidden="true">
+											<div class="pgfw-radio-image-summary">
+												<?php /* translators: %d: total number of available radio image options. */ ?>
+												<span class="pgfw-radio-image-summary__pill"><?php echo esc_html( sprintf( __( 'All %d', 'pdf-generator-for-wp' ), count( $pgfw_component['options'] ) ) ); ?></span>
+												<?php foreach ( $pgfw_radio_image_categories as $pgfw_radio_image_category ) : ?>
+													<?php /* translators: 1: radio image category label, 2: number of options in that category. */ ?>
+													<span class="pgfw-radio-image-summary__pill"><?php echo esc_html( sprintf( __( '%1$s %2$d', 'pdf-generator-for-wp' ), $pgfw_radio_image_category['label'], $pgfw_radio_image_category['count'] ) ); ?></span>
+												<?php endforeach; ?>
+											</div>
 										</div>
-									</div>
 									<div class="pgfw-radio-image-group">
 										<?php foreach ( $pgfw_component['options'] as $pgfw_radio_key => $pgfw_radio_option ) : ?>
 											<?php

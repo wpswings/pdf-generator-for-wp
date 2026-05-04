@@ -26,11 +26,11 @@ $plugins_url          = 'https://wpswings.com/woocommerce-plugins/?utm_source=wp
 
 $tabs_for_js = array();
 if ( is_array( $pgfw_default_tabs ) ) {
-	foreach ( $pgfw_default_tabs as $key => $tab ) {
-		$is_pro      = ( isset( $tab['title'] ) && in_array( $tab['title'], array( 'Taxonomy Settings', 'Layout Settings', 'PDF Logs', 'Invoice settings', 'Invoice page settings' ), true ) && ! $wps_wpg_is_pro_active );
+	foreach ( $pgfw_default_tabs as $key => $dashboard_tab ) {
+		$is_pro      = ( isset( $dashboard_tab['title'] ) && in_array( $dashboard_tab['title'], array( 'Taxonomy Settings', 'Layout Settings', 'PDF Logs', 'Invoice settings', 'Invoice page settings' ), true ) && ! $wps_wpg_is_pro_active );
 		$tabs_for_js[] = array(
 			'key'   => $key,
-			'title' => $tab['title'],
+			'title' => $dashboard_tab['title'],
 			'url'   => admin_url( 'admin.php?page=pdf_generator_for_wp_menu&pgfw_tab=' . $key ),
 			'isPro' => $is_pro,
 		);

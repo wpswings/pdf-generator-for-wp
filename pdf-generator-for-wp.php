@@ -1132,8 +1132,13 @@ function upload_pdf_page_image() {
 	}
 
 	require_once ABSPATH . 'wp-admin/includes/file.php';
-	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-	$uploadedfile = $_FILES['file'];
+	$uploadedfile = array(
+		'name'     => isset( $_FILES['file']['name'] ) ? sanitize_file_name( wp_unslash( $_FILES['file']['name'] ) ) : '',
+		'type'     => isset( $_FILES['file']['type'] ) ? sanitize_mime_type( wp_unslash( $_FILES['file']['type'] ) ) : '',
+		'tmp_name' => isset( $_FILES['file']['tmp_name'] ) ? sanitize_text_field( wp_unslash( $_FILES['file']['tmp_name'] ) ) : '',
+		'error'    => isset( $_FILES['file']['error'] ) ? absint( $_FILES['file']['error'] ) : 0,
+		'size'     => isset( $_FILES['file']['size'] ) ? absint( $_FILES['file']['size'] ) : 0,
+	);
 
 	$movefile = wp_handle_upload( $uploadedfile, array( 'test_form' => false ) );
 
