@@ -18,11 +18,11 @@ $pgfw_default_tabs = $pgfw_wps_pgfw_obj->wps_pgfw_plug_default_tabs();
 
 $wps_wpg_is_pro_active = $pgfw_wps_pgfw_obj->wps_pgfw_is_pro_plugin_active();
 $pgfw_version_label    = $pgfw_wps_pgfw_obj->wps_pgfw_get_dashboard_version_label();
-$docs_url             = 'https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-backend&utm_campaign=documentation';
+$docs_url             = 'https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-org&utm_medium=pdf-org-backend&utm_campaign=documentation';
 $video_url            = 'https://www.youtube.com/watch?v=RljECeP3JJk';
-$faq_url              = 'https://wpswings.com/submit-query/?utm_source=wpswings-pdf-support&utm_medium=pdf-org-backend&utm_campaign=submit-query';
-$contact_url          = 'https://wpswings.com/contact-us/';
-$plugins_url          = 'https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-sidebar&utm_medium=pdf-org-backend&utm_campaign=shop-page';
+$faq_url              = 'https://wpswings.com/contact-us/?utm_source=wpswings-pdf-org&utm_medium=pdf-org-backend&utm_campaign=contact-us';
+$contact_url          = 'https://wpswings.com/contact-us/?utm_source=wpswings-pdf-org&utm_medium=pdf-org-backend&utm_campaign=contact-us';
+$plugins_url          = 'https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-org&utm_medium=pdf-org-backend&utm_campaign=shop-page';
 
 $tabs_for_js = array();
 if ( is_array( $pgfw_default_tabs ) ) {
@@ -79,7 +79,7 @@ do_action( 'wps_wpg_settings_saved_notice' );
 				</div>
 			</div>
 			<div class="pgfw-flashbar__cta-wrap">
-				<a class="pgfw-flashbar__cta" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-shop&utm_medium=pdf-org-backend&utm_campaign=shop-page" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Grab Now', 'pdf-generator-for-wp' ); ?></a>
+				<a class="pgfw-flashbar__cta" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-org&utm_medium=pdf-org-backend&utm_campaign=shop-page" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Grab Now', 'pdf-generator-for-wp' ); ?></a>
 			</div>
 		</div>
 	</div>
