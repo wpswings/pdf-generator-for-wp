@@ -322,8 +322,66 @@ if ( ! function_exists( 'pgfw_get_icon_action_icon_src' ) ) {
 
 
 add_action( 'wp_ajax_fb_fetch_pdf', 'wps_pgfw_fb_fetch_pdf' );
-add_action( 'wp_ajax_nopriv_fb_fetch_pdf', 'wps_pgfw_fb_fetch_pdf' );
 add_action( 'wp_ajax_ifb_upload_pdf', 'wps_pgfw_upload_pdf' );
+
+
+/**
+ * Reject hostnames that resolve to internal/private/reserved IP ranges.
+ *
+ * Used to block SSRF: the host of the URL passed to wp_remote_get() must
+ * resolve only to publicly routable addresses.
+ *
+ * @param string $host Hostname or IP literal from the URL.
+ * @return bool True if the host is safe to fetch.
+ */
+function wps_pgfw_host_is_public( $host ) {
+	if ( '' === $host || null === $host ) {
+		return false;
+	}
+
+	// Strip IPv6 brackets if present.
+	$host = trim( $host, "[]" );
+
+	$ips = array();
+	if ( filter_var( $host, FILTER_VALIDATE_IP ) ) {
+		$ips[] = $host;
+	} else {
+		if ( function_exists( 'dns_get_record' ) ) {
+			$records = @dns_get_record( $host, DNS_A | DNS_AAAA ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+			if ( is_array( $records ) ) {
+				foreach ( $records as $record ) {
+					if ( ! empty( $record['ip'] ) ) {
+						$ips[] = $record['ip'];
+					}
+					if ( ! empty( $record['ipv6'] ) ) {
+						$ips[] = $record['ipv6'];
+					}
+				}
+			}
+		}
+		$v4 = @gethostbynamel( $host ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		if ( is_array( $v4 ) ) {
+			$ips = array_merge( $ips, $v4 );
+		}
+	}
+
+	if ( empty( $ips ) ) {
+		return false;
+	}
+
+	foreach ( array_unique( $ips ) as $ip ) {
+		$is_public = filter_var(
+			$ip,
+			FILTER_VALIDATE_IP,
+			FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
+		);
+		if ( ! $is_public ) {
+			return false;
+		}
+	}
+	return true;
+}
+
 
 /**
  * Fetch PDF from external URL and serve it.
@@ -336,6 +394,12 @@ function wps_pgfw_fb_fetch_pdf() {
 		exit;
 	}
 
+	if ( ! current_user_can( 'upload_files' ) ) {
+		status_header( 403 );
+		echo 'Permission denied';
+		exit;
+	}
+
 	$url = isset( $_POST['url'] ) ? esc_url_raw( wp_unslash( $_POST['url'] ) ) : '';
 	if ( ! $url || ! filter_var( $url, FILTER_VALIDATE_URL ) ) {
 		status_header( 400 );
@@ -343,10 +407,28 @@ function wps_pgfw_fb_fetch_pdf() {
 		exit;
 	}
 
-	$scheme = wp_parse_url( $url, PHP_URL_SCHEME );
-	if ( ! in_array( $scheme, array( 'http', 'https' ), true ) ) {
+	$parts = wp_parse_url( $url );
+	if ( ! is_array( $parts ) || empty( $parts['scheme'] ) || empty( $parts['host'] ) ) {
+		status_header( 400 );
+		echo 'Invalid URL';
+		exit;
+	}
+
+	if ( ! in_array( strtolower( $parts['scheme'] ), array( 'http', 'https' ), true ) ) {
 		status_header( 400 );
 		echo 'Unsupported URL scheme';
+		exit;
+	}
+
+	// Always allow URLs that point at the WordPress site's own host
+	// (e.g. PDFs in the Media Library), even when the site itself runs on a
+	// private/loopback IP such as on Local by Flywheel dev environments.
+	$site_host    = wp_parse_url( home_url(), PHP_URL_HOST );
+	$is_same_host = $site_host && 0 === strcasecmp( $parts['host'], $site_host );
+
+	if ( ! $is_same_host && ! wps_pgfw_host_is_public( $parts['host'] ) ) {
+		status_header( 400 );
+		echo 'URL host is not allowed';
 		exit;
 	}
 
@@ -354,7 +436,7 @@ function wps_pgfw_fb_fetch_pdf() {
 		$url,
 		array(
 			'timeout'     => 20,
-			'redirection' => 5,
+			'redirection' => 0,
 			'user-agent'  => 'InteractiveFlipbook/1.0 (+WordPress)',
 		)
 	);
@@ -374,11 +456,7 @@ function wps_pgfw_fb_fetch_pdf() {
 
 	$headers      = wp_remote_retrieve_headers( $response );
 	$content_type = isset( $headers['content-type'] ) ? strtolower( explode( ';', $headers['content-type'] )[0] ) : '';
-	// Some servers mislabel PDFs; allow by extension as a fallback.
-	$is_pdf_type = ( 'application/pdf' === $content_type );
-	$path_ext    = strtolower( pathinfo( wp_parse_url( $url, PHP_URL_PATH ) ? wp_parse_url( $url, PHP_URL_PATH ) : '', PATHINFO_EXTENSION ) );
-	$is_pdf_ext  = ( 'pdf' === $path_ext );
-	if ( ! $is_pdf_type && ! $is_pdf_ext ) {
+	if ( 'application/pdf' !== trim( $content_type ) ) {
 		status_header( 415 );
 		echo 'URL does not point to a PDF';
 		exit;
@@ -391,11 +469,18 @@ function wps_pgfw_fb_fetch_pdf() {
 		exit;
 	}
 
+	if ( 0 !== strncmp( $body, '%PDF-', 5 ) ) {
+		status_header( 415 );
+		echo 'Response is not a valid PDF';
+		exit;
+	}
+
 	nocache_headers();
 	header( 'Content-Type: application/pdf' );
 	header( 'Content-Length: ' . strlen( $body ) );
 	header( 'X-Content-Type-Options: nosniff' );
-	echo $body; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- PDF data is streamed as a raw binary response.
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo ( $body );
 	exit;
 }
 

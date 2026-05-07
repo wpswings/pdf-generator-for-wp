@@ -389,7 +389,14 @@ class Pdf_Generator_For_Wp_Admin {
 			}
 		}
 
-		if ( $is_flipbook_screen ) {
+		// The flipbook PDF handler is only used on the flipbook post-edit screen,
+		// so restrict the enqueue (and nonce localization) to users who can
+		// upload files on that screen. This prevents the AJAX nonce from being
+		// exposed on unrelated admin pages such as /wp-admin/profile.php.
+		$is_flipbook_screen = isset( $screen->post_type ) && 'flipbook' === $screen->post_type
+			&& isset( $screen->base ) && 'post' === $screen->base;
+		if ( $is_flipbook_screen && current_user_can( 'upload_files' ) ) {
+			// Enqueue PDF.js library.
 			wp_enqueue_script(
 				'pdfjs-library',
 				'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js',
@@ -398,25 +405,29 @@ class Pdf_Generator_For_Wp_Admin {
 				false
 			);
 
+			// Enqueue jQuery (if not already enqueued).
 			wp_enqueue_script( 'jquery' );
+
+			// Enqueue custom PDF handler script.
 			wp_enqueue_script(
 				'wps-pgfw-pdf-handler',
 				plugin_dir_url( __FILE__ ) . 'src/js/pdf-flipbook.js',
 				array( 'jquery', 'pdfjs-library' ),
-				$this->version,
+				'1.0.0',
 				true
 			);
 
+			// Localize script with nonces and AJAX URL.
 			wp_localize_script(
 				'wps-pgfw-pdf-handler',
 				'wpsGfwPdf',
 				array(
-					'fbFetchNonce' => wp_create_nonce( 'fb_fetch_pdf' ),
+					'fbFetchNonce'  => wp_create_nonce( 'fb_fetch_pdf' ),
 					'fbUploadNonce' => wp_create_nonce( 'ifb_upload_pdf' ),
-					'fbAjaxUrl' => esc_url( admin_url( 'admin-ajax.php' ) ),
+					'fbAjaxUrl'     => esc_url( admin_url( 'admin-ajax.php' ) ),
 				)
 			);
-			wp_enqueue_script( 'flipbook-js', plugin_dir_url( __FILE__ ) . 'src/js/flipbook.js', array( 'jquery' ), $this->version, true );
+			wp_enqueue_script( 'flipbook-js', plugin_dir_url( __FILE__ ) . 'src/js/flipbook.js', array( 'jquery' ), '1.0.0', true );
 			wp_enqueue_media();
 		}
 	}
