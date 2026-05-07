@@ -6,7 +6,7 @@ Requires at least: 6.7.0
 Tested up to: 6.9.4
 WC requires at least: 6.5
 WC tested up to: 10.7
-Stable tag: 1.6.2
+Stable tag: 1.6.3
 Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -249,7 +249,10 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Changelog ==
 
-= 1.6.2 - Released on 04 May 2026 =
+= 1.6.3 - Released on 07 May 2026 =
+* Enhancement : Security fixes
+
+= 1.6.2 - Released on 06 May 2026 =
 * New : Compatibility With Latest WP (6.9.4) and WC (10.7)
 * Enhancement : Plugin Optimization
 * Enhancement : UI/UX update
@@ -477,7 +480,5 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Upgrade Notice ==
 
-= 1.6.2 - Released on 06 May 2026 =
-* New : Compatibility With Latest WP (6.9.4) and WC (10.7)
-* Enhancement : Plugin Optimization
-* Enhancement : UI/UX update
+= 1.6.3 - Released on 07 May 2026 =
+* Enhancement : Security fixes
