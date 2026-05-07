@@ -63,27 +63,7 @@ do_action( 'wps_wpg_settings_saved_notice' );
 
 <script type="application/json" id="pgfw-tabs-data"><?php echo wp_json_encode( $pgfw_settings_data ); ?></script>
 
-<div class="pgfw-flashbar" role="region" aria-label="<?php esc_attr_e( 'Flash sale notice', 'pdf-generator-for-wp' ); ?>" data-pgfw-flashbar="true">
-	<button type="button" class="pgfw-flashbar__dismiss" data-pgfw-dismiss-flashbar="true" aria-label="<?php esc_attr_e( 'Dismiss flash sale notice', 'pdf-generator-for-wp' ); ?>">
-		<span class="dashicons dashicons-no-alt" aria-hidden="true"></span>
-	</button>
-	<div class="pgfw-flashbar__inner">
-		<div class="pgfw-flashbar__group">
-			<span class="pgfw-flashbar__pill"><?php esc_html_e( 'Flash Sale', 'pdf-generator-for-wp' ); ?></span>
-			<div class="pgfw-flashbar__content">
-				<span class="pgfw-flashbar__lead"><?php esc_html_e( 'Flash Sale is live', 'pdf-generator-for-wp' ); ?></span>
-				<span class="pgfw-flashbar__offer"><?php esc_html_e( 'Get up to 45% OFF on WP Swings Plugins', 'pdf-generator-for-wp' ); ?></span>
-				<div class="pgfw-flashbar__code">
-					<span class="pgfw-flashbar__code-label"><?php esc_html_e( 'Use Code', 'pdf-generator-for-wp' ); ?></span>
-					<strong>WPSGRAB10</strong>
-				</div>
-			</div>
-			<div class="pgfw-flashbar__cta-wrap">
-				<a class="pgfw-flashbar__cta" href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-org&utm_medium=pdf-org-backend&utm_campaign=shop-page" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Grab Now', 'pdf-generator-for-wp' ); ?></a>
-			</div>
-		</div>
-	</div>
-</div>
+
 
 <main class="pgfw-shell pgfw-skin-v2">
 	<?php
