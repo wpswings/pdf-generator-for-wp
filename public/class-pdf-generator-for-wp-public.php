@@ -148,7 +148,7 @@ class Pdf_Generator_For_Wp_Public {
 	 */
 	public function pgfw_public_enqueue_styles() {
 		if ( ! $this->pgfw_should_enqueue_public_assets() ) {
-			echo 'xfgdcg';
+		
 			return;
 		}
 

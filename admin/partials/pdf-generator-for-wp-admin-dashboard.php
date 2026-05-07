@@ -75,7 +75,7 @@ do_action( 'wps_wpg_settings_saved_notice' );
 				<span class="pgfw-flashbar__offer"><?php esc_html_e( 'Get up to 45% OFF on WP Swings Plugins', 'pdf-generator-for-wp' ); ?></span>
 				<div class="pgfw-flashbar__code">
 					<span class="pgfw-flashbar__code-label"><?php esc_html_e( 'Use Code', 'pdf-generator-for-wp' ); ?></span>
-					<strong>GRAB10</strong>
+					<strong>WPSGRAB10</strong>
 				</div>
 			</div>
 			<div class="pgfw-flashbar__cta-wrap">
