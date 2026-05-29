@@ -186,7 +186,7 @@ select {
     bottom: 0;
     left: 0;
     right: 0;
-    border-bottom: 3px solid var(--pgfw-aurora-accent) !important;
+    border-bottom: 3px solid var( --mdc-theme-primary);
     border-radius: 2px;
 }
 
@@ -257,7 +257,7 @@ select {
 
 .wps-navbar__items li a {
     padding: 18px 0;
-    color: var(--pgfw-aurora-text) !important;
+    color: var(--mdc-theme-primary);
 }
 
 .wps-section {
@@ -435,32 +435,45 @@ select {
     position: sticky;
     bottom: 0;
     background: #fff;
-    padding: 15px;
-    margin: 0 -15px;
-    background: none !important;
-    box-shadow: none !important;
-    border: none !important;
+    padding: 15px 0;
+}
+.wps-form-group:has(button.mdc-button.wps-pgfw-save-setting) {
+    position: sticky;
+    bottom: 0;
+    background: #fff;
+    padding: 15px 0;
 }
 
-
-.wps-wpg-logs-table .sorting-indicator {
-    display: inline-block;
+.pgfw_new-feature {
+  position: relative;
 }
-
-
-.wps-wpg-logs-table th:last-of-type {
-    width: 200px;
+ 
+.pgfw_new-feature:after {
+  content: "New Feature";
+  position: absolute;
+  top: -30px;
+  left: 15px;
+  background: #0aa0001a;
+  color: #0aa000;
+  padding: 5px 25px 5px 10px;
+  font-size: 12px;
+  border-left: 4px solid;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 50%, 100% 100%, 0 100%);
 }
-
-#wpg-pdf-logs-app .components-base-control__field {
-    margin: 0;
-}
-
-#wpg-pdf-logs-app .tablenav-pages {
-    margin: 0;
-}
-
-#wpg-pdf-logs-app .tablenav-pages span.paging-input {
-    display: inline-block;
-    padding: 0 10px;
+ 
+ 
+ 
+@media screen and (max-width: 768px) {
+ 
+  .pgfw_new-feature:after {
+ 
+    top: -10px;
+    left: unset;
+    right: 15px;
+    padding: 5px 10px 5px 25px;
+    border-left: unset;
+    border-right: 4px solid;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 8px 50%);
+  }
+ 
 }

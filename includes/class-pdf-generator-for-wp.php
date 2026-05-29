@@ -77,14 +77,14 @@ class Pdf_Generator_For_Wp {
 			$this->version = PDF_GENERATOR_FOR_WP_VERSION;
 		} else {
 
-			$this->version = '1.6.2';
+			$this->version = '1.5.3';
 		}
 
 		$this->plugin_name = 'pdf-generator-for-wp';
 
 		$this->pdf_generator_for_wp_dependencies();
-		
-		if ( $this->pdf_generator_for_wp_should_load_admin_context() ) {
+		$this->pdf_generator_for_wp_locale();
+		if ( is_admin() ) {
 			$this->pdf_generator_for_wp_admin_hooks();
 		} else {
 			$this->pdf_generator_for_wp_public_hooks();
@@ -117,8 +117,13 @@ class Pdf_Generator_For_Wp {
 		 */
 		require_once plugin_dir_path( __DIR__ ) . 'includes/class-pdf-generator-for-wp-loader.php';
 
-		
-		if ( $this->pdf_generator_for_wp_should_load_admin_context() ) {
+		/**
+		 * The class responsible for defining internationalization functionality
+		 * of the plugin.
+		 */
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-pdf-generator-for-wp-i18n.php';
+
+		if ( is_admin() ) {
 
 			// The class responsible for defining all actions that occur in the admin area.
 			require_once plugin_dir_path( __DIR__ ) . 'admin/class-pdf-generator-for-wp-admin.php';
@@ -128,16 +133,8 @@ class Pdf_Generator_For_Wp {
 				require_once plugin_dir_path( __DIR__ ) . 'includes/class-pdf-generator-for-wp-onboarding-steps.php';
 			}
 
-			if ( ! class_exists( 'Pdf_Generator_For_Wp_Talk_To_Expert_Form' ) ) {
-				require_once plugin_dir_path( __DIR__ ) . 'includes/class-pdf-generator-for-wp-talk-to-expert-form.php';
-			}
-
 			if ( class_exists( 'Pdf_Generator_For_Wp_Onboarding_Steps' ) ) {
 				$pgfw_onboard_steps = new Pdf_Generator_For_Wp_Onboarding_Steps();
-			}
-
-			if ( class_exists( 'Pdf_Generator_For_Wp_Talk_To_Expert_Form' ) ) {
-				$pgfw_talk_to_expert_form = new Pdf_Generator_For_Wp_Talk_To_Expert_Form();
 			}
 		} else {
 
@@ -156,18 +153,18 @@ class Pdf_Generator_For_Wp {
 	}
 
 	/**
-	 * Determine whether the current request needs admin-side plugin hooks.
+	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Tab content is loaded through the REST API from the admin screen, so those
-	 * requests also need the admin field filters registered.
+	 * Uses the Pdf_Generator_For_Wp_I18n class in order to set the domain and to register the hook
+	 * with WordPress.
 	 *
-	 * @since 1.0.0
-	 * @return bool
+	 * @since    1.0.0
 	 */
-	private function pdf_generator_for_wp_should_load_admin_context() {
-		return is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST );
-	}
+	private function pdf_generator_for_wp_locale() {
+		$plugin_i18n = new Pdf_Generator_For_Wp_I18n();
 
+		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+	}
 
 	/**
 	 * Register all of the hooks related to the admin area functionality
@@ -224,7 +221,7 @@ class Pdf_Generator_For_Wp {
 		$this->loader->add_action( 'init', $pgfw_plugin_admin, 'register_google_embed_blocks' );
 
 		// PRO PLUGIN DUMMY CONTENT HTML FUNCTIONS  ////////////.
-		if ( ! wps_pgfw_is_pdf_pro_plugin_active() ) {
+		if ( ! is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
 			$this->loader->add_filter( 'pgfw_taxonomy_settings_array_dummy', $pgfw_plugin_admin, 'pgfw_setting_fields_for_customising_taxonomy_dummy' );
 			$this->loader->add_action( 'pgfw_plugin_standard_admin_settings_sub_tabs_dummy', $pgfw_plugin_admin, 'pgfw_add_custom_template_settings_tab_dummy' );
 			$this->loader->add_filter( 'pgfw_template_pdf_settings_array_dummy', $pgfw_plugin_admin, 'pgfw_template_pdf_settings_page_dummy', 10 );
@@ -251,7 +248,7 @@ class Pdf_Generator_For_Wp {
 		$pgfw_plugin_common = new Pdf_Generator_For_Wp_Common( $this->pgfw_get_plugin_name(), $this->pgfw_get_version() );
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_common, 'pgfw_common_enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_common, 'pgfw_common_enqueue_scripts' );
-		$pdf_general_settings_arr = wps_pgfw_get_option_cached( 'pgfw_general_settings_save', array() );
+		$pdf_general_settings_arr = get_option( 'pgfw_general_settings_save', array() );
 		$pgfw_enable_plugin       = array_key_exists( 'pgfw_enable_plugin', $pdf_general_settings_arr ) ? $pdf_general_settings_arr['pgfw_enable_plugin'] : '';
 		if ( 'yes' === $pgfw_enable_plugin ) {
 			// catching pdf generate link with $_GET.
@@ -266,13 +263,10 @@ class Pdf_Generator_For_Wp {
 			$this->loader->add_filter( 'bulk_actions-edit-page', $pgfw_plugin_common, 'wpg_add_custom_bulk_actions_page', 10, 2 );
 			$this->loader->add_filter( 'bulk_actions-edit-product', $pgfw_plugin_common, 'wpg_add_custom_bulk_actionss_product', 10, 2 );
 			// invoice.
-			$pgfw_enable_plugin = wps_pgfw_get_option_cached( 'wpg_enable_plugin', '' );
+			$pgfw_enable_plugin = get_option( 'wpg_enable_plugin' );
 			if ( 'yes' === $pgfw_enable_plugin ) {
 				// adding shortcodes to fetch all order detials [ISFW_FETCH_ORDER].
 				$this->loader->add_action( 'plugins_loaded', $pgfw_plugin_common, 'wpg_fetch_order_details_shortcode' );
-				// Custom template mapping.
-				$this->loader->add_filter( 'pgfw_load_templates_for_pdf_html', $pgfw_plugin_common, 'wpg_load_custom_template_for_pdf_generation', 10, 3 );
-				$this->loader->add_action( 'wp_ajax_wpg_save_template_items', $pgfw_plugin_common, 'wpg_save_template_items_callbck' );
 				$this->loader->add_action( 'wpg_reset_invoice_number_hook', $pgfw_plugin_common, 'wpg_reset_invoice_number' );
 			}
 		}
@@ -289,14 +283,14 @@ class Pdf_Generator_For_Wp {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_public, 'pgfw_public_enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_public, 'pgfw_public_enqueue_scripts' );
-		$pdf_general_settings_arr     = wps_pgfw_get_option_cached( 'pgfw_general_settings_save', array() );
-		$pgfw_display_settings        = wps_pgfw_get_option_cached( 'pgfw_save_admin_display_settings', array() );
+		$pdf_general_settings_arr     = get_option( 'pgfw_general_settings_save', array() );
+		$pgfw_display_settings        = get_option( 'pgfw_save_admin_display_settings', array() );
 		$pgfw_enable_plugin           = array_key_exists( 'pgfw_enable_plugin', $pdf_general_settings_arr ) ? $pdf_general_settings_arr['pgfw_enable_plugin'] : '';
 		$pgfw_pdf_icon_after          = array_key_exists( 'pgfw_display_pdf_icon_after', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_display_pdf_icon_after'] : '';
 		$pgfw_exclude_wp_filter_hooks = array( 'before_content', 'after_content' );
 		if ( 'yes' === $pgfw_enable_plugin ) {
 			$this->loader->add_action( 'plugins_loaded', $pgfw_plugin_public, 'pgfw_shortcode_to_generate_pdf' );
-			if ( wps_pgfw_is_plugin_active_cached( 'woocommerce/woocommerce.php' ) ) {
+			if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ) ) {
 				if ( '' !== $pgfw_pdf_icon_after && ! in_array( $pgfw_pdf_icon_after, $pgfw_exclude_wp_filter_hooks, true ) ) {
 					// post to pdf generate button if woocomerce is activated.
 					$this->loader->add_action( $pgfw_pdf_icon_after, $pgfw_plugin_public, 'pgfw_show_download_icon_to_users_for_woocommerce' );
@@ -378,98 +372,12 @@ class Pdf_Generator_For_Wp {
 	}
 
 	/**
-	 * Check whether the pro plugin is active on the current site or network.
-	 *
-	 * @since 1.6.2
-	 * @return bool
-	 */
-	public function wps_pgfw_is_pro_plugin_active() {
-		return wps_pgfw_is_pdf_pro_plugin_active();
-	}
-
-	/**
-	 * Get the dashboard version label for free/pro installs.
-	 *
-	 * @since 1.6.2
-	 * @return string
-	 */
-	public function wps_pgfw_get_dashboard_version_label() {
-		$version = PDF_GENERATOR_FOR_WP_VERSION;
-
-		if ( $this->wps_pgfw_is_pro_plugin_active() ) {
-			if ( ! function_exists( 'get_plugins' ) ) {
-				require_once ABSPATH . 'wp-admin/includes/plugin.php';
-			}
-
-			$plugins = get_plugins();
-			if ( ! empty( $plugins['wordpress-pdf-generator/wordpress-pdf-generator.php']['Version'] ) ) {
-				$version = $plugins['wordpress-pdf-generator/wordpress-pdf-generator.php']['Version'];
-			}
-
-			return sprintf(
-				/* translators: 1: version number, 2: pro suffix. */
-				esc_html__( 'v%1$s %2$s', 'pdf-generator-for-wp' ),
-				$version,
-				esc_html__( 'Pro', 'pdf-generator-for-wp' )
-			);
-		}
-
-		return sprintf(
-			/* translators: %s: version number. */
-			esc_html__( 'v%s', 'pdf-generator-for-wp' ),
-			$version
-		);
-	}
-
-	/**
-	 * Return legacy free-tab to pro-tab aliases for dashboard routes.
-	 *
-	 * @since 1.6.2
-	 * @return array
-	 */
-	public function wps_pgfw_get_pro_tab_aliases() {
-		return array(
-			'pdf-generator-for-wp-taxonomy'             => 'wordpress-pdf-generator-taxonomy',
-			'pdf-generator-for-wp-layout-settings'      => 'wordpress-pdf-generator-layout-settings',
-			'pdf-generator-for-wp-cover-page-setting'   => 'wordpress-pdf-generator-cover-page-setting',
-			'pdf-generator-for-wp-internal-page-setting'=> 'wordpress-pdf-generator-internal-page-setting',
-			'pdf-generator-for-wp-logs'                 => 'wordpress-pdf-generator-logs',
-			'pdf-generator-for-wp-invoice-general'      => 'wordpress-pdf-generator-invoice-general',
-			'pdf-generator-for-wp-invoice-page-setting' => 'wordpress-pdf-generator-invoice-page-setting',
-		);
-	}
-
-	/**
-	 * Normalize legacy free pro-tab slugs to their active pro equivalents.
-	 *
-	 * @since 1.6.2
-	 * @param string $tab_key Requested dashboard tab.
-	 * @return string
-	 */
-	public function wps_pgfw_normalize_dashboard_tab( $tab_key ) {
-		$tab_key = sanitize_key( $tab_key );
-
-		if ( empty( $tab_key ) || ! $this->wps_pgfw_is_pro_plugin_active() ) {
-			return $tab_key;
-		}
-
-		$pro_tab_aliases = $this->wps_pgfw_get_pro_tab_aliases();
-
-		return isset( $pro_tab_aliases[ $tab_key ] ) ? $pro_tab_aliases[ $tab_key ] : $tab_key;
-	}
-
-	/**
 	 * Predefined default wps_pgfw_plug tabs.
 	 *
 	 * @return array An key=>value pair of PDF Generator For WordPress tabs.
 	 */
 	public function wps_pgfw_plug_default_tabs() {
 		$pgfw_default_tabs = array();
-
-		$pgfw_default_tabs['pdf-generator-for-wp-overview'] = array(
-			'title' => esc_html__( 'Overview', 'pdf-generator-for-wp' ),
-			'name'  => 'pdf-generator-for-wp-overview',
-		);
 
 		$pgfw_default_tabs['pdf-generator-for-wp-general'] = array(
 			'title' => esc_html__( 'General Settings', 'pdf-generator-for-wp' ),
@@ -495,7 +403,7 @@ class Pdf_Generator_For_Wp {
 			'name'  => 'pdf-generator-for-wp-embed-source',
 		);
 		// Check if the pro plugin is active.
-		if ( ! wps_pgfw_is_pdf_pro_plugin_active() ) {
+		if ( ! is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
 			// Pro plugin is active.
 			$pgfw_default_tabs['pdf-generator-for-wp-taxonomy'] = array(
 				'title' => esc_html__( 'Taxonomy Settings', 'pdf-generator-for-wp' ),
@@ -571,205 +479,6 @@ class Pdf_Generator_For_Wp {
 
 		return $pgfw_default_tabs;
 	}
-
-	/**
-	 * Return child-to-parent dashboard tab mappings.
-	 *
-	 * @since 1.0.0
-	 * @return array
-	 */
-	public function wps_pgfw_get_dashboard_parent_tab_map() {
-		return array(
-			'pdf-generator-for-wp-pdf-icon-setting'  => 'pdf-generator-for-wp-pdf-setting',
-			'pdf-generator-for-wp-header'            => 'pdf-generator-for-wp-pdf-setting',
-			'pdf-generator-for-wp-body'              => 'pdf-generator-for-wp-pdf-setting',
-			'pdf-generator-for-wp-footer'            => 'pdf-generator-for-wp-pdf-setting',
-			'pdf-generator-for-wp-cover-page-setting'    => 'pdf-generator-for-wp-layout-settings',
-			'pdf-generator-for-wp-internal-page-setting' => 'pdf-generator-for-wp-layout-settings',
-			'wordpress-pdf-generator-cover-page-setting'    => 'wordpress-pdf-generator-layout-settings',
-			'wordpress-pdf-generator-internal-page-setting' => 'wordpress-pdf-generator-layout-settings',
-		);
-	}
-
-	/**
-	 * Return the top-level dashboard tab for a tab key.
-	 *
-	 * @since 1.0.0
-	 * @param string $tab_key Current tab key.
-	 * @return string
-	 */
-	public function wps_pgfw_get_dashboard_parent_tab( $tab_key ) {
-		$tab_key        = $this->wps_pgfw_normalize_dashboard_tab( $tab_key );
-		$parent_tab_map = $this->wps_pgfw_get_dashboard_parent_tab_map();
-		return isset( $parent_tab_map[ $tab_key ] ) ? $parent_tab_map[ $tab_key ] : $tab_key;
-	}
-
-	/**
-	 * Return dashboard hero content for the active tab.
-	 *
-	 * @since 1.0.0
-	 * @param string $tab_key Current tab key.
-	 * @return array
-	 */
-	public function wps_pgfw_get_dashboard_header_content( $tab_key ) {
-		$tab_key     = $this->wps_pgfw_normalize_dashboard_tab( $tab_key );
-		$parent_tab  = $this->wps_pgfw_get_dashboard_parent_tab( $tab_key );
-		$header_data = array(
-			'pdf-generator-for-wp-overview' => array(
-				'eyebrow'     => esc_html__( 'Overview', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'See your PDF workspace at a glance', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Review core plugin capabilities, quick actions, and support resources from one dashboard.', 'pdf-generator-for-wp' ),
-			),
-			'pdf-generator-for-wp-general' => array(
-				'eyebrow'     => esc_html__( 'General Settings', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Control how PDF generation behaves across your site', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Configure the main plugin behavior, availability, and baseline PDF generation rules for your content.', 'pdf-generator-for-wp' ),
-			),
-			'pdf-generator-for-wp-pdf-setting' => array(
-				'eyebrow'     => esc_html__( 'PDF Settings', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Shape the PDF experience from icon to layout', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Adjust icon display, document structure, and the visual sections that appear inside each generated PDF.', 'pdf-generator-for-wp' ),
-			),
-			'pdf-generator-for-wp-pdf-icon-setting' => array(
-				'eyebrow'     => esc_html__( 'PDF Settings', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Control how PDF icons appear on your site', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Manage icon visibility, alignment, labels, and styling before users generate or download PDFs.', 'pdf-generator-for-wp' ),
-			),
-			'pdf-generator-for-wp-header' => array(
-				'eyebrow'     => esc_html__( 'PDF Settings', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Customize the header section of each PDF', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Configure the logo, company name, tagline, typography, and spacing shown at the top of generated PDFs.', 'pdf-generator-for-wp' ),
-			),
-			'pdf-generator-for-wp-body' => array(
-				'eyebrow'     => esc_html__( 'PDF Settings', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Design the main PDF body content', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Set up body styling, colors, watermark options, and content presentation for the main document area.', 'pdf-generator-for-wp' ),
-			),
-			'pdf-generator-for-wp-footer' => array(
-				'eyebrow'     => esc_html__( 'PDF Settings', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Manage the footer that closes every PDF', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Update footer text, spacing, and supporting details so the final page area matches your document design.', 'pdf-generator-for-wp' ),
-			),
-			'pdf-generator-for-wp-advanced' => array(
-				'eyebrow'     => esc_html__( 'Advanced Settings', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Handle advanced PDF generation options', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Fine-tune deeper behavior, compatibility settings, and advanced controls for more complex PDF workflows.', 'pdf-generator-for-wp' ),
-			),
-			'pdf-generator-for-wp-meta-fields' => array(
-				'eyebrow'     => esc_html__( 'Meta Fields', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Decide which meta fields flow into your PDFs', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Select and organize post meta so the right data is injected into generated documents.', 'pdf-generator-for-wp' ),
-			),
-			'pdf-generator-for-wp-embed-source' => array(
-				'eyebrow'     => esc_html__( 'Embed Source', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Choose the source used for embedded PDFs', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Configure where embedded PDF content is pulled from and how it is exposed within your site experience.', 'pdf-generator-for-wp' ),
-			),
-			'pdf-generator-for-wp-taxonomy' => array(
-				'eyebrow'     => esc_html__( 'Taxonomy Settings', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Control taxonomy data inside generated PDFs', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Decide how taxonomy terms are included so category and classification data appears where you need it.', 'pdf-generator-for-wp' ),
-			),
-			'wordpress-pdf-generator-taxonomy' => array(
-				'eyebrow'     => esc_html__( 'Taxonomy Settings', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Control taxonomy data inside generated PDFs', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Decide how taxonomy terms are included so category and classification data appears where you need it.', 'pdf-generator-for-wp' ),
-			),
-			'pdf-generator-for-wp-layout-settings' => array(
-				'eyebrow'     => esc_html__( 'Layout Settings', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Build the page structure of your PDF layouts', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Configure page templates, supporting layouts, and layout-specific structure for more tailored PDF output.', 'pdf-generator-for-wp' ),
-			),
-			'wordpress-pdf-generator-layout-settings' => array(
-				'eyebrow'     => esc_html__( 'Layout Settings', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Build the page structure of your PDF layouts', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Configure page templates, supporting layouts, and layout-specific structure for more tailored PDF output.', 'pdf-generator-for-wp' ),
-			),
-			'pdf-generator-for-wp-cover-page-setting' => array(
-				'eyebrow'     => esc_html__( 'Layout Settings', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Configure the cover page layout', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Manage the content and presentation of the opening page shown before the main PDF body.', 'pdf-generator-for-wp' ),
-			),
-			'wordpress-pdf-generator-cover-page-setting' => array(
-				'eyebrow'     => esc_html__( 'Layout Settings', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Configure the cover page layout', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Manage the content and presentation of the opening page shown before the main PDF body.', 'pdf-generator-for-wp' ),
-			),
-			'pdf-generator-for-wp-internal-page-setting' => array(
-				'eyebrow'     => esc_html__( 'Layout Settings', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Set up the internal page layout', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Define the structure and reusable sections used across internal pages of the generated PDF.', 'pdf-generator-for-wp' ),
-			),
-			'wordpress-pdf-generator-internal-page-setting' => array(
-				'eyebrow'     => esc_html__( 'Layout Settings', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Set up the internal page layout', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Define the structure and reusable sections used across internal pages of the generated PDF.', 'pdf-generator-for-wp' ),
-			),
-			'pdf-generator-for-wp-logs' => array(
-				'eyebrow'     => esc_html__( 'PDF Logs', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Inspect PDF generation activity and diagnostics', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Review logged PDF events to monitor activity, troubleshoot issues, and verify document generation.', 'pdf-generator-for-wp' ),
-			),
-			'wordpress-pdf-generator-logs' => array(
-				'eyebrow'     => esc_html__( 'PDF Logs', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Inspect PDF generation activity and diagnostics', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Review logged PDF events to monitor activity, troubleshoot issues, and verify document generation.', 'pdf-generator-for-wp' ),
-			),
-			'pdf-generator-for-wp-invoice-general' => array(
-				'eyebrow'     => esc_html__( 'Invoice Settings', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Configure invoice PDF generation rules', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Set invoice-specific behavior, numbering, branding, and options for WooCommerce invoice documents.', 'pdf-generator-for-wp' ),
-			),
-			'wordpress-pdf-generator-invoice-general' => array(
-				'eyebrow'     => esc_html__( 'Invoice Settings', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Configure invoice PDF generation rules', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Set invoice-specific behavior, numbering, branding, and options for WooCommerce invoice documents.', 'pdf-generator-for-wp' ),
-			),
-			'pdf-generator-for-wp-invoice-page-setting' => array(
-				'eyebrow'     => esc_html__( 'Invoice Page Settings', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Design the layout used for invoice pages', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Adjust invoice page structure and visual presentation so billing documents match your storefront requirements.', 'pdf-generator-for-wp' ),
-			),
-			'wordpress-pdf-generator-invoice-page-setting' => array(
-				'eyebrow'     => esc_html__( 'Invoice Page Settings', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Design the layout used for invoice pages', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Adjust invoice page structure and visual presentation so billing documents match your storefront requirements.', 'pdf-generator-for-wp' ),
-			),
-			'pdf-generator-for-wp-pdf-upload' => array(
-				'eyebrow'     => esc_html__( 'PDF Upload', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Upload PDF assets and reuse them with shortcodes', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Manage uploaded PDF files and poster assets so they can be placed anywhere on your site with generated shortcodes.', 'pdf-generator-for-wp' ),
-			),
-			'pdf-generator-for-wp-shortcode' => array(
-				'eyebrow'     => esc_html__( 'Shortcodes', 'pdf-generator-for-wp' ),
-				'title'       => esc_html__( 'Reference the shortcodes available in this plugin', 'pdf-generator-for-wp' ),
-				'description' => esc_html__( 'Review copy-ready shortcode patterns for PDF buttons, meta values, QR codes, and other supported outputs.', 'pdf-generator-for-wp' ),
-			),
-		);
-
-		if ( isset( $header_data[ $tab_key ] ) ) {
-			return $header_data[ $tab_key ];
-		}
-
-		if ( isset( $header_data[ $parent_tab ] ) ) {
-			return $header_data[ $parent_tab ];
-		}
-
-		$known_tabs = array_merge(
-			$this->wps_pgfw_plug_default_tabs(),
-			$this->wps_pgfw_plug_default_sub_tabs(),
-			$this->wps_pgfw_plug_layout_setting_sub_tabs(),
-			$this->wps_pgfw_plug_layout_setting_sub_tabs_dummy()
-		);
-		$tab_title  = isset( $known_tabs[ $tab_key ]['title'] ) ? $known_tabs[ $tab_key ]['title'] : esc_html__( 'PDF Workspace', 'pdf-generator-for-wp' );
-
-		return array(
-			'eyebrow'     => $tab_title,
-			/* translators: %s: current dashboard tab title. */
-			'title'       => sprintf( esc_html__( 'Manage %s', 'pdf-generator-for-wp' ), $tab_title ),
-			'description' => esc_html__( 'Review and update the settings available in this section.', 'pdf-generator-for-wp' ),
-		);
-	}
 	/**
 	 * Loading sub tabs for layout settings used by pro plugin.
 	 *
@@ -804,19 +513,11 @@ class Pdf_Generator_For_Wp {
 		$pgfw_file_path = apply_filters( 'wps_pgfw_setting_page_loading_filter_hook', $pgfw_file_path, $path );
 		if ( file_exists( $pgfw_file_path ) ) {
 			include $pgfw_file_path;
-			return;
+		} else {
+			/* translators: %s: file path */
+			$pgfw_notice = sprintf( esc_html__( 'Unable to locate file at location "%s". Some features may not work properly in this plugin. Please contact us!', 'pdf-generator-for-wp' ), $pgfw_file_path );
+			$this->wps_pgfw_plug_admin_notice( $pgfw_notice, 'error' );
 		}
-
-		$pgfw_fallback_path = $this->wps_pgfw_maybe_get_fallback_template_path( $path );
-
-		if ( ! empty( $pgfw_fallback_path ) && file_exists( $pgfw_fallback_path ) ) {
-			include $pgfw_fallback_path;
-			return;
-		}
-
-		/* translators: %s: file path */
-		$pgfw_notice = sprintf( esc_html__( 'Unable to locate file at location "%s". Some features may not work properly in this plugin. Please contact us!', 'pdf-generator-for-wp' ), ( ! empty( $pgfw_fallback_path ) ? $pgfw_fallback_path : $pgfw_file_path ) );
-		$this->wps_pgfw_plug_admin_notice( $pgfw_notice, 'error' );
 	}
 	/**
 	 * Locate and load appropriate tempate.
@@ -830,43 +531,12 @@ class Pdf_Generator_For_Wp {
 		$pgfw_file_path = apply_filters( 'wps_pgfw_setting_sub_page_loading_filter_hook', $pgfw_file_path, $path );
 		if ( file_exists( $pgfw_file_path ) ) {
 			include $pgfw_file_path;
-			return;
+		} else {
+
+			/* translators: %s: file path */
+			$pgfw_notice = sprintf( esc_html__( 'Unable to locate file at location %s. Some features may not work properly in this plugin. Please contact us!', 'pdf-generator-for-wp' ), $pgfw_file_path );
+			$this->wps_pgfw_plug_admin_notice( $pgfw_notice, 'error' );
 		}
-
-		$pgfw_fallback_path = $this->wps_pgfw_maybe_get_fallback_template_path( $path );
-
-		if ( ! empty( $pgfw_fallback_path ) && file_exists( $pgfw_fallback_path ) ) {
-			include $pgfw_fallback_path;
-			return;
-		}
-
-		/* translators: %s: file path */
-		$pgfw_notice = sprintf( esc_html__( 'Unable to locate file at location %s. Some features may not work properly in this plugin. Please contact us!', 'pdf-generator-for-wp' ), ( ! empty( $pgfw_fallback_path ) ? $pgfw_fallback_path : $pgfw_file_path ) );
-		$this->wps_pgfw_plug_admin_notice( $pgfw_notice, 'error' );
-	}
-
-	/**
-	 * Provide fallback template path when pro slugs are requested but pro plugin is inactive.
-	 *
-	 * @since 1.0.0
-	 * @param string $relative_path Template path relative to plugin root.
-	 * @return string Fallback absolute path or empty string when none.
-	 */
-	private function wps_pgfw_maybe_get_fallback_template_path( $relative_path ) {
-		$pgfw_fallback_path = '';
-
-		if ( false === strpos( $relative_path, 'wordpress-pdf-generator-' ) ) {
-			return $pgfw_fallback_path;
-		}
-
-		if ( wps_pgfw_is_pdf_pro_plugin_active() ) {
-			return $pgfw_fallback_path;
-		}
-
-		$fallback_relative_path = str_replace( 'wordpress-pdf-generator-', 'pdf-generator-for-wp-', $relative_path );
-		$pgfw_fallback_path     = PDF_GENERATOR_FOR_WP_DIR_PATH . $fallback_relative_path;
-
-		return $pgfw_fallback_path;
 	}
 
 	/**
@@ -1117,84 +787,6 @@ class Pdf_Generator_For_Wp {
 							<?php
 							break;
 
-						case 'radio-image':
-							$pgfw_radio_image_categories = array();
-							foreach ( $pgfw_component['options'] as $pgfw_radio_option ) {
-								if ( is_array( $pgfw_radio_option ) && ! empty( $pgfw_radio_option['category'] ) ) {
-									$pgfw_radio_image_category = strtolower( wp_strip_all_tags( $pgfw_radio_option['category'] ) );
-									if ( ! isset( $pgfw_radio_image_categories[ $pgfw_radio_image_category ] ) ) {
-										$pgfw_radio_image_categories[ $pgfw_radio_image_category ] = array(
-											'label' => $pgfw_radio_option['category'],
-											'count' => 0,
-										);
-									}
-									$pgfw_radio_image_categories[ $pgfw_radio_image_category ]['count']++;
-								}
-							}
-							?>
-							<div class="wps-form-group <?php echo esc_attr( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ); ?>">
-								<div class="wps-form-group__label">
-									<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
-								</div>
-									<div class="wps-form-group__control">
-										<div class="pgfw-radio-image-toolbar" aria-hidden="true">
-											<div class="pgfw-radio-image-summary">
-												<?php /* translators: %d: total number of available radio image options. */ ?>
-												<span class="pgfw-radio-image-summary__pill"><?php echo esc_html( sprintf( __( 'All %d', 'pdf-generator-for-wp' ), count( $pgfw_component['options'] ) ) ); ?></span>
-												<?php foreach ( $pgfw_radio_image_categories as $pgfw_radio_image_category ) : ?>
-													<?php /* translators: 1: radio image category label, 2: number of options in that category. */ ?>
-													<span class="pgfw-radio-image-summary__pill"><?php echo esc_html( sprintf( __( '%1$s %2$d', 'pdf-generator-for-wp' ), $pgfw_radio_image_category['label'], $pgfw_radio_image_category['count'] ) ); ?></span>
-												<?php endforeach; ?>
-											</div>
-										</div>
-									<div class="pgfw-radio-image-group">
-										<?php foreach ( $pgfw_component['options'] as $pgfw_radio_key => $pgfw_radio_option ) : ?>
-											<?php
-											$pgfw_radio_label       = is_array( $pgfw_radio_option ) && isset( $pgfw_radio_option['label'] ) ? $pgfw_radio_option['label'] : $pgfw_radio_option;
-											$pgfw_radio_description = is_array( $pgfw_radio_option ) && isset( $pgfw_radio_option['description'] ) ? $pgfw_radio_option['description'] : '';
-											$pgfw_radio_preview     = is_array( $pgfw_radio_option ) && isset( $pgfw_radio_option['preview_class'] ) ? $pgfw_radio_option['preview_class'] : '';
-											$pgfw_radio_category    = is_array( $pgfw_radio_option ) && isset( $pgfw_radio_option['category'] ) ? $pgfw_radio_option['category'] : '';
-											$pgfw_radio_sequence    = is_array( $pgfw_radio_option ) && isset( $pgfw_radio_option['sequence'] ) ? $pgfw_radio_option['sequence'] : '';
-											?>
-											<label class="pgfw-radio-image-option">
-												<input
-													name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
-													value="<?php echo esc_attr( $pgfw_radio_key ); ?>"
-													type="radio"
-													class="pgfw-radio-image-option__input <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
-													<?php checked( $pgfw_radio_key, $pgfw_component['value'] ); ?>>
-												<span class="pgfw-radio-image-option__card">
-													<span class="pgfw-radio-image-option__check" aria-hidden="true"></span>
-													<span class="pgfw-radio-image-option__meta">
-														<?php if ( ! empty( $pgfw_radio_sequence ) ) : ?>
-															<span class="pgfw-radio-image-option__index"><?php echo esc_html( $pgfw_radio_sequence ); ?></span>
-														<?php endif; ?>
-														<?php if ( ! empty( $pgfw_radio_category ) ) : ?>
-															<span class="pgfw-radio-image-option__category"><?php echo esc_html( strtolower( $pgfw_radio_category ) ); ?></span>
-														<?php endif; ?>
-													</span>
-													<span class="pgfw-radio-image-option__preview <?php echo esc_attr( $pgfw_radio_preview ); ?>">
-														<span class="pgfw-radio-image-option__preview-icon"></span>
-														<span class="pgfw-radio-image-option__preview-label"></span>
-													</span>
-													<span class="pgfw-radio-image-option__content">
-														<span class="pgfw-radio-image-option__title"><?php echo esc_html( $pgfw_radio_label ); ?></span>
-														<?php if ( ! empty( $pgfw_radio_description ) ) : ?>
-															<span class="pgfw-radio-image-option__description"><?php echo esc_html( $pgfw_radio_description ); ?></span>
-														<?php endif; ?>
-													</span>
-												</span>
-											</label>
-										<?php endforeach; ?>
-									</div>
-									<div class="mdc-text-field-helper-line">
-										<div class="mdc-text-field-helper-text--persistent wps-helper-text" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
-									</div>
-								</div>
-							</div>
-							<?php
-							break;
-
 						case 'radio-switch':
 							?>
 
@@ -1203,21 +795,22 @@ class Pdf_Generator_For_Wp {
 									<label for="" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
 								</div>
 								<div class="wps-form-group__control">
-									<div class="pgfw-toggle">
-										<label class="pgfw-toggle__switch" for="<?php echo esc_attr( $pgfw_component['id'] ); ?>">
-											<input
-												name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
-												type="checkbox"
-												id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"
-												value="yes"
-												class="pgfw-toggle__input <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
-												role="switch"
-												aria-checked="<?php echo esc_attr( 'yes' === $pgfw_component['value'] ? 'true' : 'false' ); ?>"
-												<?php checked( $pgfw_component['value'], 'yes' ); ?>>
-											<span class="pgfw-toggle__track" aria-hidden="true">
-												<span class="pgfw-toggle__thumb"></span>
-											</span>
-										</label>
+									<div>
+										<div class="mdc-switch">
+											<div class="mdc-switch__track"></div>
+											<div class="mdc-switch__thumb-underlay">
+												<div class="mdc-switch__thumb"></div>
+												<input
+													name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
+													type="checkbox"
+													id="<?php echo esc_html( $pgfw_component['id'] ); ?>"
+													value="yes"
+													class="mdc-switch__native-control <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
+													role="switch"
+													aria-checked="<?php echo esc_html( 'yes' === $pgfw_component['value'] ) ? 'true' : 'false'; ?>"
+													<?php checked( $pgfw_component['value'], 'yes' ); ?>>
+											</div>
+										</div>
 									</div>
 									<div class="mdc-text-field-helper-line">
 										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
@@ -1229,10 +822,10 @@ class Pdf_Generator_For_Wp {
 
 						case 'button':
 							?>
-							<div class="wps-form-group pgfw-savebar-wrap">
+							<div class="wps-form-group">
 								<div class="wps-form-group__label"></div>
-								<div class="wps-form-group__control pgfw-savebar-control">
-									<button type="submit" class="mdc-button mdc-button--raised wps-pgfw-save-setting pgfw-btn-save" name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
+								<div class="wps-form-group__control">
+									<button type="submit" class="mdc-button mdc-button--raised wps-pgfw-save-setting" name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
 										id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"> <span class="mdc-button__ripple"></span>
 										<span class="mdc-button__label <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"><?php echo ( isset( $pgfw_component['button_text'] ) ? esc_html( $pgfw_component['button_text'] ) : '' ); ?></span>
 									</button>
@@ -1283,39 +876,17 @@ class Pdf_Generator_For_Wp {
 													<span class="mdc-notched-outline__trailing"></span>
 												</span>
 											<?php } ?>
-											<?php if ( 'color' === $component['type'] ) { ?>
-												<?php $pgfw_multi_color_hex = ! empty( $component['value'] ) ? strtoupper( (string) $component['value'] ) : ''; ?>
-												<div class="pgfw-color-picker-card <?php echo $pgfw_multi_color_hex ? 'has-color-value' : ''; ?>" data-color-picker-card>
-													<div class="pgfw-color-picker-input-wrap">
-														<input
-															class="<?php echo ( isset( $component['class'] ) ? esc_attr( $component['class'] ) : '' ); ?>"
-															name="<?php echo ( isset( $component['name'] ) ? esc_html( $component['name'] ) : esc_html( $component['id'] ) ); ?>"
-															id="<?php echo esc_attr( $component['id'] ); ?>"
-															type="text"
-															value="<?php echo ( isset( $component['value'] ) ? esc_attr( $component['value'] ) : '' ); ?>"
-															placeholder="<?php echo ( isset( $component['placeholder'] ) ? esc_attr( $component['placeholder'] ) : '' ); ?>"
-															data-default-color="<?php echo ( isset( $component['value'] ) ? esc_attr( $component['value'] ) : '' ); ?>"
-															data-alpha-enabled="false">
-													</div>
-													<div class="pgfw-color-picker-meta">
-														<div class="pgfw-color-picker-meta-row">
-															<span class="pgfw-color-picker-badge"><?php echo esc_html__( 'Color', 'pdf-generator-for-wp' ); ?></span>
-															<span class="pgfw-color-picker-hex" data-color-picker-hex><?php echo esc_html( $pgfw_multi_color_hex ); ?></span>
-														</div>
-														<div class="pgfw-color-picker-desc"><?php echo ( isset( $component['placeholder'] ) ? esc_html( $component['placeholder'] ) : '' ); ?></div>
-													</div>
-												</div>
-											<?php } else { ?>
-												<input
-													class="mdc-text-field__input <?php echo ( isset( $component['class'] ) ? esc_attr( $component['class'] ) : '' ); ?>"
-													name="<?php echo ( isset( $component['name'] ) ? esc_html( $component['name'] ) : esc_html( $component['id'] ) ); ?>"
-													id="<?php echo esc_attr( $component['id'] ); ?>"
-													type="<?php echo esc_attr( $component['type'] ); ?>"
-													value="<?php echo ( isset( $component['value'] ) ? esc_attr( $component['value'] ) : '' ); ?>"
-													placeholder="<?php echo ( isset( $component['placeholder'] ) ? esc_attr( $component['placeholder'] ) : '' ); ?>"
-													<?php echo esc_attr( ( 'number' === $component['type'] ) ? 'min=' . $component['min'] . ' max=' . $component['max'] : '' ); ?>>
-												</label>
-											<?php } ?>
+											<input
+												class="mdc-text-field__input <?php echo ( isset( $component['class'] ) ? esc_attr( $component['class'] ) : '' ); ?>"
+												name="<?php echo ( isset( $component['name'] ) ? esc_html( $component['name'] ) : esc_html( $component['id'] ) ); ?>"
+												id="<?php echo esc_attr( $component['id'] ); ?>"
+												type="<?php echo esc_attr( 'color' === $component['type'] ) ? 'text' : esc_html( $component['type'] ); ?>"
+												value="<?php echo ( isset( $component['value'] ) ? esc_attr( $component['value'] ) : '' ); ?>"
+												placeholder="<?php echo ( isset( $component['placeholder'] ) ? esc_attr( $component['placeholder'] ) : '' ); ?>"
+												<?php echo esc_attr( ( 'number' === $component['type'] ) ? 'min=' . $component['min'] . ' max=' . $component['max'] : '' ); ?>>
+											<?php if ( 'color' !== $component['type'] ) { ?>
+											</label>
+										<?php } ?>
 									<?php } ?>
 									<div class="mdc-text-field-helper-line">
 										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
@@ -1347,39 +918,17 @@ class Pdf_Generator_For_Wp {
 												</span>
 											<?php } ?>
 											<input type="checkbox" class="wpg-multi-checkbox" name="<?php echo ( isset( $component['checkbox_name'] ) ? esc_attr( $component['checkbox_name'] ) : '' ); ?>" id="<?php echo ( isset( $component['checkbox_id'] ) ? esc_attr( $component['checkbox_id'] ) : '' ); ?>" <?php checked( ( isset( $component['checkbox_value'] ) ? $component['checkbox_value'] : '' ), 'yes' ); ?> value="yes">
-											<?php if ( 'color' === $component['type'] ) { ?>
-												<?php $pgfw_multiwithcheck_color_hex = ! empty( $component['value'] ) ? strtoupper( (string) $component['value'] ) : ''; ?>
-												<div class="pgfw-color-picker-card <?php echo $pgfw_multiwithcheck_color_hex ? 'has-color-value' : ''; ?>" data-color-picker-card>
-													<div class="pgfw-color-picker-input-wrap">
-														<input
-															class="<?php echo ( isset( $component['class'] ) ? esc_attr( $component['class'] ) : '' ); ?>"
-															name="<?php echo ( isset( $component['name'] ) ? esc_html( $component['name'] ) : esc_html( $component['id'] ) ); ?>"
-															id="<?php echo esc_attr( $component['id'] ); ?>"
-															type="text"
-															value="<?php echo ( isset( $component['value'] ) ? esc_attr( $component['value'] ) : '' ); ?>"
-															placeholder="<?php echo ( isset( $component['placeholder'] ) ? esc_attr( $component['placeholder'] ) : '' ); ?>"
-															data-default-color="<?php echo ( isset( $component['value'] ) ? esc_attr( $component['value'] ) : '' ); ?>"
-															data-alpha-enabled="false">
-													</div>
-													<div class="pgfw-color-picker-meta">
-														<div class="pgfw-color-picker-meta-row">
-															<span class="pgfw-color-picker-badge"><?php echo esc_html__( 'Color', 'pdf-generator-for-wp' ); ?></span>
-															<span class="pgfw-color-picker-hex" data-color-picker-hex><?php echo esc_html( $pgfw_multiwithcheck_color_hex ); ?></span>
-														</div>
-														<div class="pgfw-color-picker-desc"><?php echo ( isset( $component['placeholder'] ) ? esc_html( $component['placeholder'] ) : '' ); ?></div>
-													</div>
-												</div>
-											<?php } else { ?>
-												<input
-													class="mdc-text-field__input <?php echo ( isset( $component['class'] ) ? esc_attr( $component['class'] ) : '' ); ?>"
-													name="<?php echo ( isset( $component['name'] ) ? esc_html( $component['name'] ) : esc_html( $component['id'] ) ); ?>"
-													id="<?php echo esc_attr( $component['id'] ); ?>"
-													type="<?php echo esc_attr( $component['type'] ); ?>"
-													value="<?php echo ( isset( $component['value'] ) ? esc_attr( $component['value'] ) : '' ); ?>"
-													placeholder="<?php echo ( isset( $component['placeholder'] ) ? esc_attr( $component['placeholder'] ) : '' ); ?>"
-													<?php echo esc_attr( ( 'number' === $component['type'] ) ? 'min=' . $component['min'] . ' max=' . $component['max'] : '' ); ?>>
-												</label>
-											<?php } ?>
+											<input
+												class="mdc-text-field__input <?php echo ( isset( $component['class'] ) ? esc_attr( $component['class'] ) : '' ); ?>"
+												name="<?php echo ( isset( $component['name'] ) ? esc_html( $component['name'] ) : esc_html( $component['id'] ) ); ?>"
+												id="<?php echo esc_attr( $component['id'] ); ?>"
+												type="<?php echo esc_attr( 'color' === $component['type'] ) ? 'text' : esc_html( $component['type'] ); ?>"
+												value="<?php echo ( isset( $component['value'] ) ? esc_attr( $component['value'] ) : '' ); ?>"
+												placeholder="<?php echo ( isset( $component['placeholder'] ) ? esc_attr( $component['placeholder'] ) : '' ); ?>"
+												<?php echo esc_attr( ( 'number' === $component['type'] ) ? 'min=' . $component['min'] . ' max=' . $component['max'] : '' ); ?>>
+											<?php if ( 'color' !== $component['type'] ) { ?>
+											</label>
+										<?php } ?>
 									<?php } ?>
 									<div class="mdc-text-field-helper-line">
 										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
@@ -1389,47 +938,6 @@ class Pdf_Generator_For_Wp {
 							<?php
 							break;
 						case 'color':
-							$pgfw_color_value = isset( $pgfw_component['value'] ) ? (string) $pgfw_component['value'] : '';
-							$pgfw_color_hex   = $pgfw_color_value ? strtoupper( $pgfw_color_value ) : '';
-							$pgfw_color_class = isset( $pgfw_component['class'] ) ? (string) $pgfw_component['class'] : '';
-							$pgfw_is_native_color_card = false !== strpos( $pgfw_color_class, 'pgfw_native_color_picker' );
-							$pgfw_native_color_value   = preg_match( '/^#[0-9A-Fa-f]{6}$/', $pgfw_color_value ) ? $pgfw_color_value : '#000000';
-							?>
-							<div class="wps-form-group wps-isfw-<?php echo esc_attr( $pgfw_component['type'] ); ?> <?php echo esc_attr( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ); ?>">
-								<div class="wps-form-group__label">
-									<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
-								</div>
-								<div class="wps-form-group__control">
-									<div class="pgfw-color-picker-card <?php echo $pgfw_color_hex ? 'has-color-value' : ''; ?> <?php echo $pgfw_is_native_color_card ? 'pgfw-color-picker-card--native' : ''; ?>" data-color-picker-card>
-										<div class="pgfw-color-picker-input-wrap">
-											<input
-												class="<?php echo esc_attr( $pgfw_color_class ); ?>"
-												name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
-												id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"
-												type="text"
-												value="<?php echo esc_attr( $pgfw_color_value ); ?>"
-												data-default-color="<?php echo esc_attr( $pgfw_color_value ); ?>"
-												data-alpha-enabled="false">
-											<?php if ( $pgfw_is_native_color_card ) : ?>
-												<input
-													class="pgfw-color-picker-native-control"
-													type="color"
-													value="<?php echo esc_attr( $pgfw_native_color_value ); ?>"
-													aria-label="<?php echo esc_attr( isset( $pgfw_component['title'] ) ? $pgfw_component['title'] : esc_html__( 'Choose color', 'pdf-generator-for-wp' ) ); ?>">
-											<?php endif; ?>
-										</div>
-										<div class="pgfw-color-picker-meta">
-											<div class="pgfw-color-picker-meta-row">
-												<span class="pgfw-color-picker-badge"><?php echo esc_html__( 'Color', 'pdf-generator-for-wp' ); ?></span>
-												<span class="pgfw-color-picker-hex" data-color-picker-hex><?php echo esc_html( $pgfw_color_hex ); ?></span>
-											</div>
-											<div class="pgfw-color-picker-desc"><?php echo ( isset( $pgfw_component['description'] ) ? esc_html( $pgfw_component['description'] ) : '' ); ?></div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<?php
-							break;
 						case 'date':
 						case 'file':
 							?>
@@ -1442,7 +950,7 @@ class Pdf_Generator_For_Wp {
 										class="<?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>"
 										name="<?php echo ( isset( $pgfw_component['name'] ) ? esc_html( $pgfw_component['name'] ) : esc_html( $pgfw_component['id'] ) ); ?>"
 										id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"
-										type="<?php echo esc_attr( $pgfw_component['type'] ); ?>"
+										type="<?php echo esc_attr( ( 'color' === $pgfw_component['type'] ) ? 'text' : $pgfw_component['type'] ); ?>"
 										value="<?php echo ( isset( $pgfw_component['value'] ) ? esc_attr( $pgfw_component['value'] ) : '' ); ?>"
 										<?php echo esc_html( ( 'date' === $pgfw_component['type'] ) ? 'max=' . gmdate( 'Y-m-d', strtotime( gmdate( 'Y-m-d', mktime() ) . ' + 365 day' ) ) . ' min=' . gmdate( 'Y-m-d' ) . '' : '' ); ?>>
 									<?php if ( 'file' === $pgfw_component['type'] ) { ?>
@@ -1501,42 +1009,31 @@ class Pdf_Generator_For_Wp {
 									<label for="<?php echo esc_attr( array_key_exists( 'id', $pgfw_component ) ? $pgfw_component['id'] : '' ); ?>" class="wps-form-label"><?php echo esc_html( array_key_exists( 'title', $pgfw_component ) ? $pgfw_component['title'] : '' ); ?></label>
 								</div>
 								<div class="wps-form-group__control">
-									<div class="pgfw-upload-card <?php echo esc_attr( array_key_exists( 'upload-card-class', $pgfw_component ) ? $pgfw_component['upload-card-class'] : '' ); ?> <?php echo ! empty( $pgfw_component['value'] ) ? 'is-filled' : 'is-empty'; ?>" data-pgfw-upload-card>
-										<input
-											type="hidden"
-											id="<?php echo esc_attr( array_key_exists( 'id', $pgfw_component ) ? $pgfw_component['id'] : '' ); ?>"
-											class="<?php echo esc_attr( array_key_exists( 'class', $pgfw_component ) ? $pgfw_component['class'] : '' ); ?>"
-											name="<?php echo esc_attr( array_key_exists( 'name', $pgfw_component ) ? $pgfw_component['name'] : '' ); ?>"
-											value="<?php echo esc_html( array_key_exists( 'value', $pgfw_component ) ? $pgfw_component['value'] : '' ); ?>">
-										<div class="pgfw-upload-card__preview">
-											<span class="pgfw-upload-card__preview-label"><?php echo esc_html( array_key_exists( 'preview-label', $pgfw_component ) ? $pgfw_component['preview-label'] : __( 'Preview', 'pdf-generator-for-wp' ) ); ?></span>
-											<div class="pgfw-upload-card__preview-frame">
-												<img
-													src="<?php echo esc_attr( $pgfw_component['img-tag']['img-src'] ); ?>"
-													class="<?php echo esc_attr( $pgfw_component['img-tag']['img-class'] ); ?>"
-													id="<?php echo esc_attr( $pgfw_component['img-tag']['img-id'] ); ?>"
-													style="<?php echo esc_attr( $pgfw_component['img-tag']['img-style'] ); ?>"
-													alt="<?php echo esc_attr( array_key_exists( 'title', $pgfw_component ) ? $pgfw_component['title'] : '' ); ?>">
-												<span class="pgfw-upload-card__empty"><?php echo esc_html( array_key_exists( 'empty-label', $pgfw_component ) ? $pgfw_component['empty-label'] : __( 'No file selected', 'pdf-generator-for-wp' ) ); ?></span>
-											</div>
-										</div>
-										<div class="pgfw-upload-card__actions">
-											<button type="button" class="mdc-button--raised <?php echo esc_attr( array_key_exists( 'sub_class', $pgfw_component ) ? $pgfw_component['sub_class'] : '' ); ?>" name="<?php echo esc_attr( array_key_exists( 'sub_name', $pgfw_component ) ? $pgfw_component['sub_name'] : '' ); ?>"
-												id="<?php echo esc_attr( array_key_exists( 'sub_id', $pgfw_component ) ? $pgfw_component['sub_id'] : '' ); ?>"> <span class="mdc-button__ripple"></span>
-												<span class="mdc-button__label"><?php echo esc_attr( array_key_exists( 'button_text', $pgfw_component ) ? $pgfw_component['button_text'] : '' ); ?></span>
-											</button>
-											<button type="button" class="mdc-button--raised <?php echo esc_attr( array_key_exists( 'btn-class', $pgfw_component['img-remove'] ) ? $pgfw_component['img-remove']['btn-class'] : '' ); ?>" name="<?php echo esc_attr( $pgfw_component['img-remove']['btn-name'] ); ?>"
-												id="<?php echo esc_attr( $pgfw_component['img-remove']['btn-id'] ); ?>"
-												style="<?php echo esc_attr( $pgfw_component['img-remove']['btn-style'] ); ?>"> <span class="mdc-button__ripple"></span>
-												<span class="mdc-button__label"><?php echo esc_attr( $pgfw_component['img-remove']['btn-title'] ); ?></span>
-											</button>
-										</div>
-										<input
-											type="hidden"
-											id="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['id'] ) : ''; ?>"
-											class="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['class'] ) : ''; ?>"
-											name="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['name'] ) : ''; ?>">
-									</div>
+									<input
+										type="hidden"
+										id="<?php echo esc_attr( array_key_exists( 'id', $pgfw_component ) ? $pgfw_component['id'] : '' ); ?>"
+										class="<?php echo esc_attr( array_key_exists( 'class', $pgfw_component ) ? $pgfw_component['class'] : '' ); ?>"
+										name="<?php echo esc_attr( array_key_exists( 'name', $pgfw_component ) ? $pgfw_component['name'] : '' ); ?>"
+										value="<?php echo esc_html( array_key_exists( 'value', $pgfw_component ) ? $pgfw_component['value'] : '' ); ?>">
+									<img
+										src="<?php echo esc_attr( $pgfw_component['img-tag']['img-src'] ); ?>"
+										class="<?php echo esc_attr( $pgfw_component['img-tag']['img-class'] ); ?>"
+										id="<?php echo esc_attr( $pgfw_component['img-tag']['img-id'] ); ?>"
+										style="<?php echo esc_attr( $pgfw_component['img-tag']['img-style'] ); ?>">
+									<button class="mdc-button--raised" name="<?php echo esc_attr( array_key_exists( 'sub_name', $pgfw_component ) ? $pgfw_component['sub_name'] : '' ); ?>"
+										id="<?php echo esc_attr( array_key_exists( 'sub_id', $pgfw_component ) ? $pgfw_component['sub_id'] : '' ); ?>"> <span class="mdc-button__ripple"></span>
+										<span class="mdc-button__label"><?php echo esc_attr( array_key_exists( 'button_text', $pgfw_component ) ? $pgfw_component['button_text'] : '' ); ?></span>
+									</button>
+									<button class="mdc-button--raised" name="<?php echo esc_attr( $pgfw_component['img-remove']['btn-name'] ); ?>"
+										id="<?php echo esc_attr( $pgfw_component['img-remove']['btn-id'] ); ?>"
+										style="<?php echo esc_attr( $pgfw_component['img-remove']['btn-style'] ); ?>"> <span class="mdc-button__ripple"></span>
+										<span class="mdc-button__label"><?php echo esc_attr( $pgfw_component['img-remove']['btn-title'] ); ?></span>
+									</button>
+									<input
+										type="hidden"
+										id="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['id'] ) : ''; ?>"
+										class="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['class'] ) : ''; ?>"
+										name="<?php echo ( isset( $pgfw_component['img-hidden'] ) ) ? esc_attr( $pgfw_component['img-hidden']['name'] ) : ''; ?>">
 									<div class="mdc-text-field-helper-line">
 										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
 									</div>

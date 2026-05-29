@@ -10,17 +10,15 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-require_once __DIR__ . '/pdf-generator-for-wp-invoice-share-helper.php';
 /**
  * Return the html data for the second template.
  *
  * @param int    $order_id order id.
  * @param string $type packing slip or the invoice.
  * @param string $invoice_id current invoice ID.
- * @param string $invoice_url Public URL to the generated invoice file (optional).
  * @return string
  */
-function return_ob_value( $order_id, $type, $invoice_id, $invoice_url = '' ) {
+function return_ob_value( $order_id, $type, $invoice_id ) {
 
 	$order_details         = do_shortcode( '[WPG_FETCH_ORDER order_id ="' . $order_id . '"]' );
 
@@ -46,10 +44,6 @@ function return_ob_value( $order_id, $type, $invoice_id, $invoice_url = '' ) {
 	$logo                  = get_option( 'sub_wpg_upload_invoice_company_logo' );
 	$digit                 = ( $digit ) ? $digit : 3;
 	$color                 = ( $color ) ? $color : '#000000';
-	$share_meta            = wpg_invoice_share_meta( $invoice_id, $order_id, $type, $invoice_url );
-	$share_link            = $share_meta['share_link'];
-	$whatsapp_share        = $share_meta['whatsapp_share'];
-	$email_share           = $share_meta['email_share'];
 	if ( $order_details ) {
 		$html = '<!DOCTYPE html>
 					<html>
@@ -287,7 +281,7 @@ function return_ob_value( $order_id, $type, $invoice_id, $invoice_url = '' ) {
         </div>
       </div>';
 		if ( 'invoice' === $type ) {
-			$html .= ' <table  border="0" cellspacing="0" cellpadding="0">
+			$html .= ' <table style ="text-align:center;" border="0" cellspacing="0" cellpadding="0">
         <thead>
         <tr id="wpg-prod-listing-table-title">
         <th id="wpg-table-items">' . __( 'Items', 'pdf-generator-for-wp' ) . '</th>
@@ -341,32 +335,28 @@ function return_ob_value( $order_id, $type, $invoice_id, $invoice_url = '' ) {
           <td ></td>
           <td ></td>
           <td ></td>
-          <td>' . __( 'Payment via', 'pdf-generator-for-wp' ) . ' : </td>
-          <td>' . $billing_details['payment_method'] . '</td>
+          <td>' . __( 'Payment via', 'pdf-generator-for-wp' ) . ' : ' . $billing_details['payment_method'] . '</td>
         </tr>
         <tr>
         <td ></td>
           <td ></td>
           <td ></td>
           <td ></td>
-          <td style = "border-top:2px solid #dcdcdc;">' . __( 'Subtotal', 'pdf-generator-for-wp' ) .'</td>
-          <td style = "border-top:2px solid #dcdcdc;">' . $billing_details['order_currency'] . ' ' . $billing_details['order_subtotal'] . '</td>
+          <td>' . __( 'Subtotal', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . '): ' . $billing_details['order_subtotal'] . '</td>
         </tr>
         <tr>
         <td ></td>
           <td ></td>
           <td ></td>
           <td ></td>
-          <td style = "border-top:2px solid #dcdcdc;">' . __( 'Shipping', 'pdf-generator-for-wp' ) . '</td>
-          <td style = "border-top:2px solid #dcdcdc;">' . $billing_details['order_currency'] . ' ' . $shipping_details['shipping_total'] . '</td>
+          <td>' . __( 'Shipping', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . '): ' . $shipping_details['shipping_total'] . '</td>
         </tr>
         <tr>
         <td ></td>
           <td ></td>
           <td ></td>
           <td ></td>
-          <td style = "border-top:2px solid #dcdcdc;">' . __( 'Total tax', 'pdf-generator-for-wp' ) . '</td>
-          <td style = "border-top:2px solid #dcdcdc;">' . $billing_details['order_currency'] . ' ' . $billing_details['tax_totals'] . '</td>
+          <td>' . __( 'Total tax', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . '): ' . $billing_details['tax_totals'] . '</td>
         </tr>';
 			$pgfw_coupon_details = $billing_details['coupon_details'];
 			foreach ( $pgfw_coupon_details as $key => $price ) {
@@ -375,8 +365,7 @@ function return_ob_value( $order_id, $type, $invoice_id, $invoice_url = '' ) {
         <td ></td>
         <td ></td>
         <td ></td>
-							<td style = "border-top:2px solid #dcdcdc;">' . $key  .'</td>
-              <td style = "border-top:2px solid #dcdcdc;">' . $price . '</td>
+							<td>' . $key . '(' . $billing_details['order_currency'] . '): ' . $price . '</td>
 						</tr>';
 			}
 			$order = wc_get_order( $order_id );
@@ -390,17 +379,15 @@ function return_ob_value( $order_id, $type, $invoice_id, $invoice_url = '' ) {
         <td ></td>
         <td ></td>
         <td ></td>
-              <td style = "border-top:2px solid #dcdcdc;">' . __( 'Discount', 'pdf-generator-for-wp' ) . '</td>
-              <td style = "border-top:2px solid #dcdcdc;">' . $billing_details['order_currency'] . ' ' . $order->get_discount_total() . '</td>
+              <td>' . __( 'Discount', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . '): ' . $order->get_discount_total() . '</td>
             </tr>';
 			}
 			$html .= '   <tr>
         <td ></td>
           <td ></td>
           <td ></td>
-            <td ></td>
-                  <td style = "border-top:2px solid #57B223;">' . __( 'Total', 'pdf-generator-for-wp' ) . '</td>
-                <td style = "border-top:2px solid #57B223;">' . $billing_details['order_currency'] . ' ' . $billing_details['cart_total'] . '</td>
+          <td ></td>
+								<td>' . __( 'Total', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . '): ' . $billing_details['cart_total'] . '</td>
 							</tr>
         </tfoot>
       </table>
@@ -410,40 +397,15 @@ function return_ob_value( $order_id, $type, $invoice_id, $invoice_url = '' ) {
         <div class="notice"><b>' . $disclaimer . '</b></div>
       </div>';
 
+			$html .= apply_filters( 'wps_fetch_tracking_data', '', $order_id );
 
 			$html .= '</main>';
 		}
 		$html .= '<footer>
       Invoice was created on a computer and is valid without the signature and seal.
     </footer>';
-
-
-			$html .= '<table border = "0" cellpadding = "0" cellspacing = "0" style="width: 100%;">
-				<tbody>
-				<tr>';
-
-			if ('yes' == get_option('wpg_attach_invoice_shareable_link')) {
-				$html .= '<td style="vertical-align: top;padding:0;background:transparent;">
-                <div style="padding:20px 10px 10px">' . wpg_invoice_share_section($share_link, $color, $whatsapp_share, $email_share) . '</div>
-              </td>';
-			}
-
-			$tracking_html = apply_filters('wps_fetch_tracking_data', '', $order_id);
-
-			if ('' !== $tracking_html) {
-				$html .= '<td style="vertical-align: top; text-align: right;padding:0;background:transparent;">
-                <div style="padding:20px 10px 10px; text-align: left;">' . $tracking_html . '</div>
-              </td>';
-			}
-
-			$html .= '</tr>
-					</tbody>
-					</table>';
-
-
-			$html .= '</body>
+				$html .= '</body>
 			</html>';
-
 		return $html;
 	}
 	return '<div>' . esc_html__( 'Looks like order is not found', 'pdf-generator-for-wp' ) . '</div>';

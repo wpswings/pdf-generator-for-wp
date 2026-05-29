@@ -22,25 +22,22 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string
  */
 function pgfw_modal_for_email_template( $url_here, $id ) {
-	require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'public/templates/pdf-generator-for-wp-public-icon-action-template.php';
+	$pgfw_display_settings             = get_option( 'pgfw_save_admin_display_settings', array() );
+	$pgfw_pdf_icon_alignment           = array_key_exists( 'pgfw_display_pdf_icon_alignment', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_display_pdf_icon_alignment'] : '';
+	$sub_pgfw_pdf_single_download_icon = array_key_exists( 'sub_pgfw_pdf_single_download_icon', $pgfw_display_settings ) ? $pgfw_display_settings['sub_pgfw_pdf_single_download_icon'] : '';
+	$pgfw_single_pdf_download_icon_src = ( '' !== $sub_pgfw_pdf_single_download_icon ) ? $sub_pgfw_pdf_single_download_icon : PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/PDF_Tray.svg';
+	$pgfw_pdf_icon_width               = array_key_exists( 'pgfw_pdf_icon_width', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_pdf_icon_width'] : '';
+	$pgfw_pdf_icon_height              = array_key_exists( 'pgfw_pdf_icon_height', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_pdf_icon_height'] : '';
+	if ( is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
+		$wps_wpg_single_pdf_icon_name    = array_key_exists( 'wps_wpg_single_pdf_icon_name', $pgfw_display_settings ) ? $pgfw_display_settings['wps_wpg_single_pdf_icon_name'] : '';
+		$is_pro_active = true;
+	} else {
+		$wps_wpg_single_pdf_icon_name = '';
+		$is_pro_active = false;
+	}
 
-	$settings             = pgfw_get_frontend_icon_display_settings();
-	$pgfw_wrapper_classes = 'pdf-icon-for-the-email pgfw-icon-display pgfw-icon-display--' . sanitize_html_class( $settings['display_template'] );
-
-	$html  = '<div class="' . esc_attr( $pgfw_wrapper_classes ) . '" style="' . esc_attr( $settings['wrapper_style_attribute'] ) . '">';
-	$html .= pgfw_render_icon_action_button(
-		array(
-			'action_type'      => 'email',
-			'display_template' => $settings['display_template'],
-			'href'             => '#',
-			'title'            => __( 'Please Enter Your Email ID', 'pdf-generator-for-wp' ),
-			'label'            => pgfw_get_single_action_label( $settings ),
-			'image_only'       => pgfw_should_render_single_action_as_uploaded_icon( $settings ),
-			'icon_src'         => pgfw_get_icon_action_icon_src( 'email', $settings ),
-			'classes'          => array( 'pgfw-single-pdf-download-a', 'pgfw-single-pdf-download-a--' . sanitize_html_class( $settings['display_template'] ) ),
-			'style_attribute'  => $settings['button_style_attribute'],
-		)
-	);
+	$html  = '<div class="pdf-icon-for-the-email" style=" gap:10px;justify-content:' . esc_html( $pgfw_pdf_icon_alignment ) . '">
+				<a href="#" title="' . esc_html__( 'Please Enter Your Email ID', 'pdf-generator-for-wp' ) . '" class="pgfw-single-pdf-download-a"><img src="' . esc_url( $pgfw_single_pdf_download_icon_src ) . '" title="' . esc_html__( 'Generate PDF', 'pdf-generator-for-wp' ) . '" style="height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;">' . $wps_wpg_single_pdf_icon_name . '</a>';
 	$html  = apply_filters( 'wps_pgfw_bulk_download_button_filter_hook', $html, $id );
 
 	if ( is_user_logged_in() ) {

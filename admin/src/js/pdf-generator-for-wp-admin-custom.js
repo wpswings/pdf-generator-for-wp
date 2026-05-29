@@ -1,157 +1,6 @@
 (function( $ ) {
 	'use strict';
-
-	window.pgfwInitCustomSettingsUI = function( context ) {
-		var $context = context ? $( context ) : $( document );
-		var $inputs = $context.find( '.pgfw_color_picker' ).filter(function() {
-			return ! $( this ).closest( '.pgfw-color-picker-card--native' ).length;
-		});
-		var $nativeCards = $context.find( '.pgfw-color-picker-card--native' );
-
-		if ( $context.is( '.pgfw_color_picker' ) ) {
-			$inputs = $inputs.add( $context );
-		}
-
-		if ( $context.is( '.pgfw-color-picker-card--native' ) ) {
-			$nativeCards = $nativeCards.add( $context );
-		}
-
-		$nativeCards.each(function() {
-			var $card = $(this);
-			var $input = $card.find('.pgfw_color_picker');
-			var $control = $card.find('.pgfw-color-picker-native-control');
-			var $hex = $card.find('[data-color-picker-hex]');
-
-			function normalizeColor(value) {
-				return value ? value.toUpperCase() : '';
-			}
-
-			function isHexColor(value) {
-				return /^#[0-9A-F]{6}$/i.test(value || '');
-			}
-
-			function applyNativeColor(value) {
-				var hexValue = isHexColor(value) ? normalizeColor(value) : '';
-				$card.toggleClass('has-color-value', !!hexValue);
-				$hex.text(hexValue);
-				if ( hexValue ) {
-					$card.css('--pgfw-picked-color', hexValue);
-				} else {
-					$card.css('--pgfw-picked-color', '');
-				}
-				if ( hexValue && $control.length && $control.val() !== value ) {
-					$control.val(value);
-				}
-			}
-
-			function syncNativeColor(value, shouldTriggerChange) {
-				applyNativeColor(value);
-				$input.val( value );
-				if ( false !== shouldTriggerChange ) {
-					$input.trigger( 'change' );
-				}
-			}
-
-			if ( $card.data('pgfwNativeColorReady') ) {
-				syncNativeColor($input.val() || $control.val(), false);
-				return;
-			}
-
-			$card.data('pgfwNativeColorReady', true);
-			$control.on('input change', function() {
-				syncNativeColor($(this).val());
-			});
-			$input.on('input change', function() {
-				applyNativeColor($(this).val());
-			});
-			syncNativeColor($input.val() || $control.val(), false);
-		});
-
-		if ( ! $.fn.wpColorPicker ) {
-			return;
-		}
-
-		$inputs.each(function() {
-			var $input = $(this);
-			var $card = $input.closest('[data-color-picker-card]');
-			var $hex = $card.find('[data-color-picker-hex]');
-
-			function normalizeColor(value) {
-				return value ? value.toUpperCase() : '';
-			}
-
-			function syncColorMeta(value) {
-				if (!$card.length) {
-					return;
-				}
-				var hexValue = normalizeColor(value);
-				var $resultButton = $card.find('.wp-color-result');
-				var $resultSwatches = $resultButton.find('.color-alpha, span');
-				$card.toggleClass('has-color-value', !!hexValue);
-				$hex.text(hexValue);
-				if ( hexValue ) {
-					$card.css('--pgfw-picked-color', hexValue);
-					$resultButton.css('background-color', hexValue);
-					$resultSwatches.css('background-color', hexValue);
-				} else {
-					$card.css('--pgfw-picked-color', '');
-					$resultButton.css('background-color', '');
-					$resultSwatches.css('background-color', '');
-				}
-			}
-
-			if ( $input.data( 'pgfwColorPickerReady' ) ) {
-				syncColorMeta($input.val());
-				return;
-			}
-
-			$input.data( 'pgfwColorPickerReady', true );
-			$input.wpColorPicker({
-				hide: true,
-				palettes: true,
-				change: function(event, ui) {
-					syncColorMeta(ui && ui.color ? ui.color.toString() : $input.val());
-				},
-				clear: function() {
-					syncColorMeta('');
-				}
-			});
-
-			syncColorMeta($input.val());
-		});
-	};
-
     $(document).ready(function() {
-        function pgfwSyncUploadCardState(inputSelector, imageSelector, removeSelector) {
-            var $input = $(inputSelector);
-            var $image = $(imageSelector);
-            var $remove = $(removeSelector);
-            var hasImage = !! $.trim($input.val());
-            var $card = $input.closest('[data-pgfw-upload-card]');
-
-            if ( $card.length ) {
-                $card.toggleClass('is-filled', hasImage);
-                $card.toggleClass('is-empty', ! hasImage);
-            }
-
-            if ( $image.length ) {
-                $image.toggle(hasImage);
-            }
-
-            if ( $remove.length ) {
-                $remove.toggle(hasImage);
-            }
-        }
-
-        function pgfwUpdateUploadCard(inputSelector, imageSelector, removeSelector, imageUrl) {
-            var $input = $(inputSelector);
-            var $image = $(imageSelector);
-
-            $input.val(imageUrl || '');
-            $image.attr('src', imageUrl || '');
-            pgfwSyncUploadCardState(inputSelector, imageSelector, removeSelector);
-        }
-
         // custom file name input box.
         $('.pgfw_general_pdf_file_name').on('change',function(){
             var val = $(this).val();
@@ -174,14 +23,11 @@
                   
                     
                 }
-        });
+            });
 
         
-        window.pgfwInitCustomSettingsUI( document );
-        pgfwSyncUploadCardState('#sub_pgfw_pdf_invoice_single_download_icon', '.pgfw_single_pdf_icon_image_invoice', '#pgfw_single_pdf_invoice_icon_image_remove');
-        pgfwSyncUploadCardState('#sub_pgfw_pdf_single_download_icon', '.pgfw_single_pdf_icon_image', '#pgfw_single_pdf_icon_image_remove');
-        pgfwSyncUploadCardState('#sub_pgfw_pdf_bulk_download_icon', '.wps_bulk_pdf_icon_image', '#wps_bulk_pdf_icon_image_remove');
-
+        // colorpicker header and footer.
+        $('.pgfw_color_picker').wpColorPicker();
         // remove logo header.
         $('#pgfw_header_image_remove').click(function(e){
             e.preventDefault();
@@ -214,12 +60,15 @@
         });
 
         // remove single pdf download icon.
-        $(document).off('click.pgfwSinglePdfRemove', '#pgfw_single_pdf_icon_image_remove').on('click.pgfwSinglePdfRemove', '#pgfw_single_pdf_icon_image_remove', function(e){
+        $('#pgfw_single_pdf_icon_image_remove').click(function(e){
             e.preventDefault();
-            pgfwUpdateUploadCard('#sub_pgfw_pdf_single_download_icon', '.pgfw_single_pdf_icon_image', '#pgfw_single_pdf_icon_image_remove', '');
+            $('.pgfw_single_pdf_icon_image').attr('src', '');
+            $('.pgfw_single_pdf_icon_image').hide();
+            $('#sub_pgfw_pdf_single_download_icon').val('');
+            $(this).hide();
         });
         // insert single pdf download icon.
-        $(document).off('click.pgfwSinglePdfUpload', '#pgfw_pdf_single_download_icon').on('click.pgfwSinglePdfUpload', '#pgfw_pdf_single_download_icon', function(e) {
+        $('#pgfw_pdf_single_download_icon').click(function(e) {
             e.preventDefault();
             if (this.window === undefined) {
                 this.window = wp.media({
@@ -231,32 +80,10 @@
                 var self = this;
                 this.window.on('select', function() {
                     var response = self.window.state().get('selection').first().toJSON();
-                    pgfwUpdateUploadCard('#sub_pgfw_pdf_single_download_icon', '.pgfw_single_pdf_icon_image', '#pgfw_single_pdf_icon_image_remove', response.url);
-                });
-            }
-            this.window.open();
-            return false;
-        });
-
-        // remove bulk pdf download icon.
-        $(document).off('click.pgfwBulkPdfRemove', '#wps_bulk_pdf_icon_image_remove').on('click.pgfwBulkPdfRemove', '#wps_bulk_pdf_icon_image_remove', function(e){
-            e.preventDefault();
-            pgfwUpdateUploadCard('#sub_pgfw_pdf_bulk_download_icon', '.wps_bulk_pdf_icon_image', '#wps_bulk_pdf_icon_image_remove', '');
-        });
-        // insert bulk pdf download icon.
-        $(document).off('click.pgfwBulkPdfUpload', '#wps_pgfw_pdf_bulk_download_icon').on('click.pgfwBulkPdfUpload', '#wps_pgfw_pdf_bulk_download_icon', function(e) {
-            e.preventDefault();
-            if (this.window === undefined) {
-                this.window = wp.media({
-                    title    : pgfw_admin_custom_param.upload_image,
-                    library  : {type: 'image'},
-                    multiple : false,
-                    button   : {text: pgfw_admin_custom_param.use_image}
-                });
-                var self = this;
-                this.window.on('select', function() {
-                    var response = self.window.state().get('selection').first().toJSON();
-                    pgfwUpdateUploadCard('#sub_pgfw_pdf_bulk_download_icon', '.wps_bulk_pdf_icon_image', '#wps_bulk_pdf_icon_image_remove', response.url);
+                    $('.pgfw_single_pdf_icon_image').attr('src', response.url);
+                    $('.pgfw_single_pdf_icon_image').show();
+                    $('#pgfw_single_pdf_icon_image_remove').show();
+                    $('#sub_pgfw_pdf_single_download_icon').val( response.url );
                 });
             }
             this.window.open();
@@ -265,12 +92,15 @@
 
 
         //////////Invlice logo changer start/////////
-        $(document).off('click.pgfwInvoicePdfRemove', '#pgfw_single_pdf_invoice_icon_image_remove').on('click.pgfwInvoicePdfRemove', '#pgfw_single_pdf_invoice_icon_image_remove', function(e){
+        $('#pgfw_single_pdf_invoice_icon_image_remove').click(function(e){
             e.preventDefault();
-            pgfwUpdateUploadCard('#sub_pgfw_pdf_invoice_single_download_icon', '.pgfw_single_pdf_icon_image_invoice', '#pgfw_single_pdf_invoice_icon_image_remove', '');
+            $('.pgfw_single_pdf_icon_image_invoice').attr('src', '');
+            $('.pgfw_single_pdf_icon_image_invoice').hide();
+            $('#sub_pgfw_pdf_invoice_single_download_icon').val('');
+            $(this).hide();
         });
         // insert single pdf download icon.
-        $(document).off('click.pgfwInvoicePdfUpload', '#pgfw_pdf_invoice_single_download_icon').on('click.pgfwInvoicePdfUpload', '#pgfw_pdf_invoice_single_download_icon', function (e) {
+        $('#pgfw_pdf_invoice_single_download_icon').click(function (e) {
             // alert('CLICK');
             e.preventDefault();
             if (this.window === undefined) {
@@ -283,7 +113,11 @@
                 var self = this;
                 this.window.on('select', function() {
                     var response = self.window.state().get('selection').first().toJSON();
-                    pgfwUpdateUploadCard('#sub_pgfw_pdf_invoice_single_download_icon', '.pgfw_single_pdf_icon_image_invoice', '#pgfw_single_pdf_invoice_icon_image_remove', response.url);
+                    $('.pgfw_single_pdf_icon_image_invoice').attr('src', response.url);
+                    $('.pgfw_single_pdf_icon_image_invoice').show();
+                    $('#pgfw_single_pdf_invoice_icon_image_remove').show();
+                    $('#sub_pgfw_pdf_invoice_single_download_icon').val(response.url);
+                    $('#sub_pgfw_pdf_invoice_single_download_icon').show();
                 });
             }
             this.window.open();
@@ -334,9 +168,7 @@
             return false;
         });
         // add datatable to the poster listing table.
-        if ( $.fn.DataTable && $('#pgfw_poster_shortcode_listing_table').length ) {
-            $('#pgfw_poster_shortcode_listing_table').DataTable();
-        }
+        $('#pgfw_poster_shortcode_listing_table').DataTable();
         // delete posters.
         $('.pgfw-delete-poster-form-table').click(function(e){
             e.preventDefault();

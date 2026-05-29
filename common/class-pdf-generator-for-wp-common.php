@@ -55,98 +55,11 @@ class Pdf_Generator_For_Wp_Common {
 	}
 
 	/**
-	 * Get cached general settings for the current request.
-	 *
-	 * @return array
-	 */
-	private function pgfw_get_general_settings() {
-		$settings = wps_pgfw_get_option_cached( 'pgfw_general_settings_save', array() );
-		return is_array( $settings ) ? $settings : array();
-	}
-
-	/**
-	 * Get cached display settings for the current request.
-	 *
-	 * @return array
-	 */
-	private function pgfw_get_display_settings() {
-		$settings = wps_pgfw_get_option_cached( 'pgfw_save_admin_display_settings', array() );
-		return is_array( $settings ) ? $settings : array();
-	}
-
-	/**
-	 * Get cached advanced settings for the current request.
-	 *
-	 * @return array
-	 */
-	private function pgfw_get_advanced_settings() {
-		$settings = wps_pgfw_get_option_cached( 'pgfw_advanced_save_settings', array() );
-		return is_array( $settings ) ? $settings : array();
-	}
-
-	/**
-	 * Determine whether common front-end assets are needed for the current request.
-	 *
-	 * @return bool
-	 */
-	private function pgfw_should_enqueue_common_assets() {
-		$general_settings = $this->pgfw_get_general_settings();
-		if ( 'yes' !== ( $general_settings['pgfw_enable_plugin'] ?? '' ) ) {
-			return false;
-		}
-
-		if ( is_singular() ) {
-			return true;
-		}
-
-		if ( is_front_page() || is_home() ) {
-			$post_id = get_queried_object_id();
-			if ( $post_id ) {
-				$post = get_post( $post_id );
-				if ( $post && isset( $post->post_content ) ) {
-					if ( has_shortcode( $post->post_content, 'WORDPRESS_PDF' ) || has_shortcode( $post->post_content, 'flipbook' ) ) {
-						return true;
-					}
-				}
-
-				$advanced_settings   = $this->pgfw_get_advanced_settings();
-				$enabled_post_types = $advanced_settings['pgfw_advanced_show_post_type_icons'] ?? array();
-				if ( is_array( $enabled_post_types ) && in_array( get_post_type( $post_id ), $enabled_post_types, true ) ) {
-					return true;
-				}
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Determine whether flipbook runtime assets are needed on the current request.
-	 *
-	 * @return bool
-	 */
-	private function pgfw_should_enqueue_flipbook_assets() {
-		$general_settings = $this->pgfw_get_general_settings();
-		if ( 'yes' !== ( $general_settings['pgfw_enable_plugin'] ?? '' ) || 'yes' !== ( $general_settings['pgfw_flipbook_enable'] ?? '' ) || ! is_singular() ) {
-			return false;
-		}
-
-		$post_id = get_queried_object_id();
-		$post    = $post_id ? get_post( $post_id ) : null;
-
-		return $post && isset( $post->post_content ) && has_shortcode( $post->post_content, 'flipbook' );
-	}
-
-	/**
 	 * Register the stylesheets for the common side of the site.
 	 *
 	 * @since    1.0.0
 	 */
 	public function pgfw_common_enqueue_styles() {
-		if ( ! $this->pgfw_should_enqueue_common_assets() ) {
-			return;
-		}
-
 		wp_enqueue_style( $this->plugin_name . 'common', PDF_GENERATOR_FOR_WP_DIR_URL . 'common/src/scss/pdf-generator-for-wp-common.css', array(), $this->version, 'all' );
 	}
 
@@ -156,11 +69,7 @@ class Pdf_Generator_For_Wp_Common {
 	 * @since    1.0.0
 	 */
 	public function pgfw_common_enqueue_scripts() {
-		if ( ! $this->pgfw_should_enqueue_common_assets() ) {
-			return;
-		}
-
-		wp_register_script( $this->plugin_name . 'common', PDF_GENERATOR_FOR_WP_DIR_URL . 'common/src/js/pdf-generator-for-wp-common.js', array( 'jquery' ), $this->version, true );
+		wp_register_script( $this->plugin_name . 'common', PDF_GENERATOR_FOR_WP_DIR_URL . 'common/src/js/pdf-generator-for-wp-common.js', array( 'jquery' ), $this->version, false );
 		wp_localize_script(
 			$this->plugin_name . 'common',
 			'pgfw_common_param',
@@ -173,13 +82,9 @@ class Pdf_Generator_For_Wp_Common {
 			)
 		);
 		wp_enqueue_script( $this->plugin_name . 'common' );
-
-		if ( $this->pgfw_should_enqueue_flipbook_assets() ) {
-			wp_enqueue_style( $this->plugin_name . '-flipbook', PDF_GENERATOR_FOR_WP_DIR_URL . 'common/src/scss/pdf-generator-for-wp-flipbook.css', array(), $this->version, 'all' );
-			wp_enqueue_script( $this->plugin_name . '-flipbook', PDF_GENERATOR_FOR_WP_DIR_URL . 'common/src/js/pdf-generator-for-wp-flipbook.js', array( 'jquery' ), $this->version, true );
-			wp_register_script( 'flipbook-bundle', PDF_GENERATOR_FOR_WP_DIR_URL . 'common/src/js/flipbook.bundle.js', array( 'jquery', $this->plugin_name . '-flipbook' ), $this->version, true );
-			wp_enqueue_script( 'flipbook-bundle' );
-		}
+		wp_register_script( 'flipbook-bundle', PDF_GENERATOR_FOR_WP_DIR_URL . 'common/src/js/flipbook.bundle.js', array( 'jquery' ), $this->version, false );
+		add_thickbox();
+		wp_enqueue_script( 'flipbook-bundle' );
 	}
 	/**
 	 * Catching link for pdf generation user.
@@ -188,7 +93,7 @@ class Pdf_Generator_For_Wp_Common {
 	 * @return void
 	 */
 	public function pgfw_generate_pdf_link_catching_user() {
-		$display_setings_arr = $this->pgfw_get_display_settings();
+		$display_setings_arr = get_option( 'pgfw_save_admin_display_settings', array() );
 		$user_access_pdf     = array_key_exists( 'pgfw_user_access', $display_setings_arr ) ? $display_setings_arr['pgfw_user_access'] : '';
 		$guest_access_pdf    = array_key_exists( 'pgfw_guest_access', $display_setings_arr ) ? $display_setings_arr['pgfw_guest_access'] : '';
 		if ( isset( $_GET['action'] ) ) { // phpcs:ignore
@@ -213,7 +118,7 @@ class Pdf_Generator_For_Wp_Common {
 	 * @return void
 	 */
 	public function pgfw_generate_pdf( $prod_id ) {
-		$general_settings_arr = $this->pgfw_get_general_settings();
+		$general_settings_arr = get_option( 'pgfw_general_settings_save', array() );
 		$pgfw_generate_mode   = array_key_exists( 'pgfw_general_pdf_generate_mode', $general_settings_arr ) ? $general_settings_arr['pgfw_general_pdf_generate_mode'] : 'download_locally';
 		$this->pgfw_generate_pdf_from_library( $prod_id, $pgfw_generate_mode );
 	}
@@ -258,17 +163,17 @@ class Pdf_Generator_For_Wp_Common {
 	public function pgfw_generate_pdf_from_library( $prod_id, $pgfw_generate_mode, $mode = '', $email = '', $template = '', $template_name = '' ) {
 		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
 
-		$pgfw_meta_settings = wps_pgfw_get_option_cached( 'pgfw_meta_fields_save_settings', array() );
+		$pgfw_meta_settings = get_option( 'pgfw_meta_fields_save_settings', array() );
 		 // unknow image file handler.
 		$pgfw_meta_fields_show_unknown_image_format = array_key_exists( 'pgfw_meta_fields_show_unknown_image_format', $pgfw_meta_settings ) ? $pgfw_meta_settings['pgfw_meta_fields_show_unknown_image_format'] : '';
 		// footer .
-		$pgfw_footer_settings   = wps_pgfw_get_option_cached( 'pgfw_footer_setting_submit', array() );
+		$pgfw_footer_settings   = get_option( 'pgfw_footer_setting_submit', array() );
 		$pgfw_general_pdf_show_pageno = array_key_exists( 'pgfw_general_pdf_show_pageno', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_general_pdf_show_pageno'] : '';
 		$pgfw_pageno_position_left    = array_key_exists( 'pgfw_pageno_position_left', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_pageno_position_left'] : '';
 		$pgfw_pageno_position_top    = array_key_exists( 'pgfw_pageno_position_top', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_pageno_position_top'] : '';
 
 		// end footer .
-		$body_settings_arr       = wps_pgfw_get_option_cached( 'pgfw_body_save_settings', array() );
+		$body_settings_arr       = get_option( 'pgfw_body_save_settings', array() );
 		$pgfw_body_custom_page_size_height        = array_key_exists( 'pgfw_body_custom_page_size_height', $body_settings_arr ) ? $body_settings_arr['pgfw_body_custom_page_size_height'] : '';
 		$pgfw_body_custom_page_size_width        = array_key_exists( 'pgfw_body_custom_page_size_width', $body_settings_arr ) ? $body_settings_arr['pgfw_body_custom_page_size_width'] : '';
 		$pgfw_body_page_template = array_key_exists( 'pgfw_body_page_template', $body_settings_arr ) ? $body_settings_arr['pgfw_body_page_template'] : 'template1';
@@ -286,7 +191,7 @@ class Pdf_Generator_For_Wp_Common {
 			$template_file_name = apply_filters( 'pgfw_load_templates_for_pdf_html', $template_file_name, $pgfw_body_post_template, $post_id );
 			require_once $template_file_name;
 		}
-		$general_settings_arr = $this->pgfw_get_general_settings();
+		$general_settings_arr = get_option( 'pgfw_general_settings_save', array() );
 		$pdf_file_name        = array_key_exists( 'pgfw_general_pdf_file_name', $general_settings_arr ) ? $general_settings_arr['pgfw_general_pdf_file_name'] : 'post_name';
 		$body_add_watermark   = array_key_exists( 'pgfw_body_add_watermark', $body_settings_arr ) ? $body_settings_arr['pgfw_body_add_watermark'] : '#000000';
 		$body_watermark_color = array_key_exists( 'pgfw_body_watermark_color', $body_settings_arr ) ? $body_settings_arr['pgfw_body_watermark_color'] : '';
@@ -516,44 +421,11 @@ class Pdf_Generator_For_Wp_Common {
 			wp_mkdir_p( $upload_basedir );
 		}
 		$current_user = wp_get_current_user();
-		$user_name    = ( $current_user && $current_user->exists() && $current_user->display_name ) ? $current_user->display_name : __( 'Guest', 'pdf-generator-for-wp' );
-		$user_id      = ( $current_user && $current_user->exists() ) ? $current_user->ID : 0;
-		$email        = ( '' !== $email ) ? $email : ( ( $current_user && $current_user->exists() ) ? $current_user->user_email : '' );
-		$client_ip    = $this->pgfw_get_client_ip();
+		$user_name    = $current_user->display_name;
+		$email        = ( '' !== $email ) ? $email : $current_user->user_email;
 		$output       = $dompdf->output();
-
-		$log_context = array(
-			'pdf_type'     => is_array( $prod_id ) ? 'bulk' : 'single',
-			'context'      => $pgfw_generate_mode,
-			'file_name'    => $document_name,
-			'source'       => is_admin() ? 'admin' : 'frontend',
-			'user_name'    => $user_name,
-			'user_id'      => $user_id,
-			'user_email'   => $email,
-			'ip_address'   => $client_ip,
-			'geo_location' => '',
-			'geo_city'     => '',
-			'geo_region'   => '',
-			'geo_country'  => '',
-			'open_counts'  => array(),
-			'user_open_counts' => array(),
-		);
-		$log_download = function() use ( $prod_id, $user_name, $email, $log_context ) {
-			$log_context['ip_address']   = $log_context['ip_address'] ? $log_context['ip_address'] : $this->pgfw_get_client_ip();
-			$geo_details                 = $this->pgfw_get_geo_location_from_ip( $log_context['ip_address'], true );
-			$log_context['geo_location'] = isset( $geo_details['label'] ) ? $geo_details['label'] : '';
-			$log_context['geo_city']     = isset( $geo_details['city'] ) ? $geo_details['city'] : '';
-			$log_context['geo_region']   = isset( $geo_details['region'] ) ? $geo_details['region'] : '';
-			$log_context['geo_country']  = isset( $geo_details['country'] ) ? $geo_details['country'] : '';
-			$log_context['open_counts'] = $this->pgfw_increment_pdf_open_counts( $prod_id );
-			$log_context['user_open_counts'] = $this->pgfw_get_user_pdf_open_counts( $prod_id );
-			$this->pgfw_record_pdf_open_event( $prod_id, $log_context );
-			do_action( 'wps_pgfw_update_pdf_details_indb', $prod_id, $user_name, $email, $log_context );
-		};
-
 		if ( 'download_locally' === $pgfw_generate_mode ) {
 			$path = $upload_basedir . $document_name . '.pdf';
-			$log_download();
 			$dompdf->stream(
 				$document_name . '.pdf',
 				array(
@@ -563,7 +435,6 @@ class Pdf_Generator_For_Wp_Common {
 		} elseif ( 'open_window' === $pgfw_generate_mode ) {
 			$path = $upload_basedir . $document_name . '.pdf';
 					@ob_end_clean(); // phpcs:ignore
-			$log_download();
 			$dompdf->stream(
 				$document_name . '.pdf',
 				array(
@@ -571,6 +442,7 @@ class Pdf_Generator_For_Wp_Common {
 					'Attachment' => 0,
 				)
 			);
+			exit();
 		} elseif ( 'upload_on_server_and_mail' === $pgfw_generate_mode ) {
 			$output = $dompdf->output();
 			$path   = $upload_basedir . $document_name . '.pdf';
@@ -578,15 +450,7 @@ class Pdf_Generator_For_Wp_Common {
 				@unlink( $path ); // phpcs:ignore
 			}
 			@file_put_contents( $path, $output ); // phpcs:ignore
-			$log_download();
-			$file_url   = $upload_dir['baseurl'] . '/post_to_pdf/' . rawurlencode( $document_name ) . '.pdf';
-			$email_body = sprintf(
-				/* translators: %s: pdf link */
-				__( 'Please find the PDF attached. You can also view it here: %s', 'pdf-generator-for-wp' ),
-				$file_url
-			);
-			$email_body = apply_filters( 'pgfw_pdf_email_body_with_link', $email_body, $file_url, $prod_id, $document_name );
-			wp_mail( $email, __( 'document form site', 'pdf-generator-for-wp' ), $email_body, '', array( $path ) );
+			wp_mail( $email, __( 'document form site', 'pdf-generator-for-wp' ), __( 'Please find these attachment', 'pdf-generator-for-wp' ), '', array( $path ) );
 		} elseif ( 'bulk' === $pgfw_generate_mode ) {
 			if ( 'continuous_on_same_page' === $mode ) {
 				$document_name = 'bulk_post_to_pdf_' . strtotime( gmdate( 'y-m-d H:i:s' ) );
@@ -597,10 +461,9 @@ class Pdf_Generator_For_Wp_Common {
 			if ( ! file_exists( $path ) ) {
 				@file_put_contents( $path, $output ); // phpcs:ignore
 			}
-			$log_download();
 			return $document_name;
 		} elseif ( 'preview' === $pgfw_generate_mode ) {
-			@ob_end_clean(); // phpcs:ignore.
+			@ob_end_clean(); // phpcs:ignore
 			$dompdf->stream(
 				$document_name . '.pdf',
 				array(
@@ -610,208 +473,7 @@ class Pdf_Generator_For_Wp_Common {
 			);
 			return;
 		}
-	}
-
-	/**
-	 * Get client ip address considering forwarded headers.
-	 *
-	 * @since 1.0.0
-	 * @return string
-	 */
-	private function pgfw_get_client_ip() {
-		$ip_keys = array( 'HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR' );
-		foreach ( $ip_keys as $key ) {
-			if ( empty( $_SERVER[ $key ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.
-				continue;
-			}
-			$server_ip_value = sanitize_text_field( wp_unslash( $_SERVER[ $key ] ) ); // phpcs:ignore WordPress.Security.NonceVerification.
-			$ip_list         = explode( ',', $server_ip_value );
-			$ip              = trim( $ip_list[0] );
-			if ( filter_var( $ip, FILTER_VALIDATE_IP ) ) {
-				return $ip;
-			}
-		}
-		return '';
-	}
-
-	/**
-	 * Resolve geo location of the given ip.
-	 *
-	 * @since 1.0.0
-	 * @param string $ip Client ip address.
-	 * @param bool   $return_parts Whether to return array with parts instead of label.
-	 * @return string|array
-	 */
-	private function pgfw_get_geo_location_from_ip( $ip, $return_parts = false ) {
-		$unknown_label = __( 'Unknown', 'pdf-generator-for-wp' );
-		$unknown_data  = array(
-			'label'        => $unknown_label,
-			'city'         => '',
-			'region'       => '',
-			'country'      => '',
-			'country_code' => '',
-		);
-
-		if ( empty( $ip ) || '127.0.0.1' === $ip || '::1' === $ip ) {
-			return $return_parts ? $unknown_data : $unknown_label;
-		}
-
-		$cache_key = 'pgfw_geo_' . md5( $ip );
-		$cached    = get_transient( $cache_key );
-		if ( false !== $cached ) {
-			if ( is_array( $cached ) ) {
-				return $return_parts ? $cached : ( isset( $cached['label'] ) ? $cached['label'] : $unknown_label );
-			}
-			return $return_parts ? array_merge( $unknown_data, array( 'label' => $cached ) ) : $cached; // backward compatibility.
-		}
-
-		$response = wp_remote_get( 'https://ipapi.co/' . rawurlencode( $ip ) . '/json/' );
-		if ( is_wp_error( $response ) ) {
-			return $return_parts ? $unknown_data : $unknown_label;
-		}
-
-		$body = json_decode( wp_remote_retrieve_body( $response ), true );
-		if ( ! is_array( $body ) ) {
-			return $return_parts ? $unknown_data : $unknown_label;
-		}
-
-		$geo_data = array(
-			'city'         => isset( $body['city'] ) ? $body['city'] : '',
-			'region'       => isset( $body['region'] ) ? $body['region'] : '',
-			'country'      => isset( $body['country_name'] ) ? $body['country_name'] : ( isset( $body['country'] ) ? $body['country'] : '' ),
-			'country_code' => isset( $body['country'] ) ? $body['country'] : '',
-		);
-
-		$parts           = array_filter( array( $geo_data['city'], $geo_data['region'], $geo_data['country'] ) );
-		$geo_data['label'] = ! empty( $parts ) ? implode( ', ', $parts ) : $unknown_label;
-
-		set_transient( $cache_key, $geo_data, DAY_IN_SECONDS );
-
-		return $return_parts ? $geo_data : $geo_data['label'];
-	}
-
-	/**
-	 * Increment the pdf open count for a single post or bulk posts.
-	 *
-	 * @since 1.0.0
-	 * @param int|array $prod_id Post id or array of ids.
-	 * @return array
-	 */
-	private function pgfw_increment_pdf_open_counts( $prod_id ) {
-		$post_ids    = is_array( $prod_id ) ? $prod_id : array( $prod_id );
-		$open_counts = array();
-
-		foreach ( $post_ids as $post_id ) {
-			$post_id = absint( $post_id );
-			if ( ! $post_id ) {
-				continue;
-			}
-
-			$current_count = (int) get_post_meta( $post_id, '_pgfw_pdf_open_count', true );
-			$current_count++;
-			update_post_meta( $post_id, '_pgfw_pdf_open_count', $current_count );
-			$open_counts[ $post_id ] = $current_count;
-
-			if ( is_user_logged_in() ) {
-				$current_user_id = get_current_user_id();
-				if ( $current_user_id ) {
-					$user_counts = get_user_meta( $current_user_id, '_pgfw_pdf_open_counts', true );
-					if ( ! is_array( $user_counts ) ) {
-						$user_counts = array();
-					}
-					$user_counts[ $post_id ] = isset( $user_counts[ $post_id ] ) ? ( (int) $user_counts[ $post_id ] + 1 ) : 1;
-					update_user_meta( $current_user_id, '_pgfw_pdf_open_counts', $user_counts );
-				}
-			}
-		}
-
-		return $open_counts;
-	}
-
-	/**
-	 * Fetch per-user pdf open counts for the current user.
-	 *
-	 * @since 1.0.0
-	 * @param int|array $prod_id Post id or array of ids.
-	 * @return array
-	 */
-	private function pgfw_get_user_pdf_open_counts( $prod_id ) {
-		$post_ids    = is_array( $prod_id ) ? $prod_id : array( $prod_id );
-		$user_counts = array();
-
-		if ( ! is_user_logged_in() ) {
-			return $user_counts;
-		}
-
-		$current_user_id = get_current_user_id();
-		if ( ! $current_user_id ) {
-			return $user_counts;
-		}
-
-		$saved_counts = get_user_meta( $current_user_id, '_pgfw_pdf_open_counts', true );
-		if ( ! is_array( $saved_counts ) ) {
-			$saved_counts = array();
-		}
-
-		foreach ( $post_ids as $post_id ) {
-			$post_id = absint( $post_id );
-			if ( ! $post_id ) {
-				continue;
-			}
-			$user_counts[ $post_id ] = isset( $saved_counts[ $post_id ] ) ? (int) $saved_counts[ $post_id ] : 0;
-		}
-
-		return $user_counts;
-	}
-
-	/**
-	 * Store a short log of the latest pdf open event.
-	 *
-	 * @since 1.0.0
-	 * @param int|array $prod_id Post id or array of ids.
-	 * @param array     $log_context Context data.
-	 * @return void
-	 */
-	private function pgfw_record_pdf_open_event( $prod_id, $log_context ) {
-		$post_ids  = is_array( $prod_id ) ? $prod_id : array( $prod_id );
-		$timestamp = current_time( 'mysql' );
-
-		foreach ( $post_ids as $post_id ) {
-			$post_id = absint( $post_id );
-			if ( ! $post_id ) {
-				continue;
-			}
-
-			$event_data = array(
-				'timestamp'    => $timestamp,
-				'user_name'    => isset( $log_context['user_name'] ) ? $log_context['user_name'] : '',
-				'user_id'      => isset( $log_context['user_id'] ) ? $log_context['user_id'] : 0,
-				'user_email'   => isset( $log_context['user_email'] ) ? $log_context['user_email'] : '',
-				'ip_address'   => isset( $log_context['ip_address'] ) ? $log_context['ip_address'] : '',
-				'geo_location' => isset( $log_context['geo_location'] ) ? $log_context['geo_location'] : '',
-				'geo_city'     => isset( $log_context['geo_city'] ) ? $log_context['geo_city'] : '',
-				'geo_region'   => isset( $log_context['geo_region'] ) ? $log_context['geo_region'] : '',
-				'geo_country'  => isset( $log_context['geo_country'] ) ? $log_context['geo_country'] : '',
-				'source'       => isset( $log_context['source'] ) ? $log_context['source'] : '',
-				'context'      => isset( $log_context['context'] ) ? $log_context['context'] : '',
-				'pdf_type'     => isset( $log_context['pdf_type'] ) ? $log_context['pdf_type'] : '',
-				'open_count'   => isset( $log_context['open_counts'][ $post_id ] ) ? (int) $log_context['open_counts'][ $post_id ] : 0,
-				'user_open_count' => ( isset( $log_context['user_open_counts'][ $post_id ] ) ? (int) $log_context['user_open_counts'][ $post_id ] : 0 ),
-			);
-
-			update_post_meta( $post_id, '_pgfw_last_pdf_view', $event_data );
-
-			$existing_logs = get_post_meta( $post_id, '_pgfw_pdf_view_logs', true );
-			if ( ! is_array( $existing_logs ) ) {
-				$existing_logs = array();
-			}
-
-			$existing_logs[] = $event_data;
-			if ( count( $existing_logs ) > 50 ) {
-				$existing_logs = array_slice( $existing_logs, -50 );
-			}
-			update_post_meta( $post_id, '_pgfw_pdf_view_logs', $existing_logs );
-		}
+		do_action( 'wps_pgfw_update_pdf_details_indb', $prod_id, $user_name, $email );
 	}
 	/**
 	 * Download button for posters as shortcode callback.
@@ -1180,23 +842,12 @@ class Pdf_Generator_For_Wp_Common {
 		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/lib/dompdf/vendor/autoload.php';
 		$pgfw_invoice_template            = get_option( 'wpg_invoice_template' );
 		$pgfw_generate_invoice_from_cache = get_option( 'wpg_generate_invoice_from_cache' );
-		$invoice_id   = $this->wpg_invoice_number( $order_id );
-		$invoice_name = $this->wpg_invoice_name_for_file( $type, $order_id );
-
-		$upload_dir = wp_upload_dir();
-		if ( ! empty( $upload_dir['error'] ) || empty( $upload_dir['basedir'] ) || empty( $upload_dir['baseurl'] ) ) {
-			return ''; // Abort if uploads not available.
-		}
-
-		$upload_basedir = trailingslashit( $upload_dir['basedir'] ) . 'invoices/';
-		$upload_baseurl = trailingslashit( $upload_dir['baseurl'] ) . 'invoices/';
-
-		if ( ! file_exists( $upload_basedir ) ) {
-			wp_mkdir_p( $upload_basedir );
-		}
-
-		$path     = $upload_basedir . $invoice_name . '.pdf';
-		$file_url = $upload_baseurl . rawurlencode( $invoice_name ) . '.pdf';
+		$invoice_id                       = $this->wpg_invoice_number( $order_id );
+		$invoice_name                     = $this->wpg_invoice_name_for_file( $type, $order_id );
+		$upload_dir                       = wp_upload_dir();
+		$upload_basedir                   = $upload_dir['basedir'] . '/invoices/';
+		$path                             = $upload_basedir . $invoice_name . '.pdf';
+		$file_url                         = $upload_dir['baseurl'] . '/invoices/' . $invoice_name . '.pdf';
 
 		if ( ( 'yes' === $pgfw_generate_invoice_from_cache ) && file_exists( $path ) ) {
 			if ( 'download_locally' === $action ) {
@@ -1210,7 +861,6 @@ class Pdf_Generator_For_Wp_Common {
 			} else {
 				$template = 'one';
 			}
-			
 			if ( 'one' === $template ) {
 				$template_path = PDF_GENERATOR_FOR_WP_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wp-invoice-pdflayout1.php';
 			} else if ( 'two' === $template ) {
@@ -1220,7 +870,7 @@ class Pdf_Generator_For_Wp_Common {
 			}
 			$template_path = apply_filters( 'wpg_load_template_for_invoice_generation', $template_path );
 			require_once $template_path;
-			$html   = return_ob_value( $order_id, $type, $invoice_id, $file_url );
+			$html   = return_ob_value( $order_id, $type, $invoice_id );
 
 			$dompdf = new Dompdf( array( 'enable_remote' => true ) );
 
@@ -1274,6 +924,7 @@ class Pdf_Generator_For_Wp_Common {
 			// Output the updated HTML content.
 			$html = $updated_html;
 			// Webp Image End Fixes.
+
 			$dompdf->loadHtml( $html );
 			$dompdf->setPaper( 'A4' );
 			@ob_end_clean(); // phpcs:ignore
@@ -1298,15 +949,6 @@ class Pdf_Generator_For_Wp_Common {
 			if ( 'open_window' === $action ) {
 				$output = $dompdf->output();
 				$dompdf->stream( $invoice_name . '.pdf', array( 'Attachment' => 0 ) );
-				if ('yes' == get_option('wpg_attach_invoice_shareable_link')) {
-				$output = $dompdf->output();
-				if ( file_exists( $path ) ) {
-					@unlink( $path ); // phpcs:ignore
-				}
-				if ( ! file_exists( $path ) ) {
-					@file_put_contents( $path, $output ); // phpcs:ignore
-				}
-				}
 			}
 			if ( 'download_on_server' === $action ) {
 				$output = $dompdf->output();
@@ -1435,82 +1077,6 @@ class Pdf_Generator_For_Wp_Common {
 			return wp_json_encode( $order_details_arr );
 		}
 		return false;
-	}
-
-	/**
-	 * AJAX: save assigned posts and post types for custom templates.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public function wpg_save_template_items_callbck() {
-		check_ajax_referer( 'wps_wpg_embed_ajax_nonce', 'nonce' );
-
-		$template   = isset( $_POST['template'] ) ? sanitize_text_field( wp_unslash( $_POST['template'] ) ) : '';
-		$items      = isset( $_POST['items'] ) && is_array( $_POST['items'] ) ? array_map( 'intval', $_POST['items'] ) : array();
-		$post_types = isset( $_POST['post_types'] ) && is_array( $_POST['post_types'] ) ? array_map( 'sanitize_key', $_POST['post_types'] ) : array();
-
-		if ( ! $template ) {
-			wp_send_json_error( __( 'Invalid template name', 'pdf-generator-for-wp' ) );
-		}
-
-		update_option( 'wpg_template_items_' . $template, $items );
-		update_option( 'wpg_template_post_types_' . $template, $post_types );
-
-		wp_send_json_success();
-	}
-
-	/**
-	 * Choose custom template for a post based on assigned posts/post types.
-	 *
-	 * @since 1.0.0
-	 * @param string $template_file_path default template path.
-	 * @param string $template_file_name default template slug.
-	 * @param int    $post_id            post id.
-	 * @return string
-	 */
-	public function wpg_load_custom_template_for_pdf_generation( $template_file_path, $template_file_name, $post_id ) {
-
-		$custom_template_data = get_option( 'wpg_custom_templates_list', array() );
-		$active_templates     = get_option( 'wpg_use_template_to_generate_pdf', array() );
-
-		if ( ! is_array( $active_templates ) ) {
-			$active_templates = array();
-		}
-
-		$post_type         = get_post_type( $post_id );
-		$matched_template  = false;
-
-		foreach ( $custom_template_data as $template_key => $parts ) {
-			$assigned_posts      = get_option( 'wpg_template_items_' . $template_key, array() );
-			$assigned_post_types = get_option( 'wpg_template_post_types_' . $template_key, array() );
-
-			$matches_post      = in_array( (int) $post_id, $assigned_posts, true );
-			$matches_post_type = ( $post_type && in_array( $post_type, (array) $assigned_post_types, true ) );
-
-			if ( $matches_post || $matches_post_type ) {
-				if ( in_array( $template_key, $active_templates, true ) ) {
-					$matched_template = $template_key;
-					break;
-				}
-			}
-		}
-
-		if ( $matched_template && isset( $custom_template_data[ $matched_template ] ) ) {
-			$custom_template_path = PDF_GENERATOR_FOR_WP_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wp-custom-template.php';
-			// Fall back to pro template file if available in Pro directory.
-			if ( ! file_exists( $custom_template_path ) ) {
-				$pro_path = WP_PLUGIN_DIR . '/wordpress-pdf-generator/admin/partials/pdf_templates/wordpress-pdf-generator-custom-template.php';
-				if ( file_exists( $pro_path ) ) {
-					$custom_template_path = $pro_path;
-				}
-			}
-			if ( file_exists( $custom_template_path ) ) {
-				return $custom_template_path;
-			}
-		}
-
-		return $template_file_path;
 	}
 	// .
 	/**
