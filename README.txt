@@ -1,4 +1,15 @@
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://travis-ci.org/twbs/bootstrap)![Active installs](https://img.shields.io/badge/Active-1000%2B-brightgreen) ![License](https://img.shields.io/badge/License-GPLv3%20or%20later-yellowgreen) ![WP tested](https://img.shields.io/badge/WP%20tested-6.8.3-brightgreen)![WC tested](https://img.shields.io/badge/WC%20tested-10.3.3-brightgreen)![Requires PHP](https://img.shields.io/badge/Requires%20PHP-7.4-blue)
+=== PDF Generator for WordPress ===
+Contributors: wpswings
+Donate link: https://wpswings.com/
+Tags: PDF, invoices, 3d flipbook, PDF generator, pdf flipbook, WordPress PDF generator
+Requires at least: 6.7.0
+Tested up to: 6.9.4
+WC requires at least: 6.5
+WC tested up to: 10.7
+Stable tag: 1.6.3
+Requires PHP: 7.4
+License: GPLv3 or later 
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 # PDF Generator for WordPress - Create & Customize PDF for Post, Pages and WooCommerce Products
 
@@ -159,8 +170,319 @@ If you need support or have any questions then kindly use our online chat window
 
 ### **MORE ABOUT WP SWINGS**
 
-- [**Our Official Website**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=pdf-github-page&utm_campaign=official)
-- [**Follow us on Facebook Page**](https://www.facebook.com/wpswings)
-- [**Tweet us on @WPSwings**](https://twitter.com/wpswings)
-- [**Visit our LinkedIn Account**](https://www.linkedin.com/company/wpswings)
-- [**Subscribe To Our YouTube Channel**](https://www.youtube.com/channel/UC7nYNf0JETOwW3GOD_EW2Ag)
+== Installation ==
+
+= Automatic installation =
+
+Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't need to leave your web browser. To do an automatic install of PDF Generator for WordPress, log in to your WordPress dashboard, navigate to the Plugins menu, and click Add New.
+
+In the search field type "PDF Generator for WordPress" and click Search Plugins. Once you've found our plugin you can view details about it such as the point release, rating, and description. Most importantly, of course, you can install it by simply clicking "Install Now".
+
+= Manual installation =
+
+The manual installation method involves downloading our PDF Generator for WordPress and uploading it to your webserver via your favourite FTP application. The WordPress contains [instructions on how to do this here](https://wordpress.org/support/article/managing-plugins/#manual-plugin-installation).
+
+= Updating =
+
+Automatic updates should work like a charm; as always though, ensure you backup your site just in case.
+
+== External Services ==
+
+**WP Swings Notification Service**
+Used to fetch admin notifications and updates.
+
+Data sent: Plugin version and request action
+When: On admin dashboard load
+Endpoint: https://demo.wpswings.com/client-notification/woo-gift-cards-lite/wps-client-notify.php
+Terms: https://wpswings.com/terms-and-conditions/
+Privacy: https://wpswings.com/privacy-policy
+
+
+**WP Swings Usage Tracker**
+Used to collect usage and environment data for improving plugin performance.
+
+Data sent: WooCommerce store data (via WooCommerce tracking system)
+When: On admin initialization (scheduled tracking)
+Endpoint: https://tracking.wpswings.com/wp-json/mps-route/v1/mps-testing-data/
+Terms: https://wpswings.com/terms-and-conditions/
+Privacy: https://wpswings.com/privacy-policy
+
+== FAQ ==
+
+= Can We Edit The Front/First Page Of The PDF By Itself? = 
+Yes, you can edit the front page for this go to the plugin setting> PDF first-page setting>custom template here you can edit your template accordingly.
+
+= Can customers directly download the PDF on their local devices? =
+Yes, customers can directly download the PDF on their local devices.
+
+= How can one add the PDF button on a single product page? =
+We have already provided the shortcode. You can use that shortcode to place the PDF button on a particular product page so you can generate a PDF from the page.
+
+= How to place the PDF button appropriately for my uploaded document? =
+Go to WP Swings--> PDF Generator for WordPress--> PDF Upload. Click on the Upload Doc button to upload your PDF file. Click on the Save Settings button. The shortcode will be generated. Use this shortcode to place your PDF icon appropriately for your users.
+
+= Can I rename the meta fields for posts, pages, and products? =
+You can rename the meta fields and taxonomies in the premium version of the PDF Generator plugin.
+
+= My Question Is Not Listed? =
+Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wordpress-plugins-knowledge-base/category/pdf-generator-for-wp/?utm_source=wpswings-pdf-kb&utm_medium=referral&utm_campaign=kb)
+
+== Screenshots ==
+
+1. General setting
+2. PDF setting
+3. Direct download pdf
+4. Pdf icon setting
+5. PDF Header setting
+6. PDF Body setting
+7. PDF Page setting
+8. PDF Border setting
+9. PDF Watermark setting
+10. PDF Page template setting 
+11. PDF Footer setting
+12. PDF Advanced setting
+13. PDF Meta-field setting
+14. PDF Upload setting
+15. WPML Setting
+16. Embed multiple third-party services
+17. Flipbook feature
+18. Flipbook Shortcode 
+19. Flipbook Edit Post
+20. Layout Flipbook Setting
+21. Config Flipbook Setting
+
+== Changelog ==
+
+= 1.6.3 - Released on 07 May 2026 =
+* Enhancement : Security fixes
+
+= 1.6.2 - Released on 06 May 2026 =
+* New : Compatibility With Latest WP (6.9.4) and WC (10.7)
+* Enhancement : Plugin Optimization
+* Enhancement : UI/UX update
+
+= 1.6.1 - Released on 16 March 2026 =
+* New : Compatibility With Latest WP (6.9.4) and WC (10.6.1)
+
+= 1.6.0 - Released on 12 February 2026 =
+* New : PDF LOG USER log tracking.
+* New : Compatibility With Latest WP (6.9.1) and WC (10.5.1)
+
+= 1.5.9 - Released on 27 January 2026 =
+* Enhancement : Implemented React-based list loading with bulk action support.
+* Enhancement : Fixed overflow issues in the meta field tab settings.
+
+= 1.5.8 - Released on 9 January 2026 =
+* New : Compatibility with latest WP (6.9) and WC (10.4.3)
+* Fix : deprecated  function fixes.
+
+= 1.5.7 - Released on 13 November 2025 =
+* New : Gutenberg block support for flipbook shortcode.
+* New : Compatibility with latest WP (6.8.3) and WC (10.3.5)
+
+= 1.5.6 - Released on 31 October 2025 =
+* New: Introduced a powerful "Flipbook Generator" that converts any uploaded PDF or image set into an interactive flipbook.
+* New: Added  "short Code support"  to easily embed flipbooks on any page or post.
+* New: Added  "advanced customization options"— configure height, width, view type, flip sound, cover page, and more.
+* New: Added support for creating "multiple flipbooks", each with a unique ID and independent configuration.
+* New: Added an "intuitive admin interface" for managing flipbooks and inserting their shortcodes effortlessly.
+* New: compatibility with the latest WP(6.8.3) and WC (10.3.3)
+
+= 1.5.5 - Released on 05 September 2025 =
+* New: Compatibility with the latest WP (6.8.2) and WC (10.1.2)
+* Fix: Deprecated function fixes.
+
+= 1.5.4 - Released on 20 August 2025 =
+* New: Compatibility with the latest WP(6.8.2) and WC(10.1.0)
+* New: Updated dompdf to version 3.0.1
+
+= 1.5.3 - Released on 18 July 2025 =
+* New: Compatibility with the latest versions of WordPress(6.8.2) and WooCommerce (10.0.2)
+* Enhancement: Upgraded the Dompdf library to the latest stable version.
+* Fix: Replaced deprecated functions with their latest stable alternatives.
+
+= 1.5.2 - Released on 13 June 2025 =
+* New: Compatibility with the latest versions of WordPress  (6.8.1) and WooCommerce (9.9.3).
+* Enhancement: Improved custom table rendering to support larger and more complex table content in PDFs.
+* Enhancement: Enhanced admin settings structure to support flexible and longer layout configurations.
+
+= 1.5.1 - Released on 28 May 2025 = 
+* New: Elementor widget support for all existing shortcodes/blocks, enabling easy drag-and-drop usage in the Elementor builder.
+* New: Integration with Track Order For Woocommerce for enhanced compatibility and feature expansion.
+* New: Ability to embed tracking information inside posts, pages, and generated PDFs via Elementor widgets.
+* New: Compatibility with the latest WC(9.8.5) and WP(6.8.1)
+
+= 1.5.0 - Released on 16 April 2025 =
+* New: WPSwings Calendly Embed
+* New: WPSwings Twitch Embed
+* New: WPSwings Strava Embed
+* Enhancement: Addition of  Shortcode tabs
+* New: Compatibility with the latest WC(9.8.1) and WP(6.8)
+
+= 1.4.2 - Released on 26 March 2025 = 
+* New: LinkedIn Post Embed
+* New: Reddit Post Embed
+* New: Canva Embed.
+* New: Loom Video Embed.
+* New: Compatibility with the latest WC(9.7.1)
+
+= 1.4.1 - Released on 05 March 2025 = 
+* New: Developed Gutenberg Block to Embed all google services like (calendar, form, slide, doc, sheet)
+* New: Converted existing shortcode to Gutenberg block  i.e  [WPS_SINGLE_IMAGE] [WORDPRESS_PDF]
+* New: Compatibility with WP [6.7.2] and WC [9.7.0]
+* Fix: issue fixed in case of [WPS_POST_GALLERY] shortcode
+
+= 1.4.0 - Released on 02 January 2025 = 
+* Fix : added the CSS to control the blank spaces
+* New: Compatible with the latest WP (6.7.1) and WC (9.5.1)
+
+= 1.3.9 - Released on 16 October 2024 = 
+* New: Core update in code for new cover page
+
+= 1.3.8 - Released on 09 October 2024 = 
+* New: Special Character setting added.
+* New: Compatible with the latest WP (6.6.2) and WC (9.3.3)
+
+= 1.3.7 - Released on 16 September 2024 =
+* New: Compatible with latest WP(6.6.2) and WC(9.3.1)
+
+= 1.3.6 - Released on 30 July 2024 = 
+* Fix : Font issue for special character.
+* New: Compatible with latest WP(6.6.1) and WC(9.1.4)
+
+= 1.3.5 - Released on 26 June 2024 = 
+* New: Now WebP Image Format is now supportable on PDF.
+* New: Compatible with latest WP(6.5.5) and WC(9.0.2)
+
+= 1.3.4 - Released on 30 April 2024 = 
+* New: Compatible with latest WP(6.5.2) and WC(8.8.2)
+* New: Add new option for changing the pdf template colour and text color.
+
+= 1.3.3 - Released on 02 April 2024 = 
+* New: Compatible with latest WP(6.4.3) and WC(8.7.0)
+* New: Provide option to set the page orientation for bulk pdf generation
+* New: Option to set the page size for bulk pdf generation from admin side
+
+= 1.3.2 - Released on 21 Febuary 2024 = 
+* New: Compatibility with latest WP(6.4.3) and WC(8.6.1)
+* Fix: Crash PDF issue is fixed on opening to new window
+
+= 1.3.1 - Released on 17 January 2024 = 
+* New: Compatible with latest WP(6.4.2) and WC(8.5.1)
+
+= 1.3.0 - Released on 21 December 2024 = 
+* New: Compatible with latest WP(6.4.2) and WC(8.4.0)
+
+= 1.2.9 - Released on 24 November 2023 = 
+* New: Compatible with latest WP(6.4.1) and WC(8.3.1)
+
+= 1.2.8 - Released on 09 November 2023 =
+* New: Compatible with latest WP(6.4) and WC(8.2.2)
+* New: Adjust logo size in default template header
+
+= 1.2.7 - Released on 27 October 2023 = 
+* New: Compatible with latest WP(6.3.2) and WC(8.2.1)
+* Fix: Banner image design issue fixed
+
+= 1.2.6 - Released on 03 October 2023 =
+* New: Compatibility with HPOS
+* New: Set custom page size option
+* New: Option to set date format
+* New: Added banner image in backend
+* New: Compatibility with WP[6.3.1] and WC[8.1.1]
+* Fix: Minor bug fixes related to order with invoice
+
+= 1.2.5 - Released on 08 August 2023 = 
+* New: Compatibility with WP[6.3.0] and WC[8.0.0]
+* Fix: Email popup content is not displayed as a popup
+* Fix: Pro tag added on internal page
+
+= 1.2.4 - Released on 21 July 2023 =
+* New: Compatibility with WP[6.2.2] and WC[7.9.0]
+* New: Added pro tag in org
+
+= 1.2.3 - Released on 23 June 2023 = 
+* New: Hide title, thumbnail image, and description( word ) for default template
+* New: Compatible with latest wp[6.2.2] and wc[7.8.0]
+
+= 1.2.2 - Released on 05 June 2023 = 
+* Fix: Fetial Error 
+
+= 1.2.1 - Released on 01 June 2023 = 
+* New: Compatible with WP(6.2.2) and WC(7.7.1)
+
+= 1.2.0 - Released on 14 April  2023 = 
+* New: Compatible with the latest WP (6.2.0) and WC (7.5.1)
+* Enhancement: Dompdf library updated( 2.0.2 )
+
+= 1.1.4 - Released on 17 March 2023 = 
+* New: Compatible with the latest WP (6.1.1) and WC (7.5.0)
+* Fix: Returning image ID's issue if images are saved on different keys
+
+= 1.1.3 - Released on 14 February 2023 = 
+* New: Compatible with the latest WP and WC
+
+= 1.1.2 - Released on 13 January 2023 =
+* New: Compatible with the latest WP and WC
+* Fix: Security issue fixes
+
+= 1.1.1 - Released on 23 November 2022 =
+* New: Compatible with the latest WP and WC
+* Fix: For showing gallery images row-wise in the default template you need to check the checkbox provided inside the body tab
+
+= 1.1.0 - Released on 27 September 2022 =
+* New: Compatible with the latest WP and WC
+* New: Compatible with php8
+* New: Show pdf icon based on the selected user roles 
+* Fix: Minor bug fixes (font and template issues)
+
+= 1.0.9 - Released on 21 July 2022 = 
+* New: Export PDF( Post, Pages and Product) in  Bulk  from Admin Dashboard
+* Fix:  Minor Bug Fixes
+
+= 1.0.8 - Released on 26 June 2022 =
+* New: Added Footer Customization (Author, Date and Title)
+* New: Added Show Multiple Images In A Single Row
+* New: Added Show Meta Fields Row Wise 
+* Fix: Minor Bug Fixes
+
+= 1.0.7 - Released on 20 May 2022 =
+
+* New: Minor Bug Fixes
+* New: Compatible with the latest WP and WC
+ 
+= 1.0.6 - Released on 11 April 2022 =
+* New: Some substantial changes across different areas of the plugin.
+* New: Compatible with the latest WP and WC
+* Fix: Minor Bug Fixes
+
+= 1.0.5 - Released on 03 February 2022 =
+* New: Change author from MakeWebBetter to WP Swings
+* New: Notice display of current version for [**WP Swings**](https://wpswings.com/?utm_source=wpswings-official&utm_medium=pdf-org-page&utm_campaign=official).
+* New: Compatible with the latest WP and WC
+* Fix: Minor bug fixes
+
+= 1.0.4 - Released on 26 November 2021 =
+* New: Compatibility with latest WP(5.8.2) and WC(5.9).
+* Fix: Minor bug fixes
+
+= 1.0.3 - Released on 29 October 2021 =
+* New: Multisite Compatibility added
+* Fix: Minor bug fixes
+
+= 1.0.2 - Released on 21 September 2021 =
+* New: WPML Compatibility
+* Fix: Minor bug fixes
+
+= 1.0.1 - Released on 30 July 2021 =
+* New: Shortcode updated
+* Fix: Minor bug fixes
+* Fix: Content issue resolved while using shortcode.
+
+= 1.0.0 =
+* First version. 
+
+== Upgrade Notice ==
+
+= 1.6.3 - Released on 07 May 2026 =
+* Enhancement : Security fixes

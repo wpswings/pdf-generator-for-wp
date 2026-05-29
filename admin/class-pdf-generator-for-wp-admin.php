@@ -129,44 +129,111 @@ class Pdf_Generator_For_Wp_Admin {
 			);
 
 			wp_enqueue_script( $this->plugin_name . 'admin-js' );
-			wp_enqueue_media();
-			wp_enqueue_script( 'pgfw-datatable-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/datatable/datatables.min.js', array( 'jquery' ), $this->version, true );
-			wp_enqueue_script( 'wps-pgfw-admin-custom-setting-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/js/pdf-generator-for-wp-admin-custom.js', array( 'jquery', 'wp-color-picker' ), $this->version, true );
+
+			if ( $uses_media_assets ) {
+				wp_enqueue_media();
+			}
+
+			if ( $uses_datatable ) {
+				wp_enqueue_script( 'pgfw-datatable-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/datatable/datatables.min.js', array( 'jquery' ), $this->version, true );
+			}
+
+			if ( $uses_custom_settings ) {
+				$admin_custom_dependencies = array( 'jquery' );
+
+				if ( $uses_color_picker ) {
+					$admin_custom_dependencies[] = 'wp-color-picker';
+				}
+
+				if ( $uses_datatable ) {
+					$admin_custom_dependencies[] = 'pgfw-datatable-js';
+				}
+
+				wp_enqueue_script( 'wps-pgfw-admin-custom-setting-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/js/pdf-generator-for-wp-admin-custom.js', $admin_custom_dependencies, $this->version, true );
+				wp_localize_script(
+					'wps-pgfw-admin-custom-setting-js',
+					'pgfw_admin_custom_param',
+					array(
+						'ajaxurl'            => admin_url( 'admin-ajax.php' ),
+						'delete_loader'      => esc_html__( 'Deleting....', 'pdf-generator-for-wp' ),
+						'nonce'              => wp_create_nonce( 'pgfw_delete_media_by_id' ),
+						'pgfw_doc_dummy_img' => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/document-management-big.png',
+						'upload_doc'         => esc_html__( 'Upload Doc', 'pdf-generator-for-wp' ),
+						'use_doc'            => esc_html__( 'Use Doc', 'pdf-generator-for-wp' ),
+						'upload_image'       => esc_html__( 'Upload Image', 'pdf-generator-for-wp' ),
+						'upload_invoice_image' => esc_html__( 'Upload Invoice Image', 'pdf-generator-for-wp' ),
+						'use_image'          => esc_html__( 'Use Image', 'pdf-generator-for-wp' ),
+						'confirm_text'       => esc_html__( 'Are you sure you want to delete Doc ?', 'pdf-generator-for-wp' ),
+						'reset_confirm'      => esc_html__( 'Are you sure you want to reset all the settings to default ?', 'pdf-generator-for-wp' ),
+						'reset_loader'       => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/loader.gif',
+						'reset_success'      => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/checked.png',
+						'reset_error'        => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/cross.png',
+					)
+				);
+			}
+
+			$migration_success = wps_pgfw_get_option_cached( 'wps_code_migratded', '' );
+			$pending_settings  = $this->wps_wpg_get_count( 'settings', 'count' );
+			$activated_time    = get_option( 'wps_wpg_activated_timestamp' );
+
+			if ( ! empty( $pending_settings ) && empty( $activated_time ) ) {
+				wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'src/js/wpg-addon-admin.js', array( 'jquery' ), $this->version, true );
+				wp_enqueue_script( $this->plugin_name . '-swal', plugin_dir_url( __FILE__ ) . 'src/js/wpg-swal.js', array( 'jquery' ), $this->version, true );
+				wp_enqueue_script( $this->plugin_name . '-wps-swal', plugin_dir_url( __FILE__ ) . 'src/js/wps-wpg-swal.js', array( 'jquery' ), $this->version, true );
+				wp_localize_script(
+					$this->plugin_name,
+					'localised',
+					array(
+						'ajaxurl'          => admin_url( 'admin-ajax.php' ),
+						'nonce'            => wp_create_nonce( 'wps_wpg_migrated_nonce' ),
+						'callback'         => 'wpg_ajax_callbacks',
+						'pending_settings' => $pending_settings,
+						'hide_import'      => $migration_success,
+					)
+				);
+			}
+		}
+
+		// The flipbook PDF handler is only used on the flipbook post-edit screen,
+		// so restrict the enqueue (and nonce localization) to users who can
+		// upload files on that screen. This prevents the AJAX nonce from being
+		// exposed on unrelated admin pages such as /wp-admin/profile.php.
+		$is_flipbook_screen = isset( $screen->post_type ) && 'flipbook' === $screen->post_type
+			&& isset( $screen->base ) && 'post' === $screen->base;
+		if ( $is_flipbook_screen && current_user_can( 'upload_files' ) ) {
+			// Enqueue PDF.js library.
+			wp_enqueue_script(
+				'pdfjs-library',
+				'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js',
+				array(),
+				'2.6.347',
+				false
+			);
+
+			// Enqueue jQuery (if not already enqueued).
+			wp_enqueue_script( 'jquery' );
+
+			// Enqueue custom PDF handler script.
+			wp_enqueue_script(
+				'wps-pgfw-pdf-handler',
+				plugin_dir_url( __FILE__ ) . 'src/js/pdf-flipbook.js',
+				array( 'jquery', 'pdfjs-library' ),
+				'1.0.0',
+				true
+			);
+
+			// Localize script with nonces and AJAX URL.
 			wp_localize_script(
 				'wps-pgfw-admin-custom-setting-js',
 				'pgfw_admin_custom_param',
 				array(
-					'ajaxurl'            => admin_url( 'admin-ajax.php' ),
-					'delete_loader'      => esc_html__( 'Deleting....', 'pdf-generator-for-wp' ),
-					'nonce'              => wp_create_nonce( 'pgfw_delete_media_by_id' ),
-					'pgfw_doc_dummy_img' => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/document-management-big.png',
-					'upload_doc'         => esc_html__( 'Upload Doc', 'pdf-generator-for-wp' ),
-					'use_doc'            => esc_html__( 'Use Doc', 'pdf-generator-for-wp' ),
-					'upload_image'       => esc_html__( 'Upload Image', 'pdf-generator-for-wp' ),
-					'upload_invoice_image' => esc_html__( 'Upload Invoice Image', 'pdf-generator-for-wp' ),
-					'use_image'          => esc_html__( 'Use Image', 'pdf-generator-for-wp' ),
-					'confirm_text'       => esc_html__( 'Are you sure you want to delete Doc ?', 'pdf-generator-for-wp' ),
-					'reset_confirm'      => esc_html__( 'Are you sure you want to reset all the settings to default ?', 'pdf-generator-for-wp' ),
-					'reset_loader'       => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/loader.gif',
-					'reset_success'      => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/checked.png',
-					'reset_error'        => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/cross.png',
+					'fbFetchNonce'  => wp_create_nonce( 'fb_fetch_pdf' ),
+					'fbUploadNonce' => wp_create_nonce( 'ifb_upload_pdf' ),
+					'fbAjaxUrl'     => esc_url( admin_url( 'admin-ajax.php' ) ),
 				)
 			);
-			$migration_success = get_option( 'wps_code_migratded' );
-			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'src/js/wpg-addon-admin.js', array( 'jquery' ), $this->version, false );
-			wp_enqueue_script( $this->plugin_name . '-swal', plugin_dir_url( __FILE__ ) . 'src/js/wpg-swal.js', array( 'jquery' ), $this->version, false );
-			wp_enqueue_script( $this->plugin_name . '-wps-swal', plugin_dir_url( __FILE__ ) . 'src/js/wps-wpg-swal.js', array( 'jquery' ), $this->version, false );
-			wp_localize_script(
-				$this->plugin_name,
-				'localised',
-				array(
-					'ajaxurl'       => admin_url( 'admin-ajax.php' ),
-					'nonce'         => wp_create_nonce( 'wps_wpg_migrated_nonce' ),
-					'callback'      => 'wpg_ajax_callbacks',
-					'pending_settings' => $this->wps_wpg_get_count( 'settings', 'count' ),
-					'hide_import'   => $migration_success,
-				)
-			);
+			wp_enqueue_script( 'flipbook-js', plugin_dir_url( __FILE__ ) . 'src/js/flipbook.js', array( 'jquery' ), '1.0.0', true );
+			wp_enqueue_media();
 		}
 		// Enqueue PDF.js library.
 		wp_enqueue_script(
