@@ -6,3 +6,6 @@ composer.json
 composer.json/
 composer.lock
 composer.lock/
+
+pull_requests
+script
