@@ -56,9 +56,10 @@ if ( $pgfw_save_check_flag ) {
 ?>
 
 <script type="application/json" id="pgfw-tabs-data"><?php echo wp_json_encode( $pgfw_settings_data ); ?></script>
-
-
-
+<nav class="wps-navbar">
+	<ul class="wps-navbar__items">
+		<?php
+		if ( is_array( $pgfw_default_tabs ) && ! empty( $pgfw_default_tabs ) ) {
 				foreach ( $pgfw_default_tabs as $pgfw_tab_key => $pgfw_default_tabs ) {
 
 					$pgfw_tab_classes = 'wps-link ';

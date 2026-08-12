@@ -130,6 +130,12 @@ class Pdf_Generator_For_Wp_Admin {
 
 			wp_enqueue_script( $this->plugin_name . 'admin-js' );
 
+			// Initialize variables for conditional asset loading.
+			$uses_media_assets    = true;
+			$uses_datatable       = true;
+			$uses_custom_settings = true;
+			$uses_color_picker    = true;
+
 			if ( $uses_media_assets ) {
 				wp_enqueue_media();
 			}

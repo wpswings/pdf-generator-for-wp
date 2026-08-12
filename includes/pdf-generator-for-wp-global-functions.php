@@ -365,3 +365,14 @@ function wps_pgfw_upload_pdf() {
 		)
 	);
 }
+
+/**
+ * Get option with caching support.
+ *
+ * @param string $option  Option name.
+ * @param mixed  $default Default value if option doesn't exist.
+ * @return mixed Option value or default.
+ */
+function wps_pgfw_get_option_cached( $option, $default = '' ) {
+	return get_option( $option, $default );
+}
