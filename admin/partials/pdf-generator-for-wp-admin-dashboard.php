@@ -20,8 +20,8 @@ $pgfw_active_tab   = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw_tab'
 do_action( 'pgfw_license_activation_notice_on_dashboard' );
 $pgfw_default_tabs = $pgfw_wps_pgfw_obj->wps_pgfw_plug_default_tabs();
 
-$wps_wpg_plugin_list = get_option( 'active_plugins' );
-$wps_wpg_plugin = 'wordpress-pdf-generator/wordpress-pdf-generator.php';
+$wps_wpg_plugin_list   = get_option( 'active_plugins' );
+$wps_wpg_plugin        = 'wordpress-pdf-generator/wordpress-pdf-generator.php';
 $wps_wpg_is_pro_active = false;
 if ( in_array( $wps_wpg_plugin, $wps_wpg_plugin_list ) ) {
 	$wps_wpg_is_pro_active = true;
@@ -95,7 +95,7 @@ if ( $pgfw_save_check_flag ) {
 	<?php
 		$plugin_admin = new Pdf_Generator_For_Wp_Admin( 'pdf-generator-for-wp', '1.0.7' );
 		$count        = $plugin_admin->wps_wpg_get_count( 'settings' );
-		$key3 = get_option( 'wps_wpg_activated_timestamp' );
+		$key3         = get_option( 'wps_wpg_activated_timestamp' );
 	if ( ! empty( $count ) && ( empty( $key3 ) ) ) {
 			$global_custom_css = 'const triggerError = () => {
 				swal({

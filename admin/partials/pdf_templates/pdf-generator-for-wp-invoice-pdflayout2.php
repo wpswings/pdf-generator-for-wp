@@ -20,9 +20,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function return_ob_value( $order_id, $type, $invoice_id ) {
 
-	$order_details         = do_shortcode( '[WPG_FETCH_ORDER order_id ="' . $order_id . '"]' );
+	$order_details = do_shortcode( '[WPG_FETCH_ORDER order_id ="' . $order_id . '"]' );
 
-	$order_details         = json_decode( $order_details, true );
+	$order_details = json_decode( $order_details, true );
 
 	$shipping_details      = $order_details['shipping_details'];
 	$billing_details       = $order_details['billing_details'];
@@ -230,7 +230,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 					</table>';
 
 		if ( 'invoice' === $type ) {
-			$html .= '<div>
+			$html                         .= '<div>
 						<table border = "0" cellpadding = "0" cellspacing = "0" id="wpg-prod-listing-table">
 							<thead>
 								<tr id="wpg-prod-listing-table-title">
@@ -243,7 +243,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 								</tr>
 							</thead>
 							<tbody id="wpg-pdf-prod-body">';
-			$meta_data = '';
+			$meta_data                     = '';
 			foreach ( $order_product_details as $product ) {
 				$item_data = ! empty( $product['item_meta'] ) ? $product['item_meta'] : array();
 				if ( ! empty( $item_data ) && is_array( $item_data ) ) {
@@ -256,7 +256,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 						$meta_data .= '<br/>' . $item['display_key'] . ':' . $item['display_value'];
 					}
 				}
-				$html .= '<tr>
+				$html         .= '<tr>
 						<td class="wpg-product-name">' . $product['product_name'] . $meta_data . '</td>
 						<td>' . $product['product_quantity'] . '</td>';
 						$html .= '<td>' . apply_filters( 'wps_custom_column_html_column_data', '', $order_id, $type, $invoice_id ) . '</td>';

@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 global $pgfw_wps_pgfw_obj, $wps_pgfw_gen_flag, $pgfw_save_check_flag;
 $pgfw_default_tabs = $pgfw_wps_pgfw_obj->wps_pgfw_plug_default_tabs();
-$pgfw_tab_key = '';
+$pgfw_tab_key      = '';
 ?>
 <header>
 	<?php
@@ -39,22 +39,22 @@ $pgfw_tab_key = '';
 				array(
 
 					array(
-						'title'       => __( 'Enable Tracking', 'pdf-generator-for-wp' ),
-						'type'        => 'radio-switch',
-						'name'        => 'pgfw_enable_tracking',
-						'id'          => 'pgfw_enable_tracking',
-						'value'       => get_option( 'pgfw_enable_tracking' ),
-						'class'       => 'pgfw-radio-switch-class',
-						'options'     => array(
+						'title'   => __( 'Enable Tracking', 'pdf-generator-for-wp' ),
+						'type'    => 'radio-switch',
+						'name'    => 'pgfw_enable_tracking',
+						'id'      => 'pgfw_enable_tracking',
+						'value'   => get_option( 'pgfw_enable_tracking' ),
+						'class'   => 'pgfw-radio-switch-class',
+						'options' => array(
 							'yes' => __( 'YES', 'pdf-generator-for-wp' ),
 							'no'  => __( 'NO', 'pdf-generator-for-wp' ),
 						),
 					),
 					array(
-						'type'  => 'button',
-						'id'    => 'pgfw_tracking_save_button',
+						'type'        => 'button',
+						'id'          => 'pgfw_tracking_save_button',
 						'button_text' => __( 'Save', 'pdf-generator-for-wp' ),
-						'class' => 'pgfw-button-class',
+						'class'       => 'pgfw-button-class',
 					),
 				)
 			);
@@ -78,9 +78,9 @@ $pgfw_tab_key = '';
 	</section>
 	<style type="text/css">
 		.cards {
-			   display: flex;
-			   flex-wrap: wrap;
-			   padding: 20px 40px;
+				display: flex;
+				flex-wrap: wrap;
+				padding: 20px 40px;
 		}
 		.card {
 			flex: 1 0 518px;

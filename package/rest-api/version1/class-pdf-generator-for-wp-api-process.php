@@ -32,7 +32,6 @@ if ( ! class_exists( 'Pdf_Generator_For_Wp_Api_Process' ) ) {
 		 * @since    1.0.0
 		 */
 		public function __construct() {
-
 		}
 
 		/**
@@ -48,7 +47,7 @@ if ( ! class_exists( 'Pdf_Generator_For_Wp_Api_Process' ) ) {
 			// Write your custom code here.
 
 			$wps_pgfw_rest_response['status'] = 200;
-			$wps_pgfw_rest_response['data'] = $pgfw_request->get_headers();
+			$wps_pgfw_rest_response['data']   = $pgfw_request->get_headers();
 			return $wps_pgfw_rest_response;
 		}
 	}

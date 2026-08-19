@@ -49,7 +49,7 @@ add_action(
 );
 require_once ABSPATH . '/wp-admin/includes/plugin.php';
 $pgfw_old_plugin_exists = false;
-$plug           = get_plugins();
+$plug                   = get_plugins();
 if ( isset( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php'] ) ) {
 	if ( version_compare( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php']['Version'], '3.0.5', '<' ) ) {
 		$pgfw_old_plugin_exists = true;
@@ -98,7 +98,7 @@ function activate_pdf_generator_for_wp( $network_wide ) {
 	$wps_pgfw_active_plugin = get_option( 'wps_all_plugins_active', array() );
 	if ( ! is_array( $wps_pgfw_active_plugin ) ) {
 		// If someone stored JSON in the past, try to decode it.
-		$decoded = is_string( $wps_pgfw_active_plugin ) ? json_decode( $wps_pgfw_active_plugin, true ) : null;
+		$decoded                = is_string( $wps_pgfw_active_plugin ) ? json_decode( $wps_pgfw_active_plugin, true ) : null;
 		$wps_pgfw_active_plugin = is_array( $decoded ) ? $decoded : array();
 	}
 
@@ -207,28 +207,28 @@ function wps_register_new_widgets( $widgets_manager ) {
 		'wps_pdf_embed',
 	);
 
-	$always_include = array( 'wps_pdf_shortcode', 'wps_single_image' );
-	$pro_only_widgets = array( 'wps_ai_chatbot', 'wps_pdf_embed', 'wps_rss_feed' );
+	$always_include    = array( 'wps_pdf_shortcode', 'wps_single_image' );
+	$pro_only_widgets  = array( 'wps_ai_chatbot', 'wps_pdf_embed', 'wps_rss_feed' );
 	$tofw_only_widgets = array( 'wps_tracking_info' );
 
 	// Check if Pro plugin is active.
 	include_once ABSPATH . 'wp-admin/includes/plugin.php';
-	$pdf_is_pro_plugin_active = is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' );
+	$pdf_is_pro_plugin_active  = is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' );
 	$tofw_is_pro_plugin_active = is_plugin_active( 'track-orders-for-woocommerce/track-orders-for-woocommerce.php' );
 
 	foreach ( $wps_pgfw_sources as $source ) {
 		$should_load = false;
 
-		if ( in_array( $source, $always_include ) ) {
+		if ( in_array( $source, $always_include, true ) ) {
 			$should_load = true;
-		} elseif ( in_array( $source, $pro_only_widgets ) ) {
+		} elseif ( in_array( $source, $pro_only_widgets, true ) ) {
 			$option_key = str_replace( 'wps_', '', $source );
 			$option_key = "wps_embed_source_{$option_key}";
 
 			if ( 'on' === get_option( $option_key, '' ) && $pdf_is_pro_plugin_active ) {
 				$should_load = true;
 			}
-		} elseif ( in_array( $source, $tofw_only_widgets ) ) {
+		} elseif ( in_array( $source, $tofw_only_widgets, true ) ) {
 			$option_key = str_replace( 'wps_', '', $source );
 			$option_key = "wps_embed_source_{$option_key}";
 
@@ -247,9 +247,9 @@ function wps_register_new_widgets( $widgets_manager ) {
 			continue;
 		}
 
-		$wps_source = str_replace( '_', '-', $source );
+		$wps_source        = str_replace( '_', '-', $source );
 		$wps_sources_class = strtoupper( strtok( $source, '_' ) ) . '_' . ucfirst( substr( $source, strpos( $source, '_' ) + 1 ) );
-		$wps_widget_file = plugin_dir_path( __FILE__ ) . "Elementor/class-elementor-widget-{$wps_source}.php";
+		$wps_widget_file   = plugin_dir_path( __FILE__ ) . "Elementor/class-elementor-widget-{$wps_source}.php";
 
 		if ( file_exists( $wps_widget_file ) ) {
 			require_once $wps_widget_file;
@@ -373,7 +373,7 @@ add_action( 'after_plugin_row_wordpress-pdf-generator/wordpress-pdf-generator.ph
  * @param array  $plugin_data An array of plugin data.
  * @param string $status Status filter currently applied to the plugin list.
  */
-function wps_wpg_old_upgrade_notice( $plugin_file, $plugin_data, $status ) {
+function wps_wpg_old_upgrade_notice( $plugin_file, $plugin_data, $status ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter -- required by the after_plugin_row_{$plugin_file} hook signature.
 
 	global $pgfw_old_plugin_exists;
 	if ( $pgfw_old_plugin_exists ) {
@@ -439,10 +439,10 @@ add_action( 'after_plugin_row_' . plugin_basename( __FILE__ ), 'wps_wpg_pro_pdf_
  * @param array  $plugin_data An array of plugin data.
  * @param string $status Status filter currently applied to the plugin list.
  */
-function wps_wpg_pro_pdf_upgrade_notice( $plugin_file, $plugin_data, $status ) {
+function wps_wpg_pro_pdf_upgrade_notice( $plugin_file, $plugin_data, $status ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter -- required by the after_plugin_row_{$plugin_file} hook signature.
 	$plugin_admin = new Pdf_Generator_For_Wp_Admin( 'pdf-generator-for-wp', '1.0.7' );
 	$count        = $plugin_admin->wps_wpg_get_count( 'settings' );
-	$key3 = get_option( 'wps_wpg_activated_timestamp' );
+	$key3         = get_option( 'wps_wpg_activated_timestamp' );
 	if ( ! empty( $count ) && ( empty( $key3 ) ) ) {
 		?>
 
@@ -535,7 +535,7 @@ function wps_pgfw_tracking_info_shortcode( $atts ) {
 	}
 
 	$wps_pgfw_order_id = intval( $atts['order_id'] );
-	$wps_pgfw_order = wc_get_order( $wps_pgfw_order_id );
+	$wps_pgfw_order    = wc_get_order( $wps_pgfw_order_id );
 
 	if ( ! $wps_pgfw_order ) {
 		return '<div style="color:red;">Invalid Order ID.</div>';
@@ -546,7 +546,7 @@ function wps_pgfw_tracking_info_shortcode( $atts ) {
 	$wps_pgfw_estimated_time  = $wps_pgfw_order->get_meta( 'wps_tofw_estimated_delivery_time' );
 	$wps_pgfw_carrier_base    = $wps_pgfw_order->get_meta( 'wps_tofwp_enhanced_order_company' );
 	$wps_pgfw_tracking_number = $wps_pgfw_order->get_meta( 'wps_tofwp_enhanced_tracking_no' );
-	$wps_pgfw_tracking_link   = $wps_pgfw_carrier_base && $wps_pgfw_tracking_number ? esc_url( $wps_pgfw_carrier_base . urlencode( $wps_pgfw_tracking_number ) ) : '';
+	$wps_pgfw_tracking_link   = $wps_pgfw_carrier_base && $wps_pgfw_tracking_number ? esc_url( $wps_pgfw_carrier_base . rawurlencode( $wps_pgfw_tracking_number ) ) : '';
 
 	$wps_pgfw_saved_settings  = get_option( 'wps_tofwp_general_settings_saved' );
 	$wps_pgfw_saved_providers = isset( $wps_pgfw_saved_settings['providers_data'] ) ? $wps_pgfw_saved_settings['providers_data'] : array();
@@ -556,7 +556,7 @@ function wps_pgfw_tracking_info_shortcode( $atts ) {
 
 	// Text alignment logic.
 	$wps_pgfw_allowed_alignments = array( 'left', 'center', 'right' );
-	$wps_pgfw_align = in_array( strtolower( $atts['align'] ), $wps_pgfw_allowed_alignments ) ? strtolower( $atts['align'] ) : 'center';
+	$wps_pgfw_align              = in_array( strtolower( $atts['align'] ), $wps_pgfw_allowed_alignments, true ) ? strtolower( $atts['align'] ) : 'center';
 
 	$wps_pgfw_container_style = 'max-width: 500px; padding: 20px; border-radius: 12px; background: #f8f9fa; box-shadow: 0 4px 12px rgba(0,0,0,0.1); font-family: Arial, sans-serif;';
 	if ( 'center' === $wps_pgfw_align ) {
@@ -569,18 +569,18 @@ function wps_pgfw_tracking_info_shortcode( $atts ) {
 
 	ob_start();
 	if ( is_plugin_active( 'track-orders-for-woocommerce-pro/track-orders-for-woocommerce-pro.php' ) ) {
-		$wps_pgfw_plugin_url = TRACK_ORDERS_FOR_WOOCOMMERCE_PRO_DIR_URL;
-		$wps_pgfw_icon_path  = $wps_pgfw_plugin_url . 'admin/partials/assets/icons/';
+		$wps_pgfw_plugin_url           = TRACK_ORDERS_FOR_WOOCOMMERCE_PRO_DIR_URL;
+		$wps_pgfw_icon_path            = $wps_pgfw_plugin_url . 'admin/partials/assets/icons/';
 		$wps_pgfw_matched_carrier_name = '';
-		$wps_pgfw_icon_url = '';
+		$wps_pgfw_icon_url             = '';
 
 		// Detect matched carrier and icon.
 		foreach ( $wps_pgfw_saved_providers as $wps_pgfw_name => $wps_pgfw_url ) {
 			if ( strpos( $wps_pgfw_carrier_base, $wps_pgfw_url ) !== false ) {
 				$wps_pgfw_matched_carrier_name = $wps_pgfw_name;
-				$wps_pgfw_icon_file = strtolower( str_replace( ' ', '', $wps_pgfw_matched_carrier_name ) ) . '.png';
-				$wps_pgfw_icon_full_path = TRACK_ORDERS_FOR_WOOCOMMERCE_PRO_DIR_PATH . 'admin/partials/assets/icons/' . $wps_pgfw_icon_file;
-				$wps_pgfw_icon_url = file_exists( $wps_pgfw_icon_full_path ) ? $wps_pgfw_icon_path . $wps_pgfw_icon_file : $wps_pgfw_icon_path . 'default.png';
+				$wps_pgfw_icon_file            = strtolower( str_replace( ' ', '', $wps_pgfw_matched_carrier_name ) ) . '.png';
+				$wps_pgfw_icon_full_path       = TRACK_ORDERS_FOR_WOOCOMMERCE_PRO_DIR_PATH . 'admin/partials/assets/icons/' . $wps_pgfw_icon_file;
+				$wps_pgfw_icon_url             = file_exists( $wps_pgfw_icon_full_path ) ? $wps_pgfw_icon_path . $wps_pgfw_icon_file : $wps_pgfw_icon_path . 'default.png';
 				break;
 			}
 		}
@@ -672,7 +672,7 @@ function wps_twitch_stream_with_chat_shortcode( $atts ) {
 	}
 
 	// Set the parent domain (required by Twitch embed policy).
-	$host = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : '';
+	$host   = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : '';
 	$parent = esc_attr( $host );
 
 	// Start building output.
@@ -722,9 +722,9 @@ function wps_strava_embed_shortcode( $atts ) {
 	// Merge user-provided attributes with defaults.
 	$atts = shortcode_atts(
 		array(
-			'id' => '', // Strava Activity or Segment ID.
-			'type' => 'activity', // Type of embed (activity, segment, etc.).
-			'style' => 'standard', // Visual style of embed.
+			'id'         => '', // Strava Activity or Segment ID.
+			'type'       => 'activity', // Type of embed (activity, segment, etc.).
+			'style'      => 'standard', // Visual style of embed.
 			'from_embed' => 'false', // Optional flag for embed behavior.
 		),
 		$atts,
@@ -774,8 +774,8 @@ function wps_chatbot_ai_shortcode( $atts ) {
 	// Set default values and merge with user-supplied attributes.
 	$atts = shortcode_atts(
 		array(
-			'url' => '',
-			'height' => '700px',
+			'url'          => '',
+			'height'       => '700px',
 			'header_color' => '#4e54c8',
 			'header_title' => 'AI Chat Assistant',
 		),
@@ -885,11 +885,11 @@ function wps_rssapp_feed_shortcode( $atts ) {
 	// Define default attribute values and merge with user-supplied attributes.
 	$atts = shortcode_atts(
 		array(
-			'url' => '',
-			'height' => '600px',
-			'title' => '📰 Latest News',
-			'bg_color' => '#ffffff',
-			'text_color' => '#333333',
+			'url'          => '',
+			'height'       => '600px',
+			'title'        => '📰 Latest News',
+			'bg_color'     => '#ffffff',
+			'text_color'   => '#333333',
 			'border_color' => '#eeeeee',
 		),
 		$atts
@@ -953,9 +953,9 @@ function wps_display_uploaded_image_shortcode( $atts ) {
 	// Set default attributes for the shortcode.
 	$atts = shortcode_atts(
 		array(
-			'id'  => '',    // Attachment ID.
-			'url' => '',    // Image URL if no ID is given.
-			'alt' => 'Image', // Alt text for accessibility.
+			'id'     => '',    // Attachment ID.
+			'url'    => '',    // Image URL if no ID is given.
+			'alt'    => 'Image', // Alt text for accessibility.
 			'width'  => '100%', // Width of the image.
 			'height' => 'auto',  // Height of the image.
 		),
@@ -1005,9 +1005,9 @@ if ( ! function_exists( 'wps_banner_notification_plugin_html' ) ) {
 		if ( 'wc-settings' === $page_param || in_array( $screen->id, $target_screens, true ) ) {
 			$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
 			if ( isset( $banner_id ) && '' !== $banner_id ) {
-				$hidden_banner_id            = get_option( 'wps_wgm_notify_hide_baneer_notification', false );
-				$banner_image = get_option( 'wps_wgm_notify_new_banner_image', '' );
-				$banner_url = get_option( 'wps_wgm_notify_new_banner_url', '' );
+				$hidden_banner_id = get_option( 'wps_wgm_notify_hide_baneer_notification', false );
+				$banner_image     = get_option( 'wps_wgm_notify_new_banner_image', '' );
+				$banner_url       = get_option( 'wps_wgm_notify_new_banner_url', '' );
 				if ( isset( $hidden_banner_id ) && $hidden_banner_id < $banner_id ) {
 
 					if ( '' !== $banner_image && '' !== $banner_url ) {
@@ -1036,23 +1036,23 @@ add_action( 'init', 'wps_pgfw_register_flipbook_taxonomy' );
  */
 function wps_register_flipbook_post_type() {
 	$general_settings_data = get_option( 'pgfw_general_settings_save', array() );
-	$pgfw_flipbook_enable = array_key_exists( 'pgfw_flipbook_enable', $general_settings_data ) ? $general_settings_data['pgfw_flipbook_enable'] : '';
+	$pgfw_flipbook_enable  = array_key_exists( 'pgfw_flipbook_enable', $general_settings_data ) ? $general_settings_data['pgfw_flipbook_enable'] : '';
 
 	$args = array(
-		'labels'             => array(
-			'name'               => __( 'Flipbooks', 'wps-flipbook' ),
-			'singular_name'      => __( 'Flipbook', 'wps-flipbook' ),
-			'menu_name'          => __( 'Flipbooks', 'wps-flipbook' ),
+		'labels'          => array(
+			'name'          => __( 'Flipbooks', 'wps-flipbook' ),
+			'singular_name' => __( 'Flipbook', 'wps-flipbook' ),
+			'menu_name'     => __( 'Flipbooks', 'wps-flipbook' ),
 		),
-		'public'             => false,
-		'show_ui'            => ( 'yes' === $pgfw_flipbook_enable ),
-		'show_in_menu'       => ( 'yes' === $pgfw_flipbook_enable ),
-		'menu_icon'          => 'dashicons-book-alt',
-		'supports'           => array( 'title' ),
-		'capability_type'    => 'post',
-		'has_archive'        => false,
-		'rewrite'            => false,
-		'query_var'          => true,
+		'public'          => false,
+		'show_ui'         => ( 'yes' === $pgfw_flipbook_enable ),
+		'show_in_menu'    => ( 'yes' === $pgfw_flipbook_enable ),
+		'menu_icon'       => 'dashicons-book-alt',
+		'supports'        => array( 'title' ),
+		'capability_type' => 'post',
+		'has_archive'     => false,
+		'rewrite'         => false,
+		'query_var'       => true,
 	);
 
 	register_post_type( 'flipbook', $args );
@@ -1063,18 +1063,18 @@ function wps_register_flipbook_post_type() {
  */
 function wps_pgfw_register_flipbook_taxonomy() {
 	$general_settings_data = get_option( 'pgfw_general_settings_save', array() );
-	$pgfw_flipbook_enable = array_key_exists( 'pgfw_flipbook_enable', $general_settings_data ) ? $general_settings_data['pgfw_flipbook_enable'] : '';
+	$pgfw_flipbook_enable  = array_key_exists( 'pgfw_flipbook_enable', $general_settings_data ) ? $general_settings_data['pgfw_flipbook_enable'] : '';
 
 	if ( 'yes' === $pgfw_flipbook_enable ) {
 		register_taxonomy(
 			'flipbook_category',
 			'flipbook',
 			array(
-				'label' => 'Flipbook Categories',
-				'hierarchical' => true,
-				'show_ui' => true,
+				'label'             => 'Flipbook Categories',
+				'hierarchical'      => true,
+				'show_ui'           => true,
 				'show_admin_column' => true,
-				'rewrite' => array( 'slug' => 'flipbook-category' ),
+				'rewrite'           => array( 'slug' => 'flipbook-category' ),
 			)
 		);
 	}
@@ -1121,9 +1121,9 @@ function wps_pgfw_notification_plugin_html() {
 	if ( ( isset( $_GET['page'] ) && 'pdf_generator_for_wp_menu' === $_GET['page'] ) ) {
 		$banner_id = get_option( 'wps_wgm_notify_new_banner_id', false );
 		if ( isset( $banner_id ) && '' !== $banner_id ) {
-			$hidden_banner_id            = get_option( 'wps_wgm_notify_hide_baneer_notification', false );
-			$banner_image = get_option( 'wps_wgm_notify_new_banner_image', '' );
-			$banner_url = get_option( 'wps_wgm_notify_new_banner_url', '' );
+			$hidden_banner_id = get_option( 'wps_wgm_notify_hide_baneer_notification', false );
+			$banner_image     = get_option( 'wps_wgm_notify_new_banner_image', '' );
+			$banner_url       = get_option( 'wps_wgm_notify_new_banner_url', '' );
 			if ( isset( $hidden_banner_id ) && $hidden_banner_id < $banner_id ) {
 
 				if ( '' !== $banner_image && '' !== $banner_url ) {

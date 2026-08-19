@@ -15,8 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 global $pgfw_wps_pgfw_obj, $pgfw_wps_wpg_obj;
-$pgfw_active_tab        = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw_tab'] ) : 'pdf-generator-for-wp-layout-settings'; // phpcs:ignore WordPress.Security.NonceVerification
-$pgfw_default_tabs      = $pgfw_wps_pgfw_obj->wps_pgfw_plug_layout_setting_sub_tabs_dummy();
+$pgfw_active_tab         = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw_tab'] ) : 'pdf-generator-for-wp-layout-settings'; // phpcs:ignore WordPress.Security.NonceVerification
+$pgfw_default_tabs       = $pgfw_wps_pgfw_obj->wps_pgfw_plug_layout_setting_sub_tabs_dummy();
 $pgfw_cover_setting_html = apply_filters( 'pgfw_layout_cover_page_setting_html_array_dummy', array() );
 ?>
 <main class="wps-main wps-bg-white wps-r-8 wps_pgfw_pro_tag">

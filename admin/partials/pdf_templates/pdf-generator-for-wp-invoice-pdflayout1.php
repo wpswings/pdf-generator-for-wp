@@ -266,7 +266,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 						</tr>
 					</thead>
 					<tbody>';
-			$meta_data = '';
+			$meta_data             = '';
 			foreach ( $order_product_details as $key => $product ) {
 				$item_data = ! empty( $product['item_meta'] ) ? $product['item_meta'] : array();
 				if ( ! empty( $item_data ) && is_array( $item_data ) ) {
@@ -279,7 +279,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 						$meta_data .= '<br>' . $item['display_key'] . ':' . $item['display_value'];
 					}
 				}
-				$html .= '<tr>
+				$html                 .= '<tr>
 								<td style="text-align: left;padding: 10px;">' . $product['product_name'] . $meta_data . '</td>
 								<td style="text-align: left;padding: 10px;">' . $product['product_quantity'] . '</td>';
 								$html .= '<td style="text-align: left;padding: 10px;">' . apply_filters( 'wps_custom_column_html_column_data', '', $order_id, $type, $invoice_id ) . '</td>';

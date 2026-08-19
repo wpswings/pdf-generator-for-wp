@@ -74,9 +74,9 @@ class Elementor_Widget_WPS_LinkedIn extends Widget_Base {
 	 * Render the widget output on the frontend.
 	 */
 	protected function render() {
-		$settings  = $this->get_settings_for_display();
-		$post_id   = isset( $settings['linkedin_post_id'] ) ? trim( $settings['linkedin_post_id'] ) : '';
-		$help_url  = 'https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-doc&utm_medium=referral&utm_campaign=documentation';
+		$settings = $this->get_settings_for_display();
+		$post_id  = isset( $settings['linkedin_post_id'] ) ? trim( $settings['linkedin_post_id'] ) : '';
+		$help_url = 'https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-doc&utm_medium=referral&utm_campaign=documentation';
 
 		if ( ! empty( $post_id ) ) {
 			$embed_url = 'https://www.linkedin.com/embed/feed/update/urn:li:share:' . rawurlencode( $post_id );

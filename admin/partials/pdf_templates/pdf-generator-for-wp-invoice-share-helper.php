@@ -63,11 +63,11 @@ if ( ! function_exists( 'wpg_invoice_share_section' ) ) {
 	 * @return string
 	 */
 	function wpg_invoice_share_section( $share_link, $color, $whatsapp_share, $email_share ) {
-		$share_link            = esc_url( $share_link );
-		$whatsapp_share        = esc_url( $whatsapp_share );
-		$email_share           = esc_url( $email_share );
-		$color_style           = $color ? $color : '#000000';
-		$open_link_text        = esc_attr__( 'Open invoice link', 'pdf-generator-for-wp' );
+		$share_link     = esc_url( $share_link );
+		$whatsapp_share = esc_url( $whatsapp_share );
+		$email_share    = esc_url( $email_share );
+		$color_style    = $color ? $color : '#000000';
+		$open_link_text = esc_attr__( 'Open invoice link', 'pdf-generator-for-wp' );
 
 		$html  = '<div style="text-align:center; padding:14px; border:1px solid #e6e6e6; border-radius:8px; background:#fafafa;">';
 		$html .= '<div style="font-weight:700; letter-spacing:0.3px; margin-bottom:15px; color:' . esc_attr( $color_style ) . '; text-transform:uppercase; font-size:13px;">' . __( 'Share this invoice', 'pdf-generator-for-wp' ) . '</div>';

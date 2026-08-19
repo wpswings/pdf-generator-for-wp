@@ -53,17 +53,17 @@ class Elementor_Widget_WPS_Google_Elements extends Widget_Base {
 			'content_section',
 			array(
 				'label' => __( 'Google Embed Settings', 'pdf-generator-for-wp' ),
-				'tab' => Controls_Manager::TAB_CONTENT,
+				'tab'   => Controls_Manager::TAB_CONTENT,
 			)
 		);
 
 		$this->add_control(
 			'google_url',
 			array(
-				'label' => __( 'Google Service Embed URL', 'pdf-generator-for-wp' ),
-				'type' => Controls_Manager::TEXT,
+				'label'       => __( 'Google Service Embed URL', 'pdf-generator-for-wp' ),
+				'type'        => Controls_Manager::TEXT,
 				'placeholder' => __( 'Paste Google Docs, Sheets, Slides, Forms, etc. URL', 'pdf-generator-for-wp' ),
-				'default' => '',
+				'default'     => '',
 			)
 		);
 
@@ -108,8 +108,8 @@ class Elementor_Widget_WPS_Google_Elements extends Widget_Base {
 			$place = isset( $place_match[1] ) ? str_replace( '+', ' ', $place_match[1] ) : '';
 
 			return 'https://maps.google.com/maps?hl=en&ie=UTF8&ll=' . esc_attr( $lat ) . ',' . esc_attr( $lng ) .
-				   '&spn=' . esc_attr( $lat ) . ',' . esc_attr( $lng ) . '&q=' . esc_attr( $place ) .
-				   '&t=m&z=17&output=embed&iwloc';
+					'&spn=' . esc_attr( $lat ) . ',' . esc_attr( $lng ) . '&q=' . esc_attr( $place ) .
+					'&t=m&z=17&output=embed&iwloc';
 		}
 
 		if ( strpos( $url, 'calendar.google.com/calendar' ) !== false ) {
@@ -127,9 +127,9 @@ class Elementor_Widget_WPS_Google_Elements extends Widget_Base {
 	 * Render the widget output on the frontend.
 	 */
 	protected function render() {
-		$settings   = $this->get_settings_for_display();
-		$url        = $settings['google_url'];
-		$embed_url  = esc_url( $this->get_embed_url( $url ) );
+		$settings  = $this->get_settings_for_display();
+		$url       = $settings['google_url'];
+		$embed_url = esc_url( $this->get_embed_url( $url ) );
 
 		if ( strpos( $url, 'docs.google.com/drawings' ) !== false ) {
 			echo '<img src="' . esc_url( $embed_url ) . '" width="800" height="500" style="border:1px solid #ddd;" />';
