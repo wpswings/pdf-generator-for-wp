@@ -5,6 +5,10 @@
  * @package pdf_generator_for_wp
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! function_exists( 'wpg_invoice_share_meta' ) ) {
 	/**
 	 * Prepare share links and text.

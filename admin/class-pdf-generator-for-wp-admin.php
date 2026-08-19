@@ -207,10 +207,10 @@ class Pdf_Generator_For_Wp_Admin {
 		$is_flipbook_screen = isset( $screen->post_type ) && 'flipbook' === $screen->post_type
 			&& isset( $screen->base ) && 'post' === $screen->base;
 		if ( $is_flipbook_screen && current_user_can( 'upload_files' ) ) {
-			// Enqueue PDF.js library.
+			// Enqueue PDF.js library (bundled locally; WordPress.org disallows offloading scripts to a remote CDN).
 			wp_enqueue_script(
 				'pdfjs-library',
-				'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js',
+				plugin_dir_url( __FILE__ ) . 'src/js/vendor/pdfjs/pdf.min.js',
 				array(),
 				'2.6.347',
 				false
@@ -241,10 +241,10 @@ class Pdf_Generator_For_Wp_Admin {
 			wp_enqueue_script( 'flipbook-js', plugin_dir_url( __FILE__ ) . 'src/js/flipbook.js', array( 'jquery' ), '1.0.0', true );
 			wp_enqueue_media();
 		}
-		// Enqueue PDF.js library.
+		// Enqueue PDF.js library (bundled locally; WordPress.org disallows offloading scripts to a remote CDN).
 		wp_enqueue_script(
 			'pdfjs-library',
-			'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js',
+			plugin_dir_url( __FILE__ ) . 'src/js/vendor/pdfjs/pdf.min.js',
 			array(),
 			'2.6.347',
 			false
@@ -267,9 +267,10 @@ class Pdf_Generator_For_Wp_Admin {
 			'wps-pgfw-pdf-handler',
 			'wpsGfwPdf',
 			array(
-				'fbFetchNonce' => wp_create_nonce( 'fb_fetch_pdf' ),
+				'fbFetchNonce'  => wp_create_nonce( 'fb_fetch_pdf' ),
 				'fbUploadNonce' => wp_create_nonce( 'ifb_upload_pdf' ),
-				'fbAjaxUrl' => esc_url( admin_url( 'admin-ajax.php' ) ),
+				'fbAjaxUrl'     => esc_url( admin_url( 'admin-ajax.php' ) ),
+				'pdfWorkerSrc'  => plugin_dir_url( __FILE__ ) . 'src/js/vendor/pdfjs/pdf.worker.min.js',
 			)
 		);
 		wp_enqueue_script( 'flipbook-js', plugin_dir_url( __FILE__ ) . 'src/js/flipbook.js', array( 'jquery' ), '1.0.0', true );
@@ -2505,7 +2506,7 @@ class Pdf_Generator_For_Wp_Admin {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta( $sql );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- one-time migration of legacy plugin data into this plugin's own table; no user input involved and nothing to cache.
-		$wpdb->query( 'INSERT INTO ' . $table_name . ' SELECT * FROM ' . $wpdb->prefix . 'mwb_pdflog' );
+		$wpdb->query( $wpdb->prepare( 'INSERT INTO %i SELECT * FROM %i', $table_name, $wpdb->prefix . 'mwb_pdflog' ) );
 	}
 
 	/**

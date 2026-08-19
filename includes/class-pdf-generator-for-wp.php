@@ -83,7 +83,6 @@ class Pdf_Generator_For_Wp {
 		$this->plugin_name = 'pdf-generator-for-wp';
 
 		$this->pdf_generator_for_wp_dependencies();
-		$this->pdf_generator_for_wp_locale();
 		if ( is_admin() ) {
 			$this->pdf_generator_for_wp_admin_hooks();
 		} else {
@@ -117,12 +116,6 @@ class Pdf_Generator_For_Wp {
 		 */
 		require_once plugin_dir_path( __DIR__ ) . 'includes/class-pdf-generator-for-wp-loader.php';
 
-		/**
-		 * The class responsible for defining internationalization functionality
-		 * of the plugin.
-		 */
-		require_once plugin_dir_path( __DIR__ ) . 'includes/class-pdf-generator-for-wp-i18n.php';
-
 		if ( is_admin() ) {
 
 			// The class responsible for defining all actions that occur in the admin area.
@@ -150,20 +143,6 @@ class Pdf_Generator_For_Wp {
 		 */
 		require_once plugin_dir_path( __DIR__ ) . 'common/class-pdf-generator-for-wp-common.php';
 		$this->loader = new Pdf_Generator_For_Wp_Loader();
-	}
-
-	/**
-	 * Define the locale for this plugin for internationalization.
-	 *
-	 * Uses the Pdf_Generator_For_Wp_I18n class in order to set the domain and to register the hook
-	 * with WordPress.
-	 *
-	 * @since    1.0.0
-	 */
-	private function pdf_generator_for_wp_locale() {
-		$plugin_i18n = new Pdf_Generator_For_Wp_I18n();
-
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 	}
 
 	/**
