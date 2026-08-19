@@ -307,7 +307,7 @@ class Pdf_Generator_For_Wp_Common {
 				// Save JPEG image with 100% quality.
 				imagejpeg( $webp_image, $jpeg_image_path, 100 );
 				$img_url = str_replace( $upload_dir['basedir'], $upload_dir['baseurl'], $jpeg_image_path );
-				$html = '<img src="' . $img_url . '" alt="Converted Image">';
+				$html = '<img src="' . $img_url . '" alt="' . esc_attr__( 'Converted Image', 'pdf-generator-for-wp' ) . '">';
 
 				// Free up memory.
 				imagedestroy( $webp_image );
@@ -910,7 +910,7 @@ class Pdf_Generator_For_Wp_Common {
 					// Save JPEG image with 100% quality.
 					imagejpeg( $webp_image, $jpeg_image_path, 100 );
 					$img_url = str_replace( $upload_dir['basedir'], $upload_dir['baseurl'], $jpeg_image_path );
-					$html = '<img src="' . $img_url . '" alt="Converted Image">';
+					$html = '<img src="' . $img_url . '" alt="' . esc_attr__( 'Converted Image', 'pdf-generator-for-wp' ) . '">';
 
 					// Free up memory.
 					imagedestroy( $webp_image );
@@ -1169,7 +1169,7 @@ class Pdf_Generator_For_Wp_Common {
 				// Save JPEG image with 100% quality.
 				imagejpeg( $webp_image, $jpeg_image_path, 100 );
 				$img_url = str_replace( $upload_dir['basedir'], $upload_dir['baseurl'], $jpeg_image_path );
-				$html = '<img src="' . $img_url . '" alt="Converted Image">';
+				$html = '<img src="' . $img_url . '" alt="' . esc_attr__( 'Converted Image', 'pdf-generator-for-wp' ) . '">';
 
 				// Free up memory.
 				imagedestroy( $webp_image );

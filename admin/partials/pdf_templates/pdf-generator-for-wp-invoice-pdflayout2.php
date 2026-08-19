@@ -48,7 +48,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 		$html = '<!DOCTYPE html>
 					<html>
 					<head>
-						<title> INVOICE SYSTEM FOR WOOCOMMERCE </title>
+						<title>' . __( 'Invoice System for WooCommerce', 'pdf-generator-for-wp' ) . '</title>
 						<style>
 							#wpg-pdf-header{
 								width: 100%;

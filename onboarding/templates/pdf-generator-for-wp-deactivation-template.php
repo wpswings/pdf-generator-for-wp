@@ -37,7 +37,7 @@ $pgfw_onboarding_form_deactivate = apply_filters( 'wps_pgfw_deactivation_form_fi
 						?>
 						<div class="wps-pgfw-on-boarding-form-btn__wrapper mdc-dialog__actions">
 							<div class="wps-pgfw-on-boarding-form-submit wps-pgfw-on-boarding-form-verify ">
-								<input type="submit" class="wps-pgfw-on-boarding-submit wps-on-boarding-verify mdc-button mdc-button--raised" value="Send Us">
+								<input type="submit" class="wps-pgfw-on-boarding-submit wps-on-boarding-verify mdc-button mdc-button--raised" value="<?php echo esc_attr__( 'Send Us', 'pdf-generator-for-wp' ); ?>">
 							</div>
 							<div class="wps-pgfw-on-boarding-form-no_thanks">
 								<a href="#" class="wps-deactivation-no_thanks mdc-button"><?php esc_html_e( 'Skip and Deactivate Now', 'pdf-generator-for-wp' ); ?></a>

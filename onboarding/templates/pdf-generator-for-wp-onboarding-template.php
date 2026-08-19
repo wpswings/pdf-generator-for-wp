@@ -33,7 +33,7 @@ $pgfw_onboarding_form_fields = apply_filters( 'wps_pgfw_on_boarding_form_fields'
 						?>
 						<div class="wps-pgfw-on-boarding-form-btn__wrapper wps-pgfw-onboarding-actions mdc-dialog__actions">
 							<div class="wps-pgfw-on-boarding-form-submit wps-pgfw-on-boarding-form-verify ">
-								<input type="submit" class="wps-pgfw-on-boarding-submit wps-on-boarding-verify mdc-button mdc-button--raised" value="Send Us">
+								<input type="submit" class="wps-pgfw-on-boarding-submit wps-on-boarding-verify mdc-button mdc-button--raised" value="<?php echo esc_attr__( 'Send Us', 'pdf-generator-for-wp' ); ?>">
 							</div>
 							<div class="wps-pgfw-on-boarding-form-no_thanks">
 								<a href="#" class="wps-pgfw-on-boarding-no_thanks mdc-button" data-mdc-dialog-action="discard"><?php esc_html_e( 'Skip For Now', 'pdf-generator-for-wp' ); ?></a>

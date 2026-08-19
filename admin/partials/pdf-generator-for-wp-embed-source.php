@@ -25,7 +25,7 @@ function wps_embed_sources_page() {
 	<div class="wrap">
 		<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
 			<h1 style="margin:0;"><?php echo esc_html__( 'Embed Sources', 'pdf-generator-for-wp' ); ?></h1>
-			<div id="wps-toast-msg">✅ <?php echo esc_html( 'Setting saved!', 'pdf-generator-for-wp' ); ?></div>
+			<div id="wps-toast-msg">✅ <?php echo esc_html__( 'Setting saved!', 'pdf-generator-for-wp' ); ?></div>
 		</div>
 		<div class="wps-embed-grid">
 			<?php

@@ -87,12 +87,12 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 				</tr>';
 		if ( $company_phone ) {
 			$html .= '<tr>
-						<td style="padding: 5px 10px;">Phone : ' . $company_phone . '</td>
+						<td style="padding: 5px 10px;">' . __( 'Phone', 'pdf-generator-for-wp' ) . ' : ' . $company_phone . '</td>
 					</tr>';
 		}
 		if ( $company_email ) {
 			$html .= '<tr>
-						<td style="padding: 5px 10px;">Email : ' . $company_email . '</td>
+						<td style="padding: 5px 10px;">' . __( 'Email', 'pdf-generator-for-wp' ) . ' : ' . $company_email . '</td>
 					</tr>';
 		}
 		$html .= '</tbody>

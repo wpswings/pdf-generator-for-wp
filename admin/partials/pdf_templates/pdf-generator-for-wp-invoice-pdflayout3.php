@@ -48,7 +48,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 		$html = '<!DOCTYPE html>
 					<html>
 					<head>
-						<title> INVOICE SYSTEM FOR WOOCOMMERCE </title>
+						<title>' . __( 'Invoice System for WooCommerce', 'pdf-generator-for-wp' ) . '</title>
 						<style>
                         @font-face {
                             font-family: SourceSansPro;
@@ -268,7 +268,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
     <main>
       <div id="details" class="clearfix">
         <div id="client">
-          <div class="to">INVOICE TO:</div>
+          <div class="to">' . __( 'INVOICE TO:', 'pdf-generator-for-wp' ) . '</div>
           <h2 class="name">' . $billing_details['billing_company'] . '</h2>
           <div class="address">' . $billing_details['billing_address_1'] . ',' . $billing_details['billing_city'] . ',' . $billing_details['billing_state'] . ',' . $billing_details['billing_postcode'] . '</div>
           <div>' . $billing_details['billing_phone'] . '</div>
@@ -276,8 +276,8 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
         </div>
         <div id="invoice">
           <h1>' . $invoice_id . '</h1>
-          <div class="date">Date of Invoice: ' . $billing_details['order_created_date'] . '</div>
-          <div class="date">Due Date: 30/06/2014</div>
+          <div class="date">' . __( 'Date of Invoice:', 'pdf-generator-for-wp' ) . ' ' . $billing_details['order_created_date'] . '</div>
+          <div class="date">' . __( 'Due Date:', 'pdf-generator-for-wp' ) . ' 30/06/2014</div>
         </div>
       </div>';
 		if ( 'invoice' === $type ) {
@@ -391,9 +391,9 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 							</tr>
         </tfoot>
       </table>
-      <div id="thanks">Thank you!</div>
+      <div id="thanks">' . __( 'Thank you!', 'pdf-generator-for-wp' ) . '</div>
       <div id="notices">
-        <div>NOTICE:</div>
+        <div>' . __( 'NOTICE:', 'pdf-generator-for-wp' ) . '</div>
         <div class="notice"><b>' . $disclaimer . '</b></div>
       </div>';
 
@@ -402,7 +402,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 			$html .= '</main>';
 		}
 		$html .= '<footer>
-      Invoice was created on a computer and is valid without the signature and seal.
+      ' . __( 'Invoice was created on a computer and is valid without the signature and seal.', 'pdf-generator-for-wp' ) . '
     </footer>';
 				$html .= '</body>
 			</html>';

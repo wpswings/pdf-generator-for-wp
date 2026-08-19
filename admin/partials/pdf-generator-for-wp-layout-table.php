@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</h3>
 				</div>
 				<div class="wps-wpg-card__item-content-button">
-					<a href="#TB_inline?width=400&inlineId=wpg-preview-template-modal<?php echo esc_attr( $i ); ?>" class="wps-wpg-card-btn wps-wpg-card-preview-btn wpg-preview-coverpage-template thickbox">preview</a>
+					<a href="#TB_inline?width=400&inlineId=wpg-preview-template-modal<?php echo esc_attr( $i ); ?>" class="wps-wpg-card-btn wps-wpg-card-preview-btn wpg-preview-coverpage-template thickbox"><?php esc_html_e( 'Preview', 'pdf-generator-for-wp' ); ?></a>
 					<a href="javascript:void(0)" class="wps-wpg-card-btn wps-wpg-card-activate-btn wpg-activate-coverpage-template" data-template-id ="<?php echo esc_attr( $i ); ?>"><?php ( $i === (int) $pgfw_use_template ) ? esc_html_e( 'Activated', 'pdf-generator-for-wp' ) : esc_html_e( 'Activate', 'pdf-generator-for-wp' ); ?></a>
 					<div id="wpg-preview-template-modal<?php echo esc_attr( $i ); ?>" style="display:none;"><p><img src="<?php echo esc_attr( PDF_GENERATOR_FOR_WP_DIR_URL ); ?>admin/src/images/temp<?php echo esc_attr( $i ); ?>_screenshot.png" alt="" class="wps-wpg-card__img"></p></div>
 				</div>	

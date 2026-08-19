@@ -324,11 +324,11 @@ function pdf_generator_for_wp_settings_link( $links ) {
  */
 function pdf_generator_for_wp_custom_settings_at_plugin_tab( $links_array, $plugin_file_name ) {
 	if ( strpos( $plugin_file_name, basename( __FILE__ ) ) ) {
-		$links_array[] = '<a href="https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=wpswings-org-backend&utm_campaign=View-demo" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Demo.svg" class="wps-info-img" alt="Demo image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Demo', 'pdf-generator-for-wp' ) . '</a>';
-		$links_array[] = '<a href="https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-backend&utm_campaign=documentation" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Documentation.svg" class="wps-info-img" alt="documentation image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Documentation', 'pdf-generator-for-wp' ) . '</a>';
-		$links_array[] = '<a href="https://www.youtube.com/watch?v=RljECeP3JJk" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/YouTube32px.svg" class="wps-info-img" alt="documentation image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Video', 'pdf-generator-for-wp' ) . '</a>';
-		$links_array[] = '<a href="https://wpswings.com/submit-query/?utm_source=wpswings-pdf-support&utm_medium=pdf-org-backend&utm_campaign=submit-query" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Support.svg" class="wps-info-img" alt="support image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Support', 'pdf-generator-for-wp' ) . '</a>';
-		$links_array[] = '<a href="https://wpswings.com/wordpress-woocommerce-solutions/?utm_source=wpswings-pdf-service&utm_medium=pdf-org-backend&utm_campaign=service-page" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Services.svg" class="wps-info-img" alt="support image" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Services', 'pdf-generator-for-wp' ) . '</a>';
+		$links_array[] = '<a href="https://demo.wpswings.com/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-demo&utm_medium=wpswings-org-backend&utm_campaign=View-demo" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Demo.svg" class="wps-info-img" alt="' . esc_attr__( 'Demo image', 'pdf-generator-for-wp' ) . '" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Demo', 'pdf-generator-for-wp' ) . '</a>';
+		$links_array[] = '<a href="https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=wpswings-org-backend&utm_campaign=documentation" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Documentation.svg" class="wps-info-img" alt="' . esc_attr__( 'documentation image', 'pdf-generator-for-wp' ) . '" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Documentation', 'pdf-generator-for-wp' ) . '</a>';
+		$links_array[] = '<a href="https://www.youtube.com/watch?v=RljECeP3JJk" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/YouTube32px.svg" class="wps-info-img" alt="' . esc_attr__( 'documentation image', 'pdf-generator-for-wp' ) . '" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Video', 'pdf-generator-for-wp' ) . '</a>';
+		$links_array[] = '<a href="https://wpswings.com/submit-query/?utm_source=wpswings-pdf-support&utm_medium=pdf-org-backend&utm_campaign=submit-query" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Support.svg" class="wps-info-img" alt="' . esc_attr__( 'support image', 'pdf-generator-for-wp' ) . '" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Support', 'pdf-generator-for-wp' ) . '</a>';
+		$links_array[] = '<a href="https://wpswings.com/wordpress-woocommerce-solutions/?utm_source=wpswings-pdf-service&utm_medium=pdf-org-backend&utm_campaign=service-page" target="_blank"><img src="' . esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ) . 'admin/src/images/Services.svg" class="wps-info-img" alt="' . esc_attr__( 'support image', 'pdf-generator-for-wp' ) . '" style="width: 20px;height: 20px;padding-right:2px;">' . __( 'Services', 'pdf-generator-for-wp' ) . '</a>';
 	}
 	return $links_array;
 }
@@ -531,14 +531,14 @@ function wps_pgfw_tracking_info_shortcode( $atts ) {
 	);
 
 	if ( empty( $atts['order_id'] ) ) {
-		return '<div style="color:red;">Order ID is missing.</div>';
+		return '<div style="color:red;">' . esc_html__( 'Order ID is missing.', 'pdf-generator-for-wp' ) . '</div>';
 	}
 
 	$wps_pgfw_order_id = intval( $atts['order_id'] );
 	$wps_pgfw_order = wc_get_order( $wps_pgfw_order_id );
 
 	if ( ! $wps_pgfw_order ) {
-		return '<div style="color:red;">Invalid Order ID.</div>';
+		return '<div style="color:red;">' . esc_html__( 'Invalid Order ID.', 'pdf-generator-for-wp' ) . '</div>';
 	}
 
 	// Order meta data.
@@ -668,7 +668,7 @@ function wps_twitch_stream_with_chat_shortcode( $atts ) {
 
 	// Return error if no channel provided.
 	if ( empty( $atts['channel'] ) ) {
-		return '<p>Please provide a Twitch channel name.</p>';
+		return '<p>' . esc_html__( 'Please provide a Twitch channel name.', 'pdf-generator-for-wp' ) . '</p>';
 	}
 
 	// Set the parent domain (required by Twitch embed policy).
@@ -733,7 +733,7 @@ function wps_strava_embed_shortcode( $atts ) {
 
 	// If no ID is provided, return an error message.
 	if ( empty( $atts['id'] ) ) {
-		return '<p>Please provide a valid Strava activity ID.</p>';
+		return '<p>' . esc_html__( 'Please provide a valid Strava activity ID.', 'pdf-generator-for-wp' ) . '</p>';
 	}
 
 	// Start capturing output.
@@ -784,7 +784,7 @@ function wps_chatbot_ai_shortcode( $atts ) {
 
 	// Show an error message if the required URL is missing.
 	if ( empty( $atts['url'] ) ) {
-		return '<div style="color: red; font-weight: bold;">Chatbot URL is missing.</div>';
+		return '<div style="color: red; font-weight: bold;">' . esc_html__( 'Chatbot URL is missing.', 'pdf-generator-for-wp' ) . '</div>';
 	}
 
 	// Start output buffering to return generated HTML.
@@ -897,7 +897,7 @@ function wps_rssapp_feed_shortcode( $atts ) {
 
 	// If URL is missing, show a helpful message.
 	if ( empty( $atts['url'] ) ) {
-		return '<p>Please provide a valid RSS.app widget URL.</p>';
+		return '<p>' . esc_html__( 'Please provide a valid RSS.app widget URL.', 'pdf-generator-for-wp' ) . '</p>';
 	}
 
 	// Start output buffering to return HTML content as a string.
@@ -972,7 +972,7 @@ function wps_display_uploaded_image_shortcode( $atts ) {
 
 	// Check if image source exists.
 	if ( empty( $image_src ) ) {
-		return '<p>No image found.</p>';
+		return '<p>' . esc_html__( 'No image found.', 'pdf-generator-for-wp' ) . '</p>';
 	}
 	// Return the image HTML.
 	return '<img src="' . esc_url( $image_src ) . '" alt="' . esc_attr( $atts['alt'] ) . '" style="width: ' . esc_attr( $atts['width'] ) . '; height: ' . esc_attr( $atts['height'] ) . ';">';
@@ -1015,9 +1015,9 @@ if ( ! function_exists( 'wps_banner_notification_plugin_html' ) ) {
 						?>
 						<div class="wps-offer-notice notice notice-warning is-dismissible">
 							<div class="notice-container">
-								<a href="<?php echo esc_url( $banner_url ); ?>" target="_blank"><img src="<?php echo esc_url( $banner_image ); ?>" alt="Gift cards" /></a>
+								<a href="<?php echo esc_url( $banner_url ); ?>" target="_blank"><img src="<?php echo esc_url( $banner_image ); ?>" alt="<?php esc_attr_e( 'Gift cards', 'pdf-generator-for-wp' ); ?>" /></a>
 							</div>
-							<button type="button" class="notice-dismiss dismiss_banner" id="dismiss-banner"><span class="screen-reader-text">Dismiss this notice.</span></button>
+							<button type="button" class="notice-dismiss dismiss_banner" id="dismiss-banner"><span class="screen-reader-text"><?php esc_html_e( 'Dismiss this notice.', 'pdf-generator-for-wp' ); ?></span></button>
 						</div>
 
 						<?php
@@ -1070,7 +1070,7 @@ function wps_pgfw_register_flipbook_taxonomy() {
 			'flipbook_category',
 			'flipbook',
 			array(
-				'label' => 'Flipbook Categories',
+				'label' => __( 'Flipbook Categories', 'pdf-generator-for-wp' ),
 				'hierarchical' => true,
 				'show_ui' => true,
 				'show_admin_column' => true,
@@ -1088,11 +1088,11 @@ function upload_pdf_page_image() {
 	$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
 	if ( ! wp_verify_nonce( $nonce, 'fb_fetch_pdf' ) ) {
 		status_header( 403 );
-		echo 'Invalid nonce';
+		echo esc_html__( 'Invalid nonce', 'pdf-generator-for-wp' );
 		exit;
 	}
 	if ( empty( $_FILES['file'] ) ) {
-		wp_send_json_error( array( 'message' => 'No file uploaded' ) );
+		wp_send_json_error( array( 'message' => esc_html__( 'No file uploaded', 'pdf-generator-for-wp' ) ) );
 	}
 
 	require_once ABSPATH . 'wp-admin/includes/file.php';
@@ -1104,7 +1104,7 @@ function upload_pdf_page_image() {
 	if ( $movefile && ! isset( $movefile['error'] ) ) {
 		wp_send_json_success( array( 'url' => $movefile['url'] ) );
 	} else {
-		wp_send_json_error( array( 'message' => $movefile['error'] ?? 'Upload failed' ) );
+		wp_send_json_error( array( 'message' => $movefile['error'] ?? esc_html__( 'Upload failed', 'pdf-generator-for-wp' ) ) );
 	}
 }
 
@@ -1131,9 +1131,9 @@ function wps_pgfw_notification_plugin_html() {
 					?>
 					<div class="wps-offer-notice notice notice-warning is-dismissible">
 						<div class="notice-container">
-							<a href="<?php echo esc_url( $banner_url ); ?>" target="_blank"><img src="<?php echo esc_url( $banner_image ); ?>" alt="Gift cards" /></a>
+							<a href="<?php echo esc_url( $banner_url ); ?>" target="_blank"><img src="<?php echo esc_url( $banner_image ); ?>" alt="<?php esc_attr_e( 'Gift cards', 'pdf-generator-for-wp' ); ?>" /></a>
 						</div>
-						<button type="button" class="notice-dismiss dismiss_banner" id="dismiss-banner"><span class="screen-reader-text">Dismiss this notice.</span></button>
+						<button type="button" class="notice-dismiss dismiss_banner" id="dismiss-banner"><span class="screen-reader-text"><?php esc_html_e( 'Dismiss this notice.', 'pdf-generator-for-wp' ); ?></span></button>
 					</div>
 
 					<?php
