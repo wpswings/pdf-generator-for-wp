@@ -2504,7 +2504,8 @@ class Pdf_Generator_For_Wp_Admin {
 		) $charset_collate;";
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta( $sql );
-		$sql = $wpdb->get_results( $wpdb->prepare( 'INSERT INTO  ' . $wpdb->prefix . 'wps_pdflog select * from ' . $wpdb->prefix . 'mwb_pdflog' ) );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- one-time migration of legacy plugin data into this plugin's own table; no user input involved and nothing to cache.
+		$wpdb->query( 'INSERT INTO ' . $table_name . ' SELECT * FROM ' . $wpdb->prefix . 'mwb_pdflog' );
 	}
 
 	/**
@@ -3201,8 +3202,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$response              = wp_remote_get(
 			$query,
 			array(
-				'timeout'   => 20,
-				'sslverify' => false,
+				'timeout' => 20,
 			)
 		);
 
