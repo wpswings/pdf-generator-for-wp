@@ -284,7 +284,7 @@ class Pdf_Generator_For_Wp_Public {
 		}
 		// Check if image source exists.
 		if ( empty( $image_src ) ) {
-			return '<p>No image found.</p>';
+			return '<p>' . esc_html__( 'No image found.', 'pdf-generator-for-wp' ) . '</p>';
 		}
 
 		// Return the image HTML.
@@ -316,7 +316,7 @@ class Pdf_Generator_For_Wp_Public {
 		$product_id = ! empty( $atts['product_id'] ) ? $atts['product_id'] : get_the_ID();
 
 		if ( ! $product_id ) {
-			return '<p>No product found.</p>';
+			return '<p>' . esc_html__( 'No product found.', 'pdf-generator-for-wp' ) . '</p>';
 		}
 
 		// Get the gallery images.
@@ -326,7 +326,7 @@ class Pdf_Generator_For_Wp_Public {
 
 		// Check if gallery images exist.
 		if ( empty( $gallery_image_ids ) ) {
-			return '<p>No gallery images found for this product.</p>';
+			return '<p>' . esc_html__( 'No gallery images found for this product.', 'pdf-generator-for-wp' ) . '</p>';
 		}
 
 		// Start the gallery output.
@@ -415,12 +415,12 @@ class Pdf_Generator_For_Wp_Public {
 		$post_id = (int) $atts['id'];
 
 		if ( ! $post_id ) {
-			return '<p>No flipbook ID provided.</p>';
+			return '<p>' . esc_html__( 'No flipbook ID provided.', 'pdf-generator-for-wp' ) . '</p>';
 		}
 
 		$post     = get_post( $post_id );
 		if ( ! $post || 'flipbook' !== $post->post_type || 'publish' !== get_post_status( $post->ID ) ) {
-			return '<p>Invalid flipbook ID.</p>';
+			return '<p>' . esc_html__( 'Invalid flipbook ID.', 'pdf-generator-for-wp' ) . '</p>';
 		}
 
 		$width  = get_post_meta( $post_id, '_fb_width', true ) ? get_post_meta( $post_id, '_fb_width', true ) : 400;
@@ -473,26 +473,26 @@ class Pdf_Generator_For_Wp_Public {
 		if ( 1 === (int) $popup_enabled ) {
 			$modal_id = $uid . '__modal';
 			?>
-		<button type="button" class="flipbook-open-btn is-icon wps-no-print" data-target="#<?php echo esc_attr( $modal_id ); ?>" aria-haspopup="dialog" aria-controls="<?php echo esc_attr( $modal_id ); ?>" aria-label="Open Flipbook">
+		<button type="button" class="flipbook-open-btn is-icon wps-no-print" data-target="#<?php echo esc_attr( $modal_id ); ?>" aria-haspopup="dialog" aria-controls="<?php echo esc_attr( $modal_id ); ?>" aria-label="<?php esc_attr_e( 'Open Flipbook', 'pdf-generator-for-wp' ); ?>">
 			<span class="fb-icon" aria-hidden="true">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path d="M12 6.5c-2.5-1.6-5.5-1.8-8-.8v12.1c2.5-1 5.5-.8 8 .8m0-12.1c2.5-1.6 5.5-1.8 8-.8v12.1c-2.5-1-5.5-.8-8 .8M12 6.5v12.1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>
 			</span>
-			<span class="sr-only">Open Flipbook</span>
+			<span class="sr-only"><?php esc_html_e( 'Open Flipbook', 'pdf-generator-for-wp' ); ?></span>
 		</button>
 		<div class="flipbook-modal wps-no-print" id="<?php echo esc_attr( $modal_id ); ?>" aria-hidden="true" role="dialog" aria-modal="true">
 			<div class="flipbook-modal-backdrop" data-close="true"></div>
 			<div class="flipbook-modal-dialog" role="document">
-				<button type="button" class="flipbook-modal-close" aria-label="Close" data-close="true">×</button>
+				<button type="button" class="flipbook-modal-close" aria-label="<?php esc_attr_e( 'Close', 'pdf-generator-for-wp' ); ?>" data-close="true">×</button>
 				<div class="flipbook-wrap" id="<?php echo esc_attr( $uid ); ?>" data-init-on-open="1">
 					<?php if ( '1' === $wps_tool_btn ) : ?>
 					<div class="flipbook-toolbar wps-no-print">
-						<button type="button" class="btn-prev">Prev</button>
-						<span>Page <span class="page-current"><?php echo esc_attr( isset( $start_page ) && ( $wps_total_pages > $start_page ) && ! empty( $start_page ) ? $start_page : 1 ); ?></span> of <span class="page-total">-</span></span>
-						<button type="button" class="btn-next">Next</button>
+						<button type="button" class="btn-prev"><?php esc_html_e( 'Prev', 'pdf-generator-for-wp' ); ?></button>
+						<span><?php esc_html_e( 'Page', 'pdf-generator-for-wp' ); ?> <span class="page-current"><?php echo esc_attr( isset( $start_page ) && ( $wps_total_pages > $start_page ) && ! empty( $start_page ) ? $start_page : 1 ); ?></span> <?php esc_html_e( 'of', 'pdf-generator-for-wp' ); ?> <span class="page-total">-</span></span>
+						<button type="button" class="btn-next"><?php esc_html_e( 'Next', 'pdf-generator-for-wp' ); ?></button>
 						<input type="number" class="page-jump" min="1" value="<?php echo esc_attr( isset( $start_page ) && ( $wps_total_pages > $start_page ) && ! empty( $start_page ) ? $start_page : 1 ); ?>" /> 
-						<button type="button" class="btn-go">Go to page</button>
+						<button type="button" class="btn-go"><?php esc_html_e( 'Go to page', 'pdf-generator-for-wp' ); ?></button>
 					</div>
 					<?php endif; ?>
 					<div class="flip-book"
@@ -519,11 +519,11 @@ class Pdf_Generator_For_Wp_Public {
 		<div class="flipbook-wrap" id="<?php echo esc_attr( $uid ); ?>">
 				<?php if ( '1' === $wps_tool_btn ) : ?>
 			<div class="flipbook-toolbar wps-no-print">
-				<button type="button" class="btn-prev">Prev</button>
-				<span>Page <span class="page-current"><?php echo esc_attr( isset( $start_page ) && ( $wps_total_pages > $start_page ) && ! empty( $start_page ) ? $start_page : 1 ); ?></span> of <span class="page-total">-</span></span>
-				<button type="button" class="btn-next">Next</button>
+				<button type="button" class="btn-prev"><?php esc_html_e( 'Prev', 'pdf-generator-for-wp' ); ?></button>
+				<span><?php esc_html_e( 'Page', 'pdf-generator-for-wp' ); ?> <span class="page-current"><?php echo esc_attr( isset( $start_page ) && ( $wps_total_pages > $start_page ) && ! empty( $start_page ) ? $start_page : 1 ); ?></span> <?php esc_html_e( 'of', 'pdf-generator-for-wp' ); ?> <span class="page-total">-</span></span>
+				<button type="button" class="btn-next"><?php esc_html_e( 'Next', 'pdf-generator-for-wp' ); ?></button>
 				<input type="number" class="page-jump" min="1" value="<?php echo esc_attr( isset( $start_page ) && ( $wps_total_pages > $start_page ) && ! empty( $start_page ) ? $start_page : 1 ); ?>" /> 
-				<button type="button" class="btn-go">Go to page</button>
+				<button type="button" class="btn-go"><?php esc_html_e( 'Go to page', 'pdf-generator-for-wp' ); ?></button>
 			</div>
 			<?php endif; ?>
 			<div class="flip-book"

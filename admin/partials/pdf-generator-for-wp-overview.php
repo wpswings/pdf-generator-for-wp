@@ -27,7 +27,7 @@ if ( true != $wps_wpg_is_pro_active ) {
 <div class="wps-overview__wrapper">
 	<?php do_action( 'pgfw_overview_content_top' ); ?>
 	<div class="wps-overview__banner">
-		<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ); ?>admin/src/images/bannerpdf.jpg" alt="Overview banner image" >
+		<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL ); ?>admin/src/images/bannerpdf.jpg" alt="<?php esc_attr_e( 'Overview banner image', 'pdf-generator-for-wp' ); ?>" >
 	</div>
 	<div class="wps-overview__content">
 		<div class="wps-overview__content-description">
@@ -52,7 +52,7 @@ if ( true != $wps_wpg_is_pro_active ) {
 					<li><?php esc_html_e( 'Disperse your branding effectively with the useful information you have to sell.', 'pdf-generator-for-wp' ); ?></li>
 				</ul>
 				<div class="wps-overview__video--url">
-					<iframe width="560" height="315" src="https://www.youtube.com/embed/tmdht_8uLMI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/tmdht_8uLMI" title="<?php esc_attr_e( 'YouTube video player', 'pdf-generator-for-wp' ); ?>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 				</div>
 			</div>
 		</div>
@@ -61,7 +61,7 @@ if ( true != $wps_wpg_is_pro_active ) {
 			<div class="wps-overview__keywords-item">
 				<div class="wps-overview__keywords-card">
 					<div class="wps-overview__keywords-image">
-						<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/includedetails.jpg' ); ?>" alt="Advanced-report image">
+						<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/includedetails.jpg' ); ?>" alt="<?php esc_attr_e( 'Advanced-report image', 'pdf-generator-for-wp' ); ?>">
 					</div>
 					<div class="wps-overview__keywords-text">
 						<h3 class="wps-overview__keywords-heading"><?php echo esc_html_e( 'Include Details', 'pdf-generator-for-wp' ); ?></h3>
@@ -79,7 +79,7 @@ if ( true != $wps_wpg_is_pro_active ) {
 			<div class="wps-overview__keywords-item">
 				<div class="wps-overview__keywords-card">
 					<div class="wps-overview__keywords-image">
-						<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/seticonalignment.jpg' ); ?>" alt="Workflow image">
+						<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/seticonalignment.jpg' ); ?>" alt="<?php esc_attr_e( 'Workflow image', 'pdf-generator-for-wp' ); ?>">
 					</div>
 					<div class="wps-overview__keywords-text">
 						<h3 class="wps-overview__keywords-heading"><?php esc_html_e( 'Set Icon Alignment', 'pdf-generator-for-wp' ); ?></h3>
@@ -90,7 +90,7 @@ if ( true != $wps_wpg_is_pro_active ) {
 			<div class="wps-overview__keywords-item">
 				<div class="wps-overview__keywords-card">
 					<div class="wps-overview__keywords-image">
-						<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/customizepdf.jpg' ); ?>" alt="Variable product image">
+						<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/customizepdf.jpg' ); ?>" alt="<?php esc_attr_e( 'Variable product image', 'pdf-generator-for-wp' ); ?>">
 					</div>
 					<div class="wps-overview__keywords-text">
 						<h3 class="wps-overview__keywords-heading"><?php esc_html_e( 'Customize Your PDF', 'pdf-generator-for-wp' ); ?></h3>
@@ -108,7 +108,7 @@ if ( true != $wps_wpg_is_pro_active ) {
 			<div class="wps-overview__keywords-item">
 				<div class="wps-overview__keywords-card">
 					<div class="wps-overview__keywords-image">
-						<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/releventplacement.jpg' ); ?>" alt="List-of-abandoned-users image">
+						<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/releventplacement.jpg' ); ?>" alt="<?php esc_attr_e( 'List-of-abandoned-users image', 'pdf-generator-for-wp' ); ?>">
 					</div>
 					<div class="wps-overview__keywords-text">
 						<h3 class="wps-overview__keywords-heading"><?php esc_html_e( 'Relevant Placement', 'pdf-generator-for-wp' ); ?></h3>
@@ -126,7 +126,7 @@ if ( true != $wps_wpg_is_pro_active ) {
 			<div class="wps-overview__keywords-item">
 				<div class="wps-overview__keywords-card wps-card-support">
 					<div class="wps-overview__keywords-image">
-						<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/metafields.jpg' ); ?>" alt="Support image">
+						<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/metafields.jpg' ); ?>" alt="<?php esc_attr_e( 'Support image', 'pdf-generator-for-wp' ); ?>">
 					</div>
 					<div class="wps-overview__keywords-text">
 						<h3 class="wps-overview__keywords-heading"><?php esc_html_e( 'Select Appropriate Metafields', 'pdf-generator-for-wp' ); ?></h3>
@@ -144,7 +144,7 @@ if ( true != $wps_wpg_is_pro_active ) {
 			<div class="wps-overview__keywords-item">
 				<div class="wps-overview__keywords-card wps-card-support">
 					<div class="wps-overview__keywords-image">
-						<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/uploadyourpdf.jpg' ); ?>" alt="Support image">
+						<img src="<?php echo esc_html( PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/uploadyourpdf.jpg' ); ?>" alt="<?php esc_attr_e( 'Support image', 'pdf-generator-for-wp' ); ?>">
 					</div>
 					<div class="wps-overview__keywords-text">
 						<h3 class="wps-overview__keywords-heading"><?php esc_html_e( 'Upload Your Own PDF', 'pdf-generator-for-wp' ); ?></h3>

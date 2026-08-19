@@ -120,7 +120,7 @@ class Elementor_Widget_WPS_X extends Widget_Base {
 			$this->enqueue_scripts();
 			?>
 			<blockquote class="twitter-tweet">
-				<a href="<?php echo esc_url( $post_url ); ?>">View Tweet</a>
+				<a href="<?php echo esc_url( $post_url ); ?>"><?php esc_html_e( 'View Tweet', 'pdf-generator-for-wp' ); ?></a>
 			</blockquote>
 			<?php
 		else :

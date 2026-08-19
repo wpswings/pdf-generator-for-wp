@@ -1525,7 +1525,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'min'         => 150,
 				'max'         => 1500,
 				'style'       => ( 'custom_page' !== $pgfw_body_page_size ) ? 'display:none;' : '',
-				'placeholder' => 'Height ( in mm )',
+				'placeholder' => __( 'Height ( in mm )', 'pdf-generator-for-wp' ),
 			),
 			array(
 				'title'       => __( 'Width of the page ( in mm )', 'pdf-generator-for-wp' ),
@@ -1537,7 +1537,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'min'         => 150,
 				'max'         => 1500,
 				'style'       => ( 'custom_page' !== $pgfw_body_page_size ) ? 'display:none;' : '',
-				'placeholder' => 'Width ( in mm )',
+				'placeholder' => __( 'Width ( in mm )', 'pdf-generator-for-wp' ),
 			),
 			array(
 				'title'       => __( 'Page Orientation', 'pdf-generator-for-wp' ),
@@ -3311,15 +3311,22 @@ class Pdf_Generator_For_Wp_Admin {
 		$wps_nonce = ! empty( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
 
 		if ( ! wp_verify_nonce( $wps_nonce, 'wps_wpg_embed_ajax_nonce' ) ) {
-			wp_send_json_error( 'Invalid nonce' );
+			wp_send_json_error( esc_html__( 'Invalid nonce', 'pdf-generator-for-wp' ) );
 		}
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( 'Permission denied' );
+			wp_send_json_error( esc_html__( 'Permission denied', 'pdf-generator-for-wp' ) );
 		}
 
 		update_option( "wps_embed_source_{$source}", $value );
-		wp_send_json_success( "Saved $source as $value" );
+		wp_send_json_success(
+			sprintf(
+				/* translators: 1: embed source name, 2: saved value. */
+				esc_html__( 'Saved %1$s as %2$s', 'pdf-generator-for-wp' ),
+				$source,
+				$value
+			)
+		);
 
 		wp_die();
 	}
@@ -3351,7 +3358,7 @@ class Pdf_Generator_For_Wp_Admin {
 		register_post_type(
 			'flipbook',
 			array(
-				'label' => 'Flipbooks',
+				'label' => __( 'Flipbooks', 'pdf-generator-for-wp' ),
 				'public' => false,
 				'show_ui' => true,
 				'show_in_menu' => true, // Recommended for non-public, admin-only CPTs.
@@ -3365,7 +3372,7 @@ class Pdf_Generator_For_Wp_Admin {
 			'flipbook_category',
 			'flipbook',
 			array(
-				'label' => 'Flipbook Categories',
+				'label' => __( 'Flipbook Categories', 'pdf-generator-for-wp' ),
 				'hierarchical' => true,
 				'show_ui' => true,
 				'show_admin_column' => true,
@@ -3382,7 +3389,7 @@ class Pdf_Generator_For_Wp_Admin {
 	public function wps_pgfw_add_flipbook_metabox_callback() {
 		add_meta_box(
 			'flipbook_settings',
-			'Flipbook Settings',
+			__( 'Flipbook Settings', 'pdf-generator-for-wp' ),
 			array( $this, 'wps_pgfw_settings_box' ),
 			'flipbook',
 			'normal',
@@ -3391,7 +3398,7 @@ class Pdf_Generator_For_Wp_Admin {
 
 		add_meta_box(
 			'flipbook_useful_links',
-			'Useful Links',
+			__( 'Useful Links', 'pdf-generator-for-wp' ),
 			array( $this, 'wps_pgfw_useful_links_box' ),
 			'flipbook',
 			'side',  // show on the right side like your screenshot.
@@ -3416,25 +3423,25 @@ class Pdf_Generator_For_Wp_Admin {
 	<div class="wps-fb_info-box">
 		<?php if ( $video_link ) : ?>
 			<div class="video"><a href="<?php echo esc_url( $video_link ); ?>" target="_blank">
-				<span class="dashicons dashicons-video-alt3"></span> See Video Tutorial
+				<span class="dashicons dashicons-video-alt3"></span> <?php esc_html_e( 'See Video Tutorial', 'pdf-generator-for-wp' ); ?>
 			</a></div>
 		<?php endif; ?>
 
 		<?php if ( $demo_link ) : ?>
 			<div class="demo"><a href="<?php echo esc_url( $demo_link ); ?>" target="_blank">
-				<span class="dashicons dashicons-welcome-widgets-menus"></span> Live Demo
+				<span class="dashicons dashicons-welcome-widgets-menus"></span> <?php esc_html_e( 'Live Demo', 'pdf-generator-for-wp' ); ?>
 			</a></div>
 		<?php endif; ?>
 
 		<?php if ( $service_url ) : ?>
 			<div class="service"><a href="<?php echo esc_url( $service_url ); ?>" target="_blank">
-				<span class="dashicons dashicons-admin-generic"></span> Service Page
+				<span class="dashicons dashicons-admin-generic"></span> <?php esc_html_e( 'Service Page', 'pdf-generator-for-wp' ); ?>
 			</a></div>
 		<?php endif; ?>
 
 		<?php if ( $pro_link ) : ?>
 			<div class="upgrade_to_pro"><a href="<?php echo esc_url( $pro_link ); ?>" target="_blank">
-				<span class="dashicons dashicons-star-filled"></span> Upgrade to Pro Version
+				<span class="dashicons dashicons-star-filled"></span> <?php esc_html_e( 'Upgrade to Pro Version', 'pdf-generator-for-wp' ); ?>
 			</a></div>
 		<?php endif; ?>
 	</div>
@@ -3516,7 +3523,7 @@ endif;
 							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Use either a PDF file or a set of images to build the flipbook. If images are selected, they will be used; otherwise the PDF source will be used.', 'pdf-generator-for-wp' ); ?>"></span>
 							<div class="fb-source-block">
 								<h4><?php esc_html_e( 'PDF', 'pdf-generator-for-wp' ); ?></h4>
-								<input type="url" id="fb_pdf_url" name="fb_pdf_url" value="<?php echo esc_attr( $pdf_url ); ?>" placeholder="Enter PDF URL" style="width:100%; margin-bottom:10px;">
+								<input type="url" id="fb_pdf_url" name="fb_pdf_url" value="<?php echo esc_attr( $pdf_url ); ?>" placeholder="<?php esc_attr_e( 'Enter PDF URL', 'pdf-generator-for-wp' ); ?>" style="width:100%; margin-bottom:10px;">
 								<div class="pdf-preview">
 									<?php if ( $pdf_url ) : ?>
 										<a href="<?php echo esc_url( $pdf_url ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Preview Uploaded PDF', 'pdf-generator-for-wp' ); ?></a>
@@ -3541,7 +3548,7 @@ endif;
 										foreach ( $existing_imgs as $u ) {
 											echo '<div class="fb-img-chip" data-url="' . esc_url( $u ) . '" style="position:relative;width:60px;height:60px;">
                                                     <img src="' . esc_url( $u ) . '" style="width:60px;height:60px;object-fit:cover;border:1px solid #ddd;border-radius:4px;display:block;" />
-                                                    <button type="button" class="button-link-delete fb-img-remove" title="Remove" style="position:absolute;top:-8px;right:-6px;background:#d63638;color:#fff;border:none;border-radius:999px;width: 20px;height: 20px;line-height: 1;text-align:center;cursor:pointer;display: inline-flex;align-items: center;justify-content: center;font-size: 14px;">&times;</button>
+                                                    <button type="button" class="button-link-delete fb-img-remove" title="' . esc_attr__( 'Remove', 'pdf-generator-for-wp' ) . '" style="position:absolute;top:-8px;right:-6px;background:#d63638;color:#fff;border:none;border-radius:999px;width: 20px;height: 20px;line-height: 1;text-align:center;cursor:pointer;display: inline-flex;align-items: center;justify-content: center;font-size: 14px;">&times;</button>
                                                 </div>';
 										}
 									}
@@ -3587,7 +3594,7 @@ endif;
 						<th><label for="fb_cover_image"><?php esc_html_e( 'Cover Image', 'pdf-generator-for-wp' ); ?></label>
 						</th>
 						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enter the URL of the cover image for the flipbook.', 'pdf-generator-for-wp' ); ?>"></span>
-							<input type="url" id="fb_cover_image" name="fb_cover_image" value="<?php echo esc_attr( $cover_image ); ?>" placeholder="Paste cover image URL or select below">
+							<input type="url" id="fb_cover_image" name="fb_cover_image" value="<?php echo esc_attr( $cover_image ); ?>" placeholder="<?php esc_attr_e( 'Paste cover image URL or select below', 'pdf-generator-for-wp' ); ?>">
 							<div class="cover-preview" style="margin-top:10px;">
 									<?php
 									if ( $cover_image ) :
@@ -3606,7 +3613,7 @@ endif;
 						<th><label for="fb_back_image"><?php esc_html_e( 'Back Cover Image', 'pdf-generator-for-wp' ); ?></label>
 						</th>
 						<td><span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enter the URL of the back cover image for the flipbook.', 'pdf-generator-for-wp' ); ?>"></span>
-							<input type="url" id="fb_back_image" name="fb_back_image" value="<?php echo esc_attr( $back_image ); ?>" placeholder="Paste back cover image URL or select below">
+							<input type="url" id="fb_back_image" name="fb_back_image" value="<?php echo esc_attr( $back_image ); ?>" placeholder="<?php esc_attr_e( 'Paste back cover image URL or select below', 'pdf-generator-for-wp' ); ?>">
 							<div class="back-preview" style="margin-top:10px;">
 									<?php
 									if ( $back_image ) :
@@ -3671,8 +3678,8 @@ endif;
 					<td>
 							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Enable or disable mouse events for the flipbook.', 'pdf-generator-for-wp' ); ?>"></span>
 							<select name="fb_useMouseEvents" id="fb_useMouseEvents">
-								<option value="1" <?php selected( $use_mouse_events, '1' ); ?>>Yes</option>
-								<option value="0" <?php selected( $use_mouse_events, '0' ); ?>>No</option>
+								<option value="1" <?php selected( $use_mouse_events, '1' ); ?>><?php esc_html_e( 'Yes', 'pdf-generator-for-wp' ); ?></option>
+								<option value="0" <?php selected( $use_mouse_events, '0' ); ?>><?php esc_html_e( 'No', 'pdf-generator-for-wp' ); ?></option>
 							</select>
 						</td>
 					</tr>
@@ -3682,8 +3689,8 @@ endif;
 					<td>
 							<span class="dashicons dashicons-editor-help" title="<?php esc_attr_e( 'Set the book size mode for the flipbook.', 'pdf-generator-for-wp' ); ?>"></span>
 							<select id="fb_size" name="fb_size">
-								<option value="fixed" <?php selected( $size, 'fixed' ); ?>>Fixed</option>
-								<option value="stretch" <?php selected( $size, 'stretch' ); ?>>Stretch</option>
+								<option value="fixed" <?php selected( $size, 'fixed' ); ?>><?php esc_html_e( 'Fixed', 'pdf-generator-for-wp' ); ?></option>
+								<option value="stretch" <?php selected( $size, 'stretch' ); ?>><?php esc_html_e( 'Stretch', 'pdf-generator-for-wp' ); ?></option>
 							</select>
 						</td>
 					</tr>
@@ -3698,11 +3705,11 @@ endif;
 									<audio controls src="<?php echo esc_url( $flip_sound_url ); ?>"></audio>
 								<?php endif; ?>
 							</div>
-							<button type="button" class="button upload-audio-btn"><?php echo $flip_sound_url ? 'Change Audio' : 'Upload/Select Audio'; ?></button>
+							<button type="button" class="button upload-audio-btn"><?php echo $flip_sound_url ? esc_html__( 'Change Audio', 'pdf-generator-for-wp' ) : esc_html__( 'Upload/Select Audio', 'pdf-generator-for-wp' ); ?></button>
 								<?php
 								if ( $flip_sound_url ) :
 									?>
-									<button type="button" class="button remove-audio-btn">Remove</button><?php endif; ?>
+									<button type="button" class="button remove-audio-btn"><?php esc_html_e( 'Remove', 'pdf-generator-for-wp' ); ?></button><?php endif; ?>
 						</td>
 					</tr>
 					<tr>
@@ -3719,7 +3726,7 @@ endif;
 
 		<!-- Shortcode Tab. -->
 		<div id="fb-shortcode" class="fb-tab-content">
-			<p><strong>Use this shortcode:</strong></p>
+			<p><strong><?php esc_html_e( 'Use this shortcode:', 'pdf-generator-for-wp' ); ?></strong></p>
 			<code>[flipbook id="<?php echo esc_attr( $post->ID ); ?>"]</code>
 		</div>
 	</div>

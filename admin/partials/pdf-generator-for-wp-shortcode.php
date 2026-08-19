@@ -39,7 +39,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php
 					if ( ! is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
 						?>
-						<span class="wps_shortcode_pro">(PRO)</span><?php } ?></td>
+						<span class="wps_shortcode_pro">(<?php esc_html_e( 'PRO', 'pdf-generator-for-wp' ); ?>)</span><?php } ?></td>
 					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[WPS_POST_METAVALUE key='post_content' {shortcode-postid}]"><code>[WPS_POST_METAVALUE key='post_content' {shortcode-postid}]</code></span></td>
 				</tr>
 
@@ -49,7 +49,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php
 					if ( ! is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
 						?>
-						<span class="wps_shortcode_pro">(PRO)</span><?php } ?></td>
+						<span class="wps_shortcode_pro">(<?php esc_html_e( 'PRO', 'pdf-generator-for-wp' ); ?>)</span><?php } ?></td>
 					<td><span class="wps-pgfw-shortcodes-copy-shortcode" data-shortcode="[QR_CODE]"><code>[QR_CODE]</code></span></td>
 				</tr>
 

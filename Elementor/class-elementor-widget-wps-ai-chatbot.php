@@ -100,7 +100,7 @@ class Elementor_Widget_WPS_Ai_Chatbot extends Widget_Base {
 			array(
 				'label'   => __( 'Header Title', 'pdf-generator-for-wp' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => 'AI Chat Assistant',
+				'default' => __( 'AI Chat Assistant', 'pdf-generator-for-wp' ),
 			)
 		);
 

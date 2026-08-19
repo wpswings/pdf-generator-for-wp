@@ -221,6 +221,7 @@ function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) {
 
 		// footer for pdf.
 	if ( 'yes' === $pgfw_footer_use_in_pdf ) {
+		$pgfw_page_label = esc_attr__( 'Page', 'pdf-generator-for-wp' );
 		$html .= '<style>
 			.pgfw-pdf-footer{
 				position    : fixed;
@@ -238,7 +239,7 @@ function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) {
 				overflow   : hidden;
 			}
 			.pgfw-footer-pageno:after {
-				content : "Page " counter(page);
+				content : "' . $pgfw_page_label . ' " counter(page);
 			}
 		</style>';
 		$html .= '<div class="pgfw-pdf-footer">
@@ -442,7 +443,7 @@ function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) {
 								foreach ( $meta_val1 as $key => $val ) {
 
 									$thumbnail_url = get_the_guid( $val );
-									$thumbnail = '<img  src=' . $thumbnail_url . ' alt="post thumbnail" style="height:100px; width: 100px; margin:17px;" height=50 weight=50/>';
+									$thumbnail = '<img  src=' . $thumbnail_url . ' alt="' . esc_attr__( 'post thumbnail', 'pdf-generator-for-wp' ) . '" style="height:100px; width: 100px; margin:17px;" height=50 weight=50/>';
 									$html2 .= $thumbnail;
 								}
 								$html2 .= '<div><b> ' . $pgfw_meta_key_name . '</b> </div>';
