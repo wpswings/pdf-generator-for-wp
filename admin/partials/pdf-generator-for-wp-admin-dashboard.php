@@ -55,7 +55,18 @@ if ( $pgfw_save_check_flag ) {
 }
 ?>
 
-<script type="application/json" id="pgfw-tabs-data"><?php echo wp_json_encode( $pgfw_settings_data ); ?></script>
+<div class="wps-pdf__popup-for-pro-wrap">
+	<div class="wps-pdf__popup-for-pro-shadow"></div>
+	<div class="wps-pdf__popup-for-pro">
+		<span class="wps-pdf__popup-for-pro-close">+</span>
+		<h2 class="wps-pdf__popup-for-pro-title">Want More ? <b>Go Pro !</b></h2>
+		<p class="wps-pdf__popup-for-pro-content"><i>This will offer features like WhatsApp sharing, Multiple Customization options, Creation of Custom Templates, Downloading in Bulk, and Many more exciting features.</i></p>
+		<div class="wps-pdf__popup-for-pro-link-wrap">
+			<a target="_blank" href="https://wpswings.com/product/pdf-generator-for-wp-pro/?utm_source=wpswings-pdf-pro&utm_medium=pdf-org-backend&utm_campaign=go-pro" class="wps-pdf__popup-for-pro-link">Go pro now</a>
+		</div>
+	</div>
+</div>
+<main class="wps-main wps-bg-white wps-r-8">
 <nav class="wps-navbar">
 	<ul class="wps-navbar__items">
 		<?php
