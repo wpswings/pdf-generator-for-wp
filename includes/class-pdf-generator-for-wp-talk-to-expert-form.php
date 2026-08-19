@@ -556,6 +556,7 @@ class Pdf_Generator_For_Wp_Talk_To_Expert_Form {
 
 		$table_name = $wpdb->prefix . 'wc_order_stats';
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- one-off table-existence check; no WP core API for this and nothing to cache.
 		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ) ) !== $table_name ) {
 			return null;
 		}
@@ -574,19 +575,23 @@ class Pdf_Generator_For_Wp_Talk_To_Expert_Form {
 		$placeholders = implode( ', ', array_fill( 0, count( $paid_statuses ), '%s' ) );
 		$cutoff_date  = gmdate( 'Y-m-d H:i:s', strtotime( '-12 months' ) );
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name and placeholders are generated internally before prepare() binds values.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- WC order-stats aggregation has no WP core API equivalent; result is used once per form render.
+		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- The IN (...) placeholder list is built at runtime from a dynamic status count, so the static sniff can't match it against the replacement array.
 		$revenue      = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT COALESCE(SUM(total_sales), 0)
-				FROM {$table_name}
+				FROM %i
 				WHERE status IN ({$placeholders})
 					AND parent_id = 0
 					AND date_paid IS NOT NULL
 					AND date_paid != '0000-00-00 00:00:00'
 					AND date_paid >= %s",
-				array_merge( $paid_statuses, array( $cutoff_date ) )
+				array_merge( array( $table_name ), $paid_statuses, array( $cutoff_date ) )
 			)
 		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:enable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 
 		if ( ! is_numeric( $revenue ) ) {
 			return null;

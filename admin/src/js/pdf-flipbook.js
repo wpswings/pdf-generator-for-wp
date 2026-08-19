@@ -1,7 +1,7 @@
 /* globals pdfjsLib, wpsGfwPdf */
 
-// Set PDF.js worker.
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
+// Set PDF.js worker (bundled locally with the plugin).
+pdfjsLib.GlobalWorkerOptions.workerSrc = wpsGfwPdf.pdfWorkerSrc;
 
 jQuery( document ).ready( function( $ ) {
 	/**

@@ -1040,9 +1040,9 @@ function wps_register_flipbook_post_type() {
 
 	$args = array(
 		'labels'             => array(
-			'name'               => __( 'Flipbooks', 'wps-flipbook' ),
-			'singular_name'      => __( 'Flipbook', 'wps-flipbook' ),
-			'menu_name'          => __( 'Flipbooks', 'wps-flipbook' ),
+			'name'               => __( 'Flipbooks', 'pdf-generator-for-wp' ),
+			'singular_name'      => __( 'Flipbook', 'pdf-generator-for-wp' ),
+			'menu_name'          => __( 'Flipbooks', 'pdf-generator-for-wp' ),
 		),
 		'public'             => false,
 		'show_ui'            => ( 'yes' === $pgfw_flipbook_enable ),

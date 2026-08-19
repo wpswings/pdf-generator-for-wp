@@ -1,7 +1,7 @@
-=== PDF Generator for WordPress ===
+=== PDF Generator For WP ===
 Contributors: wpswings
 Donate link: https://wpswings.com/
-Tags: PDF, invoices, 3d flipbook, PDF generator, pdf flipbook, WordPress PDF generator
+Tags: PDF, invoices, 3d flipbook, PDF generator, pdf flipbook
 Requires at least: 6.7.0
 Tested up to: 7.0
 WC requires at least: 6.5.0

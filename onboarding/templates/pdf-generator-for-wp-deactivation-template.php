@@ -11,6 +11,10 @@
  * @subpackage Pdf_Generator_For_Wp/admin/onboarding
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 global $pagenow, $pgfw_wps_pgfw_obj;
 if ( empty( $pagenow ) || 'plugins.php' != $pagenow ) {
 	return false;

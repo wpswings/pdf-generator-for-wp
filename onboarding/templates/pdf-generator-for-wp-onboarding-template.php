@@ -11,6 +11,10 @@
  * @subpackage Pdf_Generator_For_Wp/admin/onboarding
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 global $pgfw_wps_pgfw_obj;
 $pgfw_onboarding_form_fields = apply_filters( 'wps_pgfw_on_boarding_form_fields', array() );
 ?>
