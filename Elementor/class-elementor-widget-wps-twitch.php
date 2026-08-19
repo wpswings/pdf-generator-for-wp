@@ -148,19 +148,19 @@ class Elementor_Widget_WPS_Twitch extends Widget_Base {
 	protected function render() {
 		$settings = $this->get_settings_for_display();
 
-		$channel    = sanitize_text_field( $settings['channel'] ?? '' );
-		$width      = sanitize_text_field( $settings['width'] ?? '100%' );
-		$height     = sanitize_text_field( $settings['height'] ?? '480' );
-		$chat_width = sanitize_text_field( $settings['chat_width'] ?? '100%' );
+		$channel     = sanitize_text_field( $settings['channel'] ?? '' );
+		$width       = sanitize_text_field( $settings['width'] ?? '100%' );
+		$height      = sanitize_text_field( $settings['height'] ?? '480' );
+		$chat_width  = sanitize_text_field( $settings['chat_width'] ?? '100%' );
 		$chat_height = sanitize_text_field( $settings['chat_height'] ?? '480' );
-		$show_chat  = $settings['show_chat'] ?? 'yes';
+		$show_chat   = $settings['show_chat'] ?? 'yes';
 
 		if ( '' === $channel ) {
 			echo '<p style="color:red;">' . esc_html__( 'Please provide a Twitch channel name.', 'pdf-generator-for-wp' ) . '</p>';
 			return;
 		}
 
-		$host = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : '';
+		$host   = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : '';
 		$parent = esc_attr( $host );
 
 		echo '<div class="wps-twitch-embed" style="display:flex;flex-wrap:wrap;gap:20px;">';

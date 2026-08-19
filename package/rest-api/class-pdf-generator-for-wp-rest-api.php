@@ -57,7 +57,6 @@ class Pdf_Generator_For_Wp_Rest_Api {
 
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
-
 	}
 
 
@@ -104,7 +103,7 @@ class Pdf_Generator_For_Wp_Rest_Api {
 	 * @param WP_REST_Request $request Request data.
 	 * @return bool|
 	 */
-	public function wps_pgfw_tab_permission_check( $request ) {
+	public function wps_pgfw_tab_permission_check( $request ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found -- $request is required by the REST permission_callback signature.
 		return current_user_can( 'manage_options' );
 	}
 
@@ -145,11 +144,13 @@ class Pdf_Generator_For_Wp_Rest_Api {
 			? $pgfw_wps_pgfw_obj->wps_pgfw_get_dashboard_header_content( $tab )
 			: array();
 
-		return rest_ensure_response( array(
-			'tab'    => $tab,
-			'html'   => $html,
-			'header' => $header,
-		) );
+		return rest_ensure_response(
+			array(
+				'tab'    => $tab,
+				'html'   => $html,
+				'header' => $header,
+			)
+		);
 	}
 
 
@@ -160,7 +161,7 @@ class Pdf_Generator_For_Wp_Rest_Api {
 	 * @return  Array   $result   return rest response to server from where the endpoint hits.
 	 * @since    1.0.0
 	 */
-	public function wps_pgfw_default_permission_check( $request ) {
+	public function wps_pgfw_default_permission_check( $request ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found -- $request is required by the REST permission_callback signature.
 
 		// Add rest api validation for each request.
 		$result = true;
@@ -180,7 +181,7 @@ class Pdf_Generator_For_Wp_Rest_Api {
 		require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'package/rest-api/version1/class-pdf-generator-for-wp-api-process.php';
 		$wps_pgfw_api_obj     = new Pdf_Generator_For_Wp_Api_Process();
 		$wps_pgfw_resultsdata = $wps_pgfw_api_obj->wps_pgfw_default_process( $request );
-		if ( is_array( $wps_pgfw_resultsdata ) && isset( $wps_pgfw_resultsdata['status'] ) && 200 == $wps_pgfw_resultsdata['status'] ) {
+		if ( is_array( $wps_pgfw_resultsdata ) && isset( $wps_pgfw_resultsdata['status'] ) && 200 === $wps_pgfw_resultsdata['status'] ) {
 			unset( $wps_pgfw_resultsdata['status'] );
 			$wps_pgfw_response = new WP_REST_Response( $wps_pgfw_resultsdata, 200 );
 		} else {

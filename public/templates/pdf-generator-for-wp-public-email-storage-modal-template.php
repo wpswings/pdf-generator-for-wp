@@ -29,16 +29,16 @@ function pgfw_modal_for_email_template( $url_here, $id ) {
 	$pgfw_pdf_icon_width               = array_key_exists( 'pgfw_pdf_icon_width', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_pdf_icon_width'] : '';
 	$pgfw_pdf_icon_height              = array_key_exists( 'pgfw_pdf_icon_height', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_pdf_icon_height'] : '';
 	if ( is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
-		$wps_wpg_single_pdf_icon_name    = array_key_exists( 'wps_wpg_single_pdf_icon_name', $pgfw_display_settings ) ? $pgfw_display_settings['wps_wpg_single_pdf_icon_name'] : '';
-		$is_pro_active = true;
+		$wps_wpg_single_pdf_icon_name = array_key_exists( 'wps_wpg_single_pdf_icon_name', $pgfw_display_settings ) ? $pgfw_display_settings['wps_wpg_single_pdf_icon_name'] : '';
+		$is_pro_active                = true;
 	} else {
 		$wps_wpg_single_pdf_icon_name = '';
-		$is_pro_active = false;
+		$is_pro_active                = false;
 	}
 
-	$html  = '<div class="pdf-icon-for-the-email" style=" gap:10px;justify-content:' . esc_html( $pgfw_pdf_icon_alignment ) . '">
+	$html = '<div class="pdf-icon-for-the-email" style=" gap:10px;justify-content:' . esc_html( $pgfw_pdf_icon_alignment ) . '">
 				<a href="#" title="' . esc_html__( 'Please Enter Your Email ID', 'pdf-generator-for-wp' ) . '" class="pgfw-single-pdf-download-a"><img src="' . esc_url( $pgfw_single_pdf_download_icon_src ) . '" title="' . esc_html__( 'Generate PDF', 'pdf-generator-for-wp' ) . '" style="height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;">' . $wps_wpg_single_pdf_icon_name . '</a>';
-	$html  = apply_filters( 'wps_pgfw_bulk_download_button_filter_hook', $html, $id );
+	$html = apply_filters( 'wps_pgfw_bulk_download_button_filter_hook', $html, $id );
 
 	if ( is_user_logged_in() ) {
 		$html .= '</div>
@@ -70,7 +70,7 @@ function pgfw_modal_for_email_template( $url_here, $id ) {
 				   </div>
 			   </div>';
 	} else {
-		$html .= '</div>
+		$html     .= '</div>
 		<div id="single-pdf-download">
 			<div class="wps-pdf_email--shadow"></div>
 			<div class="wps-pdf_email-content">

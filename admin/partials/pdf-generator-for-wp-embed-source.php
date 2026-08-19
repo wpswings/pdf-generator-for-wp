@@ -19,7 +19,7 @@ wps_embed_sources_page();
  * Description: Embeds a source Meeting.
  */
 function wps_embed_sources_page() {
-	 $sources = array( 'linkedln', 'loom', 'twitch', 'ai_chatbot', 'canva', 'reddit', 'google_elements', 'calendly', 'strava', 'rss_feed', 'x', 'pdf_embed', 'tracking_info' );
+	$sources = array( 'linkedln', 'loom', 'twitch', 'ai_chatbot', 'canva', 'reddit', 'google_elements', 'calendly', 'strava', 'rss_feed', 'x', 'pdf_embed', 'tracking_info' );
 
 	?>
 	<div class="wrap">
@@ -30,10 +30,10 @@ function wps_embed_sources_page() {
 		<div class="wps-embed-grid">
 			<?php
 			foreach ( $sources as $source ) :
-				$value = get_option( "wps_embed_source_{$source}", 'off' );
-				$label = ucfirst( str_replace( '_', ' ', $source ) );
+				$value       = get_option( "wps_embed_source_{$source}", 'off' );
+				$label       = ucfirst( str_replace( '_', ' ', $source ) );
 				$pro_sources = array( 'rss_feed', 'ai_chatbot', 'pdf_embed' );
-				$is_pro = in_array( $source, $pro_sources, true ); // you can customize this condition.
+				$is_pro      = in_array( $source, $pro_sources, true ); // you can customize this condition.
 				$is_disabled = $is_pro && ( ! is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) );
 				?>
 				<div class="wps-embed-item <?php echo $is_disabled ? 'disabled-item' : ''; ?>">

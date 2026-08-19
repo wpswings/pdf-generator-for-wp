@@ -24,14 +24,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return string
  */
-function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) {
+function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter -- $template_name is kept for template-selection API compatibility.
 
 	do_action( 'wps_pgfw_load_all_compatible_shortcode_converter' );
-	$pgfw_display_settings                   = get_option( 'pgfw_save_admin_display_settings', array() );
+	$pgfw_display_settings = get_option( 'pgfw_save_admin_display_settings', array() );
 	// advanced settings.
-	$pgfw_advanced_settings = get_option( 'pgfw_advanced_save_settings', array() );
-	$pgfw_ttf_font_upload   = array_key_exists( 'pgfw_ttf_font_upload', $pgfw_advanced_settings ) ? $pgfw_advanced_settings['pgfw_ttf_font_upload'] : '';
-	$pgfw_template_color_option                 = array_key_exists( 'pgfw_template_color_option', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_template_color_option'] : '';
+	$pgfw_advanced_settings     = get_option( 'pgfw_advanced_save_settings', array() );
+	$pgfw_ttf_font_upload       = array_key_exists( 'pgfw_ttf_font_upload', $pgfw_advanced_settings ) ? $pgfw_advanced_settings['pgfw_ttf_font_upload'] : '';
+	$pgfw_template_color_option = array_key_exists( 'pgfw_template_color_option', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_template_color_option'] : '';
 	// header customisation settings.
 	$pgfw_header_settings   = get_option( 'pgfw_header_setting_submit', array() );
 	$pgfw_header_use_in_pdf = array_key_exists( 'pgfw_header_use_in_pdf', $pgfw_header_settings ) ? $pgfw_header_settings['pgfw_header_use_in_pdf'] : '';
@@ -68,10 +68,10 @@ function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) {
 	$pgfw_border_position_right      = array_key_exists( 'pgfw_border_position_right', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_border_position_right'] : '';
 	$pgfw_body_custom_css            = array_key_exists( 'pgfw_body_custom_css', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_custom_css'] : '';
 	$pgfw_body_watermark_text        = array_key_exists( 'pgfw_body_watermark_text', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_watermark_text'] : '';
-	$pgfw_body_add_watermark        = array_key_exists( 'pgfw_body_add_watermark', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_add_watermark'] : '';
-	$pgfw_body_watermark_color        = array_key_exists( 'pgfw_body_watermark_color', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_watermark_color'] : '';
-	$pgfw_template_color               = array_key_exists( 'pgfw_template_color', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_template_color'] : '#FFFFFF';
-	$pgfw_template_text_color       = array_key_exists( 'pgfw_template_text_color', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_template_text_color'] : '#000000';
+	$pgfw_body_add_watermark         = array_key_exists( 'pgfw_body_add_watermark', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_add_watermark'] : '';
+	$pgfw_body_watermark_color       = array_key_exists( 'pgfw_body_watermark_color', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_watermark_color'] : '';
+	$pgfw_template_color             = array_key_exists( 'pgfw_template_color', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_template_color'] : '#FFFFFF';
+	$pgfw_template_text_color        = array_key_exists( 'pgfw_template_text_color', $pgfw_display_settings ) ? $pgfw_display_settings['pgfw_template_text_color'] : '#000000';
 	// general settings.
 	$general_settings_data     = get_option( 'pgfw_general_settings_save', array() );
 	$pgfw_show_post_categories = array_key_exists( 'pgfw_general_pdf_show_categories', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_categories'] : '';
@@ -82,32 +82,32 @@ function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) {
 	// meta fields settings.
 	$pgfw_meta_settings = get_option( 'pgfw_meta_fields_save_settings', array() );
 	// footer settings.
-	$pgfw_footer_settings   = get_option( 'pgfw_footer_setting_submit', array() );
-	$pgfw_footer_use_in_pdf = array_key_exists( 'pgfw_footer_use_in_pdf', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_use_in_pdf'] : '';
-	$pgfw_footer_tagline    = array_key_exists( 'pgfw_footer_tagline', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_tagline'] : '';
-	$pgfw_footer_color      = array_key_exists( 'pgfw_footer_color', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_color'] : '';
-	$pgfw_footer_width      = array_key_exists( 'pgfw_footer_width', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_width'] : '';
-	$pgfw_footer_font_style = array_key_exists( 'pgfw_footer_font_style', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_font_style'] : '';
-	$pgfw_footer_font_style = ( 'custom' === $pgfw_footer_font_style ) ? 'My_font' : $pgfw_footer_font_style;
-	$pgfw_footer_font_size  = array_key_exists( 'pgfw_footer_font_size', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_font_size'] : '';
-	$pgfw_footer_bottom     = array_key_exists( 'pgfw_footer_bottom', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_bottom'] : '';
-	$pgfw_footer_customization     = array_key_exists( 'pgfw_footer_customization_for_post_detail', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_customization_for_post_detail'] : '';
-	$pgfw_body_meta_field_column     = array_key_exists( 'pgfw_body_meta_field_column', $pgfw_body_settings ) ? intval( $pgfw_body_settings['pgfw_body_meta_field_column'] ) : '';
-	$status  = get_option( 'status' );
+	$pgfw_footer_settings        = get_option( 'pgfw_footer_setting_submit', array() );
+	$pgfw_footer_use_in_pdf      = array_key_exists( 'pgfw_footer_use_in_pdf', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_use_in_pdf'] : '';
+	$pgfw_footer_tagline         = array_key_exists( 'pgfw_footer_tagline', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_tagline'] : '';
+	$pgfw_footer_color           = array_key_exists( 'pgfw_footer_color', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_color'] : '';
+	$pgfw_footer_width           = array_key_exists( 'pgfw_footer_width', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_width'] : '';
+	$pgfw_footer_font_style      = array_key_exists( 'pgfw_footer_font_style', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_font_style'] : '';
+	$pgfw_footer_font_style      = ( 'custom' === $pgfw_footer_font_style ) ? 'My_font' : $pgfw_footer_font_style;
+	$pgfw_footer_font_size       = array_key_exists( 'pgfw_footer_font_size', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_font_size'] : '';
+	$pgfw_footer_bottom          = array_key_exists( 'pgfw_footer_bottom', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_bottom'] : '';
+	$pgfw_footer_customization   = array_key_exists( 'pgfw_footer_customization_for_post_detail', $pgfw_footer_settings ) ? $pgfw_footer_settings['pgfw_footer_customization_for_post_detail'] : '';
+	$pgfw_body_meta_field_column = array_key_exists( 'pgfw_body_meta_field_column', $pgfw_body_settings ) ? intval( $pgfw_body_settings['pgfw_body_meta_field_column'] ) : '';
+	$status                      = get_option( 'status' );
 
-	if ( '' == $pgfw_footer_customization ) {
+	if ( '' === $pgfw_footer_customization ) {
 		$pgfw_footer_customization = array();
 	}
-	if ( '' == $status ) {
-		$post = get_post( $post_id );
-		$author_id = get_post_field( 'post_author', $post_id );
+	if ( empty( $status ) ) {
+		$post         = get_post( $post_id );
+		$author_id    = get_post_field( 'post_author', $post_id );
 		$display_name = get_the_author_meta( 'display_name', $author_id );
-		$post_date = get_the_date( 'd F Y', $post_id );
-		$post_title = get_the_title( $post );
+		$post_date    = get_the_date( 'd F Y', $post_id );
+		$post_title   = get_the_title( $post );
 	}
-		$display_author_name = in_array( 'author', $pgfw_footer_customization ) ? $display_name : '';
-		$display_post_date = in_array( 'post_date', $pgfw_footer_customization ) ? $post_date : '';
-		$display_post_title = in_array( 'post_title', $pgfw_footer_customization ) ? $post_title : '';
+		$display_author_name = in_array( 'author', $pgfw_footer_customization, true ) ? $display_name : '';
+		$display_post_date   = in_array( 'post_date', $pgfw_footer_customization, true ) ? $post_date : '';
+		$display_post_title  = in_array( 'post_title', $pgfw_footer_customization, true ) ? $post_title : '';
 	if ( 'yes' === $pgfw_body_rtl_support ) {
 		$pgfw_header_font_style     = 'DejaVu Sans, sans-serif';
 		$pgfw_body_page_font_style  = 'DejaVu Sans, sans-serif';
@@ -160,7 +160,7 @@ function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) {
 		</style>
 		<div class="pgfw-border-page" ></div>';
 	}
-	if ( 'yes' == $pgfw_body_add_watermark ) {
+	if ( 'yes' === $pgfw_body_add_watermark ) {
 		$watermark = $pgfw_body_watermark_text;
 	} else {
 		$watermark = '';
@@ -259,7 +259,7 @@ function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) {
 
 	foreach ( $post_ids as $post_id ) {
 
-		if ( 'yes' == $pgfw_watermark_image_use_in_pdf ) {
+		if ( 'yes' === $pgfw_watermark_image_use_in_pdf ) {
 			$html = apply_filters( 'pgfw_customize_body_watermark_image_pdf', $html );
 		}
 		if ( '' !== $pgfw_body_custom_css ) {
@@ -290,7 +290,7 @@ function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) {
 						
 					}';
 
-			if ( 'yes' == $pgfw_template_color_option ) {
+			if ( 'yes' === $pgfw_template_color_option ) {
 				$html .= '
 						.pgfw-pdf-body {
 							position: fixed;
@@ -423,35 +423,35 @@ function bulk_pdf_exporter_html( $post_ids, $template_name = '' ) {
 				$html       .= '<div>' . $author_name . '</div>';
 			}
 			// meta fields.
-			$post_type               = $post->post_type;
-			$pgfw_show_type_meta_val = array_key_exists( 'pgfw_meta_fields_' . $post_type . '_show', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_' . $post_type . '_show' ] : '';
-			$pgfw_show_type_meta_arr = array_key_exists( 'pgfw_meta_fields_' . $post_type . '_list', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_' . $post_type . '_list' ] : array();
-			$pgfw_body_metafields_row_wise     = array_key_exists( 'pgfw_body_metafields_row_wise', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_metafields_row_wise'] : '';
-			$html2                   = '';
+			$post_type                     = $post->post_type;
+			$pgfw_show_type_meta_val       = array_key_exists( 'pgfw_meta_fields_' . $post_type . '_show', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_' . $post_type . '_show' ] : '';
+			$pgfw_show_type_meta_arr       = array_key_exists( 'pgfw_meta_fields_' . $post_type . '_list', $pgfw_meta_settings ) ? $pgfw_meta_settings[ 'pgfw_meta_fields_' . $post_type . '_list' ] : array();
+			$pgfw_body_metafields_row_wise = array_key_exists( 'pgfw_body_metafields_row_wise', $pgfw_body_settings ) ? $pgfw_body_settings['pgfw_body_metafields_row_wise'] : '';
+			$html2                         = '';
 			if ( 'yes' === $pgfw_show_type_meta_val ) {
 				if ( is_array( $pgfw_show_type_meta_arr ) ) {
 					$html2 .= '<div><b>' . __( 'Meta Fields', 'pdf-generator-for-wp' ) . '</b></div>';
 					$html2 .= '<table><tr>';
 					foreach ( $pgfw_show_type_meta_arr as $meta_key ) {
-						$meta_val          = get_post_meta( $post->ID, $meta_key, true );
+						$meta_val           = get_post_meta( $post->ID, $meta_key, true );
 						$pgfw_meta_key_name = ucwords( str_replace( '_', ' ', $meta_key ) );
 						if ( $meta_val ) {
-							if ( '_product_image_gallery' == $meta_key ) {
+							if ( '_product_image_gallery' === $meta_key ) {
 
 								$meta_val1 = explode( ',', $meta_val );
 								foreach ( $meta_val1 as $key => $val ) {
 
 									$thumbnail_url = get_the_guid( $val );
-									$thumbnail = '<img  src=' . $thumbnail_url . ' alt="post thumbnail" style="height:100px; width: 100px; margin:17px;" height=50 weight=50/>';
-									$html2 .= $thumbnail;
+									$thumbnail     = '<img  src=' . $thumbnail_url . ' alt="post thumbnail" style="height:100px; width: 100px; margin:17px;" height=50 weight=50/>';
+									$html2        .= $thumbnail;
 								}
 								$html2 .= '<div><b> ' . $pgfw_meta_key_name . '</b> </div>';
 
-							} elseif ( 'yes' == $pgfw_body_metafields_row_wise ) {
-									$i++;
+							} elseif ( 'yes' === $pgfw_body_metafields_row_wise ) {
+									++$i;
 									$html2 .= '<td><b>' . $pgfw_meta_key_name . ' :</b></td>';
 									$html2 .= '<td> ' . $meta_val . ' </td>';
-								if ( 0 == $i % $pgfw_body_meta_field_column ) {
+								if ( 0 === $i % $pgfw_body_meta_field_column ) {
 									$html2 .= '</tr><tr>';
 								}
 							} else {

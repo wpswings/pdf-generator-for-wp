@@ -15,8 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 global $pgfw_wps_pgfw_obj, $pgfw_wps_wpg_obj;
-$pgfw_active_tab           = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw_tab'] ) : 'pdf-generator-for-wp-layout-settings'; // phpcs:ignore WordPress.Security.NonceVerification
-$pgfw_default_tabs      = $pgfw_wps_pgfw_obj->wps_pgfw_plug_layout_setting_sub_tabs_dummy();
+$pgfw_active_tab   = isset( $_GET['pgfw_tab'] ) ? sanitize_key( $_GET['pgfw_tab'] ) : 'pdf-generator-for-wp-layout-settings'; // phpcs:ignore WordPress.Security.NonceVerification
+$pgfw_default_tabs = $pgfw_wps_pgfw_obj->wps_pgfw_plug_layout_setting_sub_tabs_dummy();
 
 $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', array() );
 ?>
@@ -51,9 +51,9 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 				<div class="wpg-admin-notice-custom"></div>
 				<div class="pgfw-secion-wrap">
 					<?php
-					$custom_template_data             = get_option( 'wpg_custom_templates_list', array() );
+					$custom_template_data              = get_option( 'wpg_custom_templates_list', array() );
 					$pgfw_use_template_to_generate_pdf = get_option( 'wpg_use_template_to_generate_pdf', array() );
-					$preview_output_href              = add_query_arg(
+					$preview_output_href               = add_query_arg(
 						array(
 							'action'   => 'previewpdf',
 							'template' => 'template1',
@@ -103,7 +103,7 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 								<td><?php esc_html_e( 'Template 1', 'pdf-generator-for-wp' ); ?></td>
 								<td><?php esc_html_e( 'All Posts', 'pdf-generator-for-wp' ); ?></td>
 								<td>
-									<input type="checkbox" name="wpg_use_template_current_status[]" class="wpg_use_template_current_status" value="template1" <?php checked( in_array( 'template1', (array) $pgfw_use_template_to_generate_pdf ), true ); ?>>
+									<input type="checkbox" name="wpg_use_template_current_status[]" class="wpg_use_template_current_status" value="template1" <?php checked( in_array( 'template1', (array) $pgfw_use_template_to_generate_pdf, true ), true ); ?>>
 									<span><?php esc_html_e( 'Activate', 'pdf-generator-for-wp' ); ?></span>
 								</td>
 								<td>
@@ -145,7 +145,7 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 												<span><select name="wpg_template_items[<?php echo esc_attr( $template ); ?>][]" class="wpg-select2" multiple style="width: 300px;">
 														<?php
 														$selected_items = get_option( 'wpg_template_items_' . $template, array() ); // need to get the selected items for this template.
-														$post_types = get_post_types( array( 'public' => true ), 'objects' );
+														$post_types     = get_post_types( array( 'public' => true ), 'objects' );
 
 														foreach ( $post_types as $wps_post_type ) {
 															$wps_single_posts = get_posts(
@@ -204,7 +204,7 @@ $pgfw_template_settings_arr = apply_filters( 'wpg_tamplates_settings_array', arr
 										<?php } ?>
 									</tr>
 									<?php
-									$i++;
+									++$i;
 								}
 							}
 							?>

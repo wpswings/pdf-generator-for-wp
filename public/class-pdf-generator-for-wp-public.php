@@ -149,36 +149,36 @@ class Pdf_Generator_For_Wp_Public {
 		$guest_access_pdf             = array_key_exists( 'pgfw_guest_access', $display_setings_arr ) ? $display_setings_arr['pgfw_guest_access'] : '';
 		$pgfw_guest_download_or_email = array_key_exists( 'pgfw_guest_download_or_email', $display_setings_arr ) ? $display_setings_arr['pgfw_guest_download_or_email'] : '';
 		$pgfw_user_download_or_email  = array_key_exists( 'pgfw_user_download_or_email', $display_setings_arr ) ? $display_setings_arr['pgfw_user_download_or_email'] : '';
-		$allowedposttags = array(
-			'div' => array(
+		$allowedposttags              = array(
+			'div'    => array(
 
 				'title' => array(),
 				'class' => array(),
-				'id' => true,
-				'style'            => true,
+				'id'    => true,
+				'style' => true,
 			),
-			'a' => array(
-				'href' => true,
+			'a'      => array(
+				'href'  => true,
 				'title' => true,
-				'img' => true,
+				'img'   => true,
 				'class' => true,
 				'style' => array(),
 			),
-			'img' => array(
-				'src' => array(),
+			'img'    => array(
+				'src'   => array(),
 				'class' => array(),
-				'alt' => array(),
+				'alt'   => array(),
 				'title' => array(),
 				'style' => array(),
 			),
-			'input'    => array(
-				'type'  => true,
-				'class' => true,
-				'name'  => true,
-				'value' => true,
-				'id'    => true,
-				'style' => true,
-				'checked'   => array(),
+			'input'  => array(
+				'type'    => true,
+				'class'   => true,
+				'name'    => true,
+				'value'   => true,
+				'id'      => true,
+				'style'   => true,
+				'checked' => array(),
 			),
 			'button' => array(
 				'id' => true,
@@ -266,9 +266,9 @@ class Pdf_Generator_For_Wp_Public {
 		// Set default attributes for the shortcode.
 		$atts = shortcode_atts(
 			array(
-				'id'  => $atts['id'],    // Attachment ID.
-				'url' => '',    // Image URL if no ID is given.
-				'alt' => 'Image', // Alt text for accessibility.
+				'id'     => $atts['id'],    // Attachment ID.
+				'url'    => '',    // Image URL if no ID is given.
+				'alt'    => 'Image', // Alt text for accessibility.
 				'width'  => isset( $atts['width'] ) ? $atts['width'] : 10, // Width of the image.
 				'height' => isset( $atts['height'] ) ? $atts['height'] : 10,  // Height of the image.
 			),
@@ -394,9 +394,9 @@ class Pdf_Generator_For_Wp_Public {
 	 * @return void
 	 */
 	public function wps_pgfw_flipbook_shortcode_callback() {
-		$general_settings_data     = get_option( 'pgfw_general_settings_save', array() );
-		$pgfw_enable_plugin        = array_key_exists( 'pgfw_enable_plugin', $general_settings_data ) ? $general_settings_data['pgfw_enable_plugin'] : '';
-		$pgfw_flipbook_enable = array_key_exists( 'pgfw_flipbook_enable', $general_settings_data ) ? $general_settings_data['pgfw_flipbook_enable'] : '';
+		$general_settings_data = get_option( 'pgfw_general_settings_save', array() );
+		$pgfw_enable_plugin    = array_key_exists( 'pgfw_enable_plugin', $general_settings_data ) ? $general_settings_data['pgfw_enable_plugin'] : '';
+		$pgfw_flipbook_enable  = array_key_exists( 'pgfw_flipbook_enable', $general_settings_data ) ? $general_settings_data['pgfw_flipbook_enable'] : '';
 		if ( 'yes' !== $pgfw_enable_plugin || 'yes' !== $pgfw_flipbook_enable ) {
 			return;
 		}
@@ -411,14 +411,14 @@ class Pdf_Generator_For_Wp_Public {
 	 * @return string HTML output for the flipbook.
 	 */
 	public function wps_pgfw_flipbook_shortcode_html( $atts ) {
-		$atts = shortcode_atts( array( 'id' => 0 ), $atts );
+		$atts    = shortcode_atts( array( 'id' => 0 ), $atts );
 		$post_id = (int) $atts['id'];
 
 		if ( ! $post_id ) {
 			return '<p>No flipbook ID provided.</p>';
 		}
 
-		$post     = get_post( $post_id );
+		$post = get_post( $post_id );
 		if ( ! $post || 'flipbook' !== $post->post_type || 'publish' !== get_post_status( $post->ID ) ) {
 			return '<p>Invalid flipbook ID.</p>';
 		}
@@ -426,30 +426,30 @@ class Pdf_Generator_For_Wp_Public {
 		$width  = get_post_meta( $post_id, '_fb_width', true ) ? get_post_meta( $post_id, '_fb_width', true ) : 400;
 		$height = get_post_meta( $post_id, '_fb_height', true ) ? get_post_meta( $post_id, '_fb_height', true ) : 300;
 
-		$pdf_html = get_post_meta( $post_id, '_fb_pdf_html', true );
-		$cover_image = get_post_meta( $post_id, '_fb_cover_image', true );
-		$back_image  = get_post_meta( $post_id, '_fb_back_image', true );
-		$wps_tool_btn = get_post_meta( $post->ID, '_fb_tool_btn', true );
+		$pdf_html           = get_post_meta( $post_id, '_fb_pdf_html', true );
+		$cover_image        = get_post_meta( $post_id, '_fb_cover_image', true );
+		$back_image         = get_post_meta( $post_id, '_fb_back_image', true );
+		$wps_tool_btn       = get_post_meta( $post->ID, '_fb_tool_btn', true );
 		$wps_add_cover_page = get_post_meta( $post->ID, '_fb_show_cover', true );
-		$flip_sound_url = get_post_meta( $post->ID, '_fb_flip_sound_url', true );
-		$flip_sound_volume = get_post_meta( $post->ID, '_fb_flip_sound_volume', true );
+		$flip_sound_url     = get_post_meta( $post->ID, '_fb_flip_sound_url', true );
+		$flip_sound_volume  = get_post_meta( $post->ID, '_fb_flip_sound_volume', true );
 
 		$mobile_scroll_support = get_post_meta( $post->ID, '_fb_mobileScrollSupport', true );
 		$max_shadow_opacity    = get_post_meta( $post->ID, '_fb_maxShadowOpacity', true );
-		$flipping_time        = get_post_meta( $post->ID, '_fb_flippingTime', true );
-		$start_page           = get_post_meta( $post->ID, '_fb_startPage', true );
-		$swipe_distance       = get_post_meta( $post->ID, '_fb_swipeDistance', true );
+		$flipping_time         = get_post_meta( $post->ID, '_fb_flippingTime', true );
+		$start_page            = get_post_meta( $post->ID, '_fb_startPage', true );
+		$swipe_distance        = get_post_meta( $post->ID, '_fb_swipeDistance', true );
 		$use_mouse_events      = get_post_meta( $post->ID, '_fb_useMouseEvents', true );
-		$size                = get_post_meta( $post->ID, '_fb_size', true );
-		$popup_enabled       = get_post_meta( $post->ID, '_fb_popup_enabled', true );
-		$image_urls_json     = get_post_meta( $post->ID, '_fb_image_urls', true );
+		$size                  = get_post_meta( $post->ID, '_fb_size', true );
+		$popup_enabled         = get_post_meta( $post->ID, '_fb_popup_enabled', true );
+		$image_urls_json       = get_post_meta( $post->ID, '_fb_image_urls', true );
 
-		$image_urls = array();
+		$image_urls  = array();
 		$from_images = false;
 		if ( $image_urls_json ) {
 			$decoded = json_decode( $image_urls_json, true );
 			if ( is_array( $decoded ) && count( $decoded ) > 0 ) {
-				$image_urls = array_values( array_map( 'esc_url', $decoded ) );
+				$image_urls  = array_values( array_map( 'esc_url', $decoded ) );
 				$from_images = true;
 			}
 		}
@@ -467,7 +467,7 @@ class Pdf_Generator_For_Wp_Public {
 				$image_urls[] = $back_image;
 			}
 		}
-		$uid = 'flipbook_' . wp_unique_id();
+		$uid             = 'flipbook_' . wp_unique_id();
 		$wps_total_pages = count( $image_urls );
 		ob_start();
 		if ( 1 === (int) $popup_enabled ) {

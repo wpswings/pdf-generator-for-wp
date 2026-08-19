@@ -347,7 +347,7 @@ class Pdf_Generator_For_Wp {
 	 * @return    Pdf_Generator_For_Wp_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function pgfw_get_loader() {
-		 return $this->loader;
+		return $this->loader;
 	}
 
 
@@ -394,7 +394,7 @@ class Pdf_Generator_For_Wp {
 			'name'  => 'pdf-generator-for-wp-advanced',
 		);
 
-		$pgfw_default_tabs['pdf-generator-for-wp-meta-fields'] = array(
+		$pgfw_default_tabs['pdf-generator-for-wp-meta-fields']  = array(
 			'title' => esc_html__( 'Meta Fields Settings', 'pdf-generator-for-wp' ),
 			'name'  => 'pdf-generator-for-wp-meta-fields',
 		);
@@ -497,7 +497,7 @@ class Pdf_Generator_For_Wp {
 	 * @return array
 	 */
 	public function wps_pgfw_plug_layout_setting_sub_tabs_dummy() {
-		 $pgfw_default_sub_tabs = array();
+		$pgfw_default_sub_tabs = array();
 		$pgfw_default_sub_tabs = apply_filters( 'pgfw_plugin_standard_admin_settings_sub_tabs_dummy', $pgfw_default_sub_tabs );
 		return $pgfw_default_sub_tabs;
 	}
@@ -508,7 +508,7 @@ class Pdf_Generator_For_Wp {
 	 * @param string $path path file for inclusion.
 	 * @param array  $params parameters to pass to the file for access.
 	 */
-	public function wps_pgfw_plug_load_template( $path, $params = array() ) {
+	public function wps_pgfw_plug_load_template( $path, $params = array() ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter -- $params is exposed to the included template's scope for its own use.
 		$pgfw_file_path = PDF_GENERATOR_FOR_WP_DIR_PATH . $path;
 		$pgfw_file_path = apply_filters( 'wps_pgfw_setting_page_loading_filter_hook', $pgfw_file_path, $path );
 		if ( file_exists( $pgfw_file_path ) ) {
@@ -526,7 +526,7 @@ class Pdf_Generator_For_Wp {
 	 * @param string $path path file for inclusion.
 	 * @param array  $params parameters to pass to the file for access.
 	 */
-	public function wps_pgfw_plug_load_sub_template( $path, $params = array() ) {
+	public function wps_pgfw_plug_load_sub_template( $path, $params = array() ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter -- $params is exposed to the included template's scope for its own use.
 		$pgfw_file_path = PDF_GENERATOR_FOR_WP_DIR_PATH . $path;
 		$pgfw_file_path = apply_filters( 'wps_pgfw_setting_sub_page_loading_filter_hook', $pgfw_file_path, $path );
 		if ( file_exists( $pgfw_file_path ) ) {

@@ -156,46 +156,46 @@ class Pdf_Generator_For_Wp_Talk_To_Expert_Form {
 	 */
 	private function wps_pgfw_get_custom_form_fields() {
 		return array(
-			'firstname' => array(
+			'firstname'                           => array(
 				'label'       => esc_html__( 'First Name', 'pdf-generator-for-wp' ),
 				'type'        => 'text',
 				'placeholder' => esc_html__( 'John', 'pdf-generator-for-wp' ),
 				'required'    => false,
 			),
-			'lastname'  => array(
+			'lastname'                            => array(
 				'label'       => esc_html__( 'Last Name', 'pdf-generator-for-wp' ),
 				'type'        => 'text',
 				'placeholder' => esc_html__( 'Doe', 'pdf-generator-for-wp' ),
 				'required'    => false,
 			),
-			'email'      => array(
+			'email'                               => array(
 				'label'       => esc_html__( 'Work Email', 'pdf-generator-for-wp' ),
 				'type'        => 'email',
 				'placeholder' => esc_html__( 'name@company.com', 'pdf-generator-for-wp' ),
 				'required'    => true,
 				'full_width'  => true,
 			),
-			'phone'      => array(
+			'phone'                               => array(
 				'label'       => esc_html__( 'Contact Number', 'pdf-generator-for-wp' ),
 				'type'        => 'text',
 				'placeholder' => esc_html__( '+1 000 000 0000', 'pdf-generator-for-wp' ),
 				'required'    => false,
 			),
 			'what_services_do_you_need_help_with' => array(
-				'label'       => esc_html__( 'What services do you need help with?', 'pdf-generator-for-wp' ),
-				'type'        => 'checkbox_group',
-				'options'     => $this->wps_pgfw_get_talk_to_expert_service_options(),
-				'required'    => false,
-				'full_width'  => true,
+				'label'      => esc_html__( 'What services do you need help with?', 'pdf-generator-for-wp' ),
+				'type'       => 'checkbox_group',
+				'options'    => $this->wps_pgfw_get_talk_to_expert_service_options(),
+				'required'   => false,
+				'full_width' => true,
 			),
-			'budget'      => array(
-				'label'       => esc_html__( 'Budget', 'pdf-generator-for-wp' ),
-				'type'        => 'select',
-				'options'     => $this->wps_pgfw_get_talk_to_expert_budget_options(),
-				'required'    => false,
-				'full_width'  => true,
+			'budget'                              => array(
+				'label'      => esc_html__( 'Budget', 'pdf-generator-for-wp' ),
+				'type'       => 'select',
+				'options'    => $this->wps_pgfw_get_talk_to_expert_budget_options(),
+				'required'   => false,
+				'full_width' => true,
 			),
-			'message'    => array(
+			'message'                             => array(
 				'label'       => esc_html__( 'What do you need help with?', 'pdf-generator-for-wp' ),
 				'type'        => 'textarea',
 				'placeholder' => esc_html__( 'Share your goals, blockers, or the service you need.', 'pdf-generator-for-wp' ),
@@ -213,9 +213,9 @@ class Pdf_Generator_For_Wp_Talk_To_Expert_Form {
 	 * @param array  $values    Default values.
 	 */
 	private function wps_pgfw_render_form_field( $field_key, $field, $values ) {
-		$field_id = $field_key;
-		$field_value = isset( $values[ $field_key ] ) ? $values[ $field_key ] : '';
-		$field_class = ! empty( $field['full_width'] ) ? ' pgfw-expert-form__field--full' : '';
+		$field_id     = $field_key;
+		$field_value  = isset( $values[ $field_key ] ) ? $values[ $field_key ] : '';
+		$field_class  = ! empty( $field['full_width'] ) ? ' pgfw-expert-form__field--full' : '';
 		$field_class .= ' ' . sanitize_html_class( $field_key );
 		?>
 		<div class="pgfw-expert-form__field<?php echo esc_attr( $field_class ); ?>">
@@ -252,7 +252,7 @@ class Pdf_Generator_For_Wp_Talk_To_Expert_Form {
 						<span class="pgfw-expert-form__required">*</span>
 					<?php endif; ?>
 				</label>
-			<?php if ( 'textarea' === $field['type'] ) : ?>
+				<?php if ( 'textarea' === $field['type'] ) : ?>
 				<textarea
 					id="<?php echo esc_attr( $field_id ); ?>"
 					name="<?php echo esc_attr( $field_key ); ?>"
@@ -297,8 +297,8 @@ class Pdf_Generator_For_Wp_Talk_To_Expert_Form {
 	private function wps_pgfw_get_talk_to_expert_service_options() {
 		return array(
 			'seo_services'                     => esc_html__( 'SEO services', 'pdf-generator-for-wp' ),
-			'google_ads_setup_and_ga4_setup'  => esc_html__( 'Google Ads Setup and GA4 setup', 'pdf-generator-for-wp' ),
-			'speed_optimization'              => esc_html__( 'Speed Optimization', 'pdf-generator-for-wp' ),
+			'google_ads_setup_and_ga4_setup'   => esc_html__( 'Google Ads Setup and GA4 setup', 'pdf-generator-for-wp' ),
+			'speed_optimization'               => esc_html__( 'Speed Optimization', 'pdf-generator-for-wp' ),
 			'woocommerce_development_services' => esc_html__( 'WooCommerce Development Services', 'pdf-generator-for-wp' ),
 		);
 	}
@@ -310,10 +310,10 @@ class Pdf_Generator_For_Wp_Talk_To_Expert_Form {
 	 */
 	private function wps_pgfw_get_talk_to_expert_budget_options() {
 		return array(
-			''               => 'Please Select',
-			'500-1000'   => '$500 - $1000',
-			'1001-5000'  => '$1001 - $5000',
-			'5001-10000' => '$5001 - $10000',
+			''            => 'Please Select',
+			'500-1000'    => '$500 - $1000',
+			'1001-5000'   => '$1001 - $5000',
+			'5001-10000'  => '$5001 - $10000',
 			'10001-15000' => '$10001 - $15000',
 		);
 	}
@@ -338,13 +338,13 @@ class Pdf_Generator_For_Wp_Talk_To_Expert_Form {
 		}
 
 		return array(
-			'firstname' => $first_name,
-			'lastname'  => $last_name,
-			'email'     => ! empty( $current_user->user_email ) ? $current_user->user_email : '',
-			'phone'     => '',
+			'firstname'                           => $first_name,
+			'lastname'                            => $last_name,
+			'email'                               => ! empty( $current_user->user_email ) ? $current_user->user_email : '',
+			'phone'                               => '',
 			'what_services_do_you_need_help_with' => array(),
-			'budget'    => '',
-			'message'   => '',
+			'budget'                              => '',
+			'message'                             => '',
 		);
 	}
 
@@ -450,24 +450,24 @@ class Pdf_Generator_For_Wp_Talk_To_Expert_Form {
 				}
 			)
 		);
-		$budget = isset( $form_data['budget'] ) ? sanitize_text_field( $form_data['budget'] ) : '';
-		$budget = in_array( $budget, $allowed_budgets, true ) ? $budget : '';
+		$budget            = isset( $form_data['budget'] ) ? sanitize_text_field( $form_data['budget'] ) : '';
+		$budget            = in_array( $budget, $allowed_budgets, true ) ? $budget : '';
 
 		return array(
-			'firstname' => isset( $form_data['firstname'] ) ? sanitize_text_field( $form_data['firstname'] ) : '',
-			'lastname'  => isset( $form_data['lastname'] ) ? sanitize_text_field( $form_data['lastname'] ) : '',
-			'email'     => isset( $form_data['email'] ) ? sanitize_email( $form_data['email'] ) : '',
-			'phone'     => isset( $form_data['phone'] ) ? sanitize_text_field( $form_data['phone'] ) : '',
+			'firstname'                           => isset( $form_data['firstname'] ) ? sanitize_text_field( $form_data['firstname'] ) : '',
+			'lastname'                            => isset( $form_data['lastname'] ) ? sanitize_text_field( $form_data['lastname'] ) : '',
+			'email'                               => isset( $form_data['email'] ) ? sanitize_email( $form_data['email'] ) : '',
+			'phone'                               => isset( $form_data['phone'] ) ? sanitize_text_field( $form_data['phone'] ) : '',
 			'what_services_do_you_need_help_with' => $selected_services,
-			'budget'     => isset( $form_data['budget'] ) ? $budget : '',
-			'message'   => isset( $form_data['message'] ) ? sanitize_textarea_field( $form_data['message'] ) : '',
+			'budget'                              => isset( $form_data['budget'] ) ? $budget : '',
+			'message'                             => isset( $form_data['message'] ) ? sanitize_textarea_field( $form_data['message'] ) : '',
 		);
 	}
 
 	/**
 	 * Prepare a HubSpot field payload.
 	 *
-	 * @param string $field_name HubSpot field name.
+	 * @param string       $field_name HubSpot field name.
 	 * @param string|array $field_value Field value.
 	 * @return array|null
 	 */
@@ -574,7 +574,7 @@ class Pdf_Generator_For_Wp_Talk_To_Expert_Form {
 		$placeholders = implode( ', ', array_fill( 0, count( $paid_statuses ), '%s' ) );
 		$cutoff_date  = gmdate( 'Y-m-d H:i:s', strtotime( '-12 months' ) );
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name and placeholders are generated internally before prepare() binds values.
-		$revenue      = $wpdb->get_var(
+		$revenue = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT COALESCE(SUM(total_sales), 0)
 				FROM {$table_name}

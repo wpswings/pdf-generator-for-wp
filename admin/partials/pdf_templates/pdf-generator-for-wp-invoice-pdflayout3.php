@@ -20,9 +20,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function return_ob_value( $order_id, $type, $invoice_id ) {
 
-	$order_details         = do_shortcode( '[WPG_FETCH_ORDER order_id ="' . $order_id . '"]' );
+	$order_details = do_shortcode( '[WPG_FETCH_ORDER order_id ="' . $order_id . '"]' );
 
-	$order_details         = json_decode( $order_details, true );
+	$order_details = json_decode( $order_details, true );
 
 	$shipping_details      = $order_details['shipping_details'];
 	$billing_details       = $order_details['billing_details'];
@@ -256,7 +256,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 		if ( 'yes' === $is_add_logo && '' !== $logo ) {
 			$html .= ' <img src="' . $logo . '" >';
 		}
-		 $html .= ' </div>
+		$html .= ' </div>
       <div id="company">
         <h2 class="name"><b>' . ucfirst( $company_name ) . '</b></h2>
         <div>' . ucfirst( $company_address ) . '</div>
@@ -289,7 +289,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 
 			$html .= '<th>' . apply_filters( 'wps_custom_column_html_column_head', '', $order_id, $type, $invoice_id ) . '</th>';
 
-			$html .= '<th>' . __( 'Price', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . ')</th>
+			$html     .= '<th>' . __( 'Price', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . ')</th>
         <th>' . __( 'Tax', 'pdf-generator-for-wp' ) . ' (%)</th>
         <th>' . __( 'Amount', 'pdf-generator-for-wp' ) . '(' . $billing_details['order_currency'] . ')</th>
       </tr>
@@ -297,8 +297,8 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
         <tbody>
         ';
 			$meta_data = '';
-			$i = 1;
-			$total = 0;
+			$i         = 1;
+			$total     = 0;
 
 			foreach ( $order_product_details as $product ) {
 
@@ -313,22 +313,22 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 						$meta_data .= '<br/>' . $item['display_key'] . ':' . $item['display_value'];
 					}
 				}
-				$html .= '
+				$html         .= '
             <tr>
 						<td class="wpg-product-name no">' . $product['product_name'] . $meta_data . '</td>
 						<td class="desc"> ' . $product['product_quantity'] . '</td>';
-				$html .= '<td class="desc">' . apply_filters( 'wps_custom_column_html_column_data', '', $order_id, $type, $invoice_id ) . '</td>';
+				$html         .= '<td class="desc">' . apply_filters( 'wps_custom_column_html_column_data', '', $order_id, $type, $invoice_id ) . '</td>';
 						$html .= '<td class="unit">' . $product['product_price'] . '</td>
 						<td class="qty" >' . $product['tax_percent'] . '</td>
 						<td class="total">' . $product['product_total'] . '</td>
 					</tr>
             
          ';
-				$i++;
+				++$i;
 				$total += $product['product_price'] * $product['product_quantity'];
 			}
 
-			$html .= ' </tbody>
+			$html               .= ' </tbody>
         <tfoot>
           <tr>
           <td ></td>
@@ -401,7 +401,7 @@ function return_ob_value( $order_id, $type, $invoice_id ) {
 
 			$html .= '</main>';
 		}
-		$html .= '<footer>
+		$html         .= '<footer>
       Invoice was created on a computer and is valid without the signature and seal.
     </footer>';
 				$html .= '</body>

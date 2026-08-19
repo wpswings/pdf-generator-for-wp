@@ -73,9 +73,9 @@ class Elementor_Widget_WPS_Loom extends Widget_Base {
 	 * Render widget output on frontend.
 	 */
 	protected function render() {
-		$settings   = $this->get_settings_for_display();
-		$loom_url   = isset( $settings['loom_url'] ) ? trim( $settings['loom_url'] ) : '';
-		$embed_url  = '';
+		$settings  = $this->get_settings_for_display();
+		$loom_url  = isset( $settings['loom_url'] ) ? trim( $settings['loom_url'] ) : '';
+		$embed_url = '';
 
 		if ( preg_match( '/loom\.com\/share\/([a-zA-Z0-9]+)/', $loom_url, $matches ) ) {
 			$embed_url = 'https://www.loom.com/embed/' . esc_attr( $matches[1] );

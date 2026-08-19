@@ -152,7 +152,7 @@ function wps_pgfw_host_is_public( $host ) {
 	}
 
 	// Strip IPv6 brackets if present.
-	$host = trim( $host, "[]" );
+	$host = trim( $host, '[]' );
 
 	$ips = array();
 	if ( filter_var( $host, FILTER_VALIDATE_IP ) ) {
@@ -331,7 +331,7 @@ function wps_pgfw_upload_pdf() {
 		'test_form' => false,
 		'mimes'     => array( 'pdf' => 'application/pdf' ),
 	);
-	$file_arr = array(
+	$file_arr  = array(
 		'name'     => $file['name'],
 		'type'     => $file['type'],
 		'tmp_name' => $file['tmp_name'],
@@ -350,7 +350,7 @@ function wps_pgfw_upload_pdf() {
 		'post_content'   => '',
 		'post_status'    => 'inherit',
 	);
-	$attach_id = wp_insert_attachment( $attachment, $movefile['file'] );
+	$attach_id  = wp_insert_attachment( $attachment, $movefile['file'] );
 	if ( is_wp_error( $attach_id ) ) {
 		wp_send_json_error( $attach_id->get_error_message() );
 	}
@@ -369,10 +369,10 @@ function wps_pgfw_upload_pdf() {
 /**
  * Get option with caching support.
  *
- * @param string $option  Option name.
- * @param mixed  $default Default value if option doesn't exist.
+ * @param string $option        Option name.
+ * @param mixed  $default_value Default value if option doesn't exist.
  * @return mixed Option value or default.
  */
-function wps_pgfw_get_option_cached( $option, $default = '' ) {
-	return get_option( $option, $default );
+function wps_pgfw_get_option_cached( $option, $default_value = '' ) {
+	return get_option( $option, $default_value );
 }

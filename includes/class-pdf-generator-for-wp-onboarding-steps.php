@@ -163,7 +163,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	public function wps_pgfw_onboarding_enqueue_styles() {
 		global $pagenow;
 		$asset_version = defined( 'PDF_GENERATOR_FOR_WP_VERSION' ) ? PDF_GENERATOR_FOR_WP_VERSION : '1.6.2';
-		$is_valid = false;
+		$is_valid      = false;
 		if ( ! $is_valid && 'plugins.php' == $pagenow ) { // phpcs:ignore
 			$is_valid = true;
 		}
@@ -195,7 +195,7 @@ class Pdf_Generator_For_Wp_Onboarding_Steps {
 	public function wps_pgfw_onboarding_enqueue_scripts() {
 		global $pagenow;
 		$asset_version = defined( 'PDF_GENERATOR_FOR_WP_VERSION' ) ? PDF_GENERATOR_FOR_WP_VERSION : '1.6.2';
-		$is_valid = false;
+		$is_valid      = false;
 		if ( ! $is_valid && 'plugins.php' == $pagenow ) { // phpcs:ignore
 			$is_valid = true;
 		}
