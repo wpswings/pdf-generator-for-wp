@@ -242,12 +242,19 @@ select {
 
 .wps-navbar {
     padding: 0 32px;
-    border-bottom: 1px solid rgba(63, 71, 86, 0.25);
+        border-bottom: 1px solid rgba(63, 71, 86, 0.25);
+ 
 }
 
 .wps-navbar__items {
-    display: flex;
+       display: flex;
     flex-wrap: wrap;
+    background: white;
+    margin-left: -29px;
+    margin-right: -15px;
+    padding: 19px;
+   
+       
 }
 
 .wps-navbar__items li {
@@ -270,6 +277,10 @@ select {
     margin: 0 -15px 35px;
 }
 
+.pgfw-secion-wrap{
+background:white;
+padding:15px;
+}
 .wps-form-group__label {
     flex: 0 0 100%;
     max-width: 200px;

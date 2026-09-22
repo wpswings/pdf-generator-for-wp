@@ -10,6 +10,14 @@
                 $('.pgfw_custom_pdf_file_name').hide();
             }
         });
+        // PDF password protection toggle.
+        $('.pgfw_pdf_password_protection_enable').on('change',function(){
+            if ( $(this).is(':checked') ) {
+                $('.pgfw_pdf_password').closest('.wps-form-group').show();
+            } else {
+                $('.pgfw_pdf_password').closest('.wps-form-group').hide();
+            }
+        });
         //////////////////////////custom page //////////////
             // custom page name input box.
             $('.pgfw_body_page_size').on('change',function(){

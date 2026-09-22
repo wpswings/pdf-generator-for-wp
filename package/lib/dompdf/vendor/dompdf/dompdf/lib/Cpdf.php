@@ -2922,9 +2922,15 @@ EOT;
                 $res .= "\n/R 2";
                 $res .= "\n/O (" . $this->filterText($o['info']['O'], false, false) . ')';
                 $res .= "\n/U (" . $this->filterText($o['info']['U'], false, false) . ')';
-                // and the p-value needs to be converted to account for the twos-complement approach
-                $o['info']['p'] = (($o['info']['p'] ^ 255) + 1) * -1;
-                $res .= "\n/P " . ($o['info']['p']);
+                // and the p-value needs to be converted to account for the twos-complement approach.
+                // NOTE: this must NOT mutate $o['info']['p'] in place - if output() is called more
+                // than once on the same (encrypted) document (e.g. once to save/email/upload the
+                // PDF and again via stream() to send it to the browser), re-running this twos-
+                // complement conversion on an already-converted value flips /P back to a positive
+                // number, which no longer matches the key used to encrypt the content streams and
+                // makes every password - including the correct one - fail to open the file.
+                $p_signed = (($o['info']['p'] ^ 255) + 1) * -1;
+                $res .= "\n/P " . $p_signed;
                 $res .= "\n>>\nendobj";
 
                 return $res;

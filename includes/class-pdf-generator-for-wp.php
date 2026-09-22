@@ -149,6 +149,13 @@ class Pdf_Generator_For_Wp {
 		 * of the plugin.
 		 */
 		require_once plugin_dir_path( __DIR__ ) . 'common/class-pdf-generator-for-wp-common.php';
+
+		/**
+		 * The class responsible for uploading generated PDFs to cloud storage
+		 * providers (Google Drive, Dropbox, Amazon S3).
+		 */
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-pdf-generator-for-wp-cloud-storage.php';
+
 		$this->loader = new Pdf_Generator_For_Wp_Loader();
 	}
 
@@ -202,8 +209,15 @@ class Pdf_Generator_For_Wp {
 		$this->loader->add_filter( 'pgfw_meta_fields_settings_array', $pgfw_plugin_admin, 'pgfw_admin_meta_fields_settings_page', 10 );
 		// Fields for PDF upload settings.
 		$this->loader->add_filter( 'pgfw_pdf_upload_fields_settings_array', $pgfw_plugin_admin, 'pgfw_admin_pdf_upload_settings_page', 10 );
+		// Fields for cloud storage settings.
+		$this->loader->add_filter( 'pgfw_cloud_storage_settings_array', $pgfw_plugin_admin, 'pgfw_admin_cloud_storage_settings_page', 10 );
 		// Request handling for saving general settings.
 		$this->loader->add_action( 'admin_init', $pgfw_plugin_admin, 'pgfw_admin_save_tab_settings' );
+
+		// Cloud storage OAuth connect/disconnect handling for Google Drive & Dropbox.
+		$pgfw_cloud_storage = new Pdf_Generator_For_Wp_Cloud_Storage( $this->pgfw_get_plugin_name(), $this->pgfw_get_version() );
+		$this->loader->add_action( 'admin_post_pgfw_cloud_storage_oauth_callback', $pgfw_cloud_storage, 'handle_oauth_callback' );
+		$this->loader->add_action( 'admin_post_pgfw_cloud_storage_disconnect', $pgfw_cloud_storage, 'handle_disconnect' );
 		// Deleting media from table by media ID.
 		$this->loader->add_action( 'wp_ajax_wps_pgfw_delete_poster_by_media_id_from_table', $pgfw_plugin_admin, 'wps_pgfw_delete_poster_by_media_id_from_table' );
 		// schedular fo deleting documents form server.
@@ -211,6 +225,8 @@ class Pdf_Generator_For_Wp {
 		$this->loader->add_action( 'pgfw_cron_delete_pdf_from_server', $pgfw_plugin_admin, 'pgfw_delete_pdf_from_server' );
 		// Reset all the settings to default.
 		$this->loader->add_action( 'wp_ajax_pgfw_reset_default_settings', $pgfw_plugin_admin, 'pgfw_reset_default_settings' );
+		// Saving a post type's drag & drop PDF builder layout.
+		$this->loader->add_action( 'wp_ajax_pgfw_save_pdf_builder_layout', $pgfw_plugin_admin, 'wps_pgfw_save_pdf_builder_layout_ajax' );
 
 		$this->loader->add_action( 'wp_ajax_wpg_ajax_callbacks', $pgfw_plugin_admin, 'wps_wpg_ajax_callbacks' );
 		$this->loader->add_filter( 'wps_pgfw_custom_page_size_filter_hook', $pgfw_plugin_admin, 'wpg_custom_page_size_in_dropdown' );
@@ -236,6 +252,15 @@ class Pdf_Generator_For_Wp {
 		$this->loader->add_action( 'save_post_flipbook', $pgfw_plugin_admin, 'wps_pgfw_save_flipbook_metabox_callback', 10, 1 );
 		$this->loader->add_filter( 'manage_flipbook_posts_columns', $pgfw_plugin_admin, 'wps_pgfw_manage_flipbook_posts_columns', 10, 1 );
 		$this->loader->add_action( 'manage_flipbook_posts_custom_column', $pgfw_plugin_admin, 'wps_pgfw_flipbook_posts_custom_column', 10, 2 );
+
+		/* Per-post/page/product PDF password override metabox. */
+		$this->loader->add_action( 'add_meta_boxes', $pgfw_plugin_admin, 'wps_pgfw_add_pdf_password_metabox_callback', 10, 1 );
+		$this->loader->add_action( 'save_post', $pgfw_plugin_admin, 'wps_pgfw_save_pdf_password_metabox_callback', 10, 1 );
+
+		// Share the invoice PDF password with the admin on the order edit screen, when the invoice feature is enabled.
+		if ( 'yes' === get_option( 'wpg_enable_plugin' ) ) {
+			$this->loader->add_action( 'woocommerce_admin_order_data_after_order_details', $pgfw_plugin_admin, 'wpg_show_invoice_pdf_password_notice_admin', 10, 1 );
+		}
 	}
 
 	/**
@@ -262,12 +287,23 @@ class Pdf_Generator_For_Wp {
 			$this->loader->add_filter( 'bulk_actions-edit-post', $pgfw_plugin_common, 'wpg_add_custom_bulk_action_post', 10, 2 );
 			$this->loader->add_filter( 'bulk_actions-edit-page', $pgfw_plugin_common, 'wpg_add_custom_bulk_actions_page', 10, 2 );
 			$this->loader->add_filter( 'bulk_actions-edit-product', $pgfw_plugin_common, 'wpg_add_custom_bulk_actionss_product', 10, 2 );
+
+			// Automatic/scheduled regeneration of on-server PDFs for the post types selected
+			// under Advanced Settings > Select Post Type, instead of a manual regenerate.
+			$this->loader->add_action( 'save_post', $pgfw_plugin_common, 'wps_pgfw_maybe_schedule_pdf_regeneration', 10, 3 );
+			$this->loader->add_action( 'pgfw_regenerate_pdf_on_server_event', $pgfw_plugin_common, 'cron_job_wpg_common_generate_pdf', 10, 3 );
+			$this->loader->add_action( 'init', $pgfw_plugin_common, 'pgfw_schedule_weekly_pdf_regeneration' );
+			$this->loader->add_action( 'pgfw_cron_weekly_regenerate_pdfs', $pgfw_plugin_common, 'pgfw_cron_regenerate_all_pdfs' );
 			// invoice.
 			$pgfw_enable_plugin = get_option( 'wpg_enable_plugin' );
 			if ( 'yes' === $pgfw_enable_plugin ) {
 				// adding shortcodes to fetch all order detials [ISFW_FETCH_ORDER].
 				$this->loader->add_action( 'plugins_loaded', $pgfw_plugin_common, 'wpg_fetch_order_details_shortcode' );
 				$this->loader->add_action( 'wpg_reset_invoice_number_hook', $pgfw_plugin_common, 'wpg_reset_invoice_number' );
+				// Share the invoice PDF password with the customer on the order-details table
+				// (thank you page + My Account > Orders > View Order) and in order emails.
+				$this->loader->add_action( 'woocommerce_order_details_after_order_table', $pgfw_plugin_common, 'wpg_show_invoice_pdf_password_notice', 10, 1 );
+				$this->loader->add_action( 'woocommerce_email_after_order_table', $pgfw_plugin_common, 'wpg_show_invoice_pdf_password_notice_email', 10, 4 );
 			}
 		}
 	}
@@ -392,6 +428,16 @@ class Pdf_Generator_For_Wp {
 		$pgfw_default_tabs['pdf-generator-for-wp-advanced'] = array(
 			'title' => esc_html__( 'Advanced Settings', 'pdf-generator-for-wp' ),
 			'name'  => 'pdf-generator-for-wp-advanced',
+		);
+
+		$pgfw_default_tabs['pdf-generator-for-wp-cloud-storage'] = array(
+			'title' => esc_html__( 'Cloud Storage', 'pdf-generator-for-wp' ),
+			'name'  => 'pdf-generator-for-wp-cloud-storage',
+		);
+
+		$pgfw_default_tabs['pdf-generator-for-wp-builder'] = array(
+			'title' => esc_html__( 'PDF Builder', 'pdf-generator-for-wp' ),
+			'name'  => 'pdf-generator-for-wp-builder',
 		);
 
 		$pgfw_default_tabs['pdf-generator-for-wp-meta-fields'] = array(
@@ -626,7 +672,7 @@ class Pdf_Generator_For_Wp {
 							break;
 						case 'password':
 							?>
-							<div class="wps-form-group">
+							<div class="wps-form-group <?php echo esc_attr( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ); ?>" style="<?php echo esc_attr( array_key_exists( 'style', $pgfw_component ) ? $pgfw_component['style'] : '' ); ?>">
 								<div class="wps-form-group__label">
 									<label for="<?php echo esc_attr( $pgfw_component['id'] ); ?>" class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
 								</div>
@@ -851,6 +897,25 @@ class Pdf_Generator_For_Wp {
 								</div>
 							</div>
 
+							<?php
+							break;
+
+						case 'link-button':
+							?>
+							<div class="wps-form-group <?php echo esc_attr( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ); ?>">
+								<div class="wps-form-group__label">
+									<label class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
+								</div>
+								<div class="wps-form-group__control">
+									<?php if ( ! empty( $pgfw_component['status_text'] ) ) { ?>
+										<span class="wps-pgfw-status <?php echo esc_attr( isset( $pgfw_component['status_class'] ) ? $pgfw_component['status_class'] : '' ); ?>"><?php echo esc_html( $pgfw_component['status_text'] ); ?></span>
+									<?php } ?>
+									<a href="<?php echo ! empty( $pgfw_component['url'] ) ? esc_url( $pgfw_component['url'] ) : '#'; ?>" class="mdc-button mdc-button--raised <?php echo ( isset( $pgfw_component['class'] ) ? esc_attr( $pgfw_component['class'] ) : '' ); ?>" id="<?php echo esc_attr( $pgfw_component['id'] ); ?>"><span class="mdc-button__ripple"></span><span class="mdc-button__label"><?php echo ( isset( $pgfw_component['button_text'] ) ? esc_html( $pgfw_component['button_text'] ) : '' ); ?></span></a>
+									<div class="mdc-text-field-helper-line">
+										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_html( $pgfw_component['description'] ) : '' ); ?></div>
+									</div>
+								</div>
+							</div>
 							<?php
 							break;
 

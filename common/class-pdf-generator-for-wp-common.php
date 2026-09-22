@@ -389,6 +389,8 @@ class Pdf_Generator_For_Wp_Common {
 
 		@ob_end_clean(); // phpcs:ignore
 		$dompdf->render();
+		wps_pgfw_apply_pdf_security( $dompdf, $post_id );
+		wps_pgfw_auto_save_pdf_to_cloud( $dompdf, $document_name . '.pdf' );
 		if ( 'yes' === $body_add_watermark ) {
 			$options = new Options();
 			$options->set( 'isPhpEnabled', 'true' );
@@ -662,6 +664,8 @@ class Pdf_Generator_For_Wp_Common {
 					$document_name = 'bulk_post_to_pdf_' . strtotime( gmdate( 'y-m-d H:i:s' ) );
 					@ob_end_clean(); // phpcs:ignore.
 					$dompdf->render();
+					wps_pgfw_apply_pdf_security( $dompdf );
+					wps_pgfw_auto_save_pdf_to_cloud( $dompdf, $document_name . '.pdf' );
 					if ( 'download_locally' === $pgfw_generate_mode ) {
 						@ob_end_clean(); // phpcs:ignore.
 						$dompdf->stream(
@@ -929,6 +933,8 @@ class Pdf_Generator_For_Wp_Common {
 			$dompdf->setPaper( 'A4' );
 			@ob_end_clean(); // phpcs:ignore
 			$dompdf->render();
+			wps_pgfw_apply_pdf_security( $dompdf );
+			wps_pgfw_auto_save_pdf_to_cloud( $dompdf, $invoice_name . '.pdf' );
 			if ( ! file_exists( $upload_basedir ) ) {
 				wp_mkdir_p( $upload_basedir );
 			}
@@ -965,6 +971,57 @@ class Pdf_Generator_For_Wp_Common {
 			}
 		}
 	}
+	/**
+	 * Show the invoice PDF password to the customer, right below the order items
+	 * table - fires on both the order-received (thank you) page and the customer's
+	 * My Account > Orders > View Order page (WooCommerce uses the same hook for both).
+	 * No-ops when no password protection applies to invoices.
+	 *
+	 * @since 1.6.6
+	 * @param WC_Order $order Order object.
+	 * @return void
+	 */
+	public function wpg_show_invoice_pdf_password_notice( $order ) {
+		$pgfw_pdf_password = wps_pgfw_get_pdf_password();
+		if ( '' === $pgfw_pdf_password ) {
+			return;
+		}
+		?>
+		<p class="wps-pgfw-invoice-password-notice">
+			<strong><?php esc_html_e( 'Invoice PDF Password:', 'pdf-generator-for-wp' ); ?></strong>
+			<?php echo esc_html( $pgfw_pdf_password ); ?>
+		</p>
+		<?php
+	}
+
+	/**
+	 * Show the invoice PDF password in WooCommerce order emails, right below the
+	 * order items table. No-ops when no password protection applies to invoices.
+	 *
+	 * @since 1.6.6
+	 * @param WC_Order $order         Order object.
+	 * @param bool     $sent_to_admin Whether this email is going to the site admin.
+	 * @param bool     $plain_text    Whether this is the plain-text version of the email.
+	 * @param WC_Email $email         Email object.
+	 * @return void
+	 */
+	public function wpg_show_invoice_pdf_password_notice_email( $order, $sent_to_admin, $plain_text, $email ) {
+		$pgfw_pdf_password = wps_pgfw_get_pdf_password();
+		if ( '' === $pgfw_pdf_password ) {
+			return;
+		}
+		if ( $plain_text ) {
+			echo esc_html__( 'Invoice PDF Password:', 'pdf-generator-for-wp' ) . ' ' . esc_html( $pgfw_pdf_password ) . "\n\n";
+			return;
+		}
+		?>
+		<p class="wps-pgfw-invoice-password-notice">
+			<strong><?php esc_html_e( 'Invoice PDF Password:', 'pdf-generator-for-wp' ); ?></strong>
+			<?php echo esc_html( $pgfw_pdf_password ); ?>
+		</p>
+		<?php
+	}
+
 	/**
 	 * Adding shortcodes for fetching order details.
 	 *
@@ -1188,6 +1245,8 @@ class Pdf_Generator_For_Wp_Common {
 		$dompdf->setPaper( 'A4' );
 		@ob_end_clean(); // phpcs:ignore
 		$dompdf->render();
+		wps_pgfw_apply_pdf_security( $dompdf, $prod_id );
+		wps_pgfw_auto_save_pdf_to_cloud( $dompdf, get_the_title( $prod_id ) . '.pdf' );
 
 		if ( ! file_exists( $upload_basedir ) ) {
 			wp_mkdir_p( $upload_basedir );
@@ -1195,7 +1254,7 @@ class Pdf_Generator_For_Wp_Common {
 
 		if ( 'download_on_server' === $action ) {
 			$output = $dompdf->output();
-			if ( ! file_exists( $path ) ) {
+			if ( file_exists( $path ) ) {
 				@unlink( $path ); // phpcs:ignore
 			}
 			if ( ! file_exists( $path ) ) {
@@ -1203,6 +1262,82 @@ class Pdf_Generator_For_Wp_Common {
 			}
 
 			return $path;
+		}
+	}
+
+	/**
+	 * Schedule a background regeneration of a post/page/product's cached on-server PDF
+	 * (see the "Select Post Type" field in Advanced Settings) shortly after it is saved,
+	 * instead of requiring the admin to manually regenerate it every time content changes.
+	 *
+	 * @since 1.6.6
+	 * @param int     $post_id Post ID being saved.
+	 * @param WP_Post $post    Post object.
+	 * @param bool    $update  Whether this is an existing post being updated.
+	 * @return void
+	 */
+	public function wps_pgfw_maybe_schedule_pdf_regeneration( $post_id, $post, $update ) {
+		if ( wp_is_post_autosave( $post_id ) || wp_is_post_revision( $post_id ) ) {
+			return;
+		}
+		if ( ! $post || 'publish' !== $post->post_status ) {
+			return;
+		}
+
+		$pgfw_advanced_settings    = get_option( 'pgfw_advanced_save_settings', array() );
+		$pgfw_post_types_on_server = array_key_exists( 'pgfw_advanced_post_on_server', $pgfw_advanced_settings ) ? (array) $pgfw_advanced_settings['pgfw_advanced_post_on_server'] : array();
+
+		if ( ! in_array( $post->post_type, $pgfw_post_types_on_server, true ) ) {
+			return;
+		}
+
+		$pgfw_cron_args = array( $post_id, $post->post_type, 'download_on_server' );
+		if ( ! wp_next_scheduled( 'pgfw_regenerate_pdf_on_server_event', $pgfw_cron_args ) ) {
+			wp_schedule_single_event( time() + MINUTE_IN_SECONDS, 'pgfw_regenerate_pdf_on_server_event', $pgfw_cron_args );
+		}
+	}
+
+	/**
+	 * Make sure the weekly "refresh all on-server PDFs" cron event is scheduled.
+	 *
+	 * @since 1.6.6
+	 * @return void
+	 */
+	public function pgfw_schedule_weekly_pdf_regeneration() {
+		if ( ! wp_next_scheduled( 'pgfw_cron_weekly_regenerate_pdfs' ) ) {
+			wp_schedule_event( time(), 'weekly', 'pgfw_cron_weekly_regenerate_pdfs' );
+		}
+	}
+
+	/**
+	 * Weekly cron handler: regenerate the cached on-server PDF for every published post/page/
+	 * product of the post type(s) selected in the "Select Post Type" Advanced Setting, so
+	 * cached PDFs stay in sync even for content changed outside a normal `save_post` (e.g. an
+	 * import or a direct DB update).
+	 *
+	 * @since 1.6.6
+	 * @return void
+	 */
+	public function pgfw_cron_regenerate_all_pdfs() {
+		$pgfw_advanced_settings    = get_option( 'pgfw_advanced_save_settings', array() );
+		$pgfw_post_types_on_server = array_key_exists( 'pgfw_advanced_post_on_server', $pgfw_advanced_settings ) ? array_filter( (array) $pgfw_advanced_settings['pgfw_advanced_post_on_server'] ) : array();
+
+		if ( empty( $pgfw_post_types_on_server ) ) {
+			return;
+		}
+
+		$pgfw_post_ids = get_posts(
+			array(
+				'post_type'      => $pgfw_post_types_on_server,
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+				'fields'         => 'ids',
+				'no_found_rows'  => true,
+			)
+		);
+
+		foreach ( $pgfw_post_ids as $pgfw_post_id ) {
+			$this->cron_job_wpg_common_generate_pdf( $pgfw_post_id, get_post_type( $pgfw_post_id ), 'download_on_server' );
 		}
 	}
 }

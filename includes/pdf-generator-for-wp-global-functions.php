@@ -41,6 +41,7 @@ if ( ! function_exists( 'wps_generate_pdf' ) ) {
 				'get_content'      => false,
 				'upload_file'      => false,
 				'file_path'        => '',
+				'post_id'          => 0,
 			)
 		);
 
@@ -48,6 +49,8 @@ if ( ! function_exists( 'wps_generate_pdf' ) ) {
 		$dompdf->loadHtml( $attr['html'] );
 		$dompdf->setPaper( wps_get_page_sizes( $attr['paper_size'] ), $attr['page_orientation'] );
 		$dompdf->render();
+		wps_pgfw_apply_pdf_security( $dompdf, $attr['post_id'] );
+		wps_pgfw_auto_save_pdf_to_cloud( $dompdf, $attr['file_name'] );
 		$output = $dompdf->output();
 		if ( $attr['get_content'] ) {
 			return $output;
@@ -61,6 +64,131 @@ if ( ! function_exists( 'wps_generate_pdf' ) ) {
 				'compress'   => $attr['compress'],
 				'Attachment' => $attr['Attachment'],
 			)
+		);
+	}
+
+	/**
+	 * Resolve which password (if any) applies to a given post/page/product's generated PDF,
+	 * per the same precedence used to actually encrypt it: a per-item override
+	 * (see the "PDF Password Protection" metabox) always wins when set; otherwise the
+	 * global "Enable PDF Password Protection" toggle + password from General Settings apply.
+	 *
+	 * Shared by wps_pgfw_apply_pdf_security() (to encrypt) and anywhere the password needs
+	 * to be displayed to a customer/admin (e.g. order details, order emails).
+	 *
+	 * @param int $post_id Optional. Post/page/product ID to check for a per-item override.
+	 *                     0 when there isn't a single owning post (e.g. a WooCommerce order,
+	 *                     which can span multiple products, or a multi-post bulk export) -
+	 *                     only the global setting is considered in that case.
+	 * @return string The password to use, or '' if no password protection applies.
+	 */
+	function wps_pgfw_get_pdf_password( $post_id = 0 ) {
+		$general_settings_data = get_option( 'pgfw_general_settings_save', array() );
+		$is_enabled             = array_key_exists( 'pgfw_pdf_password_protection_enable', $general_settings_data ) ? $general_settings_data['pgfw_pdf_password_protection_enable'] : '';
+		$global_password        = array_key_exists( 'pgfw_pdf_password', $general_settings_data ) ? $general_settings_data['pgfw_pdf_password'] : '';
+
+		$override_password = $post_id ? get_post_meta( $post_id, '_pgfw_pdf_password_override', true ) : '';
+
+		if ( '' !== $override_password ) {
+			return $override_password;
+		}
+		if ( 'yes' === $is_enabled && '' !== $global_password ) {
+			return $global_password;
+		}
+		return '';
+	}
+
+	/**
+	 * Apply password protection/encryption to a rendered Dompdf document, using
+	 * wps_pgfw_get_pdf_password() to resolve which password (override or global) applies.
+	 *
+	 * Must be called after $dompdf->render() and before $dompdf->output()/$dompdf->stream().
+	 * No-ops when no password applies.
+	 *
+	 * @param \Dompdf\Dompdf $dompdf  Rendered Dompdf instance.
+	 * @param int            $post_id Optional. Post/page/product ID this PDF was generated for.
+	 * @return void
+	 */
+	function wps_pgfw_apply_pdf_security( $dompdf, $post_id = 0 ) {
+		$pdf_password = wps_pgfw_get_pdf_password( $post_id );
+
+		if ( '' === $pdf_password || ! is_object( $dompdf ) ) {
+			return;
+		}
+
+		$canvas = $dompdf->getCanvas();
+		if ( $canvas && method_exists( $canvas, 'get_cpdf' ) ) {
+			$canvas->get_cpdf()->setEncryption(
+				$pdf_password,
+				$pdf_password,
+				array(
+					'print'  => true,
+					'copy'   => true,
+					'modify' => true,
+					'add'    => true,
+				)
+			);
+		}
+	}
+
+	/**
+	 * Upload a rendered Dompdf document to any enabled cloud storage provider
+	 * (Google Drive, Dropbox, Amazon S3), based on the Cloud Storage tab settings.
+	 *
+	 * Must be called after $dompdf->render() (and after wps_pgfw_apply_pdf_security(),
+	 * if used, so password-protected copies are what get uploaded).
+	 *
+	 * @param \Dompdf\Dompdf $dompdf    Rendered Dompdf instance.
+	 * @param string         $file_name Destination file name, e.g. "invoice-12.pdf".
+	 * @return void
+	 */
+	function wps_pgfw_auto_save_pdf_to_cloud( $dompdf, $file_name = 'document.pdf' ) {
+		if ( ! class_exists( 'Pdf_Generator_For_Wp_Cloud_Storage' ) ) {
+			return;
+		}
+		$cloud_storage = new Pdf_Generator_For_Wp_Cloud_Storage();
+		$cloud_storage->upload_dompdf_output( $dompdf, $file_name );
+	}
+
+	/**
+	 * Resolve the configured PDF page size/orientation (Body Settings) to CSS pixel
+	 * dimensions at dompdf's 96dpi reference, for the PDF Builder canvas to match
+	 * exactly what dompdf will actually render.
+	 *
+	 * @return array { 'width' => int, 'height' => int } in CSS px.
+	 */
+	function wps_pgfw_get_pdf_page_size_px() {
+		$body_settings = get_option( 'pgfw_body_save_settings', array() );
+		$page_size     = array_key_exists( 'pgfw_body_page_size', $body_settings ) ? $body_settings['pgfw_body_page_size'] : 'a4';
+		$orientation   = array_key_exists( 'pgfw_body_page_orientation', $body_settings ) ? $body_settings['pgfw_body_page_orientation'] : 'portrait';
+
+		if ( 'custom_page' === $page_size
+			&& ! empty( $body_settings['pgfw_body_custom_page_size_width'] )
+			&& ! empty( $body_settings['pgfw_body_custom_page_size_height'] ) ) {
+			$width_pt  = (float) $body_settings['pgfw_body_custom_page_size_width'] * 2.834;
+			$height_pt = (float) $body_settings['pgfw_body_custom_page_size_height'] * 2.834;
+		} else {
+			$paper_size_pts = wps_get_page_sizes( $page_size );
+			$width_pt       = isset( $paper_size_pts[2] ) ? $paper_size_pts[2] : 595.28;
+			$height_pt      = isset( $paper_size_pts[3] ) ? $paper_size_pts[3] : 841.89;
+		}
+
+		$width_px  = (int) round( $width_pt * ( 96 / 72 ) );
+		$height_px = (int) round( $height_pt * ( 96 / 72 ) );
+
+		$long_side  = max( $width_px, $height_px );
+		$short_side = min( $width_px, $height_px );
+
+		if ( 'landscape' === $orientation ) {
+			return array(
+				'width'  => $long_side,
+				'height' => $short_side,
+			);
+		}
+
+		return array(
+			'width'  => $short_side,
+			'height' => $long_side,
 		);
 	}
 
