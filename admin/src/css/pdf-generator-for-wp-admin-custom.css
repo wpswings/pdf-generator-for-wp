@@ -446,3 +446,21 @@ body.makewebbetter_page_pdf_generator_for_wp_menu  .wps-wpg-card__img {
         max-width: 100%;
     }
 }
+
+.wps-pgfw-status {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 3px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    vertical-align: middle;
+}
+.wps-pgfw-status-connected {
+    background: #d4edda;
+    color: #155724;
+}
+.wps-pgfw-status-disconnected {
+    background: #f1f1f1;
+    color: #6c6c6c;
+}

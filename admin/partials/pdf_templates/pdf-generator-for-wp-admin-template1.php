@@ -25,6 +25,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string
  */
 function return_ob_html( $post_id, $template_name = '' ) {
+	require_once PDF_GENERATOR_FOR_WP_DIR_PATH . 'admin/partials/pdf_templates/pdf-generator-for-wp-builder-render.php';
+	$pgfw_builder_html = pgfw_builder_maybe_render( $post_id );
+	if ( null !== $pgfw_builder_html ) {
+		return $pgfw_builder_html;
+	}
+
 	do_action( 'wps_pgfw_load_all_compatible_shortcode_converter' );
 
 	$pgfw_display_settings                   = get_option( 'pgfw_save_admin_display_settings', array() );
