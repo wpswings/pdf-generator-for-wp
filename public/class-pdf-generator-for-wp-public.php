@@ -71,6 +71,32 @@ class Pdf_Generator_For_Wp_Public {
 		wp_register_script( $this->plugin_name . 'public-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'public/src/js/pdf-generator-for-wp-public.js', array( 'jquery' ), $this->version, false );
 		wp_localize_script( $this->plugin_name . 'public-js', 'pgfw_public_param', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 		wp_enqueue_script( $this->plugin_name . 'public-js' );
+
+		// Visitor "Save to Google Drive" (their own Drive, via Google Identity Services).
+		$pgfw_gdrive_client_id = wps_pgfw_customer_gdrive_client_id();
+		if ( '' !== $pgfw_gdrive_client_id ) {
+			wp_enqueue_script( 'pgfw-google-gsi', 'https://accounts.google.com/gsi/client', array(), null, true ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
+			wp_enqueue_script( $this->plugin_name . 'gdrive-save-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'public/src/js/pdf-generator-for-wp-gdrive-save.js', array( 'jquery', 'pgfw-google-gsi' ), $this->version, true );
+			wp_localize_script(
+				$this->plugin_name . 'gdrive-save-js',
+				'pgfw_gdrive_save_param',
+				array(
+					'client_id' => $pgfw_gdrive_client_id,
+					'i18n'      => array(
+						'preparing'    => __( 'Preparing PDF...', 'pdf-generator-for-wp' ),
+						'saving'       => __( 'Saving to your Google Drive...', 'pdf-generator-for-wp' ),
+						'saved'        => __( 'Saved to your Google Drive.', 'pdf-generator-for-wp' ),
+						'open'         => __( 'Open in Drive', 'pdf-generator-for-wp' ),
+						'pdf_error'    => __( 'Could not generate the PDF.', 'pdf-generator-for-wp' ),
+						'upload_error' => __( 'Could not save the PDF to Google Drive.', 'pdf-generator-for-wp' ),
+						'auth_expired' => __( 'Your Google sign-in expired. Please try again.', 'pdf-generator-for-wp' ),
+						'denied'       => __( 'Google Drive access was not granted.', 'pdf-generator-for-wp' ),
+						'cancelled'    => __( 'Google sign-in was cancelled.', 'pdf-generator-for-wp' ),
+						'not_ready'    => __( 'Google sign-in is still loading. Please try again in a moment.', 'pdf-generator-for-wp' ),
+					),
+				)
+			);
+		}
 		add_thickbox();
 	}
 	/**

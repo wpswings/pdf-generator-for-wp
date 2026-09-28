@@ -489,3 +489,24 @@ body.makewebbetter_page_pdf_generator_for_wp_menu  .wps-wpg-card__img {
 	border-color: #b32d2e;
 	line-height: 1;
 }
+
+/* Password fields: keep the show/hide (eye) icon beside the text, not over it.
+   The field is a flex row, so the icon becomes its own flex item at the end
+   and long values (e.g. client secrets) can no longer run underneath it. */
+.pgfw-secion-wrap .wps-form-group .wps-form-group__control > .mdc-text-field.mdc-text-field--with-trailing-icon .mdc-text-field__input {
+	flex: 1 1 auto;
+	padding-right: 8px !important;
+	text-overflow: ellipsis;
+}
+
+.pgfw-secion-wrap .wps-form-group .wps-form-group__control > .mdc-text-field.mdc-text-field--with-trailing-icon .mdc-text-field__icon--trailing {
+	position: static !important;
+	flex: 0 0 auto;
+	align-self: center;
+	margin: 0 16px 0 0 !important;
+	padding: 0 !important;
+	transform: none !important;
+	font-size: 20px;
+	line-height: 1;
+	cursor: pointer;
+}

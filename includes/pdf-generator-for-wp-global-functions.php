@@ -127,6 +127,34 @@ if ( ! function_exists( 'wps_generate_pdf' ) ) {
 	}
 
 	/**
+	 * Scheme + host (+ port) of the site, e.g. "https://example.com" - what Google
+	 * calls the "Authorized JavaScript origin" for the customer Save to Drive flow.
+	 *
+	 * @return string
+	 */
+	function wps_pgfw_site_origin() {
+		$parts = wp_parse_url( home_url() );
+		if ( empty( $parts['host'] ) ) {
+			return '';
+		}
+		return ( isset( $parts['scheme'] ) ? $parts['scheme'] : 'https' ) . '://' . $parts['host'] . ( isset( $parts['port'] ) ? ':' . $parts['port'] : '' );
+	}
+
+	/**
+	 * Google OAuth Client ID for the customer "Save to Google Drive" button, or ''
+	 * when the feature is off / not configured.
+	 *
+	 * @return string
+	 */
+	function wps_pgfw_customer_gdrive_client_id() {
+		$settings = get_option( 'pgfw_cloud_storage_save_settings', array() );
+		if ( ! is_array( $settings ) || 'yes' !== ( isset( $settings['pgfw_gdrive_customer_save_enable'] ) ? $settings['pgfw_gdrive_customer_save_enable'] : '' ) ) {
+			return '';
+		}
+		return isset( $settings['pgfw_gdrive_client_id'] ) ? trim( (string) $settings['pgfw_gdrive_client_id'] ) : '';
+	}
+
+	/**
 	 * Post types that can have their own PDF password in General Settings:
 	 * post, page and (with WooCommerce active) product.
 	 *
@@ -197,7 +225,7 @@ if ( ! function_exists( 'wps_generate_pdf' ) ) {
 
 	/**
 	 * Upload a rendered Dompdf document to any enabled cloud storage provider
-	 * (Google Drive, Dropbox, Amazon S3), based on the Cloud Storage tab settings.
+	 * (Google Drive, Dropbox), based on the Cloud Storage tab settings.
 	 *
 	 * Must be called after $dompdf->render() (and after wps_pgfw_apply_pdf_security(),
 	 * if used, so password-protected copies are what get uploaded).

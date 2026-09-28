@@ -2,7 +2,7 @@
 
 ## Goal
 
-Auto-save every generated PDF to Google Drive, Dropbox and/or Amazon S3, so
+Auto-save every generated PDF to Google Drive and/or Dropbox, so
 documents aren't limited to living only on the local WordPress server.
 
 ## Design decisions
@@ -14,12 +14,11 @@ documents aren't limited to living only on the local WordPress server.
   code paths was changed or removed. This avoids risking the several existing
   features (WooCommerce invoice storage hook, bulk ZIP downloads, email
   attachments) that depend on the local file still being written.
-- **No AWS/Google/Dropbox SDKs.** This plugin vendors its own dependencies
+- **No Google/Dropbox SDKs.** This plugin vendors its own dependencies
   manually under `package/lib/` (no Composer at the plugin root), and the
-  official SDKs for these three providers are large. Instead, all three
+  official SDKs for these providers are large. Instead, both
   integrations are implemented directly on top of `wp_remote_request()` /
-  `wp_remote_post()` — standard REST calls, OAuth2 token exchange, and (for
-  S3) a self-contained AWS Signature Version 4 signer. No new files are
+  `wp_remote_post()` — standard REST calls and OAuth2 token exchange. No new files are
   added to `package/lib/`.
 - **One shared hook point.** Every place in the plugin that renders a PDF
   (`$dompdf->render()`) already gets a single follow-up call —
@@ -57,16 +56,13 @@ Added like every other settings tab in this plugin (matching the
 ### Fields
 
 - `pgfw_cloud_storage_enable` — master radio-switch (YES/NO).
-- Per provider (`pgfw_gdrive_*`, `pgfw_dropbox_*`, `pgfw_s3_*`): an
+- Per provider (`pgfw_gdrive_*`, `pgfw_dropbox_*`): an
   "Enable ___" checkbox + its credential fields, so any combination of
   providers can run simultaneously ("and/or" from the ask).
 - Google Drive: Client ID, Client Secret, optional destination Folder ID,
   and a Connect/Disconnect button (OAuth).
 - Dropbox: App Key, App Secret, optional Folder Path, and a
   Connect/Disconnect button (OAuth).
-- Amazon S3: Access Key ID, Secret Access Key, Region, Bucket, optional
-  Folder Prefix — no OAuth needed, uploads sign directly with these static
-  keys.
 
 A new `link-button` field type was added to the shared field renderer
 (`Pdf_Generator_For_Wp::wps_pgfw_plug_generate_html()`) to render the
@@ -105,18 +101,6 @@ Client ID/Secret (App Key/Secret) into the settings, then clicks Connect.
   and cache the result in a transient for slightly less than its expiry, so
   a normal upload does one refresh call at most per hour, not per PDF.
 
-## Amazon S3
-
-No OAuth — static IAM credentials, signed per-request with AWS Signature
-Version 4 (`upload_to_s3()` / `s3_signing_key()` in the new class), doing a
-single `PUT` of the whole PDF to
-`https://<bucket>.s3.<region>.amazonaws.com/<prefix><file>.pdf`. This is a
-plain single-object PUT (no multipart/resumable upload), which is
-appropriate for PDF-sized files; very large PDFs (multi-hundred-MB) are out
-of scope.
-
-The IAM user only needs `s3:PutObject` on the target bucket.
-
 ## New file
 
 `includes/class-pdf-generator-for-wp-cloud-storage.php` —
@@ -129,7 +113,7 @@ side of the site. Holds:
   called from the 5 render sites. Bails out immediately (without even
   calling `$dompdf->output()`) unless the master toggle is on and at least
   one provider is enabled *and* fully configured.
-- `upload_to_google_drive()`, `upload_to_dropbox()`, `upload_to_s3()` —
+- `upload_to_google_drive()`, `upload_to_dropbox()` —
   per-provider upload.
 - OAuth helpers and the `admin_post_*` handlers described above.
 
@@ -186,10 +170,7 @@ verify a connection is actually working.
 3. **Dropbox**: same flow via the Dropbox App Console (Scoped App, `files.
    content.write` permission), using the redirect URI shown on the settings
    page.
-4. **Amazon S3**: fill in Access Key/Secret/Region/Bucket for an IAM user
-   with `s3:PutObject` on that bucket, enable, save → generate a PDF → file
-   appears in the bucket (optionally under the configured folder prefix).
-5. Enable more than one provider at once → generate a PDF → it lands in all
+4. Enable more than one provider at once → generate a PDF → it lands in all
    of them.
-6. Disconnect Google Drive/Dropbox → button reverts to "Connect ___" and no
+5. Disconnect Google Drive/Dropbox → button reverts to "Connect ___" and no
    further uploads go to that provider until reconnected.

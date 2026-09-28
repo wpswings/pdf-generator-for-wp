@@ -152,7 +152,7 @@ class Pdf_Generator_For_Wp {
 
 		/**
 		 * The class responsible for uploading generated PDFs to cloud storage
-		 * providers (Google Drive, Dropbox, Amazon S3).
+		 * providers (Google Drive, Dropbox).
 		 */
 		require_once plugin_dir_path( __DIR__ ) . 'includes/class-pdf-generator-for-wp-cloud-storage.php';
 
@@ -664,7 +664,7 @@ class Pdf_Generator_For_Wp {
 											<?php echo isset( $pgfw_component['step'] ) ? esc_html( 'step=' . $pgfw_component['step'] ) : ''; ?>>
 									</label>
 									<div class="mdc-text-field-helper-line">
-										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
+										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? wp_kses_post( $pgfw_component['description'] ) : '' ); ?></div>
 									</div>
 								</div>
 							</div>
@@ -694,7 +694,7 @@ class Pdf_Generator_For_Wp {
 										<i class="material-icons mdc-text-field__icon mdc-text-field__icon--trailing wps-password-hidden" tabindex="0" role="button">visibility</i>
 									</label>
 									<div class="mdc-text-field-helper-line">
-										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
+										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? wp_kses_post( $pgfw_component['description'] ) : '' ); ?></div>
 									</div>
 								</div>
 							</div>
