@@ -99,6 +99,10 @@ class Pdf_Generator_For_Wp_Common {
 		if ( isset( $_GET['action'] ) ) { // phpcs:ignore
 			$prod_id = array_key_exists( 'id', $_GET ) ? sanitize_text_field( wp_unslash( $_GET['id'] ) ) : ''; // phpcs:ignore
 			if ( ( 'genpdf' === $_GET['action'] ) && ( $prod_id ) ) { // phpcs:ignore
+				$prod_id = absint( $prod_id );
+				if ( ! $this->pgfw_current_user_can_access_post( $prod_id ) ) {
+					wp_die( esc_html__( 'You are not allowed to access this document.', 'pdf-generator-for-wp' ), '', array( 'response' => 403 ) );
+				}
 				if ( ( 'yes' === $guest_access_pdf ) && ( 'yes' === $user_access_pdf ) ) {
 					$this->pgfw_generate_pdf( $prod_id );
 				} elseif ( ( 'yes' === $guest_access_pdf ) && ! is_user_logged_in() ) {
@@ -108,6 +112,33 @@ class Pdf_Generator_For_Wp_Common {
 				}
 			}
 		}
+	}
+	/**
+	 * Check whether the current visitor may read a post, mirroring core's front-end rules,
+	 * before its content is rendered into a PDF from a public endpoint.
+	 *
+	 * @since 1.6.5
+	 * @param int $post_id post id.
+	 * @return bool
+	 */
+	public function pgfw_current_user_can_access_post( $post_id ) {
+		$post = get_post( absint( $post_id ) );
+		if ( ! $post ) {
+			return false;
+		}
+		// Non-public post types (orders, blocks, internal CPTs) are for editors only.
+		if ( ! is_post_type_viewable( $post->post_type ) ) {
+			return current_user_can( 'edit_post', $post->ID );
+		}
+		// Drafts, pending, private, future, trashed: core's read_post rules.
+		if ( ! is_post_status_viewable( get_post_status( $post ) ) && ! current_user_can( 'read_post', $post->ID ) ) {
+			return false;
+		}
+		// Password-protected posts require the core post password cookie.
+		if ( post_password_required( $post ) && ! current_user_can( 'edit_post', $post->ID ) ) {
+			return false;
+		}
+		return true;
 	}
 	/**
 	 * This will generate pdf from the inputted html and data.
@@ -131,7 +162,10 @@ class Pdf_Generator_For_Wp_Common {
 	public function wps_pgfw_generate_pdf_single_and_mail() {
 		check_ajax_referer( 'pgfw_common_nonce', 'nonce' );
 		$email   = array_key_exists( 'email', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['email'] ) ) : '';
-		$post_id = array_key_exists( 'post_id', $_POST ) ? sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) : '';
+		$post_id = array_key_exists( 'post_id', $_POST ) ? absint( wp_unslash( $_POST['post_id'] ) ) : 0;
+		if ( ! $this->pgfw_current_user_can_access_post( $post_id ) ) {
+			wp_die( esc_html__( 'You are not allowed to access this document.', 'pdf-generator-for-wp' ), '', array( 'response' => 403 ) );
+		}
 		if ( 'use_account_email' === $email ) {
 			$current_user = wp_get_current_user();
 			$email        = $current_user->user_email;
