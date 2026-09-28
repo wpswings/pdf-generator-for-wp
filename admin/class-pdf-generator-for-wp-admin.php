@@ -147,8 +147,9 @@ class Pdf_Generator_For_Wp_Admin {
 			if ( isset( $_GET['pgfw_tab'] ) && 'pdf-generator-for-wp-builder' === $_GET['pgfw_tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				wp_enqueue_script( 'jquery-ui-draggable' );
 				wp_enqueue_script( 'jquery-ui-resizable' );
+				wp_enqueue_script( 'jquery-ui-droppable' );
 				wp_enqueue_style( 'wp-color-picker' );
-			wp_enqueue_script( 'pgfw-pdf-builder-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/js/pdf-generator-for-wp-builder.js', array( 'jquery', 'jquery-ui-draggable', 'jquery-ui-resizable', 'wp-color-picker' ), $this->version, true );
+			wp_enqueue_script( 'pgfw-pdf-builder-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/js/pdf-generator-for-wp-builder.js', array( 'jquery', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-resizable', 'wp-color-picker' ), $this->version, true );
 				wp_localize_script(
 					'pgfw-pdf-builder-js',
 					'pgfw_pdf_builder_param',
@@ -4360,6 +4361,43 @@ endif;
 	}
 
 	/**
+	 * Post types the PDF Builder can design layouts for: post, page and,
+	 * when WooCommerce is active, product.
+	 *
+	 * @since 1.6.6
+	 * @return array post type slug => slug.
+	 */
+	private function pgfw_builder_supported_post_types() {
+		$post_types = array();
+		foreach ( array( 'post', 'page', 'product' ) as $post_type ) {
+			if ( post_type_exists( $post_type ) ) {
+				$post_types[ $post_type ] = $post_type;
+			}
+		}
+		return $post_types;
+	}
+
+	/**
+	 * Distinct meta keys stored on posts of a post type, for the builder's
+	 * Meta Field block. WordPress bookkeeping keys are left out.
+	 *
+	 * @since 1.6.6
+	 * @param string $post_type post type.
+	 * @return array
+	 */
+	private function pgfw_builder_get_post_type_meta_keys( $post_type ) {
+		global $wpdb;
+		$meta_keys = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->prepare(
+				"SELECT DISTINCT pm.meta_key FROM {$wpdb->postmeta} pm INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id WHERE p.post_type = %s AND p.post_status NOT IN ( 'auto-draft', 'trash' ) ORDER BY pm.meta_key LIMIT 500",
+				$post_type
+			)
+		);
+		$excluded = array( '_edit_lock', '_edit_last', '_wp_old_slug', '_wp_old_date', '_wp_page_template', '_wp_desired_post_slug', '_wp_trash_meta_status', '_wp_trash_meta_time', '_pingme', '_encloseme', '_thumbnail_id' );
+		return array_values( array_diff( array_filter( (array) $meta_keys, 'strlen' ), $excluded ) );
+	}
+
+	/**
 	 * Data needed by the "PDF Builder" tab: saved layouts, the master toggle, the
 	 * post types it can build a layout for, and the meta-field palette for each
 	 * (reusing whatever is already selected on the Meta Fields tab).
@@ -4374,15 +4412,18 @@ endif;
 
 		$pgfw_meta_settings = get_option( 'pgfw_meta_fields_save_settings', array() );
 
-		$pgfw_post_types = get_post_types( array( 'public' => true ) );
-		unset( $pgfw_post_types['attachment'] );
+		$pgfw_post_types = $this->pgfw_builder_supported_post_types();
 
 		$pgfw_meta_fields_by_type = array();
 		$pgfw_normalized_layouts  = array();
 		foreach ( $pgfw_post_types as $pgfw_post_type ) {
-			$pgfw_meta_fields_by_type[ $pgfw_post_type ] = array_key_exists( 'pgfw_meta_fields_' . $pgfw_post_type . '_list', $pgfw_meta_settings )
-				? array_values( (array) $pgfw_meta_settings[ 'pgfw_meta_fields_' . $pgfw_post_type . '_list' ] )
+			// Fields picked on the Meta Fields tab come first, followed by every
+			// other meta key that exists on this post type. The activator stores
+			// an empty string when nothing is picked, so drop empty values.
+			$pgfw_selected_meta = array_key_exists( 'pgfw_meta_fields_' . $pgfw_post_type . '_list', $pgfw_meta_settings )
+				? array_filter( array_map( 'strval', (array) $pgfw_meta_settings[ 'pgfw_meta_fields_' . $pgfw_post_type . '_list' ] ), 'strlen' )
 				: array();
+			$pgfw_meta_fields_by_type[ $pgfw_post_type ] = array_values( array_unique( array_merge( $pgfw_selected_meta, $this->pgfw_builder_get_post_type_meta_keys( $pgfw_post_type ) ) ) );
 
 			$pgfw_layout = array_key_exists( $pgfw_post_type, $pgfw_builder_layouts ) ? $pgfw_builder_layouts[ $pgfw_post_type ] : array();
 			$pgfw_normalized_layouts[ $pgfw_post_type ] = array(
@@ -4676,7 +4717,7 @@ endif;
 		$pgfw_post_type = isset( $_POST['post_type'] ) ? sanitize_key( wp_unslash( $_POST['post_type'] ) ) : '';
 		$pgfw_enable    = isset( $_POST['enable'] ) && 'yes' === $_POST['enable'] ? 'yes' : 'no'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
-		if ( '' === $pgfw_post_type || ! post_type_exists( $pgfw_post_type ) ) {
+		if ( '' === $pgfw_post_type || ! array_key_exists( $pgfw_post_type, $this->pgfw_builder_supported_post_types() ) ) {
 			wp_send_json_error( array( 'message' => __( 'Invalid post type.', 'pdf-generator-for-wp' ) ) );
 		}
 
