@@ -237,9 +237,21 @@
 				$el.addClass('is-selected');
 			}
 
-			$el.on('mousedown click', function () {
-				selectBlock(block.id);
+			// Only toggle the selection classes here - a full renderCanvas()
+			// on mousedown would destroy this element before jQuery UI can
+			// start dragging or resizing it.
+			$el.on('mousedown', function (e) {
+				if ($(e.target).closest('.pgfw-pdf-block__remove').length) {
+					return;
+				}
+				markSelected(block.id);
 			});
+
+			// Attach before initialising jQuery UI: on a detached element the
+			// stylesheet's position:absolute isn't applied yet, so draggable
+			// would force an inline position:relative and blocks would stack
+			// in normal flow (new blocks end up pushed off the page).
+			$canvas.append($el);
 
 			$el.draggable({
 				containment: 'parent',
@@ -259,8 +271,6 @@
 					renderCanvas();
 				}
 			});
-
-			$canvas.append($el);
 		});
 	}
 
@@ -281,6 +291,7 @@
 		}
 		if (selectedBlockId === id) {
 			selectedBlockId = null;
+			$('#pgfw-pdf-builder-block-actions').hide();
 		}
 		renderCanvas();
 		renderProperties();
@@ -291,6 +302,30 @@
 		renderCanvas();
 		renderProperties();
 		$('#pgfw-pdf-builder-block-actions').toggle(!!id);
+	}
+
+	// Select a block without rebuilding the canvas, so an in-progress
+	// drag/resize on that block is not interrupted.
+	function markSelected(id) {
+		if (selectedBlockId === id) {
+			return;
+		}
+		selectedBlockId = id;
+		$('#pgfw-pdf-builder-canvas .pgfw-pdf-block').each(function () {
+			$(this).toggleClass('is-selected', $(this).data('id') === id);
+		});
+		renderProperties();
+		$('#pgfw-pdf-builder-block-actions').toggle(!!id);
+	}
+
+	function addBlock(type, x, y) {
+		var block = newBlockDefaults(type);
+		if (typeof x === 'number' && typeof y === 'number') {
+			block.x = Math.max(0, Math.min(snapVal(x), pageSize.width - block.width));
+			block.y = Math.max(0, Math.min(snapVal(y), pageSize.height - block.height));
+		}
+		currentBlocks().push(block);
+		selectBlock(block.id);
 	}
 
 	function metaFieldOptions(postType) {
@@ -347,10 +382,12 @@
 			html += field('select', 'align', 'Align', block.align, [['left', 'Left'], ['center', 'Center'], ['right', 'Right']]);
 			html += checkboxRow('bold', 'Bold', block.bold) + checkboxRow('italic', 'Italic', block.italic);
 		} else if (block.type === 'meta') {
-			var options = metaFieldOptions(currentPostType).map(function (key) {
+			var options = metaFieldOptions(currentPostType).filter(function (key) {
+				return key !== '' && key != null;
+			}).map(function (key) {
 				return [key, key];
 			});
-			html += field('select', 'meta_key', 'Meta Field', block.meta_key, options.length ? options : [['', 'No meta fields selected on the Meta Fields tab']]);
+			html += field('select', 'meta_key', 'Meta Field', block.meta_key, options.length ? [['', 'Select a meta field']].concat(options) : [['', 'No meta fields found for this post type']]);
 			html += '<div class="pgfw-pdf-builder-field"><label>Label (optional prefix)</label><input type="text" data-field="label" value="' + escapeHtml(block.label) + '" /></div>';
 			html += '<div class="pgfw-pdf-builder-field pgfw-pdf-builder-field--row">'
 				+ '<div><label>Font size</label><input type="number" min="1" data-field="font_size" value="' + block.font_size + '" /></div>'
@@ -623,13 +660,27 @@
 			refreshPageMetaControls();
 		});
 
+		// Palette blocks: click to add at the default spot, or drag onto the canvas.
 		$('.pgfw-pdf-builder-add').on('click', function () {
-			var type = $(this).data('type');
-			var block = newBlockDefaults(type);
-			currentBlocks().push(block);
-			selectedBlockId = block.id;
-			renderCanvas();
-			renderProperties();
+			addBlock($(this).data('type'));
+		}).draggable({
+			cancel: false, // Palette items are <button>s, which jQuery UI skips by default.
+			helper: 'clone',
+			appendTo: 'body',
+			zIndex: 100000,
+			revert: 'invalid',
+			revertDuration: 150,
+			cursor: 'move',
+			cursorAt: { left: 10, top: 10 }
+		});
+
+		$('#pgfw-pdf-builder-canvas').droppable({
+			accept: '.pgfw-pdf-builder-add',
+			tolerance: 'pointer',
+			drop: function (event, ui) {
+				var offset = $(this).offset();
+				addBlock(ui.draggable.data('type'), ui.offset.left - offset.left, ui.offset.top - offset.top);
+			}
 		});
 
 		$('#pgfw-pdf-builder-add-page').on('click', function () {
@@ -671,6 +722,24 @@
 		$('#pgfw-pdf-builder-duplicate').on('click', duplicateSelected);
 		$('#pgfw-pdf-builder-front').on('click', function () { reorderSelected(true); });
 		$('#pgfw-pdf-builder-back').on('click', function () { reorderSelected(false); });
+		$('#pgfw-pdf-builder-delete').on('click', function () {
+			if (selectedBlockId) {
+				removeBlock(selectedBlockId);
+			}
+		});
+
+		// Delete / Backspace removes the selected block, unless the admin is
+		// typing in a field (properties panel, color pickers, etc.).
+		$(document).on('keydown', function (e) {
+			if (!selectedBlockId || (e.key !== 'Delete' && e.key !== 'Backspace')) {
+				return;
+			}
+			if ($(e.target).is('input, textarea, select, [contenteditable]') || $('#pgfw-pdf-builder-template-modal').is(':visible')) {
+				return;
+			}
+			e.preventDefault();
+			removeBlock(selectedBlockId);
+		});
 
 		$('#pgfw-pdf-builder-save').on('click', saveLayout);
 

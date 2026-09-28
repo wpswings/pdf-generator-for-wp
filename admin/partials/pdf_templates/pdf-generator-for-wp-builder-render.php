@@ -33,7 +33,9 @@ if ( ! function_exists( 'pgfw_builder_maybe_render' ) ) {
 		}
 
 		$post = get_post( $post_id );
-		if ( ! $post ) {
+		// The builder only designs layouts for posts, pages and products;
+		// everything else keeps using the classic template.
+		if ( ! $post || ! in_array( $post->post_type, array( 'post', 'page', 'product' ), true ) ) {
 			return null;
 		}
 

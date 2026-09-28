@@ -152,7 +152,7 @@ class Pdf_Generator_For_Wp {
 
 		/**
 		 * The class responsible for uploading generated PDFs to cloud storage
-		 * providers (Google Drive, Dropbox, Amazon S3).
+		 * providers (Google Drive, Dropbox).
 		 */
 		require_once plugin_dir_path( __DIR__ ) . 'includes/class-pdf-generator-for-wp-cloud-storage.php';
 
@@ -664,7 +664,7 @@ class Pdf_Generator_For_Wp {
 											<?php echo isset( $pgfw_component['step'] ) ? esc_html( 'step=' . $pgfw_component['step'] ) : ''; ?>>
 									</label>
 									<div class="mdc-text-field-helper-line">
-										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
+										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? wp_kses_post( $pgfw_component['description'] ) : '' ); ?></div>
 									</div>
 								</div>
 							</div>
@@ -694,7 +694,7 @@ class Pdf_Generator_For_Wp {
 										<i class="material-icons mdc-text-field__icon mdc-text-field__icon--trailing wps-password-hidden" tabindex="0" role="button">visibility</i>
 									</label>
 									<div class="mdc-text-field-helper-line">
-										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_attr( $pgfw_component['description'] ) : '' ); ?></div>
+										<div class="mdc-text-field-helper-text--persistent wps-helper-text" id="" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? wp_kses_post( $pgfw_component['description'] ) : '' ); ?></div>
 									</div>
 								</div>
 							</div>
@@ -1176,6 +1176,57 @@ class Pdf_Generator_For_Wp {
 											}
 											?>
 										</select>
+									</div>
+								</div>
+							</div>
+							<?php
+							break;
+						case 'pgfw-password-term-rules':
+							$pgfw_term_rules   = ( isset( $pgfw_component['value'] ) && is_array( $pgfw_component['value'] ) ) ? $pgfw_component['value'] : array();
+							$pgfw_term_options = ( isset( $pgfw_component['options'] ) && is_array( $pgfw_component['options'] ) ) ? $pgfw_component['options'] : array();
+							$pgfw_rule_row     = function ( $index, $rule ) use ( $pgfw_component, $pgfw_term_options ) {
+								$selected_term = is_array( $rule ) && isset( $rule['term'] ) ? $rule['term'] : '';
+								$password      = is_array( $rule ) && isset( $rule['password'] ) ? $rule['password'] : '';
+								?>
+								<div class="pgfw-password-term-rule">
+									<select name="<?php echo esc_attr( $pgfw_component['name'] . '[' . $index . '][term]' ); ?>" class="pgfw-password-term-rule__term">
+										<option value=""><?php esc_html_e( 'Select a category or tag', 'pdf-generator-for-wp' ); ?></option>
+										<?php foreach ( $pgfw_term_options as $group_label => $group_terms ) { ?>
+											<optgroup label="<?php echo esc_attr( $group_label ); ?>">
+												<?php foreach ( $group_terms as $term_value => $term_name ) { ?>
+													<option value="<?php echo esc_attr( $term_value ); ?>" <?php selected( $selected_term, $term_value ); ?>><?php echo esc_html( $term_name ); ?></option>
+												<?php } ?>
+											</optgroup>
+										<?php } ?>
+									</select>
+									<input type="password" autocomplete="new-password" class="pgfw-password-term-rule__password" name="<?php echo esc_attr( $pgfw_component['name'] . '[' . $index . '][password]' ); ?>" value="<?php echo esc_attr( $password ); ?>" placeholder="<?php esc_attr_e( 'Password', 'pdf-generator-for-wp' ); ?>" />
+									<button type="button" class="button pgfw-password-term-rule__remove" aria-label="<?php esc_attr_e( 'Remove rule', 'pdf-generator-for-wp' ); ?>">&times;</button>
+								</div>
+								<?php
+							};
+							?>
+							<div class="wps-form-group pgfw-password-term-rules-group <?php echo esc_attr( isset( $pgfw_component['parent-class'] ) ? $pgfw_component['parent-class'] : '' ); ?>" style="<?php echo esc_attr( array_key_exists( 'style', $pgfw_component ) ? $pgfw_component['style'] : '' ); ?>">
+								<div class="wps-form-group__label">
+									<label class="wps-form-label"><?php echo ( isset( $pgfw_component['title'] ) ? esc_html( $pgfw_component['title'] ) : '' ); ?></label>
+								</div>
+								<div class="wps-form-group__control">
+									<div class="pgfw-password-term-rules" data-next-index="<?php echo esc_attr( count( $pgfw_term_rules ) ); ?>">
+										<?php
+										foreach ( array_values( $pgfw_term_rules ) as $pgfw_rule_index => $pgfw_term_rule ) {
+											$pgfw_rule_row( $pgfw_rule_index, $pgfw_term_rule );
+										}
+										?>
+									</div>
+									<script type="text/template" class="pgfw-password-term-rule-template">
+										<?php $pgfw_rule_row( '__INDEX__', array() ); ?>
+									</script>
+									<?php if ( empty( $pgfw_term_options ) ) { ?>
+										<p class="description"><?php esc_html_e( 'No categories or tags found yet.', 'pdf-generator-for-wp' ); ?></p>
+									<?php } else { ?>
+										<button type="button" class="button pgfw-password-term-rule__add"><?php esc_html_e( '+ Add Rule', 'pdf-generator-for-wp' ); ?></button>
+									<?php } ?>
+									<div class="mdc-text-field-helper-line">
+										<div class="mdc-text-field-helper-text--persistent wps-helper-text" aria-hidden="true"><?php echo ( isset( $pgfw_component['description'] ) ? esc_html( $pgfw_component['description'] ) : '' ); ?></div>
 									</div>
 								</div>
 							</div>

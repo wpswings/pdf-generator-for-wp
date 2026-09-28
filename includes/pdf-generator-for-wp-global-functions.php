@@ -69,9 +69,14 @@ if ( ! function_exists( 'wps_generate_pdf' ) ) {
 
 	/**
 	 * Resolve which password (if any) applies to a given post/page/product's generated PDF,
-	 * per the same precedence used to actually encrypt it: a per-item override
-	 * (see the "PDF Password Protection" metabox) always wins when set; otherwise the
-	 * global "Enable PDF Password Protection" toggle + password from General Settings apply.
+	 * per the same precedence used to actually encrypt it, most specific first:
+	 *
+	 * 1. A per-item override (the "PDF Password Protection" metabox) - always wins when set.
+	 * 2. The first "Category & Tag PDF Passwords" rule whose term the item has.
+	 * 3. The item's post type password (Post / Page / Product PDF Password).
+	 * 4. The global PDF Password.
+	 *
+	 * 2-4 only apply while "Enable PDF Password Protection" is on in General Settings.
 	 *
 	 * Shared by wps_pgfw_apply_pdf_security() (to encrypt) and anywhere the password needs
 	 * to be displayed to a customer/admin (e.g. order details, order emails).
@@ -92,10 +97,97 @@ if ( ! function_exists( 'wps_generate_pdf' ) ) {
 		if ( '' !== $override_password ) {
 			return $override_password;
 		}
-		if ( 'yes' === $is_enabled && '' !== $global_password ) {
+		if ( 'yes' !== $is_enabled ) {
+			return '';
+		}
+
+		$post_type = $post_id ? get_post_type( $post_id ) : '';
+		if ( $post_type && array_key_exists( $post_type, wps_pgfw_password_post_types() ) ) {
+			$term_rules = array_key_exists( 'pgfw_pdf_password_term_rules', $general_settings_data ) && is_array( $general_settings_data['pgfw_pdf_password_term_rules'] ) ? $general_settings_data['pgfw_pdf_password_term_rules'] : array();
+			foreach ( $term_rules as $term_rule ) {
+				if ( ! is_array( $term_rule ) || empty( $term_rule['term'] ) || ! isset( $term_rule['password'] ) || '' === $term_rule['password'] ) {
+					continue;
+				}
+				list( $taxonomy, $term_id ) = array_pad( explode( ':', $term_rule['term'], 2 ), 2, '' );
+				if ( array_key_exists( $taxonomy, wps_pgfw_password_taxonomies() ) && has_term( absint( $term_id ), $taxonomy, $post_id ) ) {
+					return $term_rule['password'];
+				}
+			}
+
+			$post_type_password = array_key_exists( 'pgfw_pdf_password_' . $post_type, $general_settings_data ) ? $general_settings_data[ 'pgfw_pdf_password_' . $post_type ] : '';
+			if ( '' !== $post_type_password ) {
+				return $post_type_password;
+			}
+		}
+
+		if ( '' !== $global_password ) {
 			return $global_password;
 		}
 		return '';
+	}
+
+	/**
+	 * Scheme + host (+ port) of the site, e.g. "https://example.com" - what Google
+	 * calls the "Authorized JavaScript origin" for the customer Save to Drive flow.
+	 *
+	 * @return string
+	 */
+	function wps_pgfw_site_origin() {
+		$parts = wp_parse_url( home_url() );
+		if ( empty( $parts['host'] ) ) {
+			return '';
+		}
+		return ( isset( $parts['scheme'] ) ? $parts['scheme'] : 'https' ) . '://' . $parts['host'] . ( isset( $parts['port'] ) ? ':' . $parts['port'] : '' );
+	}
+
+	/**
+	 * Google OAuth Client ID for the customer "Save to Google Drive" button, or ''
+	 * when the feature is off / not configured.
+	 *
+	 * @return string
+	 */
+	function wps_pgfw_customer_gdrive_client_id() {
+		$settings = get_option( 'pgfw_cloud_storage_save_settings', array() );
+		if ( ! is_array( $settings ) || 'yes' !== ( isset( $settings['pgfw_gdrive_customer_save_enable'] ) ? $settings['pgfw_gdrive_customer_save_enable'] : '' ) ) {
+			return '';
+		}
+		return isset( $settings['pgfw_gdrive_client_id'] ) ? trim( (string) $settings['pgfw_gdrive_client_id'] ) : '';
+	}
+
+	/**
+	 * Post types that can have their own PDF password in General Settings:
+	 * post, page and (with WooCommerce active) product.
+	 *
+	 * @return array post type slug => label.
+	 */
+	function wps_pgfw_password_post_types() {
+		$post_types = array(
+			'post' => __( 'Post', 'pdf-generator-for-wp' ),
+			'page' => __( 'Page', 'pdf-generator-for-wp' ),
+		);
+		if ( post_type_exists( 'product' ) ) {
+			$post_types['product'] = __( 'Product', 'pdf-generator-for-wp' );
+		}
+		return $post_types;
+	}
+
+	/**
+	 * Category / tag taxonomies whose terms can have their own PDF password.
+	 *
+	 * @return array taxonomy slug => label.
+	 */
+	function wps_pgfw_password_taxonomies() {
+		$taxonomies = array(
+			'category' => __( 'Post Categories', 'pdf-generator-for-wp' ),
+			'post_tag' => __( 'Post Tags', 'pdf-generator-for-wp' ),
+		);
+		if ( taxonomy_exists( 'product_cat' ) ) {
+			$taxonomies['product_cat'] = __( 'Product Categories', 'pdf-generator-for-wp' );
+		}
+		if ( taxonomy_exists( 'product_tag' ) ) {
+			$taxonomies['product_tag'] = __( 'Product Tags', 'pdf-generator-for-wp' );
+		}
+		return $taxonomies;
 	}
 
 	/**
@@ -133,7 +225,7 @@ if ( ! function_exists( 'wps_generate_pdf' ) ) {
 
 	/**
 	 * Upload a rendered Dompdf document to any enabled cloud storage provider
-	 * (Google Drive, Dropbox, Amazon S3), based on the Cloud Storage tab settings.
+	 * (Google Drive, Dropbox), based on the Cloud Storage tab settings.
 	 *
 	 * Must be called after $dompdf->render() (and after wps_pgfw_apply_pdf_security(),
 	 * if used, so password-protected copies are what get uploaded).

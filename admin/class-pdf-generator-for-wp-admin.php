@@ -83,6 +83,14 @@ class Pdf_Generator_For_Wp_Admin {
 		}
 		wp_enqueue_style( 'pgfw-admin-custom-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-generator-for-wp-admin-custom.css', array(), $this->version, 'all' );
 		wp_enqueue_style( 'flipbook-custom-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/flipbook.css', array(), $this->version, 'all' );
+		// Settings page design (cards, toggles, fields). Pro ships the same
+		// stylesheet and enqueues it itself, so only load ours without Pro,
+		// after everything above - the same order Pro uses. Poppins is bundled
+		// locally rather than loaded from Google Fonts.
+		if ( isset( $screen->id ) && 'wp-swings_page_pdf_generator_for_wp_menu' === $screen->id && ! is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
+			wp_enqueue_style( 'pgfw-poppins-font', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/fonts/poppins/poppins.css', array(), $this->version, 'all' );
+			wp_enqueue_style( 'pgfw-admin-modern', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-generator-for-wp-admin-modern.css', array( 'pgfw-poppins-font', 'pgfw-admin-custom-css', 'flipbook-custom-css' ), $this->version, 'all' );
+		}
 	}
 
 	/**
@@ -147,8 +155,9 @@ class Pdf_Generator_For_Wp_Admin {
 			if ( isset( $_GET['pgfw_tab'] ) && 'pdf-generator-for-wp-builder' === $_GET['pgfw_tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				wp_enqueue_script( 'jquery-ui-draggable' );
 				wp_enqueue_script( 'jquery-ui-resizable' );
+				wp_enqueue_script( 'jquery-ui-droppable' );
 				wp_enqueue_style( 'wp-color-picker' );
-			wp_enqueue_script( 'pgfw-pdf-builder-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/js/pdf-generator-for-wp-builder.js', array( 'jquery', 'jquery-ui-draggable', 'jquery-ui-resizable', 'wp-color-picker' ), $this->version, true );
+			wp_enqueue_script( 'pgfw-pdf-builder-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/js/pdf-generator-for-wp-builder.js', array( 'jquery', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-resizable', 'wp-color-picker' ), $this->version, true );
 				wp_localize_script(
 					'pgfw-pdf-builder-js',
 					'pgfw_pdf_builder_param',
@@ -573,6 +582,42 @@ class Pdf_Generator_For_Wp_Admin {
 				'placeholder' => __( 'Enter PDF password', 'pdf-generator-for-wp' ),
 			),
 		);
+		// Per post type passwords (post / page / product), shown under the global one.
+		foreach ( wps_pgfw_password_post_types() as $pgfw_pw_post_type => $pgfw_pw_post_type_label ) {
+			$pgfw_settings_general_html_arr[] = array(
+				/* translators: %s: post type label, e.g. Post, Page, Product. */
+				'title'       => sprintf( __( '%s PDF Password', 'pdf-generator-for-wp' ), $pgfw_pw_post_type_label ),
+				'type'        => 'password',
+				/* translators: %s: post type label in lowercase. */
+				'description' => sprintf( __( 'Used for PDFs of every %s. Leave blank to use the PDF Password above.', 'pdf-generator-for-wp' ), strtolower( $pgfw_pw_post_type_label ) ),
+				'id'          => 'pgfw_pdf_password_' . $pgfw_pw_post_type,
+				'value'       => array_key_exists( 'pgfw_pdf_password_' . $pgfw_pw_post_type, $general_settings_data ) ? $general_settings_data[ 'pgfw_pdf_password_' . $pgfw_pw_post_type ] : '',
+				'class'       => 'pgfw_pdf_password pgfw_pdf_password_' . $pgfw_pw_post_type,
+				'name'        => 'pgfw_pdf_password_' . $pgfw_pw_post_type,
+				'style'       => ( 'yes' !== $pgfw_pdf_password_protection_enable ) ? 'display:none;' : '',
+				'placeholder' => __( 'Leave blank to use the PDF Password', 'pdf-generator-for-wp' ),
+			);
+		}
+		$pgfw_settings_general_html_arr[] = array(
+			'title'       => __( 'Category & Tag PDF Passwords', 'pdf-generator-for-wp' ),
+			'type'        => 'pgfw-password-term-rules',
+			'description' => __( 'Give PDFs of items in a category or tag their own password. When an item matches several rules, the first matching rule wins. Priority: the item\'s own password, then these rules, then the post type password, then the PDF Password.', 'pdf-generator-for-wp' ),
+			'id'          => 'pgfw_pdf_password_term_rules',
+			'name'        => 'pgfw_pdf_password_term_rules',
+			'class'       => 'pgfw_pdf_password_term_rules',
+			'value'       => array_key_exists( 'pgfw_pdf_password_term_rules', $general_settings_data ) && is_array( $general_settings_data['pgfw_pdf_password_term_rules'] )
+				? array_values(
+					array_filter(
+						$general_settings_data['pgfw_pdf_password_term_rules'],
+						function ( $rule ) {
+							return is_array( $rule ) && ( ! empty( $rule['term'] ) || ( isset( $rule['password'] ) && '' !== $rule['password'] ) );
+						}
+					)
+				)
+				: array(),
+			'options'     => $this->pgfw_get_password_term_options(),
+			'style'       => ( 'yes' !== $pgfw_pdf_password_protection_enable ) ? 'display:none;' : '',
+		);
 		$pgfw_settings_general_html_arr   = apply_filters( 'pgfw_settings_general_html_arr_filter_hook', $pgfw_settings_general_html_arr );
 		$pgfw_settings_general_html_arr[] = array(
 			'type'        => 'button',
@@ -584,6 +629,32 @@ class Pdf_Generator_For_Wp_Admin {
 
 		return $pgfw_settings_general_html_arr;
 	}
+	/**
+	 * Categories and tags (grouped by taxonomy) that can carry their own PDF
+	 * password, for the "Category & Tag PDF Passwords" setting.
+	 *
+	 * @since 1.6.6
+	 * @return array taxonomy label => array( 'taxonomy:term_id' => term name ).
+	 */
+	private function pgfw_get_password_term_options() {
+		$options = array();
+		foreach ( wps_pgfw_password_taxonomies() as $taxonomy => $label ) {
+			$terms = get_terms(
+				array(
+					'taxonomy'   => $taxonomy,
+					'hide_empty' => false,
+				)
+			);
+			if ( is_wp_error( $terms ) || empty( $terms ) ) {
+				continue;
+			}
+			foreach ( $terms as $term ) {
+				$options[ $label ][ $taxonomy . ':' . $term->term_id ] = $term->name;
+			}
+		}
+		return $options;
+	}
+
 	/**
 	 * PDF Generator For WordPress save tab settings.
 	 *
@@ -2282,7 +2353,7 @@ class Pdf_Generator_For_Wp_Admin {
 		return $pgfw_pdf_upload_settings_html_arr;
 	}
 	/**
-	 * Html fields for the cloud storage (Google Drive / Dropbox / Amazon S3) settings tab.
+	 * Html fields for the cloud storage (Google Drive / Dropbox) settings tab.
 	 *
 	 * @since 1.6.6
 	 * @param array $pgfw_cloud_storage_settings_html_arr array containing fields for cloud storage settings page.
@@ -2297,18 +2368,13 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_gdrive_client_id     = array_key_exists( 'pgfw_gdrive_client_id', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_gdrive_client_id'] : '';
 		$pgfw_gdrive_client_secret = array_key_exists( 'pgfw_gdrive_client_secret', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_gdrive_client_secret'] : '';
 		$pgfw_gdrive_folder_id     = array_key_exists( 'pgfw_gdrive_folder_id', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_gdrive_folder_id'] : '';
+		$pgfw_gdrive_customer_save = array_key_exists( 'pgfw_gdrive_customer_save_enable', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_gdrive_customer_save_enable'] : '';
 
 		$pgfw_dropbox_enable      = array_key_exists( 'pgfw_dropbox_enable', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_dropbox_enable'] : '';
 		$pgfw_dropbox_app_key     = array_key_exists( 'pgfw_dropbox_app_key', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_dropbox_app_key'] : '';
 		$pgfw_dropbox_app_secret  = array_key_exists( 'pgfw_dropbox_app_secret', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_dropbox_app_secret'] : '';
 		$pgfw_dropbox_folder_path = array_key_exists( 'pgfw_dropbox_folder_path', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_dropbox_folder_path'] : '';
 
-		$pgfw_s3_enable     = array_key_exists( 'pgfw_s3_enable', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_s3_enable'] : '';
-		$pgfw_s3_access_key = array_key_exists( 'pgfw_s3_access_key', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_s3_access_key'] : '';
-		$pgfw_s3_secret_key = array_key_exists( 'pgfw_s3_secret_key', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_s3_secret_key'] : '';
-		$pgfw_s3_region     = array_key_exists( 'pgfw_s3_region', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_s3_region'] : '';
-		$pgfw_s3_bucket     = array_key_exists( 'pgfw_s3_bucket', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_s3_bucket'] : '';
-		$pgfw_s3_folder     = array_key_exists( 'pgfw_s3_folder', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_s3_folder'] : '';
 
 		$pgfw_cloud_storage = new Pdf_Generator_For_Wp_Cloud_Storage();
 
@@ -2334,11 +2400,26 @@ class Pdf_Generator_For_Wp_Admin {
 					'no'  => __( 'NO', 'pdf-generator-for-wp' ),
 				),
 			),
+			array(
+				'title'        => __( 'Let Customers Save PDFs to Their Google Drive', 'pdf-generator-for-wp' ),
+				'type'         => 'radio-switch',
+				'description'  => __( 'Shows a "Save to Google Drive" button next to the PDF download icon. The customer signs in with their own Google account and the PDF is saved to their Drive - nothing is uploaded to your Drive and no customer tokens are stored on this site. Only needs the Google Client ID below (Client Secret and Connect are not required for this).', 'pdf-generator-for-wp' )
+					. ( 'yes' === $pgfw_gdrive_customer_save && '' === trim( (string) $pgfw_gdrive_client_id ) ? ' ' . __( 'WARNING: the button is hidden until you enter a Google Client ID below and save.', 'pdf-generator-for-wp' ) : '' ),
+				'id'           => 'pgfw_gdrive_customer_save_enable',
+				'value'        => $pgfw_gdrive_customer_save,
+				'class'        => 'pgfw_gdrive_customer_save_enable',
+				'name'         => 'pgfw_gdrive_customer_save_enable',
+				'parent-class' => 'wps_pgfw_setting_separate_border',
+				'options'      => array(
+					'yes' => __( 'YES', 'pdf-generator-for-wp' ),
+					'no'  => __( 'NO', 'pdf-generator-for-wp' ),
+				),
+			),
 			// Google Drive.
 			array(
 				'title'        => __( 'Enable Google Drive', 'pdf-generator-for-wp' ),
 				'type'         => 'checkbox',
-				'description'  => __( 'Upload generated PDFs to Google Drive.', 'pdf-generator-for-wp' ),
+				'description'  => __( 'Also upload every generated PDF to your (the site owner\'s) connected Google Drive.', 'pdf-generator-for-wp' ),
 				'id'           => 'pgfw_gdrive_enable',
 				'value'        => $pgfw_gdrive_enable,
 				'class'        => 'pgfw_gdrive_enable',
@@ -2348,8 +2429,15 @@ class Pdf_Generator_For_Wp_Admin {
 			array(
 				'title'       => __( 'Google Client ID', 'pdf-generator-for-wp' ),
 				'type'        => 'text',
-				/* translators: %s: OAuth redirect URI to whitelist in Google Cloud Console. */
-				'description' => sprintf( __( 'From a Google Cloud OAuth Client (type "Web application"). Authorized redirect URI: %s', 'pdf-generator-for-wp' ), $pgfw_cloud_storage->get_oauth_redirect_uri( 'gdrive' ) ),
+				'description' => sprintf(
+					/* translators: 1: Google Cloud Credentials link, 2: Drive API link, 3: OAuth consent screen link, 4: OAuth redirect URI, 5: site origin. */
+					__( 'Get it from %1$s: Create credentials &rarr; OAuth client ID &rarr; type "Web application". Also enable the %2$s and set up the %3$s. Authorized redirect URI: %4$s - Authorized JavaScript origin (needed for customer "Save to Google Drive"): %5$s', 'pdf-generator-for-wp' ),
+					'<a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Google Cloud Console &rarr; Credentials', 'pdf-generator-for-wp' ) . '</a>',
+					'<a href="https://console.cloud.google.com/apis/library/drive.googleapis.com" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Google Drive API', 'pdf-generator-for-wp' ) . '</a>',
+					'<a href="https://console.cloud.google.com/apis/credentials/consent" target="_blank" rel="noopener noreferrer">' . esc_html__( 'OAuth consent screen', 'pdf-generator-for-wp' ) . '</a>',
+					'<code>' . esc_html( $pgfw_cloud_storage->get_oauth_redirect_uri( 'gdrive' ) ) . '</code>',
+					'<code>' . esc_html( wps_pgfw_site_origin() ) . '</code>'
+				),
 				'id'          => 'pgfw_gdrive_client_id',
 				'value'       => $pgfw_gdrive_client_id,
 				'class'       => 'pgfw_gdrive_client_id',
@@ -2359,7 +2447,11 @@ class Pdf_Generator_For_Wp_Admin {
 			array(
 				'title'       => __( 'Google Client Secret', 'pdf-generator-for-wp' ),
 				'type'        => 'password',
-				'description' => __( 'Client secret for the OAuth client above.', 'pdf-generator-for-wp' ),
+				'description' => sprintf(
+					/* translators: %s: Google Cloud Credentials link. */
+					__( 'Shown next to the Client ID when you open the OAuth client in %s. Only needed to connect your own Drive (not for customer "Save to Google Drive").', 'pdf-generator-for-wp' ),
+					'<a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Google Cloud Console &rarr; Credentials', 'pdf-generator-for-wp' ) . '</a>'
+				),
 				'id'          => 'pgfw_gdrive_client_secret',
 				'value'       => $pgfw_gdrive_client_secret,
 				'class'       => 'pgfw_gdrive_client_secret',
@@ -2402,8 +2494,12 @@ class Pdf_Generator_For_Wp_Admin {
 			array(
 				'title'       => __( 'Dropbox App Key', 'pdf-generator-for-wp' ),
 				'type'        => 'text',
-				/* translators: %s: OAuth redirect URI to whitelist in the Dropbox App console. */
-				'description' => sprintf( __( 'From a Dropbox App (App Console). Redirect URI: %s', 'pdf-generator-for-wp' ), $pgfw_cloud_storage->get_oauth_redirect_uri( 'dropbox' ) ),
+				'description' => sprintf(
+					/* translators: 1: Dropbox App Console link, 2: OAuth redirect URI. */
+					__( 'Create an app in the %1$s (Scoped access, with the files.content.write permission), then copy the App key from its Settings tab. Redirect URI to add there: %2$s', 'pdf-generator-for-wp' ),
+					'<a href="https://www.dropbox.com/developers/apps" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Dropbox App Console', 'pdf-generator-for-wp' ) . '</a>',
+					'<code>' . esc_html( $pgfw_cloud_storage->get_oauth_redirect_uri( 'dropbox' ) ) . '</code>'
+				),
 				'id'          => 'pgfw_dropbox_app_key',
 				'value'       => $pgfw_dropbox_app_key,
 				'class'       => 'pgfw_dropbox_app_key',
@@ -2413,7 +2509,11 @@ class Pdf_Generator_For_Wp_Admin {
 			array(
 				'title'       => __( 'Dropbox App Secret', 'pdf-generator-for-wp' ),
 				'type'        => 'password',
-				'description' => __( 'App secret for the Dropbox app above.', 'pdf-generator-for-wp' ),
+				'description' => sprintf(
+					/* translators: %s: Dropbox App Console link. */
+					__( 'On the same app\'s Settings tab in the %s (click "Show" next to App secret).', 'pdf-generator-for-wp' ),
+					'<a href="https://www.dropbox.com/developers/apps" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Dropbox App Console', 'pdf-generator-for-wp' ) . '</a>'
+				),
 				'id'          => 'pgfw_dropbox_app_secret',
 				'value'       => $pgfw_dropbox_app_secret,
 				'class'       => 'pgfw_dropbox_app_secret',
@@ -2441,67 +2541,6 @@ class Pdf_Generator_For_Wp_Admin {
 				'class'        => 'pgfw_dropbox_oauth_action',
 				'description'  => __( 'Save the App Key/Secret above and click Save Settings first, then click Connect and grant access.', 'pdf-generator-for-wp' ),
 				'parent-class' => 'wps_pgfw_setting_separate_border',
-			),
-			// Amazon S3.
-			array(
-				'title'        => __( 'Enable Amazon S3', 'pdf-generator-for-wp' ),
-				'type'         => 'checkbox',
-				'description'  => __( 'Upload generated PDFs to an Amazon S3 bucket.', 'pdf-generator-for-wp' ),
-				'id'           => 'pgfw_s3_enable',
-				'value'        => $pgfw_s3_enable,
-				'class'        => 'pgfw_s3_enable',
-				'name'         => 'pgfw_s3_enable',
-				'parent-class' => 'wps_pgfw_setting_separate_border',
-			),
-			array(
-				'title'       => __( 'AWS Access Key ID', 'pdf-generator-for-wp' ),
-				'type'        => 'text',
-				'description' => __( 'IAM user access key with PutObject permission on the target bucket.', 'pdf-generator-for-wp' ),
-				'id'          => 'pgfw_s3_access_key',
-				'value'       => $pgfw_s3_access_key,
-				'class'       => 'pgfw_s3_access_key',
-				'name'        => 'pgfw_s3_access_key',
-				'placeholder' => __( 'AWS Access Key ID', 'pdf-generator-for-wp' ),
-			),
-			array(
-				'title'       => __( 'AWS Secret Access Key', 'pdf-generator-for-wp' ),
-				'type'        => 'password',
-				'description' => __( 'Kept private, never shown in the page source.', 'pdf-generator-for-wp' ),
-				'id'          => 'pgfw_s3_secret_key',
-				'value'       => $pgfw_s3_secret_key,
-				'class'       => 'pgfw_s3_secret_key',
-				'name'        => 'pgfw_s3_secret_key',
-				'placeholder' => __( 'AWS Secret Access Key', 'pdf-generator-for-wp' ),
-			),
-			array(
-				'title'       => __( 'AWS Region', 'pdf-generator-for-wp' ),
-				'type'        => 'text',
-				'description' => __( 'e.g. us-east-1', 'pdf-generator-for-wp' ),
-				'id'          => 'pgfw_s3_region',
-				'value'       => $pgfw_s3_region,
-				'class'       => 'pgfw_s3_region',
-				'name'        => 'pgfw_s3_region',
-				'placeholder' => __( 'us-east-1', 'pdf-generator-for-wp' ),
-			),
-			array(
-				'title'       => __( 'S3 Bucket Name', 'pdf-generator-for-wp' ),
-				'type'        => 'text',
-				'description' => __( 'The destination bucket must already exist.', 'pdf-generator-for-wp' ),
-				'id'          => 'pgfw_s3_bucket',
-				'value'       => $pgfw_s3_bucket,
-				'class'       => 'pgfw_s3_bucket',
-				'name'        => 'pgfw_s3_bucket',
-				'placeholder' => __( 'my-bucket-name', 'pdf-generator-for-wp' ),
-			),
-			array(
-				'title'       => __( 'S3 Folder Prefix', 'pdf-generator-for-wp' ),
-				'type'        => 'text',
-				'description' => __( 'Optional. e.g. pdfs/invoices', 'pdf-generator-for-wp' ),
-				'id'          => 'pgfw_s3_folder',
-				'value'       => $pgfw_s3_folder,
-				'class'       => 'pgfw_s3_folder',
-				'name'        => 'pgfw_s3_folder',
-				'placeholder' => __( 'Folder prefix (optional)', 'pdf-generator-for-wp' ),
 			),
 		);
 
@@ -4289,11 +4328,11 @@ endif;
 				id="pgfw_pdf_password_override"
 				name="pgfw_pdf_password_override"
 				value="<?php echo esc_attr( $pgfw_password_override ); ?>"
-				placeholder="<?php esc_attr_e( 'Leave blank to use the global password', 'pdf-generator-for-wp' ); ?>"
+				placeholder="<?php esc_attr_e( 'Leave blank to use the General Settings password', 'pdf-generator-for-wp' ); ?>"
 				autocomplete="new-password" />
 		</p>
 		<p class="description">
-			<?php esc_html_e( 'Overrides the global PDF password for PDFs generated from this item only. Leave blank to use the global password.', 'pdf-generator-for-wp' ); ?>
+			<?php esc_html_e( 'Overrides the General Settings PDF passwords (global, post type, category & tag) for PDFs generated from this item only. Leave blank to use them.', 'pdf-generator-for-wp' ); ?>
 			<?php if ( 'yes' !== $pgfw_global_enabled && '' === $pgfw_password_override ) : ?>
 				<br /><?php esc_html_e( 'Note: setting a password here protects this item even though PDF Password Protection is currently off in General Settings.', 'pdf-generator-for-wp' ); ?>
 			<?php endif; ?>
@@ -4360,6 +4399,43 @@ endif;
 	}
 
 	/**
+	 * Post types the PDF Builder can design layouts for: post, page and,
+	 * when WooCommerce is active, product.
+	 *
+	 * @since 1.6.6
+	 * @return array post type slug => slug.
+	 */
+	private function pgfw_builder_supported_post_types() {
+		$post_types = array();
+		foreach ( array( 'post', 'page', 'product' ) as $post_type ) {
+			if ( post_type_exists( $post_type ) ) {
+				$post_types[ $post_type ] = $post_type;
+			}
+		}
+		return $post_types;
+	}
+
+	/**
+	 * Distinct meta keys stored on posts of a post type, for the builder's
+	 * Meta Field block. WordPress bookkeeping keys are left out.
+	 *
+	 * @since 1.6.6
+	 * @param string $post_type post type.
+	 * @return array
+	 */
+	private function pgfw_builder_get_post_type_meta_keys( $post_type ) {
+		global $wpdb;
+		$meta_keys = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->prepare(
+				"SELECT DISTINCT pm.meta_key FROM {$wpdb->postmeta} pm INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id WHERE p.post_type = %s AND p.post_status NOT IN ( 'auto-draft', 'trash' ) ORDER BY pm.meta_key LIMIT 500",
+				$post_type
+			)
+		);
+		$excluded = array( '_edit_lock', '_edit_last', '_wp_old_slug', '_wp_old_date', '_wp_page_template', '_wp_desired_post_slug', '_wp_trash_meta_status', '_wp_trash_meta_time', '_pingme', '_encloseme', '_thumbnail_id' );
+		return array_values( array_diff( array_filter( (array) $meta_keys, 'strlen' ), $excluded ) );
+	}
+
+	/**
 	 * Data needed by the "PDF Builder" tab: saved layouts, the master toggle, the
 	 * post types it can build a layout for, and the meta-field palette for each
 	 * (reusing whatever is already selected on the Meta Fields tab).
@@ -4374,15 +4450,18 @@ endif;
 
 		$pgfw_meta_settings = get_option( 'pgfw_meta_fields_save_settings', array() );
 
-		$pgfw_post_types = get_post_types( array( 'public' => true ) );
-		unset( $pgfw_post_types['attachment'] );
+		$pgfw_post_types = $this->pgfw_builder_supported_post_types();
 
 		$pgfw_meta_fields_by_type = array();
 		$pgfw_normalized_layouts  = array();
 		foreach ( $pgfw_post_types as $pgfw_post_type ) {
-			$pgfw_meta_fields_by_type[ $pgfw_post_type ] = array_key_exists( 'pgfw_meta_fields_' . $pgfw_post_type . '_list', $pgfw_meta_settings )
-				? array_values( (array) $pgfw_meta_settings[ 'pgfw_meta_fields_' . $pgfw_post_type . '_list' ] )
+			// Fields picked on the Meta Fields tab come first, followed by every
+			// other meta key that exists on this post type. The activator stores
+			// an empty string when nothing is picked, so drop empty values.
+			$pgfw_selected_meta = array_key_exists( 'pgfw_meta_fields_' . $pgfw_post_type . '_list', $pgfw_meta_settings )
+				? array_filter( array_map( 'strval', (array) $pgfw_meta_settings[ 'pgfw_meta_fields_' . $pgfw_post_type . '_list' ] ), 'strlen' )
 				: array();
+			$pgfw_meta_fields_by_type[ $pgfw_post_type ] = array_values( array_unique( array_merge( $pgfw_selected_meta, $this->pgfw_builder_get_post_type_meta_keys( $pgfw_post_type ) ) ) );
 
 			$pgfw_layout = array_key_exists( $pgfw_post_type, $pgfw_builder_layouts ) ? $pgfw_builder_layouts[ $pgfw_post_type ] : array();
 			$pgfw_normalized_layouts[ $pgfw_post_type ] = array(
@@ -4676,7 +4755,7 @@ endif;
 		$pgfw_post_type = isset( $_POST['post_type'] ) ? sanitize_key( wp_unslash( $_POST['post_type'] ) ) : '';
 		$pgfw_enable    = isset( $_POST['enable'] ) && 'yes' === $_POST['enable'] ? 'yes' : 'no'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
-		if ( '' === $pgfw_post_type || ! post_type_exists( $pgfw_post_type ) ) {
+		if ( '' === $pgfw_post_type || ! array_key_exists( $pgfw_post_type, $this->pgfw_builder_supported_post_types() ) ) {
 			wp_send_json_error( array( 'message' => __( 'Invalid post type.', 'pdf-generator-for-wp' ) ) );
 		}
 

@@ -82,6 +82,7 @@ $pgfw_builder_data = $pgfw_plugin_admin->pgfw_admin_pdf_builder_data();
 						<button type="button" class="pgfw-btn pgfw-btn--ghost pgfw-btn--sm" id="pgfw-pdf-builder-duplicate"><?php esc_html_e( 'Duplicate', 'pdf-generator-for-wp' ); ?></button>
 						<button type="button" class="pgfw-btn pgfw-btn--ghost pgfw-btn--sm" id="pgfw-pdf-builder-front"><?php esc_html_e( 'To Front', 'pdf-generator-for-wp' ); ?></button>
 						<button type="button" class="pgfw-btn pgfw-btn--ghost pgfw-btn--sm" id="pgfw-pdf-builder-back"><?php esc_html_e( 'To Back', 'pdf-generator-for-wp' ); ?></button>
+						<button type="button" class="pgfw-btn pgfw-btn--ghost pgfw-btn--sm pgfw-btn--danger" id="pgfw-pdf-builder-delete" title="<?php esc_attr_e( 'Delete the selected block (Delete key)', 'pdf-generator-for-wp' ); ?>"><span class="dashicons dashicons-trash"></span> <?php esc_html_e( 'Delete', 'pdf-generator-for-wp' ); ?></button>
 					</div>
 				</div>
 

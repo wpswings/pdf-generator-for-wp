@@ -1,6 +1,6 @@
 <?php
 /**
- * Cloud storage integration (Google Drive, Dropbox, Amazon S3) for generated PDFs.
+ * Cloud storage integration (Google Drive, Dropbox) for generated PDFs.
  *
  * @link       https://wpswings.com/
  * @since      1.6.6
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Uploads generated PDFs to Google Drive, Dropbox and Amazon S3, and handles
+ * Uploads generated PDFs to Google Drive and Dropbox, and handles
  * the OAuth connect/disconnect flow for Google Drive and Dropbox.
  *
  * Settings/credentials live in the `pgfw_cloud_storage_save_settings` option
@@ -413,7 +413,7 @@ class Pdf_Generator_For_Wp_Cloud_Storage {
 	 * Determine which providers are enabled AND fully configured.
 	 *
 	 * @param array $settings Cloud storage settings.
-	 * @return array List of provider slugs: google_drive, dropbox, s3.
+	 * @return array List of provider slugs: google_drive, dropbox.
 	 */
 	private function get_configured_providers( $settings ) {
 		$providers = array();
@@ -433,13 +433,6 @@ class Pdf_Generator_For_Wp_Cloud_Storage {
 			$providers[] = 'dropbox';
 		}
 
-		if ( 'yes' === ( isset( $settings['pgfw_s3_enable'] ) ? $settings['pgfw_s3_enable'] : '' )
-			&& ! empty( $settings['pgfw_s3_access_key'] )
-			&& ! empty( $settings['pgfw_s3_secret_key'] )
-			&& ! empty( $settings['pgfw_s3_bucket'] )
-			&& ! empty( $settings['pgfw_s3_region'] ) ) {
-			$providers[] = 's3';
-		}
 
 		return $providers;
 	}
@@ -494,7 +487,7 @@ class Pdf_Generator_For_Wp_Cloud_Storage {
 			/**
 			 * Fires after an upload attempt to a cloud storage provider.
 			 *
-			 * @param string        $provider  Provider slug: google_drive|dropbox|s3.
+			 * @param string        $provider  Provider slug: google_drive|dropbox.
 			 * @param bool|WP_Error $result    True on success, WP_Error on failure.
 			 * @param string        $file_name Uploaded file name.
 			 */
@@ -605,95 +598,5 @@ class Pdf_Generator_For_Wp_Cloud_Storage {
 		);
 
 		return $this->handle_response( $response, array( 200 ) );
-	}
-
-	/**
-	 * Upload the PDF to Amazon S3 using a hand-rolled AWS Signature Version 4 PUT
-	 * request (no AWS SDK dependency).
-	 *
-	 * @param string $pdf_content Raw PDF bytes.
-	 * @param string $file_name   Destination file name.
-	 * @param array  $settings    Cloud storage settings.
-	 * @return true|WP_Error
-	 */
-	private function upload_to_s3( $pdf_content, $file_name, $settings ) {
-		$region     = trim( $settings['pgfw_s3_region'] );
-		$bucket     = trim( $settings['pgfw_s3_bucket'] );
-		$access_key = trim( $settings['pgfw_s3_access_key'] );
-		$secret_key = trim( $settings['pgfw_s3_secret_key'] );
-		$prefix     = ! empty( $settings['pgfw_s3_folder'] ) ? trim( $settings['pgfw_s3_folder'], '/' ) . '/' : '';
-		$object_key = $prefix . $file_name;
-
-		$host             = "{$bucket}.s3.{$region}.amazonaws.com";
-		$encoded_key_path = implode( '/', array_map( 'rawurlencode', explode( '/', $object_key ) ) );
-		$url              = "https://{$host}/{$encoded_key_path}";
-
-		$amz_date     = gmdate( 'Ymd\THis\Z' );
-		$date_stamp   = gmdate( 'Ymd' );
-		$payload_hash = hash( 'sha256', $pdf_content );
-
-		$canonical_headers = "host:{$host}\nx-amz-content-sha256:{$payload_hash}\nx-amz-date:{$amz_date}\n";
-		$signed_headers    = 'host;x-amz-content-sha256;x-amz-date';
-
-		$canonical_request = implode(
-			"\n",
-			array(
-				'PUT',
-				"/{$encoded_key_path}",
-				'',
-				$canonical_headers,
-				$signed_headers,
-				$payload_hash,
-			)
-		);
-
-		$credential_scope = "{$date_stamp}/{$region}/s3/aws4_request";
-		$string_to_sign   = implode(
-			"\n",
-			array(
-				'AWS4-HMAC-SHA256',
-				$amz_date,
-				$credential_scope,
-				hash( 'sha256', $canonical_request ),
-			)
-		);
-
-		$signing_key = $this->s3_signing_key( $secret_key, $date_stamp, $region );
-		$signature   = hash_hmac( 'sha256', $string_to_sign, $signing_key );
-
-		$authorization = "AWS4-HMAC-SHA256 Credential={$access_key}/{$credential_scope}, SignedHeaders={$signed_headers}, Signature={$signature}";
-
-		$response = wp_remote_request(
-			$url,
-			array(
-				'method'  => 'PUT',
-				'timeout' => 60,
-				'headers' => array(
-					'Host'                 => $host,
-					'x-amz-date'           => $amz_date,
-					'x-amz-content-sha256' => $payload_hash,
-					'Authorization'        => $authorization,
-					'Content-Type'         => 'application/pdf',
-				),
-				'body'    => $pdf_content,
-			)
-		);
-
-		return $this->handle_response( $response, array( 200 ) );
-	}
-
-	/**
-	 * Derive the AWS Signature V4 signing key.
-	 *
-	 * @param string $secret_key AWS secret access key.
-	 * @param string $date_stamp Date in YYYYMMDD format.
-	 * @param string $region     AWS region, e.g. us-east-1.
-	 * @return string Binary signing key.
-	 */
-	private function s3_signing_key( $secret_key, $date_stamp, $region ) {
-		$k_date    = hash_hmac( 'sha256', $date_stamp, 'AWS4' . $secret_key, true );
-		$k_region  = hash_hmac( 'sha256', $region, $k_date, true );
-		$k_service = hash_hmac( 'sha256', 's3', $k_region, true );
-		return hash_hmac( 'sha256', 'aws4_request', $k_service, true );
 	}
 }

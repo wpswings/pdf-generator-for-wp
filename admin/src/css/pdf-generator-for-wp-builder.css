@@ -234,6 +234,17 @@
     flex: 1 0 auto;
 }
 
+.pgfw-pdf-builder-block-actions .pgfw-btn.pgfw-btn--danger {
+    background: #ef4444 !important;
+    border-color: #ef4444 !important;
+    color: #fff !important;
+}
+
+.pgfw-pdf-builder-block-actions .pgfw-btn.pgfw-btn--danger:hover {
+    background: #dc2626 !important;
+    border-color: #dc2626 !important;
+}
+
 .pgfw-pdf-builder-properties .pgfw-pdf-builder-field {
     margin-bottom: 10px;
 }
