@@ -464,3 +464,28 @@ body.makewebbetter_page_pdf_generator_for_wp_menu  .wps-wpg-card__img {
     background: #f1f1f1;
     color: #6c6c6c;
 }
+
+/* Category & Tag PDF password rules (General Settings). */
+.pgfw-password-term-rule {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	margin-bottom: 8px;
+	max-width: 560px;
+}
+
+.pgfw-password-term-rule__term {
+	flex: 1 1 55%;
+	min-width: 0;
+}
+
+.pgfw-password-term-rule__password {
+	flex: 1 1 45%;
+	min-width: 0;
+}
+
+.pgfw-password-term-rule__remove.button {
+	color: #b32d2e;
+	border-color: #b32d2e;
+	line-height: 1;
+}

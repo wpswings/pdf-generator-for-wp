@@ -574,6 +574,42 @@ class Pdf_Generator_For_Wp_Admin {
 				'placeholder' => __( 'Enter PDF password', 'pdf-generator-for-wp' ),
 			),
 		);
+		// Per post type passwords (post / page / product), shown under the global one.
+		foreach ( wps_pgfw_password_post_types() as $pgfw_pw_post_type => $pgfw_pw_post_type_label ) {
+			$pgfw_settings_general_html_arr[] = array(
+				/* translators: %s: post type label, e.g. Post, Page, Product. */
+				'title'       => sprintf( __( '%s PDF Password', 'pdf-generator-for-wp' ), $pgfw_pw_post_type_label ),
+				'type'        => 'password',
+				/* translators: %s: post type label in lowercase. */
+				'description' => sprintf( __( 'Used for PDFs of every %s. Leave blank to use the PDF Password above.', 'pdf-generator-for-wp' ), strtolower( $pgfw_pw_post_type_label ) ),
+				'id'          => 'pgfw_pdf_password_' . $pgfw_pw_post_type,
+				'value'       => array_key_exists( 'pgfw_pdf_password_' . $pgfw_pw_post_type, $general_settings_data ) ? $general_settings_data[ 'pgfw_pdf_password_' . $pgfw_pw_post_type ] : '',
+				'class'       => 'pgfw_pdf_password pgfw_pdf_password_' . $pgfw_pw_post_type,
+				'name'        => 'pgfw_pdf_password_' . $pgfw_pw_post_type,
+				'style'       => ( 'yes' !== $pgfw_pdf_password_protection_enable ) ? 'display:none;' : '',
+				'placeholder' => __( 'Leave blank to use the PDF Password', 'pdf-generator-for-wp' ),
+			);
+		}
+		$pgfw_settings_general_html_arr[] = array(
+			'title'       => __( 'Category & Tag PDF Passwords', 'pdf-generator-for-wp' ),
+			'type'        => 'pgfw-password-term-rules',
+			'description' => __( 'Give PDFs of items in a category or tag their own password. When an item matches several rules, the first matching rule wins. Priority: the item\'s own password, then these rules, then the post type password, then the PDF Password.', 'pdf-generator-for-wp' ),
+			'id'          => 'pgfw_pdf_password_term_rules',
+			'name'        => 'pgfw_pdf_password_term_rules',
+			'class'       => 'pgfw_pdf_password_term_rules',
+			'value'       => array_key_exists( 'pgfw_pdf_password_term_rules', $general_settings_data ) && is_array( $general_settings_data['pgfw_pdf_password_term_rules'] )
+				? array_values(
+					array_filter(
+						$general_settings_data['pgfw_pdf_password_term_rules'],
+						function ( $rule ) {
+							return is_array( $rule ) && ( ! empty( $rule['term'] ) || ( isset( $rule['password'] ) && '' !== $rule['password'] ) );
+						}
+					)
+				)
+				: array(),
+			'options'     => $this->pgfw_get_password_term_options(),
+			'style'       => ( 'yes' !== $pgfw_pdf_password_protection_enable ) ? 'display:none;' : '',
+		);
 		$pgfw_settings_general_html_arr   = apply_filters( 'pgfw_settings_general_html_arr_filter_hook', $pgfw_settings_general_html_arr );
 		$pgfw_settings_general_html_arr[] = array(
 			'type'        => 'button',
@@ -585,6 +621,32 @@ class Pdf_Generator_For_Wp_Admin {
 
 		return $pgfw_settings_general_html_arr;
 	}
+	/**
+	 * Categories and tags (grouped by taxonomy) that can carry their own PDF
+	 * password, for the "Category & Tag PDF Passwords" setting.
+	 *
+	 * @since 1.6.6
+	 * @return array taxonomy label => array( 'taxonomy:term_id' => term name ).
+	 */
+	private function pgfw_get_password_term_options() {
+		$options = array();
+		foreach ( wps_pgfw_password_taxonomies() as $taxonomy => $label ) {
+			$terms = get_terms(
+				array(
+					'taxonomy'   => $taxonomy,
+					'hide_empty' => false,
+				)
+			);
+			if ( is_wp_error( $terms ) || empty( $terms ) ) {
+				continue;
+			}
+			foreach ( $terms as $term ) {
+				$options[ $label ][ $taxonomy . ':' . $term->term_id ] = $term->name;
+			}
+		}
+		return $options;
+	}
+
 	/**
 	 * PDF Generator For WordPress save tab settings.
 	 *
@@ -4290,11 +4352,11 @@ endif;
 				id="pgfw_pdf_password_override"
 				name="pgfw_pdf_password_override"
 				value="<?php echo esc_attr( $pgfw_password_override ); ?>"
-				placeholder="<?php esc_attr_e( 'Leave blank to use the global password', 'pdf-generator-for-wp' ); ?>"
+				placeholder="<?php esc_attr_e( 'Leave blank to use the General Settings password', 'pdf-generator-for-wp' ); ?>"
 				autocomplete="new-password" />
 		</p>
 		<p class="description">
-			<?php esc_html_e( 'Overrides the global PDF password for PDFs generated from this item only. Leave blank to use the global password.', 'pdf-generator-for-wp' ); ?>
+			<?php esc_html_e( 'Overrides the General Settings PDF passwords (global, post type, category & tag) for PDFs generated from this item only. Leave blank to use them.', 'pdf-generator-for-wp' ); ?>
 			<?php if ( 'yes' !== $pgfw_global_enabled && '' === $pgfw_password_override ) : ?>
 				<br /><?php esc_html_e( 'Note: setting a password here protects this item even though PDF Password Protection is currently off in General Settings.', 'pdf-generator-for-wp' ); ?>
 			<?php endif; ?>
