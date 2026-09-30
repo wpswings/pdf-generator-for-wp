@@ -4777,7 +4777,8 @@ endif;
 			wp_send_json_error( array( 'message' => __( 'Invalid post type.', 'pdf-generator-for-wp' ) ) );
 		}
 
-		$pgfw_pages_raw = isset( $_POST['pages'] ) ? json_decode( wp_unslash( $_POST['pages'] ), true ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+		// Raw JSON is kept intact so block HTML survives decoding; every field is sanitized below by pgfw_sanitize_builder_block().
+		$pgfw_pages_raw = isset( $_POST['pages'] ) ? json_decode( filter_var( wp_unslash( $_POST['pages'] ), FILTER_UNSAFE_RAW ), true ) : array();
 		if ( ! is_array( $pgfw_pages_raw ) ) {
 			$pgfw_pages_raw = array();
 		}
@@ -4801,7 +4802,7 @@ endif;
 
 		$pgfw_bg_color = isset( $_POST['background_color'] ) ? sanitize_hex_color( wp_unslash( $_POST['background_color'] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
-		$pgfw_watermark_raw = isset( $_POST['watermark'] ) ? json_decode( wp_unslash( $_POST['watermark'] ), true ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+		$pgfw_watermark_raw = isset( $_POST['watermark'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['watermark'] ) ), true ) : array();
 		if ( ! is_array( $pgfw_watermark_raw ) ) {
 			$pgfw_watermark_raw = array();
 		}

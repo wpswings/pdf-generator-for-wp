@@ -1097,10 +1097,8 @@ function upload_pdf_page_image() {
 	}
 
 	require_once ABSPATH . 'wp-admin/includes/file.php';
-	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-	$uploadedfile = $_FILES['file'];
-
-	$movefile = wp_handle_upload( $uploadedfile, array( 'test_form' => false ) );
+	// wp_handle_upload() validates the upload (type, size, is_uploaded_file) before moving it.
+	$movefile = wp_handle_upload( $_FILES['file'], array( 'test_form' => false ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
 	if ( $movefile && ! isset( $movefile['error'] ) ) {
 		wp_send_json_success( array( 'url' => $movefile['url'] ) );
