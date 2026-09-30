@@ -2416,21 +2416,7 @@ class Pdf_Generator_For_Wp_Admin {
 					'no'  => __( 'NO', 'pdf-generator-for-wp' ),
 				),
 			),
-			array(
-				'title'        => __( 'Let Customers Save PDFs to Their Dropbox', 'pdf-generator-for-wp' ),
-				'type'         => 'radio-switch',
-				'description'  => __( 'Shows a "Save to Dropbox" icon next to the PDF download icon. The customer signs in with their own Dropbox account and the PDF is saved to their Dropbox - nothing is uploaded to your Dropbox and no customer tokens are stored on this site. Only needs the Dropbox App Key below (App Secret and Connect are not required for this). The site must be opened over HTTPS.', 'pdf-generator-for-wp' )
-					. ( 'yes' === $pgfw_dropbox_customer_save && '' === trim( (string) $pgfw_dropbox_app_key ) ? ' ' . __( 'WARNING: the icon is hidden until you enter a Dropbox App Key below and save.', 'pdf-generator-for-wp' ) : '' ),
-				'id'           => 'pgfw_dropbox_customer_save_enable',
-				'value'        => $pgfw_dropbox_customer_save,
-				'class'        => 'pgfw_dropbox_customer_save_enable',
-				'name'         => 'pgfw_dropbox_customer_save_enable',
-				'parent-class' => 'wps_pgfw_setting_separate_border',
-				'options'      => array(
-					'yes' => __( 'YES', 'pdf-generator-for-wp' ),
-					'no'  => __( 'NO', 'pdf-generator-for-wp' ),
-				),
-			),
+			
 			// Google Drive.
 			array(
 				'title'        => __( 'Enable Google Drive', 'pdf-generator-for-wp' ),
@@ -2495,6 +2481,21 @@ class Pdf_Generator_For_Wp_Admin {
 				'class'        => 'pgfw_gdrive_oauth_action',
 				'description'  => __( 'Save the Client ID/Secret above and click Save Settings first, then click Connect and grant access.', 'pdf-generator-for-wp' ),
 				'parent-class' => 'wps_pgfw_setting_separate_border',
+			),
+			array(
+				'title'        => __( 'Let Customers Save PDFs to Their Dropbox', 'pdf-generator-for-wp' ),
+				'type'         => 'radio-switch',
+				'description'  => __( 'Shows a "Save to Dropbox" icon next to the PDF download icon. The customer signs in with their own Dropbox account and the PDF is saved to their Dropbox - nothing is uploaded to your Dropbox and no customer tokens are stored on this site. Only needs the Dropbox App Key below (App Secret and Connect are not required for this). The site must be opened over HTTPS.', 'pdf-generator-for-wp' )
+					. ( 'yes' === $pgfw_dropbox_customer_save && '' === trim( (string) $pgfw_dropbox_app_key ) ? ' ' . __( 'WARNING: the icon is hidden until you enter a Dropbox App Key below and save.', 'pdf-generator-for-wp' ) : '' ),
+				'id'           => 'pgfw_dropbox_customer_save_enable',
+				'value'        => $pgfw_dropbox_customer_save,
+				'class'        => 'pgfw_dropbox_customer_save_enable',
+				'name'         => 'pgfw_dropbox_customer_save_enable',
+				'parent-class' => 'wps_pgfw_setting_separate_border',
+				'options'      => array(
+					'yes' => __( 'YES', 'pdf-generator-for-wp' ),
+					'no'  => __( 'NO', 'pdf-generator-for-wp' ),
+				),
 			),
 			// Dropbox.
 			array(
