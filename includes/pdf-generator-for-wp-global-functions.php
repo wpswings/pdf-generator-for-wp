@@ -141,17 +141,49 @@ if ( ! function_exists( 'wps_generate_pdf' ) ) {
 	}
 
 	/**
-	 * Google OAuth Client ID for the customer "Save to Google Drive" button, or ''
+	 * Credential for a customer "Save to ..." icon, or '' when that option is off
+	 * or not configured.
+	 *
+	 * @param string $toggle_key     Customer save setting, e.g. pgfw_gdrive_customer_save_enable.
+	 * @param string $credential_key Public credential setting, e.g. pgfw_gdrive_client_id.
+	 * @return string
+	 */
+	function wps_pgfw_customer_cloud_credential( $toggle_key, $credential_key ) {
+		$settings = get_option( 'pgfw_cloud_storage_save_settings', array() );
+		if ( ! is_array( $settings ) || 'yes' !== ( isset( $settings[ $toggle_key ] ) ? $settings[ $toggle_key ] : '' ) ) {
+			return '';
+		}
+		return isset( $settings[ $credential_key ] ) ? trim( (string) $settings[ $credential_key ] ) : '';
+	}
+
+	/**
+	 * Google OAuth Client ID for the customer "Save to Google Drive" icon, or ''
 	 * when the feature is off / not configured.
 	 *
 	 * @return string
 	 */
 	function wps_pgfw_customer_gdrive_client_id() {
-		$settings = get_option( 'pgfw_cloud_storage_save_settings', array() );
-		if ( ! is_array( $settings ) || 'yes' !== ( isset( $settings['pgfw_gdrive_customer_save_enable'] ) ? $settings['pgfw_gdrive_customer_save_enable'] : '' ) ) {
-			return '';
-		}
-		return isset( $settings['pgfw_gdrive_client_id'] ) ? trim( (string) $settings['pgfw_gdrive_client_id'] ) : '';
+		return wps_pgfw_customer_cloud_credential( 'pgfw_gdrive_customer_save_enable', 'pgfw_gdrive_client_id' );
+	}
+
+	/**
+	 * Dropbox App Key for the customer "Save to Dropbox" icon, or '' when the
+	 * feature is off / not configured.
+	 *
+	 * @return string
+	 */
+	function wps_pgfw_customer_dropbox_app_key() {
+		return wps_pgfw_customer_cloud_credential( 'pgfw_dropbox_customer_save_enable', 'pgfw_dropbox_app_key' );
+	}
+
+	/**
+	 * Redirect URI Dropbox sends the customer back to after they authorize "Save to
+	 * Dropbox" (must be added to the Dropbox app's Redirect URIs).
+	 *
+	 * @return string
+	 */
+	function wps_pgfw_customer_dropbox_redirect_uri() {
+		return add_query_arg( 'pgfw_dropbox_save_callback', '1', home_url( '/' ) );
 	}
 
 	/**
