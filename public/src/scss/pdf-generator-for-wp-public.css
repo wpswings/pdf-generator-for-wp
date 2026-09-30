@@ -683,22 +683,14 @@ a.pgfw-single-pdf-download-a.pgfw-single-pdf-download-button--icon-only,
 	display: inline-flex;
 	align-items: center;
 	align-self: center;
-	padding: 6px 12px;
-	border: 1px solid #dadce0;
-	border-radius: 4px;
-	background: #fff;
-	color: #3c4043;
-	font-size: 13px;
-	font-weight: 500;
-	line-height: 1.4;
+	line-height: 0;
 	text-decoration: none;
 	cursor: pointer;
 }
 
 .pgfw-save-to-gdrive:hover,
 .pgfw-save-to-gdrive:focus {
-	background: #f8f9fa;
-	color: #202124;
+	opacity: .8;
 }
 
 .pgfw-save-to-gdrive.is-busy {

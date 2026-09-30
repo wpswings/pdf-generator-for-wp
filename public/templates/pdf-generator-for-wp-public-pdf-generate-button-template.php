@@ -55,7 +55,7 @@ function pgfw_pdf_download_button( $url_here, $id ) {
 			<div> <a href="' . esc_html( $url_here ) . '" class="pgfw-single-pdf-download-button" ' . esc_html( $mode ) . '><img src="' . esc_url( $pgfw_single_pdf_download_icon_src ) . '" title="' . esc_html__( 'Generate PDF', 'pdf-generator-for-wp' ) . '" style="width:auto; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;"">' . $wps_wpg_single_pdf_icon_name . '</a>
 			';
 			$html  = apply_filters( 'wps_pgfw_bulk_download_button_filter_hook', $html, $id );
-		$html .= pgfw_save_to_gdrive_button( $url_here, $id );
+		$html .= pgfw_save_to_gdrive_button( $url_here, $id, $pgfw_pdf_icon_height );
 			if ( $is_pro_active && 'yes' === $pgfw_print_enable ) {
 
 				$html .= '<a href="javascript:void(0)" id="pgfw_print_button" class="pgfw-single-pdf-download-button" ><img  src="' . PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/print_icon.png" style="display:inline-block;width:auto; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;" ></a>';
@@ -73,7 +73,7 @@ function pgfw_pdf_download_button( $url_here, $id ) {
 		<a  href="' . esc_html( $url_here ) . '" class="pgfw-single-pdf-download-button" ' . esc_html( $mode ) . '><img src="' . esc_url( $pgfw_single_pdf_download_icon_src ) . '" title="' . esc_html__( 'Generate PDF', 'pdf-generator-for-wp' ) . '" style="width:auto; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;">' . $wps_wpg_single_pdf_icon_name . '</a>
 		';
 		$html  = apply_filters( 'wps_pgfw_bulk_download_button_filter_hook', $html, $id );
-		$html .= pgfw_save_to_gdrive_button( $url_here, $id );
+		$html .= pgfw_save_to_gdrive_button( $url_here, $id, $pgfw_pdf_icon_height );
 		if ( $is_pro_active && 'yes' === $pgfw_print_enable ) {
 
 			$html .= '<a href="javascript:void(0)" id="pgfw_print_button" class="pgfw-single-pdf-download-button" onclick="window.print()"><img  src="' . PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/print_icon.png" style="padding-left:10px;display:inline-block;width:auto; height:' . esc_html( $pgfw_pdf_icon_height ) . 'px;" ></a>';
@@ -94,14 +94,16 @@ function pgfw_pdf_download_button( $url_here, $id ) {
  *
  * @param string $url_here PDF download URL (the same one the download icon uses).
  * @param int    $id       Post id the PDF is generated for.
+ * @param string $height   Icon height in px, same as the PDF download icon.
  * @return string Empty when the feature is off or no Google Client ID is set.
  */
-function pgfw_save_to_gdrive_button( $url_here, $id ) {
+function pgfw_save_to_gdrive_button( $url_here, $id, $height = '' ) {
 	if ( '' === wps_pgfw_customer_gdrive_client_id() ) {
 		return '';
 	}
-	return '<a href="#" role="button" class="pgfw-save-to-gdrive" data-pdf-url="' . esc_url( $url_here ) . '" data-post-id="' . esc_attr( $id ) . '" title="' . esc_attr__( 'Save this PDF to your Google Drive', 'pdf-generator-for-wp' ) . '">'
-		. esc_html__( 'Save to Google Drive', 'pdf-generator-for-wp' )
+	$height = ( '' !== (string) $height ) ? (int) $height : 32;
+	return '<a href="#" role="button" class="pgfw-save-to-gdrive" data-pdf-url="' . esc_url( $url_here ) . '" data-post-id="' . esc_attr( $id ) . '" title="' . esc_attr__( 'Save this PDF to your Google Drive', 'pdf-generator-for-wp' ) . '" aria-label="' . esc_attr__( 'Save to Google Drive', 'pdf-generator-for-wp' ) . '">'
+		. '<img src="' . esc_url( PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/google_drive.svg' ) . '" alt="" style="display:block;width:auto;height:' . esc_attr( $height ) . 'px;">'
 		. '</a><span class="pgfw-save-to-gdrive-status" aria-live="polite"></span>';
 }
 /**
