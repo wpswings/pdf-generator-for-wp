@@ -155,7 +155,7 @@ class Pdf_Generator_For_Wp_Cloud_Storage {
 	}
 
 	/**
-	 * admin-post handler: OAuth callback shared by Google Drive & Dropbox.
+	 * Admin-post handler: OAuth callback shared by Google Drive & Dropbox.
 	 *
 	 * @return void
 	 */
@@ -192,7 +192,7 @@ class Pdf_Generator_For_Wp_Cloud_Storage {
 	}
 
 	/**
-	 * admin-post handler: disconnect a provider (drop its stored refresh token).
+	 * Admin-post handler: disconnect a provider (drop its stored refresh token).
 	 *
 	 * @return void
 	 */

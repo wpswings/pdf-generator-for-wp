@@ -2374,6 +2374,7 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_dropbox_app_key     = array_key_exists( 'pgfw_dropbox_app_key', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_dropbox_app_key'] : '';
 		$pgfw_dropbox_app_secret  = array_key_exists( 'pgfw_dropbox_app_secret', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_dropbox_app_secret'] : '';
 		$pgfw_dropbox_folder_path = array_key_exists( 'pgfw_dropbox_folder_path', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_dropbox_folder_path'] : '';
+		$pgfw_dropbox_customer_save = array_key_exists( 'pgfw_dropbox_customer_save_enable', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_dropbox_customer_save_enable'] : '';
 
 
 		$pgfw_cloud_storage = new Pdf_Generator_For_Wp_Cloud_Storage();
@@ -2415,6 +2416,7 @@ class Pdf_Generator_For_Wp_Admin {
 					'no'  => __( 'NO', 'pdf-generator-for-wp' ),
 				),
 			),
+			
 			// Google Drive.
 			array(
 				'title'        => __( 'Enable Google Drive', 'pdf-generator-for-wp' ),
@@ -2480,11 +2482,26 @@ class Pdf_Generator_For_Wp_Admin {
 				'description'  => __( 'Save the Client ID/Secret above and click Save Settings first, then click Connect and grant access.', 'pdf-generator-for-wp' ),
 				'parent-class' => 'wps_pgfw_setting_separate_border',
 			),
+			array(
+				'title'        => __( 'Let Customers Save PDFs to Their Dropbox', 'pdf-generator-for-wp' ),
+				'type'         => 'radio-switch',
+				'description'  => __( 'Shows a "Save to Dropbox" icon next to the PDF download icon. The customer signs in with their own Dropbox account and the PDF is saved to their Dropbox - nothing is uploaded to your Dropbox and no customer tokens are stored on this site. Only needs the Dropbox App Key below (App Secret and Connect are not required for this). The site must be opened over HTTPS.', 'pdf-generator-for-wp' )
+					. ( 'yes' === $pgfw_dropbox_customer_save && '' === trim( (string) $pgfw_dropbox_app_key ) ? ' ' . __( 'WARNING: the icon is hidden until you enter a Dropbox App Key below and save.', 'pdf-generator-for-wp' ) : '' ),
+				'id'           => 'pgfw_dropbox_customer_save_enable',
+				'value'        => $pgfw_dropbox_customer_save,
+				'class'        => 'pgfw_dropbox_customer_save_enable',
+				'name'         => 'pgfw_dropbox_customer_save_enable',
+				'parent-class' => 'wps_pgfw_setting_separate_border',
+				'options'      => array(
+					'yes' => __( 'YES', 'pdf-generator-for-wp' ),
+					'no'  => __( 'NO', 'pdf-generator-for-wp' ),
+				),
+			),
 			// Dropbox.
 			array(
 				'title'        => __( 'Enable Dropbox', 'pdf-generator-for-wp' ),
 				'type'         => 'checkbox',
-				'description'  => __( 'Upload generated PDFs to Dropbox.', 'pdf-generator-for-wp' ),
+				'description'  => __( 'Also upload every generated PDF to your (the site owner\'s) connected Dropbox.', 'pdf-generator-for-wp' ),
 				'id'           => 'pgfw_dropbox_enable',
 				'value'        => $pgfw_dropbox_enable,
 				'class'        => 'pgfw_dropbox_enable',
@@ -2495,10 +2512,11 @@ class Pdf_Generator_For_Wp_Admin {
 				'title'       => __( 'Dropbox App Key', 'pdf-generator-for-wp' ),
 				'type'        => 'text',
 				'description' => sprintf(
-					/* translators: 1: Dropbox App Console link, 2: OAuth redirect URI. */
-					__( 'Create an app in the %1$s (Scoped access, with the files.content.write permission), then copy the App key from its Settings tab. Redirect URI to add there: %2$s', 'pdf-generator-for-wp' ),
+					/* translators: 1: Dropbox App Console link, 2: OAuth redirect URI, 3: customer Save to Dropbox redirect URI. */
+					__( 'Create an app in the %1$s (Scoped access, with the files.content.write permission), then copy the App key from its Settings tab. Redirect URIs to add there: %2$s (connect your own Dropbox) and %3$s (customer "Save to Dropbox").', 'pdf-generator-for-wp' ),
 					'<a href="https://www.dropbox.com/developers/apps" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Dropbox App Console', 'pdf-generator-for-wp' ) . '</a>',
-					'<code>' . esc_html( $pgfw_cloud_storage->get_oauth_redirect_uri( 'dropbox' ) ) . '</code>'
+					'<code>' . esc_html( $pgfw_cloud_storage->get_oauth_redirect_uri( 'dropbox' ) ) . '</code>',
+					'<code>' . esc_html( wps_pgfw_customer_dropbox_redirect_uri() ) . '</code>'
 				),
 				'id'          => 'pgfw_dropbox_app_key',
 				'value'       => $pgfw_dropbox_app_key,
@@ -2511,7 +2529,7 @@ class Pdf_Generator_For_Wp_Admin {
 				'type'        => 'password',
 				'description' => sprintf(
 					/* translators: %s: Dropbox App Console link. */
-					__( 'On the same app\'s Settings tab in the %s (click "Show" next to App secret).', 'pdf-generator-for-wp' ),
+					__( 'On the same app\'s Settings tab in the %s (click "Show" next to App secret). Only needed to connect your own Dropbox (not for customer "Save to Dropbox").', 'pdf-generator-for-wp' ),
 					'<a href="https://www.dropbox.com/developers/apps" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Dropbox App Console', 'pdf-generator-for-wp' ) . '</a>'
 				),
 				'id'          => 'pgfw_dropbox_app_secret',
@@ -4759,7 +4777,8 @@ endif;
 			wp_send_json_error( array( 'message' => __( 'Invalid post type.', 'pdf-generator-for-wp' ) ) );
 		}
 
-		$pgfw_pages_raw = isset( $_POST['pages'] ) ? json_decode( wp_unslash( $_POST['pages'] ), true ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+		// Raw JSON is kept intact so block HTML survives decoding; every field is sanitized below by pgfw_sanitize_builder_block().
+		$pgfw_pages_raw = isset( $_POST['pages'] ) ? json_decode( filter_var( wp_unslash( $_POST['pages'] ), FILTER_UNSAFE_RAW ), true ) : array();
 		if ( ! is_array( $pgfw_pages_raw ) ) {
 			$pgfw_pages_raw = array();
 		}
@@ -4783,7 +4802,7 @@ endif;
 
 		$pgfw_bg_color = isset( $_POST['background_color'] ) ? sanitize_hex_color( wp_unslash( $_POST['background_color'] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
-		$pgfw_watermark_raw = isset( $_POST['watermark'] ) ? json_decode( wp_unslash( $_POST['watermark'] ), true ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+		$pgfw_watermark_raw = isset( $_POST['watermark'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['watermark'] ) ), true ) : array();
 		if ( ! is_array( $pgfw_watermark_raw ) ) {
 			$pgfw_watermark_raw = array();
 		}

@@ -319,6 +319,7 @@ class Pdf_Generator_For_Wp {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_public, 'pgfw_public_enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $pgfw_plugin_public, 'pgfw_public_enqueue_scripts' );
+		$this->loader->add_action( 'init', $pgfw_plugin_public, 'pgfw_dropbox_save_callback' );
 		$pdf_general_settings_arr     = get_option( 'pgfw_general_settings_save', array() );
 		$pgfw_display_settings        = get_option( 'pgfw_save_admin_display_settings', array() );
 		$pgfw_enable_plugin           = array_key_exists( 'pgfw_enable_plugin', $pdf_general_settings_arr ) ? $pdf_general_settings_arr['pgfw_enable_plugin'] : '';
