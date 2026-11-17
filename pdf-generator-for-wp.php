@@ -15,17 +15,17 @@
  * Plugin Name:       PDF Generator For WP
  * Plugin URI:        https://wordpress.org/plugins/pdf-generator-for-wp/
  * Description:       <code><strong>PDF Generator for WordPress</strong></code> plugin allows to generate and download PDF files from WordPress sites across multiple platforms in just one click. Elevate your eCommerce store by exploring more on WP Swings.<a href="https://wpswings.com/woocommerce-plugins/?utm_source=wpswings-pdf-shop&utm_medium=pdf-org-backend&utm_campaign=shop-page" target="_blank"> Elevate your e-commerce store by exploring more on <strong> WP Swings </strong></a>
- * Version:           1.6.3
+ * Version:           1.6.6
  * Author:            WP Swings
  * Author URI:        https://wpswings.com/?utm_source=wpswings-official&utm_medium=pdf-org-backend&utm_campaign=official
  * Text Domain:       pdf-generator-for-wp
  * Domain Path:       /languages
  *
  * Requires at least:    6.7.0
- * Tested up to:         6.8.3
+ * Tested up to:         7.1.4
  * WC requires at least: 6.5.0
- * WC tested up to:      10.3.3
- * Stable tag:           1.5.7
+ * WC tested up to:      11.3.0
+ * Stable tag:           1.6.6
  * Requires PHP:         7.4
  *
  * License:           GNU General Public License v3.0
@@ -62,12 +62,13 @@ if ( isset( $plug['wordpress-pdf-generator/wordpress-pdf-generator.php'] ) ) {
  * @since 1.0.0
  */
 function define_pdf_generator_for_wp_constants() {
-	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.6.3' );
+	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_VERSION', '1.6.6' );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_PATH', plugin_dir_path( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_DIR_URL', plugin_dir_url( __FILE__ ) );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_SERVER_URL', 'https://wpswings.com' );
 	pdf_generator_for_wp_constants( 'PDF_GENERATOR_FOR_WP_ITEM_REFERENCE', 'PDF Generator For Wp' );
 }
+
 
 /**
  * Callable function for defining plugin constants.
@@ -1096,10 +1097,8 @@ function upload_pdf_page_image() {
 	}
 
 	require_once ABSPATH . 'wp-admin/includes/file.php';
-	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-	$uploadedfile = $_FILES['file'];
-
-	$movefile = wp_handle_upload( $uploadedfile, array( 'test_form' => false ) );
+	// wp_handle_upload() validates the upload (type, size, is_uploaded_file) before moving it.
+	$movefile = wp_handle_upload( $_FILES['file'], array( 'test_form' => false ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
 	if ( $movefile && ! isset( $movefile['error'] ) ) {
 		wp_send_json_success( array( 'url' => $movefile['url'] ) );

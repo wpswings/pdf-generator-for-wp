@@ -408,6 +408,7 @@ select#wps_wpg_invoice_name {
 
 .wps-section .mdc-button--raised {
     margin: 0 !important;
+    height:31px;
 }
 
 @media (max-width: 580px) {

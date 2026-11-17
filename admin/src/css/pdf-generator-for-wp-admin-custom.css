@@ -446,3 +446,67 @@ body.makewebbetter_page_pdf_generator_for_wp_menu  .wps-wpg-card__img {
         max-width: 100%;
     }
 }
+
+.wps-pgfw-status {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 3px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    vertical-align: middle;
+}
+.wps-pgfw-status-connected {
+    background: #d4edda;
+    color: #155724;
+}
+.wps-pgfw-status-disconnected {
+    background: #f1f1f1;
+    color: #6c6c6c;
+}
+
+/* Category & Tag PDF password rules (General Settings). */
+.pgfw-password-term-rule {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	margin-bottom: 8px;
+	max-width: 560px;
+}
+
+.pgfw-password-term-rule__term {
+	flex: 1 1 55%;
+	min-width: 0;
+}
+
+.pgfw-password-term-rule__password {
+	flex: 1 1 45%;
+	min-width: 0;
+}
+
+.pgfw-password-term-rule__remove.button {
+	color: #b32d2e;
+	border-color: #b32d2e;
+	line-height: 1;
+}
+
+/* Password fields: keep the show/hide (eye) icon beside the text, not over it.
+   The field is a flex row, so the icon becomes its own flex item at the end
+   and long values (e.g. client secrets) can no longer run underneath it. */
+.pgfw-secion-wrap .wps-form-group .wps-form-group__control > .mdc-text-field.mdc-text-field--with-trailing-icon .mdc-text-field__input {
+	flex: 1 1 auto;
+	padding-right: 8px !important;
+	text-overflow: ellipsis;
+}
+
+.pgfw-secion-wrap .wps-form-group .wps-form-group__control > .mdc-text-field.mdc-text-field--with-trailing-icon .mdc-text-field__icon--trailing {
+	position: static !important;
+	flex: 0 0 auto;
+	align-self: center;
+	margin: 0 16px 0 0 !important;
+	padding: 0 !important;
+	transform: none !important;
+	font-size: 20px;
+	line-height: 1;
+	cursor: pointer;
+}

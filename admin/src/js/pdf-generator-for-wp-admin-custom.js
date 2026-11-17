@@ -10,6 +10,26 @@
                 $('.pgfw_custom_pdf_file_name').hide();
             }
         });
+        // PDF password protection toggle.
+        $('.pgfw_pdf_password_protection_enable').on('change',function(){
+            var $groups = $('.pgfw_pdf_password').closest('.wps-form-group').add('.pgfw-password-term-rules-group');
+            if ( $(this).is(':checked') ) {
+                $groups.show();
+            } else {
+                $groups.hide();
+            }
+        });
+        // Category & tag PDF password rules: add / remove rows.
+        $('.pgfw-password-term-rule__add').on('click', function () {
+            var $group = $(this).closest('.pgfw-password-term-rules-group');
+            var $rules = $group.find('.pgfw-password-term-rules');
+            var index  = parseInt( $rules.attr('data-next-index'), 10 ) || 0;
+            var html   = $group.find('.pgfw-password-term-rule-template').html().replace(/__INDEX__/g, index);
+            $rules.append(html).attr('data-next-index', index + 1);
+        });
+        $(document).on('click', '.pgfw-password-term-rule__remove', function () {
+            $(this).closest('.pgfw-password-term-rule').remove();
+        });
         //////////////////////////custom page //////////////
             // custom page name input box.
             $('.pgfw_body_page_size').on('change',function(){

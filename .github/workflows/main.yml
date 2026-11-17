@@ -2,16 +2,16 @@ name: PHPCS & PHPCBF
 
 on:
   push:
-    branches: [ 1.5.8]
+    branches: [ release/v1.6.4 ]
   pull_request:
-    branches: [ 1.5.8 ]
+    branches: [ release/v1.6.4 ]
 
 jobs:
   phpcs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install PHP
         run: sudo apt-get update && sudo apt-get install -y php-cli php-zip unzip curl
@@ -83,7 +83,7 @@ jobs:
       - name: Generate default PO file (en_US)
         run: |
           if [ ! -f languages/en_US.po ]; then
-            cp languages/pdf-generator-for-wp.pot languages/pdf-generator-for-wp-en_US.po
+            cp languages/wordpress-pdf-generator.pot languages/wordpress-pdf-generator-en_US.po
           fi
 
       - name: Upload PHPCS Reports

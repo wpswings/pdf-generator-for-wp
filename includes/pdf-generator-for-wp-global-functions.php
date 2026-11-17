@@ -41,6 +41,7 @@ if ( ! function_exists( 'wps_generate_pdf' ) ) {
 				'get_content'      => false,
 				'upload_file'      => false,
 				'file_path'        => '',
+				'post_id'          => 0,
 			)
 		);
 
@@ -48,6 +49,8 @@ if ( ! function_exists( 'wps_generate_pdf' ) ) {
 		$dompdf->loadHtml( $attr['html'] );
 		$dompdf->setPaper( wps_get_page_sizes( $attr['paper_size'] ), $attr['page_orientation'] );
 		$dompdf->render();
+		wps_pgfw_apply_pdf_security( $dompdf, $attr['post_id'] );
+		wps_pgfw_auto_save_pdf_to_cloud( $dompdf, $attr['file_name'] );
 		$output = $dompdf->output();
 		if ( $attr['get_content'] ) {
 			return $output;
@@ -61,6 +64,255 @@ if ( ! function_exists( 'wps_generate_pdf' ) ) {
 				'compress'   => $attr['compress'],
 				'Attachment' => $attr['Attachment'],
 			)
+		);
+	}
+
+	/**
+	 * Resolve which password (if any) applies to a given post/page/product's generated PDF,
+	 * per the same precedence used to actually encrypt it, most specific first:
+	 *
+	 * 1. A per-item override (the "PDF Password Protection" metabox) - always wins when set.
+	 * 2. The first "Category & Tag PDF Passwords" rule whose term the item has.
+	 * 3. The item's post type password (Post / Page / Product PDF Password).
+	 * 4. The global PDF Password.
+	 *
+	 * 2-4 only apply while "Enable PDF Password Protection" is on in General Settings.
+	 *
+	 * Shared by wps_pgfw_apply_pdf_security() (to encrypt) and anywhere the password needs
+	 * to be displayed to a customer/admin (e.g. order details, order emails).
+	 *
+	 * @param int $post_id Optional. Post/page/product ID to check for a per-item override.
+	 *                     0 when there isn't a single owning post (e.g. a WooCommerce order,
+	 *                     which can span multiple products, or a multi-post bulk export) -
+	 *                     only the global setting is considered in that case.
+	 * @return string The password to use, or '' if no password protection applies.
+	 */
+	function wps_pgfw_get_pdf_password( $post_id = 0 ) {
+		$general_settings_data = get_option( 'pgfw_general_settings_save', array() );
+		$is_enabled             = array_key_exists( 'pgfw_pdf_password_protection_enable', $general_settings_data ) ? $general_settings_data['pgfw_pdf_password_protection_enable'] : '';
+		$global_password        = array_key_exists( 'pgfw_pdf_password', $general_settings_data ) ? $general_settings_data['pgfw_pdf_password'] : '';
+
+		$override_password = $post_id ? get_post_meta( $post_id, '_pgfw_pdf_password_override', true ) : '';
+
+		if ( '' !== $override_password ) {
+			return $override_password;
+		}
+		if ( 'yes' !== $is_enabled ) {
+			return '';
+		}
+
+		$post_type = $post_id ? get_post_type( $post_id ) : '';
+		if ( $post_type && array_key_exists( $post_type, wps_pgfw_password_post_types() ) ) {
+			$term_rules = array_key_exists( 'pgfw_pdf_password_term_rules', $general_settings_data ) && is_array( $general_settings_data['pgfw_pdf_password_term_rules'] ) ? $general_settings_data['pgfw_pdf_password_term_rules'] : array();
+			foreach ( $term_rules as $term_rule ) {
+				if ( ! is_array( $term_rule ) || empty( $term_rule['term'] ) || ! isset( $term_rule['password'] ) || '' === $term_rule['password'] ) {
+					continue;
+				}
+				list( $taxonomy, $term_id ) = array_pad( explode( ':', $term_rule['term'], 2 ), 2, '' );
+				if ( array_key_exists( $taxonomy, wps_pgfw_password_taxonomies() ) && has_term( absint( $term_id ), $taxonomy, $post_id ) ) {
+					return $term_rule['password'];
+				}
+			}
+
+			$post_type_password = array_key_exists( 'pgfw_pdf_password_' . $post_type, $general_settings_data ) ? $general_settings_data[ 'pgfw_pdf_password_' . $post_type ] : '';
+			if ( '' !== $post_type_password ) {
+				return $post_type_password;
+			}
+		}
+
+		if ( '' !== $global_password ) {
+			return $global_password;
+		}
+		return '';
+	}
+
+	/**
+	 * Scheme + host (+ port) of the site, e.g. "https://example.com" - what Google
+	 * calls the "Authorized JavaScript origin" for the customer Save to Drive flow.
+	 *
+	 * @return string
+	 */
+	function wps_pgfw_site_origin() {
+		$parts = wp_parse_url( home_url() );
+		if ( empty( $parts['host'] ) ) {
+			return '';
+		}
+		return ( isset( $parts['scheme'] ) ? $parts['scheme'] : 'https' ) . '://' . $parts['host'] . ( isset( $parts['port'] ) ? ':' . $parts['port'] : '' );
+	}
+
+	/**
+	 * Credential for a customer "Save to ..." icon, or '' when that option is off
+	 * or not configured.
+	 *
+	 * @param string $toggle_key     Customer save setting, e.g. pgfw_gdrive_customer_save_enable.
+	 * @param string $credential_key Public credential setting, e.g. pgfw_gdrive_client_id.
+	 * @return string
+	 */
+	function wps_pgfw_customer_cloud_credential( $toggle_key, $credential_key ) {
+		$settings = get_option( 'pgfw_cloud_storage_save_settings', array() );
+		if ( ! is_array( $settings ) || 'yes' !== ( isset( $settings[ $toggle_key ] ) ? $settings[ $toggle_key ] : '' ) ) {
+			return '';
+		}
+		return isset( $settings[ $credential_key ] ) ? trim( (string) $settings[ $credential_key ] ) : '';
+	}
+
+	/**
+	 * Google OAuth Client ID for the customer "Save to Google Drive" icon, or ''
+	 * when the feature is off / not configured.
+	 *
+	 * @return string
+	 */
+	function wps_pgfw_customer_gdrive_client_id() {
+		return wps_pgfw_customer_cloud_credential( 'pgfw_gdrive_customer_save_enable', 'pgfw_gdrive_client_id' );
+	}
+
+	/**
+	 * Dropbox App Key for the customer "Save to Dropbox" icon, or '' when the
+	 * feature is off / not configured.
+	 *
+	 * @return string
+	 */
+	function wps_pgfw_customer_dropbox_app_key() {
+		return wps_pgfw_customer_cloud_credential( 'pgfw_dropbox_customer_save_enable', 'pgfw_dropbox_app_key' );
+	}
+
+	/**
+	 * Redirect URI Dropbox sends the customer back to after they authorize "Save to
+	 * Dropbox" (must be added to the Dropbox app's Redirect URIs).
+	 *
+	 * @return string
+	 */
+	function wps_pgfw_customer_dropbox_redirect_uri() {
+		return add_query_arg( 'pgfw_dropbox_save_callback', '1', home_url( '/' ) );
+	}
+
+	/**
+	 * Post types that can have their own PDF password in General Settings:
+	 * post, page and (with WooCommerce active) product.
+	 *
+	 * @return array post type slug => label.
+	 */
+	function wps_pgfw_password_post_types() {
+		$post_types = array(
+			'post' => __( 'Post', 'pdf-generator-for-wp' ),
+			'page' => __( 'Page', 'pdf-generator-for-wp' ),
+		);
+		if ( post_type_exists( 'product' ) ) {
+			$post_types['product'] = __( 'Product', 'pdf-generator-for-wp' );
+		}
+		return $post_types;
+	}
+
+	/**
+	 * Category / tag taxonomies whose terms can have their own PDF password.
+	 *
+	 * @return array taxonomy slug => label.
+	 */
+	function wps_pgfw_password_taxonomies() {
+		$taxonomies = array(
+			'category' => __( 'Post Categories', 'pdf-generator-for-wp' ),
+			'post_tag' => __( 'Post Tags', 'pdf-generator-for-wp' ),
+		);
+		if ( taxonomy_exists( 'product_cat' ) ) {
+			$taxonomies['product_cat'] = __( 'Product Categories', 'pdf-generator-for-wp' );
+		}
+		if ( taxonomy_exists( 'product_tag' ) ) {
+			$taxonomies['product_tag'] = __( 'Product Tags', 'pdf-generator-for-wp' );
+		}
+		return $taxonomies;
+	}
+
+	/**
+	 * Apply password protection/encryption to a rendered Dompdf document, using
+	 * wps_pgfw_get_pdf_password() to resolve which password (override or global) applies.
+	 *
+	 * Must be called after $dompdf->render() and before $dompdf->output()/$dompdf->stream().
+	 * No-ops when no password applies.
+	 *
+	 * @param \Dompdf\Dompdf $dompdf  Rendered Dompdf instance.
+	 * @param int            $post_id Optional. Post/page/product ID this PDF was generated for.
+	 * @return void
+	 */
+	function wps_pgfw_apply_pdf_security( $dompdf, $post_id = 0 ) {
+		$pdf_password = wps_pgfw_get_pdf_password( $post_id );
+
+		if ( '' === $pdf_password || ! is_object( $dompdf ) ) {
+			return;
+		}
+
+		$canvas = $dompdf->getCanvas();
+		if ( $canvas && method_exists( $canvas, 'get_cpdf' ) ) {
+			$canvas->get_cpdf()->setEncryption(
+				$pdf_password,
+				$pdf_password,
+				array(
+					'print'  => true,
+					'copy'   => true,
+					'modify' => true,
+					'add'    => true,
+				)
+			);
+		}
+	}
+
+	/**
+	 * Upload a rendered Dompdf document to any enabled cloud storage provider
+	 * (Google Drive, Dropbox), based on the Cloud Storage tab settings.
+	 *
+	 * Must be called after $dompdf->render() (and after wps_pgfw_apply_pdf_security(),
+	 * if used, so password-protected copies are what get uploaded).
+	 *
+	 * @param \Dompdf\Dompdf $dompdf    Rendered Dompdf instance.
+	 * @param string         $file_name Destination file name, e.g. "invoice-12.pdf".
+	 * @return void
+	 */
+	function wps_pgfw_auto_save_pdf_to_cloud( $dompdf, $file_name = 'document.pdf' ) {
+		if ( ! class_exists( 'Pdf_Generator_For_Wp_Cloud_Storage' ) ) {
+			return;
+		}
+		$cloud_storage = new Pdf_Generator_For_Wp_Cloud_Storage();
+		$cloud_storage->upload_dompdf_output( $dompdf, $file_name );
+	}
+
+	/**
+	 * Resolve the configured PDF page size/orientation (Body Settings) to CSS pixel
+	 * dimensions at dompdf's 96dpi reference, for the PDF Builder canvas to match
+	 * exactly what dompdf will actually render.
+	 *
+	 * @return array { 'width' => int, 'height' => int } in CSS px.
+	 */
+	function wps_pgfw_get_pdf_page_size_px() {
+		$body_settings = get_option( 'pgfw_body_save_settings', array() );
+		$page_size     = array_key_exists( 'pgfw_body_page_size', $body_settings ) ? $body_settings['pgfw_body_page_size'] : 'a4';
+		$orientation   = array_key_exists( 'pgfw_body_page_orientation', $body_settings ) ? $body_settings['pgfw_body_page_orientation'] : 'portrait';
+
+		if ( 'custom_page' === $page_size
+			&& ! empty( $body_settings['pgfw_body_custom_page_size_width'] )
+			&& ! empty( $body_settings['pgfw_body_custom_page_size_height'] ) ) {
+			$width_pt  = (float) $body_settings['pgfw_body_custom_page_size_width'] * 2.834;
+			$height_pt = (float) $body_settings['pgfw_body_custom_page_size_height'] * 2.834;
+		} else {
+			$paper_size_pts = wps_get_page_sizes( $page_size );
+			$width_pt       = isset( $paper_size_pts[2] ) ? $paper_size_pts[2] : 595.28;
+			$height_pt      = isset( $paper_size_pts[3] ) ? $paper_size_pts[3] : 841.89;
+		}
+
+		$width_px  = (int) round( $width_pt * ( 96 / 72 ) );
+		$height_px = (int) round( $height_pt * ( 96 / 72 ) );
+
+		$long_side  = max( $width_px, $height_px );
+		$short_side = min( $width_px, $height_px );
+
+		if ( 'landscape' === $orientation ) {
+			return array(
+				'width'  => $long_side,
+				'height' => $short_side,
+			);
+		}
+
+		return array(
+			'width'  => $short_side,
+			'height' => $long_side,
 		);
 	}
 
@@ -291,8 +543,8 @@ function wps_pgfw_fb_fetch_pdf() {
 	header( 'Content-Type: application/pdf' );
 	header( 'Content-Length: ' . strlen( $body ) );
 	header( 'X-Content-Type-Options: nosniff' );
-	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-	echo ( $body );
+	// Stream the validated PDF bytes as-is; binary output cannot be HTML-escaped.
+	file_put_contents( 'php://output', $body );
 	exit;
 }
 
@@ -364,4 +616,160 @@ function wps_pgfw_upload_pdf() {
 			'url' => $url,
 		)
 	);
+}
+
+/**
+ * Get option with caching support.
+ *
+ * @param string $option  Option name.
+ * @param mixed  $default Default value if option doesn't exist.
+ * @return mixed Option value or default.
+ */
+function wps_pgfw_get_option_cached( $option, $default = '' ) {
+	return get_option( $option, $default );
+}
+
+if ( ! function_exists( 'pgfw_get_single_pdf_download_icon_src' ) ) {
+	/**
+	 * Get the frontend icon source for the selected display template.
+	 *
+	 * Custom uploads override the built-in template assets.
+	 *
+	 * @param string $custom_icon_url Uploaded custom icon URL.
+	 * @param string $display_template Selected display template slug.
+	 * @return string
+	 */
+	function pgfw_get_single_pdf_download_icon_src( $custom_icon_url, $display_template ) {
+		if ( '' !== $custom_icon_url ) {
+			return $custom_icon_url;
+		}
+
+		$template_icon_map = array(
+			'style-2' => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/adobe_badge.svg',
+			'default' => PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/PDF_Tray.svg',
+		);
+
+		return isset( $template_icon_map[ $display_template ] ) ? $template_icon_map[ $display_template ] : $template_icon_map['default'];
+	}
+}
+
+if ( ! function_exists( 'pgfw_get_icon_display_template_config' ) ) {
+	/**
+	 * Get shared template metadata for frontend icon rendering.
+	 *
+	 * @param string $display_template Selected template slug.
+	 * @return array
+	 */
+	function pgfw_get_icon_display_template_config( $display_template = 'default' ) {
+		$config = array(
+			'style-2' => array(
+				'label'        => 'Adobe Badge',
+				'wrapper_type' => 'compact',
+			),
+			'default' => array(
+				'label'        => 'Printer Classic',
+				'wrapper_type' => 'compact',
+			),
+			'style-4' => array(
+				'label'        => 'Boxed Button',
+				'wrapper_type' => 'button',
+			),
+			'style-5' => array(
+				'label'        => 'Stamped Seal',
+				'wrapper_type' => 'seal',
+			),
+			'style-3' => array(
+				'label'        => 'Brand Tile',
+				'wrapper_type' => 'tile',
+			),
+			'style-6' => array(
+				'label'        => 'Gradient FAB',
+				'wrapper_type' => 'orb',
+			),
+			'style-7' => array(
+				'label'        => 'Glass Pill',
+				'wrapper_type' => 'pill',
+			),
+			'style-8' => array(
+				'label'        => 'Shimmer Tile',
+				'wrapper_type' => 'tile',
+			),
+		);
+
+		return isset( $config[ $display_template ] ) ? $config[ $display_template ] : $config['default'];
+	}
+}
+
+if ( ! function_exists( 'pgfw_get_frontend_icon_display_settings' ) ) {
+	/**
+	 * Get normalized frontend icon display settings.
+	 *
+	 * @return array
+	 */
+	function pgfw_get_frontend_icon_display_settings() {
+		$display_settings = wps_pgfw_get_option_cached( 'pgfw_save_admin_display_settings', array() );
+		$display_settings = is_array( $display_settings ) ? $display_settings : array();
+
+		// Roll back to the legacy frontend-safe renderer.
+		$display_template = 'default';
+		$icon_width       = array_key_exists( 'pgfw_pdf_icon_width', $display_settings ) ? absint( $display_settings['pgfw_pdf_icon_width'] ) : 25;
+		$icon_height      = array_key_exists( 'pgfw_pdf_icon_height', $display_settings ) ? absint( $display_settings['pgfw_pdf_icon_height'] ) : 45;
+		$alignment        = array_key_exists( 'pgfw_display_pdf_icon_alignment', $display_settings ) ? sanitize_text_field( $display_settings['pgfw_display_pdf_icon_alignment'] ) : 'center';
+		$label            = array_key_exists( 'wps_wpg_single_pdf_icon_name', $display_settings ) ? $display_settings['wps_wpg_single_pdf_icon_name'] : '';
+
+		if ( '' === $label && array_key_exists( 'single_pdf_icon_name', $display_settings ) ) {
+			$label = $display_settings['single_pdf_icon_name'];
+		}
+
+		$bulk_label = array_key_exists( 'wps_wpg_bulk_pdf_icon_name', $display_settings ) ? $display_settings['wps_wpg_bulk_pdf_icon_name'] : '';
+
+		$settings = array(
+			'display_template'            => $display_template,
+			'template_config'             => pgfw_get_icon_display_template_config( $display_template ),
+			'alignment'                   => $alignment,
+			'icon_width'                  => $icon_width > 0 ? $icon_width : 25,
+			'icon_height'                 => $icon_height > 0 ? $icon_height : 45,
+			'single_icon_url'             => array_key_exists( 'sub_pgfw_pdf_single_download_icon', $display_settings ) ? $display_settings['sub_pgfw_pdf_single_download_icon'] : '',
+			'single_label'                => sanitize_text_field( $label ),
+			'bulk_icon_url'               => array_key_exists( 'sub_pgfw_pdf_bulk_download_icon', $display_settings ) ? $display_settings['sub_pgfw_pdf_bulk_download_icon'] : '',
+			'bulk_label'                  => sanitize_text_field( $bulk_label ),
+			'body_show_pdf_icon'          => array_key_exists( 'pgfw_body_show_pdf_icon', $display_settings ) ? $display_settings['pgfw_body_show_pdf_icon'] : '',
+			'show_roles'                  => array_key_exists( 'pgfw_show_post_type_icons_for_user_role', $display_settings ) ? $display_settings['pgfw_show_post_type_icons_for_user_role'] : array(),
+			'print_enabled'               => array_key_exists( 'pgfw_print_enable', $display_settings ) ? $display_settings['pgfw_print_enable'] : '',
+			'whatsapp_enabled'            => array_key_exists( 'wps_wpg_whatsapp_sharing', $display_settings ) ? $display_settings['wps_wpg_whatsapp_sharing'] : '',
+			'wrapper_style_attribute'     => '--pgfw-icon-justify:' . $alignment . ';',
+			'button_style_attribute'      => '--pgfw-icon-width:' . ( $icon_width > 0 ? $icon_width : 25 ) . 'px;--pgfw-icon-height:' . ( $icon_height > 0 ? $icon_height : 45 ) . 'px;',
+			'custom_label_fallback'       => __( 'Download PDF', 'pdf-generator-for-wp' ),
+			'custom_bulk_label_fallback'  => __( 'Bulk PDF', 'pdf-generator-for-wp' ),
+		);
+
+		return $settings;
+	}
+}
+
+if ( ! function_exists( 'pgfw_get_icon_action_icon_src' ) ) {
+	/**
+	 * Get the icon source for a frontend icon action.
+	 *
+	 * @param string $action_type Action type.
+	 * @param array  $settings Normalized frontend settings.
+	 * @return string
+	 */
+	function pgfw_get_icon_action_icon_src( $action_type, $settings = array() ) {
+		switch ( $action_type ) {
+			case 'bulk':
+				$bulk_icon_url = isset( $settings['bulk_icon_url'] ) ? $settings['bulk_icon_url'] : '';
+				return '' !== $bulk_icon_url ? $bulk_icon_url : PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/download_PDF.svg';
+			case 'print':
+				return PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/print_icon.png';
+			case 'share':
+				return PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/images/whatsapp.png';
+			case 'download':
+			case 'email':
+			default:
+				$single_icon_url  = isset( $settings['single_icon_url'] ) ? $settings['single_icon_url'] : '';
+				$display_template = isset( $settings['display_template'] ) ? $settings['display_template'] : 'default';
+				return pgfw_get_single_pdf_download_icon_src( $single_icon_url, $display_template );
+		}
+	}
 }

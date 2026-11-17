@@ -76,9 +76,21 @@ class Pdf_Generator_For_Wp_Admin {
 			wp_enqueue_style( 'pgfw-datatable-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'package/lib/datatable/datatables.min.css', array(), $this->version, 'all' );
 			wp_enqueue_style( 'pgfw-overview-form-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/wps-admin.css', array(), $this->version, 'all' );
 			wp_enqueue_style( 'wps--admin--min-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-admin-home.min.css', array(), $this->version, 'all' );
+
+			if ( isset( $_GET['pgfw_tab'] ) && 'pdf-generator-for-wp-builder' === $_GET['pgfw_tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				wp_enqueue_style( 'pgfw-pdf-builder-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-generator-for-wp-builder.css', array(), $this->version, 'all' );
+			}
 		}
 		wp_enqueue_style( 'pgfw-admin-custom-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-generator-for-wp-admin-custom.css', array(), $this->version, 'all' );
 		wp_enqueue_style( 'flipbook-custom-css', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/flipbook.css', array(), $this->version, 'all' );
+		// Settings page design (cards, toggles, fields). Pro ships the same
+		// stylesheet and enqueues it itself, so only load ours without Pro,
+		// after everything above - the same order Pro uses. Poppins is bundled
+		// locally rather than loaded from Google Fonts.
+		if ( isset( $screen->id ) && 'wp-swings_page_pdf_generator_for_wp_menu' === $screen->id && ! is_plugin_active( 'wordpress-pdf-generator/wordpress-pdf-generator.php' ) ) {
+			wp_enqueue_style( 'pgfw-poppins-font', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/fonts/poppins/poppins.css', array(), $this->version, 'all' );
+			wp_enqueue_style( 'pgfw-admin-modern', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/css/pdf-generator-for-wp-admin-modern.css', array( 'pgfw-poppins-font', 'pgfw-admin-custom-css', 'flipbook-custom-css' ), $this->version, 'all' );
+		}
 	}
 
 	/**
@@ -130,8 +142,38 @@ class Pdf_Generator_For_Wp_Admin {
 
 			wp_enqueue_script( $this->plugin_name . 'admin-js' );
 
+			// Initialize variables for conditional asset loading.
+			$uses_media_assets    = true;
+			$uses_datatable       = true;
+			$uses_custom_settings = true;
+			$uses_color_picker    = true;
+
 			if ( $uses_media_assets ) {
 				wp_enqueue_media();
+			}
+
+			if ( isset( $_GET['pgfw_tab'] ) && 'pdf-generator-for-wp-builder' === $_GET['pgfw_tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				wp_enqueue_script( 'jquery-ui-draggable' );
+				wp_enqueue_script( 'jquery-ui-resizable' );
+				wp_enqueue_script( 'jquery-ui-droppable' );
+				wp_enqueue_style( 'wp-color-picker' );
+			wp_enqueue_script( 'pgfw-pdf-builder-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'admin/src/js/pdf-generator-for-wp-builder.js', array( 'jquery', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-resizable', 'wp-color-picker' ), $this->version, true );
+				wp_localize_script(
+					'pgfw-pdf-builder-js',
+					'pgfw_pdf_builder_param',
+					array(
+						'ajaxurl' => admin_url( 'admin-ajax.php' ),
+						'nonce'   => wp_create_nonce( 'pgfw_pdf_builder_nonce' ),
+						'data'    => $this->pgfw_admin_pdf_builder_data(),
+						'i18n'    => array(
+							'saved'        => __( 'Layout saved.', 'pdf-generator-for-wp' ),
+							'save_error'   => __( 'Could not save the layout. Please try again.', 'pdf-generator-for-wp' ),
+							'confirm_delete' => __( 'Remove this block?', 'pdf-generator-for-wp' ),
+							'upload_image' => __( 'Choose Image', 'pdf-generator-for-wp' ),
+							'use_image'    => __( 'Use Image', 'pdf-generator-for-wp' ),
+						),
+					)
+				);
 			}
 
 			if ( $uses_datatable ) {
@@ -362,6 +404,8 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_pdf_file_name_custom = array_key_exists( 'pgfw_custom_pdf_file_name', $general_settings_data ) ? $general_settings_data['pgfw_custom_pdf_file_name'] : '';
 		$pgfw_general_pdf_date_format    = array_key_exists( 'pgfw_general_pdf_date_format', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_date_format'] : '';
 		$pgfw_show_current_date       = array_key_exists( 'pgfw_general_pdf_show_current_date', $general_settings_data ) ? $general_settings_data['pgfw_general_pdf_show_current_date'] : '';
+		$pgfw_pdf_password_protection_enable = array_key_exists( 'pgfw_pdf_password_protection_enable', $general_settings_data ) ? $general_settings_data['pgfw_pdf_password_protection_enable'] : '';
+		$pgfw_pdf_password                   = array_key_exists( 'pgfw_pdf_password', $general_settings_data ) ? $general_settings_data['pgfw_pdf_password'] : '';
 		// Get the flipbook URL.
 		$flipbook_url = admin_url( 'edit.php?post_type=flipbook' );
 
@@ -512,6 +556,67 @@ class Pdf_Generator_For_Wp_Admin {
 				'style'       => ( 'custom' !== $pgfw_pdf_file_name ) ? 'display:none;' : '',
 				'placeholder' => __( 'File Name', 'pdf-generator-for-wp' ),
 			),
+			array(
+				'title'        => __( 'Enable PDF Password Protection', 'pdf-generator-for-wp' ),
+				'type'         => 'radio-switch',
+				'description'  => __( 'Require a password to open generated PDF files.', 'pdf-generator-for-wp' ),
+				'id'           => 'pgfw_pdf_password_protection_enable',
+				'value'        => $pgfw_pdf_password_protection_enable,
+				'class'        => 'pgfw_pdf_password_protection_enable',
+				'name'         => 'pgfw_pdf_password_protection_enable',
+				'parent-class' => 'wps_pgfw_setting_separate_border',
+				'options'      => array(
+					'yes' => __( 'YES', 'pdf-generator-for-wp' ),
+					'no'  => __( 'NO', 'pdf-generator-for-wp' ),
+				),
+			),
+			array(
+				'title'       => __( 'PDF Password', 'pdf-generator-for-wp' ),
+				'type'        => 'password',
+				'description' => __( 'This password will be required to open any PDF generated by the plugin.', 'pdf-generator-for-wp' ),
+				'id'          => 'pgfw_pdf_password',
+				'value'       => $pgfw_pdf_password,
+				'class'       => 'pgfw_pdf_password',
+				'name'        => 'pgfw_pdf_password',
+				'style'       => ( 'yes' !== $pgfw_pdf_password_protection_enable ) ? 'display:none;' : '',
+				'placeholder' => __( 'Enter PDF password', 'pdf-generator-for-wp' ),
+			),
+		);
+		// Per post type passwords (post / page / product), shown under the global one.
+		foreach ( wps_pgfw_password_post_types() as $pgfw_pw_post_type => $pgfw_pw_post_type_label ) {
+			$pgfw_settings_general_html_arr[] = array(
+				/* translators: %s: post type label, e.g. Post, Page, Product. */
+				'title'       => sprintf( __( '%s PDF Password', 'pdf-generator-for-wp' ), $pgfw_pw_post_type_label ),
+				'type'        => 'password',
+				/* translators: %s: post type label in lowercase. */
+				'description' => sprintf( __( 'Used for PDFs of every %s. Leave blank to use the PDF Password above.', 'pdf-generator-for-wp' ), strtolower( $pgfw_pw_post_type_label ) ),
+				'id'          => 'pgfw_pdf_password_' . $pgfw_pw_post_type,
+				'value'       => array_key_exists( 'pgfw_pdf_password_' . $pgfw_pw_post_type, $general_settings_data ) ? $general_settings_data[ 'pgfw_pdf_password_' . $pgfw_pw_post_type ] : '',
+				'class'       => 'pgfw_pdf_password pgfw_pdf_password_' . $pgfw_pw_post_type,
+				'name'        => 'pgfw_pdf_password_' . $pgfw_pw_post_type,
+				'style'       => ( 'yes' !== $pgfw_pdf_password_protection_enable ) ? 'display:none;' : '',
+				'placeholder' => __( 'Leave blank to use the PDF Password', 'pdf-generator-for-wp' ),
+			);
+		}
+		$pgfw_settings_general_html_arr[] = array(
+			'title'       => __( 'Category & Tag PDF Passwords', 'pdf-generator-for-wp' ),
+			'type'        => 'pgfw-password-term-rules',
+			'description' => __( 'Give PDFs of items in a category or tag their own password. When an item matches several rules, the first matching rule wins. Priority: the item\'s own password, then these rules, then the post type password, then the PDF Password.', 'pdf-generator-for-wp' ),
+			'id'          => 'pgfw_pdf_password_term_rules',
+			'name'        => 'pgfw_pdf_password_term_rules',
+			'class'       => 'pgfw_pdf_password_term_rules',
+			'value'       => array_key_exists( 'pgfw_pdf_password_term_rules', $general_settings_data ) && is_array( $general_settings_data['pgfw_pdf_password_term_rules'] )
+				? array_values(
+					array_filter(
+						$general_settings_data['pgfw_pdf_password_term_rules'],
+						function ( $rule ) {
+							return is_array( $rule ) && ( ! empty( $rule['term'] ) || ( isset( $rule['password'] ) && '' !== $rule['password'] ) );
+						}
+					)
+				)
+				: array(),
+			'options'     => $this->pgfw_get_password_term_options(),
+			'style'       => ( 'yes' !== $pgfw_pdf_password_protection_enable ) ? 'display:none;' : '',
 		);
 		$pgfw_settings_general_html_arr   = apply_filters( 'pgfw_settings_general_html_arr_filter_hook', $pgfw_settings_general_html_arr );
 		$pgfw_settings_general_html_arr[] = array(
@@ -524,6 +629,32 @@ class Pdf_Generator_For_Wp_Admin {
 
 		return $pgfw_settings_general_html_arr;
 	}
+	/**
+	 * Categories and tags (grouped by taxonomy) that can carry their own PDF
+	 * password, for the "Category & Tag PDF Passwords" setting.
+	 *
+	 * @since 1.6.6
+	 * @return array taxonomy label => array( 'taxonomy:term_id' => term name ).
+	 */
+	private function pgfw_get_password_term_options() {
+		$options = array();
+		foreach ( wps_pgfw_password_taxonomies() as $taxonomy => $label ) {
+			$terms = get_terms(
+				array(
+					'taxonomy'   => $taxonomy,
+					'hide_empty' => false,
+				)
+			);
+			if ( is_wp_error( $terms ) || empty( $terms ) ) {
+				continue;
+			}
+			foreach ( $terms as $term ) {
+				$options[ $label ][ $taxonomy . ':' . $term->term_id ] = $term->name;
+			}
+		}
+		return $options;
+	}
+
 	/**
 	 * PDF Generator For WordPress save tab settings.
 	 *
@@ -574,6 +705,10 @@ class Pdf_Generator_For_Wp_Admin {
 			} elseif ( isset( $_POST['pgfw_pdf_upload_save_settings'] ) ) {
 				$pgfw_genaral_settings = apply_filters( 'pgfw_pdf_upload_fields_settings_array', array() );
 				$key                   = 'pgfw_pdf_upload_save_settings';
+				$pgfw_save_check_flag  = true;
+			} elseif ( isset( $_POST['pgfw_cloud_storage_save_settings'] ) ) {
+				$pgfw_genaral_settings = apply_filters( 'pgfw_cloud_storage_settings_array', array() );
+				$key                   = 'pgfw_cloud_storage_save_settings';
 				$pgfw_save_check_flag  = true;
 			}
 
@@ -1975,8 +2110,9 @@ class Pdf_Generator_For_Wp_Admin {
 	 * @return array
 	 */
 	public function pgfw_admin_advanced_settings_page( $pgfw_advanced_settings_html_arr ) {
-		$pgfw_advanced_settings  = get_option( 'pgfw_advanced_save_settings', array() );
-		$pgfw_advanced_icon_show = array_key_exists( 'pgfw_advanced_show_post_type_icons', $pgfw_advanced_settings ) ? $pgfw_advanced_settings['pgfw_advanced_show_post_type_icons'] : '';
+		$pgfw_advanced_settings     = get_option( 'pgfw_advanced_save_settings', array() );
+		$pgfw_advanced_icon_show    = array_key_exists( 'pgfw_advanced_show_post_type_icons', $pgfw_advanced_settings ) ? $pgfw_advanced_settings['pgfw_advanced_show_post_type_icons'] : '';
+		$pgfw_advanced_post_on_server = array_key_exists( 'pgfw_advanced_post_on_server', $pgfw_advanced_settings ) ? $pgfw_advanced_settings['pgfw_advanced_post_on_server'] : array();
 
 		$post_types              = get_post_types( array( 'public' => true ) );
 		unset( $post_types['attachment'] );
@@ -1995,12 +2131,12 @@ class Pdf_Generator_For_Wp_Admin {
 		$pgfw_advanced_settings_html_arr[] = array(
 			'title'       => __( 'Select Post Type', 'pdf-generator-for-wp' ),
 			'type'        => 'multiselect',
-			'description' => __( 'Select all post types that you want save as a PDF on server with weekly update.', 'pdf-generator-for-wp' ),
+			'description' => __( 'Select post types whose PDFs should be kept on the server and automatically regenerated: whenever an item is updated, its cached PDF is refreshed in the background, and all of them are also refreshed on a weekly schedule.', 'pdf-generator-for-wp' ),
 			'id'          => 'pgfw_advanced_post_on_server',
-			'value'       => 'posts',
-			'class'       => 'pgfw-multiselect-class wps-defaut-multiselect  wps_pgfw_pro_tag',
+			'value'       => $pgfw_advanced_post_on_server,
+			'class'       => 'pgfw-multiselect-class wps-defaut-multiselect',
 			'name'        => 'pgfw_advanced_post_on_server',
-			'options'     => '',
+			'options'     => $post_types,
 		);
 		$pgfw_advanced_settings_html_arr[] = array(
 			'title'       => __( 'Upload Custom Font File', 'pdf-generator-for-wp' ),
@@ -2215,6 +2351,227 @@ class Pdf_Generator_For_Wp_Admin {
 			),
 		);
 		return $pgfw_pdf_upload_settings_html_arr;
+	}
+	/**
+	 * Html fields for the cloud storage (Google Drive / Dropbox) settings tab.
+	 *
+	 * @since 1.6.6
+	 * @param array $pgfw_cloud_storage_settings_html_arr array containing fields for cloud storage settings page.
+	 * @return array
+	 */
+	public function pgfw_admin_cloud_storage_settings_page( $pgfw_cloud_storage_settings_html_arr ) {
+		$cloud_storage_settings = get_option( 'pgfw_cloud_storage_save_settings', array() );
+
+		$pgfw_cloud_storage_enable = array_key_exists( 'pgfw_cloud_storage_enable', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_cloud_storage_enable'] : '';
+
+		$pgfw_gdrive_enable        = array_key_exists( 'pgfw_gdrive_enable', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_gdrive_enable'] : '';
+		$pgfw_gdrive_client_id     = array_key_exists( 'pgfw_gdrive_client_id', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_gdrive_client_id'] : '';
+		$pgfw_gdrive_client_secret = array_key_exists( 'pgfw_gdrive_client_secret', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_gdrive_client_secret'] : '';
+		$pgfw_gdrive_folder_id     = array_key_exists( 'pgfw_gdrive_folder_id', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_gdrive_folder_id'] : '';
+		$pgfw_gdrive_customer_save = array_key_exists( 'pgfw_gdrive_customer_save_enable', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_gdrive_customer_save_enable'] : '';
+
+		$pgfw_dropbox_enable      = array_key_exists( 'pgfw_dropbox_enable', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_dropbox_enable'] : '';
+		$pgfw_dropbox_app_key     = array_key_exists( 'pgfw_dropbox_app_key', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_dropbox_app_key'] : '';
+		$pgfw_dropbox_app_secret  = array_key_exists( 'pgfw_dropbox_app_secret', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_dropbox_app_secret'] : '';
+		$pgfw_dropbox_folder_path = array_key_exists( 'pgfw_dropbox_folder_path', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_dropbox_folder_path'] : '';
+		$pgfw_dropbox_customer_save = array_key_exists( 'pgfw_dropbox_customer_save_enable', $cloud_storage_settings ) ? $cloud_storage_settings['pgfw_dropbox_customer_save_enable'] : '';
+
+
+		$pgfw_cloud_storage = new Pdf_Generator_For_Wp_Cloud_Storage();
+
+		$pgfw_gdrive_connected  = $pgfw_cloud_storage->is_connected( 'gdrive' );
+		$pgfw_dropbox_connected = $pgfw_cloud_storage->is_connected( 'dropbox' );
+
+		$pgfw_gdrive_connect_url     = $pgfw_cloud_storage->get_google_drive_auth_url( $cloud_storage_settings );
+		$pgfw_dropbox_connect_url    = $pgfw_cloud_storage->get_dropbox_auth_url( $cloud_storage_settings );
+		$pgfw_gdrive_disconnect_url  = wp_nonce_url( admin_url( 'admin-post.php?action=pgfw_cloud_storage_disconnect&provider=gdrive' ), 'pgfw_cloud_storage_disconnect' );
+		$pgfw_dropbox_disconnect_url = wp_nonce_url( admin_url( 'admin-post.php?action=pgfw_cloud_storage_disconnect&provider=dropbox' ), 'pgfw_cloud_storage_disconnect' );
+
+		$pgfw_cloud_storage_settings_html_arr = array(
+			array(
+				'title'       => __( 'Enable Cloud Storage', 'pdf-generator-for-wp' ),
+				'type'        => 'radio-switch',
+				'description' => __( 'Automatically upload every generated PDF to the cloud provider(s) configured below, in addition to how it is normally delivered/saved.', 'pdf-generator-for-wp' ),
+				'id'          => 'pgfw_cloud_storage_enable',
+				'value'       => $pgfw_cloud_storage_enable,
+				'class'       => 'pgfw_cloud_storage_enable',
+				'name'        => 'pgfw_cloud_storage_enable',
+				'options'     => array(
+					'yes' => __( 'YES', 'pdf-generator-for-wp' ),
+					'no'  => __( 'NO', 'pdf-generator-for-wp' ),
+				),
+			),
+			array(
+				'title'        => __( 'Let Customers Save PDFs to Their Google Drive', 'pdf-generator-for-wp' ),
+				'type'         => 'radio-switch',
+				'description'  => __( 'Shows a "Save to Google Drive" button next to the PDF download icon. The customer signs in with their own Google account and the PDF is saved to their Drive - nothing is uploaded to your Drive and no customer tokens are stored on this site. Only needs the Google Client ID below (Client Secret and Connect are not required for this).', 'pdf-generator-for-wp' )
+					. ( 'yes' === $pgfw_gdrive_customer_save && '' === trim( (string) $pgfw_gdrive_client_id ) ? ' ' . __( 'WARNING: the button is hidden until you enter a Google Client ID below and save.', 'pdf-generator-for-wp' ) : '' ),
+				'id'           => 'pgfw_gdrive_customer_save_enable',
+				'value'        => $pgfw_gdrive_customer_save,
+				'class'        => 'pgfw_gdrive_customer_save_enable',
+				'name'         => 'pgfw_gdrive_customer_save_enable',
+				'parent-class' => 'wps_pgfw_setting_separate_border',
+				'options'      => array(
+					'yes' => __( 'YES', 'pdf-generator-for-wp' ),
+					'no'  => __( 'NO', 'pdf-generator-for-wp' ),
+				),
+			),
+			
+			// Google Drive.
+			array(
+				'title'        => __( 'Enable Google Drive', 'pdf-generator-for-wp' ),
+				'type'         => 'checkbox',
+				'description'  => __( 'Also upload every generated PDF to your (the site owner\'s) connected Google Drive.', 'pdf-generator-for-wp' ),
+				'id'           => 'pgfw_gdrive_enable',
+				'value'        => $pgfw_gdrive_enable,
+				'class'        => 'pgfw_gdrive_enable',
+				'name'         => 'pgfw_gdrive_enable',
+				'parent-class' => 'wps_pgfw_setting_separate_border',
+			),
+			array(
+				'title'       => __( 'Google Client ID', 'pdf-generator-for-wp' ),
+				'type'        => 'text',
+				'description' => sprintf(
+					/* translators: 1: Google Cloud Credentials link, 2: Drive API link, 3: OAuth consent screen link, 4: OAuth redirect URI, 5: site origin. */
+					__( 'Get it from %1$s: Create credentials &rarr; OAuth client ID &rarr; type "Web application". Also enable the %2$s and set up the %3$s. Authorized redirect URI: %4$s - Authorized JavaScript origin (needed for customer "Save to Google Drive"): %5$s', 'pdf-generator-for-wp' ),
+					'<a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Google Cloud Console &rarr; Credentials', 'pdf-generator-for-wp' ) . '</a>',
+					'<a href="https://console.cloud.google.com/apis/library/drive.googleapis.com" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Google Drive API', 'pdf-generator-for-wp' ) . '</a>',
+					'<a href="https://console.cloud.google.com/apis/credentials/consent" target="_blank" rel="noopener noreferrer">' . esc_html__( 'OAuth consent screen', 'pdf-generator-for-wp' ) . '</a>',
+					'<code>' . esc_html( $pgfw_cloud_storage->get_oauth_redirect_uri( 'gdrive' ) ) . '</code>',
+					'<code>' . esc_html( wps_pgfw_site_origin() ) . '</code>'
+				),
+				'id'          => 'pgfw_gdrive_client_id',
+				'value'       => $pgfw_gdrive_client_id,
+				'class'       => 'pgfw_gdrive_client_id',
+				'name'        => 'pgfw_gdrive_client_id',
+				'placeholder' => __( 'Google Client ID', 'pdf-generator-for-wp' ),
+			),
+			array(
+				'title'       => __( 'Google Client Secret', 'pdf-generator-for-wp' ),
+				'type'        => 'password',
+				'description' => sprintf(
+					/* translators: %s: Google Cloud Credentials link. */
+					__( 'Shown next to the Client ID when you open the OAuth client in %s. Only needed to connect your own Drive (not for customer "Save to Google Drive").', 'pdf-generator-for-wp' ),
+					'<a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Google Cloud Console &rarr; Credentials', 'pdf-generator-for-wp' ) . '</a>'
+				),
+				'id'          => 'pgfw_gdrive_client_secret',
+				'value'       => $pgfw_gdrive_client_secret,
+				'class'       => 'pgfw_gdrive_client_secret',
+				'name'        => 'pgfw_gdrive_client_secret',
+				'placeholder' => __( 'Google Client Secret', 'pdf-generator-for-wp' ),
+			),
+			array(
+				'title'       => __( 'Google Drive Folder ID', 'pdf-generator-for-wp' ),
+				'type'        => 'text',
+				'description' => __( 'Optional. The ID of the Drive folder to upload into (from its URL). Leave blank to upload to the root of My Drive.', 'pdf-generator-for-wp' ),
+				'id'          => 'pgfw_gdrive_folder_id',
+				'value'       => $pgfw_gdrive_folder_id,
+				'class'       => 'pgfw_gdrive_folder_id',
+				'name'        => 'pgfw_gdrive_folder_id',
+				'placeholder' => __( 'Folder ID (optional)', 'pdf-generator-for-wp' ),
+			),
+			array(
+				'title'        => __( 'Google Drive Connection', 'pdf-generator-for-wp' ),
+				'type'         => 'link-button',
+				'id'           => 'pgfw_gdrive_oauth_action',
+				'url'          => $pgfw_gdrive_connected ? $pgfw_gdrive_disconnect_url : $pgfw_gdrive_connect_url,
+				'button_text'  => $pgfw_gdrive_connected ? __( 'Disconnect Google Drive', 'pdf-generator-for-wp' ) : __( 'Connect Google Drive', 'pdf-generator-for-wp' ),
+				'status_text'  => $pgfw_gdrive_connected ? __( 'Connected', 'pdf-generator-for-wp' ) : __( 'Not Connected', 'pdf-generator-for-wp' ),
+				'status_class' => $pgfw_gdrive_connected ? 'wps-pgfw-status-connected' : 'wps-pgfw-status-disconnected',
+				'class'        => 'pgfw_gdrive_oauth_action',
+				'description'  => __( 'Save the Client ID/Secret above and click Save Settings first, then click Connect and grant access.', 'pdf-generator-for-wp' ),
+				'parent-class' => 'wps_pgfw_setting_separate_border',
+			),
+			array(
+				'title'        => __( 'Let Customers Save PDFs to Their Dropbox', 'pdf-generator-for-wp' ),
+				'type'         => 'radio-switch',
+				'description'  => __( 'Shows a "Save to Dropbox" icon next to the PDF download icon. The customer signs in with their own Dropbox account and the PDF is saved to their Dropbox - nothing is uploaded to your Dropbox and no customer tokens are stored on this site. Only needs the Dropbox App Key below (App Secret and Connect are not required for this). The site must be opened over HTTPS.', 'pdf-generator-for-wp' )
+					. ( 'yes' === $pgfw_dropbox_customer_save && '' === trim( (string) $pgfw_dropbox_app_key ) ? ' ' . __( 'WARNING: the icon is hidden until you enter a Dropbox App Key below and save.', 'pdf-generator-for-wp' ) : '' ),
+				'id'           => 'pgfw_dropbox_customer_save_enable',
+				'value'        => $pgfw_dropbox_customer_save,
+				'class'        => 'pgfw_dropbox_customer_save_enable',
+				'name'         => 'pgfw_dropbox_customer_save_enable',
+				'parent-class' => 'wps_pgfw_setting_separate_border',
+				'options'      => array(
+					'yes' => __( 'YES', 'pdf-generator-for-wp' ),
+					'no'  => __( 'NO', 'pdf-generator-for-wp' ),
+				),
+			),
+			// Dropbox.
+			array(
+				'title'        => __( 'Enable Dropbox', 'pdf-generator-for-wp' ),
+				'type'         => 'checkbox',
+				'description'  => __( 'Also upload every generated PDF to your (the site owner\'s) connected Dropbox.', 'pdf-generator-for-wp' ),
+				'id'           => 'pgfw_dropbox_enable',
+				'value'        => $pgfw_dropbox_enable,
+				'class'        => 'pgfw_dropbox_enable',
+				'name'         => 'pgfw_dropbox_enable',
+				'parent-class' => 'wps_pgfw_setting_separate_border',
+			),
+			array(
+				'title'       => __( 'Dropbox App Key', 'pdf-generator-for-wp' ),
+				'type'        => 'text',
+				'description' => sprintf(
+					/* translators: 1: Dropbox App Console link, 2: OAuth redirect URI, 3: customer Save to Dropbox redirect URI. */
+					__( 'Create an app in the %1$s (Scoped access, with the files.content.write permission), then copy the App key from its Settings tab. Redirect URIs to add there: %2$s (connect your own Dropbox) and %3$s (customer "Save to Dropbox").', 'pdf-generator-for-wp' ),
+					'<a href="https://www.dropbox.com/developers/apps" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Dropbox App Console', 'pdf-generator-for-wp' ) . '</a>',
+					'<code>' . esc_html( $pgfw_cloud_storage->get_oauth_redirect_uri( 'dropbox' ) ) . '</code>',
+					'<code>' . esc_html( wps_pgfw_customer_dropbox_redirect_uri() ) . '</code>'
+				),
+				'id'          => 'pgfw_dropbox_app_key',
+				'value'       => $pgfw_dropbox_app_key,
+				'class'       => 'pgfw_dropbox_app_key',
+				'name'        => 'pgfw_dropbox_app_key',
+				'placeholder' => __( 'Dropbox App Key', 'pdf-generator-for-wp' ),
+			),
+			array(
+				'title'       => __( 'Dropbox App Secret', 'pdf-generator-for-wp' ),
+				'type'        => 'password',
+				'description' => sprintf(
+					/* translators: %s: Dropbox App Console link. */
+					__( 'On the same app\'s Settings tab in the %s (click "Show" next to App secret). Only needed to connect your own Dropbox (not for customer "Save to Dropbox").', 'pdf-generator-for-wp' ),
+					'<a href="https://www.dropbox.com/developers/apps" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Dropbox App Console', 'pdf-generator-for-wp' ) . '</a>'
+				),
+				'id'          => 'pgfw_dropbox_app_secret',
+				'value'       => $pgfw_dropbox_app_secret,
+				'class'       => 'pgfw_dropbox_app_secret',
+				'name'        => 'pgfw_dropbox_app_secret',
+				'placeholder' => __( 'Dropbox App Secret', 'pdf-generator-for-wp' ),
+			),
+			array(
+				'title'       => __( 'Dropbox Folder Path', 'pdf-generator-for-wp' ),
+				'type'        => 'text',
+				'description' => __( 'Optional. e.g. /PDF Generator. Leave blank to upload to the app root folder.', 'pdf-generator-for-wp' ),
+				'id'          => 'pgfw_dropbox_folder_path',
+				'value'       => $pgfw_dropbox_folder_path,
+				'class'       => 'pgfw_dropbox_folder_path',
+				'name'        => 'pgfw_dropbox_folder_path',
+				'placeholder' => __( 'Folder path (optional)', 'pdf-generator-for-wp' ),
+			),
+			array(
+				'title'        => __( 'Dropbox Connection', 'pdf-generator-for-wp' ),
+				'type'         => 'link-button',
+				'id'           => 'pgfw_dropbox_oauth_action',
+				'url'          => $pgfw_dropbox_connected ? $pgfw_dropbox_disconnect_url : $pgfw_dropbox_connect_url,
+				'button_text'  => $pgfw_dropbox_connected ? __( 'Disconnect Dropbox', 'pdf-generator-for-wp' ) : __( 'Connect Dropbox', 'pdf-generator-for-wp' ),
+				'status_text'  => $pgfw_dropbox_connected ? __( 'Connected', 'pdf-generator-for-wp' ) : __( 'Not Connected', 'pdf-generator-for-wp' ),
+				'status_class' => $pgfw_dropbox_connected ? 'wps-pgfw-status-connected' : 'wps-pgfw-status-disconnected',
+				'class'        => 'pgfw_dropbox_oauth_action',
+				'description'  => __( 'Save the App Key/Secret above and click Save Settings first, then click Connect and grant access.', 'pdf-generator-for-wp' ),
+				'parent-class' => 'wps_pgfw_setting_separate_border',
+			),
+		);
+
+		$pgfw_cloud_storage_settings_html_arr   = apply_filters( 'pgfw_settings_cloud_storage_html_arr_filter_hook', $pgfw_cloud_storage_settings_html_arr );
+		$pgfw_cloud_storage_settings_html_arr[] = array(
+			'type'        => 'button',
+			'id'          => 'pgfw_cloud_storage_save_settings',
+			'button_text' => __( 'Save Settings', 'pdf-generator-for-wp' ),
+			'class'       => 'pgfw_cloud_storage_save_settings',
+			'name'        => 'pgfw_cloud_storage_save_settings',
+		);
+
+		return $pgfw_cloud_storage_settings_html_arr;
 	}
 	/**
 	 * Ajax request handling for deleting media from uploaded posters.
@@ -3941,5 +4298,535 @@ endif;
 		if ( 'shortcode' === $column ) {
 			echo '<code>[flipbook id="' . esc_attr( $post_id ) . '"]</code>';
 		}
+	}
+
+	/**
+	 * Register the "PDF Password Protection" metabox on posts, pages and (when
+	 * WooCommerce is active) products, letting an admin set a per-item PDF
+	 * password that overrides the global password from General Settings.
+	 *
+	 * @since 1.6.6
+	 * @return void
+	 */
+	public function wps_pgfw_add_pdf_password_metabox_callback() {
+		$pgfw_post_types = array( 'post', 'page' );
+		if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ) ) {
+			$pgfw_post_types[] = 'product';
+		}
+
+		add_meta_box(
+			'pgfw_pdf_password_override',
+			__( 'PDF Password Protection', 'pdf-generator-for-wp' ),
+			array( $this, 'wps_pgfw_pdf_password_metabox_render' ),
+			$pgfw_post_types,
+			'side',
+			'default'
+		);
+	}
+
+	/**
+	 * "PDF Password Protection" metabox render callback.
+	 *
+	 * @since 1.6.6
+	 * @param WP_Post $post Current post object.
+	 * @return void
+	 */
+	public function wps_pgfw_pdf_password_metabox_render( $post ) {
+		$pgfw_general_settings_data = get_option( 'pgfw_general_settings_save', array() );
+		$pgfw_global_enabled        = array_key_exists( 'pgfw_pdf_password_protection_enable', $pgfw_general_settings_data ) ? $pgfw_general_settings_data['pgfw_pdf_password_protection_enable'] : '';
+		$pgfw_password_override     = get_post_meta( $post->ID, '_pgfw_pdf_password_override', true );
+
+		wp_nonce_field( 'wps_pgfw_save_pdf_password_override', 'wps_pgfw_pdf_password_override_nonce' );
+		?>
+		<p>
+			<label for="pgfw_pdf_password_override"><?php esc_html_e( 'Custom PDF Password', 'pdf-generator-for-wp' ); ?></label><br />
+			<input
+				type="password"
+				class="widefat"
+				id="pgfw_pdf_password_override"
+				name="pgfw_pdf_password_override"
+				value="<?php echo esc_attr( $pgfw_password_override ); ?>"
+				placeholder="<?php esc_attr_e( 'Leave blank to use the General Settings password', 'pdf-generator-for-wp' ); ?>"
+				autocomplete="new-password" />
+		</p>
+		<p class="description">
+			<?php esc_html_e( 'Overrides the General Settings PDF passwords (global, post type, category & tag) for PDFs generated from this item only. Leave blank to use them.', 'pdf-generator-for-wp' ); ?>
+			<?php if ( 'yes' !== $pgfw_global_enabled && '' === $pgfw_password_override ) : ?>
+				<br /><?php esc_html_e( 'Note: setting a password here protects this item even though PDF Password Protection is currently off in General Settings.', 'pdf-generator-for-wp' ); ?>
+			<?php endif; ?>
+		</p>
+		<?php
+	}
+
+	/**
+	 * "PDF Password Protection" metabox save callback.
+	 *
+	 * Hooked to the generic `save_post` action (needs to run for posts, pages
+	 * and products), so it bails out immediately unless our own nonce is present.
+	 *
+	 * @since 1.6.6
+	 * @param int $post_id Post ID being saved.
+	 * @return void
+	 */
+	public function wps_pgfw_save_pdf_password_metabox_callback( $post_id ) {
+		if ( ! isset( $_POST['wps_pgfw_pdf_password_override_nonce'] ) ||
+			! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wps_pgfw_pdf_password_override_nonce'] ) ), 'wps_pgfw_save_pdf_password_override' )
+		) {
+			return;
+		}
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
+		if ( ! in_array( get_post_type( $post_id ), array( 'post', 'page', 'product' ), true ) ) {
+			return;
+		}
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+
+		if ( isset( $_POST['pgfw_pdf_password_override'] ) ) {
+			$pgfw_password_override = sanitize_text_field( wp_unslash( $_POST['pgfw_pdf_password_override'] ) );
+			if ( '' !== $pgfw_password_override ) {
+				update_post_meta( $post_id, '_pgfw_pdf_password_override', $pgfw_password_override );
+			} else {
+				delete_post_meta( $post_id, '_pgfw_pdf_password_override' );
+			}
+		}
+	}
+
+	/**
+	 * Show the invoice PDF password on the admin order edit screen (classic and HPOS),
+	 * so support staff can share/verify it without needing to check General Settings.
+	 * No-ops when no password protection applies to invoices.
+	 *
+	 * @since 1.6.6
+	 * @param WC_Order $order Order object.
+	 * @return void
+	 */
+	public function wpg_show_invoice_pdf_password_notice_admin( $order ) {
+		$pgfw_pdf_password = wps_pgfw_get_pdf_password();
+		if ( '' === $pgfw_pdf_password ) {
+			return;
+		}
+		?>
+		<p class="form-field wps-pgfw-invoice-password-notice">
+			<strong><?php esc_html_e( 'Invoice PDF Password:', 'pdf-generator-for-wp' ); ?></strong>
+			<?php echo esc_html( $pgfw_pdf_password ); ?>
+		</p>
+		<?php
+	}
+
+	/**
+	 * Post types the PDF Builder can design layouts for: post, page and,
+	 * when WooCommerce is active, product.
+	 *
+	 * @since 1.6.6
+	 * @return array post type slug => slug.
+	 */
+	private function pgfw_builder_supported_post_types() {
+		$post_types = array();
+		foreach ( array( 'post', 'page', 'product' ) as $post_type ) {
+			if ( post_type_exists( $post_type ) ) {
+				$post_types[ $post_type ] = $post_type;
+			}
+		}
+		return $post_types;
+	}
+
+	/**
+	 * Distinct meta keys stored on posts of a post type, for the builder's
+	 * Meta Field block. WordPress bookkeeping keys are left out.
+	 *
+	 * @since 1.6.6
+	 * @param string $post_type post type.
+	 * @return array
+	 */
+	private function pgfw_builder_get_post_type_meta_keys( $post_type ) {
+		global $wpdb;
+		$meta_keys = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->prepare(
+				"SELECT DISTINCT pm.meta_key FROM {$wpdb->postmeta} pm INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id WHERE p.post_type = %s AND p.post_status NOT IN ( 'auto-draft', 'trash' ) ORDER BY pm.meta_key LIMIT 500",
+				$post_type
+			)
+		);
+		$excluded = array( '_edit_lock', '_edit_last', '_wp_old_slug', '_wp_old_date', '_wp_page_template', '_wp_desired_post_slug', '_wp_trash_meta_status', '_wp_trash_meta_time', '_pingme', '_encloseme', '_thumbnail_id' );
+		return array_values( array_diff( array_filter( (array) $meta_keys, 'strlen' ), $excluded ) );
+	}
+
+	/**
+	 * Data needed by the "PDF Builder" tab: saved layouts, the master toggle, the
+	 * post types it can build a layout for, and the meta-field palette for each
+	 * (reusing whatever is already selected on the Meta Fields tab).
+	 *
+	 * @since 1.6.6
+	 * @return array
+	 */
+	public function pgfw_admin_pdf_builder_data() {
+		$pgfw_builder_settings = get_option( 'pgfw_pdf_builder_settings', array() );
+		$pgfw_builder_enable   = array_key_exists( 'pgfw_pdf_builder_enable', $pgfw_builder_settings ) ? $pgfw_builder_settings['pgfw_pdf_builder_enable'] : '';
+		$pgfw_builder_layouts  = array_key_exists( 'layouts', $pgfw_builder_settings ) ? $pgfw_builder_settings['layouts'] : array();
+
+		$pgfw_meta_settings = get_option( 'pgfw_meta_fields_save_settings', array() );
+
+		$pgfw_post_types = $this->pgfw_builder_supported_post_types();
+
+		$pgfw_meta_fields_by_type = array();
+		$pgfw_normalized_layouts  = array();
+		foreach ( $pgfw_post_types as $pgfw_post_type ) {
+			// Fields picked on the Meta Fields tab come first, followed by every
+			// other meta key that exists on this post type. The activator stores
+			// an empty string when nothing is picked, so drop empty values.
+			$pgfw_selected_meta = array_key_exists( 'pgfw_meta_fields_' . $pgfw_post_type . '_list', $pgfw_meta_settings )
+				? array_filter( array_map( 'strval', (array) $pgfw_meta_settings[ 'pgfw_meta_fields_' . $pgfw_post_type . '_list' ] ), 'strlen' )
+				: array();
+			$pgfw_meta_fields_by_type[ $pgfw_post_type ] = array_values( array_unique( array_merge( $pgfw_selected_meta, $this->pgfw_builder_get_post_type_meta_keys( $pgfw_post_type ) ) ) );
+
+			$pgfw_layout = array_key_exists( $pgfw_post_type, $pgfw_builder_layouts ) ? $pgfw_builder_layouts[ $pgfw_post_type ] : array();
+			$pgfw_normalized_layouts[ $pgfw_post_type ] = array(
+				'pages'            => $this->pgfw_builder_normalize_pages( $pgfw_layout ),
+				'background_color' => ! empty( $pgfw_layout['background_color'] ) ? $pgfw_layout['background_color'] : '',
+				'watermark'        => ! empty( $pgfw_layout['watermark'] ) && is_array( $pgfw_layout['watermark'] ) ? $pgfw_layout['watermark'] : array(
+					'enable'    => false,
+					'text'      => '',
+					'color'     => '#999999',
+					'opacity'   => 0.2,
+					'font_size' => 60,
+				),
+			);
+		}
+
+		return array(
+			'enable'      => $pgfw_builder_enable,
+			'layouts'     => $pgfw_normalized_layouts,
+			'post_types'  => $pgfw_post_types,
+			'meta_fields' => $pgfw_meta_fields_by_type,
+			'templates'   => $this->pgfw_get_builder_predefined_templates(),
+			'page_size'   => function_exists( 'wps_pgfw_get_pdf_page_size_px' ) ? wps_pgfw_get_pdf_page_size_px() : array(
+				'width'  => 794,
+				'height' => 1123,
+			),
+		);
+	}
+
+	/**
+	 * A single builder block, filled in with sensible defaults so template
+	 * definitions below only need to specify what differs.
+	 *
+	 * @since 1.6.6
+	 * @param array $overrides Fields to override on top of the defaults.
+	 * @return array
+	 */
+	private function pgfw_tpl_block( $overrides ) {
+		return array_merge(
+			array(
+				'id'               => 'pgfw_block_' . wp_generate_password( 8, false ),
+				'type'             => 'text',
+				'x'                => 0,
+				'y'                => 0,
+				'width'            => 200,
+				'height'           => 30,
+				'font_size'        => 14,
+				'color'            => '#000000',
+				'align'            => 'left',
+				'bold'             => false,
+				'italic'           => false,
+				'background_color' => '',
+				'border_width'     => 0,
+				'border_color'     => '#000000',
+				'source'           => 'static',
+				'content'          => '',
+				'meta_key'         => '',
+				'label'            => '',
+			),
+			$overrides
+		);
+	}
+
+	/**
+	 * Predefined "reference" templates admins can load as a starting point on
+	 * the PDF Builder canvas, each with its own color scheme. Designed against
+	 * a 794x1123 (A4 portrait) canvas; on a differently sized/oriented page the
+	 * blocks are simply repositionable after loading like any other block.
+	 *
+	 * @since 1.6.6
+	 * @return array List of { id, name, color, blocks }.
+	 */
+	private function pgfw_get_builder_predefined_templates() {
+		$b = array( $this, 'pgfw_tpl_block' );
+
+		return array(
+			array(
+				'id'    => 'minimal',
+				'name'  => __( 'Minimal', 'pdf-generator-for-wp' ),
+				'color' => '#111111',
+				'blocks' => array(
+					call_user_func( $b, array( 'x' => 60, 'y' => 60, 'width' => 674, 'height' => 50, 'font_size' => 28, 'bold' => true, 'source' => 'post_title' ) ),
+					call_user_func( $b, array( 'x' => 60, 'y' => 120, 'width' => 674, 'height' => 20, 'font_size' => 11, 'color' => '#777777', 'source' => 'post_date' ) ),
+					call_user_func( $b, array( 'x' => 60, 'y' => 160, 'width' => 674, 'height' => 800, 'font_size' => 13, 'source' => 'post_content' ) ),
+				),
+			),
+			array(
+				'id'    => 'classic-report',
+				'name'  => __( 'Classic Report', 'pdf-generator-for-wp' ),
+				'color' => '#2c3e50',
+				'blocks' => array(
+					call_user_func( $b, array( 'type' => 'rectangle', 'x' => 0, 'y' => 0, 'width' => 794, 'height' => 110, 'background_color' => '#2c3e50' ) ),
+					call_user_func( $b, array( 'x' => 50, 'y' => 35, 'width' => 694, 'height' => 45, 'font_size' => 26, 'bold' => true, 'color' => '#ffffff', 'source' => 'post_title' ) ),
+					call_user_func( $b, array( 'x' => 50, 'y' => 150, 'width' => 694, 'height' => 830, 'font_size' => 13, 'source' => 'post_content' ) ),
+					call_user_func( $b, array( 'type' => 'rectangle', 'x' => 0, 'y' => 1095, 'width' => 794, 'height' => 6, 'background_color' => '#2c3e50' ) ),
+				),
+			),
+			array(
+				'id'    => 'modern-card',
+				'name'  => __( 'Modern Card', 'pdf-generator-for-wp' ),
+				'color' => '#4a90d9',
+				'blocks' => array(
+					call_user_func( $b, array( 'type' => 'rectangle', 'x' => 40, 'y' => 40, 'width' => 714, 'height' => 1043, 'background_color' => '#ffffff', 'border_width' => 1, 'border_color' => '#e0e0e0' ) ),
+					call_user_func( $b, array( 'type' => 'rectangle', 'x' => 40, 'y' => 40, 'width' => 714, 'height' => 10, 'background_color' => '#4a90d9' ) ),
+					call_user_func( $b, array( 'x' => 80, 'y' => 80, 'width' => 634, 'height' => 45, 'font_size' => 24, 'bold' => true, 'color' => '#2c3e50', 'source' => 'post_title' ) ),
+					call_user_func( $b, array( 'x' => 80, 'y' => 150, 'width' => 634, 'height' => 880, 'font_size' => 13, 'source' => 'post_content' ) ),
+				),
+			),
+			array(
+				'id'    => 'invoice-style',
+				'name'  => __( 'Invoice', 'pdf-generator-for-wp' ),
+				'color' => '#1b998b',
+				'blocks' => array(
+					call_user_func( $b, array( 'type' => 'rectangle', 'x' => 0, 'y' => 0, 'width' => 794, 'height' => 140, 'background_color' => '#1b998b' ) ),
+					call_user_func( $b, array( 'x' => 50, 'y' => 40, 'width' => 400, 'height' => 40, 'font_size' => 26, 'bold' => true, 'color' => '#ffffff', 'content' => 'INVOICE' ) ),
+					call_user_func( $b, array( 'x' => 50, 'y' => 85, 'width' => 400, 'height' => 24, 'font_size' => 13, 'color' => '#e6fff9', 'source' => 'post_title' ) ),
+					call_user_func( $b, array( 'x' => 560, 'y' => 40, 'width' => 184, 'height' => 20, 'font_size' => 12, 'color' => '#ffffff', 'align' => 'right', 'source' => 'post_date' ) ),
+					call_user_func( $b, array( 'x' => 560, 'y' => 65, 'width' => 184, 'height' => 20, 'font_size' => 12, 'color' => '#ffffff', 'align' => 'right', 'source' => 'post_author' ) ),
+					call_user_func( $b, array( 'type' => 'rectangle', 'x' => 50, 'y' => 180, 'width' => 694, 'height' => 2, 'background_color' => '#1b998b' ) ),
+					call_user_func( $b, array( 'x' => 50, 'y' => 200, 'width' => 694, 'height' => 780, 'font_size' => 13, 'source' => 'post_content' ) ),
+				),
+			),
+			array(
+				'id'    => 'certificate',
+				'name'  => __( 'Certificate', 'pdf-generator-for-wp' ),
+				'color' => '#b8860b',
+				'blocks' => array(
+					call_user_func( $b, array( 'type' => 'rectangle', 'x' => 24, 'y' => 24, 'width' => 746, 'height' => 1075, 'border_width' => 4, 'border_color' => '#b8860b' ) ),
+					call_user_func( $b, array( 'type' => 'rectangle', 'x' => 40, 'y' => 40, 'width' => 714, 'height' => 1043, 'border_width' => 1, 'border_color' => '#b8860b' ) ),
+					call_user_func( $b, array( 'x' => 97, 'y' => 200, 'width' => 600, 'height' => 50, 'font_size' => 30, 'bold' => true, 'align' => 'center', 'color' => '#b8860b', 'content' => 'Certificate of Achievement' ) ),
+					call_user_func( $b, array( 'x' => 97, 'y' => 380, 'width' => 600, 'height' => 45, 'font_size' => 26, 'bold' => true, 'align' => 'center', 'source' => 'post_title' ) ),
+					call_user_func( $b, array( 'x' => 147, 'y' => 460, 'width' => 500, 'height' => 300, 'font_size' => 14, 'align' => 'center', 'source' => 'post_content' ) ),
+					call_user_func( $b, array( 'x' => 97, 'y' => 950, 'width' => 600, 'height' => 20, 'font_size' => 12, 'align' => 'center', 'color' => '#777777', 'source' => 'post_date' ) ),
+				),
+			),
+			array(
+				'id'    => 'magazine-cover',
+				'name'  => __( 'Magazine Cover', 'pdf-generator-for-wp' ),
+				'color' => '#e74c3c',
+				'blocks' => array(
+					call_user_func( $b, array( 'type' => 'image', 'x' => 0, 'y' => 0, 'width' => 794, 'height' => 520, 'source' => 'featured_image' ) ),
+					call_user_func( $b, array( 'type' => 'rectangle', 'x' => 0, 'y' => 420, 'width' => 794, 'height' => 100, 'background_color' => '#000000' ) ),
+					call_user_func( $b, array( 'x' => 40, 'y' => 445, 'width' => 714, 'height' => 60, 'font_size' => 32, 'bold' => true, 'color' => '#ffffff', 'source' => 'post_title' ) ),
+					call_user_func( $b, array( 'type' => 'rectangle', 'x' => 0, 'y' => 520, 'width' => 794, 'height' => 8, 'background_color' => '#e74c3c' ) ),
+					call_user_func( $b, array( 'x' => 50, 'y' => 560, 'width' => 694, 'height' => 500, 'font_size' => 13, 'source' => 'post_content' ) ),
+				),
+			),
+			array(
+				'id'    => 'brochure-two-column',
+				'name'  => __( 'Two-Column Brochure', 'pdf-generator-for-wp' ),
+				'color' => '#8e44ad',
+				'blocks' => array(
+					call_user_func( $b, array( 'type' => 'rectangle', 'x' => 0, 'y' => 0, 'width' => 260, 'height' => 1123, 'background_color' => '#8e44ad' ) ),
+					call_user_func( $b, array( 'x' => 30, 'y' => 60, 'width' => 200, 'height' => 120, 'font_size' => 24, 'bold' => true, 'color' => '#ffffff', 'source' => 'post_title' ) ),
+					call_user_func( $b, array( 'x' => 30, 'y' => 200, 'width' => 200, 'height' => 20, 'font_size' => 12, 'color' => '#f1e6f7', 'source' => 'post_date' ) ),
+					call_user_func( $b, array( 'x' => 30, 'y' => 226, 'width' => 200, 'height' => 20, 'font_size' => 12, 'color' => '#f1e6f7', 'source' => 'post_author' ) ),
+					call_user_func( $b, array( 'x' => 300, 'y' => 60, 'width' => 454, 'height' => 1000, 'font_size' => 13, 'source' => 'post_content' ) ),
+				),
+			),
+			array(
+				'id'    => 'corporate-letterhead',
+				'name'  => __( 'Corporate Letterhead', 'pdf-generator-for-wp' ),
+				'color' => '#16344a',
+				'blocks' => array(
+					call_user_func( $b, array( 'type' => 'rectangle', 'x' => 0, 'y' => 0, 'width' => 794, 'height' => 16, 'background_color' => '#16344a' ) ),
+					call_user_func( $b, array( 'x' => 50, 'y' => 50, 'width' => 694, 'height' => 40, 'font_size' => 22, 'bold' => true, 'color' => '#16344a', 'content' => 'Your Company Name' ) ),
+					call_user_func( $b, array( 'type' => 'rectangle', 'x' => 50, 'y' => 100, 'width' => 694, 'height' => 1, 'background_color' => '#cccccc' ) ),
+					call_user_func( $b, array( 'x' => 50, 'y' => 130, 'width' => 694, 'height' => 40, 'font_size' => 20, 'bold' => true, 'source' => 'post_title' ) ),
+					call_user_func( $b, array( 'x' => 50, 'y' => 190, 'width' => 694, 'height' => 830, 'font_size' => 13, 'source' => 'post_content' ) ),
+					call_user_func( $b, array( 'type' => 'rectangle', 'x' => 0, 'y' => 1107, 'width' => 794, 'height' => 16, 'background_color' => '#16344a' ) ),
+				),
+			),
+			array(
+				'id'    => 'dark-mode',
+				'name'  => __( 'Dark Mode', 'pdf-generator-for-wp' ),
+				'color' => '#1a1a1a',
+				'blocks' => array(
+					call_user_func( $b, array( 'type' => 'rectangle', 'x' => 0, 'y' => 0, 'width' => 794, 'height' => 1123, 'background_color' => '#1a1a1a' ) ),
+					call_user_func( $b, array( 'x' => 60, 'y' => 60, 'width' => 674, 'height' => 50, 'font_size' => 28, 'bold' => true, 'color' => '#f5f5f5', 'source' => 'post_title' ) ),
+					call_user_func( $b, array( 'type' => 'rectangle', 'x' => 60, 'y' => 120, 'width' => 120, 'height' => 4, 'background_color' => '#00d1b2' ) ),
+					call_user_func( $b, array( 'x' => 60, 'y' => 150, 'width' => 674, 'height' => 800, 'font_size' => 13, 'color' => '#dddddd', 'source' => 'post_content' ) ),
+				),
+			),
+			array(
+				'id'    => 'elegant-serif',
+				'name'  => __( 'Elegant Serif', 'pdf-generator-for-wp' ),
+				'color' => '#a67c52',
+				'blocks' => array(
+					call_user_func( $b, array( 'type' => 'rectangle', 'x' => 0, 'y' => 0, 'width' => 794, 'height' => 1123, 'background_color' => '#faf6f0' ) ),
+					call_user_func( $b, array( 'x' => 97, 'y' => 90, 'width' => 600, 'height' => 50, 'font_size' => 26, 'bold' => true, 'align' => 'center', 'color' => '#3a2e26', 'source' => 'post_title' ) ),
+					call_user_func( $b, array( 'type' => 'rectangle', 'x' => 337, 'y' => 150, 'width' => 120, 'height' => 2, 'background_color' => '#a67c52' ) ),
+					call_user_func( $b, array( 'x' => 97, 'y' => 190, 'width' => 600, 'height' => 800, 'font_size' => 13, 'color' => '#3a2e26', 'align' => 'center', 'source' => 'post_content' ) ),
+				),
+			),
+			array(
+				'id'    => 'receipt-compact',
+				'name'  => __( 'Receipt / Compact', 'pdf-generator-for-wp' ),
+				'color' => '#555555',
+				'blocks' => array(
+					call_user_func( $b, array( 'x' => 197, 'y' => 60, 'width' => 400, 'height' => 30, 'font_size' => 18, 'bold' => true, 'align' => 'center', 'source' => 'post_title' ) ),
+					call_user_func( $b, array( 'x' => 197, 'y' => 95, 'width' => 400, 'height' => 20, 'font_size' => 11, 'align' => 'center', 'color' => '#777777', 'source' => 'post_date' ) ),
+					call_user_func( $b, array( 'type' => 'rectangle', 'x' => 197, 'y' => 130, 'width' => 400, 'height' => 1, 'background_color' => '#999999' ) ),
+					call_user_func( $b, array( 'x' => 197, 'y' => 150, 'width' => 400, 'height' => 850, 'font_size' => 12, 'align' => 'center', 'source' => 'post_content' ) ),
+				),
+			),
+			array(
+				'id'    => 'product-sheet',
+				'name'  => __( 'Product Sheet', 'pdf-generator-for-wp' ),
+				'color' => '#e67e22',
+				'blocks' => array(
+					call_user_func( $b, array( 'type' => 'image', 'x' => 50, 'y' => 60, 'width' => 300, 'height' => 300, 'source' => 'featured_image' ) ),
+					call_user_func( $b, array( 'x' => 380, 'y' => 60, 'width' => 364, 'height' => 60, 'font_size' => 24, 'bold' => true, 'source' => 'post_title' ) ),
+					call_user_func( $b, array( 'type' => 'rectangle', 'x' => 380, 'y' => 130, 'width' => 60, 'height' => 4, 'background_color' => '#e67e22' ) ),
+					call_user_func( $b, array( 'x' => 380, 'y' => 150, 'width' => 364, 'height' => 200, 'font_size' => 13, 'source' => 'post_excerpt' ) ),
+					call_user_func( $b, array( 'type' => 'rectangle', 'x' => 50, 'y' => 400, 'width' => 694, 'height' => 1, 'background_color' => '#dddddd' ) ),
+					call_user_func( $b, array( 'x' => 50, 'y' => 430, 'width' => 694, 'height' => 600, 'font_size' => 13, 'source' => 'post_content' ) ),
+				),
+			),
+		);
+	}
+
+	/**
+	 * Normalize a saved layout (old single-page `blocks` shape or current
+	 * multi-page `pages` shape) into a list of pages for the JS editor.
+	 *
+	 * @since 1.6.6
+	 * @param array $layout Saved layout for one post type.
+	 * @return array List of `array( 'blocks' => array( ... ) )` pages. Always at
+	 *               least one (empty) page, so the editor always has a page to show.
+	 */
+	private function pgfw_builder_normalize_pages( $layout ) {
+		if ( is_array( $layout ) && ! empty( $layout['pages'] ) && is_array( $layout['pages'] ) ) {
+			return array_values( $layout['pages'] );
+		}
+		if ( is_array( $layout ) && ! empty( $layout['blocks'] ) && is_array( $layout['blocks'] ) ) {
+			return array( array( 'blocks' => $layout['blocks'] ) );
+		}
+		return array( array( 'blocks' => array() ) );
+	}
+
+	/**
+	 * Sanitize a single PDF Builder block submitted from the editor.
+	 *
+	 * @since 1.6.6
+	 * @param array $block Raw block data from the client.
+	 * @return array|null Sanitized block, or null when it isn't a valid block.
+	 */
+	private function pgfw_sanitize_builder_block( $block ) {
+		if ( ! is_array( $block ) || empty( $block['type'] ) ) {
+			return null;
+		}
+
+		$pgfw_color  = ! empty( $block['color'] ) ? sanitize_hex_color( $block['color'] ) : '#000000';
+		$pgfw_bg     = ! empty( $block['background_color'] ) ? sanitize_hex_color( $block['background_color'] ) : '';
+		$pgfw_bcolor = ! empty( $block['border_color'] ) ? sanitize_hex_color( $block['border_color'] ) : '#000000';
+
+		return array(
+			'id'               => isset( $block['id'] ) ? sanitize_key( $block['id'] ) : uniqid( 'pgfw_block_' ),
+			'type'             => in_array( $block['type'], array( 'text', 'image', 'meta', 'rectangle' ), true ) ? $block['type'] : 'text',
+			'x'                => isset( $block['x'] ) ? (int) $block['x'] : 0,
+			'y'                => isset( $block['y'] ) ? (int) $block['y'] : 0,
+			'width'            => isset( $block['width'] ) ? max( 1, (int) $block['width'] ) : 100,
+			'height'           => isset( $block['height'] ) ? max( 1, (int) $block['height'] ) : 30,
+			'font_size'        => isset( $block['font_size'] ) ? max( 1, (int) $block['font_size'] ) : 14,
+			'color'            => $pgfw_color ? $pgfw_color : '#000000',
+			'align'            => in_array( ( isset( $block['align'] ) ? $block['align'] : '' ), array( 'left', 'center', 'right' ), true ) ? $block['align'] : 'left',
+			'bold'             => ! empty( $block['bold'] ),
+			'italic'           => ! empty( $block['italic'] ),
+			'background_color' => $pgfw_bg,
+			'border_width'     => isset( $block['border_width'] ) ? max( 0, (int) $block['border_width'] ) : 0,
+			'border_color'     => $pgfw_bcolor ? $pgfw_bcolor : '#000000',
+			'source'           => isset( $block['source'] ) ? sanitize_text_field( $block['source'] ) : 'static',
+			'content'          => isset( $block['content'] ) ? wp_kses_post( $block['content'] ) : '',
+			'meta_key'         => isset( $block['meta_key'] ) ? sanitize_text_field( $block['meta_key'] ) : '',
+			'label'            => isset( $block['label'] ) ? sanitize_text_field( $block['label'] ) : '',
+		);
+	}
+
+	/**
+	 * AJAX handler: save a single post type's PDF Builder layout (all of its pages).
+	 *
+	 * @since 1.6.6
+	 * @return void
+	 */
+	public function wps_pgfw_save_pdf_builder_layout_ajax() {
+		check_ajax_referer( 'pgfw_pdf_builder_nonce', 'nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'You do not have permission to do this.', 'pdf-generator-for-wp' ) ) );
+		}
+
+		$pgfw_post_type = isset( $_POST['post_type'] ) ? sanitize_key( wp_unslash( $_POST['post_type'] ) ) : '';
+		$pgfw_enable    = isset( $_POST['enable'] ) && 'yes' === $_POST['enable'] ? 'yes' : 'no'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+
+		if ( '' === $pgfw_post_type || ! array_key_exists( $pgfw_post_type, $this->pgfw_builder_supported_post_types() ) ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid post type.', 'pdf-generator-for-wp' ) ) );
+		}
+
+		// Raw JSON is kept intact so block HTML survives decoding; every field is sanitized below by pgfw_sanitize_builder_block().
+		$pgfw_pages_raw = isset( $_POST['pages'] ) ? json_decode( filter_var( wp_unslash( $_POST['pages'] ), FILTER_UNSAFE_RAW ), true ) : array();
+		if ( ! is_array( $pgfw_pages_raw ) ) {
+			$pgfw_pages_raw = array();
+		}
+
+		$pgfw_pages = array();
+		foreach ( $pgfw_pages_raw as $pgfw_page_raw ) {
+			$pgfw_blocks_raw = ( is_array( $pgfw_page_raw ) && ! empty( $pgfw_page_raw['blocks'] ) && is_array( $pgfw_page_raw['blocks'] ) ) ? $pgfw_page_raw['blocks'] : array();
+			$pgfw_blocks     = array();
+			foreach ( $pgfw_blocks_raw as $pgfw_block_raw ) {
+				$pgfw_sanitized = $this->pgfw_sanitize_builder_block( $pgfw_block_raw );
+				if ( null !== $pgfw_sanitized ) {
+					$pgfw_blocks[] = $pgfw_sanitized;
+				}
+			}
+			$pgfw_pages[] = array( 'blocks' => $pgfw_blocks );
+		}
+
+		if ( empty( $pgfw_pages ) ) {
+			$pgfw_pages[] = array( 'blocks' => array() );
+		}
+
+		$pgfw_bg_color = isset( $_POST['background_color'] ) ? sanitize_hex_color( wp_unslash( $_POST['background_color'] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+
+		$pgfw_watermark_raw = isset( $_POST['watermark'] ) ? json_decode( sanitize_text_field( wp_unslash( $_POST['watermark'] ) ), true ) : array();
+		if ( ! is_array( $pgfw_watermark_raw ) ) {
+			$pgfw_watermark_raw = array();
+		}
+		$pgfw_watermark = array(
+			'enable'    => ! empty( $pgfw_watermark_raw['enable'] ),
+			'text'      => isset( $pgfw_watermark_raw['text'] ) ? sanitize_text_field( $pgfw_watermark_raw['text'] ) : '',
+			'color'     => ! empty( $pgfw_watermark_raw['color'] ) ? sanitize_hex_color( $pgfw_watermark_raw['color'] ) : '#999999',
+			'opacity'   => isset( $pgfw_watermark_raw['opacity'] ) ? max( 0.05, min( 1, (float) $pgfw_watermark_raw['opacity'] ) ) : 0.2,
+			'font_size' => isset( $pgfw_watermark_raw['font_size'] ) ? max( 10, (int) $pgfw_watermark_raw['font_size'] ) : 60,
+		);
+
+		$pgfw_builder_settings = get_option( 'pgfw_pdf_builder_settings', array() );
+		if ( ! isset( $pgfw_builder_settings['layouts'] ) || ! is_array( $pgfw_builder_settings['layouts'] ) ) {
+			$pgfw_builder_settings['layouts'] = array();
+		}
+		$pgfw_builder_settings['pgfw_pdf_builder_enable']    = $pgfw_enable;
+		$pgfw_builder_settings['layouts'][ $pgfw_post_type ] = array(
+			'pages'            => $pgfw_pages,
+			'background_color' => $pgfw_bg_color ? $pgfw_bg_color : '',
+			'watermark'        => $pgfw_watermark,
+		);
+
+		update_option( 'pgfw_pdf_builder_settings', $pgfw_builder_settings );
+
+		wp_send_json_success( array( 'message' => __( 'Layout saved.', 'pdf-generator-for-wp' ) ) );
 	}
 }

@@ -71,8 +71,113 @@ class Pdf_Generator_For_Wp_Public {
 		wp_register_script( $this->plugin_name . 'public-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'public/src/js/pdf-generator-for-wp-public.js', array( 'jquery' ), $this->version, false );
 		wp_localize_script( $this->plugin_name . 'public-js', 'pgfw_public_param', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 		wp_enqueue_script( $this->plugin_name . 'public-js' );
+
+		// Visitor "Save to Google Drive" (their own Drive, via Google Identity Services).
+		$pgfw_gdrive_client_id = wps_pgfw_customer_gdrive_client_id();
+		if ( '' !== $pgfw_gdrive_client_id ) {
+			wp_enqueue_script( 'pgfw-google-gsi', 'https://accounts.google.com/gsi/client', array(), null, true ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
+			wp_enqueue_script( $this->plugin_name . 'gdrive-save-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'public/src/js/pdf-generator-for-wp-gdrive-save.js', array( 'jquery', 'pgfw-google-gsi' ), $this->version, true );
+			wp_localize_script(
+				$this->plugin_name . 'gdrive-save-js',
+				'pgfw_gdrive_save_param',
+				array(
+					'client_id' => $pgfw_gdrive_client_id,
+					'i18n'      => array(
+						'preparing'    => __( 'Preparing PDF...', 'pdf-generator-for-wp' ),
+						'saving'       => __( 'Saving to your Google Drive...', 'pdf-generator-for-wp' ),
+						'saved'        => __( 'Saved to your Google Drive.', 'pdf-generator-for-wp' ),
+						'open'         => __( 'Open in Drive', 'pdf-generator-for-wp' ),
+						'pdf_error'    => __( 'Could not generate the PDF.', 'pdf-generator-for-wp' ),
+						'upload_error' => __( 'Could not save the PDF to Google Drive.', 'pdf-generator-for-wp' ),
+						'auth_expired' => __( 'Your Google sign-in expired. Please try again.', 'pdf-generator-for-wp' ),
+						'denied'       => __( 'Google Drive access was not granted.', 'pdf-generator-for-wp' ),
+						'cancelled'    => __( 'Google sign-in was cancelled.', 'pdf-generator-for-wp' ),
+						'not_ready'    => __( 'Google sign-in is still loading. Please try again in a moment.', 'pdf-generator-for-wp' ),
+					),
+				)
+			);
+		}
+
+		// Visitor "Save to Dropbox" (their own Dropbox, via OAuth PKCE in the browser).
+		$pgfw_dropbox_app_key = wps_pgfw_customer_dropbox_app_key();
+		if ( '' !== $pgfw_dropbox_app_key ) {
+			wp_enqueue_script( $this->plugin_name . 'dropbox-save-js', PDF_GENERATOR_FOR_WP_DIR_URL . 'public/src/js/pdf-generator-for-wp-dropbox-save.js', array( 'jquery' ), $this->version, true );
+			wp_localize_script(
+				$this->plugin_name . 'dropbox-save-js',
+				'pgfw_dropbox_save_param',
+				array(
+					'app_key'      => $pgfw_dropbox_app_key,
+					'redirect_uri' => wps_pgfw_customer_dropbox_redirect_uri(),
+					'i18n'         => array(
+						'preparing'    => __( 'Preparing PDF...', 'pdf-generator-for-wp' ),
+						'saving'       => __( 'Saving to your Dropbox...', 'pdf-generator-for-wp' ),
+						'saved'        => __( 'Saved to your Dropbox.', 'pdf-generator-for-wp' ),
+						'open'         => __( 'Open Dropbox', 'pdf-generator-for-wp' ),
+						'pdf_error'    => __( 'Could not generate the PDF.', 'pdf-generator-for-wp' ),
+						'upload_error' => __( 'Could not save the PDF to Dropbox.', 'pdf-generator-for-wp' ),
+						'auth_expired' => __( 'Your Dropbox sign-in expired. Please try again.', 'pdf-generator-for-wp' ),
+						'auth_error'   => __( 'Dropbox sign-in failed. Please try again.', 'pdf-generator-for-wp' ),
+						'denied'       => __( 'Dropbox access was not granted.', 'pdf-generator-for-wp' ),
+						'insecure'     => __( 'Saving to Dropbox needs the site to be opened over HTTPS.', 'pdf-generator-for-wp' ),
+					),
+				)
+			);
+		}
 		add_thickbox();
 	}
+
+	/**
+	 * Page Dropbox redirects the visitor back to after authorizing "Save to Dropbox".
+	 * It hands the authorization result to the page the visitor started from (via
+	 * sessionStorage, same origin) and sends them back there, where
+	 * pdf-generator-for-wp-dropbox-save.js finishes the upload.
+	 *
+	 * @return void
+	 */
+	public function pgfw_dropbox_save_callback() {
+		if ( ! isset( $_GET['pgfw_dropbox_save_callback'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			return;
+		}
+		nocache_headers();
+		header( 'Content-Type: text/html; charset=utf-8' );
+		?>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title><?php esc_html_e( 'Saving to Dropbox', 'pdf-generator-for-wp' ); ?></title>
+</head>
+<body>
+<p id="pgfw-dropbox-callback-message"><?php esc_html_e( 'Returning to the site...', 'pdf-generator-for-wp' ); ?></p>
+<script>
+(function () {
+	var key = 'pgfw_dropbox_save';
+	var job = null;
+	try {
+		job = JSON.parse( window.sessionStorage.getItem( key ) || 'null' );
+	} catch ( e ) {}
+	var returnUrl = job && job.return_url ? new URL( job.return_url, window.location.href ) : null;
+	if ( ! returnUrl || returnUrl.origin !== window.location.origin ) {
+		document.getElementById( 'pgfw-dropbox-callback-message' ).textContent = <?php echo wp_json_encode( __( 'This Dropbox sign-in has expired. Please go back and click the Dropbox icon again.', 'pdf-generator-for-wp' ) ); ?>;
+		return;
+	}
+	var params = new URLSearchParams( window.location.search );
+	job.code = params.get( 'code' ) || '';
+	job.error = params.get( 'error' ) || '';
+	job.returned_state = params.get( 'state' ) || '';
+	try {
+		window.sessionStorage.setItem( key, JSON.stringify( job ) );
+	} catch ( e ) {}
+	window.location.replace( returnUrl.href );
+})();
+</script>
+</body>
+</html>
+		<?php
+		exit;
+	}
+
 	/**
 	 * Showing pdf generate icons to users.
 	 *

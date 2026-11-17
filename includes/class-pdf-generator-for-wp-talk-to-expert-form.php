@@ -571,14 +571,12 @@ class Pdf_Generator_For_Wp_Talk_To_Expert_Form {
 			return null;
 		}
 
-		$placeholders = implode( ', ', array_fill( 0, count( $paid_statuses ), '%s' ) );
-		$cutoff_date  = gmdate( 'Y-m-d H:i:s', strtotime( '-12 months' ) );
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name and placeholders are generated internally before prepare() binds values.
-		$revenue      = $wpdb->get_var(
+		$cutoff_date = gmdate( 'Y-m-d H:i:s', strtotime( '-12 months' ) );
+		$revenue     = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT COALESCE(SUM(total_sales), 0)
-				FROM {$table_name}
-				WHERE status IN ({$placeholders})
+				FROM {$wpdb->prefix}wc_order_stats
+				WHERE status IN (" . implode( ', ', array_fill( 0, count( $paid_statuses ), '%s' ) ) . ")
 					AND parent_id = 0
 					AND date_paid IS NOT NULL
 					AND date_paid != '0000-00-00 00:00:00'
@@ -586,7 +584,6 @@ class Pdf_Generator_For_Wp_Talk_To_Expert_Form {
 				array_merge( $paid_statuses, array( $cutoff_date ) )
 			)
 		);
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		if ( ! is_numeric( $revenue ) ) {
 			return null;

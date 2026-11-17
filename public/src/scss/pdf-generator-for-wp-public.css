@@ -677,3 +677,28 @@ a.pgfw-single-pdf-download-a.pgfw-single-pdf-download-button--icon-only,
 .pgfw-single-pdf-download-button--icon-only .pgfw-single-pdf-download-button__media {
     display: block;
 }
+
+/* Visitor "Save to Google Drive" / "Save to Dropbox" icons. */
+.pgfw-save-to-cloud {
+	display: inline-flex;
+	align-items: center;
+	align-self: center;
+	line-height: 0;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.pgfw-save-to-cloud:hover,
+.pgfw-save-to-cloud:focus {
+	opacity: .8;
+}
+
+.pgfw-save-to-cloud.is-busy {
+	opacity: .6;
+	cursor: progress;
+}
+
+.pgfw-save-to-cloud-status {
+	align-self: center;
+	font-size: 13px;
+}
