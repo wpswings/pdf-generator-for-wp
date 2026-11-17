@@ -3,10 +3,10 @@ Contributors: wpswings
 Donate link: https://wpswings.com/
 Tags: PDF, invoices, 3d flipbook, PDF generator, pdf flipbook, WordPress PDF generator
 Requires at least: 6.7.0
-Tested up to: 7.1.2
+Tested up to: 7.1
 WC requires at least: 6.5.0
-WC tested up to: 11.1.2
-Stable tag: 1.6.5
+WC tested up to: 11.3.0
+Stable tag: 1.6.6
 Requires PHP: 7.4
 License: GPLv3 or later 
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -58,59 +58,71 @@ You can even turn your PDFs or images into interactive flipbooks, export files i
 
 == WHAT’S INCLUDED IN OUR PDF GENERATOR FOR WORDPRESS PLUGIN == 
 
-**1) Generate 3D Flipbooks With PDFs or Images**
+**1) PDF Password Protection**
+Secure your generated PDFs with flexible password protection options. Set a global password for all PDFs or configure passwords for specific post types, including Posts, Pages, and Products. You can also apply password protection to PDFs based on selected categories and tags, giving you greater control over document access and helping protect sensitive content from unauthorized viewing.
+
+**2)  Cloud Storage Integrations**
+Automatically upload generated PDFs to your preferred cloud storage platform, including Google Drive and Dropbox. Securely connect or disconnect your accounts using OAuth authentication and simplify PDF management by storing generated documents in your cloud storage for easy access and organization.
+
+**3) Save PDFs to Google Drive and Dropbox**
+Make PDF downloads more convenient by allowing visitors to save generated PDFs directly to their own Google Drive or Dropbox accounts. With Save to Google Drive and Save to Dropbox buttons, users can easily store and access their documents in their preferred cloud storage without manually downloading and uploading files.
+
+**4) Drag-and-Drop PDF Builder**
+Create professional, customized PDFs with an intuitive drag-and-drop builder. Add and arrange text, images, meta fields, and rectangle blocks to design multi-page layouts for posts, pages, and products. Personalize your documents with page backgrounds and watermarks, and speed up the design process with 12 ready-made templates tailored to different content types.
+
+**5) Generate 3D Flipbooks With PDFs or Images**
 Our PDF Generator plugin also offers a built-in 3D flipbook feature that lets you transform any PDF into an engaging, interactive flipbook. You can even choose multiple images and instantly convert them into a flipbook. It provides plenty of customization options like setting custom height and width, showing the flipbook in a modal popup, adding realistic page-flip sounds, and more.
 
-**2) Elementor Blocks For Shortcodes**
+**6) Elementor Blocks For Shortcodes**
 All the existing shortcodes have been converted into easy-to-use Elementor blocks. Just open Elementor, drag and drop your favorite block into your page or post, and you’re all set.
 
-**3) Embed Multiple Third-Party Services**
+**7) Embed Multiple Third-Party Services**
 Our PDF embedder plugin has the feature to embed multiple third-party services like LinkedIn Post, Reddit Post, Canva embed, Loom Video Embed, Calendly Calendar, Twitch Streams, and Strava, and the best thing is that all these services are in the form of Gutenberg blocks. Hence, you just need to add the respective block on your page and paste the embedding link. You are good to go!
 
-**4) Gutenberg Block to Embed All Google Services**
+**8) Gutenberg Block to Embed All Google Services**
 Our free pdf creator plugin allows you to embed Google services like Forms, Slides, Sheets, and Docs into your posts using the intuitive WPSwings Gutenberg blocks. Just search for it, add your Google URL, and it’s done. 
 
 Plus, existing shortcodes such as [WPS_SINGLE_IMAGE] are now converted into Gutenberg blocks, making customization simple
 
-**5) Customize Template Color and Text Color**
+**9) Customize Template Color and Text Color**
 With Our free PDF embedder Plugin you can customize the overall color of your PDF, plus you’ll also get the option to customize the text color of your PDF. Customizing the color scheme and text color of your PDF can enhance brand consistency and professionalism.
 
-**6) Include Important Details**
+**10) Include Important Details**
 The General Settings in the PDF plugin allows you to include important information in the generated PDF files. The plugin lets you display the categories, tags, taxonomy, post date, and author name. 
 
-**7) Display PDF Icon Based on User Roles**
+**11) Display PDF Icon Based on User Roles**
 With the help of our latest update in the WordPress PDF plugin, you can now restrict the visibility of the PDF icon on your website for different user roles such as administrator, author, editor, and so on. This will assist you a great deal in increasing quality leads from your website itself. 
 
-**8) Bulk Export**
+**12) Bulk Export**
 You can export PDF files for products, pages, and posts in bulk using the default template provided in our free WordPress PDF plugin generator.
 
-**9) Add Footer Customizations** 
+**13) Add Footer Customizations** 
 Our WordPress embed PDF plugin brings in the footer customization options for you. You can now add the post name, post date, and author name to the pages of your generated PDF files.
 
-**10) Display More Images In a Row**
+**14) Display More Images In a Row**
 We have solved displaying your post or product images in a better format in our latest update for the PDF creator plugin. You can now display more than one image in a row using the functionalities of this PDF plugin by turning on the settings from the body settings tab.
 
-**11) Control The Display Of Functionality**
+**15) Control The Display Of Functionality**
 From the display settings of the PDF icon, you can choose to display the PDF generator icon to either the registered users, the guest users, or both. You can also opt to allow, both, the registered and guest users to either directly download the information in PDF format or e-mail the PDF file to the user.
 
-**12) Icon Settings**
+**16) Icon Settings**
 WordPress PDF Generator gives you a free hand to customize the plugin icon for the front end of your website. You can also set the size of the PDF generator icon as per the design and theme requirements of the WordPress site. Display settings in the plugin allow several positions to place the icon, also letting you set the alignment of the same to center, right, and left.
 
-**13) Predefine Header Settings**
+**17) Predefine Header Settings**
 The layout settings authorize you to tailor-make the header settings. You can upload the company logo and details besides setting the header width. Layout settings also allow you to set the font and font size. 
 
-**14) Predefine Body Settings**
+**18) Predefine Body Settings**
 Body settings have many features to let you set the page orientation, page size, and title settings. You can also predefine the content font settings, font color, page margin, and border settings. This plugin also provides RTL support for Hebrew and Arabic languages. You can add a watermark to represent your brand in the layout settings.
 
-**15) Predefine Footer Settings**
+**19) Predefine Footer Settings**
 WordPress embed PDF plugin allows you to set the size and width of the footer using the layout settings. It also allows you to set the footer text font and size as well. 
 
-**16) Relevant Post Types And Appropriate Meta Fields**
+**20) Relevant Post Types And Appropriate Meta Fields**
 The plugin gives you the option to make the post visible only for relevant post types such as post, page, or product, depending on the utility of your content. The admin is also authorized to set the meta fields that you wish to display in the posts, pages, or products, individually.
 
 Also, if your product images are different from your product image gallery then you can write the name in the box below, enable the setting, and uncheck this in the metafield section. 
 
-**17) Upload Your PDF Files** 
+**21) Upload Your PDF Files** 
 The plugin allows you to upload your own PDF files for download. You can also limit access to these files for registered users or guest users.
 
 Visit [**PDF Generator for WordPress Documentation**](https://docs.wpswings.com/pdf-generator-for-wp/?utm_source=wpswings-pdf-docs&utm_medium=referral&utm_campaign=documentation) and learn more about the features and working of the plugin.
@@ -241,13 +253,16 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 14. PDF Upload setting
 15. WPML Setting
 16. Embed multiple third-party services
-17. Flipbook feature
-18. Flipbook Shortcode 
-19. Flipbook Edit Post
-20. Layout Flipbook Setting
-21. Config Flipbook Setting
+17. PDF Password
+18. Cloud Storage 
+19. Dropbox
+20. PDF Builder
 
 == Changelog ==
+
+= 1.6.6 - Released on 17 Nov 2026 =
+* Enhancement : Security hardening – improved visibility checks for front-end PDF generation, so PDFs are generated only for posts the visitor is allowed to view.
+* New : Compatibility With Latest WP (7.1) and WC (11.3.0)
 
 = 1.6.5 - Released on 01 Oct 2026 =
 * New : PDF password protection – global password, per post type (Post / Page / Product), per category & tag, and per-item override via a metabox.
@@ -492,11 +507,6 @@ Visit here [**WP Swings Plugin Knowledge Base**](https://support.wpswings.com/wo
 
 == Upgrade Notice ==
 
-= 1.6.5 - Released on 01 Oct 2026 =
-* New : PDF password protection – global password, per post type (Post / Page / Product), per category & tag, and per-item override via a metabox.
-* New : Cloud storage – auto-upload generated PDFs to the admin's Google Drive and Dropbox (OAuth connect/disconnect).
-* New : "Save to Google Drive" and "Save to Dropbox" buttons let visitors save a PDF to their own account.
-* New : Drag & drop PDF Builder – text, image, meta field and rectangle blocks, multi-page layouts, page background, watermark and 12 ready-made templates for posts, pages and products.
-* New : Automatic PDF regeneration – cached on-server PDFs are rebuilt when a post is saved, plus a weekly background refresh.
-* Enhancement : Security – PDF generation and email endpoints now check the visitor can view the post (drafts, private, password-protected and non-public post types).
-* Enhancement : Settings page redesign with locally bundled Poppins font.
+= 1.6.6 - Released on 17 Nov 2026 =
+* Enhancement : Security hardening – improved visibility checks for front-end PDF generation, so PDFs are generated only for posts the visitor is allowed to view.
+* New : Compatibility With Latest WP (7.1.4) and WC (11.3.0)

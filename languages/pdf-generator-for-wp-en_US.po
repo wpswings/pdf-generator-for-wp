@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: PDF Generator For WP 1.6.5\n"
-"POT-Creation-Date: 2026-10-01 12:26+0530\n"
-"PO-Revision-Date: 2026-10-01 12:27+0530\n"
+"Project-Id-Version: PDF Generator For WP 1.6.6\n"
+"POT-Creation-Date: 2026-11-17 15:49+0530\n"
+"PO-Revision-Date: 2026-11-17 15:49+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -3454,6 +3454,10 @@ msgstr ""
 
 #: common/class-pdf-generator-for-wp-common.php:81
 msgid "Some unexpected error occurred. Kindly Resubmit again"
+msgstr ""
+
+#: common/class-pdf-generator-for-wp-common.php:104
+msgid "You are not allowed to access this document."
 msgstr ""
 
 #: common/class-pdf-generator-for-wp-common.php:141
